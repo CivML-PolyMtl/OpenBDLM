@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RTS_SKS</title>
+  <meta name="keywords" content="RTS_SKS">
+  <meta name="description" content="% Get timestamps">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">StateEstimation</a> &gt; RTS_SKS.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/StateEstimation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>RTS_SKS
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>% Get timestamps</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [x, V, VV, S] = RTS_SKS(estimation,data,model) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">% Get timestamps</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>	COMPUTETIMESTEPS compute timestep vector from timestamps vector</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="state_estimation.html" class="code" title="function [estimation]=state_estimation(data,model,estimation, misc, varargin)">state_estimation</a>	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update_SKF(xsmooth_future, Vsmooth_future, xfilt, Vfilt, Vfilt_future, VVfilt_future, A, Q)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [x, V, VV, S] = RTS_SKS(estimation,data,model)</a>
+0002 
+0003 
+0004 <span class="comment">%% Get timestamps</span>
+0005 timestamps = data.timestamps;
+0006 
+0007 <span class="comment">%% Compute timestep vector</span>
+0008 [timesteps]=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>(timestamps);
+0009 
+0010 T = size(estimation.S,1); <span class="comment">%Number of time stamps</span>
+0011 M = model.nb_class;           <span class="comment">%Number of model classes</span>
+0012 
+0013 <span class="comment">%% Initialization</span>
+0014 x = cell(1,M);
+0015 V = cell(1,M);
+0016 VV = cell(1,M);
+0017 x_jk=cell(1,M);
+0018 V_jk=cell(1,M);
+0019 VV_jk=cell(1,M);
+0020 
+0021 
+0022 <span class="keyword">for</span> k=1:M
+0023     ss=size(model.hidden_states_names{1},1);
+0024     x{k} = zeros(ss, T);
+0025     x{k}(:,T)=estimation.x_M{k}(:,T);
+0026     
+0027     V{k} = zeros(ss, ss, T);
+0028     V{k}(:,:,T)=estimation.V_M{k}(:,:,T);
+0029     
+0030     VV{k} = zeros(ss, ss, T);
+0031     
+0032     x_jk{k} = zeros(ss,M);
+0033     V_jk{k} = zeros(ss,ss,M);
+0034     VV_jk{k} = zeros(ss,ss,M);
+0035 <span class="keyword">end</span>
+0036 
+0037 S = zeros(T,M);
+0038 S(T,:)=estimation.S(T,:);
+0039 W=zeros(M,M);
+0040 
+0041 <span class="comment">%% estimationate state for each t</span>
+0042 <span class="keyword">for</span> t=T-1:-1:1
+0043     S_marginal = zeros(M,M);
+0044     U = zeros(M,M);
+0045     <span class="keyword">for</span> k=1:M
+0046         A_k = model.A{k}(model.parameter(model.p_ref),timestamps(t+1),timesteps(t+1));
+0047         Z_k = model.Z(model.parameter(model.p_ref),timestamps(t+1),timesteps(t+1));
+0048         <span class="keyword">for</span> j=1:M
+0049             Q_k = model.Q{k}{j}(model.parameter(model.p_ref),timestamps(t+1),timesteps(t+1));
+0050 
+0051             [x_jk{j}(:,k), V_jk{j}(:,:,k), VV_jk{k}(:,:,j)] = <a href="#_sub1" class="code" title="subfunction [xsmooth, Vsmooth, VVsmooth_future] = smooth_update_SKF(xsmooth_future, Vsmooth_future, xfilt, Vfilt, Vfilt_future, VVfilt_future, A, Q)">smooth_update_SKF</a>(x{k}(:,t+1), V{k}(:,:,t+1), estimation.x_M{j}(:,t), estimation.V_M{j}(:,:,t), estimation.V_M{k}(:,:,t+1), estimation.VV_M{k}(:,:,t+1), A_k, Q_k);
+0052             U(j,k)=estimation.S(t,j)*Z_k(j,k);
+0053         <span class="keyword">end</span>
+0054         U(:,k)=U(:,k)/sum(U(:,k));
+0055         <span class="keyword">for</span> j=1:M
+0056             S_marginal(j,k)=U(j,k)*S(t+1,k);
+0057         <span class="keyword">end</span>
+0058     <span class="keyword">end</span>
+0059     <span class="keyword">for</span> j=1:M
+0060         S(t,j)=sum(S_marginal(j,:));
+0061     <span class="keyword">end</span>
+0062     <span class="comment">%% weights of state components</span>
+0063     <span class="keyword">for</span> j=1:M
+0064         <span class="keyword">for</span> k=1:M
+0065             W(k,j) = S_marginal(j,k)/S(t,j);
+0066         <span class="keyword">end</span>
+0067     <span class="keyword">end</span>
+0068     
+0069     <span class="comment">%% approximate new continuous state</span>
+0070     <span class="keyword">for</span> j=1:M
+0071         x{j}(:,t) = x_jk{j}(:,:) * W(:,j);
+0072         <span class="keyword">for</span> k=1:M
+0073             m = x_jk{j}(:,k) - x{j}(:,t);
+0074             V{j}(:,:,t) = V{j}(:,:,t) + W(k,j)*(V_jk{j}(:,:,k) + m*m');
+0075             VV{j}(:,:,t) = VV{j}(:,:,t) + W(k,j)*(VV_jk{j}(:,:,k) + m*m');
+0076         <span class="keyword">end</span>
+0077     <span class="keyword">end</span>
+0078 <span class="keyword">end</span>
+0079 <span class="keyword">end</span>
+0080 
+0081 <a name="_sub1" href="#_subfunctions" class="code">function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update_SKF(xsmooth_future, Vsmooth_future, xfilt, Vfilt, Vfilt_future, VVfilt_future, A, Q)</a>
+0082 <span class="comment">% One step of the backwards RTS smoothing equations.</span>
+0083 <span class="comment">% function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update(xsmooth_future, Vsmooth_future, ...</span>
+0084 <span class="comment">%    xfilt, Vfilt,  Vfilt_future, VVfilt_future, A, B, u)</span>
+0085 <span class="comment">%</span>
+0086 <span class="comment">% INPUTS:</span>
+0087 <span class="comment">% xsmooth_future = E[X_t+1|T]</span>
+0088 <span class="comment">% Vsmooth_future = Cov[X_t+1|T]</span>
+0089 <span class="comment">% xfilt = E[X_t|t]</span>
+0090 <span class="comment">% Vfilt = Cov[X_t|t]</span>
+0091 <span class="comment">% Vfilt_future = Cov[X_t+1|t+1]</span>
+0092 <span class="comment">% VVfilt_future = Cov[X_t+1,X_t|t+1]</span>
+0093 <span class="comment">% A = system matrix for time t+1</span>
+0094 <span class="comment">% Q = system covariance for time t+1</span>
+0095 
+0096 <span class="comment">%</span>
+0097 <span class="comment">% OUTPUTS:</span>
+0098 <span class="comment">% xsmooth = E[X_t|T]</span>
+0099 <span class="comment">% Vsmooth = Cov[X_t|T]</span>
+0100 <span class="comment">% VVsmooth_future = Cov[X_t+1,X_t|T]</span>
+0101 
+0102 <span class="comment">%xpred = E[X(t+1) | t]</span>
+0103 
+0104 Vfilt=(Vfilt + Vfilt')/2;
+0105 
+0106 xpred = A*xfilt;
+0107 Vpred = A*Vfilt*A'+ Q; <span class="comment">% Vpred = Cov[X(t+1) | t]</span>
+0108 J = Vfilt * A'*pinv(Vpred); <span class="comment">% smoother gain matrix</span>
+0109 xsmooth = xfilt + J*(xsmooth_future - xpred);
+0110 Vsmooth = Vfilt + J*(Vsmooth_future - Vpred)*J';
+0111 VVsmooth_future = VVfilt_future + (Vsmooth_future - Vfilt_future)*pinv(Vfilt_future)*VVfilt_future;
+0112 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

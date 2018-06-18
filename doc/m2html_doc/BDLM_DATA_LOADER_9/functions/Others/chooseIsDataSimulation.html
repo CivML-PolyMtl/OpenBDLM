@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of chooseIsDataSimulation</title>
+  <meta name="keywords" content="chooseIsDataSimulation">
+  <meta name="description" content="CHOOSEISDATASIMULATION Interactive choice about project based on data simulation, or not">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; chooseIsDataSimulation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>chooseIsDataSimulation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>CHOOSEISDATASIMULATION Interactive choice about project based on data simulation, or not</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [misc]=chooseIsDataSimulation(misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CHOOSEISDATASIMULATION Interactive choice about project based on data simulation, or not
+
+   SYNOPSIS:
+     [misc]=CHOOSEISDATASIMULATION(misc)
+ 
+   INPUT:
+      misc - structure (required)
+ 
+   OUTPUT:
+      misc - structure
+ 
+   DESCRIPTION:
+      Interactive choice about project based on data simulation, or not.
+      CHOOSEISDATASIMULATION request user's input.
+     
+ 
+   EXAMPLES:
+      [misc]=CHOOSEISDATASIMULATION(misc)
+ 
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/BDLM.html" class="code" title="">BDLM</a>	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [misc]=chooseIsDataSimulation(misc)</a>
+0002 <span class="comment">%CHOOSEISDATASIMULATION Interactive choice about project based on data simulation, or not</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [misc]=CHOOSEISDATASIMULATION(misc)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      misc - structure (required)</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%   OUTPUT:</span>
+0011 <span class="comment">%      misc - structure</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%   DESCRIPTION:</span>
+0014 <span class="comment">%      Interactive choice about project based on data simulation, or not.</span>
+0015 <span class="comment">%      CHOOSEISDATASIMULATION request user's input.</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   EXAMPLES:</span>
+0019 <span class="comment">%      [misc]=CHOOSEISDATASIMULATION(misc)</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   See also</span>
+0022  
+0023 <span class="comment">%   AUTHORS:</span>
+0024 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen,   James-A Goulet</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0027 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   MATLAB VERSION:</span>
+0030 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   DATE CREATED:</span>
+0033 <span class="comment">%       April 27, 2018</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   DATE LAST UPDATE:</span>
+0036 <span class="comment">%       April 27, 2018</span>
+0037  
+0038 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0039 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0040 p = inputParser;
+0041 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0042 parse(p,misc);
+0043 misc=p.Results.misc;  
+0044  
+0045 <span class="comment">% define global variable for user's answers from input file</span>
+0046 <span class="keyword">global</span> isAnswersFromFile AnswersFromFile AnswersIndex
+0047 
+0048 <span class="comment">%% Project to simulate data ?</span>
+0049 isYesNoCorrect = false;
+0050 <span class="keyword">while</span> ~isYesNoCorrect
+0051     disp(<span class="string">' '</span>)
+0052     fprintf(<span class="string">'- Does this project aim to perform data simulation ? \n'</span>)
+0053     <span class="comment">% read from user input file (use of global variable )?</span>
+0054     <span class="keyword">if</span> isAnswersFromFile
+0055         choice=eval(char(AnswersFromFile{1}(AnswersIndex)));
+0056         disp([<span class="string">'     '</span>, choice])
+0057     <span class="keyword">else</span>
+0058         choice = input(<span class="string">'     (y/n) &gt;&gt; '</span>,<span class="string">'s'</span>);
+0059     <span class="keyword">end</span>
+0060     <span class="keyword">if</span> isempty(choice)
+0061         disp(<span class="string">' '</span>)
+0062         disp(<span class="string">'     wrong input --&gt; please make a choice'</span>)
+0063         disp(<span class="string">' '</span>)
+0064     <span class="keyword">elseif</span> strcmp(choice,<span class="string">'y'</span>) || strcmp(choice,<span class="string">'yes'</span>) ||  <span class="keyword">...</span>
+0065             strcmp(choice,<span class="string">'Y'</span>) || strcmp(choice,<span class="string">'Yes'</span>)  || <span class="keyword">...</span>
+0066             strcmp(choice,<span class="string">'YES'</span>)
+0067         
+0068         misc.isDataSimulation = true;
+0069         isYesNoCorrect =  true;
+0070         
+0071     <span class="keyword">elseif</span> strcmp(choice,<span class="string">'n'</span>) || strcmp(choice,<span class="string">'no'</span>) ||  <span class="keyword">...</span>
+0072             strcmp(choice,<span class="string">'N'</span>) || strcmp(choice,<span class="string">'No'</span>)  || <span class="keyword">...</span>
+0073             strcmp(choice,<span class="string">'NO'</span>)
+0074         
+0075         misc.isDataSimulation = false;
+0076         isYesNoCorrect =  true;
+0077         
+0078     <span class="keyword">else</span>
+0079         disp(<span class="string">' '</span>)
+0080         disp(<span class="string">'     wrong input'</span>)
+0081         disp(<span class="string">' '</span>)
+0082     <span class="keyword">end</span>
+0083     
+0084 <span class="keyword">end</span>
+0085 <span class="comment">% Increment global variable to read next answer when required</span>
+0086 AnswersIndex = AnswersIndex + 1; 
+0087 disp(<span class="string">' '</span>)
+0088 <span class="comment">%--------------------END CODE ------------------------</span>
+0089 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

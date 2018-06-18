@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of KF</title>
+  <meta name="keywords" content="KF">
+  <meta name="description" content="function [xnew, Vnew, VVnew, loglik, pr_model_false_marginal, nis, e] = KF(A, C, Q, R, y, x, V,varargin)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">StateEstimation</a> &gt; KF.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/StateEstimation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>KF
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [xnew, Vnew, VVnew, loglik, pr_model_false_marginal, nis, e] = KF(A, C, Q, R, y, x, V,varargin)</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [xnew, Vnew, VVnew, loglik] = KF(A, C, Q, R, y, x, V,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">function [xnew, Vnew, VVnew, loglik, pr_model_false_marginal, nis, e] = KF(A, C, Q, R, y, x, V,varargin)
+ KALMAN_UPDATE Do a one step update of the Kalman filter
+ [xnew, Vnew, loglik] = kalman_update(A, C, Q, R, y, x, V, ...)
+
+ INPUTS:
+ A - the system matrix
+ C - the observation matrix
+ Q - the system covariance
+ R - the observation covariance
+ y(:)   - the observation at time t
+ x(:) - E[X | y(:, 1:t-1)] prior mean
+ V(:,:) - Cov[X | y(:, 1:t-1)] prior covariance
+
+ OPTIONAL INPUTS:
+ b - mean correction vector
+
+ OUTPUTS (where X is the hidden state being estimated)
+  xnew(:) =   E[ X | y(:, 1:t) ]
+  Vnew(:,:) = Var[ X(t) | y(:, 1:t) ]
+  VVnew(:,:) = Cov[ X(t), X(t-1) | y(:, 1:t) ]
+  loglik = log P(y(:,t) | y(:,1:t-1)) log-likelihood of innovatio</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="gaussian_prob.html" class="code" title="function p = gaussian_prob(x, m, C, use_log)">gaussian_prob</a>	GAUSSIAN_PROB Evaluate a multivariate Gaussian density.</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>	INPUTS:</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%function [xnew, Vnew, VVnew, loglik, pr_model_false_marginal, nis, e] = KF(A, C, Q, R, y, x, V,varargin)</span>
+0002 <a name="_sub0" href="#_subfunctions" class="code">function [xnew, Vnew, VVnew, loglik] = KF(A, C, Q, R, y, x, V,varargin)</a>
+0003 <span class="comment">% KALMAN_UPDATE Do a one step update of the Kalman filter</span>
+0004 <span class="comment">% [xnew, Vnew, loglik] = kalman_update(A, C, Q, R, y, x, V, ...)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% INPUTS:</span>
+0007 <span class="comment">% A - the system matrix</span>
+0008 <span class="comment">% C - the observation matrix</span>
+0009 <span class="comment">% Q - the system covariance</span>
+0010 <span class="comment">% R - the observation covariance</span>
+0011 <span class="comment">% y(:)   - the observation at time t</span>
+0012 <span class="comment">% x(:) - E[X | y(:, 1:t-1)] prior mean</span>
+0013 <span class="comment">% V(:,:) - Cov[X | y(:, 1:t-1)] prior covariance</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% OPTIONAL INPUTS:</span>
+0016 <span class="comment">% b - mean correction vector</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% OUTPUTS (where X is the hidden state being estimated)</span>
+0019 <span class="comment">%  xnew(:) =   E[ X | y(:, 1:t) ]</span>
+0020 <span class="comment">%  Vnew(:,:) = Var[ X(t) | y(:, 1:t) ]</span>
+0021 <span class="comment">%  VVnew(:,:) = Cov[ X(t), X(t-1) | y(:, 1:t) ]</span>
+0022 <span class="comment">%  loglik = log P(y(:,t) | y(:,1:t-1)) log-likelihood of innovatio</span>
+0023 
+0024 <span class="comment">%  xpred(:) = E[X_t+1 | y(:, 1:t)]</span>
+0025 <span class="comment">%  Vpred(:,:) = Cov[X_t+1 | y(:, 1:t)]</span>
+0026 args = varargin;
+0027 B=0;    <span class="comment">% Mean correction term</span>
+0028 W=0;    <span class="comment">% Covariance correction term</span>
+0029 <span class="keyword">for</span> t=1:2:length(args)
+0030     <span class="keyword">switch</span> args{t}
+0031         <span class="keyword">case</span> <span class="string">'B'</span>, B = args{t+1};
+0032         <span class="keyword">case</span> <span class="string">'W'</span>, W = args{t+1};
+0033         <span class="keyword">otherwise</span>, error([<span class="string">'unrecognized argument '</span> args{t}])
+0034     <span class="keyword">end</span>
+0035 <span class="keyword">end</span>
+0036 
+0037 <span class="comment">%% Prediction step</span>
+0038 xpred = A*x+B;
+0039 Vpred = A*V*A'+Q+W; 
+0040 Vpred=(Vpred+Vpred')/2;
+0041 
+0042 <span class="comment">%% identify missing data</span>
+0043 missing_idx=isnan(y);
+0044 
+0045 <span class="comment">%% Update step</span>
+0046 e = y - C*xpred;  <span class="comment">% error (innovation)</span>
+0047 n = length(e);
+0048 ss = length(A);
+0049 S = C*Vpred*C' + R;
+0050 S = (S+S')/2;
+0051 Sinv = pinv(S);
+0052 Sinv(missing_idx,missing_idx)=0;
+0053 ss = length(V);
+0054 
+0055 <span class="comment">% Compute log-likelihood</span>
+0056 <span class="keyword">if</span> all(missing_idx)
+0057     loglik=0;
+0058 <span class="keyword">else</span>
+0059     loglik = <a href="gaussian_prob.html" class="code" title="function p = gaussian_prob(x, m, C, use_log)">gaussian_prob</a>(e(~missing_idx), zeros(1,sum(~missing_idx)), S(~missing_idx,~missing_idx), 1);
+0060 <span class="keyword">end</span>
+0061 
+0062 <span class="comment">% Compute marginal probability of model falsification (Ianis)</span>
+0063 
+0064 <span class="keyword">if</span> all(missing_idx)
+0065     pr_model_false_marginal = NaN;
+0066 <span class="keyword">else</span>
+0067     p = normcdf([ C*xpred-abs(e), C*xpred+abs(e)], C*xpred, sqrt(S));
+0068     pr_model_false_marginal=p(2)-p(1);
+0069 <span class="keyword">end</span>
+0070 
+0071 <span class="comment">% Compute normalized squared innovations NIS (Ianis)</span>
+0072 nis=e'*Sinv*e;
+0073 
+0074 
+0075 K = Vpred*C'*Sinv; <span class="comment">% Kalman gain matrix</span>
+0076 e(missing_idx)=0;
+0077 xnew = xpred + K*e;
+0078 Vnew = Vpred - K*C*Vpred;
+0079 Vnew=triu(Vnew)+triu(Vnew,1)';
+0080 VVnew = A*V - K*C*A*V;
+0081 VVnew=triu(VVnew)+triu(VVnew,1)';
+0082</pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of verificationDataStructure</title>
+  <meta name="keywords" content="verificationDataStructure">
+  <meta name="description" content="VERIFICATIONDATASTRUCTURE Verify formatting of data structure">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataLoader</a> &gt; verificationDataStructure.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/DataLoader&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>verificationDataStructure
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>VERIFICATIONDATASTRUCTURE Verify formatting of data structure</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [isValid]=verificationDataStructure(data) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">VERIFICATIONDATASTRUCTURE Verify formatting of data structure
+
+   SYNOPSIS:
+     [isValid]=VERIFICATIONDATASTRUCTURE(data)
+
+   INPUT:
+      data       - structure (required)
+                   data must contain three fields :
+
+                       'timestamps' is a 1×N cell array
+                       each cell is a M_ix1 real array
+
+                       'values' is a 1×N cell array
+                       each cell is a M_ix1 real array
+
+                       'labels' is a 1×N cell array
+                       each cell is a character array
+
+                 N: number of time series
+                 M_i: number of samples of time series i
+
+   OUTPUT:
+      isValid    - logical
+                   if data is not valid, isValid = false
+
+   DESCRIPTION:
+      VERIFICATIONDATASTRUCTURE verifies formatting of data structure
+      If isValid = false, abnormal formatting
+
+   EXAMPLES:
+      [isValid]=verificationDataStructure(data)
+
+   See also <a href="readMultipleCSVFiles.html" class="code" title="function [data]=readMultipleCSVFiles(CSVFileList, varargin)">READMULTIPLECSVFILES</a>, PLOTDATA, PLOTDATAAVAILABILITY,
+            <a href="saveDataBinary.html" class="code" title="function [dataFilename] = saveDataBinary(data,varargin)">SAVEDATABINARY</a>, <a href="saveDataCSV.html" class="code" title="function saveDataCSV(data,varargin)">SAVEDATACSV</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/BDLM.html" class="code" title="">BDLM</a>	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</li><li><a href="chooseTimeSeries.html" class="code" title="function [data]=chooseTimeSeries(data,varargin)">chooseTimeSeries</a>	CHOOSETIMESERIES Request the user to select a time series subset</li><li><a href="extractSynchronousRecords.html" class="code" title="function [data]=extractSynchronousRecords(data, varargin)">extractSynchronousRecords</a>	EXTRACTSYNCHRONOUSRECORDS Extract synchronous records among time series</li><li><a href="mergeTimeStampVectors.html" class="code" title="function [data]=mergeTimeStampVectors(data, varargin)">mergeTimeStampVectors</a>	MERGETIMESTAMPVECTORS Create a single time vector from a set of time series</li><li><a href="saveDataBinary.html" class="code" title="function [dataFilename] = saveDataBinary(data,varargin)">saveDataBinary</a>	SAVEDATABINARY Save data in a binary Matlab .mat file</li><li><a href="saveDataCSV.html" class="code" title="function saveDataCSV(data,varargin)">saveDataCSV</a>	SAVEDATACSV Save time series data in separate .csv files</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/ModelConfiguration.html" class="code" title="function [data, model, estimation, misc]=ModelConfiguration(data, model, estimation, misc)">ModelConfiguration</a>	MODELCONFIGURATION configures model for BDLM analysis</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/configureModelForDataReal.html" class="code" title="function [data, model, estimation, misc]=configureModelForDataReal(data, model, estimation , misc)">configureModelForDataReal</a>	CONFIGUREMODELFORDATAREAL configures model for BDLM analysis based on real data</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/defineModel.html" class="code" title="function [model]=defineModel(data, misc)">defineModel</a>	DEFINEMODEL requests user to define model</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/displayModelMatrices.html" class="code" title="function displayModelMatrices(model, data, estimation, misc, TimestampIndex)">displayModelMatrices</a>	DISPLAYMODELMATRICES displays A,C, Q, R matrices for a given timestamp</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/verificationMergedDataset.html" class="code" title="function [isMerged]=verificationMergedDataset(data)">verificationMergedDataset</a>	VERIFICATIONMERGEDDATASET returns true if the time series are merged</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotData.html" class="code" title="function plotData(data, model, estimation, misc, varargin)">plotData</a>	PLOTDATA Plot amplitude and time step of time series data</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotDataAvailability.html" class="code" title="function plotDataAvailability(data, varargin)">plotDataAvailability</a>	PLOTDATAAVAILABILITY Summarize data availability of a time series dataset</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [isValid]=verificationDataStructure(data)</a>
+0002 <span class="comment">%VERIFICATIONDATASTRUCTURE Verify formatting of data structure</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [isValid]=VERIFICATIONDATASTRUCTURE(data)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data       - structure (required)</span>
+0009 <span class="comment">%                   data must contain three fields :</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%                       'timestamps' is a 1×N cell array</span>
+0012 <span class="comment">%                       each cell is a M_ix1 real array</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%                       'values' is a 1×N cell array</span>
+0015 <span class="comment">%                       each cell is a M_ix1 real array</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%                       'labels' is a 1×N cell array</span>
+0018 <span class="comment">%                       each cell is a character array</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%                 N: number of time series</span>
+0021 <span class="comment">%                 M_i: number of samples of time series i</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%   OUTPUT:</span>
+0024 <span class="comment">%      isValid    - logical</span>
+0025 <span class="comment">%                   if data is not valid, isValid = false</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%   DESCRIPTION:</span>
+0028 <span class="comment">%      VERIFICATIONDATASTRUCTURE verifies formatting of data structure</span>
+0029 <span class="comment">%      If isValid = false, abnormal formatting</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%   EXAMPLES:</span>
+0032 <span class="comment">%      [isValid]=verificationDataStructure(data)</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%   See also READMULTIPLECSVFILES, PLOTDATA, PLOTDATAAVAILABILITY,</span>
+0035 <span class="comment">%            SAVEDATABINARY, SAVEDATACSV</span>
+0036 
+0037 <span class="comment">%   AUTHORS:</span>
+0038 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0041 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   MATLAB VERSION:</span>
+0044 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   DATE CREATED:</span>
+0047 <span class="comment">%       April 12, 2018</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   DATE LAST UPDATE:</span>
+0050 <span class="comment">%       April 12, 2018</span>
+0051 
+0052 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0053 
+0054 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0055 p = inputParser;
+0056 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0057 parse(p,data);
+0058 data=p.Results.data;
+0059 
+0060 <span class="comment">% Default value</span>
+0061 isValid = true;
+0062 
+0063 <span class="comment">%% Verifications of &quot;data&quot;</span>
+0064 <span class="comment">% verification of the correct field names</span>
+0065 <span class="keyword">if</span> ~isfield(data,<span class="string">'timestamps'</span>) || ~isfield(data,<span class="string">'values'</span>) || <span class="keyword">...</span>
+0066         ~isfield(data,<span class="string">'labels'</span>)
+0067     isValid = false;
+0068     <span class="keyword">return</span>
+0069 <span class="keyword">end</span>
+0070 
+0071 <span class="comment">% verification non empty labels</span>
+0072 <span class="keyword">if</span> any (cellfun(@isempty, data.timestamps)) || <span class="keyword">...</span>
+0073         any (cellfun(@isempty, data.values)) || <span class="keyword">...</span>
+0074         any (cellfun(@isempty, data.labels))
+0075     isValid = false;
+0076     <span class="keyword">return</span>
+0077 <span class="keyword">end</span>
+0078 
+0079 
+0080 <span class="comment">% verification there are data</span>
+0081 <span class="comment">% if any( structfun(@isempty, data) )</span>
+0082 <span class="comment">%     isValid = false;</span>
+0083 <span class="comment">%     return</span>
+0084 <span class="comment">% end</span>
+0085 
+0086 <span class="comment">% verification data contains cell array</span>
+0087 <span class="keyword">if</span> ~all( structfun(@iscell, data) )
+0088     isValid = false;
+0089     <span class="keyword">return</span>
+0090 <span class="keyword">end</span>
+0091 
+0092 <span class="comment">% verification that same number of observations in each field</span>
+0093 <span class="keyword">if</span> length(data.timestamps) ~= length(data.values) || <span class="keyword">...</span>
+0094         length(data.timestamps) ~= length(data.labels) || <span class="keyword">...</span>
+0095         length(data.values) ~= length(data.labels)
+0096     isValid = false;
+0097     <span class="keyword">return</span>
+0098 <span class="keyword">end</span>
+0099 
+0100 <span class="comment">% verification that same number of samples for each time/value pair</span>
+0101 <span class="keyword">if</span> any(cellfun(@length, (data.timestamps))- <span class="keyword">...</span>
+0102         cellfun(@length, (data.values)))
+0103     isValid = false;
+0104     <span class="keyword">return</span>
+0105 <span class="keyword">end</span>
+0106 
+0107 <span class="comment">% verification that timestamps are in chronological order</span>
+0108 isChronological = @(x) any(diff(x) &lt;= 0);
+0109 
+0110 <span class="keyword">if</span> any (cellfun(isChronological, data.timestamps))
+0111     isValid = false;
+0112     <span class="keyword">return</span>
+0113 <span class="keyword">end</span>
+0114 
+0115 <span class="comment">%--------------------END CODE ------------------------</span>
+0116 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

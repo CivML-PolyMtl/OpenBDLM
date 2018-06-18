@@ -1,0 +1,164 @@
+\documentclass{book}
+
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue}
+
+\title{OpenBanana: An open-source Matlab software for Structural Health Monitoring using Bayesian dynamic linear models}
+\author{Ianis Gaudot, Luong H. Nguyen, James-A. Goulet \\ Polytechnique Montreal}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\chapter{What OpenBanana does ?}
+\newpage
+
+\chapter{Install OpenBanana}
+\newpage
+
+\chapter{Data processing}
+\section{Input data format}
+\section{Output data format}
+\section{Merging timestamps vector}
+\section{Associated functions}
+\newpage
+
+\chapter{Model building}
+\section{Purpose}
+\section{Model class}
+\section{Dependencies}
+\subsection{Observed covariate}
+\subsection{Hidden covariate}
+\section{Model components}
+\subsection{Local level}
+\subsection{Local trend}
+\subsection{Local acceleration}
+\subsection{Local level compatible trend}
+\subsection{Local level compatible acceleration}
+\subsection{Local trend compatible acceleration}
+\subsection{Periodic component}
+\subsection{First order autoregressive component}
+\subsection{Dynamic regression component}
+\subsection{Static kernel regression component}
+\subsection{Dynamic kernel regression component}
+\section{Associated functions}
+\newpage
+
+\chapter{Model parameters learning}
+\section{Purpose}
+\section{Posterior}
+\subsection{Prior}
+\subsection{Likelihood}
+\section{Model parameters bounds and transformed spaces}
+\subsection{Logarithmic transformation}
+\subsection{Sigmoid transformation}
+\section{Gradient-based optimization techniques}
+\subsection{Newton-Raphson approach}
+\subsection{Stochastic Gradient Ascent approach}
+\section{Constrain model parameters between each others}
+\section{Associated functions}
+\newpage
+
+\chapter{Hidden states estimation}
+\section{Kalman equations}
+\section{UD computation}
+\section{Filtering}
+\section{Smoothing}
+\section{Associated functions}
+\newpage
+
+\chapter{Data simulation}
+\section{Purpose}
+\section{Associated functions}
+\newpage
+
+\chapter{Model validation}
+\section{Prediction capacity}
+\section{Posterior model parameters covariance matrix analysis}
+\section{Posterior state covariance matrix analysis}
+\section{Residual component analysis}
+\section{Associated functions}
+\newpage
+
+\chapter{Visualization tools}
+\section{Purpose}
+\section{Data availability plots}
+\section{Hidden states plots}
+\section{Export figures in PDF, PNG, TEX}
+\section{Associated functions}
+\newpage
+
+
+\chapter{Version control}
+\section{Purpose}
+\section{Associated functions}
+\newpage
+
+\chapter{Examples}
+\section{Example 1}
+Simulated data with: one time series, one model class, \{[12 31 41]\}.
+
+\section{Example 2}
+Simulated data with: two time series with dependencies, one model class, \{[11 41], [11 31 41]\}.
+
+\section{Example 3}
+Simulated data with one time series, two model classes, \{[21 31 41]\} and \{[12 31 41]\}.
+
+\section{Example 4}
+Real data with one time series, one model class, \{[12 52 41]\}.
+
+\newpage
+
+\chapter{List of functions}
+\newpage
+
+
+\chapter{Older versions}
+\newpage
+
+\chapter{Last changes}
+
+This new version now includes the data loader and the data simulation tools.
+It also includes additionnal tools to export the figures in several format (.tex, .png, .pdf).
+This version also supports batch processing (loop over input files, see the script demo\_1.m). \\
+
+The model parameters and hidden state estimation functions are (almost) identical compared to the previous GitHub version.\\
+
+WARNING: the 'data' structure completely changed (cell array instead of simple array) then previous configuration file are NOT readable with this version. You have to initialize a new project using the interactive tool, and then copy/paste manually your previously learned initial hidden states and/or model parameters values.\\
+
+Note that the sofware will only work properly if you run it from the same folder that contains the file BDLM.m.
+As usual, always put all the folders in your Matlab path before running the program.
+
+\section{Data loading}
+Data loader is accessible via interactive tool (option '0').
+See the DataLoader.m function to change data loading option (handle quantity of allowed missing data, handle tolerance between timestamp, etc...).
+
+\section{Data simulation}
+Once a project has been created, data simulation is now possible through option '16'.
+A new project is created.
+
+\section{Create a configuration file}
+Option '0' builds a configuration file by default.
+At any time, option '17' export current model in configuration file format.
+
+\section{Export figures}
+The program can now save figures in tex, png and pdf format.
+See the plotEstimation.m function to change export options.
+When pdf export is done, the program builds a single pdf file containing all the figures.
+
+\section{Batch processing}
+
+Batch processing allows you to plan a succession of tasks in advance, and let them run during the night (or whenever you want).
+All the planned command have to be written in ASCII input files.\\
+
+See demo\_1.m for an example of batch processing. demo\_1.m sequentially creates 3 simulated dataset.\\
+
+WARNING: the beta version of this tool uses global variables (named 'isAnswersFromFile' 'AnswersFromFile' 'AnswersIndex'), so always clean your workspace by typing 'clear -global isAnswersFromFile AnswersFromFile AnswersIndex' before and after using batch processing.
+
+\newpage
+
+
+\end{document}
+

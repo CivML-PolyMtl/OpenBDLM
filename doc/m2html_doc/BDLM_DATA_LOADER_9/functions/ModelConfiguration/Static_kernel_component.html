@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Static_kernel_component</title>
+  <meta name="keywords" content="Static_kernel_component">
+  <meta name="description" content="STATIC_KERNEL_COMPONENT Compute normalized kernel coefficients">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelConfiguration</a> &gt; Static_kernel_component.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/ModelConfiguration&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>Static_kernel_component
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>STATIC_KERNEL_COMPONENT Compute normalized kernel coefficients</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">STATIC_KERNEL_COMPONENT Compute normalized kernel coefficients
+
+   SYNOPSIS:
+     [K_norm]=STATIC_KERNEL_COMPONENT(reg_parameters,timestamp,timestamp_ref,nb_p)
+ 
+   INPUT:
+      reg_parameters   - 2x1 real array (required)
+                         reg_parameters(1) = kernel width
+                         reg_parameters(1) = kernel period
+
+      timestamp        - Nx1 real array (required)                       
+                         timestamp vector
+
+      timestamp_ref    - real (required)
+                         timestamp corresponding to first point of the
+                         periodic pattern
+
+      nb_p             - integer (required)
+                         number of points to model the pattern
+ 
+   OUTPUT:
+      K_norm           - nb_px1 real array
+                         normalized kernel coefficients
+
+   DESCRIPTION:
+      STATIC_KERNEL_COMPONENT computes normalized kernel coefficients
+      used for static and dynamic kernel regression
+ 
+   EXAMPLES:
+      [K_norm]=STATIC_KERNEL_COMPONENT(reg_parameters,timestamp,timestamp_ref,nb_p)
+ 
+   See also <a href="defineModel.html" class="code" title="function [model]=defineModel(data, misc)">DEFINEMODEL</a>, <a href="buildModel.html" class="code" title="function [model]=buildModel(data, model, misc)">BUILDMODEL</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="buildModel.html" class="code" title="function [model]=buildModel(data, model, misc)">buildModel</a>	BUILDMODEL Build model (build A,C, Q, R matrices)</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotStaticKernelRegression.html" class="code" title="function [FigureNames] = plotStaticKernelRegression(data, model, estimation, misc, varargin)">plotStaticKernelRegression</a>	PLOTSTATICKERNELREGRESSION Plot static kernel regression patterns</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotWaterfallSKDKRegression.html" class="code" title="function [FigureNames] = plotWaterfallSKDKRegression(data, model, estimation, misc, varargin)">plotWaterfallSKDKRegression</a>	PLOTWATERFALLSKDKREGRESSION Waterfall plot for kernel regression component</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)</a>
+0002 <span class="comment">%STATIC_KERNEL_COMPONENT Compute normalized kernel coefficients</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [K_norm]=STATIC_KERNEL_COMPONENT(reg_parameters,timestamp,timestamp_ref,nb_p)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      reg_parameters   - 2x1 real array (required)</span>
+0009 <span class="comment">%                         reg_parameters(1) = kernel width</span>
+0010 <span class="comment">%                         reg_parameters(1) = kernel period</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      timestamp        - Nx1 real array (required)</span>
+0013 <span class="comment">%                         timestamp vector</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%      timestamp_ref    - real (required)</span>
+0016 <span class="comment">%                         timestamp corresponding to first point of the</span>
+0017 <span class="comment">%                         periodic pattern</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%      nb_p             - integer (required)</span>
+0020 <span class="comment">%                         number of points to model the pattern</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   OUTPUT:</span>
+0023 <span class="comment">%      K_norm           - nb_px1 real array</span>
+0024 <span class="comment">%                         normalized kernel coefficients</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   DESCRIPTION:</span>
+0027 <span class="comment">%      STATIC_KERNEL_COMPONENT computes normalized kernel coefficients</span>
+0028 <span class="comment">%      used for static and dynamic kernel regression</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   EXAMPLES:</span>
+0031 <span class="comment">%      [K_norm]=STATIC_KERNEL_COMPONENT(reg_parameters,timestamp,timestamp_ref,nb_p)</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   See also DEFINEMODEL, BUILDMODEL</span>
+0034  
+0035 <span class="comment">%   AUTHORS:</span>
+0036 <span class="comment">%      James-A Goulet, Luong Ha Nguyen, Ianis Gaudot</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0039 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   MATLAB VERSION:</span>
+0042 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   DATE CREATED:</span>
+0045 <span class="comment">%       April 23, 2018</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   DATE LAST UPDATE:</span>
+0048 <span class="comment">%       June 1, 2018</span>
+0049  
+0050 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0051 
+0052 <span class="comment">%% Kernel parameters</span>
+0053 l=reg_parameters(1);
+0054 p=reg_parameters(2);
+0055 
+0056 <span class="comment">%% Periodic Kernel</span>
+0057 K=@(x,cp) exp(-2/l.^2*sin(pi*(x-cp)./p).^2);
+0058 
+0059 <span class="comment">%% Control points</span>
+0060 x_cp=linspace(timestamp_ref,timestamp_ref+p,nb_p+1);
+0061 x_cp(end)=[];
+0062 
+0063 <span class="comment">%% Kernel regression</span>
+0064 X_cp=repmat(x_cp,[length(timestamp),1]);
+0065 X=repmat(timestamp,[1,length(x_cp)]);
+0066 
+0067 K_raw=K(X,X_cp); <span class="comment">%raw kernel evaluation</span>
+0068 K_norm=K_raw./repmat(sum(K_raw,2)+10^-8,[1,length(x_cp)]); <span class="comment">%normalized kernel coefficients</span>
+0069 
+0070 <span class="comment">%--------------------END CODE ----------------------</span>
+0071 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

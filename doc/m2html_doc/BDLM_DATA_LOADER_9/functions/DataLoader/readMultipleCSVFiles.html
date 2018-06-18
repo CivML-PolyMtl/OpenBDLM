@@ -1,0 +1,289 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of readMultipleCSVFiles</title>
+  <meta name="keywords" content="readMultipleCSVFiles">
+  <meta name="description" content="READMULTIPLECSVFILES Read data from .csv files">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataLoader</a> &gt; readMultipleCSVFiles.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/DataLoader&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>readMultipleCSVFiles
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>READMULTIPLECSVFILES Read data from .csv files</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [data]=readMultipleCSVFiles(CSVFileList, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">READMULTIPLECSVFILES Read data from .csv files
+
+   SYNOPSIS:
+     [data]=READMULTIPLECSVFILES(varargin)
+
+   INPUT:
+
+      isOutputFile - logical (optional)
+                     if true, save the data in a DATA_*.mat Matlab file
+                     default: false
+
+      isPlot       - logical (optional)
+                     if true, plot data
+                     default: false
+
+   OUTPUT:
+      data         - structure array
+                     fields of data are timestamps, values, labels
+
+
+   DESCRIPTION:
+      READMULTIPLECSVFILES reads data from multiple .csv files and put
+      the data in the structure data
+      path of the csv file are requested from user input during program
+      execution
+      data contains three fields timestamps, values, labels
+
+   EXAMPLES:
+      [data]=READMULTIPLECSVFILES
+      [data]=READMULTIPLECSVFILES('isPlot', 'true', 'isOutputFile', true)
+
+   EXTERNAL FUNCTIONS CALLED:
+      readSingleCSVFile, plotData, plotDataAvailability,
+      saveDataBinary
+
+   See also <a href="readSingleCSVFile.html" class="code" title="function [dat,label]=readSingleCSVFile(FileToRead, varargin)">READSINGLECSVFILE</a>, PLOTDATA,
+             PLOTDATAAVAILABILITY, <a href="saveDataBinary.html" class="code" title="function [dataFilename] = saveDataBinary(data,varargin)">SAVEDATABINARY</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="readSingleCSVFile.html" class="code" title="function [dat,label]=readSingleCSVFile(FileToRead, varargin)">readSingleCSVFile</a>	READSINGLECSVFILE Read a single .csv file</li><li><a href="saveDataBinary.html" class="code" title="function [dataFilename] = saveDataBinary(data,varargin)">saveDataBinary</a>	SAVEDATABINARY Save data in a binary Matlab .mat file</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotData.html" class="code" title="function plotData(data, model, estimation, misc, varargin)">plotData</a>	PLOTDATA Plot amplitude and time step of time series data</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="loadData.html" class="code" title="function [data, dataFilename]=loadData(varargin)">loadData</a>	LOADDATA Load data from csv file</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [data]=readMultipleCSVFiles(CSVFileList, varargin)</a>
+0002 <span class="comment">%READMULTIPLECSVFILES Read data from .csv files</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [data]=READMULTIPLECSVFILES(varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%      isOutputFile - logical (optional)</span>
+0010 <span class="comment">%                     if true, save the data in a DATA_*.mat Matlab file</span>
+0011 <span class="comment">%                     default: false</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%      isPlot       - logical (optional)</span>
+0014 <span class="comment">%                     if true, plot data</span>
+0015 <span class="comment">%                     default: false</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   OUTPUT:</span>
+0018 <span class="comment">%      data         - structure array</span>
+0019 <span class="comment">%                     fields of data are timestamps, values, labels</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   DESCRIPTION:</span>
+0023 <span class="comment">%      READMULTIPLECSVFILES reads data from multiple .csv files and put</span>
+0024 <span class="comment">%      the data in the structure data</span>
+0025 <span class="comment">%      path of the csv file are requested from user input during program</span>
+0026 <span class="comment">%      execution</span>
+0027 <span class="comment">%      data contains three fields timestamps, values, labels</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   EXAMPLES:</span>
+0030 <span class="comment">%      [data]=READMULTIPLECSVFILES</span>
+0031 <span class="comment">%      [data]=READMULTIPLECSVFILES('isPlot', 'true', 'isOutputFile', true)</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0034 <span class="comment">%      readSingleCSVFile, plotData, plotDataAvailability,</span>
+0035 <span class="comment">%      saveDataBinary</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   See also READSINGLECSVFILE, PLOTDATA,</span>
+0038 <span class="comment">%             PLOTDATAAVAILABILITY, SAVEDATABINARY</span>
+0039 
+0040 <span class="comment">%   AUTHORS:</span>
+0041 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen,, James-A Goulet</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0044 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   MATLAB VERSION:</span>
+0047 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   DATE CREATED:</span>
+0050 <span class="comment">%      April 10, 2018</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%   DATE LAST UPDATE:</span>
+0053 <span class="comment">%      April 18, 2018</span>
+0054 
+0055 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0056 
+0057 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0058 
+0059 p = inputParser;
+0060 defaultisOutputFile = false;
+0061 defaultisPlot = false;
+0062 
+0063 addParameter(p,<span class="string">'isOutputFile'</span>,defaultisOutputFile,@islogical);
+0064 addParameter(p,<span class="string">'isPlot'</span>,defaultisPlot,@islogical);
+0065 
+0066 parse(p, varargin{:} );
+0067 
+0068 isOutputFile=p.Results.isOutputFile;
+0069 isPlot=p.Results.isPlot;
+0070 
+0071 
+0072 <span class="comment">% define global variable for user's answers from input file</span>
+0073 <span class="keyword">global</span> isAnswersFromFile AnswersFromFile AnswersIndex
+0074 
+0075 <span class="comment">%% Request CSVFileList from user</span>
+0076 
+0077 <span class="keyword">while</span>(1)
+0078     disp(<span class="string">' '</span>)
+0079     fprintf([<span class="string">'Provide a list of .CSV filename to process '</span> <span class="keyword">...</span>
+0080         <span class="string">'(e.g. {''raw_data/data_Tamar/*.csv'', ''disp_001.csv''}) :  \n'</span>])
+0081     <span class="keyword">if</span> isAnswersFromFile
+0082         CSVFileList=eval(char(AnswersFromFile{1}(AnswersIndex)));
+0083         disp(CSVFileList)
+0084     <span class="keyword">else</span>
+0085         CSVFileList=input(<span class="string">'     list of filenames &gt;&gt; '</span>);
+0086     <span class="keyword">end</span>
+0087     
+0088     <span class="keyword">if</span> ~iscellstr(CSVFileList)
+0089         disp(<span class="string">' '</span>)
+0090         disp(<span class="string">'     wrong input -&gt; should be a cell array of character vectors. '</span>)
+0091         disp(<span class="string">' '</span>)
+0092         <span class="keyword">continue</span>   
+0093     <span class="keyword">elseif</span> isempty(CSVFileList)
+0094         disp(<span class="string">' '</span>)
+0095         disp(<span class="string">'%%%%%%%%%%%%%%%%%%%%%%%%% &gt; HELP &lt; %%%%%%%%%%%%%%%%%%%%%%%%'</span>)
+0096         disp(<span class="string">'                                                         '</span>)
+0097         fprintf([<span class="string">' The list of filenames should provide the location'</span> <span class="keyword">...</span>
+0098             <span class="string">'(path + filename) of the ''.csv'' raw data files.\n'</span>])
+0099         fprintf(<span class="string">' Star wildcard (asterisk) is supported.\n'</span>)
+0100         fprintf([<span class="string">' The list should be provided using a cell '</span> <span class="keyword">...</span>
+0101             <span class="string">'array of character vectors.\n'</span>])
+0102         fprintf([<span class="string">' Example : {''./raw_data/data_Tamar/*.csv''} looks for '</span><span class="keyword">...</span>
+0103         <span class="string">'all files with a ''.csv'' extension in the directory with path '</span> <span class="keyword">...</span>
+0104         <span class="string">'''./raw_data/data_Tamar/'' which is relative to the current'</span> <span class="keyword">...</span>
+0105         <span class="string">'working directory.\n '</span>])
+0106         disp(<span class="string">' '</span>)
+0107         disp(<span class="string">'%%%%%%%%%%%%%%%%%%%%%%%%% &gt; HELP &lt; %%%%%%%%%%%%%%%%%%%%%%%%%%'</span>)
+0108         disp(<span class="string">' '</span>)
+0109         <span class="keyword">continue</span>
+0110     <span class="keyword">else</span>        
+0111         <span class="keyword">break</span>
+0112     <span class="keyword">end</span>
+0113 <span class="keyword">end</span>
+0114 
+0115 <span class="comment">% Increment global variable to read next answer when required</span>
+0116 AnswersIndex = AnswersIndex + 1;
+0117 
+0118 <span class="comment">%% Clean the list of CSV files</span>
+0119 
+0120 <span class="comment">% Remove empty fields</span>
+0121 
+0122 CSVFileList=CSVFileList(~cellfun(@isempty, CSVFileList));
+0123 
+0124 <span class="keyword">if</span> isempty(CSVFileList)
+0125     disp(<span class="string">' '</span>)
+0126     disp(<span class="string">'WARNING: File list is empty.'</span>)
+0127     disp(<span class="string">' '</span>)
+0128     data.timestamps=[];
+0129     data.values=[];
+0130     data.labels=[];
+0131     <span class="keyword">return</span>
+0132 <span class="keyword">end</span>
+0133 
+0134 <span class="comment">%Remove redundant fields</span>
+0135 CSVFileList=unique(CSVFileList);
+0136 
+0137 <span class="comment">%% Loop over single CSV file and read data</span>
+0138 inc=0;
+0139 <span class="comment">% loop over list of csv files</span>
+0140 <span class="keyword">for</span> i=1:length(CSVFileList)
+0141     
+0142     <span class="comment">%  get the path and all info about each file</span>
+0143     InfoFile=dir(CSVFileList{i});
+0144     
+0145     <span class="comment">% remove '.' and '..' and '.DS_Store' files from the list of files</span>
+0146     InfoFile=InfoFile(~ismember({InfoFile.name},{<span class="string">'.'</span>,<span class="string">'..'</span>, <span class="string">'.DS_Store'</span>}));
+0147     
+0148     <span class="comment">% test the existence of the group of files identified by the search</span>
+0149     <span class="comment">% pattern</span>
+0150     <span class="keyword">if</span> isempty(InfoFile)  <span class="comment">% the file does not exist</span>
+0151         disp(<span class="string">' '</span>)
+0152         fprintf(<span class="string">'%s is not found.'</span>, CSVFileList{i})
+0153         disp(<span class="string">' '</span>)
+0154         <span class="keyword">continue</span>
+0155     <span class="keyword">else</span> <span class="comment">% the file exists</span>
+0156         
+0157         <span class="keyword">for</span> j=1:length(InfoFile)
+0158             
+0159             inc=inc+1;
+0160             
+0161             <span class="comment">% Get path of the file</span>
+0162             filename=InfoFile(j).name;
+0163             PathFile=which(filename);
+0164             
+0165             <span class="comment">% Read the file</span>
+0166             [dat,label] = <a href="readSingleCSVFile.html" class="code" title="function [dat,label]=readSingleCSVFile(FileToRead, varargin)">readSingleCSVFile</a>(PathFile, <span class="string">'isQuiet'</span>, false);
+0167             
+0168             <span class="keyword">if</span> isempty(dat) &amp;&amp; isempty(label)
+0169                 <span class="comment">%                 disp(' ')</span>
+0170                 <span class="comment">%                 fprintf('WARNING: Skip file. \n')</span>
+0171             <span class="keyword">else</span>
+0172                 <span class="comment">% Store in structure array</span>
+0173                 data.timestamps{inc} = dat(:,1);
+0174                 data.values{inc} = dat(:,2);
+0175                 data.labels{inc} = label;
+0176             <span class="keyword">end</span>
+0177         <span class="keyword">end</span>
+0178         
+0179     <span class="keyword">end</span>
+0180     
+0181 <span class="keyword">end</span>
+0182 
+0183 <span class="comment">% Stop if no data have been retained</span>
+0184 <span class="keyword">if</span> ~exist(<span class="string">'data'</span>, <span class="string">'var'</span>)
+0185     disp(<span class="string">' '</span>)
+0186     disp(<span class="string">'WARNING: No valid data have been found.'</span>)
+0187     disp(<span class="string">' '</span>)
+0188     data.timestamps=[];
+0189     data.values=[];
+0190     data.labels=[];
+0191     <span class="keyword">return</span>
+0192     
+0193 <span class="keyword">else</span>
+0194     
+0195     <span class="keyword">if</span> isPlot
+0196         <a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotData.html" class="code" title="function plotData(data, model, estimation, misc, varargin)">plotData</a>(data, <span class="string">'FigurePath'</span>, <span class="string">'figures'</span>)
+0197     <span class="keyword">end</span>
+0198     
+0199     <span class="keyword">if</span> isOutputFile
+0200         <a href="saveDataBinary.html" class="code" title="function [dataFilename] = saveDataBinary(data,varargin)">saveDataBinary</a>(data, <span class="string">'FilePath'</span>,<span class="string">'processed_data'</span>)
+0201     <span class="keyword">end</span>
+0202     
+0203 <span class="keyword">end</span>
+0204 <span class="comment">%--------------------END CODE ------------------------</span>
+0205 <span class="keyword">end</span>
+0206</pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

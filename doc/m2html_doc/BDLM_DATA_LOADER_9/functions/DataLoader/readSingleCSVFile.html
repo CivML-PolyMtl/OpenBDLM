@@ -1,0 +1,298 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of readSingleCSVFile</title>
+  <meta name="keywords" content="readSingleCSVFile">
+  <meta name="description" content="READSINGLECSVFILE Read a single .csv file">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataLoader</a> &gt; readSingleCSVFile.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/DataLoader&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>readSingleCSVFile
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>READSINGLECSVFILE Read a single .csv file</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [dat,label]=readSingleCSVFile(FileToRead, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">READSINGLECSVFILE Read a single .csv file
+
+   SYNOPSIS:
+     [dat, label]=READSINGLECSVFILE(FileToRead, varargin)
+ 
+   INPUT:
+      FileToRead - string of character (required)
+                   name of the file to read
+
+      isQuiet    - logical, optional
+                   if true, throw detailed warning/error
+                   default: false
+
+   OUTPUT:
+      dat        - Nx2 real array
+                   N is the total number of samples
+                   Column 1 contains the timestamps 
+                   Column 2 contains amplitude values
+                   Timestamp are serial date numbers following Matlab
+                   convention
+
+      label      - string of character
+                   label helpcontains the reference name of the time series
+ 
+   DESCRIPTION:
+      READSINGLECSVFILE reads &quot;comma separated value&quot; (csv) file.
+      The file is a two columns file that should be formatted as follow:
+
+      L1    'name'            ,   '2000-01-01-22-00-00'
+      L2    737422            ,   0.405720714733635
+      L3    737423            ,   0.211094693486129
+      L4    737424            ,   0.54834914800378
+ 
+      First line of the file is the header.
+      In the header, first field should contain the label of the time 
+      series ; second field should contain the date (string) of the first
+      timestamp.  
+      Note that the two fields in the header are NOT the label of each column.
+
+   EXAMPLES:
+      [dat, label]=READSINGLECSVFILE('/raw_data/dat001.csv')
+ 
+   See also <a href="readMultipleCSVFiles.html" class="code" title="function [data]=readMultipleCSVFiles(CSVFileList, varargin)">READMULTIPLECSVFILES</a>, <a href="saveDataCSV.html" class="code" title="function saveDataCSV(data,varargin)">SAVEDATACSV</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="readMultipleCSVFiles.html" class="code" title="function [data]=readMultipleCSVFiles(CSVFileList, varargin)">readMultipleCSVFiles</a>	READMULTIPLECSVFILES Read data from .csv files</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [dat,label]=readSingleCSVFile(FileToRead, varargin)</a>
+0002 <span class="comment">%READSINGLECSVFILE Read a single .csv file</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [dat, label]=READSINGLECSVFILE(FileToRead, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      FileToRead - string of character (required)</span>
+0009 <span class="comment">%                   name of the file to read</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%      isQuiet    - logical, optional</span>
+0012 <span class="comment">%                   if true, throw detailed warning/error</span>
+0013 <span class="comment">%                   default: false</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   OUTPUT:</span>
+0016 <span class="comment">%      dat        - Nx2 real array</span>
+0017 <span class="comment">%                   N is the total number of samples</span>
+0018 <span class="comment">%                   Column 1 contains the timestamps</span>
+0019 <span class="comment">%                   Column 2 contains amplitude values</span>
+0020 <span class="comment">%                   Timestamp are serial date numbers following Matlab</span>
+0021 <span class="comment">%                   convention</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%      label      - string of character</span>
+0024 <span class="comment">%                   label helpcontains the reference name of the time series</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   DESCRIPTION:</span>
+0027 <span class="comment">%      READSINGLECSVFILE reads &quot;comma separated value&quot; (csv) file.</span>
+0028 <span class="comment">%      The file is a two columns file that should be formatted as follow:</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%      L1    'name'            ,   '2000-01-01-22-00-00'</span>
+0031 <span class="comment">%      L2    737422            ,   0.405720714733635</span>
+0032 <span class="comment">%      L3    737423            ,   0.211094693486129</span>
+0033 <span class="comment">%      L4    737424            ,   0.54834914800378</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%      First line of the file is the header.</span>
+0036 <span class="comment">%      In the header, first field should contain the label of the time</span>
+0037 <span class="comment">%      series ; second field should contain the date (string) of the first</span>
+0038 <span class="comment">%      timestamp.</span>
+0039 <span class="comment">%      Note that the two fields in the header are NOT the label of each column.</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   EXAMPLES:</span>
+0042 <span class="comment">%      [dat, label]=READSINGLECSVFILE('/raw_data/dat001.csv')</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   See also READMULTIPLECSVFILES, SAVEDATACSV</span>
+0045  
+0046 <span class="comment">%   AUTHORS:</span>
+0047 <span class="comment">%       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0050 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%   MATLAB VERSION:</span>
+0053 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   DATE CREATED:</span>
+0056 <span class="comment">%       April 10, 2018</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   DATE LAST UPDATE:</span>
+0059 <span class="comment">%       April 18, 2018</span>
+0060  
+0061 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0062  
+0063 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0064 p = inputParser;
+0065 
+0066 defaultisQuiet = true;
+0067 addRequired(p,<span class="string">'FileToRead'</span>, @ischar );
+0068 addOptional(p,<span class="string">'isQuiet'</span>, defaultisQuiet, @islogical );
+0069 parse(p,FileToRead, varargin{:});
+0070 
+0071 FileToRead=p.Results.FileToRead;
+0072 isQuiet=p.Results.isQuiet;
+0073 
+0074 <span class="comment">% Test the existence of the file</span>
+0075 <span class="keyword">if</span> exist(FileToRead, <span class="string">'file'</span>) ~= 2 || isempty(FileToRead)
+0076     
+0077     <span class="keyword">if</span> ~isQuiet &amp;&amp; ~isempty(FileToRead)
+0078         disp(<span class="string">' '</span>)
+0079         fprintf(<span class="string">'%s does not exist.\n'</span>, FileToRead)
+0080         disp(<span class="string">' '</span>)
+0081     <span class="keyword">elseif</span> ~isQuiet &amp;&amp; isempty(FileToRead)
+0082         disp(<span class="string">' '</span>)
+0083         fprintf(<span class="string">'Filename is empty.'</span>)
+0084         disp(<span class="string">' '</span>)
+0085     <span class="keyword">end</span>
+0086     dat=[];
+0087     label=[];
+0088     <span class="keyword">return</span>
+0089 <span class="keyword">end</span>
+0090 <span class="comment">%% Open and read the file, throw error if unknown formatting</span>
+0091 fileID=fopen(FileToRead, <span class="string">'r'</span>);
+0092 <span class="keyword">try</span>
+0093     header = textscan(fileID,<span class="string">'%s'</span>,1,<span class="string">'Delimiter'</span>,<span class="string">'\n'</span>); <span class="comment">% get header</span>
+0094 <span class="keyword">catch</span>
+0095     disp(<span class="string">' '</span>)
+0096     <span class="keyword">if</span> ~isQuiet
+0097         fprintf(<span class="string">'Unable to read %s. Check formatting. \n'</span>, FileToRead)
+0098         disp(<span class="string">' '</span>)
+0099     <span class="keyword">end</span>
+0100     dat=[];
+0101     label=[];
+0102     <span class="keyword">return</span>
+0103 <span class="keyword">end</span>
+0104 
+0105 <span class="keyword">try</span>
+0106     ts_val=textscan(fileID, <span class="string">'%f %f'</span>,<span class="string">'Delimiter'</span>, <span class="string">','</span>, <span class="keyword">...</span>
+0107         <span class="string">'TreatAsEmpty'</span>,{<span class="string">'NaN'</span>, <span class="string">''</span>}, <span class="string">'EmptyValue'</span>, NaN , <span class="keyword">...</span>
+0108         <span class="string">'ReturnOnError'</span> , false); <span class="comment">% get values</span>
+0109 <span class="keyword">catch</span>
+0110     <span class="keyword">if</span> ~isQuiet
+0111         disp(<span class="string">' '</span>)
+0112         fprintf(<span class="string">'Unable to read the file %s. Check formatting. \n'</span>, <span class="keyword">...</span>
+0113             FileToRead)
+0114         disp(<span class="string">' '</span>)
+0115     <span class="keyword">end</span>
+0116     dat=[];
+0117     label=[];
+0118     <span class="keyword">return</span>
+0119 <span class="keyword">end</span>
+0120 
+0121 <span class="keyword">if</span> any(isnan(ts_val{1,1}(:)))
+0122     <span class="keyword">if</span> ~isQuiet
+0123         disp(<span class="string">' '</span>)
+0124         fprintf(<span class="string">'ERROR: Timestamps contains NaN in %s \n'</span>, FileToRead)
+0125         disp(<span class="string">' '</span>)
+0126     <span class="keyword">end</span>
+0127     dat=[];
+0128     label=[];
+0129     <span class="keyword">return</span>
+0130 <span class="keyword">end</span>
+0131 
+0132 header_split=strsplit(header{1,1}{1}, <span class="string">','</span>);
+0133 
+0134 <span class="comment">% Clean reference name</span>
+0135 reference_name=strrep(header_split{1},<span class="string">''''</span>,<span class="string">''</span> ); <span class="comment">% remove single quotes</span>
+0136 reference_name=strrep(reference_name,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0137 reference_name=strrep(reference_name, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0138 
+0139 <span class="keyword">if</span> isempty(reference_name)
+0140     <span class="keyword">if</span> ~isQuiet
+0141         disp(<span class="string">' '</span>)
+0142         fprintf(<span class="string">'ERROR: Reference name is empty in  file %s. \n'</span>, <span class="keyword">...</span>
+0143         FileToRead)
+0144         disp(<span class="string">' '</span>)
+0145     <span class="keyword">end</span>
+0146     dat=[];
+0147     label=[];
+0148     <span class="keyword">return</span>
+0149 <span class="keyword">end</span>
+0150 
+0151 <span class="comment">% Clean date of the first sample</span>
+0152 <span class="comment">% remove quotes</span>
+0153 string_date_first_sample=strrep(header_split{2},<span class="string">''''</span>,<span class="string">''</span> );
+0154 <span class="comment">% remove double quotes</span>
+0155 string_date_first_sample=strrep(string_date_first_sample, <span class="string">'&quot;'</span>,<span class="string">''</span> );
+0156 <span class="comment">% remove spaces</span>
+0157 string_date_first_sample=strrep(string_date_first_sample, <span class="string">' '</span>,<span class="string">''</span> );
+0158 
+0159 <span class="comment">% Convert serial date to serial date Matlab convention</span>
+0160 <span class="comment">% (day 1 == January 0, 0000)</span>
+0161 
+0162 <span class="comment">% Get delta days</span>
+0163 <span class="keyword">if</span> isempty(string_date_first_sample) ||  <span class="keyword">...</span>
+0164         strcmp(string_date_first_sample, <span class="string">'N/A'</span>)
+0165     delta_days = 0;
+0166 <span class="keyword">else</span>
+0167     <span class="keyword">try</span>
+0168         delta_days = datenum(string_date_first_sample, <span class="keyword">...</span>
+0169             <span class="string">'yyyy-mm-dd-HH:MM:SS'</span>)- ts_val{1,1}(1,1);
+0170     <span class="keyword">catch</span>
+0171         <span class="keyword">if</span> ~isQuiet
+0172             disp(<span class="string">' '</span>)
+0173             fprintf(<span class="string">'Unknown date format in file %s.\n'</span>, FileToRead)
+0174             disp(<span class="string">' '</span>)
+0175         <span class="keyword">end</span>
+0176         dat=[];
+0177         label=[];
+0178         <span class="keyword">return</span>
+0179     <span class="keyword">end</span>
+0180 <span class="keyword">end</span>
+0181 
+0182 ts_corrected = ts_val{1,1}(:)+delta_days;
+0183 
+0184 <span class="comment">% Remove redundancies</span>
+0185 [~,ia,ic] = unique(ts_corrected, <span class="string">'rows'</span>);
+0186 
+0187 <span class="keyword">if</span> length(ia) ~= length(ic)
+0188     <span class="keyword">if</span> ~isQuiet
+0189         disp(<span class="string">' '</span>)
+0190         fprintf([<span class="string">'WARNING: Timestamp redundancy detected'</span>, <span class="keyword">...</span>
+0191         <span class="string">'in file %s ... \n'</span>], FileToRead)
+0192         disp(<span class="string">'Only the first occurrence has been retained. '</span>)
+0193         disp(<span class="string">' '</span>)
+0194     <span class="keyword">end</span>
+0195 <span class="keyword">end</span>
+0196 
+0197 ts_corrected = ts_corrected(ia);
+0198 
+0199 ts_val{:,1} = ts_corrected ;
+0200 ts_val{:,2} = ts_val{:,2}(ia,:) ;
+0201 
+0202 <span class="comment">%% Store timestamps and amplitude value</span>
+0203 dat=cell2mat(ts_val);
+0204 label=reference_name;
+0205 
+0206 <span class="comment">% Close file</span>
+0207 fclose(fileID);     
+0208 <span class="comment">%--------------------END CODE ------------------------</span>
+0209 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

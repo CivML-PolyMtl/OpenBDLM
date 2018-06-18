@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of metricFct</title>
+  <meta name="keywords" content="metricFct">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelParametersLearning</a> &gt; metricFct.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/ModelParametersLearning&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>metricFct
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [metricVL, idxMaxM, logpdf_test, logpdf_train] = metricFct(data_train, data_test, model, option, parameterSearch, parameterSearchTR) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)">logPosteriorPE</a>	INPUTS:</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="SGD.html" class="code" title="function [optim] = SGD(data, model, misc, varargin)">SGD</a>	INPUTS:</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [metricVL, idxMaxM, logpdf_test, logpdf_train] = metricFct(data_train, data_test, model, option, parameterSearch, parameterSearchTR)</a>
+0002 parameter_search_idx = ~all(isnan(reshape([model.param_properties{:,5}],2,size(model.param_properties,1))'),2);
+0003 Nsamples             = size(parameterSearch,2);
+0004 <span class="keyword">if</span> strcmp(option.metric_mode,<span class="string">'predCap'</span>)
+0005     modelStored          = cell(2*Nsamples,1);
+0006     dataStored           = cell(2*Nsamples,1);
+0007     model4loop           = model;
+0008     logpdf               = zeros(1, 2*Nsamples);
+0009     <span class="keyword">for</span> s = 1 : Nsamples
+0010         model4loop.parameter(parameter_search_idx)      = parameterSearch(:,s);
+0011         model4loop.parameterTR(parameter_search_idx,s)  = parameterSearchTR(:,s);
+0012         modelStored{s} = model4loop;
+0013         dataStored{s}  = data_test; 
+0014     <span class="keyword">end</span>
+0015     <span class="keyword">for</span> s = 1:Nsamples
+0016         model4loop.parameter(parameter_search_idx)      = parameterSearch(:,s);
+0017         model4loop.parameterTR(parameter_search_idx,s)  = parameterSearchTR(:,s);
+0018         modelStored{s+Nsamples} = model4loop;
+0019         dataStored{s+Nsamples}  = data_train;
+0020     <span class="keyword">end</span>
+0021     parfor s = 1 : 2*Nsamples
+0022         <span class="keyword">try</span>
+0023             [logpdf(s), ~, ~,~]  = <a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)">logPosteriorPE</a>(dataStored{s}, modelStored{s}, option, <span class="string">'getlogpdf'</span>, 1);
+0024         <span class="keyword">catch</span> err
+0025             logpdf(s) = -Inf;
+0026        <span class="keyword">end</span>
+0027     <span class="keyword">end</span>
+0028     logpdf(~isreal(logpdf))             = -Inf;
+0029     logpdf(~isreal(logpdf))             = -Inf;
+0030     logpdf_test                         = logpdf(1:Nsamples);
+0031     logpdf_train                        = logpdf(Nsamples+1:2*Nsamples);
+0032     idxTestInf                          = find(logpdf_test==-Inf);
+0033     idxTrainInf                         = find(logpdf_train == -Inf); 
+0034     metricVL                            = logpdf_test - logpdf_train;
+0035     metricVL([idxTestInf idxTrainInf])  = -Inf;
+0036 <span class="keyword">elseif</span> strcmp(option.metric_mode, <span class="string">'logpdf'</span>)
+0037     modelStored     = cell(Nsamples, 1);
+0038     dataStored      = cell(Nsamples, 1);
+0039     model4loop      = model;
+0040     <span class="keyword">for</span> s = 1: Nsamples
+0041         model4loop.parameter(parameter_search_idx) = parameterSearch(:,s);
+0042         model4loop.parameterTR(parameter_search_idx) = parameterSearchTR(:,s);
+0043         modelStored{s} = model4loop;
+0044         dataStored{s}  = data_train;
+0045     <span class="keyword">end</span>
+0046     parfor s = 1 : Nsamples
+0047         <span class="keyword">try</span>
+0048             [logpdf(s), ~, ~,~]  = <a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)">logPosteriorPE</a>(dataStored{s}, modelStored{s}, option, <span class="string">'getlogpdf'</span>, 1);
+0049         <span class="keyword">catch</span> err
+0050             logpdf(s) =-Inf;
+0051         <span class="keyword">end</span>
+0052     <span class="keyword">end</span>
+0053     logpdf(~isreal(logpdf)) = -Inf;
+0054     logpdf(~isreal(logpdf)) = -Inf;
+0055     metricVL                = logpdf;
+0056     logpdf_train            = logpdf;
+0057     logpdf_test             = NaN(length(logpdf),1); 
+0058 <span class="keyword">end</span>
+0059 [~,idxMaxM] = nanmax(metricVL);
+0060 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

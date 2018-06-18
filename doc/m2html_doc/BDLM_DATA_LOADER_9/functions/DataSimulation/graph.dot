@@ -1,0 +1,12 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  SimulateData -> simulateDataFromCustomAnomalies;
+  SimulateData -> simulateDataFromTransitionProbabilities;
+
+  SimulateData [URL="SimulateData.html"];
+  defineCustomAnomalies [URL="defineCustomAnomalies.html"];
+  defineDataLabels [URL="defineDataLabels.html"];
+  defineTimestamps [URL="defineTimestamps.html"];
+  simulateDataFromCustomAnomalies [URL="simulateDataFromCustomAnomalies.html"];
+  simulateDataFromTransitionProbabilities [URL="simulateDataFromTransitionProbabilities.html"];
+}

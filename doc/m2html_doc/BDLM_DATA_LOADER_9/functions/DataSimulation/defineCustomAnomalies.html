@@ -1,0 +1,345 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of defineCustomAnomalies</title>
+  <meta name="keywords" content="defineCustomAnomalies">
+  <meta name="description" content="DEFINECUSTOMANOMALIES Request user's input to define custom anomalies">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataSimulation</a> &gt; defineCustomAnomalies.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/DataSimulation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>defineCustomAnomalies
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>DEFINECUSTOMANOMALIES Request user's input to define custom anomalies</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [misc]=defineCustomAnomalies(data, model, misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DEFINECUSTOMANOMALIES Request user's input to define custom anomalies
+
+   SYNOPSIS:
+     [misc]=DEFINECUSTOMANOMALIES(data, model, misc)
+
+   INPUT:
+      data  - structure (required)
+      model - structure (required)
+      misc  - structure (required)
+
+   OUTPUT:
+      misc  - structure
+
+   DESCRIPTION:
+      DEFINECUSTOMANOMALIES requests user's input to define custom anomalies
+
+   EXAMPLES:
+      [misc]=DEFINECUSTOMANOMALIES(data, model, misc)
+
+   See also CONFIGUREMODELFORDATASIMULATION</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/configureModelForDataSimulation.html" class="code" title="function [data, model, estimation, misc]=configureModelForDataSimulation(data, model, estimation , misc)">configureModelForDataSimulation</a>	CONFIGUREMODELFORDATASIMULATION configures model for BDLM analysis based on simulated data</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [misc]=defineCustomAnomalies(data, model, misc)</a>
+0002 <span class="comment">%DEFINECUSTOMANOMALIES Request user's input to define custom anomalies</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [misc]=DEFINECUSTOMANOMALIES(data, model, misc)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data  - structure (required)</span>
+0009 <span class="comment">%      model - structure (required)</span>
+0010 <span class="comment">%      misc  - structure (required)</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   OUTPUT:</span>
+0013 <span class="comment">%      misc  - structure</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   DESCRIPTION:</span>
+0016 <span class="comment">%      DEFINECUSTOMANOMALIES requests user's input to define custom anomalies</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   EXAMPLES:</span>
+0019 <span class="comment">%      [misc]=DEFINECUSTOMANOMALIES(data, model, misc)</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   See also CONFIGUREMODELFORDATASIMULATION</span>
+0022 
+0023 <span class="comment">%   AUTHORS:</span>
+0024 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet,</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0027 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   MATLAB VERSION:</span>
+0030 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   DATE CREATED:</span>
+0033 <span class="comment">%       April 24, 2018</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   DATE LAST UPDATE:</span>
+0036 <span class="comment">%       April 24, 2018</span>
+0037 
+0038 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0039 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0040 p = inputParser;
+0041 
+0042 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0043 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0044 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0045 parse(p,data, model, misc);
+0046 
+0047 data=p.Results.data;
+0048 <span class="comment">%model=p.Results.model;</span>
+0049 misc=p.Results.misc;
+0050 
+0051 <span class="comment">% define global variable for user's answers from input file</span>
+0052 <span class="keyword">global</span> isAnswersFromFile AnswersFromFile AnswersIndex
+0053 
+0054 
+0055 timestamps=data.timestamps{1};
+0056 
+0057 isCorrect = false;
+0058 <span class="keyword">while</span> ~isCorrect
+0059     disp(<span class="string">'- Define custom anomalies ? (y/n): '</span>)
+0060     <span class="keyword">if</span> isAnswersFromFile
+0061         choice_custom_anomalies = <span class="keyword">...</span>
+0062             eval(char(AnswersFromFile{1}(AnswersIndex)));
+0063         disp([<span class="string">'     '</span>,choice_custom_anomalies])
+0064     <span class="keyword">else</span>
+0065         choice_custom_anomalies = input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0066     <span class="keyword">end</span>
+0067     
+0068     <span class="comment">% Remove space and quotes</span>
+0069     <span class="comment">% remove quotes</span>
+0070     choice_custom_anomalies=strrep(choice_custom_anomalies,<span class="string">''''</span>,<span class="string">''</span> );
+0071     <span class="comment">% remove double quotes</span>
+0072     choice_custom_anomalies=strrep(choice_custom_anomalies,<span class="string">'&quot;'</span>,<span class="string">''</span> );
+0073     <span class="comment">% remove spaces</span>
+0074     choice_custom_anomalies=strrep(choice_custom_anomalies, <span class="string">' '</span>,<span class="string">''</span> );
+0075     
+0076     
+0077     <span class="keyword">if</span> isempty(choice_custom_anomalies)
+0078         disp(<span class="string">' '</span>)
+0079         disp([<span class="string">'%%%%%%%%%%%%%%%%%%%%%%%%% &gt; HELP &lt; %%%%%%'</span><span class="keyword">...</span>
+0080             <span class="string">'%%%%%%%%%%%%%%%%%%%%'</span>])
+0081         disp(<span class="string">'                                                         '</span>)
+0082         disp([<span class="string">' An amomaly is a change in the baseline '</span> <span class="keyword">...</span><span class="comment"> '</span>
+0083             <span class="string">'(level of the time series) according to the previously'</span> <span class="keyword">...</span>
+0084             <span class="string">'defined model classes.'</span>])
+0085         disp(<span class="string">' '</span>)
+0086         disp([<span class="string">' Answering ''yes'' enables to '</span> <span class="keyword">...</span><span class="comment"> '</span>
+0087             <span class="string">'generate user''s defined anomalies.'</span>])
+0088         disp([<span class="string">' In such case, the user chooses the starts,'</span> <span class="keyword">...</span>
+0089             <span class="string">' the durations, and the amplitudes of the anomalies.'</span>])
+0090         disp(<span class="string">' '</span>)
+0091         disp([<span class="string">' Answering ''no'' lets the program generate'</span> <span class="keyword">...</span>
+0092             <span class="string">' anomalies from the default parameter values.'</span>])
+0093         disp(<span class="string">' '</span>)
+0094         disp([<span class="string">'%%%%%%%%%%%%%%%%%%%%%%%%% &gt; HELP &lt; %%%%%%'</span><span class="keyword">...</span>
+0095             <span class="string">'%%%%%%%%%%%%%%%%%%%%'</span>])
+0096         disp(<span class="string">' '</span>)
+0097         
+0098     <span class="keyword">elseif</span> strcmp(choice_custom_anomalies,<span class="string">'y'</span>) ||  <span class="keyword">...</span>
+0099             strcmp(choice_custom_anomalies,<span class="string">'yes'</span>) || <span class="keyword">...</span>
+0100             strcmp(choice_custom_anomalies,<span class="string">'Y'</span>) || <span class="keyword">...</span>
+0101             strcmp(choice_custom_anomalies,<span class="string">'Yes'</span>)  || <span class="keyword">...</span>
+0102             strcmp(choice_custom_anomalies,<span class="string">'YES'</span>)
+0103         
+0104         misc.isCustomAnomalies = true;
+0105         isCorrect = true;
+0106     <span class="keyword">elseif</span> strcmp(choice_custom_anomalies,<span class="string">'n'</span>) || <span class="keyword">...</span>
+0107             strcmp(choice_custom_anomalies,<span class="string">'no'</span>) ||  <span class="keyword">...</span>
+0108             strcmp(choice_custom_anomalies,<span class="string">'N'</span>) || <span class="keyword">...</span>
+0109             strcmp(choice_custom_anomalies,<span class="string">'No'</span>)  || <span class="keyword">...</span>
+0110             strcmp(choice_custom_anomalies,<span class="string">'NO'</span>)
+0111         
+0112         misc.isCustomAnomalies = false;
+0113         isCorrect = true;
+0114     <span class="keyword">else</span>
+0115         disp(<span class="string">' '</span>)
+0116         disp(<span class="string">'     Wrong input.'</span>)
+0117         disp(<span class="string">' '</span>)
+0118         <span class="keyword">continue</span>
+0119     <span class="keyword">end</span>
+0120     
+0121 <span class="keyword">end</span>
+0122 AnswersIndex = AnswersIndex+1;
+0123 disp(<span class="string">' '</span>)
+0124 <span class="keyword">if</span> misc.isCustomAnomalies
+0125     <span class="comment">%% Request anomalies start</span>
+0126     isCorrect = false;
+0127     <span class="keyword">while</span> ~isCorrect
+0128         disp(<span class="string">'- Anomalies starts (in sample index)'</span>)
+0129         <span class="keyword">if</span> isAnswersFromFile
+0130             start_custom_anomalies = <span class="keyword">...</span>
+0131                 eval(char(AnswersFromFile{1}(AnswersIndex)));
+0132             disp([<span class="string">'     '</span>,num2str(start_custom_anomalies)])
+0133         <span class="keyword">else</span>
+0134             start_custom_anomalies= input(<span class="string">'     choice &gt;&gt; '</span>);
+0135         <span class="keyword">end</span>
+0136         <span class="keyword">if</span> isempty(start_custom_anomalies)
+0137             disp(<span class="string">' '</span>)
+0138             disp(<span class="string">'     wrong input -&gt;  input is empty'</span>)
+0139             disp(<span class="string">' '</span>)
+0140             <span class="keyword">continue</span>
+0141         <span class="keyword">elseif</span> ischar(start_custom_anomalies)|| <span class="keyword">...</span>
+0142                 any(rem(start_custom_anomalies,1)~=0) || <span class="keyword">...</span>
+0143                 ~any(all(start_custom_anomalies &gt; 0)) || <span class="keyword">...</span>
+0144                 ~all(start_custom_anomalies &lt; length(timestamps))
+0145             
+0146             disp(<span class="string">' '</span>)
+0147             disp([<span class="string">'     wrong input -&gt; should be strictly '</span>
+0148                 <span class="string">'positive integers smaller that dataset length'</span>])
+0149             disp(<span class="string">' '</span>)
+0150             <span class="keyword">continue</span>
+0151         <span class="keyword">elseif</span> length(unique(start_custom_anomalies)) ~= <span class="keyword">...</span>
+0152                 length(start_custom_anomalies)
+0153             disp(<span class="string">' '</span>)
+0154             disp([<span class="string">'     wrong input -&gt; at least two '</span>
+0155                 <span class="string">'anomaly starts are identical.'</span>])
+0156             disp(<span class="string">' '</span>)
+0157             <span class="keyword">continue</span>
+0158         <span class="keyword">else</span>
+0159             <span class="comment">% Sort vector</span>
+0160             start_custom_anomalies=sort(start_custom_anomalies);
+0161             
+0162             <span class="comment">% Record anomalies start</span>
+0163             misc.custom_anomalies.start_custom_anomalies= <span class="keyword">...</span>
+0164                 start_custom_anomalies;
+0165             isCorrect = true;
+0166             
+0167         <span class="keyword">end</span>
+0168     <span class="keyword">end</span>
+0169     AnswersIndex = AnswersIndex+1;
+0170     disp(<span class="string">' '</span>)
+0171     
+0172     
+0173     <span class="comment">%% Request anomalies durations</span>
+0174     isCorrect=false;
+0175     <span class="keyword">while</span> ~isCorrect
+0176         disp(<span class="string">'- Anomalies durations (in number of points)'</span>)
+0177         disp(<span class="string">' '</span>)
+0178         <span class="keyword">if</span> isAnswersFromFile
+0179             duration_custom_anomalies = <span class="keyword">...</span>
+0180                 eval(char(AnswersFromFile{1}(AnswersIndex)));
+0181             disp([<span class="string">'     '</span>, num2str(duration_custom_anomalies)])
+0182         <span class="keyword">else</span>
+0183             duration_custom_anomalies= input( <span class="string">'     choice &gt;&gt; '</span>);
+0184         <span class="keyword">end</span>
+0185         <span class="keyword">if</span> isempty(duration_custom_anomalies)
+0186             disp(<span class="string">' '</span>)
+0187             disp(<span class="string">'     wrong input -&gt;  input is empty'</span>)
+0188             disp(<span class="string">' '</span>)
+0189             <span class="keyword">continue</span>
+0190         <span class="keyword">elseif</span> ischar( duration_custom_anomalies)|| <span class="keyword">...</span>
+0191                 any(rem(duration_custom_anomalies,1)~=0) || <span class="keyword">...</span>
+0192                 any(duration_custom_anomalies(duration_custom_anomalies <span class="keyword">...</span>
+0193                 &lt;= 0))
+0194             disp(<span class="string">' '</span>)
+0195             disp(<span class="string">'     wrong input -&gt; should be strictly positive integers'</span>)
+0196             disp(<span class="string">' '</span>)
+0197             <span class="keyword">continue</span>
+0198         <span class="keyword">elseif</span> length(duration_custom_anomalies) ~= <span class="keyword">...</span>
+0199                 length(start_custom_anomalies)
+0200             disp(<span class="string">' '</span>)
+0201             disp([<span class="string">'     wrong input -&gt; length of the vector should be '</span>, <span class="keyword">...</span>
+0202                 num2str(length(start_custom_anomalies))])
+0203             disp(<span class="string">' '</span>)
+0204             <span class="keyword">continue</span>
+0205         <span class="keyword">else</span>
+0206             overlap = false;
+0207             <span class="keyword">for</span> i=1:length(duration_custom_anomalies)-1
+0208                 
+0209                 <span class="keyword">if</span> start_custom_anomalies(i)+duration_custom_anomalies(i)<span class="keyword">...</span>
+0210                         &gt;= start_custom_anomalies(i+1)
+0211                     overlap = true;
+0212                 <span class="keyword">end</span>
+0213             <span class="keyword">end</span>
+0214             
+0215             <span class="keyword">if</span> overlap
+0216                 disp(<span class="string">' '</span>)
+0217                 disp([<span class="string">'     wrong input -&gt; at '</span> <span class="keyword">...</span>
+0218                     <span class="string">'least two overlapping anomalies'</span>])
+0219                 disp(<span class="string">' '</span>)
+0220                 <span class="keyword">continue</span>
+0221             <span class="keyword">end</span>
+0222             
+0223             <span class="comment">% Record anomalies duration</span>
+0224             misc.custom_anomalies.duration_custom_anomalies= <span class="keyword">...</span>
+0225                 duration_custom_anomalies;
+0226             isCorrect = true;
+0227         <span class="keyword">end</span>
+0228     <span class="keyword">end</span>
+0229     AnswersIndex = AnswersIndex+1;
+0230     disp(<span class="string">' '</span>)
+0231     
+0232     <span class="comment">%% Request anomalies amplitudes</span>
+0233     isCorrect=false;
+0234     <span class="keyword">while</span> ~isCorrect        
+0235         disp(<span class="string">'- Anomalies amplitudes (i.e change in local trend) &gt;&gt; '</span>)
+0236         disp(<span class="string">' '</span>)
+0237         <span class="keyword">if</span> isAnswersFromFile
+0238             amplitude_custom_anomalies = <span class="keyword">...</span>
+0239                 eval(char(AnswersFromFile{1}(AnswersIndex)));
+0240             disp([<span class="string">'     '</span>, num2str(amplitude_custom_anomalies)])
+0241         <span class="keyword">else</span>
+0242             amplitude_custom_anomalies=input(<span class="string">'     choice &gt;&gt; '</span>);
+0243         <span class="keyword">end</span>
+0244         <span class="keyword">if</span> isempty(amplitude_custom_anomalies)
+0245             disp(<span class="string">' '</span>)
+0246             disp(<span class="string">'     wrong input -&gt;  input is empty'</span>)
+0247             disp(<span class="string">' '</span>)
+0248             <span class="keyword">continue</span>
+0249         <span class="keyword">elseif</span> ischar( amplitude_custom_anomalies)
+0250             disp(<span class="string">' '</span>)
+0251             disp(<span class="string">'     wrong input -&gt;  input contains character'</span>)
+0252             disp(<span class="string">' '</span>)
+0253             <span class="keyword">continue</span>
+0254         <span class="keyword">elseif</span> length(amplitude_custom_anomalies) ~= <span class="keyword">...</span>
+0255                 length(start_custom_anomalies)
+0256             disp(<span class="string">' '</span>)
+0257             disp([<span class="string">'     wrong input -&gt; length of the vector should be '</span>, <span class="keyword">...</span>
+0258                 num2str(length(start_custom_anomalies))])
+0259             disp(<span class="string">' '</span>)
+0260             <span class="keyword">continue</span>
+0261         <span class="keyword">elseif</span> ~all(amplitude_custom_anomalies)
+0262             disp(<span class="string">' '</span>)
+0263             disp(<span class="string">'     wrong input -&gt;  input should be nonzero'</span>)
+0264             disp(<span class="string">' '</span>)
+0265             <span class="keyword">continue</span>
+0266         <span class="keyword">end</span>
+0267         
+0268         <span class="comment">% Record anomalies amplitude</span>
+0269         misc.custom_anomalies.amplitude_custom_anomalies=<span class="keyword">...</span>
+0270             amplitude_custom_anomalies;
+0271         isCorrect = true;
+0272     <span class="keyword">end</span>
+0273         AnswersIndex = AnswersIndex+1;
+0274     
+0275 <span class="keyword">else</span>
+0276     <span class="keyword">return</span>
+0277 <span class="keyword">end</span>
+0278 <span class="comment">%--------------------END CODE ------------------------</span>
+0279 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

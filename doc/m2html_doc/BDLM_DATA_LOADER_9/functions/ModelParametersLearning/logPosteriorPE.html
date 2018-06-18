@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of logPosteriorPE</title>
+  <meta name="keywords" content="logPosteriorPE">
+  <meta name="description" content="INPUTS:">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelParametersLearning</a> &gt; logPosteriorPE.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/ModelParametersLearning&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>logPosteriorPE
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>INPUTS:</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> INPUTS:
+ getlogpdf            -  Only log-poseterior is evaluated (1), otherwise
+                         (0). Defaut is 0.
+ loglik_contribution  -  Gradient &amp; hessian of log-likelihood are required
+                         for each evaluation. True = 1 and false = 0. 
+                         Defaut is 0.
+ delta_grad           -  Step size of gradient &amp; hessian evaluations 
+                         delta_grad_OR = delta_grad * abs(model.parameter)
+ paramTR_index        -  The index of the parameter being estimated. 
+
+ OUTPUTS:
+ logpdf     -  log-postoterior.
+ Glogpdf    -  Gradient of the log-posterior.
+ Hlogpdf    -  Hessian of the log-posterior.
+ delta_grad -  Last step size of gradient &amp; hessian evaluations.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="logPriorDistr.html" class="code" title="function [logprior, Glogprior, Hlogprior]= logPriorDistr(P, Mu, Sigma, varargin)">logPriorDistr</a>	The other distribution will be added later</li><li><a href="parameter_transformation_fct.html" class="code" title="function [fct_TR,fct_inv_TR,grad_TR2OR,hessian_TR2OR]=parameter_transformation_fct(model,param_idx_loop)">parameter_transformation_fct</a>	</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>	INPUTS:</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="NR_EM.html" class="code" title="function [optim]=NR_EM(data, model, misc, varargin)">NR_EM</a>	INPUTS:</li><li><a href="SGD.html" class="code" title="function [optim] = SGD(data, model, misc, varargin)">SGD</a>	INPUTS:</li><li><a href="learnModelParameters.html" class="code" title="function [data, model, estimation, misc]=learnModelParameters(data, model, estimation, misc, varargin)">learnModelParameters</a>	LEARNMODELPARAMETERS Learn Bayesian dynamic linear model parameters</li><li><a href="metricFct.html" class="code" title="function [metricVL, idxMaxM, logpdf_test, logpdf_train] = metricFct(data_train, data_test, model, option, parameterSearch, parameterSearchTR)">metricFct</a>	</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [grad, hessian, fail_gradHess, delta_grad] = gradHess(data, model, option,</a></li><li><a href="#_sub2" class="code">function [delta_grad, fail_delta_grad, log_lik_1, log_lik_2] = StepSizeOptimization(model, data, option,</a></li><li><a href="#_sub3" class="code">function delta_grad_OR = boundaryConditionValidity(model, pOR, delta_grad_OR, param_idx_loop)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)</a>
+0002 <span class="comment">% INPUTS:</span>
+0003 <span class="comment">% getlogpdf            -  Only log-poseterior is evaluated (1), otherwise</span>
+0004 <span class="comment">%                         (0). Defaut is 0.</span>
+0005 <span class="comment">% loglik_contribution  -  Gradient &amp; hessian of log-likelihood are required</span>
+0006 <span class="comment">%                         for each evaluation. True = 1 and false = 0.</span>
+0007 <span class="comment">%                         Defaut is 0.</span>
+0008 <span class="comment">% delta_grad           -  Step size of gradient &amp; hessian evaluations</span>
+0009 <span class="comment">%                         delta_grad_OR = delta_grad * abs(model.parameter)</span>
+0010 <span class="comment">% paramTR_index        -  The index of the parameter being estimated.</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% OUTPUTS:</span>
+0013 <span class="comment">% logpdf     -  log-postoterior.</span>
+0014 <span class="comment">% Glogpdf    -  Gradient of the log-posterior.</span>
+0015 <span class="comment">% Hlogpdf    -  Hessian of the log-posterior.</span>
+0016 <span class="comment">% delta_grad -  Last step size of gradient &amp; hessian evaluations.</span>
+0017 
+0018 <span class="comment">%% Defaut values</span>
+0019 getlogpdf           = 0;
+0020 loglik_contribution = 0;
+0021 param_idx_loop      = 0;
+0022 delta_grad          = 1E-3;
+0023 <span class="comment">%% If provided, employ user-specific arguments</span>
+0024 args    = varargin;
+0025 nargs   = length(varargin);
+0026 <span class="keyword">for</span> n = 1:2:nargs
+0027     <span class="keyword">switch</span> args{n}
+0028         <span class="keyword">case</span> <span class="string">'getlogpdf'</span>,           getlogpdf         = args{n+1};
+0029         <span class="keyword">case</span> <span class="string">'loglik_contribution'</span>, loglik_contribution = args{n+1};
+0030         <span class="keyword">case</span> <span class="string">'paramTR_index'</span>,       param_idx_loop      = args{n+1};
+0031         <span class="keyword">case</span> <span class="string">'stepSize4grad'</span>,       delta_grad          = args{n+1};
+0032         <span class="keyword">otherwise</span>, error([<span class="string">'Unrecognized argument'</span> args{n}]) 
+0033     <span class="keyword">end</span>
+0034 <span class="keyword">end</span>
+0035 
+0036 <span class="comment">%% Log-Prior</span>
+0037 parameter_search_idx    = find(~all(isnan(reshape([model.param_properties{:,5}],2,size(model.param_properties,1))'),2));
+0038 nb_param                = length(parameter_search_idx);
+0039 Jacob_TR                = zeros(nb_param,nb_param);
+0040 logPrior                = 0;
+0041 logPrior_loop           = zeros(nb_param,1);
+0042 GlogPrior_loop          = zeros(nb_param,1);
+0043 HlogPrior_loop          = zeros(nb_param,1);
+0044 
+0045 <span class="keyword">if</span> strcmp(option.optim_mode,<span class="string">'MAP'</span>)
+0046     logpriorMu              = [model.param_properties{:,7}];
+0047     logpriorSig             = [model.param_properties{:,8}]; 
+0048     logpriorName            = {model.param_properties{:,6}};
+0049     <span class="keyword">for</span> i = 1:nb_param
+0050         idx                 = parameter_search_idx(i);
+0051         [~,~,grad_TR2OR,~]  = <a href="parameter_transformation_fct.html" class="code" title="function [fct_TR,fct_inv_TR,grad_TR2OR,hessian_TR2OR]=parameter_transformation_fct(model,param_idx_loop)">parameter_transformation_fct</a>(model,idx);
+0052         Jacob_TR(i,i)       = grad_TR2OR (model.parameterTR(idx));
+0053         <span class="keyword">if</span> Jacob_TR(i,i) == Inf
+0054             Jacob_TR(i,i) = realmax(<span class="string">'single'</span>);
+0055         <span class="keyword">elseif</span> Jacob_TR(i,i) == -Inf
+0056             Jacob_TR(i,i) = realmin(<span class="string">'single'</span>); 
+0057         <span class="keyword">end</span>
+0058         [logPrior_loop(i), GlogPrior_loop(i), HlogPrior_loop(i)]= <a href="logPriorDistr.html" class="code" title="function [logprior, Glogprior, Hlogprior]= logPriorDistr(P, Mu, Sigma, varargin)">logPriorDistr</a>(model.parameterTR(idx), logpriorMu(idx), logpriorSig(idx),<span class="string">'distribution'</span>,logpriorName{idx});
+0059          logPrior = logPrior + logPrior_loop(i);
+0060     <span class="keyword">end</span>
+0061 <span class="keyword">elseif</span> strcmp(option.optim_mode,<span class="string">'MLE'</span>)
+0062     Jacob_TR = diag(ones(nb_param,1));
+0063 <span class="keyword">end</span>
+0064 
+0065 <span class="comment">%% Log-likehood</span>
+0066 [~,~,~,~,loglik,~,~] = <a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>(data,model,option);
+0067 log_lik_0            = loglik;
+0068 
+0069 <span class="keyword">if</span> getlogpdf
+0070     logpdf  = loglik + log(abs(det(Jacob_TR))) + logPrior;
+0071     Glogpdf = NaN;
+0072     Hlogpdf = NaN;
+0073 <span class="keyword">else</span>    
+0074     <span class="keyword">if</span> param_idx_loop == 0
+0075         error(<span class="string">'Warning: Index for the optimizing parameter is not assigned '</span>)
+0076     <span class="keyword">end</span>
+0077     [~,~,grad_TR2OR,~]                            = <a href="parameter_transformation_fct.html" class="code" title="function [fct_TR,fct_inv_TR,grad_TR2OR,hessian_TR2OR]=parameter_transformation_fct(model,param_idx_loop)">parameter_transformation_fct</a>(model, param_idx_loop);
+0078     [Gloglik, Hloglik, fail_gradHess, delta_grad] = <a href="#_sub1" class="code" title="subfunction [grad, hessian, fail_gradHess, delta_grad] = gradHess(data, model, option,">gradHess</a>(data, model, option,<span class="keyword">...</span>
+0079                                                              model.parameterTR(param_idx_loop),<span class="keyword">...</span>
+0080                                                              model.parameter(param_idx_loop),<span class="keyword">...</span>
+0081                                                              log_lik_0, grad_TR2OR, delta_grad, param_idx_loop);  
+0082     <span class="keyword">if</span> fail_gradHess
+0083         <span class="keyword">if</span> loglik_contribution
+0084             loglik  = -Inf;
+0085             Gloglik = NaN;
+0086             Hloglik = NaN;
+0087         <span class="keyword">else</span>
+0088             <span class="keyword">if</span> isnan(Gloglik)
+0089                 Gloglik = 0;
+0090             <span class="keyword">end</span>
+0091             Hloglik = NaN;
+0092         <span class="keyword">end</span>    
+0093     <span class="keyword">end</span>
+0094     Glogpdf = Gloglik + sum(GlogPrior_loop);
+0095     Hlogpdf = Hloglik + sum(HlogPrior_loop); 
+0096     logpdf  = loglik  + log(abs(det(Jacob_TR))) + logPrior;
+0097 <span class="keyword">end</span>
+0098 <span class="keyword">end</span>
+0099 <span class="comment">%% Gradient &amp; Hessian of Log-likelihood</span>
+0100 <a name="_sub1" href="#_subfunctions" class="code">function [grad, hessian, fail_gradHess, delta_grad] = gradHess(data, model, option,</a><span class="keyword">...</span>
+0101                                                                 pTR, pOR, log_lik_0, grad_TR2OR,<span class="keyword">...</span>
+0102                                                                 delta_grad, param_idx_loop) 
+0103 hessian_test = 1;
+0104 loop         = 0;
+0105 <span class="keyword">while</span> hessian_test
+0106     loop = loop + 1;
+0107     <span class="keyword">if</span> loop &gt; 5
+0108         <span class="keyword">if</span> grad==0
+0109            grad    = NaN;           
+0110         <span class="keyword">end</span>
+0111         hessian         = NaN;
+0112         fail_gradHess   = 1;
+0113         <span class="keyword">break</span>
+0114     <span class="keyword">else</span>
+0115         fail_gradHess = 0;
+0116     <span class="keyword">end</span>
+0117     [delta_grad, fail_delta_grad, log_lik_1, log_lik_2] = <a href="#_sub2" class="code" title="subfunction [delta_grad, fail_delta_grad, log_lik_1, log_lik_2] = StepSizeOptimization(model, data, option,">StepSizeOptimization</a>(model, data, option,<span class="keyword">...</span>
+0118                                                                                pOR, log_lik_0, delta_grad,<span class="keyword">...</span>
+0119                                                                                param_idx_loop);
+0120     delta_grad_OR = delta_grad*abs(pOR);
+0121     
+0122     <span class="keyword">if</span>  fail_delta_grad
+0123         grad          = NaN;
+0124         hessian       = NaN;
+0125         fail_gradHess = 1;
+0126         <span class="keyword">break</span>
+0127     <span class="keyword">else</span>
+0128         <span class="keyword">if</span> any(~isreal([log_lik_0,log_lik_1,log_lik_2]))
+0129             disp(<span class="string">'           Warning: LL is complex -&gt; LL=real(LL)'</span>)
+0130             log_lik_0 = real(log_lik_0);
+0131             log_lik_1 = real(log_lik_1);
+0132             log_lik_2 = real(log_lik_2);
+0133         <span class="keyword">end</span>
+0134         grad     = ((log_lik_2 - log_lik_1)/(2*delta_grad_OR))*grad_TR2OR(pTR);
+0135         hessian  = ((log_lik_2 - 2*log_lik_0 + log_lik_1)/(delta_grad_OR^2))*grad_TR2OR(pTR)^2;
+0136           
+0137         <span class="keyword">if</span> hessian == 0||grad==0
+0138             delta_grad   = delta_grad * 2;
+0139             hessian_test = 1;
+0140         <span class="keyword">else</span>
+0141             hessian_test = 0;
+0142         <span class="keyword">end</span>
+0143     <span class="keyword">end</span>
+0144 <span class="keyword">end</span>
+0145 <span class="keyword">end</span>
+0146 
+0147 <span class="comment">%% Optimization stepsize for gradien and hessian</span>
+0148 <a name="_sub2" href="#_subfunctions" class="code">function [delta_grad, fail_delta_grad, log_lik_1, log_lik_2] = StepSizeOptimization(model, data, option,</a><span class="keyword">...</span>
+0149                                                                                     pOR, log_lik_0, delta_grad,<span class="keyword">...</span>
+0150                                                                                     param_idx_loop)
+0151 gradThreshold_inf   = 1E-2;
+0152 gradThreshold_sup   = 1E-2;
+0153 stepSize_test       = 1;
+0154 delta_grad_OR       = delta_grad*abs(pOR);
+0155 loop                = 0;
+0156 <span class="keyword">while</span> stepSize_test
+0157     loop = loop + 1;
+0158     <span class="keyword">if</span> loop &gt; 5
+0159         fail_delta_grad = 1;
+0160         log_lik_1       = NaN;
+0161         log_lik_2       = NaN;
+0162         <span class="keyword">break</span>
+0163     <span class="keyword">else</span>
+0164         fail_delta_grad = 0;
+0165     <span class="keyword">end</span>
+0166     <span class="comment">% Log-likehood calculation</span>
+0167     delta_grad_OR           = <a href="#_sub3" class="code" title="subfunction delta_grad_OR = boundaryConditionValidity(model, pOR, delta_grad_OR, param_idx_loop)">boundaryConditionValidity</a>(model, pOR, delta_grad_OR, param_idx_loop);
+0168     log_lik_s               = zeros(1,2);          
+0169     p_LL                    = [model.parameter,model.parameter];
+0170     p_LL(param_idx_loop,1)  = pOR - delta_grad_OR;
+0171     p_LL(param_idx_loop,2)  = pOR + delta_grad_OR;
+0172     model_store             = cell(1,2);
+0173     m_1                     = model;
+0174     m_2                     = model;
+0175     m_1.parameter           = p_LL(:,1);
+0176     m_2.parameter           = p_LL(:,2);
+0177     model_store{1}          = m_1;
+0178     model_store{2}          = m_2;
+0179     <span class="keyword">if</span> option.parallel == 1
+0180         parfor i=1:2
+0181             <span class="comment">% LL calcultation</span>
+0182             [~,~,~,~,log_lik_s(i),~,~]=<a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>(data,model_store{i},option); 
+0183         <span class="keyword">end</span>
+0184     <span class="keyword">else</span>
+0185         <span class="keyword">for</span> i=1:2
+0186             <span class="comment">% LL calcultation</span>
+0187             [~,~,~,~,log_lik_s(i),~,~]=<a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>(data,model_store{i},option); 
+0188         <span class="keyword">end</span>
+0189     <span class="keyword">end</span>
+0190     log_lik_1=log_lik_s(1);
+0191     log_lik_2=log_lik_s(2);
+0192     
+0193     <span class="comment">% Size-step optimization ensure that the gradient can not change too rapidly or slowly</span>
+0194     <span class="keyword">if</span> abs((log_lik_2 - log_lik_1))&lt;=(gradThreshold_inf*delta_grad_OR) <span class="comment">% Gradient Lipschitz</span>
+0195         delta_grad_OR   = 2*delta_grad_OR;
+0196         delta_grad      = delta_grad_OR/abs(pOR);
+0197 
+0198     <span class="keyword">elseif</span> abs((log_lik_2 - log_lik_1)/log_lik_0)&gt;=gradThreshold_sup 
+0199         delta_grad_OR   = delta_grad_OR/2;
+0200         delta_grad      = delta_grad_OR/abs(pOR);
+0201     <span class="keyword">else</span>
+0202         stepSize_test   = 0;
+0203         delta_grad      = delta_grad_OR/abs(pOR);
+0204     <span class="keyword">end</span>
+0205 <span class="keyword">end</span>
+0206 <span class="keyword">end</span>
+0207 
+0208 <span class="comment">%% Validation of boundary</span>
+0209 <a name="_sub3" href="#_subfunctions" class="code">function delta_grad_OR = boundaryConditionValidity(model, pOR, delta_grad_OR, param_idx_loop)</a>
+0210 min_p = model.param_properties{param_idx_loop,5}(1);
+0211 max_p = model.param_properties{param_idx_loop,5}(2);
+0212 
+0213 <span class="keyword">if</span> or((pOR - delta_grad_OR)&lt;min_p,((pOR + delta_grad_OR)&gt;max_p))
+0214     <span class="comment">% self-adaptation step size for each type of parameters</span>
+0215     <span class="keyword">if</span> model.param_properties{param_idx_loop,5}(1)==0&amp;&amp;model.param_properties{param_idx_loop,5}(2)==inf
+0216         <span class="keyword">if</span> (pOR-delta_grad_OR)&lt;min_p
+0217             delta_grad_OR = (pOR-min_p)/10;
+0218         <span class="keyword">else</span>
+0219             delta_grad_OR = (max_p-pOR)/10;
+0220         <span class="keyword">end</span>
+0221     <span class="keyword">else</span>
+0222         <span class="keyword">if</span> (pOR-delta_grad_OR)&lt;min_p
+0223             delta_grad_OR = (pOR-min_p)/2;
+0224         <span class="keyword">else</span>
+0225             delta_grad_OR = (max_p-pOR)/2;
+0226         <span class="keyword">end</span>
+0227     <span class="keyword">end</span>
+0228 <span class="keyword">end</span>
+0229 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

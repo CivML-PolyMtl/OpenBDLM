@@ -1,0 +1,530 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plotStaticKernelRegression</title>
+  <meta name="keywords" content="plotStaticKernelRegression">
+  <meta name="description" content="PLOTSTATICKERNELREGRESSION Plot static kernel regression patterns">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">VisualizationTools</a> &gt; plotStaticKernelRegression.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/VisualizationTools&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>plotStaticKernelRegression
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>PLOTSTATICKERNELREGRESSION Plot static kernel regression patterns</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [FigureNames] = plotStaticKernelRegression(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PLOTSTATICKERNELREGRESSION Plot static kernel regression patterns
+
+   SYNOPSIS:
+     PLOTSTATICKERNELREGRESSION(data, model, estimation, misc, varargin)
+
+   INPUT:
+      data             - structure (required)
+                         see documentation for details about the fields of
+                         data
+
+      model            - structure (required)
+                         see documentation for details about the fields of
+                         model
+
+      estimation       - structure (required)
+                        see documentation for details about the fields of
+                        estimation
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+      isExportPDF      - logical (optional)
+                         if isExportPDF, export the figure in PDF format
+                         default: false
+
+      isExportPNG      - logical (optional)
+                         if isExportPNG, export the figure in PNG format
+                         default: true
+
+      isExportTEX      - logical (optional)
+                         if isExportTEX, export the figure in TEX format
+                         default: false
+
+      FilePath         - character (optional)
+                         directory where to save the file
+                         default: '.'  (current folder)
+
+   OUTPUT:
+      FigureNames      - cell array of character
+                         record name of the saved figures
+      Figure(s) on screen
+      If applicable, figure(s) saved in the location given by FilePath
+
+   DESCRIPTION:
+      PLOTSTATICKERNELREGRESSION plots static regression time series
+
+   EXAMPLES:
+      PLOTSTATICKERNELREGRESSION(data, model, estimation, misc)
+      PLOTSTATICKERNELREGRESSION(data, model, estimation, misc, 'FilePath', 'figures')
+
+   EXTERNAL FUNCTIONS CALLED:
+      exportPlot
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also <a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">EXPORTPLOT</a>, <a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">PLOTESTIMATIONS</a>, <a href="plotPredictedData.html" class="code" title="function [FigureNames] = plotPredictedData(data, model, estimation, misc, varargin)">PLOTPREDICTEDDATA</a>,
+   <a href="plotHiddenStates.html" class="code" title="function [FigureNames] = plotHiddenStates(data, model, estimation, misc, varargin)">PLOTHIDDENSTATES</a>, <a href="plotModelProbability.html" class="code" title="function [FigureNames] = plotModelProbability(data, model, estimation, misc, varargin)">PLOTMODELPROBABILITY</a>, <a href="plotDynamicRegression.html" class="code" title="function [FigureNames] = plotDynamicRegression(data, model, estimation, misc, varargin)">PLOTDYNAMICREGRESSION</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/Static_kernel_component.html" class="code" title="function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)">Static_kernel_component</a>	STATIC_KERNEL_COMPONENT Compute normalized kernel coefficients</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>	DEFINEREFERENCETIMESTEP computes reference timestep of a timestamp vector</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li><li><a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">exportPlot</a>	EXPORTPLOT Export the current figure in TeX file using matlab2tikz</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">plotEstimations</a>	PLOTESTIMATIONS Plot hidden states results</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [FigureNames] = plotStaticKernelRegression(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%PLOTSTATICKERNELREGRESSION Plot static kernel regression patterns</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     PLOTSTATICKERNELREGRESSION(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data             - structure (required)</span>
+0009 <span class="comment">%                         see documentation for details about the fields of</span>
+0010 <span class="comment">%                         data</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      model            - structure (required)</span>
+0013 <span class="comment">%                         see documentation for details about the fields of</span>
+0014 <span class="comment">%                         model</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%      estimation       - structure (required)</span>
+0017 <span class="comment">%                        see documentation for details about the fields of</span>
+0018 <span class="comment">%                        estimation</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      misc             - structure (required)</span>
+0021 <span class="comment">%                         see documentation for details about the fields of</span>
+0022 <span class="comment">%                         misc</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%      isExportPDF      - logical (optional)</span>
+0025 <span class="comment">%                         if isExportPDF, export the figure in PDF format</span>
+0026 <span class="comment">%                         default: false</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%      isExportPNG      - logical (optional)</span>
+0029 <span class="comment">%                         if isExportPNG, export the figure in PNG format</span>
+0030 <span class="comment">%                         default: true</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%      isExportTEX      - logical (optional)</span>
+0033 <span class="comment">%                         if isExportTEX, export the figure in TEX format</span>
+0034 <span class="comment">%                         default: false</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%      FilePath         - character (optional)</span>
+0037 <span class="comment">%                         directory where to save the file</span>
+0038 <span class="comment">%                         default: '.'  (current folder)</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   OUTPUT:</span>
+0041 <span class="comment">%      FigureNames      - cell array of character</span>
+0042 <span class="comment">%                         record name of the saved figures</span>
+0043 <span class="comment">%      Figure(s) on screen</span>
+0044 <span class="comment">%      If applicable, figure(s) saved in the location given by FilePath</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   DESCRIPTION:</span>
+0047 <span class="comment">%      PLOTSTATICKERNELREGRESSION plots static regression time series</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   EXAMPLES:</span>
+0050 <span class="comment">%      PLOTSTATICKERNELREGRESSION(data, model, estimation, misc)</span>
+0051 <span class="comment">%      PLOTSTATICKERNELREGRESSION(data, model, estimation, misc, 'FilePath', 'figures')</span>
+0052 <span class="comment">%</span>
+0053 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0054 <span class="comment">%      exportPlot</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   SUBFUNCTIONS:</span>
+0057 <span class="comment">%      N/A</span>
+0058 <span class="comment">%</span>
+0059 <span class="comment">%   See also EXPORTPLOT, PLOTESTIMATIONS, PLOTPREDICTEDDATA,</span>
+0060 <span class="comment">%   PLOTHIDDENSTATES, PLOTMODELPROBABILITY, PLOTDYNAMICREGRESSION</span>
+0061 
+0062 <span class="comment">%   AUTHORS:</span>
+0063 <span class="comment">%       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet,</span>
+0064 <span class="comment">%</span>
+0065 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0066 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%   MATLAB VERSION:</span>
+0069 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0070 <span class="comment">%</span>
+0071 <span class="comment">%   DATE CREATED:</span>
+0072 <span class="comment">%       June 6, 2018</span>
+0073 <span class="comment">%</span>
+0074 <span class="comment">%   DATE LAST UPDATE:</span>
+0075 <span class="comment">%       June 7, 2018</span>
+0076 
+0077 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0078 
+0079 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0080 p = inputParser;
+0081 
+0082 defaultFilePath = <span class="string">'.'</span>;
+0083 defaultisExportPDF = false;
+0084 defaultisExportPNG = true;
+0085 defaultisExportTEX = false;
+0086 
+0087 validationFonction = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0088     ~isempty(x(~isspace(x)));
+0089 
+0090 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0091 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0092 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0093 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0094 addParameter(p,<span class="string">'isExportPDF'</span>, defaultisExportPDF,  @islogical);
+0095 addParameter(p,<span class="string">'isExportPNG'</span>, defaultisExportPNG,  @islogical);
+0096 addParameter(p,<span class="string">'isExportTEX'</span>, defaultisExportTEX,  @islogical);
+0097 addParameter(p, <span class="string">'FilePath'</span>, defaultFilePath, validationFonction)
+0098 parse(p,data, model, estimation, misc, varargin{:});
+0099 
+0100 data=p.Results.data;
+0101 model=p.Results.model;
+0102 estimation=p.Results.estimation;
+0103 misc=p.Results.misc;
+0104 isExportPDF = p.Results.isExportPDF;
+0105 isExportPNG = p.Results.isExportPNG;
+0106 isExportTEX = p.Results.isExportTEX;
+0107 FilePath=p.Results.FilePath;
+0108 
+0109 <span class="comment">%% Remove space in filename</span>
+0110 <span class="comment">%FilePath = FilePath(~isspace(FilePath));</span>
+0111 
+0112 <span class="comment">%% Create specified path if not existing</span>
+0113 [isFileExist] = <a href="../../../BDLM_DATA_LOADER_9/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FilePath, <span class="string">'dir'</span>);
+0114 <span class="keyword">if</span> ~isFileExist
+0115     <span class="comment">% create directory</span>
+0116     mkdir(FilePath)
+0117     <span class="comment">% set directory on path</span>
+0118     addpath(FilePath)
+0119 <span class="keyword">end</span>
+0120 
+0121 <span class="comment">%% Define timestamp</span>
+0122 <span class="comment">% Get timestamps vector</span>
+0123 timestamps=data.timestamps{1};
+0124 
+0125 <span class="comment">% Get reference timestep</span>
+0126 [referenceTimestep]=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>(timestamps);
+0127 
+0128 <span class="comment">% Define timestamp vector for main plot</span>
+0129 plot_time_1=1:misc.subsample:length(timestamps);
+0130 
+0131 <span class="comment">% Define timestamp vector for secondary plot plot</span>
+0132 <span class="keyword">if</span>  misc.isSecondaryPlots
+0133     
+0134     time_fraction=0.641;
+0135     plot_time_2=round(time_fraction*length(timestamps)): <span class="keyword">...</span>
+0136         round(time_fraction*length(timestamps))+(14/referenceTimestep);
+0137 <span class="keyword">end</span>
+0138 
+0139 <span class="comment">%% Define paramater for plot appeareance</span>
+0140 <span class="comment">% Get subplot parameter</span>
+0141 <span class="keyword">if</span> ~misc.isSecondaryPlots
+0142     idx_supp_plot=1;
+0143 <span class="keyword">else</span>
+0144     idx_supp_plot=0;
+0145 <span class="keyword">end</span>
+0146 
+0147 <span class="comment">% Define X-axis lag</span>
+0148 Xaxis_lag=50;
+0149 
+0150 <span class="comment">% Define blue color for plots</span>
+0151 BlueColor = [0, 0.4, 0.8];
+0152 
+0153 <span class="comment">% Get number of time series</span>
+0154 numberOfTimeSeries = length(data.labels);
+0155 
+0156 <span class="comment">%% Plot static kernel regression hidden states for each time series</span>
+0157 <span class="comment">% Loop over time series</span>
+0158 <span class="keyword">for</span> obs=1:numberOfTimeSeries
+0159     
+0160     <span class="comment">% Get data labels</span>
+0161     labels=data.labels{obs};
+0162     
+0163     <span class="comment">% Get hidden states associated to this observation</span>
+0164     TestNameHiddenStates = <span class="keyword">...</span>
+0165         strfind(model.hidden_states_names{1}(:,3), labels);
+0166     IndexNameHiddenStates = <span class="keyword">...</span>
+0167         find(not(cellfun(<span class="string">'isempty'</span>, TestNameHiddenStates )));
+0168     
+0169     hidden_states_names_sub =  <span class="keyword">...</span>
+0170         model.hidden_states_names{1}(IndexNameHiddenStates,:);
+0171     
+0172     <span class="comment">% Get parameters associated to this observation</span>
+0173     
+0174     strs=model.param_properties(:,4);
+0175     strs(cellfun(<span class="string">'isempty'</span>,strs)) = [];
+0176     
+0177     TestNameParameters = <span class="keyword">...</span>
+0178         strfind(strs, labels);
+0179     IndexNameParameters = <span class="keyword">...</span>
+0180         find(not(cellfun(<span class="string">'isempty'</span>,  TestNameParameters)));
+0181     
+0182     <span class="comment">% Get parameter properties</span>
+0183     param_properties_sub =  model.param_properties(IndexNameParameters,:);
+0184     
+0185     <span class="comment">% Get estimated current parameter values</span>
+0186     parameter_sub = model.parameter(IndexNameParameters,:);
+0187     
+0188     <span class="keyword">if</span> isfield(estimation, <span class="string">'ref'</span>)
+0189     <span class="comment">% Get true parameter values</span>
+0190         parameter_ref_sub = model.ref.parameter(IndexNameParameters,:);
+0191     <span class="keyword">end</span>
+0192     
+0193     <span class="comment">%% Get amplitude values to plot</span>
+0194     <span class="comment">% Estimated hidden states values</span>
+0195     <span class="keyword">if</span> isfield(estimation, <span class="string">'x'</span>)
+0196         <span class="comment">% mean values</span>
+0197         estimation_x_sub = estimation.x_M{1,1}(IndexNameHiddenStates,:);
+0198         <span class="comment">% variance value</span>
+0199         estimation_V_sub = <span class="keyword">...</span>
+0200             estimation.V_M{1,1}(IndexNameHiddenStates,IndexNameHiddenStates,:);
+0201     <span class="keyword">end</span>
+0202     
+0203     <span class="keyword">if</span> isfield(estimation, <span class="string">'ref'</span>)
+0204         estimation_ref_sub = estimation.ref(:,IndexNameHiddenStates);
+0205     <span class="keyword">end</span>
+0206     
+0207     numberOfHiddenStates_sub = size(hidden_states_names_sub,1);
+0208     
+0209     <span class="keyword">for</span> idx=1:numberOfHiddenStates_sub
+0210         <span class="keyword">if</span> and(strncmpi(hidden_states_names_sub(idx,1),<span class="string">'x^{SK'</span>,5), <span class="keyword">...</span>
+0211                 ~strcmp(hidden_states_names_sub(idx,1),<span class="string">'x^{SK1}'</span>))
+0212             Kernel_regression=<span class="string">'SK'</span>;
+0213             <span class="keyword">break</span>
+0214             
+0215         <span class="keyword">else</span>
+0216             FigureNames{obs} = [];
+0217             Kernel_regression=[];
+0218         <span class="keyword">end</span>
+0219     <span class="keyword">end</span>
+0220        
+0221     
+0222     <span class="keyword">if</span> isempty(Kernel_regression)
+0223         <span class="keyword">continue</span>
+0224     <span class="keyword">end</span>
+0225     
+0226     
+0227     <span class="comment">% Get model parameters index corresponding to static kernel regression</span>
+0228     K_p_idx=[];
+0229     K_idx=[];
+0230     <span class="keyword">for</span> i=1:size(param_properties_sub,1)
+0231         <span class="keyword">if</span> strcmp(param_properties_sub(i,2),Kernel_regression)
+0232             K_idx=[K_idx i];
+0233             <span class="keyword">if</span> strcmp(param_properties_sub(i,1),<span class="string">'p'</span>)
+0234                 K_p_idx=[K_p_idx i];
+0235             <span class="keyword">end</span>
+0236         <span class="keyword">end</span>
+0237     <span class="keyword">end</span>
+0238     
+0239     <span class="comment">% Get hidden states index corresponding to static kernel regression</span>
+0240     K_x_idx=[];
+0241     <span class="keyword">for</span> i=1:size(hidden_states_names_sub,1)
+0242         <span class="keyword">if</span> strncmpi(hidden_states_names_sub(i,1),[<span class="string">'x^{'</span> Kernel_regression],5)
+0243             K_x_idx=[K_x_idx i];
+0244         <span class="keyword">end</span>
+0245     <span class="keyword">end</span>
+0246     
+0247     FigHandle = figure(<span class="string">'DefaultAxesPosition'</span>, [0.1, 0.17, 0.8, 0.8]);
+0248     set(FigHandle, <span class="string">'Position'</span>, [100, 100, 1300, 270])
+0249     subplot(1,3,1:2+idx_supp_plot,<span class="string">'align'</span>)
+0250     
+0251     xpl=zeros(1,length(plot_time_1));
+0252     spl=zeros(1,length(plot_time_1));
+0253     
+0254     <span class="comment">%% Main plot</span>
+0255     <span class="keyword">if</span> isfield(estimation,<span class="string">'x'</span>)
+0256         
+0257         p_KRHC=parameter_sub(1:length(parameter_sub));
+0258         p_KRHC=p_KRHC(K_idx(2:end));
+0259         
+0260         <span class="comment">% Plot estimated values</span>
+0261         <span class="keyword">for</span> i=plot_time_1
+0262             CP=estimation_x_sub(K_x_idx,i)'; <span class="comment">% mean</span>
+0263             CPS=estimation_V_sub(K_x_idx,K_x_idx,i)'; <span class="comment">% variance</span>
+0264             
+0265             <span class="keyword">if</span> strcmp(Kernel_regression,<span class="string">'SK'</span>)
+0266                 k=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/Static_kernel_component.html" class="code" title="function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)">Static_kernel_component</a>(p_KRHC,timestamps(i), <span class="keyword">...</span>
+0267                     timestamps(1),model.components.nb_SK_p);
+0268             <span class="keyword">end</span>
+0269             xpl(i)=CP*k';
+0270             spl(i)=k*CPS*k';
+0271         <span class="keyword">end</span>
+0272         mean_xpl=mean(xpl(round(0.25*length(xpl)):end));
+0273         std_xpl=std(xpl(round(0.25*length(xpl)):end));
+0274         mult_factor=3;
+0275         miny=mean_xpl-mult_factor*std_xpl;
+0276         maxy=mean_xpl+mult_factor*std_xpl;
+0277         
+0278         px=[timestamps(plot_time_1); flipud(timestamps(plot_time_1))]';
+0279         py=[xpl-sqrt(spl), fliplr(xpl+sqrt(spl))];
+0280         patch(px,py,<span class="string">'green'</span>,<span class="string">'EdgeColor'</span>,<span class="string">'none'</span>, <span class="keyword">...</span>
+0281             <span class="string">'FaceColor'</span>,<span class="string">'green'</span>,<span class="string">'FaceAlpha'</span>,0.2);
+0282         hold on
+0283         plot(timestamps(plot_time_1),xpl,<span class="string">'k'</span>,<span class="string">'Linewidth'</span>,misc.linewidth)
+0284         hold on
+0285         
+0286         <span class="comment">% Plot true values</span>
+0287         <span class="keyword">if</span> isfield(estimation,<span class="string">'ref'</span>)
+0288             
+0289             p_KRHC_ref=parameter_ref_sub(1:length(parameter_ref_sub));
+0290             p_KRHC_ref=p_KRHC_ref(K_idx(2:end));
+0291             
+0292             <span class="keyword">for</span> i=plot_time_1
+0293                 CP=estimation_ref_sub(i,K_x_idx);
+0294                 <span class="keyword">if</span> strcmp(Kernel_regression,<span class="string">'SK'</span>)
+0295                     k=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/Static_kernel_component.html" class="code" title="function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)">Static_kernel_component</a>(p_KRHC_ref,timestamps(i), <span class="keyword">...</span>
+0296                         timestamps(1),model.ref.components.nb_SK_p);
+0297                 <span class="keyword">end</span>
+0298                 xpl(i)=CP*k';
+0299             <span class="keyword">end</span>
+0300             plot(timestamps(plot_time_1),xpl,<span class="string">'--r'</span>)
+0301             
+0302         <span class="keyword">end</span>
+0303         
+0304     <span class="keyword">else</span>
+0305         
+0306         <span class="comment">% Plot true values</span>
+0307         p_KRHC_ref=parameter_ref_sub(1:length(parameter_ref_sub));
+0308         p_KRHC_ref=p_KRHC_ref(K_idx(2:end));
+0309         
+0310         <span class="keyword">for</span> i=plot_time_1
+0311             CP=estimation_ref_sub(i,K_x_idx);
+0312             k=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/Static_kernel_component.html" class="code" title="function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)">Static_kernel_component</a>(p_KRHC_ref,timestamps(i), <span class="keyword">...</span>
+0313                 timestamps(1),model.ref.components.nb_SK_p);
+0314             xpl(i)=CP*k';
+0315         <span class="keyword">end</span>
+0316         plot(timestamps(plot_time_1),xpl,<span class="string">'Color'</span>, BlueColor,  <span class="keyword">...</span>
+0317             <span class="string">'LineWidth'</span>, misc.linewidth)
+0318     <span class="keyword">end</span>
+0319     
+0320     set(gca,<span class="string">'XTick'</span> ,linspace(timestamps(plot_time_1(1)), <span class="keyword">...</span>
+0321         timestamps(plot_time_1(size(timestamps(plot_time_1),1))), <span class="keyword">...</span>
+0322         misc.ndivx),<span class="keyword">...</span>
+0323         <span class="string">'YTick'</span>            ,linspace(min(xpl),max(xpl),misc.ndivy),<span class="keyword">...</span>
+0324         <span class="string">'Ylim'</span>             ,[min(xpl),max(xpl)],<span class="keyword">...</span>
+0325         <span class="string">'box'</span>              ,<span class="string">'off'</span>, <span class="string">'Fontsize'</span>, 16);
+0326     datetick(<span class="string">'x'</span>,<span class="string">'yy-mm'</span>,<span class="string">'keepticks'</span>)
+0327     xlabel(<span class="string">'Time [YY-MM]'</span>)
+0328     ylabel([<span class="string">'SK component'</span>, <span class="string">' ['</span>, labels ,<span class="string">']'</span>], <span class="string">'Interpreter'</span>,<span class="string">'Latex'</span>)
+0329     xlim([timestamps(1)-Xaxis_lag,timestamps(end)])
+0330     hold off
+0331     
+0332     <span class="comment">%% Secondary plots</span>
+0333     <span class="keyword">if</span> misc.isSecondaryPlots
+0334         subplot(1,3,3,<span class="string">'align'</span>)
+0335         
+0336         xpl=zeros(1,length(plot_time_2));
+0337         spl=zeros(1,length(plot_time_2));
+0338         
+0339         <span class="comment">% Plot estimated values</span>
+0340         <span class="keyword">if</span> isfield(estimation,<span class="string">'x'</span>)
+0341             
+0342             pos=0;
+0343             <span class="keyword">for</span> i=plot_time_2
+0344                 pos=pos+1;
+0345                 CP=estimation_x_sub(K_x_idx,i)'; <span class="comment">% posterior mean</span>
+0346                 CPS=estimation_V_sub(K_x_idx,K_x_idx,i)'; <span class="comment">% posterior variance</span>
+0347                 k=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/Static_kernel_component.html" class="code" title="function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)">Static_kernel_component</a>(p_KRHC,timestamps(i), <span class="keyword">...</span>
+0348                     timestamps(1),model.components.nb_SK_p);
+0349                 xpl(pos)=CP*k';
+0350                 spl(pos)=k*CPS*k';
+0351             <span class="keyword">end</span>
+0352             mean_xpl=mean(xpl(round(0.25*length(xpl)):end));
+0353             std_xpl=std(xpl(round(0.25*length(xpl)):end));
+0354             mult_factor=3;
+0355             miny=mean_xpl-mult_factor*std_xpl;
+0356             maxy=mean_xpl+mult_factor*std_xpl;
+0357             
+0358             px=[timestamps(plot_time_2); flipud(timestamps(plot_time_2))]';
+0359             py=[xpl-sqrt(spl), fliplr(xpl+sqrt(spl))];
+0360             patch(px,py,<span class="string">'green'</span>,<span class="string">'EdgeColor'</span>,<span class="string">'none'</span>, <span class="keyword">...</span>
+0361                 <span class="string">'FaceColor'</span>,<span class="string">'green'</span>,<span class="string">'FaceAlpha'</span>,0.2);
+0362             hold on
+0363             plot(timestamps(plot_time_2),xpl,<span class="string">'k'</span>,<span class="string">'Linewidth'</span>,misc.linewidth)
+0364             hold on
+0365             
+0366             <span class="comment">% Plot true values</span>
+0367             <span class="keyword">if</span> isfield(estimation,<span class="string">'ref'</span>)
+0368                 
+0369                 pos=0;
+0370                 <span class="keyword">for</span> i=plot_time_2
+0371                     pos=pos+1;
+0372                     CP=estimation_ref_sub(i,K_x_idx);
+0373                     k=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/Static_kernel_component.html" class="code" title="function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)">Static_kernel_component</a>(p_KRHC_ref,timestamps(i), <span class="keyword">...</span>
+0374                         timestamps(1),model.ref.components.nb_SK_p);
+0375                     xpl(pos)=CP*k';
+0376                 <span class="keyword">end</span>
+0377                 plot(timestamps(plot_time_2),xpl,<span class="string">'--r'</span>)
+0378             <span class="keyword">end</span>
+0379             
+0380         <span class="keyword">else</span>
+0381             
+0382             <span class="comment">% Plot true values</span>
+0383             pos=0;
+0384             <span class="keyword">for</span> i=plot_time_2
+0385                 pos=pos+1;
+0386                 CP=estimation_ref_sub(i,K_x_idx);
+0387                 k=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/Static_kernel_component.html" class="code" title="function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)">Static_kernel_component</a>(p_KRHC_ref,timestamps(i), <span class="keyword">...</span>
+0388                     timestamps(1),model.ref.components.nb_SK_p);
+0389                 xpl(pos)=CP*k';
+0390             <span class="keyword">end</span>
+0391             plot(timestamps(plot_time_2),xpl,<span class="string">'Color'</span>, BlueColor,  <span class="keyword">...</span>
+0392                 <span class="string">'LineWidth'</span>, misc.linewidth)
+0393             
+0394         <span class="keyword">end</span>
+0395                
+0396         set(gca,<span class="string">'XTick'</span>,linspace(timestamps(plot_time_2(1)), <span class="keyword">...</span>
+0397             timestamps(plot_time_2(end)),misc.ndivx),<span class="keyword">...</span>
+0398             <span class="string">'box'</span>  ,<span class="string">'off'</span>, <span class="keyword">...</span>
+0399             <span class="string">'YTick'</span>, [], <span class="keyword">...</span>
+0400             <span class="string">'Fontsize'</span>, 16);
+0401         datetick(<span class="string">'x'</span>,<span class="string">'mm-dd'</span>,<span class="string">'keepticks'</span>)
+0402         year=datevec(timestamps(plot_time_2(1)));
+0403         xlabel([<span class="string">'Time ['</span> num2str(year(1)) <span class="string">'--MM-DD]'</span>])
+0404         hold off
+0405     <span class="keyword">end</span>
+0406     
+0407     <span class="comment">%% Export plots</span>
+0408     <span class="keyword">if</span> isExportPDF || isExportPNG || isExportTEX
+0409         
+0410         NameFigure = [ labels, <span class="string">'_'</span>, Kernel_regression];
+0411         
+0412         FigureNames{obs} = NameFigure;
+0413         
+0414         <span class="comment">% Export figure to location given by FilePath</span>
+0415         <a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">exportPlot</a>(NameFigure, <span class="string">'FilePath'</span>, FilePath,  <span class="keyword">...</span>
+0416             <span class="string">'isExportPDF'</span>, isExportPDF, <span class="keyword">...</span>
+0417             <span class="string">'isExportPNG'</span>, isExportPNG, <span class="keyword">...</span>
+0418             <span class="string">'isExportTEX'</span>, isExportTEX);
+0419     <span class="keyword">else</span>
+0420         FigureNames{1}=[];
+0421     <span class="keyword">end</span>
+0422     
+0423 <span class="keyword">end</span>
+0424 <span class="comment">%--------------------END CODE ------------------------</span>
+0425 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>
