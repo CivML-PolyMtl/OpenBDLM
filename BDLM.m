@@ -5,6 +5,8 @@
 % clear
 % clc
 
+% Ha et Ianis
+
 % define global variable for user's answers from input file
 global isAnswersFromFile AnswersFromFile AnswersIndex
 
