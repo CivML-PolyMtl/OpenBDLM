@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 JUL 2018 17:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  6 JUL 2018 17:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -332,14 +332,21 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 166.
  (./DOC.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 166.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 166.
-Package rerunfilecheck Info: File `DOC.out' has not changed.
-(rerunfilecheck)             Checksum: 0B91A64734564AA48C0C95C7F0437103;5242.
+
+
+Package rerunfilecheck Warning: File `DOC.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `DOC.out':
+(rerunfilecheck)             Before: 0B91A64734564AA48C0C95C7F0437103;5242
+(rerunfilecheck)             After:  4A416D678038039EAD844497E2A04D39;5238.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 166.
  ) 
 Here is how much of TeX's memory you used:
  5059 strings out of 493014
  74502 string characters out of 6133351
- 161305 words of memory out of 5000000
+ 161303 words of memory out of 5000000
  8489 multiletter control sequences out of 15000+600000
  9460 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -351,7 +358,7 @@ usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
 r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/
 local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/l
 ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on DOC.pdf (34 pages, 131381 bytes).
+Output written on DOC.pdf (34 pages, 131835 bytes).
 PDF statistics:
  605 PDF objects out of 1000 (max. 8388607)
  556 compressed objects within 6 object streams
