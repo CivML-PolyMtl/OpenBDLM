@@ -1,5 +1,5 @@
 function [data, model, estimation, misc]=configureModelForDataReal(data, model, estimation , misc)
-%CONFIGUREMODELFORDATAREAL configures model for BDLM analysis based on real data
+%CONFIGUREMODELFORDATAREAL Configure model for BDLM analysis based on real data
 %
 %   SYNOPSIS:
 %      [data, model, estimation, misc]=CONFIGUREMODELFORDATAREAL(data, model, estimation, misc)

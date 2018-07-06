@@ -1,5 +1,5 @@
 function [Index]=day2sampleIndex(day, timestamps)
-%DAY2SAMPLEINDEX converts a number of days to timestamp index
+%DAY2SAMPLEINDEX Convert a number of days to timestamp index
 %
 %   SYNOPSIS:
 %     [Index]=DAY2SAMPLEINDEX(day, timestamps)

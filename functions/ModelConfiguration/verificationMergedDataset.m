@@ -1,5 +1,5 @@
 function [isMerged]=verificationMergedDataset(data)
-%VERIFICATIONMERGEDDATASET returns true if the time series are merged
+%VERIFICATIONMERGEDDATASET Return true if the time series are merged
 %
 %   SYNOPSIS:
 %     [output_1,output_2, output_3]=VERIFICATIONMERGEDDATASET(input_1,input_2)
@@ -50,7 +50,7 @@ function [isMerged]=verificationMergedDataset(data)
 %       April 19, 2018
 % 
 %   DATE LAST UPDATE:
-%       April 19, 2018
+%       July 2, 2018
  
 %--------------------BEGIN CODE ---------------------- 
  %% Get arguments passed to the function and proceed to some verifications
@@ -65,8 +65,9 @@ data=p.Results.data;
 isValid = verificationDataStructure(data);
 if ~isValid
     disp(' ')
-    disp('ERROR: Unable to read the data from the structure.')
+    disp('     ERROR: Unable to read the data from the structure.')
     disp(' ')
+    isMerged = false;
     return
 end
  

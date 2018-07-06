@@ -1,5 +1,5 @@
 function [FileInfo] = displayDataBinary(varargin)
-%DISPLAYDATABINARY displays the list of DATA_*.mat files
+%DISPLAYDATABINARY Display the list of DATA_*.mat files
 %
 %   SYNOPSIS:
 %      [FileInfo] = DISPLAYDATABINARY(varargin)

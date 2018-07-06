@@ -1,5 +1,5 @@
 function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)
-%DEFINEREFERENCETIMESTEP computes reference timestep of a timestamp vector
+%DEFINEREFERENCETIMESTEP Compute reference timestep of a timestamp vector
 %
 %   SYNOPSIS:
 %     [referencetimestep]=DEFINEREFERENCETIMESTEP(ts)
@@ -18,7 +18,7 @@ function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)
 %   EXAMPLES:
 %     [referencetimestep] = DEFINEREFERENCETIMESTEP(timestamp)
 %
-%   See also CONFIGURE, CONFIGUREREAL, CONFIGURESIMULATION
+%   See also 
 
 %   AUTHORS:
 %      James-A Goulet, Luong Ha Nguyen, Ianis Gaudot

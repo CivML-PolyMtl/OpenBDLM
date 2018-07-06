@@ -32,18 +32,18 @@ function plotData(data, model, estimation, misc, varargin)
 %                         see documentation for details about the fields of
 %                         misc
 %
-%      FilePath - character (optional)
-%                   directory where to save the plot
-%                   defaut: '.'  (current folder)
+%      FilePath         - character (optional)
+%                         directory where to save the plot
+%                         defaut: '.'  (current folder)
 %
-%      isSaveFigure - logical (optionnal)
-%                     if isSaveFigures = true, save figures in FilePath in
-%                     .fig format
-%                     default = true
+%      isSaveFigures    - logical (optionnal)
+%                         if isSaveFigures = true, save figures in FilePath in
+%                         .fig format
+%                         default = false
 %
-%      isPdf    - logical (optional)
-%                 if true, build and open a PDF file with all figures
-%                 default: false
+%      isPdf            - logical (optional)
+%                         if true, build and open a PDF file with all figures
+%                         default: false
 %
 %   OUTPUT:
 %      One figure for each time series.
@@ -92,7 +92,7 @@ p = inputParser;
 
 defaultFilePath = '.';
 defaultisPdf = false;
-defaultisSaveFigures = true;
+defaultisSaveFigures = false;
 
 validationFct_FilePath = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));

@@ -1,4 +1,4 @@
-function [data]=readMultipleCSVFiles(CSVFileList, varargin)
+function [data]=readMultipleCSVFiles(varargin)
 %READMULTIPLECSVFILES Read data from .csv files
 %
 %   SYNOPSIS:
@@ -50,7 +50,7 @@ function [data]=readMultipleCSVFiles(CSVFileList, varargin)
 %      April 10, 2018
 %
 %   DATE LAST UPDATE:
-%      April 18, 2018
+%      July 2, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -73,94 +73,152 @@ isPlot=p.Results.isPlot;
 global isAnswersFromFile AnswersFromFile AnswersIndex
 
 %% Request CSVFileList from user
-
-while(1)
-    disp(' ')
-    fprintf(['Provide a list of .CSV filename to process ' ...
-        '(e.g. {''raw_data/data_Tamar/*.csv'', ''disp_001.csv''}) :  \n'])
-    if isAnswersFromFile
+if isAnswersFromFile
+    while(1)
+        
+        disp(' ')
+        fprintf(['Provide a list of .CSV filename to process ' ...
+            '(e.g. {''raw_data/data_Tamar/*.csv'', ''disp_001.csv''}) :  \n'])
         CSVFileList=eval(char(AnswersFromFile{1}(AnswersIndex)));
         disp(CSVFileList)
-    else
-        CSVFileList=input('     list of filenames >> ');
-    end
-    
-    if ~iscellstr(CSVFileList)
-        disp(' ')
-        disp('     wrong input -> should be a cell array of character vectors. ')
-        disp(' ')
-        continue   
-    elseif isempty(CSVFileList)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%')
-        disp('                                                         ')
-        fprintf([' The list of filenames should provide the location' ...
-            '(path + filename) of the ''.csv'' raw data files.\n'])
-        fprintf(' Star wildcard (asterisk) is supported.\n')
-        fprintf([' The list should be provided using a cell ' ...
-            'array of character vectors.\n'])
-        fprintf([' Example : {''./raw_data/data_Tamar/*.csv''} looks for '...
-        'all files with a ''.csv'' extension in the directory with path ' ...
-        '''./raw_data/data_Tamar/'' which is relative to the current' ...
-        'working directory.\n '])
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        continue
-    else        
-        break
-    end
-end
-
-% Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1;
-
-%% Clean the list of CSV files
-
-% Remove empty fields
-
-CSVFileList=CSVFileList(~cellfun(@isempty, CSVFileList));
-
-if isempty(CSVFileList)
-    disp(' ')
-    disp('WARNING: File list is empty.')
-    disp(' ')
-    data.timestamps=[];
-    data.values=[];
-    data.labels=[];
-    return
-end
-
-%Remove redundant fields
-CSVFileList=unique(CSVFileList);
-
-%% Loop over single CSV file and read data
-inc=0;
-% loop over list of csv files
-for i=1:length(CSVFileList)
-    
-    %  get the path and all info about each file
-    InfoFile=dir(CSVFileList{i});
-    
-    % remove '.' and '..' and '.DS_Store' files from the list of files
-    InfoFile=InfoFile(~ismember({InfoFile.name},{'.','..', '.DS_Store'}));
-    
-    % test the existence of the group of files identified by the search
-    % pattern
-    if isempty(InfoFile)  % the file does not exist
-        disp(' ')
-        fprintf('%s is not found.', CSVFileList{i})
-        disp(' ')
-        continue
-    else % the file exists
+        %     else
+        %         CSVFileList=input('     list of filenames >> ');
+        %     end
         
-        for j=1:length(InfoFile)
+        if ~iscellstr(CSVFileList)
+            disp(' ')
+            disp('     wrong input -> should be a cell array of character vectors. ')
+            disp(' ')
+            continue
+        elseif isempty(CSVFileList)
+            disp(' ')
+            disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%')
+            disp('                                                         ')
+            fprintf([' The list of filenames should provide the location' ...
+                '(path + filename) of the ''.csv'' raw data files.\n'])
+            fprintf(' Star wildcard (asterisk) is supported.\n')
+            fprintf([' The list should be provided using a cell ' ...
+                'array of character vectors.\n'])
+            fprintf([' Example : {''./raw_data/data_Tamar/*.csv''} looks for '...
+                'all files with a ''.csv'' extension in the directory with path ' ...
+                '''./raw_data/data_Tamar/'' which is relative to the current' ...
+                'working directory.\n '])
+            disp(' ')
+            disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
+            disp(' ')
+            continue
             
+        else
+            %         else
+            %             break
+            %         end
+            %     end
+            
+            %     % Increment global variable to read next answer when required
+            %     AnswersIndex = AnswersIndex + 1;
+            
+            %% Clean the list of CSV files
+            
+            % Remove empty fields
+            
+            CSVFileList=CSVFileList(~cellfun(@isempty, CSVFileList));
+            
+            if isempty(CSVFileList)
+                disp(' ')
+                disp('WARNING: File list is empty.')
+                disp(' ')
+                data.timestamps=[];
+                data.values=[];
+                data.labels=[];
+                return
+            end
+            
+            %Remove redundant fields
+            CSVFileList=unique(CSVFileList);
+            
+            %% Loop over single CSV file and read data
+            inc=0;
+            % loop over list of csv files
+            for i=1:length(CSVFileList)
+                
+                %  get the path and all info about each file
+                InfoFile=dir(CSVFileList{i});
+                
+                % remove '.' and '..' and '.DS_Store' files from the list of files
+                InfoFile=InfoFile(~ismember({InfoFile.name},{'.','..', '.DS_Store'}));
+                
+                % test the existence of the group of files identified by the search
+                % pattern
+                if isempty(InfoFile)  % the file does not exist
+                    disp(' ')
+                    fprintf('%s is not found.', CSVFileList{i})
+                    disp(' ')
+                    continue
+                else % the file exists
+                    
+                    for j=1:length(InfoFile)
+                        
+                        inc=inc+1;
+                        
+                        % Get path of the file
+                        filename=InfoFile(j).name;
+                        PathFile=which(filename);
+                        
+                        % Read the file
+                        [dat,label] = readSingleCSVFile(PathFile, 'isQuiet', false);
+                        
+                        if isempty(dat) && isempty(label)
+                            %                 disp(' ')
+                            %                 fprintf('WARNING: Skip file. \n')
+                        else
+                            % Store in structure array
+                            data.timestamps{inc} = dat(:,1);
+                            data.values{inc} = dat(:,2);
+                            data.labels{inc} = label;
+                        end
+                    end
+                    
+                end
+                
+                
+            end
+            
+        end
+        
+        if ~exist('data', 'var')
+            continue
+        else
+            % Increment global variable to read next answer when required
+            AnswersIndex = AnswersIndex + 1;
+            break
+        end
+               
+    end
+    
+else
+    
+    while(1)
+        % Open GUI to select multiple .*CSV files
+        Info = uipickfiles('Prompt', 'Choose .csv raw data files', ...
+            'Filter', '*.csv');
+        
+        if iscell(Info)
+            IndexC = strfind(Info, '.DS_Store');
+            Index = find(not(cellfun('isempty', IndexC)));
+            if ~isempty(Index)
+                Info{Index} = [];
+            end
+        end
+        
+        if ~iscell(Info) || isempty(Info(~cellfun(@isempty, Info)))
+            disp('     Error: No valid file was selected.')
+            continue
+        end
+        
+        inc=0;
+        for j=1:length(Info)
             inc=inc+1;
-            
-            % Get path of the file
-            filename=InfoFile(j).name;
-            PathFile=which(filename);
+            PathFile = Info{j};
             
             % Read the file
             [dat,label] = readSingleCSVFile(PathFile, 'isQuiet', false);
@@ -174,32 +232,27 @@ for i=1:length(CSVFileList)
                 data.values{inc} = dat(:,2);
                 data.labels{inc} = label;
             end
+            
+        end        
+        
+        if ~exist('data', 'var')
+            continue
+        else
+            break
         end
         
     end
     
 end
 
-% Stop if no data have been retained
-if ~exist('data', 'var')
-    disp(' ')
-    disp('WARNING: No valid data have been found.')
-    disp(' ')
-    data.timestamps=[];
-    data.values=[];
-    data.labels=[];
-    return
-    
-else
-    
-    if isPlot
-        plotData(data, 'FigurePath', 'figures')
-    end
-    
-    if isOutputFile
-        saveDataBinary(data, 'FilePath','processed_data')
-    end
-    
+% Plot of requested
+if isPlot
+    plotData(data, 'FigurePath', 'figures')
+end
+
+% Save in binary file if requested
+if isOutputFile
+    saveDataBinary(data, 'FilePath','processed_data')
 end
 %--------------------END CODE ------------------------
 end

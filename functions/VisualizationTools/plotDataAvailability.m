@@ -41,7 +41,7 @@ function plotDataAvailability(data, varargin)
 %      Format of output figures: Matlab fig and pdf
 %
 %   EXAMPLES:
-%      PLOTDATAAVAILABILITY(S.data)
+%      PLOTDATAAVAILABILITY(data)
 %      PLOTDATAAVAILABILITY(data, 'FilePath', './figures/')
 %      PLOTDATAAVAILABILITY(data, 'FilePath', './figures/', 'isSaveFigures', true)
 %

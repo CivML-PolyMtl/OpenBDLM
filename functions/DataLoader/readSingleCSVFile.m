@@ -63,20 +63,26 @@ function [dat,label]=readSingleCSVFile(FileToRead, varargin)
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 
+validationFct_FileToRead = @(x) ischar(x) && ...
+    ~isempty(x(~isspace(x)));
+
 defaultisQuiet = true;
-addRequired(p,'FileToRead', @ischar );
-addOptional(p,'isQuiet', defaultisQuiet, @islogical );
+addRequired(p,'FileToRead', validationFct_FileToRead );
+addParameter(p,'isQuiet', defaultisQuiet, @islogical );
 parse(p,FileToRead, varargin{:});
 
 FileToRead=p.Results.FileToRead;
 isQuiet=p.Results.isQuiet;
 
+% Create file path if not existing
+[isFileExist] = testFileExistence(FileToRead, 'file');
+
 % Test the existence of the file
-if exist(FileToRead, 'file') ~= 2 || isempty(FileToRead)
+if ~isFileExist || isempty(FileToRead)
     
     if ~isQuiet && ~isempty(FileToRead)
         disp(' ')
-        fprintf('%s does not exist.\n', FileToRead)
+        fprintf('%s does not exist as a file.\n', FileToRead)
         disp(' ')
     elseif ~isQuiet && isempty(FileToRead)
         disp(' ')
@@ -87,6 +93,8 @@ if exist(FileToRead, 'file') ~= 2 || isempty(FileToRead)
     label=[];
     return
 end
+
+
 %% Open and read the file, throw error if unknown formatting
 fileID=fopen(FileToRead, 'r');
 try

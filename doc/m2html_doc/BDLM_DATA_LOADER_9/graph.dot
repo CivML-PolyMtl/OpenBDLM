@@ -1,6 +1,0 @@
-/* Created by mdot for Matlab */
-digraph m2html {
-
-  BDLM [URL="BDLM.html"];
-  demo_1 [URL="demo_1.html"];
-}

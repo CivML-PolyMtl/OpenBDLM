@@ -1,11 +1,10 @@
 0
-'LTU1'
+'TEST_4'
 'no'
 0
-{'./raw_data/data_LaTuque/*.csv'}
+{'./raw_data/data_syntheticr/*.csv','./raw_data/data_synthetic/*.csv' }
 1
-'LTU1'
+'TEST_4'
 1
-[12 52 41]
-1
-2
+[11]
+31

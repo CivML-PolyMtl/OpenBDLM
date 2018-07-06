@@ -117,7 +117,7 @@ if disp_flag==1
     disp(['      Learning Rate mode                                     ' learningRate_mode])
     disp(['      Training period:                                       ' num2str(misc.trainingPeriod(1)) '-' num2str(misc.trainingPeriod(2)) ' [days]'])
     disp(['      Validation set portion:                                ' num2str(alpha_split) ' [%]'])
-    disp(['      Trainig set:                                           ' num2str(size(data_train.values,1)) ' [data points]'])
+    disp(['      Training set:                                           ' num2str(size(data_train.values,1)) ' [data points]'])
     disp(['      Validation set:                                        ' num2str(size(data_valid.values,1)-size(data_train.values,1)) ' [data points]'])    
     disp(['      Mini batch:                                            ' num2str(Ndata4miniBatch) ' [data points]'])
     disp(['      Number of max epoch:                                   ' num2str(maxIter) ' [epochs]'])

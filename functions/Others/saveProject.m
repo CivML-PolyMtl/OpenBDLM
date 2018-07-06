@@ -133,7 +133,7 @@ fprintf('     Saving project as %s... \n', fullfile(FilePath, name_projectfile )
 ProjectsInfoFilename = 'ProjectsInfo.mat';
 
 % Load file 
-FileContent = load(fullfile(FilePath, ProjectsInfoFilename));
+FileContent = load(fullfile(pwd, FilePath, ProjectsInfoFilename));
 ProjectInfo = FileContent.ProjectInfo;
 
 if ~isempty(ProjectInfo)
@@ -151,13 +151,13 @@ if ~isempty(ProjectInfo)
         
     end
     % save
-    save(fullfile(FilePath, ProjectsInfoFilename), 'ProjectInfo' );
+    save(fullfile(pwd, FilePath, ProjectsInfoFilename), 'ProjectInfo' );
        
 else
     % add a new line
     ProjectInfo  = [ProjectInfo ; { project_name, misc.ProjectDateCreation, fullname }];
     % save
-    save(fullfile(FilePath, ProjectsInfoFilename), 'ProjectInfo' );
+    save(fullfile(pwd, FilePath, ProjectsInfoFilename), 'ProjectInfo' );
 end
 
 %--------------------END CODE ------------------------

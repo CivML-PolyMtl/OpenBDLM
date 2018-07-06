@@ -1,47 +1,100 @@
-function [U D] = myUD(mat,varargin)
-%--------------------------------------------------------------------------
-% Syntax:       [U D] = myUD(mat);
-%               [U D] = myUD(mat,'noerror');
+function [U, D] = myUD(mat,varargin)
+%MYUD Compute the UD decomposition
 %
-% Inputs:       mat is a symmetric, positive definite square matrix
-%               
-%               'noerror' suppresses the error thrown when mat is not
-%               positive  definite
+%   SYNOPSIS:
+%     [U,D]=MYUD(mat,varargin)
 %
-%               Note: myUD() forces mat symmetric by only accesing
-%               its upper triangle and assuming mat(i,j) = mat(j,i)
+%   INPUT:
+%      mat                        - real valued array (required)
+%                                   symmetric, positive definite square matrix
 %
-% Outputs:      U is a unit upper triangular matrix and D is a diagonal
-%               matrix such that mat = U * D * U'; 
+%      isError                    - logical (optional)
+%                                   throw error when mat is not positive
+%                                   definite
+%                                   default: true
+%
+%   OUTPUT:
+%      U                          - real valued array 
+%                                   
+%
+%      D                          - real valued array 
+%                                   
+%   DESCRIPTION:
+%      MYUD computes the UD decomposition of the input
+%      square, positive definite, and (assumed) symmetric matrix.
+%      If mat is not positive definite, an error message is
+%      displayed.
+%
+%      MYUD forces mat symmetric by only accessing
+%      its upper triangle and assuming mat(i,j) = mat(j,i)
+%
+%      U is a unit upper triangular matrix and 
+%      D is a diagonal matrix such that mat = U * D * U' 
 %              
-% Description:  This function computes the UD decomposition of the input
-%               square, positive definite, and (assumed) symmetric matrix.
-%               If mat is not positive definite, an error message is
-%               displayed.
 %
-%               Note: The UD decomposition is a specific form of Cholesky
-%               decomposition.
+%      Note: The UD decomposition is a specific form of Cholesky
+%      decomposition.
 %
-% Author:       Brian Moore
-%               brimoor@umich.edu
+%   EXAMPLES:
+%      [U,D]=MYUD(mat)
+%      [U,D]=MYUD(mat, 'isError', false)
+% 
+%   EXTERNAL FUNCTIONS CALLED:
+%      N/A
+% 
+%   SUBFUNCTIONS:
+%      N/A
+% 
+%   See also UDFILTER, STATEESTIMATION, SWITCHINGKALMANFILTER,
+%   RTS_SWITCHINGKALMANSMOOTHER
+
+%   AUTHORS: 
+%       Brian Moore, Luong Ha Nguyen, Ianis Gaudot, James-A Goulet
+% 
+%      Email: <james.goulet@polymtl.ca>
+%      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
+%      
+%      Initial program by Brian Moore (brimoor@umich.edu)
+%      July 12, 2012
 %
-% Date:         July 12, 2012
-%--------------------------------------------------------------------------
+%   MATLAB VERSION:
+%      Tested on 9.1.0.441655 (R2016b)
+% 
+%   DATE CREATED:
+%       June 28, 2018
+% 
+%   DATE LAST UPDATE:
+%       June 28, 2018
+%--------------------BEGIN CODE ---------------------- 
+
+%% Get arguments passed to the function and proceed to some verifications
+p = inputParser;
+
+validationFunction_mat = @(x) isnumeric(x) && ...
+    ismatrix(x) && (size(x, 1) == size(x, 2));
+
+defaultisError = true;
+addRequired(p,'mat', validationFunction_mat );
+addParameter(p, 'isError', defaultisError, @islogical)
+parse(p,mat,varargin{:});
+
+mat=p.Results.mat;
+isError=p.Results.isError;
+
+
 
 UD_TOL = 1e-55;
 
-if (nargin == 2)
-   noerror = varargin{1}; 
-else
-    noerror = '';
-end
+% Verify input matrix is square matrix
+% [n, m] = size(mat);
+% if (n ~= m)
+%     error('Input matrix must be square');
+% end
 
-[n m] = size(mat);
+% Get matrix dimension
+[n, ~] = size(mat);
 
-if (n ~= m)
-    error('Input matrix must be square');
-end
-
+% Initialization
 U = zeros(n);
 D = zeros(n);
 
@@ -53,7 +106,7 @@ for j = n:-1:1
         end
         if (i == j)
             if (sum <= UD_TOL)
-                if ~strcmpi(noerror,'noerror')
+                if isError
                     error('Input matrix is not positive definite');
                 end
                 D(j,j) = 1;
