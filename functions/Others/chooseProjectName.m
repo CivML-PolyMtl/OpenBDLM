@@ -127,11 +127,10 @@ while ~isNameCorrect
     else
         
         if ~isempty(ProjectInfo)
-            
-        Test = strfind(ProjectInfo(:,1), project_name);
-        Index = find(not(cellfun('isempty', Test)));
-        if ~isempty(Index)
-        %if any(ismember(upper(ProjectInfo{1}), upper(project_name)))
+        
+         Test_Name = strcmp(ProjectInfo(:,1), project_name);
+               
+        if any(Test_Name)
             fprintf(['     Project name %s already exists.' ...
                 ' Provide another name. \n'], project_name)
             isNameCorrect = false;
