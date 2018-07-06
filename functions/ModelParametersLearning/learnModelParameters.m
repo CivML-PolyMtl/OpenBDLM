@@ -147,7 +147,10 @@ if strcmp(Method, 'NR')
         model.initV_prev=model.initV;
         model.initS_prev=model.initS;
         
-        [optim] = NR_EM(data, model, misc,'optim_mode','MLE','parallel',1);
+        [optim] = NewtonRaphson(data, model, misc, ...
+            'OptimMode','MAP', ...
+            'isParallel',true, ...
+            'isQuiet', false);
         
         model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);
         model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);
@@ -192,7 +195,7 @@ elseif strcmp(Method, 'SGA')
     
     % Define the maximal optimization time [min]
     misc.time_limit_calibration=60;
-    [optim] = SGD(data, model, misc);
+    [optim] = SGD(data, model, misc, 'metric_mode', 'predCap', 'optim_mode', 'MLE');
     model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);
     model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);
     %data    = optim.data;

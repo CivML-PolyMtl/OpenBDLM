@@ -1,5 +1,5 @@
 function [data, model, estimation, misc]=ModelConfiguration(data, model, estimation, misc)
-%MODELCONFIGURATION configures model for BDLM analysis
+%MODELCONFIGURATION Configure model for BDLM analysis
 %
 %   SYNOPSIS:
 %     [data, model, estimation, misc]=MODELCONFIGURATION(data, model, estimation, misc)

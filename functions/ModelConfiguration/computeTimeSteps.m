@@ -1,5 +1,5 @@
 function [timesteps]=computeTimeSteps(timestamps)
-%COMPUTETIMESTEPS compute timestep vector from timestamps vector
+%COMPUTETIMESTEPS Compute timestep vector from timestamps vector
 %
 %   SYNOPSIS:
 %     [timestep]=COMPUTETIMESTEPS(timestamps)

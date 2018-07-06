@@ -1,5 +1,5 @@
 function [data, model, estimation, misc]=configureModelForDataSimulation(data, model, estimation , misc)
-%CONFIGUREMODELFORDATASIMULATION configures model for BDLM analysis based on simulated data
+%CONFIGUREMODELFORDATASIMULATION Configure model for BDLM analysis based on simulated data
 %
 %   SYNOPSIS:
 %      [data, model, estimation, misc]=CONFIGUREMODELFORDATASIMULATION(data, model, estimation, misc)

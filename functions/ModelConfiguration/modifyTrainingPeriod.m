@@ -1,8 +1,8 @@
-function modifyTrainingPeriod(data, model, estimation, misc, varargin)
+function [misc] = modifyTrainingPeriod(data, model, estimation, misc, varargin)
 %MODIFYTRAININGPERIOD Request user to modify training period
 %
 %   SYNOPSIS:
-%     MODIFYTRAININGPERIOD(data, model, estimation, misc, varargin)
+%     [misc] = MODIFYTRAININGPERIOD(data, model, estimation, misc, varargin)
 %
 %   INPUT:
 %      data             - structure (required)
@@ -27,7 +27,10 @@ function modifyTrainingPeriod(data, model, estimation, misc, varargin)
 %                         FilePath/PROJ_'misc.ProjectName'.mat file
 %                         default: '.'  (current folder)
 %   OUTPUT:
-%      N/A
+%      misc             - structure (required)
+%                         see documentation for details about the fields of
+%                         misc
+%
 %      Updated project file with new training period
 %
 %   DESCRIPTION:
@@ -58,7 +61,7 @@ function modifyTrainingPeriod(data, model, estimation, misc, varargin)
 %       June 12, 2018
 %
 %   DATE LAST UPDATE:
-%       June 12, 2018
+%       June 27, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -83,6 +86,9 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
+
+% define global variable for user's answers from input file
+global isAnswersFromFile AnswersFromFile AnswersIndex
 
 %% Verification merged data
 [isMerged]=verificationMergedDataset(data);
@@ -114,88 +120,133 @@ else
     disp(' ')
 end
 
-%% Modify current training period
 
-% Start of training period (in days)
-disp(' ')
-isCorrect = false;
-while ~isCorrect
-    disp('     Start training [days]: ');
-    startTraining=input('     choice >> ');
+isCorrectAnswer =  false;
+while ~isCorrectAnswer
+    disp(' ')
+    disp('     1 ->  Modify training period')
+    disp(' ')
+    disp('     2 ->  Return to menu')
+    disp(' ')
     
-    if isempty(startTraining)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp('                                                         ')
-        disp(['Give start of the training period in '...
-            'number of days since the first datapoint. '])
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        continue
+    if isAnswersFromFile
+        user_inputs.inp_1=eval(char(AnswersFromFile{1}(AnswersIndex)));
+        disp(user_inputs.inp_1)
     else
-        if ischar(startTraining)
-            disp(' ')
-            disp('     wrong input -> not an digit ')
-            disp(' ')
-            continue
-        elseif length(startTraining) > 1
-            disp(' ')
-            disp('     wrong input -> should be single value ')
-            disp(' ')
-            continue
-        else
-            isCorrect = true;
-        end
+        user_inputs.inp_1 = input('     choice >> ');
     end
-end
-
-% End of training period (in days)
-disp(' ')
-isCorrect = false;
-while ~isCorrect
-    disp('     End training [days]: ');
-    endTraining=input('     choice >> ');
     
-    if isempty(endTraining)
+    if user_inputs.inp_1 == 1
+        
+        AnswersIndex=AnswersIndex+1;
+        
+        %% Modify current training period
+        % Start of training period (in days)
         disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp('                                                         ')
-        disp(['End of the training period in '...
-            'number of days since the first datapoint. '])
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        continue
-    else
-        if ischar(endTraining)
-            disp(' ')
-            disp('     wrong input -> not an digit ')
-            disp(' ')
-            continue
-        elseif length(endTraining) > 1
-            disp(' ')
-            disp('     wrong input -> should be single value ')
-            disp(' ')
-            continue
-        elseif endTraining <= startTraining
-            disp(' ')
-            disp(['     wrong input -> should be greater '...
-                'than start of training period.'])
-            disp(' ')
-            continue
-        else
-            isCorrect = true;
+        isCorrect = false;
+        while ~isCorrect
+            disp('     Start training [days]: ');
+            
+            if isAnswersFromFile
+                startTraining=eval(char(AnswersFromFile{1}(AnswersIndex)));
+                disp(startTraining)
+            else
+                startTraining=input('     choice >> ');
+            end
+            
+            
+            if isempty(startTraining)
+                disp(' ')
+                disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
+                disp('                                                         ')
+                disp(['Give start of the training period in '...
+                    'number of days since the first datapoint. '])
+                disp(' ')
+                disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
+                disp(' ')
+                continue
+            else
+                if ischar(startTraining)
+                    disp(' ')
+                    disp('     wrong input -> not an digit ')
+                    disp(' ')
+                    continue
+                elseif length(startTraining) > 1
+                    disp(' ')
+                    disp('     wrong input -> should be single value ')
+                    disp(' ')
+                    continue
+                else
+                    AnswersIndex=AnswersIndex+1;
+                    isCorrect = true;
+                end
+            end
         end
+        
+        % End of training period (in days)
+        disp(' ')
+        isCorrect = false;
+        while ~isCorrect
+            disp('     End training [days]: ');
+            
+            if isAnswersFromFile
+                endTraining = eval(char(AnswersFromFile{1}(AnswersIndex)));
+                disp(endTraining)
+            else
+                endTraining=input('     choice >> ');
+            end
+            
+            if isempty(endTraining)
+                disp(' ')
+                disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
+                disp('                                                         ')
+                disp(['End of the training period in '...
+                    'number of days since the first datapoint. '])
+                disp(' ')
+                disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
+                disp(' ')
+                continue
+            else
+                if ischar(endTraining)
+                    disp(' ')
+                    disp('     wrong input -> not an digit ')
+                    disp(' ')
+                    continue
+                elseif length(endTraining) > 1
+                    disp(' ')
+                    disp('     wrong input -> should be single value ')
+                    disp(' ')
+                    continue
+                elseif endTraining <= startTraining
+                    disp(' ')
+                    disp(['     wrong input -> should be greater '...
+                        'than start of training period.'])
+                    disp(' ')
+                    continue
+                else
+                    AnswersIndex=AnswersIndex+1;
+                    isCorrect = true;
+                end
+            end
+        end
+        
+        break
+        
+    elseif user_inputs.inp_1 == 2
+        AnswersIndex=AnswersIndex+1;
+        return
+        
+    else
+        disp('     Wrong input.')
+        continue
     end
+    
+    
 end
 
 % Record training period
 trainingPeriod = [startTraining, endTraining];
 misc.trainingPeriod = trainingPeriod;
-
-%% Save project with updated values
-saveProject(data, model, estimation, misc, 'FilePath', FilePath)
 
 %% Display the new training period
 disp(' ')
@@ -203,6 +254,9 @@ disp(['     New training period: from ' ...
     num2str(misc.trainingPeriod(1)) ' to ' ...
     num2str(misc.trainingPeriod(2)) ' days.'])
 disp(' ')
+
+%% Save project with updated values
+saveProject(data, model, estimation, misc, 'FilePath', FilePath)
 
 %--------------------END CODE ------------------------
 end

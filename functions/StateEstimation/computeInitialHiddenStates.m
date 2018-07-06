@@ -1,5 +1,5 @@
 function [model] = computeInitialHiddenStates(data, model, estimation, misc, varargin)
-%COMPUTEINITIALHIDDENSTATES Computes initial hidden states from smoother
+%COMPUTEINITIALHIDDENSTATES Compute initial hidden states using smoothing
 %
 %   SYNOPSIS:
 %      [model] = COMPUTEINITIALHIDDENSTATES(data, model, estimation, misc, varargin)
@@ -134,8 +134,8 @@ data_train.values= data.values(training_start_idx:training_end_idx,:);
 
 
 %% Run smoother on data subset to compute initial hidden states values
-[estimation]=state_estimation(data_train,model,estimation, misc, ...
-    'smooth',1);
+[estimation]=StateEstimation(data_train,model, misc, ...
+    'isSmoother',true);
 
 %% Store the new initial hidden states values
 for i=1:model.nb_class

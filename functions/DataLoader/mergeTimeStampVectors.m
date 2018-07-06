@@ -200,7 +200,7 @@ for i=1:numberOfTimeSeries
         data.values{i} = tmp(:,i+1);
     else
         fprintf(['WARNING: %s has been removed because ' ...
-            'it does not store real valued data anymore'], data.labels{i})
+            'it is full of missing data (NaN)'], data.labels{i})
         disp(' ')
         data.timestamps{i}=[];
         data.values{i} = [];  

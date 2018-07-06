@@ -1,5 +1,5 @@
 function [model]=defineModel(data, misc)
-%DEFINEMODEL requests user to define model
+%DEFINEMODEL Request user's input to define model
 %
 %   SYNOPSIS:
 %     [model, misc]=DEFINEMODEL(data, misc)
@@ -107,7 +107,7 @@ if numberOfTimeSeries > 1
         isCorrect=false;
         while ~isCorrect
             disp([ num2str(module) '  -  Identifies dependence between' ...
-                'time series; use [0] to indicate no dependence'])
+                ' time series; use [0] to indicate no dependence'])
             if isAnswersFromFile
                 comp_ic{1,i}=eval(char(AnswersFromFile{1}(AnswersIndex)));
                 if length( comp_ic{1,i}(:)) ~=1

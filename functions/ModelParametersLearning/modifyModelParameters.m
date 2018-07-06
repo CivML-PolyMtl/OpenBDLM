@@ -1,8 +1,8 @@
-function modifyModelParameters(data, model, estimation, misc, varargin)
+function [model] = modifyModelParameters(data, model, estimation, misc, varargin)
 %MODIFYMODELPARAMETERS Request user to modify model parameters values
 %
 %   SYNOPSIS:
-%     MODIFYMODELPARAMETERS(data, model, estimation, misc, varargin)
+%     [model] = MODIFYMODELPARAMETERS(data, model, estimation, misc, varargin)
 %
 %   INPUT:
 %      data             - structure (required)
@@ -28,15 +28,18 @@ function modifyModelParameters(data, model, estimation, misc, varargin)
 %                         default: '.'  (current folder)
 %
 %   OUTPUT:
-%      N/A
+%      model            - structure (required)
+%                          see documentation for details about the fields of
+%                          model
+%
 %      Updated project file with new model parameters values
 %
 %   DESCRIPTION:
 %      MODIFYMODELPARAMETERS modifies model parameters (values, domain)
 %
 %   EXAMPLES:
-%      MODIFYMODELPARAMETERS(data, model, estimation, misc)
-%      MODIFYMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects')
+%      [model] = MODIFYMODELPARAMETERS(data, model, estimation, misc)
+%      [model] = MODIFYMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects')
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      saveProject
@@ -84,6 +87,10 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
+% define global variable for user's answers from input file
+global isAnswersFromFile AnswersFromFile AnswersIndex
+
+
 %% Display current values
 disp(['#   |Parameter    |Component |Model # |Observation '...
     '        |Current value |Bounds min/max |Constraint'])
@@ -110,63 +117,252 @@ for i=1:length(model.parameter)
         num2str(model.param_properties{i,5}(2)), ...
         repmat(' ',1,9-length(model.param_properties{i,5})) contraint ]);
 end
-disp(' ')
-disp(['     1   ->  Modify a parameter value'])
-disp(['     2   ->  Constrain a parameter to another'])
-disp(['     3   ->  Export current  ' ...
-    'parameter properties in config file format'])
-disp(['     4   ->  Quit  '])
-disp(' ')
-user_inputs.inp_2 =  input('Selection : ');
-if user_inputs.inp_2==1
-    user_inputs.inp_2 = input('     Modify parameter # ');
-    user_inputs.inp_3 = input('     New value : ');
-    user_inputs.inp_4 = input('     New bounds : ');
-    if ~isempty(user_inputs.inp_3)
-        model.parameter(user_inputs.inp_2)=user_inputs.inp_3;
+
+
+
+isCorrectAnswer = false;
+while ~isCorrectAnswer
+    
+    disp(' ')
+    disp(['     1   ->  Modify a parameter value'])
+    disp(['     2   ->  Constrain a parameter to another'])
+    disp(['     3   ->  Export current  ' ...
+        'parameter properties in config file format'])
+    disp(' ')
+    disp(['     4   ->  Return to menu  '])
+    disp(' ')
+    
+    if isAnswersFromFile
+        user_inputs.inp_1 = ...
+            eval(char(AnswersFromFile{1}(AnswersIndex)));
+        disp(user_inputs.inp_1)
+    else
+        user_inputs.inp_1 =  input('     choice >> ');
     end
-    if ~isempty(user_inputs.inp_4)
-        model.param_properties{user_inputs.inp_2,5}=user_inputs.inp_4;
+    
+    
+    if user_inputs.inp_1 == 1
+        
+        AnswersIndex=AnswersIndex+1;
+        
+        isCorrect = false;
+        while ~isCorrect
+            disp('     Modify parameter # ')
+            if isAnswersFromFile
+                user_inputs.inp_2 = ...
+                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                disp(user_inputs.inp_2)
+            else
+                user_inputs.inp_2 =  input('     choice >> ');
+            end
+            
+            if rem(user_inputs.inp_2,1) == 0 && (user_inputs.inp_2 > 0) && ...
+                    user_inputs.inp_2 <= length(model.param_properties)
+                AnswersIndex=AnswersIndex+1;
+                isCorrect = true;
+            else
+                disp('    Wrong input.')
+                continue
+            end
+            
+        end
+        
+        isCorrect = false;
+        while ~isCorrect
+            disp('     New value :')
+            if isAnswersFromFile
+                user_inputs.inp_3 = ...
+                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                disp(user_inputs.inp_3)
+            else
+                user_inputs.inp_3 =  input('     choice >> ');
+            end
+            
+            if isnumeric(user_inputs.inp_3) && length(user_inputs.inp_3) ==1
+                AnswersIndex=AnswersIndex+1;
+                isCorrect = true;
+            else
+                disp('    Wrong input.')
+                continue
+            end
+            
+        end
+        
+        isCorrect = false;
+        while ~isCorrect
+            disp('     New bounds : ')
+            if isAnswersFromFile
+                user_inputs.inp_4 = ...
+                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                
+            disp(['     [' sprintf('%d,', user_inputs.inp_4(1:end-1) ) ...
+            num2str(user_inputs.inp_4(end)) ']'])
+                
+            else
+                user_inputs.inp_4 =  input('     choice >> ');
+            end
+            
+            if isnumeric(user_inputs.inp_4) && length(user_inputs.inp_4) ==2
+                AnswersIndex=AnswersIndex+1;
+                isCorrect = true;
+            else
+                disp('    Wrong input.')
+                continue
+            end
+            
+        end
+        
+        % Change parameter values
+        if ~isempty(user_inputs.inp_3)
+            model.parameter(user_inputs.inp_2)=user_inputs.inp_3;
+        end
+        if ~isempty(user_inputs.inp_4)
+            model.param_properties{user_inputs.inp_2,5}=user_inputs.inp_4;
+        end
+        disp(' ')
+        % Save project
+        saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+        
+        isCorrectAnswer = true;
+        
+    elseif user_inputs.inp_1 ==2
+        
+        AnswersIndex=AnswersIndex+1;
+        isCorrect = false;
+        while ~isCorrect
+            disp('     Constrain parameter # ')
+            if isAnswersFromFile
+                user_inputs.inp_2 = ...
+                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                disp(user_inputs.inp_2)
+            else
+                user_inputs.inp_2 =  input('     choice >> ');
+            end
+            
+            if rem(user_inputs.inp_2,1) == 0 && (user_inputs.inp_2 > 0) && ...
+                    user_inputs.inp_2 <= length(model.param_properties)
+                AnswersIndex=AnswersIndex+1;
+                isCorrect = true;
+            else
+                disp('    Wrong input.')
+                continue
+            end
+            
+        end
+        
+        isCorrect = false;
+        while ~isCorrect
+            disp('     to parameter # ')
+            if isAnswersFromFile
+                user_inputs.inp_3 = ...
+                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                disp(user_inputs.inp_3)
+            else
+                user_inputs.inp_3 =  input('     choice >> ');
+            end
+            
+            if all(rem(user_inputs.inp_3,1)) == 0 && all(user_inputs.inp_3 > 0) && ...
+                   all( user_inputs.inp_3 <= length(model.param_properties))
+                AnswersIndex=AnswersIndex+1;
+                isCorrect = true;
+            else
+                disp('    Wrong input.')
+                continue
+            end
+            
+        end
+        
+        % Change values
+        model.p_ref(user_inputs.inp_2)=user_inputs.inp_3;
+        model.param_properties{user_inputs.inp_2,5}=[nan,nan];
+        disp(' ')
+        % Save project
+        saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+        
+        
+        isCorrectAnswer = true;
+        
+    elseif user_inputs.inp_1 ==3
+        disp(' ')
+        disp('model.param_properties={')
+        for i=1:size(model.param_properties,1)
+            space=repmat(' ',1,8-length(model.param_properties{i,1}));
+            disp(sprintf(['\t''%-s''' space ',\t ''%-s'',\t  '...
+                ' ''%-s'',\t ''%-s'',\t '...
+                '[ %-5G, %-5G]\t %%#%d'], ...
+                model.param_properties{i,:},i));
+        end
+        disp('};')
+        disp(' ')
+        disp('model.parameter=[')
+        for i=1:size(model.parameter,1)
+            disp(sprintf('%-8.5G \t %%#%d \t%%%-s',  ...
+                model.parameter(i),i,model.param_properties{i,1}));
+        end
+        disp(']; ')
+        disp(' ')
+        disp(['model.p_ref=[' num2str(model.p_ref) '];'])
+        disp(' ')
+        
+        isCorrectAnswer = true;
+        
+    elseif user_inputs.inp_1 ==4
+        AnswersIndex=AnswersIndex+1;
+        return
+    else
+        disp('     Wrong input.')
+        continue
     end
-    disp(' ')
-    % Save project
-    saveProject(data, model, estimation, misc, 'FilePath', FilePath)
-elseif user_inputs.inp_2==2
-    user_inputs.inp_2 = input('     Constrain parameter # ');
-    user_inputs.inp_3 = input('     to parameter # ');
-    model.p_ref(user_inputs.inp_2)=user_inputs.inp_3;
-    model.param_properties{user_inputs.inp_2,5}=[nan,nan];
-    disp(' ')
-    % Save project
-    saveProject(data, model, estimation, misc, 'FilePath', FilePath)
-elseif user_inputs.inp_2==3
-    disp(' ')
-    disp('model.param_properties={')
-    for i=1:size(model.param_properties,1)
-        space=repmat(' ',1,8-length(model.param_properties{i,1}));
-        disp(sprintf(['\t''%-s''' space ',\t ''%-s'',\t  '...
-            ' ''%-s'',\t ''%-s'',\t '...
-            '[ %-5G, %-5G]\t %%#%d'], ...
-            model.param_properties{i,:},i));
-    end
-    disp('};')
-    disp(' ')
-    disp('model.parameter=[')
-    for i=1:size(model.parameter,1)
-        disp(sprintf('%-8.5G \t %%#%d \t%%%-s',  ...
-            model.parameter(i),i,model.param_properties{i,1}));
-    end
-    disp(']; ')
-    disp(' ')
-    disp(['model.p_ref=[' num2str(model.p_ref) '];'])
-    disp(' ')
-elseif user_inputs.inp_2==4
-    disp(' ')
-    disp('     See you soon.')
-    return
-else
-    disp('     -> invalid input.')
 end
-disp(' ')
+
+
+% if user_inputs.inp_2==1
+%     user_inputs.inp_2 = input('     Modify parameter # ');
+%     user_inputs.inp_3 = input('     New value : ');
+%     user_inputs.inp_4 = input('     New bounds : ');
+%     if ~isempty(user_inputs.inp_3)
+%         model.parameter(user_inputs.inp_2)=user_inputs.inp_3;
+%     end
+%     if ~isempty(user_inputs.inp_4)
+%         model.param_properties{user_inputs.inp_2,5}=user_inputs.inp_4;
+%     end
+%     disp(' ')
+%     % Save project
+%     saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+% elseif user_inputs.inp_2==2
+%     user_inputs.inp_2 = input('     Constrain parameter # ');
+%     user_inputs.inp_3 = input('     to parameter # ');
+%     model.p_ref(user_inputs.inp_2)=user_inputs.inp_3;
+%     model.param_properties{user_inputs.inp_2,5}=[nan,nan];
+%     disp(' ')
+%     % Save project
+%     saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+% elseif user_inputs.inp_2==3
+%     disp(' ')
+%     disp('model.param_properties={')
+%     for i=1:size(model.param_properties,1)
+%         space=repmat(' ',1,8-length(model.param_properties{i,1}));
+%         disp(sprintf(['\t''%-s''' space ',\t ''%-s'',\t  '...
+%             ' ''%-s'',\t ''%-s'',\t '...
+%             '[ %-5G, %-5G]\t %%#%d'], ...
+%             model.param_properties{i,:},i));
+%     end
+%     disp('};')
+%     disp(' ')
+%     disp('model.parameter=[')
+%     for i=1:size(model.parameter,1)
+%         disp(sprintf('%-8.5G \t %%#%d \t%%%-s',  ...
+%             model.parameter(i),i,model.param_properties{i,1}));
+%     end
+%     disp(']; ')
+%     disp(' ')
+%     disp(['model.p_ref=[' num2str(model.p_ref) '];'])
+%     disp(' ')
+% elseif user_inputs.inp_2==4
+%     return
+% else
+%     disp('     -> invalid input.')
+% end
+% disp(' ')
 %--------------------END CODE ------------------------
 end

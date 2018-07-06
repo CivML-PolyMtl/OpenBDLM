@@ -1,4 +1,4 @@
-function [data, dataFilename]=loadData(varargin)
+function [data]=loadData(varargin)
 %LOADDATA Load data from csv file
 %
 %   SYNOPSIS:
@@ -23,7 +23,7 @@ function [data, dataFilename]=loadData(varargin)
 %                            maximum amount of missing data (NaN)
 %                            allowed at each timestamp, given in percent
 %                            0<= NanThreshold <= 100
-%                            default: 0
+%                            default: 100
 %
 %      tolerance    - real (optional)
 %                     value given in number of days
@@ -46,8 +46,6 @@ function [data, dataFilename]=loadData(varargin)
 %                               N: number of time series
 %                               M_i: number of samples of time series i
 %
-%      dataFilename        - character   
-%                           full name of the filename where data are saved
 %   DESCRIPTION:
 %      LOADDATA loads data from csv file
 %
@@ -83,7 +81,7 @@ function [data, dataFilename]=loadData(varargin)
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 defaultisOverlapDetection = false;
-defaultNaNThreshold = 0;
+defaultNaNThreshold = 100;
 defaultisPdf = true;
 defaultFilePath = '.';
 defaulttolerance = 10E-6;
@@ -130,18 +128,18 @@ if isPdf
     plotData(dataOrig, 'FilePath', 'figures', 'isPdf', true)
 end
 
-[dataChoose] = chooseTimeSeries(dataOrig);
+%[dataChoose] = chooseTimeSeries(dataOrig);
 
 if isOverlapDetection
-    [dataOverlap] = extractSynchronousRecords(dataChoose);
+    [dataOverlap] = extractSynchronousRecords(dataOrig);
     [dataMerged] = mergeTimeStampVectors (dataOverlap, ...
         'NaNThreshold', NaNThreshold, 'Tolerance', tolerance);
 else
-    [dataMerged] = mergeTimeStampVectors (dataChoose, ...
+    [dataMerged] = mergeTimeStampVectors (dataOrig, ...
         'NaNThreshold', NaNThreshold, 'Tolerance', tolerance);
 end
 
-[dataFilename] = saveDataBinary(dataMerged, 'FilePath', FilePath);
+%[dataFilename] = saveDataBinary(dataMerged, 'FilePath', FilePath);
 
 data=dataMerged;
 

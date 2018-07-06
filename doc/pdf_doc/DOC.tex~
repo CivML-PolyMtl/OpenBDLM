@@ -153,7 +153,7 @@ When pdf export is done, the program builds a single pdf file containing all the
 Batch processing allows you to plan a succession of tasks in advance, and let them run during the night (or whenever you want).
 All the planned command have to be written in ASCII input files.\\
 
-See demo\_1.m for an example of batch processing. demo\_1.m sequentially loads and learns the model parameters of 3 displacement times series.\\
+See demo\_1.m for an example of batch processing. demo\_1.m sequentially creates 3 simulated dataset.\\
 
 WARNING: the beta version of this tool uses global variables (named 'isAnswersFromFile' 'AnswersFromFile' 'AnswersIndex'), so always clean your workspace by typing 'clear -global isAnswersFromFile AnswersFromFile AnswersIndex' before and after using batch processing.
 

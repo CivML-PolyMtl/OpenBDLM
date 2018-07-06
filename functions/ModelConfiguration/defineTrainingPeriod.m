@@ -1,5 +1,5 @@
 function [trainingPeriod]=defineTrainingPeriod(timestamps, varargin)
-%DEFINETRAININGPERIOD computes training period from a timestamp vector
+%DEFINETRAININGPERIOD Compute training period from a timestamp vector
 %
 %   SYNOPSIS:
 %     [trainingPeriod]=DEFINETRAININGPERIOD(timestamps, varargin)

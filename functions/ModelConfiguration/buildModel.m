@@ -191,7 +191,7 @@ if misc.isDataSimulation
     LcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
     LcA.pQ0={'1E-7*nanstd(data.values{obs})'};
-    LcA.init={'[nanmean(data.values{obs} 0 0]','[(2*nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2]'};
+    LcA.init={'[nanmean(data.values{obs}) 0 0]','[(2*nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2]'};
 end
 
 

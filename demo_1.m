@@ -7,9 +7,10 @@ global isAnswersFromFile AnswersFromFile AnswersIndex
 FilePath = fullfile(pwd, 'input_files');
 
 %% List of input files to read
-InputFileList = {fullfile(FilePath, 'input_1.txt'), ...
-    fullfile(FilePath, 'input_2.txt'), ...
-    fullfile(FilePath, 'input_3.txt') };
+InputFileList = {fullfile(FilePath, 'input_1.txt')} ;
+%, ...
+%    fullfile(FilePath, 'input_2.txt'), ...
+%    fullfile(FilePath, 'input_3.txt') };
 
 for i=1:length(InputFileList)
     
@@ -20,7 +21,7 @@ for i=1:length(InputFileList)
         loadAnswersFromFile(InputFile);
         
     %% Run BDLM
-    run('BDLM.m')
+    run('OpenBDLM_main.m')
     
 end
 

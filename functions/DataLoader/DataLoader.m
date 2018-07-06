@@ -18,14 +18,14 @@ function [data, dataFilename]=DataLoader(varargin)
 %                            maximum amount of missing data (NaN)
 %                            allowed at each timestamp, given in percent
 %                            0<= NanThreshold <= 100
-%                            default: 0
+%                            default: 100
 %
 %      Tolerance    - real (optional)
 %                     value given in number of days
 %                     timestamps +/- tolerance are considered equal
 %                     default: 10E-6
 %   OUTPUT:
-%      data         - structure 
+%      data         - structure
 %                     data must contain three fields :
 %
 %                         'timestamps' is a 1×N cell array
@@ -40,10 +40,10 @@ function [data, dataFilename]=DataLoader(varargin)
 %                   N: number of time series
 %                   M_i: number of samples of time series i
 %
-%     dataFilename  -  character  
+%     dataFilename  -  character
 %
 %   DESCRIPTION:
-%      DATALOADER chooses a file DATA_*.mat amongst file already existing 
+%      DATALOADER chooses a file DATA_*.mat amongst file already existing
 %      or create a new one
 %
 %   EXAMPLES:
@@ -77,7 +77,7 @@ function [data, dataFilename]=DataLoader(varargin)
 p = inputParser;
 defaultFilePath = '.';
 defaultisOverlapDetection = false;
-defaultNaNThreshold = 0;
+defaultNaNThreshold = 100;
 defaulttolerance = 10E-6;
 
 
@@ -113,10 +113,10 @@ disp(' ')
 [FileInfo] = displayDataBinary('FilePath', FilePath);
 
 while(1)
-     if isAnswersFromFile
+    if isAnswersFromFile
         chosen_db=eval(char(AnswersFromFile{1}(AnswersIndex)));
         disp(['     ', num2str(chosen_db)])
-     else
+    else
         disp(' ')
         chosen_db=input('     choice >> ');
     end
@@ -141,11 +141,11 @@ while(1)
         disp(' ')
         inc=inc-1;
         continue
-    elseif chosen_db > length(FileInfo)       
+    elseif chosen_db > length(FileInfo)
         disp(' ')
         disp('     wrong input -> out of range')
         disp(' ')
-        continue   
+        continue
     else
         break
     end
@@ -157,13 +157,25 @@ AnswersIndex = AnswersIndex +1 ;
 %% Load database
 if chosen_db == 0
     % No database is selected, then call dataloader
-    [data, dataFilename] = loadData('FilePath', FilePath, ...
-         'NaNThreshold', NaNThreshold, 'Tolerance', tolerance,  ...
-         'isOverlapDetection', isOverlapDetection ,'isPdf', false);
+    [data] = loadData('FilePath', FilePath, ...
+        'NaNThreshold', NaNThreshold, 'Tolerance', tolerance,  ...
+        'isOverlapDetection', isOverlapDetection ,'isPdf', false);
+    
+    % Display available data on screen
+    displayData(data)
+    
+    [data, dataFilename ] = editData(data, 'FilePath', FilePath);
+    
 else
     % Select the data
     [data]=load(fullfile(FilePath, FileInfo{chosen_db}));
-    dataFilename = fullfile(FilePath, FileInfo{chosen_db});
+    %dataFilename = fullfile(FilePath, FileInfo{chosen_db});
+    
+    % Display available data on screen
+    displayData(data)
+    
+    [data, dataFilename ] = editData(data, 'FilePath', FilePath);
+    
 end
 %--------------------END CODE ------------------------
 end

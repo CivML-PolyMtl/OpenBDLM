@@ -159,7 +159,7 @@ displayData(data)
 
 %% Plot
 if isPlot
-    plotData(data, 'FigurePath', 'figures')
+    plotDataAvailability(data, 'isSaveFigure', false)
 end
 
 %% Save in binary DATA_*.mat file

@@ -1,5 +1,5 @@
 function displayModelMatrices(model, data, estimation, misc, TimestampIndex)
-%DISPLAYMODELMATRICES displays A,C, Q, R matrices for a given timestamp
+%DISPLAYMODELMATRICES Display A,C, Q, R matrices for a given timestamp
 %
 %   SYNOPSIS:
 %     DISPLAYMODELMATRICES(model, data, estimation, misc, TimestampIndex)
