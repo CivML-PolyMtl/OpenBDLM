@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of modifyModelParameters</title>
+  <meta name="keywords" content="modifyModelParameters">
+  <meta name="description" content="MODIFYMODELPARAMETERS Request user to modify model parameters values">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelParametersLearning</a> &gt; modifyModelParameters.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/ModelParametersLearning&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>modifyModelParameters
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>MODIFYMODELPARAMETERS Request user to modify model parameters values</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function modifyModelParameters(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MODIFYMODELPARAMETERS Request user to modify model parameters values
+
+   SYNOPSIS:
+     MODIFYMODELPARAMETERS(data, model, estimation, misc, varargin)
+
+   INPUT:
+      data             - structure (required)
+                         see documentation for details about the fields of
+                         data
+
+      model            - structure (required)
+                          see documentation for details about the fields of
+                          model
+
+      estimation       - structure (required)
+                         see documentation for details about the fields of
+                         estimation
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+      FilePath         - character (optional)
+                         directory where to save the modifications
+                         save modification in
+                         FilePath/PROJ_'misc.ProjectName'.mat file
+                         default: '.'  (current folder)
+
+   OUTPUT:
+      N/A
+      Updated project file with new model parameters values
+
+   DESCRIPTION:
+      MODIFYMODELPARAMETERS modifies model parameters (values, domain)
+
+   EXAMPLES:
+      MODIFYMODELPARAMETERS(data, model, estimation, misc)
+      MODIFYMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects')
+
+   EXTERNAL FUNCTIONS CALLED:
+      saveProject
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also BDLM, SAVEPROJECT</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/Others/saveProject.html" class="code" title="function saveProject(data, model, estimation, misc, varargin)">saveProject</a>	SAVEPROJECT Save full project (data, model, estimation, misc) in file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/BDLM.html" class="code" title="">BDLM</a>	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function modifyModelParameters(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%MODIFYMODELPARAMETERS Request user to modify model parameters values</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     MODIFYMODELPARAMETERS(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data             - structure (required)</span>
+0009 <span class="comment">%                         see documentation for details about the fields of</span>
+0010 <span class="comment">%                         data</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      model            - structure (required)</span>
+0013 <span class="comment">%                          see documentation for details about the fields of</span>
+0014 <span class="comment">%                          model</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%      estimation       - structure (required)</span>
+0017 <span class="comment">%                         see documentation for details about the fields of</span>
+0018 <span class="comment">%                         estimation</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      misc             - structure (required)</span>
+0021 <span class="comment">%                         see documentation for details about the fields of</span>
+0022 <span class="comment">%                         misc</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%      FilePath         - character (optional)</span>
+0025 <span class="comment">%                         directory where to save the modifications</span>
+0026 <span class="comment">%                         save modification in</span>
+0027 <span class="comment">%                         FilePath/PROJ_'misc.ProjectName'.mat file</span>
+0028 <span class="comment">%                         default: '.'  (current folder)</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   OUTPUT:</span>
+0031 <span class="comment">%      N/A</span>
+0032 <span class="comment">%      Updated project file with new model parameters values</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%   DESCRIPTION:</span>
+0035 <span class="comment">%      MODIFYMODELPARAMETERS modifies model parameters (values, domain)</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   EXAMPLES:</span>
+0038 <span class="comment">%      MODIFYMODELPARAMETERS(data, model, estimation, misc)</span>
+0039 <span class="comment">%      MODIFYMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects')</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0042 <span class="comment">%      saveProject</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   SUBFUNCTIONS:</span>
+0045 <span class="comment">%      N/A</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   See also BDLM, SAVEPROJECT</span>
+0048 
+0049 <span class="comment">%   AUTHORS:</span>
+0050 <span class="comment">%        Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0053 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   MATLAB VERSION:</span>
+0056 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   DATE CREATED:</span>
+0059 <span class="comment">%       June 11, 2018</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">%   DATE LAST UPDATE:</span>
+0062 <span class="comment">%       June 18, 2018</span>
+0063 
+0064 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0065 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0066 p = inputParser;
+0067 
+0068 defaultFilePath = <span class="string">'.'</span>;
+0069 
+0070 
+0071 validationFonction = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0072     ~isempty(x(~isspace(x)));
+0073 
+0074 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0075 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0076 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0077 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0078 addParameter(p, <span class="string">'FilePath'</span>, defaultFilePath, validationFonction)
+0079 parse(p,data, model, estimation, misc, varargin{:});
+0080 
+0081 data=p.Results.data;
+0082 model=p.Results.model;
+0083 estimation=p.Results.estimation;
+0084 misc=p.Results.misc;
+0085 FilePath=p.Results.FilePath;
+0086 
+0087 <span class="comment">%% Display current values</span>
+0088 disp([<span class="string">'#   |Parameter    |Component |Model # |Observation '</span><span class="keyword">...</span>
+0089     <span class="string">'        |Current value |Bounds min/max |Constraint'</span>])
+0090 <span class="keyword">for</span> i=1:length(model.parameter)
+0091     i_ref=model.p_ref(i);
+0092     <span class="keyword">if</span> i~=i_ref
+0093         contraint=[<span class="string">'@'</span> num2str(i_ref)];
+0094     <span class="keyword">else</span>
+0095         contraint=<span class="string">''</span>;
+0096     <span class="keyword">end</span>
+0097     disp([repmat(<span class="string">'0'</span>,1,2-length(num2str(i))) num2str(i) <span class="string">'    '</span> <span class="keyword">...</span>
+0098         model.param_properties{i,1}  <span class="keyword">...</span>
+0099         repmat(<span class="string">' '</span>,1,14-length(model.param_properties{i,1})) <span class="keyword">...</span>
+0100         model.param_properties{i,2} <span class="keyword">...</span>
+0101         repmat(<span class="string">' '</span>,1,11-length(model.param_properties{i,2})) <span class="keyword">...</span>
+0102         model.param_properties{i,3} <span class="keyword">...</span>
+0103         repmat(<span class="string">' '</span>,1,9-length(model.param_properties{i,3}))<span class="keyword">...</span>
+0104         model.param_properties{i,4} <span class="keyword">...</span>
+0105         repmat(<span class="string">' '</span>,1,21-length(model.param_properties{i,4})) <span class="keyword">...</span>
+0106         num2str(model.parameter(i_ref)) <span class="keyword">...</span>
+0107         repmat(<span class="string">' '</span>, 1,14-length(num2str(model.parameter(i_ref))))<span class="keyword">...</span>
+0108         num2str(model.param_properties{i,5}(1)) <span class="keyword">...</span>
+0109         repmat(<span class="string">' '</span>,1,5-length(num2str(model.param_properties{i,5}(1)))) <span class="string">'/'</span>  <span class="keyword">...</span>
+0110         num2str(model.param_properties{i,5}(2)), <span class="keyword">...</span>
+0111         repmat(<span class="string">' '</span>,1,9-length(model.param_properties{i,5})) contraint ]);
+0112 <span class="keyword">end</span>
+0113 disp(<span class="string">' '</span>)
+0114 disp([<span class="string">'     1   -&gt;  Modify a parameter value'</span>])
+0115 disp([<span class="string">'     2   -&gt;  Constrain a parameter to another'</span>])
+0116 disp([<span class="string">'     3   -&gt;  Export current  '</span> <span class="keyword">...</span>
+0117     <span class="string">'parameter properties in config file format'</span>])
+0118 disp([<span class="string">'     4   -&gt;  Quit  '</span>])
+0119 disp(<span class="string">' '</span>)
+0120 user_inputs.inp_2 =  input(<span class="string">'Selection : '</span>);
+0121 <span class="keyword">if</span> user_inputs.inp_2==1
+0122     user_inputs.inp_2 = input(<span class="string">'     Modify parameter # '</span>);
+0123     user_inputs.inp_3 = input(<span class="string">'     New value : '</span>);
+0124     user_inputs.inp_4 = input(<span class="string">'     New bounds : '</span>);
+0125     <span class="keyword">if</span> ~isempty(user_inputs.inp_3)
+0126         model.parameter(user_inputs.inp_2)=user_inputs.inp_3;
+0127     <span class="keyword">end</span>
+0128     <span class="keyword">if</span> ~isempty(user_inputs.inp_4)
+0129         model.param_properties{user_inputs.inp_2,5}=user_inputs.inp_4;
+0130     <span class="keyword">end</span>
+0131     disp(<span class="string">' '</span>)
+0132     <span class="comment">% Save project</span>
+0133     <a href="../../../BDLM_DATA_LOADER_9/functions/Others/saveProject.html" class="code" title="function saveProject(data, model, estimation, misc, varargin)">saveProject</a>(data, model, estimation, misc, <span class="string">'FilePath'</span>, FilePath)
+0134 <span class="keyword">elseif</span> user_inputs.inp_2==2
+0135     user_inputs.inp_2 = input(<span class="string">'     Constrain parameter # '</span>);
+0136     user_inputs.inp_3 = input(<span class="string">'     to parameter # '</span>);
+0137     model.p_ref(user_inputs.inp_2)=user_inputs.inp_3;
+0138     model.param_properties{user_inputs.inp_2,5}=[nan,nan];
+0139     disp(<span class="string">' '</span>)
+0140     <span class="comment">% Save project</span>
+0141     <a href="../../../BDLM_DATA_LOADER_9/functions/Others/saveProject.html" class="code" title="function saveProject(data, model, estimation, misc, varargin)">saveProject</a>(data, model, estimation, misc, <span class="string">'FilePath'</span>, FilePath)
+0142 <span class="keyword">elseif</span> user_inputs.inp_2==3
+0143     disp(<span class="string">' '</span>)
+0144     disp(<span class="string">'model.param_properties={'</span>)
+0145     <span class="keyword">for</span> i=1:size(model.param_properties,1)
+0146         space=repmat(<span class="string">' '</span>,1,8-length(model.param_properties{i,1}));
+0147         disp(sprintf([<span class="string">'\t''%-s'''</span> space <span class="string">',\t ''%-s'',\t  '</span><span class="keyword">...</span>
+0148             <span class="string">' ''%-s'',\t ''%-s'',\t '</span><span class="keyword">...</span>
+0149             <span class="string">'[ %-5G, %-5G]\t %%#%d'</span>], <span class="keyword">...</span>
+0150             model.param_properties{i,:},i));
+0151     <span class="keyword">end</span>
+0152     disp(<span class="string">'};'</span>)
+0153     disp(<span class="string">' '</span>)
+0154     disp(<span class="string">'model.parameter=['</span>)
+0155     <span class="keyword">for</span> i=1:size(model.parameter,1)
+0156         disp(sprintf(<span class="string">'%-8.5G \t %%#%d \t%%%-s'</span>,  <span class="keyword">...</span>
+0157             model.parameter(i),i,model.param_properties{i,1}));
+0158     <span class="keyword">end</span>
+0159     disp(<span class="string">']; '</span>)
+0160     disp(<span class="string">' '</span>)
+0161     disp([<span class="string">'model.p_ref=['</span> num2str(model.p_ref) <span class="string">'];'</span>])
+0162     disp(<span class="string">' '</span>)
+0163 <span class="keyword">elseif</span> user_inputs.inp_2==4
+0164     disp(<span class="string">' '</span>)
+0165     disp(<span class="string">'     See you soon.'</span>)
+0166     <span class="keyword">return</span>
+0167 <span class="keyword">else</span>
+0168     disp(<span class="string">'     -&gt; invalid input.'</span>)
+0169 <span class="keyword">end</span>
+0170 disp(<span class="string">' '</span>)
+0171 <span class="comment">%--------------------END CODE ------------------------</span>
+0172 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

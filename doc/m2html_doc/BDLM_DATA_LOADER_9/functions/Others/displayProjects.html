@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of displayProjects</title>
+  <meta name="keywords" content="displayProjects">
+  <meta name="description" content="DISPLAYPROJECTS displays on screen information about saved projects">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; displayProjects.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>displayProjects
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>DISPLAYPROJECTS displays on screen information about saved projects</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [ProjectInfo]=displayProjects(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DISPLAYPROJECTS displays on screen information about saved projects
+
+   SYNOPSIS:
+     DISPLAYPROJECTS(varargin)
+
+   INPUT:
+      FilePath    - character (optional)
+                    directory where to save the file
+                    default: '.'  (current folder)
+
+   OUTPUT:
+      ProjectInfo - cell array
+                    info about each project
+      
+
+   DESCRIPTION:
+      DISPLAYPROJECTS displays on screen information about saved projects
+      DISPLAYPROJECTS search for Matlab binary PROJ_*.mat file in
+      specified location given by FilePath
+
+   EXAMPLES:
+      displayProjects
+      displayProjects('FilePath', './saved_projects')
+
+   See also <a href="initializeProject.html" class="code" title="function [data, model, estimation, misc]=initializeProject">INITIALIZEPROJECT</a>, <a href="saveProject.html" class="code" title="function saveProject(data, model, estimation, misc, varargin)">SAVEPROJECT</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/BDLM.html" class="code" title="">BDLM</a>	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [ProjectInfo]=displayProjects(varargin)</a>
+0002 <span class="comment">%DISPLAYPROJECTS displays on screen information about saved projects</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     DISPLAYPROJECTS(varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      FilePath    - character (optional)</span>
+0009 <span class="comment">%                    directory where to save the file</span>
+0010 <span class="comment">%                    default: '.'  (current folder)</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   OUTPUT:</span>
+0013 <span class="comment">%      ProjectInfo - cell array</span>
+0014 <span class="comment">%                    info about each project</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   DESCRIPTION:</span>
+0018 <span class="comment">%      DISPLAYPROJECTS displays on screen information about saved projects</span>
+0019 <span class="comment">%      DISPLAYPROJECTS search for Matlab binary PROJ_*.mat file in</span>
+0020 <span class="comment">%      specified location given by FilePath</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   EXAMPLES:</span>
+0023 <span class="comment">%      displayProjects</span>
+0024 <span class="comment">%      displayProjects('FilePath', './saved_projects')</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   See also INITIALIZEPROJECT, SAVEPROJECT</span>
+0027 
+0028 <span class="comment">%   AUTHORS:</span>
+0029 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0032 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%   MATLAB VERSION:</span>
+0035 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   DATE CREATED:</span>
+0038 <span class="comment">%       June 4, 2018</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   DATE LAST UPDATE:</span>
+0041 <span class="comment">%       June 5, 2018</span>
+0042 
+0043 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0044 
+0045 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0046 p = inputParser;
+0047 
+0048 defaultFilePath = <span class="string">'.'</span>;
+0049 addParameter(p,<span class="string">'FilePath'</span>, defaultFilePath );
+0050 parse(p, varargin{:});
+0051 
+0052 FilePath=p.Results.FilePath;
+0053 
+0054 <span class="comment">% Validation of FilePath</span>
+0055 <span class="keyword">if</span> ~ischar(FilePath) || isempty(FilePath(~isspace(FilePath)))
+0056     disp(<span class="string">' '</span>)
+0057     disp(<span class="string">'ERROR: Path should be a non-empty character array.'</span>)
+0058     disp(<span class="string">' '</span>)
+0059     <span class="keyword">return</span>
+0060 <span class="keyword">end</span>
+0061 
+0062 [isFileExist] = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FilePath, <span class="string">'dir'</span>);
+0063 <span class="keyword">if</span> ~isFileExist
+0064     <span class="comment">% create directory</span>
+0065     mkdir(FilePath)
+0066     <span class="comment">% set directory on path</span>
+0067     addpath(FilePath)
+0068 <span class="keyword">end</span>
+0069 
+0070 
+0071 <span class="comment">%% Test existence of the file that contains all information about projects</span>
+0072 
+0073 ProjectsInfoFilename = <span class="string">'ProjectsInfo.mat'</span>;
+0074 
+0075 [isFileExist] = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(fullfile(pwd, FilePath, ProjectsInfoFilename), <span class="string">'file'</span>);
+0076 
+0077 <span class="keyword">if</span> isFileExist
+0078     
+0079     <span class="comment">% Load file display info</span>
+0080     FileContent = load(fullfile(pwd, FilePath, ProjectsInfoFilename));
+0081     ProjectInfo = FileContent.ProjectInfo;
+0082     
+0083     <span class="keyword">if</span> ~isempty(ProjectInfo)
+0084         
+0085         <span class="comment">% Sort according to ProjectDateCreation</span>
+0086         [~,I] = sort(datetime(ProjectInfo(:,2), <span class="string">'Format'</span>, <span class="string">'yyyy-MM-dd hh:mm:ss'</span>));
+0087         <span class="comment">% Rearrange array</span>
+0088         ProjectInfo(:,1) = ProjectInfo(I,1);
+0089         ProjectInfo(:,2) = ProjectInfo(I,2);
+0090         ProjectInfo(:,3) = ProjectInfo(I,3);
+0091         
+0092         
+0093         <span class="comment">% Display information</span>
+0094         disp(<span class="string">'Saved projects: '</span>)
+0095         disp(<span class="string">' '</span>)
+0096         <span class="keyword">for</span> i=1:size(ProjectInfo,1)
+0097             fprintf(<span class="string">'     %-3s -&gt; %-25s %-10s\t\n'</span>, num2str(i), <span class="keyword">...</span>
+0098                 ProjectInfo{i,1}, ProjectInfo{i,2})
+0099         <span class="keyword">end</span>
+0100         disp(<span class="string">' '</span>)
+0101       
+0102        save(fullfile(pwd, FilePath, ProjectsInfoFilename), <span class="string">'ProjectInfo'</span>); 
+0103         
+0104     <span class="keyword">end</span>
+0105 <span class="keyword">else</span>
+0106     
+0107     ProjectInfo = {};
+0108     
+0109     <span class="comment">% create file</span>
+0110     save(fullfile(pwd, FilePath, ProjectsInfoFilename), <span class="string">'ProjectInfo'</span>);
+0111 <span class="keyword">end</span>
+0112 <span class="comment">%--------------------END CODE ------------------------</span>
+0113 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

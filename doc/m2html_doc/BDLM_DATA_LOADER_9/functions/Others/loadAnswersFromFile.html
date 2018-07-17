@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of loadAnswersFromFile</title>
+  <meta name="keywords" content="loadAnswersFromFile">
+  <meta name="description" content="LOADANSWERSFROMFILE Load user's answers from an input text file">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; loadAnswersFromFile.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>loadAnswersFromFile
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>LOADANSWERSFROMFILE Load user's answers from an input text file</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [isAnswersFromFile, AnswersFromFile, AnswersIndex]=loadAnswersFromFile(filename) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">LOADANSWERSFROMFILE Load user's answers from an input text file
+
+   SYNOPSIS:
+     [isAnswersFromFile, AnswersFromFile]=LOADANSWERSFROMFILE(filename)
+
+   INPUT:
+      filename         - character (required)
+                         Name of the text file to read
+
+   OUTPUT:
+      isAnswersFromFile - logical
+                         if isAnswerFromFile = true, read answer from file
+                         if isAnswerFromFile = false, interactive user
+                         input
+
+      AnswersFromFile  - cell array
+                         the cell array contains all answers
+
+      AnswersIndex     - integer
+                         
+   DESCRIPTION:
+      LOADANSWERSFROMFILE loads user answer from input text file
+      The text file should contain one answer per line
+
+   EXAMPLES:
+      [isAnswersFromFile, AnswersFromFile]=loadAnswersFromFile('./input.txt')
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/demo_1.html" class="code" title="">demo_1</a>	% Live demo 4</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [isAnswersFromFile, AnswersFromFile, AnswersIndex]=loadAnswersFromFile(filename)</a>
+0002 <span class="comment">%LOADANSWERSFROMFILE Load user's answers from an input text file</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [isAnswersFromFile, AnswersFromFile]=LOADANSWERSFROMFILE(filename)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      filename         - character (required)</span>
+0009 <span class="comment">%                         Name of the text file to read</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%   OUTPUT:</span>
+0012 <span class="comment">%      isAnswersFromFile - logical</span>
+0013 <span class="comment">%                         if isAnswerFromFile = true, read answer from file</span>
+0014 <span class="comment">%                         if isAnswerFromFile = false, interactive user</span>
+0015 <span class="comment">%                         input</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%      AnswersFromFile  - cell array</span>
+0018 <span class="comment">%                         the cell array contains all answers</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      AnswersIndex     - integer</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   DESCRIPTION:</span>
+0023 <span class="comment">%      LOADANSWERSFROMFILE loads user answer from input text file</span>
+0024 <span class="comment">%      The text file should contain one answer per line</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   EXAMPLES:</span>
+0027 <span class="comment">%      [isAnswersFromFile, AnswersFromFile]=loadAnswersFromFile('./input.txt')</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   See also</span>
+0030 
+0031 <span class="comment">%   AUTHORS:</span>
+0032 <span class="comment">%     Ianis Gaudot,, Luong Ha Nguyen, James-A Goulet</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0035 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   MATLAB VERSION:</span>
+0038 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   DATE CREATED:</span>
+0041 <span class="comment">%       April 18, 2018</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   DATE LAST UPDATE:</span>
+0044 <span class="comment">%       April 18, 2018</span>
+0045 
+0046 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0047 
+0048 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0049 
+0050 p = inputParser;
+0051 addRequired(p,<span class="string">'filename'</span>);
+0052 parse(p,filename);
+0053 
+0054 filename=p.Results.filename;
+0055 
+0056 <span class="comment">% Validation of filename</span>
+0057 <span class="keyword">if</span> ~ischar(filename) || isempty(filename(~isspace(filename)))
+0058     disp(<span class="string">' '</span>)
+0059     disp(<span class="string">'ERROR: Filename should be a non-empty character array.'</span>)
+0060     disp(<span class="string">' '</span>)
+0061     <span class="keyword">return</span>
+0062 <span class="keyword">end</span>
+0063 
+0064 <span class="comment">%% Open and read the file</span>
+0065 fid = fopen(filename,<span class="string">'r'</span>);
+0066 
+0067 <span class="keyword">if</span> fid == -1
+0068     disp(<span class="string">' '</span>)
+0069     fprintf(<span class="string">'WARNING: Impossible to open %s. \n'</span>, filename)
+0070     disp(<span class="string">' '</span>)
+0071     AnswersFromFile = [];
+0072     AnswersIndex=[];
+0073     isAnswersFromFile = false;
+0074 <span class="keyword">else</span>
+0075     AnswersFromFile=textscan(fid, <span class="string">'%s'</span>, <span class="string">'Delimiter'</span>, <span class="string">'\n'</span>);
+0076     isAnswersFromFile = true;
+0077     AnswersIndex=1;
+0078     fclose(fid);
+0079 <span class="keyword">end</span>
+0080 <span class="comment">%--------------------END CODE ------------------------</span>
+0081 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

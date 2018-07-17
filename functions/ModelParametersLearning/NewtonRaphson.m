@@ -1,5 +1,5 @@
 function [optim]=NewtonRaphson(data, model, misc, varargin)
-%NEWTONRAPHSON Learn BDLM models parameters using Newton-Raphson technique
+%NEWTONRAPHSON Learn BDLM models parameters using the Newton-Raphson technique
 %
 %   SYNOPSIS:
 %     [optim]=NEWTONRAPHSON(data, model, misc, varargin)
@@ -18,9 +18,9 @@ function [optim]=NewtonRaphson(data, model, misc, varargin)
 %                         misc
 %
 %     OptimMode        - character (optional)
-%                         can either 'MLE' (for maximizing the log-
-%                         likelihood) or 'MAP' (for maximizing the
-%                         log-posterior)
+%                         can be either 'MLE' (for maximizing the log-
+%                         likelihood) 
+%                         or 'MAP' (for maximizing the log-posterior)
 %                         'MAP' require prior information
 %                         default: 'MAP'
 %
@@ -53,34 +53,34 @@ function [optim]=NewtonRaphson(data, model, misc, varargin)
 %
 %   DESCRIPTION:
 %      NEWTONRAPHSON is an implementation of the Newton-Raphson
-%      algorithm to learn the model parameters of Bayesian Dynamic
-%      Linear Models.
-%      The optimisation mode 'MLE' provides the Maximum Likelihood Estimation.
-%      'MAP' means that the Newton-Raphson technique is used to iteratively
-%      search for the maximum of the log-posterior. 'MAP' requires to provide
-%      a prior for each model parameters.
-%      'MLE' means that the Newton-Raphson technique is used to iteratively
-%      search for the maximum of the log-likelihood.
-%      The optimisation mode 'MAP' provides the Maximum A Posteriori
-%      estimation.
+%      algorithm to learn the model parameters of the Bayesian dynamic
+%      linear models.
+%      The optimization mode 'MLE' provides the Maximum Likelihood Estimation.
+%      The optimization mode 'MAP' provides the Maximum A Posteriori estimation.
+%      'MAP' requires to provide a prior for each model parameters.
+%      The MLE (MAP) Newton-Raphson technique is used to iteratively
+%      search for the maximum of the log-likelihood (log-posterior) using 
+%      numerical derivatives.
 %
-%      NEWTONRAPHSON provides point estimate of the model parameters,
-%      except if 'isLaplaceApproximation' = true. This option allows to
-%      provide confidence intervals around the estimation, assuming that
-%      that the posterior around optimized parameter value can be
-%      approximated using a gaussian distribution.
-%      Setting 'isLaplaceApproximation' = true can significantly increases
-%      the computation time.
+%      By default, NEWTONRAPHSON computes point estimate (MLE or MAP) of 
+%      the model parameters.
+%      If the optional argument 'isLaplaceApproximation' = true,
+%      NEWTONRAPHSON provides confidence intervals around the point estimate, 
+%      assuming that the function around the optimized parameter value can 
+%      be approximated using a gaussian distribution.
+%      Note that setting 'isLaplaceApproximation' = true can significantly 
+%      increases the computation time for high dimensional problem.
 %
-%      For bounded parameters ([a,b], [0,Inf]), NEWTONRAPHSON works in
-%      transformed spaces to increase performance.
+%      For bounded model parameters ([a,b], [0,Inf]), NEWTONRAPHSON works in
+%      transformed space.
 %
 %      WARNING: Newton-Raphson technique is sensitive to initial the model
-%      parameters values. Newton-Raphson can reach a local maximum of the
-%      function which has to be maximized, instead of
-%      the global maximum of that function, which is the solution
-%      (it a global maximum exist).
-%      It is always safer to test several initial model parameters values.
+%      parameters values. Newton-Raphson can reach a local maximum, instead 
+%      of the global maximum of that function, which is the solution
+%      (if a global maximum exists).
+%      Always re-run the optimizations several times, with different 
+%      (and possibly random) starting model parameters values, in order to 
+%      check that the proposed solution is stable. 
 %
 %   EXAMPLES:
 %      [optim]=NEWTONRAPHSON(data, model, misc)
@@ -117,7 +117,7 @@ function [optim]=NewtonRaphson(data, model, misc, varargin)
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 
-defaultMethod = 'MAP';
+defaultMethod = 'MLE';
 defaultisParallel = true;
 defaultisLaplaceApprox = false;
 defaultisQuiet = false;
@@ -144,13 +144,7 @@ isQuiet = p.Results.isQuiet;
 
 misc.isParallel = isParallel;
 
-%% Prior existence ?
-% If prior is not assigned, we use MLE for estimating model parameters.
-if size(model.param_properties,2)<6
-    misc.optim_mode   = 'MLE';
-else
-    misc.optim_mode = OptimMode;
-end
+misc.optim_mode = OptimMode;
 
 %% Resize the dataset according to the chosen training period
 % Get timestamp vector
@@ -202,6 +196,7 @@ for i = 1 : nb_param
 end
 % parameterTR_ref = parameter_TR;
 model.parameterTR   = parameter_TR;
+
 %% Analysis parameters
 nb_levels_lambda_ref    = 4;
 convergence_tolerance   = 1E-7;
@@ -246,7 +241,7 @@ delta_grad               = 1E-3*ones(size(parameter_OR));
 %% Log-likelihood initialization
 [logpdf_0, ~, ~,~] = logPosteriorPE(data_train, model, misc, 'getlogpdf', 1);
 if isinf(logpdf_0)
-    disp('warning LL0=-inf | NR_EM.m')
+    disp('warning LL0=-inf')
 end
 if ~isQuiet
     disp(['           Initial LL: ' num2str(logpdf_0)])
@@ -337,10 +332,12 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
         
         model.parameter   = parameter_OR;
         model.parameterTR = parameter_TR;
+        
         [~, GlogpdfTR_loop, HlogpdfTR_loop, delta_grad_loop] = ...
             logPosteriorPE(data_train, model, misc,...
             'paramTR_index',param_idx_loop,...
             'stepSize4grad',delta_grad(param_idx_loop));
+        
         delta_grad(param_idx_loop) = delta_grad_loop;
         if hessian_fail_hist(param_idx) > 0
             hessian_fail_hist(param_idx) = 0;
@@ -595,7 +592,8 @@ optim.misc                = misc;
 
 
 %% Laplace Approximation
-if all(converged) && isLaplaceApprox
+%if all(converged) && isLaplaceApprox
+if isLaplaceApprox
     disp('    Laplace Approximation...')
     [covParamTR_matrix, hessParamTR_matrix, hessParamOR_matrix] = ...
         LaplaceApproximation(data, model, misc,...
@@ -644,23 +642,27 @@ for p = 1 : nb_param
             logPriorDistr(pTR(idx), logpriorMu(idx), logpriorSig(idx), ...
             'distribution',logpriorName{idx});
     end
+    
     if pOR(idx)<5E-3
         delta_diff(p) = 1E-4;
     end
 end
 
 loglikH             = @(p) loglik4hessian (p, data, model, misc, search_idx);
-hessParamOR_matrix  =  (pOR(search_idx), loglikH, ...
+
+hessParamOR_matrix  =  numerical_hessian( pOR(search_idx), loglikH, ...
     'stepSize',delta_diff);
+
 hessParamTR_matrix  = gradParamTR_matrix' * hessParamOR_matrix * ...
     gradParamTR_matrix + hessParanTR_prior_matrix;
+
 if ~any(any(isnan(hessParamTR_matrix)))
     covParamTR_matrix   = inv(-hessParamTR_matrix);
     if any(any(diag(covParamTR_matrix<0)))
         if ~any(any(isnan(std_p_TR(search_idx))))
             covParamTR_matrix   = diag(std_p_TR(search_idx).^2);
         else
-            disp('Warning: Covariance Matrix cannot compute')
+            disp('     Warning: Covariance matrix cannot be computed.')
             covParamTR_matrix = NaN(nb_param, nb_param);
         end
     end
@@ -669,6 +671,6 @@ end
 
 function  LL = loglik4hessian (p, data, model, misc, search_idx)
 model.parameter(search_idx) = p;
-[~,~,~,~,LL,~,~]            = SKF(data,model,misc);
+[~,~,~,~,LL,~,~]            = SwitchingKalmanFilter(data,model,misc);
 end
 

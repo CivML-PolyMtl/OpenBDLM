@@ -1,0 +1,303 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of simulateDataFromTransitionProbabilities</title>
+  <meta name="keywords" content="simulateDataFromTransitionProbabilities">
+  <meta name="description" content="SIMULATEDATAFROMTRANSITIONPROBABILITIES Perform stochastic data simulation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataSimulation</a> &gt; simulateDataFromTransitionProbabilities.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/DataSimulation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>simulateDataFromTransitionProbabilities
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>SIMULATEDATAFROMTRANSITIONPROBABILITIES Perform stochastic data simulation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [data, model, estimation, misc]=simulateDataFromTransitionProbabilities(data, model, misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SIMULATEDATAFROMTRANSITIONPROBABILITIES Perform stochastic data simulation
+
+   SYNOPSIS:
+     [data, model, estimation, misc]=SIMULATEDATAFROMTRANSITIONPROBABILITIES(data, model, misc)
+
+   INPUT:
+      data         - structure (required)
+                     see documentation for details about the fields of data
+
+      model        - structure (required)
+                     see documentation for details about the fields of
+                     model
+
+      misc         - structure (required)
+                     see documentation for details about the fields of misc
+
+   OUTPUT:
+      data         - structure (required)
+                     see documentation for details about the fields of data
+
+      model        - structure (required)
+                     see documentation for details about the fields of
+                     model
+
+      estimation   - structure (required)
+                     see documentation for details about the fields of
+                     estimation
+
+      misc         - structure (required)
+                     see documentation for details about the fields of misc
+
+   DESCRIPTION:
+      SIMULATEDATAFROMTRANSITIONPROBABILITIES performs &quot;stochastic&quot; data
+      simulation. Here, &quot;stochastic&quot; data simulation means that, in case of 
+      switching regime model, SIMULATEDATAFROMTRANSITIONPROBABILITIES uses 
+      the values in the transition probabilities matrix Z and in the switching 
+      process noise covariance matrices Q12, Q21  to simulate the data.
+      In other words, SIMULATEDATAFROMTRANSITIONPROBABILITIES performs the
+      prediction step of the (switching) Kalman filter at each time step
+      to simulate the data.
+
+   EXAMPLES:
+      [data, model, estimation, misc]=SIMULATEDATAFROMTRANSITIONPROBABILITIES(data, model, misc)
+
+   EXTERNAL FUNCTIONS CALLED:
+      computeTimeSteps
+
+   See also <a href="SimulateData.html" class="code" title="function [data, model, estimation, misc]=SimulateData(data, model, misc, varargin)">SIMULATEDATA</a>, <a href="simulateDataFromCustomAnomalies.html" class="code" title="function [data, model, estimation, misc]=simulateDataFromCustomAnomalies(data, model, misc)">SIMULATEDATAFROMCUSTOMANOMALIES</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>	COMPUTETIMESTEPS compute timestep vector from timestamps vector</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="SimulateData.html" class="code" title="function [data, model, estimation, misc]=SimulateData(data, model, misc, varargin)">SimulateData</a>	SIMULATEDATA Simulate data from current model configuration</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [data, model, estimation, misc]=simulateDataFromTransitionProbabilities(data, model, misc)</a>
+0002 <span class="comment">%SIMULATEDATAFROMTRANSITIONPROBABILITIES Perform stochastic data simulation</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [data, model, estimation, misc]=SIMULATEDATAFROMTRANSITIONPROBABILITIES(data, model, misc)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data         - structure (required)</span>
+0009 <span class="comment">%                     see documentation for details about the fields of data</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%      model        - structure (required)</span>
+0012 <span class="comment">%                     see documentation for details about the fields of</span>
+0013 <span class="comment">%                     model</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%      misc         - structure (required)</span>
+0016 <span class="comment">%                     see documentation for details about the fields of misc</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   OUTPUT:</span>
+0019 <span class="comment">%      data         - structure (required)</span>
+0020 <span class="comment">%                     see documentation for details about the fields of data</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%      model        - structure (required)</span>
+0023 <span class="comment">%                     see documentation for details about the fields of</span>
+0024 <span class="comment">%                     model</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%      estimation   - structure (required)</span>
+0027 <span class="comment">%                     see documentation for details about the fields of</span>
+0028 <span class="comment">%                     estimation</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%      misc         - structure (required)</span>
+0031 <span class="comment">%                     see documentation for details about the fields of misc</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   DESCRIPTION:</span>
+0034 <span class="comment">%      SIMULATEDATAFROMTRANSITIONPROBABILITIES performs &quot;stochastic&quot; data</span>
+0035 <span class="comment">%      simulation. Here, &quot;stochastic&quot; data simulation means that, in case of</span>
+0036 <span class="comment">%      switching regime model, SIMULATEDATAFROMTRANSITIONPROBABILITIES uses</span>
+0037 <span class="comment">%      the values in the transition probabilities matrix Z and in the switching</span>
+0038 <span class="comment">%      process noise covariance matrices Q12, Q21  to simulate the data.</span>
+0039 <span class="comment">%      In other words, SIMULATEDATAFROMTRANSITIONPROBABILITIES performs the</span>
+0040 <span class="comment">%      prediction step of the (switching) Kalman filter at each time step</span>
+0041 <span class="comment">%      to simulate the data.</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   EXAMPLES:</span>
+0044 <span class="comment">%      [data, model, estimation, misc]=SIMULATEDATAFROMTRANSITIONPROBABILITIES(data, model, misc)</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0047 <span class="comment">%      computeTimeSteps</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   See also SIMULATEDATA, SIMULATEDATAFROMCUSTOMANOMALIES</span>
+0050 
+0051 <span class="comment">%   AUTHORS:</span>
+0052 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0055 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   MATLAB VERSION:</span>
+0058 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%   DATE CREATED:</span>
+0061 <span class="comment">%       April 25, 2018</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%   DATE LAST UPDATE:</span>
+0064 <span class="comment">%       April 25, 2018</span>
+0065 
+0066 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0067 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0068 p = inputParser;
+0069 
+0070 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0071 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0072 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0073 
+0074 parse(p,data, model,  misc);
+0075 
+0076 data=p.Results.data;
+0077 model=p.Results.model;
+0078 misc=p.Results.misc;
+0079 
+0080 <span class="comment">%% Get timestamps</span>
+0081 timestamps = data.timestamps{1};
+0082 
+0083 <span class="comment">%% Compute timestep vector</span>
+0084 [timesteps]=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>(timestamps);
+0085 
+0086 T = length(timestamps);            <span class="comment">%Nuuber of timestamps</span>
+0087 M = model.nb_class;           <span class="comment">%Number of model classes or regime</span>
+0088 numberOfTimeSeries=length(data.labels);            <span class="comment">%Number of observations</span>
+0089 
+0090 
+0091 <span class="comment">%% Initialization</span>
+0092 
+0093 y_obs= zeros(numberOfTimeSeries,T);
+0094 y_pred= zeros(numberOfTimeSeries,T);
+0095 
+0096 SS=zeros(1,T);
+0097 
+0098 <span class="keyword">for</span> j=1:M
+0099     ss=size(model.hidden_states_names{1},1);
+0100     x = zeros(ss,T);
+0101 <span class="keyword">end</span>
+0102 
+0103 <span class="comment">%% Simulate data</span>
+0104 <span class="keyword">for</span> t=1:T
+0105     
+0106     <span class="keyword">if</span> t == 1
+0107         i=1 ; <span class="comment">% we assume that starting regime (i) is the first regime</span>
+0108     <span class="keyword">end</span>
+0109     
+0110     <span class="comment">% Store regime index</span>
+0111     <span class="keyword">if</span> i == 1
+0112         SS(t)= 1;
+0113     <span class="keyword">else</span>
+0114         SS(t)=0;
+0115     <span class="keyword">end</span>
+0116     
+0117     <span class="comment">% Get transition probabilities matrix for this time step</span>
+0118     Z = model.Z(model.parameter(model.p_ref),timestamps(t),timesteps(t));
+0119     
+0120     <span class="comment">% Get transition regime (j) from Z</span>
+0121     
+0122     <span class="comment">% Add original regime index for clarity</span>
+0123     mat = [ Z(i,:) ; 1:M ];
+0124     
+0125     <span class="comment">% Sort transition probabiltiies</span>
+0126     [~,I]=sort(mat(1,:) , <span class="string">'descend'</span>);   <span class="comment">% sort</span>
+0127     mat_sort = mat(:,I);
+0128     
+0129     <span class="keyword">while</span> 1
+0130         <span class="keyword">if</span> size(mat_sort,2) == 1
+0131             <span class="comment">% there is only one regime possible</span>
+0132             j = mat_sort(2,1);
+0133             <span class="keyword">break</span>
+0134         <span class="keyword">end</span>
+0135         
+0136         <span class="comment">% Normalize transition probabilities</span>
+0137         mat_sort = [ mat_sort(1,:)./(sum(mat_sort(1,:))) ; mat_sort(2,:)];
+0138         
+0139         <span class="comment">% Generate random number in uniform distribution (0,1)</span>
+0140         ru=rand;
+0141         
+0142         <span class="keyword">if</span> ru &lt; mat_sort(1,1)
+0143             j = mat_sort(2,1);
+0144             <span class="keyword">break</span>
+0145         <span class="keyword">else</span>
+0146             mat_sort(:,1)= []; <span class="comment">% reject regime</span>
+0147         <span class="keyword">end</span>
+0148         
+0149     <span class="keyword">end</span>
+0150     
+0151     A_j = model.A{j}(model.parameter(model.p_ref), <span class="keyword">...</span>
+0152         timestamps(t),timesteps(t));
+0153     C_j = model.C{j}(model.parameter(model.p_ref), <span class="keyword">...</span>
+0154         timestamps(t),timesteps(t));
+0155     R_j = model.R{j}(model.parameter(model.p_ref),<span class="keyword">...</span>
+0156         timestamps(t),timesteps(t));
+0157     Q_j = model.Q{i}{j}(model.parameter(model.p_ref), <span class="keyword">...</span>
+0158         timestamps(t),timesteps(t));
+0159     
+0160     <span class="keyword">if</span> t==1
+0161         prevX = model.initX{i};
+0162     <span class="keyword">else</span>
+0163         prevX = x(:,t-1);
+0164     <span class="keyword">end</span>
+0165     
+0166     <span class="comment">% Prediction step  x_t+1=A.x_t + Q</span>
+0167     w=mvnrnd(zeros(length(Q_j),1),Q_j); <span class="comment">% process noise</span>
+0168     x(:,t) = A_j*prevX + w'; <span class="comment">% prediction</span>
+0169     
+0170     <span class="comment">% Compute y_pred=C.x</span>
+0171     y_pred(:,t) = C_j*x(:,t);
+0172     
+0173     <span class="comment">% Observation y_obs=C.x + R</span>
+0174     v = mvnrnd(zeros(numberOfTimeSeries,1),R_j); <span class="comment">% observation noise</span>
+0175     
+0176     y_obs(:,t) = C_j*x(:,t) + v' ;
+0177     
+0178     i=j;
+0179 <span class="keyword">end</span>
+0180 
+0181 
+0182 <span class="comment">% Save hidden states for plot_estimate</span>
+0183 estimation.ref = [x' SS'];
+0184 <span class="comment">%data.ref_S=SS;</span>
+0185 
+0186 <span class="comment">% Add NaN if applicable</span>
+0187 <span class="comment">%y_pred=y_pred';</span>
+0188 y_obs=y_obs';
+0189 
+0190 <span class="keyword">if</span> isfield(data, <span class="string">'values'</span>)
+0191     <span class="keyword">for</span> i=1:numberOfTimeSeries
+0192         y_obs(isnan(data.values{i}),i)=NaN; <span class="comment">% add NaN</span>
+0193     <span class="keyword">end</span>
+0194 <span class="keyword">end</span>
+0195 
+0196 <span class="comment">% Fill data with y_obs (simulated data)</span>
+0197 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0198     data.values{i} = y_obs(:,i);
+0199 <span class="keyword">end</span>
+0200 
+0201 <span class="comment">% Store model which has been used to simulate the data</span>
+0202 <span class="keyword">if</span> isfield(model, <span class="string">'ref'</span>)
+0203     model = rmfield(model,<span class="string">'ref'</span>);
+0204 <span class="keyword">end</span>
+0205 
+0206 model.ref = model;
+0207 
+0208 <span class="comment">%--------------------END CODE ------------------------</span>
+0209 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

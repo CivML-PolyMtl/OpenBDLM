@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of incrementFilename</title>
+  <meta name="keywords" content="incrementFilename">
+  <meta name="description" content="INCREMENTFILENAME Increment filename to prevent overwriting">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; incrementFilename.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>incrementFilename
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>INCREMENTFILENAME Increment filename to prevent overwriting</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [filename]=incrementFilename(ReferenceName, FilePath, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">INCREMENTFILENAME Increment filename to prevent overwriting
+
+   SYNOPSIS:
+     [filename]=INCREMENTFILENAME(ReferenceName, FilePath, varargin)
+
+   INPUT:
+      ReferenceName - character (required)
+                      Name of the file without extension and increment                 
+
+      FilePath      - character (required)
+                      Name of the directory in which to save the file 
+
+      FileExtension - character (optional)
+                      Extension of the file 
+                      defaut = '' (no extension)
+        
+   OUTPUT:
+      filename      - character
+                      Full name of the file
+                      filaneme = &quot;ReferenceName&quot; + &quot;.&quot; + &quot;FileExtension&quot;
+
+   DESCRIPTION:
+      INCREMENTFILENAME numerically increments over previously existing 
+      file with &quot;ReferenceName&quot; pattern to prevent overwriting
+
+   EXAMPLES:
+      [filename] = INCREMENTFILENAME('DATA_', 'processed_data', 'FileExtension', 'mat')
+      [filename] = INCREMENTFILENAME('DATA_', 'raw_data')
+
+   See also SAVEDATABINARY, SAVEDATACSV, PLOTDATA</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/DataLoader/saveDataBinary.html" class="code" title="function [dataFilename] = saveDataBinary(data,varargin)">saveDataBinary</a>	SAVEDATABINARY Save data in a binary Matlab .mat file</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/DataLoader/saveDataCSV.html" class="code" title="function saveDataCSV(data,varargin)">saveDataCSV</a>	SAVEDATACSV Save time series data in separate .csv files</li><li><a href="printConfigurationFile.html" class="code" title="function [configFilename] = printConfigurationFile(data, model, estimation, misc, varargin)">printConfigurationFile</a>	PRINTCONFIGURATIONFILE Create and print a configuration file</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotData.html" class="code" title="function plotData(data, model, estimation, misc, varargin)">plotData</a>	PLOTDATA Plot amplitude and time step of time series data</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">plotEstimations</a>	PLOTESTIMATIONS Plot hidden states results</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [filename]=incrementFilename(ReferenceName, FilePath, varargin)</a>
+0002 <span class="comment">%INCREMENTFILENAME Increment filename to prevent overwriting</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [filename]=INCREMENTFILENAME(ReferenceName, FilePath, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      ReferenceName - character (required)</span>
+0009 <span class="comment">%                      Name of the file without extension and increment</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%      FilePath      - character (required)</span>
+0012 <span class="comment">%                      Name of the directory in which to save the file</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%      FileExtension - character (optional)</span>
+0015 <span class="comment">%                      Extension of the file</span>
+0016 <span class="comment">%                      defaut = '' (no extension)</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   OUTPUT:</span>
+0019 <span class="comment">%      filename      - character</span>
+0020 <span class="comment">%                      Full name of the file</span>
+0021 <span class="comment">%                      filaneme = &quot;ReferenceName&quot; + &quot;.&quot; + &quot;FileExtension&quot;</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%   DESCRIPTION:</span>
+0024 <span class="comment">%      INCREMENTFILENAME numerically increments over previously existing</span>
+0025 <span class="comment">%      file with &quot;ReferenceName&quot; pattern to prevent overwriting</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%   EXAMPLES:</span>
+0028 <span class="comment">%      [filename] = INCREMENTFILENAME('DATA_', 'processed_data', 'FileExtension', 'mat')</span>
+0029 <span class="comment">%      [filename] = INCREMENTFILENAME('DATA_', 'raw_data')</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%   See also SAVEDATABINARY, SAVEDATACSV, PLOTDATA</span>
+0032 
+0033 <span class="comment">%   AUTHORS:</span>
+0034 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet,</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0037 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   MATLAB VERSION:</span>
+0040 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   DATE CREATED:</span>
+0043 <span class="comment">%       April 16, 2018</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">%   DATE LAST UPDATE:</span>
+0046 <span class="comment">%       April 17, 2018</span>
+0047 
+0048 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0049 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0050 p = inputParser;
+0051 
+0052 defaultFileExtension = <span class="string">''</span>;
+0053 
+0054 validationFct_FilePath = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0055     ~isempty(x(~isspace(x)));
+0056 
+0057 validationFct_FileExtension = @(x) ischar(x);
+0058 
+0059 addRequired(p,<span class="string">'ReferenceName'</span>, validationFct_FilePath );
+0060 addRequired(p,<span class="string">'FilePath'</span>, validationFct_FilePath );
+0061 addParameter(p,<span class="string">'FileExtension'</span>, defaultFileExtension, <span class="keyword">...</span>
+0062     validationFct_FileExtension);
+0063 parse(p,ReferenceName, FilePath, varargin{:});
+0064 
+0065 ReferenceName=p.Results.ReferenceName;
+0066 FileExtension = p.Results.FileExtension;
+0067 FilePath=p.Results.FilePath;
+0068 
+0069 <span class="comment">% List files in directory</span>
+0070 files=dir(fullfile( FilePath, [<span class="string">'*'</span>, ReferenceName,<span class="string">'*'</span>]));
+0071 
+0072 <span class="keyword">if</span> ~isempty(files)    
+0073     res_1=strsplit(files(end).name, <span class="string">'.'</span>);
+0074     res_2=strsplit(res_1{1}, <span class="string">'_'</span>);
+0075     num=str2double(res_2{end});
+0076     num=num+1; <span class="comment">% increment filename</span>
+0077     <span class="keyword">if</span> ~isempty(FileExtension(~isspace(FileExtension)))
+0078         filename=[ ReferenceName, <span class="string">'_'</span> ,  num2str(num,<span class="string">'%03d'</span>), <span class="string">'.'</span>, FileExtension];
+0079     <span class="keyword">else</span>
+0080         filename=[ ReferenceName,<span class="string">'_'</span> , num2str(num,<span class="string">'%03d'</span>)];
+0081     <span class="keyword">end</span>
+0082 <span class="keyword">else</span>
+0083     num = 1;
+0084     <span class="keyword">if</span> ~isempty(FileExtension(~isspace(FileExtension)))
+0085         filename=[ ReferenceName, <span class="string">'_'</span> , num2str(num,<span class="string">'%03d'</span>), <span class="string">'.'</span>, FileExtension];
+0086     <span class="keyword">else</span>
+0087         filename=[ ReferenceName, <span class="string">'_'</span> , num2str(num,<span class="string">'%03d'</span>)];
+0088     <span class="keyword">end</span>
+0089 <span class="keyword">end</span>
+0090 <span class="comment">%--------------------END CODE ------------------------</span>
+0091 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of logPriorDistr</title>
+  <meta name="keywords" content="logPriorDistr">
+  <meta name="description" content="The other distribution will be added later">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelParametersLearning</a> &gt; logPriorDistr.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/ModelParametersLearning&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>logPriorDistr
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>The other distribution will be added later</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [logprior, Glogprior, Hlogprior]= logPriorDistr(P, Mu, Sigma, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> The other distribution will be added later
+ From now, the prior distributions are assummed to be the Gaussian
+ distribution
+% Defaut values</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="NR_EM.html" class="code" title="function [optim]=NR_EM(data, model, misc, varargin)">NR_EM</a>	INPUTS:</li><li><a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)">logPosteriorPE</a>	INPUTS:</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [logpdf, gradlogpdf, hesslogpdf] = normalDistr(P, Mu, Sigma)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [logprior, Glogprior, Hlogprior]= logPriorDistr(P, Mu, Sigma, varargin)</a>
+0002 <span class="comment">% The other distribution will be added later</span>
+0003 <span class="comment">% From now, the prior distributions are assummed to be the Gaussian</span>
+0004 <span class="comment">% distribution</span>
+0005 <span class="comment">%% Defaut values</span>
+0006 nameprior = <span class="string">'normal'</span>;
+0007 
+0008 <span class="comment">%% If provided, employ user-specific arguments</span>
+0009 args  = varargin;
+0010 nargs = length(varargin);
+0011 <span class="keyword">for</span> n = 1:2:nargs
+0012     <span class="keyword">switch</span> args{n}
+0013         <span class="keyword">case</span> <span class="string">'distribution'</span>,   nameprior = args{n+1};
+0014         <span class="keyword">otherwise</span>, error([<span class="string">'unrecognized argument'</span> args{n}])
+0015     <span class="keyword">end</span>
+0016 <span class="keyword">end</span>
+0017 
+0018 <span class="comment">%% Log-prior distribtion</span>
+0019 <span class="keyword">if</span> strcmp(nameprior, <span class="string">'normal'</span>)
+0020     [logprior, Glogprior, Hlogprior] = <a href="#_sub1" class="code" title="subfunction [logpdf, gradlogpdf, hesslogpdf] = normalDistr(P, Mu, Sigma)">normalDistr</a>(P, Mu, Sigma);
+0021 <span class="keyword">end</span>
+0022 <span class="keyword">end</span>
+0023 
+0024 <span class="comment">% Normal distribution</span>
+0025 <a name="_sub1" href="#_subfunctions" class="code">function [logpdf, gradlogpdf, hesslogpdf] = normalDistr(P, Mu, Sigma)</a>
+0026 Z          = (P - Mu)./Sigma;
+0027 logpdf     = sum(-log(Sigma) - .5*log(2*pi) - .5*(Z.^2));
+0028 gradlogpdf = -Z./Sigma;
+0029 hesslogpdf = -1./Sigma;
+0030 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

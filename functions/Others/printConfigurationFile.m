@@ -56,8 +56,10 @@ function [configFilename] = printConfigurationFile(data, model, estimation, misc
 %      [configFilename] = ]PRINTCONFIGURATIONFILE(data, model, estimation, misc, 'FilePath', 'config_files')
 %
 %   EXTERNAL FUNCTIONS CALLED:
+%      N/A
 %
 %   SUBFUNCTIONS:
+%      N/A
 %
 %   See also
 
@@ -295,7 +297,7 @@ for i=1:size(model.param_properties,1)
     space=repmat(' ',1,8-length(model.param_properties{i,1}));
 
     fprintf(fileID,['\t %-s''%-s'',\t''%-s'' ,\t''%-s'',\t'  ...
-        '''%-s'',\t[ %-5G, %-5G]\t %%#%d \n'], ...
+        '''%-s'',\t[ %-5G, %-5G],\t ''%-s'',\t %-5G ,\t %-5G %%#%d \n'], ...
         space, model.param_properties{i,:}, i);
 
 end

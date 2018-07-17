@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of state_estimation</title>
+  <meta name="keywords" content="state_estimation">
+  <meta name="description" content="%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">StateEstimation</a> &gt; state_estimation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/StateEstimation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>state_estimation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [estimation]=state_estimation(data,model,estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ Program : State_estimationation
+ Author : James-A. Goulet
+ Date : Feb. 3th 2015
+ Last update : May. 18th 2017
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>	COMPUTETIMESTEPS compute timestep vector from timestamps vector</li><li><a href="RTS_SKS.html" class="code" title="function [x, V, VV, S] = RTS_SKS(estimation,data,model)">RTS_SKS</a>	% Get timestamps</li><li><a href="SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>	INPUTS:</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/BDLM.html" class="code" title="">BDLM</a>	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</li><li><a href="computeInitialHiddenStates.html" class="code" title="function [model] = computeInitialHiddenStates(data, model, estimation, misc, varargin)">computeInitialHiddenStates</a>	COMPUTEINITIALHIDDENSTATES Computes initial hidden states from smoother</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0002 <span class="comment">% Program : State_estimationation</span>
+0003 <span class="comment">% Author : James-A. Goulet</span>
+0004 <span class="comment">% Date : Feb. 3th 2015</span>
+0005 <span class="comment">% Last update : May. 18th 2017</span>
+0006 <span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0007 <a name="_sub0" href="#_subfunctions" class="code">function [estimation]=state_estimation(data,model,estimation, misc, varargin)</a>
+0008 
+0009 <span class="comment">%% Get timestamps</span>
+0010 timestamps = data.timestamps;
+0011 
+0012 <span class="comment">%% Compute timestep vector</span>
+0013 [timesteps]=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>(timestamps);
+0014 
+0015 numberOfTimeSeries=length(data.labels);            <span class="comment">%Number of observations</span>
+0016 M = model.nb_class;           <span class="comment">%Number of model classes or regime</span>
+0017 T =  length(timestamps); <span class="comment">% Number of samples</span>
+0018 
+0019 estimation.smooth=0;
+0020 disp_flag=1;
+0021 args = varargin;
+0022 <span class="keyword">for</span> t=1:2:length(args)
+0023     <span class="keyword">switch</span> args{t}
+0024         <span class="keyword">case</span> <span class="string">'smooth'</span>, estimation.smooth = args{t+1};
+0025         <span class="keyword">case</span> <span class="string">'disp_flag'</span>, disp_flag = args{t+1};
+0026         <span class="keyword">otherwise</span>, error([<span class="string">'unrecognized argument '</span> args{t}])
+0027     <span class="keyword">end</span>
+0028 <span class="keyword">end</span>
+0029 <span class="keyword">if</span> disp_flag==1
+0030     disp(<span class="string">'     State estimation in progress...'</span>)
+0031     disp(<span class="string">' '</span>)
+0032 <span class="keyword">end</span>
+0033 
+0034 <span class="comment">%% Kalman/UD filter</span>
+0035 [estimation.x_M, estimation.V_M, estimation.VV_M, estimation.S, estimation.LL,estimation.U,estimation.D]=<a href="SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>(data,model,misc);
+0036 <span class="keyword">if</span> disp_flag==1
+0037     disp([<span class="string">'     -&gt; log-likelihood:    '</span> num2str(estimation.LL)])
+0038 <span class="keyword">end</span>
+0039 
+0040 <span class="comment">%% Kalman smoother</span>
+0041 <span class="keyword">if</span> estimation.smooth==1
+0042     [estimation.x_M, estimation.V_M, estimation.VV_M, estimation.S]=<a href="RTS_SKS.html" class="code" title="function [x, V, VV, S] = RTS_SKS(estimation,data,model)">RTS_SKS</a>(estimation,data,model);
+0043 <span class="keyword">end</span>
+0044 
+0045 <span class="comment">%% Collapse multiple model classes in a single one</span>
+0046 estimation.x=zeros(size(estimation.x_M{1}));
+0047 estimation.V=zeros(size(estimation.x_M{1}));
+0048 estimation.y=zeros(numberOfTimeSeries,T);
+0049 estimation.Vy=zeros(numberOfTimeSeries,T);
+0050 
+0051 mx=zeros(size(estimation.x_M{1},1),M);
+0052 my=zeros(numberOfTimeSeries,M);
+0053 <span class="keyword">for</span> t=1:T
+0054     <span class="keyword">for</span> j=1:M
+0055         estimation.x(:,t)=estimation.x(:,t)+estimation.S(t,j)*estimation.x_M{j}(:,t);
+0056         mx(:,j)=estimation.x_M{j}(:,t);
+0057         estimation.V(:,t)=estimation.V(:,t)+estimation.S(t,j)*diag(estimation.V_M{j}(:,:,t));
+0058         
+0059         C_j=model.C{j}(model.parameter(model.p_ref),timestamps(t),timesteps(t));
+0060         estimation.y(:,t)=estimation.y(:,t)+estimation.S(t,j)*(C_j*estimation.x_M{j}(:,t));
+0061         my(:,j)=(C_j*estimation.x_M{j}(:,t));
+0062         estimation.Vy(:,t)=estimation.Vy(:,t)+estimation.S(t,j)*(diag(C_j*estimation.V_M{j}(:,:,t)*C_j')) ;
+0063     <span class="keyword">end</span>
+0064     <span class="keyword">for</span> j=1:M
+0065         estimation.V(:,t)=estimation.V(:,t)+estimation.S(t,j)*diag((mx(:,j)-estimation.x(:,t))*(mx(:,j)-estimation.x(:,t))');
+0066         estimation.Vy(:,t)=estimation.Vy(:,t)+estimation.S(t,j)*diag((my(:,j)-estimation.y(:,t))*(my(:,j)-estimation.y(:,t))');
+0067     <span class="keyword">end</span>
+0068 <span class="keyword">end</span>
+0069 
+0070 <span class="keyword">if</span> disp_flag==1
+0071     disp(<span class="string">'    -&gt; done.'</span>)
+0072 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -143,7 +143,8 @@ if ~isempty(ProjectInfo)
     if ~any(Test_Name) && ~any(Test_Date)
     
         % add a new line
-        ProjectInfo  = [ProjectInfo ; { project_name, misc.ProjectDateCreation, fullname }];
+        ProjectInfo  = [ProjectInfo ; { project_name, ...
+            misc.ProjectDateCreation, fullname }];
                 
     elseif any(Test_Name) && ~any(Test_Date)
         
@@ -155,7 +156,8 @@ if ~isempty(ProjectInfo)
        
 else
     % add a new line
-    ProjectInfo  = [ProjectInfo ; { project_name, misc.ProjectDateCreation, fullname }];
+    ProjectInfo  = [ProjectInfo ; { project_name, ...
+        misc.ProjectDateCreation, fullname }];
     % save
     save(fullfile(pwd, FilePath, ProjectsInfoFilename), 'ProjectInfo' );
 end

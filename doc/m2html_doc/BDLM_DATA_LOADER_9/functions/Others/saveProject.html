@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of saveProject</title>
+  <meta name="keywords" content="saveProject">
+  <meta name="description" content="SAVEPROJECT Save full project (data, model, estimation, misc) in file">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; saveProject.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>saveProject
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>SAVEPROJECT Save full project (data, model, estimation, misc) in file</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function saveProject(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SAVEPROJECT Save full project (data, model, estimation, misc) in file
+
+   SYNOPSIS:
+      saveProject(data, model, estimation, misc, varargin)
+
+   INPUT:
+      data         - structure (required)
+                     see documentation for details about the fiels of data
+
+      model        - structure (required)
+                     see documentation for details about the fiels of
+                     model
+
+      estimation   - structure (required)
+                     see documentation for details about the fiels of
+                     estimation
+
+      misc         - structure (required)
+                     see documentation for details about the fiels of misc
+
+      FilePath   - character (optional)
+                   directory where to save the file
+                   default: '.'  (current folder)
+
+   OUTPUT:
+      N/A
+      Matlab binary file with extension .mat saved in FilePath location.
+
+   DESCRIPTION:
+      SAVEPROJECT save full project (data, model, estimation, misc) in a
+      Matlab .mat binary file in specified location given by FilePath
+
+   EXAMPLES:
+      SAVEPROJECT(data, model, estimation, misc)
+      SAVEPROJECT(data, model, estimation, misc, 'FilePath', './saved_projects')
+
+   EXTERNAL FUNCTIONS CALLED:
+      testFileExistence
+
+   See also <a href="initializeProject.html" class="code" title="function [data, model, estimation, misc]=initializeProject">INITIALIZEPROJECT</a>, <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">TESTFILEEXISTENCE</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/BDLM.html" class="code" title="">BDLM</a>	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/ModelConfiguration.html" class="code" title="function [data, model, estimation, misc]=ModelConfiguration(data, model, estimation, misc)">ModelConfiguration</a>	MODELCONFIGURATION configures model for BDLM analysis</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/modifyInitialHiddenStates.html" class="code" title="function modifyInitialHiddenStates(data, model, estimation, misc, varargin)">modifyInitialHiddenStates</a>	MODIFYINITIALHIDDENSTATES Request user to modify initial hidden states</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/modifyTrainingPeriod.html" class="code" title="function modifyTrainingPeriod(data, model, estimation, misc, varargin)">modifyTrainingPeriod</a>	MODIFYTRAININGPERIOD Request user to modify training period</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelParametersLearning/modifyModelParameters.html" class="code" title="function modifyModelParameters(data, model, estimation, misc, varargin)">modifyModelParameters</a>	MODIFYMODELPARAMETERS Request user to modify model parameters values</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function saveProject(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%SAVEPROJECT Save full project (data, model, estimation, misc) in file</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%      saveProject(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data         - structure (required)</span>
+0009 <span class="comment">%                     see documentation for details about the fiels of data</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%      model        - structure (required)</span>
+0012 <span class="comment">%                     see documentation for details about the fiels of</span>
+0013 <span class="comment">%                     model</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%      estimation   - structure (required)</span>
+0016 <span class="comment">%                     see documentation for details about the fiels of</span>
+0017 <span class="comment">%                     estimation</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%      misc         - structure (required)</span>
+0020 <span class="comment">%                     see documentation for details about the fiels of misc</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%      FilePath   - character (optional)</span>
+0023 <span class="comment">%                   directory where to save the file</span>
+0024 <span class="comment">%                   default: '.'  (current folder)</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   OUTPUT:</span>
+0027 <span class="comment">%      N/A</span>
+0028 <span class="comment">%      Matlab binary file with extension .mat saved in FilePath location.</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   DESCRIPTION:</span>
+0031 <span class="comment">%      SAVEPROJECT save full project (data, model, estimation, misc) in a</span>
+0032 <span class="comment">%      Matlab .mat binary file in specified location given by FilePath</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%   EXAMPLES:</span>
+0035 <span class="comment">%      SAVEPROJECT(data, model, estimation, misc)</span>
+0036 <span class="comment">%      SAVEPROJECT(data, model, estimation, misc, 'FilePath', './saved_projects')</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0039 <span class="comment">%      testFileExistence</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   See also INITIALIZEPROJECT, TESTFILEEXISTENCE</span>
+0042 
+0043 <span class="comment">%   AUTHORS:</span>
+0044 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0047 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   MATLAB VERSION:</span>
+0050 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%   DATE CREATED:</span>
+0053 <span class="comment">%       April 18, 2018</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   DATE LAST UPDATE:</span>
+0056 <span class="comment">%       June 11, 2018</span>
+0057 
+0058 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0059 
+0060 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0061 p = inputParser;
+0062 defaultFilePath = <span class="string">'.'</span>;
+0063 
+0064 validationFct_FilePath = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0065     ~isempty(x(~isspace(x)));
+0066 
+0067 addRequired(p, <span class="string">'data'</span>, @isstruct)
+0068 addRequired(p, <span class="string">'model'</span>, @isstruct)
+0069 addRequired(p, <span class="string">'estimation'</span>, @isstruct)
+0070 addRequired(p, <span class="string">'misc'</span>, @isstruct)
+0071 addParameter(p,<span class="string">'FilePath'</span>, defaultFilePath, validationFct_FilePath );
+0072 
+0073 parse(p,data, model, estimation, misc, varargin{:});
+0074 
+0075 data=p.Results.data;
+0076 model=p.Results.model;
+0077 estimation=p.Results.estimation;
+0078 misc=p.Results.misc;
+0079 FilePath=p.Results.FilePath;
+0080 
+0081 <span class="comment">%% Remove space in filename</span>
+0082 <span class="comment">%FilePath = FilePath(~isspace(FilePath));</span>
+0083 
+0084 <span class="comment">%% Create specified path if not existing</span>
+0085 [isFileExist] = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FilePath, <span class="string">'dir'</span>);
+0086 <span class="keyword">if</span> ~isFileExist
+0087     <span class="comment">% create directory</span>
+0088     mkdir(FilePath)
+0089     <span class="comment">% set directory on path</span>
+0090     addpath(FilePath)
+0091 <span class="keyword">end</span>
+0092 
+0093 <span class="comment">%% Get project name to name project file</span>
+0094 <span class="keyword">if</span> isfield(misc, <span class="string">'ProjectName'</span>)
+0095     project_name = misc.ProjectName;
+0096 <span class="keyword">else</span>
+0097     disp(<span class="string">' '</span>)
+0098     disp(<span class="string">'     ERROR: Unable to read project name from the structure. '</span>)
+0099     disp(<span class="string">' '</span>)
+0100     <span class="keyword">return</span>
+0101 <span class="keyword">end</span>
+0102 
+0103 <span class="keyword">if</span> ischar(project_name)
+0104     <span class="comment">% Remove space and quotes</span>
+0105     project_name=strrep(project_name,<span class="string">''''</span>,<span class="string">''</span> ); <span class="comment">% remove single quotes</span>
+0106     project_name=strrep(project_name,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0107     project_name=strrep(project_name, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0108 <span class="keyword">end</span>
+0109 
+0110 <span class="keyword">if</span> isempty(project_name)
+0111     disp(<span class="string">' '</span>)
+0112     disp(<span class="string">'     ERROR: Unable to read project name from the structure. '</span>)
+0113     disp(<span class="string">' '</span>)
+0114     <span class="keyword">return</span>
+0115 <span class="keyword">else</span>
+0116     name_projectfile=[<span class="string">'PROJ_'</span>, project_name, <span class="string">'.mat'</span>];
+0117     fullname=fullfile(FilePath, name_projectfile);
+0118 <span class="keyword">end</span>
+0119 
+0120 <span class="comment">% Gather in a single structure for future saving</span>
+0121 dat.data=data;
+0122 dat.model=model;
+0123 dat.estimation=estimation;
+0124 dat.misc=misc;
+0125 
+0126 <span class="comment">%% Save binary file in specified location</span>
+0127 save(fullname, <span class="string">'-struct'</span>, <span class="string">'dat'</span>)
+0128 fprintf(<span class="string">'     Saving project as %s... \n'</span>, fullfile(FilePath, name_projectfile ) );
+0129 
+0130 
+0131 <span class="comment">%% Add information specific file if required</span>
+0132 
+0133 ProjectsInfoFilename = <span class="string">'ProjectsInfo.mat'</span>;
+0134 
+0135 <span class="comment">% Load file</span>
+0136 FileContent = load(fullfile(FilePath, ProjectsInfoFilename));
+0137 ProjectInfo = FileContent.ProjectInfo;
+0138 
+0139 <span class="keyword">if</span> ~isempty(ProjectInfo)
+0140     Test_Name = strcmp(ProjectInfo(:,1), project_name);    
+0141     Test_Date = strcmp(ProjectInfo(:,2), project_name);
+0142 
+0143     <span class="keyword">if</span> ~any(Test_Name) &amp;&amp; ~any(Test_Date)
+0144     
+0145         <span class="comment">% add a new line</span>
+0146         ProjectInfo  = [ProjectInfo ; { project_name, misc.ProjectDateCreation, fullname }];
+0147                 
+0148     <span class="keyword">elseif</span> any(Test_Name) &amp;&amp; ~any(Test_Date)
+0149         
+0150         ProjectInfo{Test_Name,2} =  misc.ProjectDateCreation;
+0151         
+0152     <span class="keyword">end</span>
+0153     <span class="comment">% save</span>
+0154     save(fullfile(FilePath, ProjectsInfoFilename), <span class="string">'ProjectInfo'</span> );
+0155        
+0156 <span class="keyword">else</span>
+0157     <span class="comment">% add a new line</span>
+0158     ProjectInfo  = [ProjectInfo ; { project_name, misc.ProjectDateCreation, fullname }];
+0159     <span class="comment">% save</span>
+0160     save(fullfile(FilePath, ProjectsInfoFilename), <span class="string">'ProjectInfo'</span> );
+0161 <span class="keyword">end</span>
+0162 
+0163 <span class="comment">%--------------------END CODE ------------------------</span>
+0164 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

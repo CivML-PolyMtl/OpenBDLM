@@ -1,0 +1,34 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  DataLoader -> loadData;
+  chooseTimeSeries -> displayData;
+  chooseTimeSeries -> saveDataBinary;
+  chooseTimeSeries -> verificationDataStructure;
+  extractSynchronousRecords -> getTimeOverlap;
+  extractSynchronousRecords -> saveDataBinary;
+  extractSynchronousRecords -> verificationDataStructure;
+  loadData -> chooseTimeSeries;
+  loadData -> extractSynchronousRecords;
+  loadData -> mergeTimeStampVectors;
+  loadData -> readMultipleCSVFiles;
+  loadData -> saveDataBinary;
+  mergeTimeStampVectors -> saveDataBinary;
+  mergeTimeStampVectors -> verificationDataStructure;
+  readMultipleCSVFiles -> readSingleCSVFile;
+  readMultipleCSVFiles -> saveDataBinary;
+  saveDataBinary -> verificationDataStructure;
+  saveDataCSV -> verificationDataStructure;
+
+  DataLoader [URL="DataLoader.html"];
+  chooseTimeSeries [URL="chooseTimeSeries.html"];
+  displayData [URL="displayData.html"];
+  extractSynchronousRecords [URL="extractSynchronousRecords.html"];
+  getTimeOverlap [URL="getTimeOverlap.html"];
+  loadData [URL="loadData.html"];
+  mergeTimeStampVectors [URL="mergeTimeStampVectors.html"];
+  readMultipleCSVFiles [URL="readMultipleCSVFiles.html"];
+  readSingleCSVFile [URL="readSingleCSVFile.html"];
+  saveDataBinary [URL="saveDataBinary.html"];
+  saveDataCSV [URL="saveDataCSV.html"];
+  verificationDataStructure [URL="verificationDataStructure.html"];
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of defineTrainingPeriod</title>
+  <meta name="keywords" content="defineTrainingPeriod">
+  <meta name="description" content="DEFINETRAININGPERIOD computes training period from a timestamp vector">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelConfiguration</a> &gt; defineTrainingPeriod.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/ModelConfiguration&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>defineTrainingPeriod
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>DEFINETRAININGPERIOD computes training period from a timestamp vector</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [trainingPeriod]=defineTrainingPeriod(timestamps, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DEFINETRAININGPERIOD computes training period from a timestamp vector
+
+   SYNOPSIS:
+     [trainingPeriod]=DEFINETRAININGPERIOD(timestamps, varargin)
+ 
+   INPUT:
+      timestamp        - Nx1 real array (required)
+                         timestamp vector
+                         N: number of samples in the time series
+
+      Percent          - real (optional)
+                         percent of the total duration to define training
+                         period
+                         default: 25 %
+ 
+   OUTPUT:
+      trainingPeriod   - 2x1 real array
+                         [day1, day2], day2 &gt; day1
+                         day is number of days since first timestamp
+ 
+   DESCRIPTION:
+      DEFINETRAININGPERIOD computes training period from a timestamp vector
+      Training period is defined using two dates, given in number of days
+      since first timestamp
+      DEFINETRAININGPERIOD considers the first day as the
+      start of the training period
+      The duration of the training period is given by the argument
+      &quot;Percent&quot;. 
+ 
+   EXAMPLES:
+      [trainingPeriod]=DEFINETRAININGPERIOD(timestamps)
+      [trainingPeriod]=DEFINETRAININGPERIOD(timestamps, 'Percent', 45)
+ 
+   See also <a href="defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">DEFINEREFERENCETIMESTEP</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="configureModelForDataReal.html" class="code" title="function [data, model, estimation, misc]=configureModelForDataReal(data, model, estimation , misc)">configureModelForDataReal</a>	CONFIGUREMODELFORDATAREAL configures model for BDLM analysis based on real data</li><li><a href="configureModelForDataSimulation.html" class="code" title="function [data, model, estimation, misc]=configureModelForDataSimulation(data, model, estimation , misc)">configureModelForDataSimulation</a>	CONFIGUREMODELFORDATASIMULATION configures model for BDLM analysis based on simulated data</li><li><a href="modifyTrainingPeriod.html" class="code" title="function modifyTrainingPeriod(data, model, estimation, misc, varargin)">modifyTrainingPeriod</a>	MODIFYTRAININGPERIOD Request user to modify training period</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/computeInitialHiddenStates.html" class="code" title="function [model] = computeInitialHiddenStates(data, model, estimation, misc, varargin)">computeInitialHiddenStates</a>	COMPUTEINITIALHIDDENSTATES Computes initial hidden states from smoother</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [trainingPeriod]=defineTrainingPeriod(timestamps, varargin)</a>
+0002 <span class="comment">%DEFINETRAININGPERIOD computes training period from a timestamp vector</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [trainingPeriod]=DEFINETRAININGPERIOD(timestamps, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      timestamp        - Nx1 real array (required)</span>
+0009 <span class="comment">%                         timestamp vector</span>
+0010 <span class="comment">%                         N: number of samples in the time series</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      Percent          - real (optional)</span>
+0013 <span class="comment">%                         percent of the total duration to define training</span>
+0014 <span class="comment">%                         period</span>
+0015 <span class="comment">%                         default: 25 %</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   OUTPUT:</span>
+0018 <span class="comment">%      trainingPeriod   - 2x1 real array</span>
+0019 <span class="comment">%                         [day1, day2], day2 &gt; day1</span>
+0020 <span class="comment">%                         day is number of days since first timestamp</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   DESCRIPTION:</span>
+0023 <span class="comment">%      DEFINETRAININGPERIOD computes training period from a timestamp vector</span>
+0024 <span class="comment">%      Training period is defined using two dates, given in number of days</span>
+0025 <span class="comment">%      since first timestamp</span>
+0026 <span class="comment">%      DEFINETRAININGPERIOD considers the first day as the</span>
+0027 <span class="comment">%      start of the training period</span>
+0028 <span class="comment">%      The duration of the training period is given by the argument</span>
+0029 <span class="comment">%      &quot;Percent&quot;.</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%   EXAMPLES:</span>
+0032 <span class="comment">%      [trainingPeriod]=DEFINETRAININGPERIOD(timestamps)</span>
+0033 <span class="comment">%      [trainingPeriod]=DEFINETRAININGPERIOD(timestamps, 'Percent', 45)</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   See also DEFINEREFERENCETIMESTEP</span>
+0036  
+0037 <span class="comment">%   AUTHORS:</span>
+0038 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0041 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   MATLAB VERSION:</span>
+0044 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   DATE CREATED:</span>
+0047 <span class="comment">%       April 19, 2018</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   DATE LAST UPDATE:</span>
+0050 <span class="comment">%       April 20, 2018</span>
+0051  
+0052 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0053 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0054 p = inputParser;
+0055 defaultPercent = 25.0;
+0056 ValidationFcn = @(x)isnumeric(x)&amp;~isempty(x);
+0057 addRequired(p,<span class="string">'timestamps'</span>, ValidationFcn );
+0058 addParameter(p, <span class="string">'Percent'</span>, defaultPercent, @isreal)
+0059 parse(p,timestamps, varargin{:});
+0060 
+0061 timestamps=p.Results.timestamps;
+0062 Percent = p.Results.Percent;
+0063 
+0064 <span class="comment">%% Compute trainingPeriod</span>
+0065 <span class="comment">% get training duration in days</span>
+0066 durationTraining=floor((timestamps(end)-timestamps(1))*(Percent/100)); 
+0067 
+0068 <span class="comment">% date end training in days since 0, January</span>
+0069 endTraining=timestamps(1)+durationTraining; 
+0070 
+0071 <span class="comment">% get index of end training in timestamps vector</span>
+0072 [~,I]=min(abs(timestamps-endTraining)); 
+0073 
+0074 <span class="comment">% date end training in days since beginning of timestamp vector</span>
+0075 endTraining=floor(timestamps(I)-timestamps(1)); 
+0076 
+0077 trainingPeriod = [1, endTraining]; 
+0078 <span class="comment">%--------------------END CODE ------------------------</span>
+0079 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>
