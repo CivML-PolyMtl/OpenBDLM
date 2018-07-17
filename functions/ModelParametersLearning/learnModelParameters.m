@@ -126,7 +126,7 @@ if strcmp(Method, 'NR')
     %% Model parameters optimization using Newton-Raphson technique
     
     % Define the maximal number of optimization iterations
-    misc.iteration_limit_calibration=50;
+    misc.iteration_limit_calibration=5;
     
     % Define the maximal optimization time [min]
     misc.time_limit_calibration=60;
@@ -150,7 +150,8 @@ if strcmp(Method, 'NR')
         [optim] = NewtonRaphson(data, model, misc, ...
             'OptimMode','MAP', ...
             'isParallel',true, ...
-            'isQuiet', false);
+            'isQuiet', false, ...
+            'isLaplaceApprox', true);
         
         model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);
         model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);

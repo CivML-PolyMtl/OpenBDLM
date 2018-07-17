@@ -1,0 +1,370 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of UDF</title>
+  <meta name="keywords" content="UDF">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">StateEstimation</a> &gt; UDF.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/StateEstimation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>UDF
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [xnew, Vnew, VVnew, U_post, D_post, loglik] = UDF(A, C, Q, R, y, x, V, U_post, D_post) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="gaussian_prob.html" class="code" title="function p = gaussian_prob(x, m, C, use_log)">gaussian_prob</a>	GAUSSIAN_PROB Evaluate a multivariate Gaussian density.</li><li><a href="myUD.html" class="code" title="function [U D] = myUD(mat,varargin)">myUD</a>	--------------------------------------------------------------------------</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>	INPUTS:</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [x_post U_post D_post] = bierman_m(z,R,H,x_prior,U_prior,D_prior)</a></li><li><a href="#_sub2" class="code">function [x_prior U_prior D_prior] = thornton(x_post,U_post,D_post,Uq,Dq,varargin)</a></li><li><a href="#_sub3" class="code">function [K isSingular] = KalmanGainCalc(P,R,varargin)</a></li><li><a href="#_sub4" class="code">function X = myUnitTriSysSol(T,Y,mode)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [xnew, Vnew, VVnew, U_post, D_post, loglik] = UDF(A, C, Q, R, y, x, V, U_post, D_post)</a>
+0002 
+0003 xpred = A*x;
+0004 Vpred = A*V*A';
+0005 Vpred=(Vpred+Vpred')/2;
+0006 Vpred=Vpred+Q;
+0007 <span class="keyword">try</span> [Uq,Dq] = <a href="myUD.html" class="code" title="function [U D] = myUD(mat,varargin)">myUD</a>(Q,<span class="string">'noerror'</span>);
+0008 <span class="keyword">catch</span> err
+0009     disp(<span class="string">'warning UD decomposition failed error | UDF.m'</span>)
+0010 <span class="keyword">end</span>
+0011 [x_prior,U_prior,D_prior] = <a href="#_sub2" class="code" title="subfunction [x_prior U_prior D_prior] = thornton(x_post,U_post,D_post,Uq,Dq,varargin)">thornton</a>(x,U_post,D_post,Uq,Dq,A);
+0012 
+0013 D_prior(D_prior&gt;realmax(<span class="string">'double'</span>))=realmax(<span class="string">'double'</span>);
+0014 
+0015 missing_idx=isnan(y);
+0016 V_prior=U_prior*D_prior*U_prior';
+0017 <span class="keyword">if</span> all(missing_idx)
+0018     loglik=0;
+0019 <span class="keyword">else</span>
+0020     <span class="keyword">if</span> any(any(isinf(Q)))
+0021         xpred(end)=y(end);
+0022         V_prior(<span class="keyword">end</span>,:)=0;
+0023         V_prior(:,end)=0;
+0024         V_prior(<span class="keyword">end</span>,end)=0;
+0025     <span class="keyword">end</span>
+0026     
+0027     idx_ll=~missing_idx;
+0028     y_pred=C(idx_ll,:)*xpred;
+0029     Vy_pred=C(idx_ll,:)*V_prior*C(idx_ll,:)'+R(idx_ll,idx_ll);
+0030     loglik = <a href="gaussian_prob.html" class="code" title="function p = gaussian_prob(x, m, C, use_log)">gaussian_prob</a>(y(idx_ll),y_pred, Vy_pred, 1);
+0031 <span class="keyword">end</span>
+0032 <span class="keyword">if</span> all(missing_idx)
+0033     xnew=x_prior;
+0034     U_post=U_prior;
+0035     D_post=D_prior;
+0036 <span class="keyword">else</span>
+0037     <span class="keyword">for</span> i=find(~missing_idx')
+0038         [x_prior,U_prior,D_prior] = <a href="#_sub1" class="code" title="subfunction [x_post U_post D_post] = bierman_m(z,R,H,x_prior,U_prior,D_prior)">bierman_m</a>(y(i),R(i,i),C(i,:),x_prior,U_prior,D_prior);
+0039     <span class="keyword">end</span>
+0040     xnew=x_prior;
+0041     U_post=U_prior;
+0042     D_post=D_prior;
+0043 <span class="keyword">end</span>
+0044 
+0045 Vnew=U_post*D_post*U_post';
+0046 K=<a href="#_sub3" class="code" title="subfunction [K isSingular] = KalmanGainCalc(P,R,varargin)">KalmanGainCalc</a>(Vpred,R,C);
+0047 K(:,missing_idx)=0;
+0048 VVnew = A*V - K*C*A*V;
+0049 VVnew=triu(VVnew)+triu(VVnew,1)';
+0050 
+0051 <span class="keyword">end</span>
+0052 
+0053 <a name="_sub1" href="#_subfunctions" class="code">function [x_post U_post D_post] = bierman_m(z,R,H,x_prior,U_prior,D_prior)</a>
+0054 <span class="comment">%--------------------------------------------------------------------------</span>
+0055 <span class="comment">% Syntax:  [x_post U_post D_post] = bierman(z,R,H,x_prior,U_prior,D_prior);</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">% Inputs:       z is a scalar measurement</span>
+0058 <span class="comment">%               R is the variance of z</span>
+0059 <span class="comment">%               H is a row vector of length length(x_prior)</span>
+0060 <span class="comment">%               x_prior is the apriori state estimate</span>
+0061 <span class="comment">%               [U_prior D_prior] = myUD(P_prior);</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">% Outputs:      x_post is the aposteriori state estimate</span>
+0064 <span class="comment">%               [U_post D_post] = myUD(P_post);</span>
+0065 <span class="comment">%</span>
+0066 <span class="comment">% Description:  This function performs the Bierman square root Kalman</span>
+0067 <span class="comment">%               filter scalar measurement update. That is, it performs</span>
+0068 <span class="comment">%</span>
+0069 <span class="comment">%               K = P_prior * H' / (H * P_prior * H' + R);</span>
+0070 <span class="comment">%               x_post = x_prior + K * (z - H * x_prior);</span>
+0071 <span class="comment">%               P_post = (I - K*H) * P_prior;</span>
+0072 <span class="comment">%</span>
+0073 <span class="comment">%               but returns x_post, U_post, and D_post, where</span>
+0074 <span class="comment">%               [U_post D_post] = myUD(P_post);</span>
+0075 <span class="comment">%</span>
+0076 <span class="comment">% Author:       Brian Moore</span>
+0077 <span class="comment">%               brimoor@umich.edu</span>
+0078 <span class="comment">%</span>
+0079 <span class="comment">% Date:         June 28, 2012</span>
+0080 <span class="comment">%--------------------------------------------------------------------------</span>
+0081 
+0082 x_post = x_prior;
+0083 U_post = U_prior; 
+0084 D_post = D_prior;
+0085 a = U_post' * H';
+0086 b = D_post * a;
+0087 dz = z - H * x_prior; 
+0088 alpha = R; 
+0089 gamma = 1 / alpha; 
+0090   <span class="keyword">for</span> j = 1:length(x_prior)
+0091   beta   = alpha; 
+0092   alpha  = alpha + a(j) * b(j); 
+0093   lambda = -a(j) * gamma; 
+0094   gamma  = 1 / alpha; 
+0095   D_post(j,j) = beta * gamma * D_post(j,j); 
+0096     <span class="keyword">for</span> i = 1:j-1 
+0097     beta = U_post(i,j); 
+0098     U_post(i,j) = beta + b(i) * lambda; 
+0099     b(i) = b(i) + b(j) * beta; 
+0100     <span class="keyword">end</span>
+0101   <span class="keyword">end</span>
+0102 x_post = x_post + gamma * dz * b;
+0103 <span class="keyword">end</span>
+0104 
+0105 <a name="_sub2" href="#_subfunctions" class="code">function [x_prior U_prior D_prior] = thornton(x_post,U_post,D_post,Uq,Dq,varargin)</a>
+0106 <span class="comment">%--------------------------------------------------------------------------</span>
+0107 <span class="comment">% Syntax: [x_prior U_prior D_prior]=thornton(x_post,U_post,D_post,Uq,Dq);</span>
+0108 <span class="comment">%         [x_prior U_prior D_prior]=thornton(x_post,U_post,D_post,Uq,Dq,A);</span>
+0109 <span class="comment">%</span>
+0110 <span class="comment">% Inputs:       x_post is the aposteriori state estimate</span>
+0111 <span class="comment">%               [U_post D_post] = myUD(P_post);</span>
+0112 <span class="comment">%               [Uq Dq] = myUD(Q);</span>
+0113 <span class="comment">%               A is the state transition matrix (can exclude when A is an</span>
+0114 <span class="comment">%               identity matrix)</span>
+0115 <span class="comment">%</span>
+0116 <span class="comment">% Outputs:      x_prior is the apriori state estimate</span>
+0117 <span class="comment">%               [U_prior D_prior] = myUD(P_prior);</span>
+0118 <span class="comment">%</span>
+0119 <span class="comment">% Description:  This function performs the Thornton square root Kalman</span>
+0120 <span class="comment">%               filter time update, which employs the modified weighted QR</span>
+0121 <span class="comment">%               decomposition. That is, it performs</span>
+0122 <span class="comment">%</span>
+0123 <span class="comment">%               x_prior = A * x_post;</span>
+0124 <span class="comment">%               P_prior = A * P_post * A' + Q;</span>
+0125 <span class="comment">%</span>
+0126 <span class="comment">%               but returns x_prior, U_prior, and D_prior, where</span>
+0127 <span class="comment">%               [U_prior D_prior] = myUD(P_prior);</span>
+0128 <span class="comment">%</span>
+0129 <span class="comment">% Author:       Brian Moore</span>
+0130 <span class="comment">%               brimoor@umich.edu</span>
+0131 <span class="comment">%</span>
+0132 <span class="comment">% Date:         June 28, 2012</span>
+0133 <span class="comment">%--------------------------------------------------------------------------</span>
+0134 
+0135 tol = 1e-55;
+0136 
+0137 n = length(x_post);
+0138 sigma = 0; <span class="comment">%#ok</span>
+0139 dinv = 0; <span class="comment">%#ok</span>
+0140 i = 0; <span class="comment">%#ok</span>
+0141 j = 0; <span class="comment">%#ok</span>
+0142 k = 0; <span class="comment">%#ok</span>
+0143 
+0144 a1 = zeros(1,n);
+0145 a2 = zeros(1,n);
+0146 v1 = zeros(1,n);
+0147 v2 = zeros(1,n);
+0148 D_prior = zeros(n);
+0149 
+0150 <span class="keyword">if</span> nargin == 6
+0151     A = varargin{1};
+0152     
+0153     x_prior = A * x_post;
+0154 
+0155     <span class="comment">% Form U_prior = A * U_post</span>
+0156     U_prior = A;
+0157     <span class="keyword">for</span> i = 1:n
+0158         <span class="keyword">for</span> j = n:-1:1
+0159             sigma = U_prior(i,j);
+0160             <span class="keyword">for</span> k = 1:(j-1)
+0161                 sigma = sigma + U_prior(i,k) * U_post(k,j);
+0162             <span class="keyword">end</span>
+0163             U_prior(i,j) = sigma;
+0164         <span class="keyword">end</span>
+0165     <span class="keyword">end</span>
+0166 <span class="keyword">else</span>
+0167     x_prior = x_post;
+0168     U_prior = U_post;
+0169 <span class="keyword">end</span>
+0170 
+0171 <span class="keyword">for</span> j = n:-1:1
+0172     sigma = 0;
+0173     <span class="keyword">for</span> k = 1:n
+0174         v1(k) = U_prior(j,k);
+0175         a1(k) = D_post(k,k) * v1(k);
+0176         sigma = sigma + v1(k) * a1(k);
+0177     <span class="keyword">end</span>
+0178     <span class="keyword">for</span> k = 1:n
+0179         v2(k) = Uq(j,k);
+0180         a2(k) = Dq(k,k) * v2(k);
+0181         sigma = sigma + v2(k) * a2(k);
+0182     <span class="keyword">end</span>
+0183     U_prior(j,j) = sigma;
+0184     <span class="keyword">if</span> sigma &lt; tol
+0185         error(<span class="string">'New error covariance matrix is not positive definite'</span>);
+0186     <span class="keyword">end</span>
+0187     dinv = 1 / sigma;
+0188     <span class="keyword">for</span> k = 1:(j-1)
+0189         sigma = 0;
+0190         <span class="keyword">for</span> i = 1:n
+0191             sigma = sigma + U_prior(k,i) * a1(i);
+0192         <span class="keyword">end</span>
+0193         <span class="keyword">for</span> i = 1:n
+0194             sigma = sigma + Uq(k,i) * a2(i);
+0195         <span class="keyword">end</span>
+0196         sigma = sigma * dinv;
+0197         <span class="keyword">for</span> i = 1:n
+0198             U_prior(k,i) = U_prior(k,i) - sigma * v1(i);
+0199         <span class="keyword">end</span>
+0200         <span class="keyword">for</span> i = 1:n
+0201             Uq(k,i) = Uq(k,i) - sigma * v2(i);
+0202         <span class="keyword">end</span>
+0203         U_prior(j,k) = sigma;
+0204     <span class="keyword">end</span>
+0205 <span class="keyword">end</span>
+0206 
+0207 <span class="keyword">for</span> j = 1:n
+0208     D_prior(j,j) = U_prior(j,j);
+0209     U_prior(j,j) = 1;
+0210     <span class="keyword">for</span> i = 1:(j-1)
+0211         U_prior(i,j) = U_prior(j,i);
+0212         U_prior(j,i) = 0;
+0213     <span class="keyword">end</span>
+0214 <span class="keyword">end</span>
+0215 <span class="keyword">end</span>
+0216 
+0217 
+0218 <a name="_sub3" href="#_subfunctions" class="code">function [K isSingular] = KalmanGainCalc(P,R,varargin)</a>
+0219 <span class="comment">%</span>
+0220 <span class="comment">% Computes the Kalman Gain K from the formula K = P*H'*(H*P*H'+R)^(-1)</span>
+0221 <span class="comment">% WITHOUT explicitly inverting H*P*H'+R by computing its unit Cholesky</span>
+0222 <span class="comment">% Decomposition and then applying backsubstitutions on the resulting</span>
+0223 <span class="comment">% triangular factors.</span>
+0224 <span class="comment">%</span>
+0225 
+0226 <span class="keyword">if</span> nargin ~= 3
+0227     <span class="keyword">try</span>
+0228         [U D] = <a href="myUD.html" class="code" title="function [U D] = myUD(mat,varargin)">myUD</a>(P+R);
+0229         isSingular = <span class="string">'false'</span>;
+0230         X1 = <a href="#_sub4" class="code" title="subfunction X = myUnitTriSysSol(T,Y,mode)">myUnitTriSysSol</a>(U,P',<span class="string">'upper'</span>);
+0231         X2 = X1;
+0232         <span class="keyword">for</span> i = 1:size(X2,1)
+0233             <span class="keyword">for</span> j = 1:size(X2,2)
+0234                 X2(i,j) = X2(i,j) / D(i,i);
+0235             <span class="keyword">end</span>
+0236         <span class="keyword">end</span>
+0237         X3 = <a href="#_sub4" class="code" title="subfunction X = myUnitTriSysSol(T,Y,mode)">myUnitTriSysSol</a>(U',X2,<span class="string">'lower'</span>);
+0238         K = X3';
+0239     <span class="keyword">catch</span> <span class="comment">%#ok</span>
+0240         isSingular = <span class="string">'true'</span>;
+0241         K = zeros(size(P,1),size(R,2));
+0242     <span class="keyword">end</span>
+0243 <span class="keyword">else</span>
+0244     H = varargin{1};
+0245     <span class="keyword">try</span>
+0246         [U D] = <a href="myUD.html" class="code" title="function [U D] = myUD(mat,varargin)">myUD</a>(H*P*H'+R);
+0247         isSingular = <span class="string">'false'</span>;
+0248         X1 = <a href="#_sub4" class="code" title="subfunction X = myUnitTriSysSol(T,Y,mode)">myUnitTriSysSol</a>(U,H*P',<span class="string">'upper'</span>);
+0249         X2 = X1;
+0250         <span class="keyword">for</span> i = 1:size(X2,1)
+0251             <span class="keyword">for</span> j = 1:size(X2,2)
+0252                 X2(i,j) = X2(i,j) / D(i,i);
+0253             <span class="keyword">end</span>
+0254         <span class="keyword">end</span>
+0255         X3 = <a href="#_sub4" class="code" title="subfunction X = myUnitTriSysSol(T,Y,mode)">myUnitTriSysSol</a>(U',X2,<span class="string">'lower'</span>);
+0256         K = X3';
+0257     <span class="keyword">catch</span> <span class="comment">%#ok</span>
+0258         isSingular = <span class="string">'true'</span>;
+0259         K = zeros(size(P,1),size(R,2));
+0260     <span class="keyword">end</span>
+0261 <span class="keyword">end</span>
+0262 <span class="keyword">end</span>
+0263 
+0264 <a name="_sub4" href="#_subfunctions" class="code">function X = myUnitTriSysSol(T,Y,mode)</a>
+0265 <span class="comment">%--------------------------------------------------------------------------</span>
+0266 <span class="comment">% Syntax:       X = myUnitTriSysSol(U,Y,'upper');</span>
+0267 <span class="comment">%               X = myUnitTriSysSol(L,Y,'lower');</span>
+0268 <span class="comment">%</span>
+0269 <span class="comment">% Inputs:       When mode == 'upper':</span>
+0270 <span class="comment">%               U is an N x N unit upper triangular matrix, and Y is an</span>
+0271 <span class="comment">%               N x P matrix.</span>
+0272 <span class="comment">%</span>
+0273 <span class="comment">%               When mode == 'lower':</span>
+0274 <span class="comment">%               L is an N x N unit lower triangular matrix, and Y is an</span>
+0275 <span class="comment">%               N x P matrix.</span>
+0276 <span class="comment">%</span>
+0277 <span class="comment">% Outputs:      X is the N x P matrix such that X = U^(-1) * Y;</span>
+0278 <span class="comment">%</span>
+0279 <span class="comment">% Description:  This function solves the linear, unit triangular system of</span>
+0280 <span class="comment">%               equations Y = T * X using backsubstitution, and returns</span>
+0281 <span class="comment">%               X such that X = T^(-1) * Y; (for T = U or T = L)</span>
+0282 <span class="comment">%</span>
+0283 <span class="comment">% Author:       Brian Moore</span>
+0284 <span class="comment">%               brimoor@umich.edu</span>
+0285 <span class="comment">%</span>
+0286 <span class="comment">% Date:         July 12, 2012</span>
+0287 <span class="comment">%--------------------------------------------------------------------------</span>
+0288 
+0289 [m n] = size(T);
+0290 <span class="keyword">if</span> (m ~= n)
+0291     error(<span class="string">'Input matrix must be square'</span>);
+0292 <span class="keyword">end</span>
+0293 
+0294 [m p] = size(Y);
+0295 
+0296 <span class="keyword">if</span> (m ~= n)
+0297     error(<span class="string">'U and Y must have same inner dimensions'</span>);
+0298 <span class="keyword">end</span>
+0299 
+0300 X = zeros(n,p);
+0301 
+0302 <span class="keyword">if</span> strcmpi(mode,<span class="string">'upper'</span>)
+0303     <span class="keyword">for</span> j = 1:p
+0304         <span class="keyword">for</span> i = n:(-1):1
+0305             X(i,j) = Y(i,j);
+0306             <span class="keyword">for</span> k = (i+1):n
+0307                 X(i,j) = X(i,j) - T(i,k) * X(k,j);
+0308             <span class="keyword">end</span>
+0309         <span class="keyword">end</span>
+0310     <span class="keyword">end</span>
+0311 <span class="keyword">elseif</span> strcmpi(mode,<span class="string">'lower'</span>)
+0312     <span class="keyword">for</span> j = 1:p
+0313         <span class="keyword">for</span> i = 1:n
+0314             X(i,j) = Y(i,j);
+0315             <span class="keyword">for</span> k = 1:(i-1)
+0316                 X(i,j) = X(i,j) - T(i,k) * X(k,j);
+0317             <span class="keyword">end</span>
+0318         <span class="keyword">end</span>
+0319     <span class="keyword">end</span>
+0320 <span class="keyword">end</span>
+0321 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

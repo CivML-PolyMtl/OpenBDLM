@@ -19,6 +19,7 @@ end
 if strcmp(nameprior, 'normal')
     [logprior, Glogprior, Hlogprior] = normalDistr(P, Mu, Sigma);
 end
+
 end
 
 % Normal distribution

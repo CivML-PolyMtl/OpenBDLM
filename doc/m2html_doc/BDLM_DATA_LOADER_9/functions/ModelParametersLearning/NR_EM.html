@@ -1,0 +1,547 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of NR_EM</title>
+  <meta name="keywords" content="NR_EM">
+  <meta name="description" content="INPUTS:">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelParametersLearning</a> &gt; NR_EM.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/ModelParametersLearning&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>NR_EM
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>INPUTS:</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [optim]=NR_EM(data, model, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> INPUTS:
+ tolerance_timestep  - Similarity between time-steps. Example
+                       0.041667 = 0.04167. Defaut is 1E-4.
+ optim_mode          - Maximum Log-likehood Estimation (MLE). Maximum A
+                       Posteriori (MAP). Defaut is MAP.
+ parallel            - True (or 1) corresponding to the utilization of
+                       parallel computing, false (0) otherwise. Defaut is
+                       0.
+
+ OUTPUTS:
+ optim.parameter_OR_opt   - optimal parameters in original space.
+ optim.parameter_TR_opt   - optimal parameters in transformed space.
+ optim.covParamTR_matrix  - parameter covariance matrix in transformed
+                            spaced using Laplace Approximation. See
+                            Bayesian Data Analysis (Gelman-2014) for
+                            further details.
+% Defaut values
+ tolerance for time step (example: 0.041667 = 0.04167)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>	COMPUTETIMESTEPS compute timestep vector from timestamps vector</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/day2sampleIndex.html" class="code" title="function [Index]=day2sampleIndex(day, timestamps)">day2sampleIndex</a>	DAY2SAMPLEINDEX converts a number of days to timestamp index</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>	DEFINEREFERENCETIMESTEP computes reference timestep of a timestamp vector</li><li><a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)">logPosteriorPE</a>	INPUTS:</li><li><a href="logPriorDistr.html" class="code" title="function [logprior, Glogprior, Hlogprior]= logPriorDistr(P, Mu, Sigma, varargin)">logPriorDistr</a>	The other distribution will be added later</li><li><a href="numerical_hessian.html" class="code" title="function H=numerical_hessian(x, fX, varargin)">numerical_hessian</a>	% Defaut values</li><li><a href="parameter_transformation_fct.html" class="code" title="function [fct_TR,fct_inv_TR,grad_TR2OR,hessian_TR2OR]=parameter_transformation_fct(model,param_idx_loop)">parameter_transformation_fct</a>	</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>	INPUTS:</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="learnModelParameters.html" class="code" title="function [data, model, estimation, misc]=learnModelParameters(data, model, estimation, misc, varargin)">learnModelParameters</a>	LEARNMODELPARAMETERS Learn Bayesian dynamic linear model parameters</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [covParamTR_matrix, hessParamTR_matrix, hessParamOR_matrix] = LaplaceApproximation(data, model, misc, pTR, pOR, func_gradTR2OR, search_idx, std_p_TR)</a></li><li><a href="#_sub2" class="code">function  LL = loglik4hessian (p, data, model, misc, search_idx)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [optim]=NR_EM(data, model, misc, varargin)</a>
+0002 <span class="comment">% INPUTS:</span>
+0003 <span class="comment">% tolerance_timestep  - Similarity between time-steps. Example</span>
+0004 <span class="comment">%                       0.041667 = 0.04167. Defaut is 1E-4.</span>
+0005 <span class="comment">% optim_mode          - Maximum Log-likehood Estimation (MLE). Maximum A</span>
+0006 <span class="comment">%                       Posteriori (MAP). Defaut is MAP.</span>
+0007 <span class="comment">% parallel            - True (or 1) corresponding to the utilization of</span>
+0008 <span class="comment">%                       parallel computing, false (0) otherwise. Defaut is</span>
+0009 <span class="comment">%                       0.</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% OUTPUTS:</span>
+0012 <span class="comment">% optim.parameter_OR_opt   - optimal parameters in original space.</span>
+0013 <span class="comment">% optim.parameter_TR_opt   - optimal parameters in transformed space.</span>
+0014 <span class="comment">% optim.covParamTR_matrix  - parameter covariance matrix in transformed</span>
+0015 <span class="comment">%                            spaced using Laplace Approximation. See</span>
+0016 <span class="comment">%                            Bayesian Data Analysis (Gelman-2014) for</span>
+0017 <span class="comment">%                            further details.</span>
+0018 <span class="comment">%% Defaut values</span>
+0019 <span class="comment">% tolerance for time step (example: 0.041667 = 0.04167)</span>
+0020 tol                 = 1e-4;
+0021 misc.optim_mode   = <span class="string">'MAP'</span>;
+0022 misc.parallel     = 1;
+0023 
+0024 <span class="comment">%% If provided, employ user-specific arguments</span>
+0025 args    = varargin;
+0026 nargs   = length(varargin);
+0027 <span class="keyword">for</span> n = 1:2:nargs
+0028     <span class="keyword">switch</span> args{n}
+0029         <span class="keyword">case</span> <span class="string">'tolerance_timestep'</span>,  tol                 = args{n+1};
+0030         <span class="keyword">case</span> <span class="string">'optim_mode'</span>,          misc.optim_mode   = args{n+1};
+0031         <span class="keyword">case</span> <span class="string">'parallel'</span>,            misc.parallel     = args{n+1};
+0032         <span class="keyword">otherwise</span>, error([<span class="string">'unrecognized argument'</span> args{n}])
+0033     <span class="keyword">end</span>
+0034 <span class="keyword">end</span>
+0035 <span class="keyword">if</span> ~isfield(misc,<span class="string">'disp_flag'</span>)
+0036     disp_flag=1;
+0037 <span class="keyword">end</span>
+0038 <span class="comment">%% Prior existance ?</span>
+0039 <span class="comment">% If prior is not assigned, we use MLE for estimating model parameters.</span>
+0040 <span class="keyword">if</span> size(model.param_properties,2)&lt;6
+0041     misc.optim_mode   = <span class="string">'MLE'</span>;
+0042 <span class="keyword">end</span>
+0043 
+0044 <span class="comment">%% Resize the dataset according to the chosen training period</span>
+0045 <span class="comment">% Get timestamp vector</span>
+0046 timestamps = data.timestamps;
+0047 <span class="comment">% Get training period</span>
+0048 training_start_idx = <a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/day2sampleIndex.html" class="code" title="function [Index]=day2sampleIndex(day, timestamps)">day2sampleIndex</a>(misc.trainingPeriod(1), timestamps);
+0049 training_end_idx = <a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/day2sampleIndex.html" class="code" title="function [Index]=day2sampleIndex(day, timestamps)">day2sampleIndex</a>(misc.trainingPeriod(2), timestamps);
+0050 <span class="comment">% Resize timestamps</span>
+0051 
+0052 data_train.timestamps = timestamps(training_start_idx:training_end_idx);
+0053 
+0054 <span class="comment">% Get timestep training vector</span>
+0055 [data_train.dt_steps]=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>(data_train.timestamps);
+0056 data_train.nb_steps = length(training_start_idx:training_end_idx);
+0057 
+0058 <span class="comment">% Compute reference timestep during training</span>
+0059 [data_train.dt_ref] = <a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>(data_train.timestamps);
+0060 
+0061 <span class="comment">%Define time step vector</span>
+0062 data_train.dt_steps           = [data_train.dt_ref;data_train.dt_steps];
+0063 <span class="comment">% data.dt_ref                   = data_train.dt_ref ;</span>
+0064 <span class="comment">% data.dt_steps(1)              = data.dt_ref;</span>
+0065 
+0066 <span class="comment">%Get data values</span>
+0067 DataValues = data.values;
+0068 <span class="comment">% Resize data values</span>
+0069 <span class="keyword">for</span> i=1:size(data.values,2)
+0070     data_train.values(:,i) = DataValues(training_start_idx:training_end_idx,i);
+0071 <span class="keyword">end</span>
+0072 
+0073 <span class="comment">%% Identify parameters to be optimized</span>
+0074 parameter_search_idx    = find(~all(isnan(reshape([model.param_properties{:,5}],2,size(model.param_properties,1))'),2));
+0075 nb_param                = length(parameter_search_idx);
+0076 
+0077 <span class="comment">%% Initialize transformed model parameters</span>
+0078 parameter_OR            = model.parameter;
+0079 parameter_TR            = zeros(length(model.parameter),1);
+0080 transfFunc.TR           = cell(1,nb_param);
+0081 transfFunc.InvTR        = cell(1,nb_param);
+0082 transfFunc.gradTR2OR    = cell(1,nb_param);
+0083 <span class="keyword">for</span> i = 1 : nb_param
+0084     idx                 = parameter_search_idx(i);
+0085     [transfFunc.TR{i},transfFunc.InvTR{i},transfFunc.gradTR2OR{i},~] = <a href="parameter_transformation_fct.html" class="code" title="function [fct_TR,fct_inv_TR,grad_TR2OR,hessian_TR2OR]=parameter_transformation_fct(model,param_idx_loop)">parameter_transformation_fct</a>(model,idx);
+0086     parameter_TR(idx)   = transfFunc.TR{i}(parameter_OR(idx));
+0087 <span class="keyword">end</span>
+0088 <span class="comment">% parameterTR_ref = parameter_TR;</span>
+0089 model.parameterTR   = parameter_TR;
+0090 <span class="comment">%% Analysis parameters</span>
+0091 nb_levels_lambda_ref    = 4;
+0092 convergence_tolerance   = 1E-7;
+0093 
+0094 <span class="keyword">if</span> disp_flag==1
+0095     <span class="comment">%% Diaplay analysis parameters</span>
+0096     disp(<span class="string">'----------------------------------------------------------------------------------------------'</span>)
+0097     disp(<span class="string">'Estimate the parameters for the Bayesian Dynamic Linear Model'</span>)
+0098     disp(<span class="string">'----------------------------------------------------------------------------------------------'</span>)
+0099     disp(<span class="string">' '</span>)
+0100     disp(<span class="string">'    \\start Newton-Raphson maximization algorithm (finite difference method)'</span>)
+0101     disp(<span class="string">' '</span>)
+0102     disp([<span class="string">'      Training period:                                       '</span> num2str(misc.trainingPeriod(1)) <span class="string">'-'</span> num2str(misc.trainingPeriod(2)) <span class="string">' [days]'</span>])
+0103     disp([<span class="string">'      Maximal number of iteration:                           '</span> num2str(misc.iteration_limit_calibration)])
+0104     disp([<span class="string">'      Total time limit for calibration:                      '</span> num2str(misc.time_limit_calibration) <span class="string">' [min]'</span>])
+0105     disp([<span class="string">'      Convergence criterion:                                 '</span> num2str(convergence_tolerance) <span class="string">'*LL'</span>])
+0106     disp([<span class="string">'      Nb. of search levels for \lambda:                      '</span> num2str(nb_levels_lambda_ref) <span class="string">'*2'</span>])
+0107     disp(<span class="string">' '</span>)
+0108     disp(<span class="string">'    ...in progress'</span>)
+0109     disp(<span class="string">' '</span>)
+0110 <span class="keyword">end</span>
+0111 
+0112 <span class="comment">%% Matrices &amp; parameter initilization</span>
+0113 hessian_fail_hist        = zeros(1,numel(parameter_search_idx));
+0114 optimization_fail        = zeros(1,numel(parameter_search_idx));
+0115 converged                = zeros(1,numel(parameter_search_idx));
+0116 dll                      = 1E6*ones(1,numel(parameter_search_idx));
+0117 grad_p_TR                = zeros(size(parameter_OR));
+0118 hessian_p_TR             = zeros(size(parameter_OR));
+0119 std_p                    = zeros(size(parameter_OR));
+0120 std_p_TR                 = abs(parameter_TR);
+0121 delta_grad               = 1E-3*ones(size(parameter_OR));
+0122 <span class="comment">%% Log-likelihood initialization</span>
+0123 [logpdf_0, ~, ~,~] = <a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)">logPosteriorPE</a>(data_train, model, misc, <span class="string">'getlogpdf'</span>, 1);
+0124 <span class="keyword">if</span> isinf(logpdf_0)
+0125     disp(<span class="string">'warning LL0=-inf | NR_EM.m'</span>)
+0126 <span class="keyword">end</span>
+0127 <span class="keyword">if</span> disp_flag==1
+0128     disp([<span class="string">'           Initial LL: '</span> num2str(logpdf_0)])
+0129 <span class="keyword">end</span>
+0130 name_idx_1=<span class="string">''</span>;
+0131 name_idx_2=<span class="string">''</span>;
+0132 <span class="keyword">for</span> i=parameter_search_idx'
+0133     name_p1{i}=[model.param_properties{i,1}];
+0134     <span class="keyword">if</span> ~isempty(model.param_properties{i,4})
+0135         temp=model.param_properties{i,4}(1);
+0136     <span class="keyword">else</span>
+0137         temp=<span class="string">''</span>;
+0138     <span class="keyword">end</span>
+0139     name_p2{i}=[model.param_properties{i,2}, <span class="string">'|M'</span>, model.param_properties{i,3},<span class="string">'|'</span>,temp];
+0140     name_idx_1=[name_idx_1  name_p1{i} repmat(<span class="string">' '</span>,[1,15-length(name_p1{i})]) <span class="string">' '</span>];
+0141     name_idx_2=[name_idx_2  name_p2{i} repmat(<span class="string">' '</span>,[1,15-length(name_p2{i})]) <span class="string">' '</span>];
+0142 <span class="keyword">end</span>
+0143 <span class="keyword">if</span> disp_flag==1
+0144     disp([<span class="string">'                       '</span> name_idx_2])
+0145     disp([<span class="string">'      parameter names: '</span> name_idx_1])
+0146     fprintf([<span class="string">'       initial values: '</span> repmat([<span class="string">'%#-+15.2e'</span> <span class="string">' '</span>],[1,length(parameter_OR)])],parameter_OR(parameter_search_idx))
+0147 <span class="keyword">end</span>
+0148 
+0149 <span class="comment">%% NR Optimization loops</span>
+0150 tic; <span class="comment">% time counter initialization</span>
+0151 time_loop=0;
+0152 search_loop=1;
+0153 <span class="keyword">while</span> and(search_loop&lt;=misc.iteration_limit_calibration, time_loop&lt;(misc.time_limit_calibration*60))
+0154     <span class="keyword">if</span> disp_flag==1
+0155         disp(<span class="string">' '</span>)
+0156     <span class="keyword">end</span>
+0157     parameter_OR_ref = parameter_OR;
+0158     parameter_TR_ref = parameter_TR;
+0159     <span class="comment">%% Select the parameter which previously led to the highest change in LL</span>
+0160     rand_sample = rand;
+0161     dll_cumsum  = cumsum(dll)/sum(dll);
+0162     dll_rank    = dll_cumsum-rand_sample;
+0163     dll_rank(dll_rank&lt;0) = inf;
+0164     <span class="comment">% Remove the parameters that have small impact on log-likelihood</span>
+0165     dll_rank(hessian_fail_hist&gt;10) = Inf;
+0166     <span class="keyword">if</span> all(dll_rank == Inf)
+0167         param_idx = find(~converged,1,<span class="string">'first'</span>);
+0168     <span class="keyword">else</span>
+0169         param_idx = find((dll_cumsum-rand_sample)==min(dll_rank),1,<span class="string">'first'</span>);
+0170     <span class="keyword">end</span>
+0171     param_idx_loop = parameter_search_idx(param_idx);
+0172     param          = parameter_OR_ref(param_idx_loop);
+0173     param_TR       = parameter_TR_ref(param_idx_loop);
+0174     <span class="keyword">if</span> disp_flag == 1
+0175         disp(<span class="string">'--------------------------'</span>)
+0176         disp([<span class="string">'    Loop #'</span> num2str(search_loop) <span class="string">' : '</span> [name_p2{param_idx_loop} <span class="string">'|'</span> name_p1{param_idx_loop}]])
+0177     <span class="keyword">end</span>
+0178     H_test       = 1;
+0179     loop_count   = 1;
+0180     skip_loop_H  = 0;
+0181     hessian_fail = 0;
+0182     <span class="comment">% loop until the hessian can be calculated</span>
+0183     <span class="keyword">while</span> H_test
+0184         loop_count=loop_count +1;
+0185         <span class="keyword">if</span> loop_count &gt;5 || hessian_fail
+0186             <span class="keyword">if</span> disp_flag==1
+0187                 disp(<span class="string">'           Warning:&gt;5 failed attempts to compute the Hessian'</span>)
+0188             <span class="keyword">end</span>
+0189             skip_loop_H = 1;
+0190             hessian_fail_hist(param_idx)        = hessian_fail_hist(param_idx)+1;
+0191             parameter_OR(param_idx_loop)        = parameter_OR_ref(param_idx_loop);
+0192             parameter_TR(param_idx_loop)        = parameter_TR_ref(param_idx_loop);
+0193             <span class="keyword">if</span> hessian_fail_hist(param_idx)&gt;3
+0194                 <span class="keyword">if</span> disp_flag == 1
+0195                     disp(<span class="string">'           Warning: 3nd discontinued fails to compute the Hessian  -&gt; converged=1'</span>)
+0196                 <span class="keyword">end</span>
+0197                 converged(param_idx) = 1;
+0198             <span class="keyword">end</span>
+0199             dll(param_idx) = abs(convergence_tolerance*logpdf_0);
+0200             <span class="keyword">break</span>
+0201         <span class="keyword">end</span>
+0202         
+0203         model.parameter   = parameter_OR;
+0204         model.parameterTR = parameter_TR;
+0205         [~, GlogpdfTR_loop, HlogpdfTR_loop, delta_grad_loop] = <a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)">logPosteriorPE</a>(data_train, model, misc,<span class="keyword">...</span>
+0206             <span class="string">'paramTR_index'</span>,param_idx_loop,<span class="keyword">...</span>
+0207             <span class="string">'stepSize4grad'</span>,delta_grad(param_idx_loop));
+0208         delta_grad(param_idx_loop) = delta_grad_loop;
+0209         <span class="keyword">if</span> hessian_fail_hist(param_idx) &gt; 0
+0210             hessian_fail_hist(param_idx) = 0;
+0211         <span class="keyword">end</span>
+0212         <span class="keyword">if</span> HlogpdfTR_loop &lt; 0
+0213             hessian_p_TR(param_idx_loop) = HlogpdfTR_loop;
+0214             grad_p_TR(param_idx_loop)    = GlogpdfTR_loop;
+0215             delta_p_TR                   = - GlogpdfTR_loop/HlogpdfTR_loop;
+0216             H_test                       = 0;
+0217         <span class="keyword">elseif</span> HlogpdfTR_loop &gt; 0
+0218             hessian_p_TR(param_idx_loop) = HlogpdfTR_loop;
+0219             grad_p_TR(param_idx_loop)    = GlogpdfTR_loop;
+0220             <span class="keyword">if</span> model.param_properties{param_idx_loop,5}(1)==0&amp;&amp;model.param_properties{param_idx_loop,5}(2)==inf&amp;&amp;abs(param)&lt;1E-7
+0221                 delta_p_TR = sign(GlogpdfTR_loop)*0.25*param_TR;
+0222             <span class="keyword">else</span>
+0223                 <span class="comment">%Gradient descent must be used to reach the maxima</span>
+0224                 delta_p_TR = 0.1*GlogpdfTR_loop/HlogpdfTR_loop;
+0225             <span class="keyword">end</span>
+0226             <span class="keyword">if</span> disp_flag==1
+0227                 disp(<span class="string">'           Warning: Hessian is positive '</span>)
+0228             <span class="keyword">end</span>
+0229             H_test = 0;
+0230         <span class="keyword">elseif</span> isnan(HlogpdfTR_loop)
+0231             H_test       = 1;
+0232             hessian_fail = 1;
+0233         <span class="keyword">end</span>
+0234     <span class="keyword">end</span>
+0235     <span class="keyword">if</span> skip_loop_H ~= 1
+0236         std_p_TR_loop = sqrt(-1/hessian_p_TR(param_idx_loop));
+0237         <span class="comment">%Linearized Laplace approximation of parameter standard deviation</span>
+0238         std_p_loop    = abs(transfFunc.gradTR2OR{param_idx}(param_TR))*std_p_TR_loop;
+0239         <span class="keyword">if</span> hessian_p_TR(param_idx_loop) &lt; 0
+0240             std_p(param_idx_loop)    = std_p_loop;
+0241             std_p_TR(param_idx_loop) = std_p_TR_loop;
+0242         <span class="keyword">else</span>
+0243             std_p(param_idx_loop)    = NaN;
+0244             std_p_TR(param_idx_loop) = NaN;
+0245         <span class="keyword">end</span>
+0246         delta_p = transfFunc.InvTR{param_idx}(param_TR+delta_p_TR) - param;
+0247         <span class="keyword">if</span> disp_flag==1
+0248             disp([<span class="string">'       delta_param: '</span> num2str(delta_p)])
+0249         <span class="keyword">end</span>
+0250         <span class="keyword">try</span>
+0251             <span class="comment">%% LL test</span>
+0252             parameter_TR(param_idx_loop) = param_TR + delta_p_TR;
+0253             parameter_OR(param_idx_loop) = transfFunc.InvTR{param_idx}(parameter_TR(param_idx_loop));
+0254             model.parameter              = parameter_OR;
+0255             model.parameterTR            = parameter_TR;
+0256             [logpdf_test, ~, ~,~]        = <a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)">logPosteriorPE</a>(data_train, model, misc, <span class="string">'getlogpdf'</span>, 1);
+0257         <span class="keyword">catch</span> err
+0258             logpdf_test = -inf;
+0259         <span class="keyword">end</span>
+0260         loop_converged = 1;
+0261         delta_p_TR_ref = delta_p_TR;
+0262     <span class="keyword">else</span>
+0263         <span class="comment">% Optimization has failed the actual parameter -&gt; move to next parameter</span>
+0264         loop_converged = 0;
+0265     <span class="keyword">end</span>
+0266     <span class="comment">%% Check the validity of delta_p</span>
+0267     n                = 0;
+0268     reverse          = 0;
+0269     n_ref            = 0;
+0270     nb_levels_lambda = nb_levels_lambda_ref;
+0271     <span class="keyword">while</span> loop_converged
+0272         n=n+1;
+0273         <span class="keyword">if</span> logpdf_test&gt;logpdf_0
+0274             loop_converged       = 0;
+0275             converged(param_idx) = and(~isnan(std_p(param_idx_loop)),abs(logpdf_test - logpdf_0)&lt;abs(convergence_tolerance*logpdf_0));
+0276             dll(param_idx)       = logpdf_test - logpdf_0; <span class="comment">% Record the change in the log-likelihood</span>
+0277             <span class="keyword">if</span> dll(param_idx)&lt;abs(convergence_tolerance*logpdf_0)
+0278                 <span class="keyword">if</span> isnan(std_p(param_idx_loop))
+0279                     dll(param_idx) = 10*abs(convergence_tolerance*logpdf_0);
+0280                 <span class="keyword">else</span>
+0281                     dll(param_idx) = abs(convergence_tolerance*logpdf_0);
+0282                 <span class="keyword">end</span>
+0283             <span class="keyword">end</span>
+0284             logpdf_0                            = logpdf_test;
+0285             parameter_TR_ref(param_idx_loop)    = parameter_TR(param_idx_loop);
+0286             parameter_OR_ref(param_idx_loop)    = parameter_OR(param_idx_loop);
+0287             <span class="keyword">if</span> disp_flag==1
+0288                 disp([<span class="string">'    log-likelihood: '</span> num2str(logpdf_0)])
+0289                 disp([<span class="string">'      param change: '</span> num2str(param) <span class="string">' -&gt; '</span> num2str(parameter_OR(param_idx_loop))])
+0290                 disp(<span class="string">' '</span>)
+0291                 disp([<span class="string">'                    '</span> name_idx_2])
+0292                 disp([<span class="string">'   parameter names: '</span> name_idx_1])
+0293                 fprintf([<span class="string">'    current values: '</span> repmat([<span class="string">'%#-+15.2e'</span> <span class="string">' '</span>],[1,length(parameter_OR(parameter_search_idx))-1]) <span class="string">'%#-+15.2e\n'</span>,<span class="keyword">...</span>
+0294                     <span class="string">'  current f.o. std: '</span> repmat([<span class="string">'%#-+15.2e'</span> <span class="string">' '</span>],[1,length(parameter_OR(parameter_search_idx))-1]) <span class="string">'%#-+15.2e\n'</span>,<span class="keyword">...</span>
+0295                     <span class="string">'      previous dLL: '</span> repmat([<span class="string">'%#-+15.2e'</span> <span class="string">' '</span>],[1,length(parameter_OR(parameter_search_idx))-1]) <span class="string">'%#-+15.2e\n'</span>,<span class="keyword">...</span>
+0296                     <span class="string">'         converged: '</span> repmat([<span class="string">'%#-+15.2e'</span> <span class="string">' '</span>],[1,length(parameter_OR(parameter_search_idx))-1]) <span class="string">'%#-+15.2e\n'</span>],<span class="keyword">...</span>
+0297                     parameter_OR(parameter_search_idx),<span class="keyword">...</span>
+0298                     std_p(parameter_search_idx),<span class="keyword">...</span>
+0299                     dll,<span class="keyword">...</span>
+0300                     converged);
+0301                 
+0302             <span class="keyword">end</span>
+0303             optimization_fail=optimization_fail*0;
+0304             
+0305             <span class="keyword">if</span> converged(param_idx)
+0306                 <span class="keyword">break</span>
+0307             <span class="keyword">else</span>
+0308                 converged(param_idx)=0;
+0309             <span class="keyword">end</span>
+0310             
+0311         <span class="keyword">else</span>
+0312             converged(param_idx)=0;
+0313             <span class="keyword">if</span> n&gt;nb_levels_lambda
+0314                 <span class="keyword">if</span> disp_flag==1
+0315                     disp(<span class="string">' '</span>)
+0316                     disp(<span class="string">'      ...optimization loop has failed'</span>)
+0317                 <span class="keyword">end</span>
+0318                 parameter_OR(param_idx_loop) = parameter_OR_ref(param_idx_loop);
+0319                 parameter_TR(param_idx_loop) = parameter_TR_ref(param_idx_loop);
+0320                 optimization_fail(param_idx) = optimization_fail(param_idx)+1;
+0321                 <span class="keyword">if</span> optimization_fail(param_idx)&gt;3
+0322                     converged(param_idx) = 1;
+0323                     dll(param_idx)       = abs(convergence_tolerance*logpdf_0);
+0324                 <span class="keyword">else</span>
+0325                     dll(param_idx) = 2*abs(convergence_tolerance*logpdf_0);
+0326                 <span class="keyword">end</span>
+0327                 <span class="keyword">break</span>
+0328             <span class="keyword">elseif</span> n &lt; nb_levels_lambda
+0329                 delta_p_TR  = delta_p_TR/(2^n);
+0330                 delta_p     = transfFunc.InvTR{param_idx}(param_TR + delta_p_TR)-param;
+0331                 <span class="keyword">if</span> disp_flag == 1
+0332                     disp([<span class="string">'           Warning: log-likelihood has decreased -&gt; delta_param: '</span> sprintf(<span class="string">'%#-+8.2e'</span>,delta_p) <span class="string">' (delta_p_TR=delta_p_TR/(2^'</span> num2str(n) <span class="string">'))'</span>])
+0333                 <span class="keyword">end</span>
+0334             <span class="keyword">elseif</span> n == nb_levels_lambda
+0335                 <span class="keyword">if</span> reverse == 0
+0336                     reverse     = 1;
+0337                     n           = n_ref;
+0338                     delta_p_TR  = -delta_p_TR_ref;
+0339                     delta_p     = transfFunc.InvTR{param_idx}(param_TR+delta_p_TR) - param;
+0340                 <span class="keyword">elseif</span> reverse == 1
+0341                     reverse          = 0;
+0342                     n_ref            = n;
+0343                     nb_levels_lambda = 2*nb_levels_lambda_ref;
+0344                     delta_p_TR       = delta_p_TR_ref;
+0345                     delta_p          = transfFunc.InvTR{param_idx}(param_TR+delta_p_TR)-param;
+0346                 <span class="keyword">end</span>
+0347                 <span class="keyword">if</span> disp_flag==1
+0348                     disp([<span class="string">'           Warning: log-likelihood has decreased -&gt; delta_param: '</span> sprintf(<span class="string">'%#-+8.2e'</span>,delta_p) <span class="string">' (delta_p_TR=-delta_p_TR)'</span>])
+0349                 <span class="keyword">end</span>
+0350                 
+0351             <span class="keyword">end</span>
+0352             <span class="keyword">try</span>
+0353                 <span class="comment">%% LL test</span>
+0354                 parameter_TR(param_idx_loop) = param_TR + delta_p_TR;
+0355                 parameter_OR(param_idx_loop) = transfFunc.InvTR{param_idx}(parameter_TR(param_idx_loop));
+0356                 model.parameter              = parameter_OR;
+0357                 model.parameterTR            = parameter_TR;
+0358                 [logpdf_test, ~, ~,~]        = <a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, option, varargin)">logPosteriorPE</a>(data_train, model, misc,<span class="string">'getlogpdf'</span>, 1);
+0359             <span class="keyword">catch</span> err
+0360                 logpdf_test=-inf;
+0361             <span class="keyword">end</span>
+0362         <span class="keyword">end</span>
+0363     <span class="keyword">end</span>
+0364     search_loop=search_loop+1;
+0365     <span class="keyword">if</span> all(optimization_fail&gt;0)
+0366         <span class="keyword">if</span> disp_flag==1
+0367             disp(<span class="string">' '</span>)
+0368             disp(<span class="string">'          WARNING: the optimization has failed for every parameter'</span>)
+0369         <span class="keyword">end</span>
+0370         <span class="keyword">break</span>
+0371     <span class="keyword">elseif</span> all(converged)
+0372         <span class="keyword">if</span> disp_flag==1
+0373             disp(<span class="string">' '</span>)
+0374             disp(<span class="string">'             DONE: the optimization has converged for all parameters'</span>)
+0375         <span class="keyword">end</span>
+0376         <span class="keyword">break</span>
+0377     <span class="keyword">end</span>
+0378     time_loop=toc;
+0379 <span class="keyword">end</span>
+0380 <span class="keyword">if</span> disp_flag==1
+0381     <span class="keyword">if</span> ~or(all(optimization_fail),all(converged))
+0382         disp(<span class="string">' '</span>)
+0383         disp(<span class="string">' '</span>)
+0384         disp(<span class="string">' '</span>)
+0385         <span class="keyword">if</span> time_loop&gt;(misc.time_limit_calibration*60)
+0386             disp([<span class="string">'          WARNING : the optimization has reached the maximum allowed time ('</span> num2str(misc.time_limit_calibration) <span class="string">' [min]) without convergence'</span>])
+0387         <span class="keyword">else</span>
+0388             disp([<span class="string">'          WARNING : the optimization has reached the maximum number of loops ('</span> num2str(misc.iteration_limit_calibration) <span class="string">') without convergence'</span>])
+0389         <span class="keyword">end</span>
+0390     <span class="keyword">end</span>
+0391 <span class="keyword">end</span>
+0392 
+0393 <span class="keyword">if</span> disp_flag==1
+0394     <span class="comment">%% Display final results</span>
+0395     disp(<span class="string">' '</span>)
+0396     disp(<span class="string">' ----------------------'</span>)
+0397     disp(<span class="string">'    Final results'</span>)
+0398     disp(<span class="string">' ----------------------'</span>)
+0399     disp([<span class="string">'   log-likelihood: '</span> num2str(logpdf_0)])
+0400     disp([<span class="string">'                     '</span> name_idx_2])
+0401     disp([<span class="string">'  parameter names: '</span> name_idx_1])
+0402     fprintf([<span class="string">'   current values: '</span> repmat([<span class="string">'%#-+15.2e'</span> <span class="string">' '</span>],[1,length(parameter_OR(parameter_search_idx))-1]) <span class="string">'%#-+15.2e\n'</span>,<span class="keyword">...</span>
+0403         <span class="string">' current f.o. std: '</span> repmat([<span class="string">'%#-+15.2e'</span> <span class="string">' '</span>],[1,length(parameter_OR(parameter_search_idx))-1]) <span class="string">'%#-+15.2e\n'</span>],<span class="keyword">...</span>
+0404         parameter_OR(parameter_search_idx),<span class="keyword">...</span>
+0405         std_p(parameter_search_idx))
+0406 <span class="keyword">end</span>
+0407 <span class="comment">%% Outputs</span>
+0408 optim.parameter_opt         = parameter_OR;
+0409 optim.parameterTR_opt       = parameter_TR;
+0410 optim.std_parameter_TR_opt  = std_p;
+0411 optim.hessian_p_TR_opt      = hessian_p_TR(parameter_search_idx);
+0412 optim.std_parameter_TR_opt  = std_p_TR;
+0413 optim.converged             = converged;
+0414 optim.search_loop           = search_loop;
+0415 optim.log_lik               = logpdf_0;
+0416 optim.data                  = data;
+0417 optim.data_train            = data_train;
+0418 optim.optim_mode            = misc.optim_mode ;
+0419 optim.misc                = misc;
+0420 <span class="comment">% Laplace Approximation</span>
+0421 <span class="comment">% if all(converged)</span>
+0422 <span class="comment">%     disp('    Laplace Approximation...')</span>
+0423 <span class="comment">%     [covParamTR_matrix, hessParamTR_matrix, hessParamOR_matrix] = LaplaceApproximation(data, model, misc,...</span>
+0424 <span class="comment">%                                                                                    parameter_TR,...</span>
+0425 <span class="comment">%                                                                                    parameter_OR,...</span>
+0426 <span class="comment">%                                                                                    transfFunc.gradTR2OR,...</span>
+0427 <span class="comment">%                                                                                    parameter_search_idx,...</span>
+0428 <span class="comment">%                                                                                    std_p_TR);</span>
+0429 <span class="comment">%     optim.covParamTR_matrix     = covParamTR_matrix;</span>
+0430 <span class="comment">%     optim.hessParamTR_matrix    = hessParamTR_matrix;</span>
+0431 <span class="comment">%     optim.hessParamOR_matrix    = hessParamOR_matrix;</span>
+0432 <span class="comment">% end</span>
+0433 <span class="keyword">end</span>
+0434 
+0435 <a name="_sub1" href="#_subfunctions" class="code">function [covParamTR_matrix, hessParamTR_matrix, hessParamOR_matrix] = LaplaceApproximation(data, model, misc, pTR, pOR, func_gradTR2OR, search_idx, std_p_TR)</a>
+0436 <span class="keyword">if</span> size(model.param_properties,2)&gt;6
+0437     logpriorMu               = [model.param_properties{:,7}]; <span class="comment">% mean</span>
+0438     logpriorSig              = [model.param_properties{:,8}]; <span class="comment">% standard deviation</span>
+0439     logpriorName             = {model.param_properties{:,6}}; <span class="comment">% distribution name</span>
+0440     prior_empty = 0;
+0441 <span class="keyword">else</span>
+0442     prior_empty = 1;
+0443 <span class="keyword">end</span>
+0444 nb_param                 = length(search_idx);
+0445 gradParamTR_matrix       = zeros(nb_param,nb_param);
+0446 hessParanTR_prior_matrix = zeros(nb_param,nb_param);
+0447 delta_diff               = 1E-6*ones(nb_param,1);         <span class="comment">% stepsize for the nummerical hessian</span>
+0448 <span class="keyword">for</span> p = 1 : nb_param
+0449     idx = search_idx(p);
+0450     gradParamTR_matrix(p,p) = func_gradTR2OR{p}(pTR(idx));
+0451     <span class="keyword">if</span> prior_empty
+0452         hessParanTR_prior_matrix(p,p) = 0;
+0453     <span class="keyword">else</span>
+0454         [~, ~, hessParanTR_prior_matrix(p,p)]      = <a href="logPriorDistr.html" class="code" title="function [logprior, Glogprior, Hlogprior]= logPriorDistr(P, Mu, Sigma, varargin)">logPriorDistr</a>(pTR(idx), logpriorMu(idx), logpriorSig(idx),<span class="string">'distribution'</span>,logpriorName{idx});
+0455     <span class="keyword">end</span>
+0456     <span class="keyword">if</span> pOR(idx)&lt;5E-3
+0457         delta_diff(p) = 1E-4;
+0458     <span class="keyword">end</span>
+0459 <span class="keyword">end</span>
+0460 
+0461 loglikH             = @(p) <a href="#_sub2" class="code" title="subfunction  LL = loglik4hessian (p, data, model, misc, search_idx)">loglik4hessian</a> (p, data, model, misc, search_idx);
+0462 hessParamOR_matrix  = <a href="numerical_hessian.html" class="code" title="function H=numerical_hessian(x, fX, varargin)">numerical_hessian</a>(pOR(search_idx), loglikH, <span class="string">'stepSize'</span>,delta_diff);
+0463 hessParamTR_matrix  = gradParamTR_matrix' * hessParamOR_matrix * gradParamTR_matrix + hessParanTR_prior_matrix;
+0464 <span class="keyword">if</span> ~any(any(isnan(hessParamTR_matrix)))
+0465     covParamTR_matrix   = inv(-hessParamTR_matrix);
+0466     <span class="keyword">if</span> any(any(diag(covParamTR_matrix&lt;0)))
+0467         <span class="keyword">if</span> ~any(any(isnan(std_p_TR(search_idx))))
+0468             covParamTR_matrix   = diag(std_p_TR(search_idx).^2);
+0469         <span class="keyword">else</span>
+0470             disp(<span class="string">'Warning: Covariance Matrix cannot compute'</span>)
+0471             covParamTR_matrix = NaN(nb_param, nb_param);
+0472         <span class="keyword">end</span>
+0473     <span class="keyword">end</span>
+0474 <span class="keyword">end</span>
+0475 <span class="keyword">end</span>
+0476 
+0477 <a name="_sub2" href="#_subfunctions" class="code">function  LL = loglik4hessian (p, data, model, misc, search_idx)</a>
+0478 model.parameter(search_idx) = p;
+0479 [~,~,~,~,LL,~,~]            = <a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>(data,model,misc);
+0480 <span class="keyword">end</span>
+0481</pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

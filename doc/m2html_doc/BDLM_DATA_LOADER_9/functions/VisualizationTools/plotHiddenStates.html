@@ -1,0 +1,444 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plotHiddenStates</title>
+  <meta name="keywords" content="plotHiddenStates">
+  <meta name="description" content="PLOTHIDDENSTATES Plot true and estimated hidden states">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">VisualizationTools</a> &gt; plotHiddenStates.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/VisualizationTools&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>plotHiddenStates
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>PLOTHIDDENSTATES Plot true and estimated hidden states</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [FigureNames] = plotHiddenStates(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PLOTHIDDENSTATES Plot true and estimated hidden states
+
+   SYNOPSIS:
+     PLOTHIDDENSTATES(data, model, estimation, misc, varargin)
+
+   INPUT:
+      data         -     structure (required)
+                         see documentation for details about the fields of
+                         data
+
+      model            - structure (required)
+                         see documentation for details about the fields of
+                         model
+
+      estimation       - structure (required)
+                         see documentation for details about the fields of
+                         estimation
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+      isExportPDF      - logical (optional)
+                         if isExportPDF, export the figure in PDF format
+                         default: false
+
+      isExportPNG      - logical (optional)
+                         if isExportPNG, export the figure in PNG format
+                         default: true
+
+      isExportTEX      - logical (optional)
+                         if isExportTEX, export the figure in TEX format
+                         default: false
+
+      FilePath         - character (optional)
+                         directory where to save the file
+                         default: '.'  (current folder)
+
+   OUTPUT:
+     FigureNames       - cell array of character
+                        record name of the saved figures
+
+      Figure(s) on screen
+      If applicable, figure(s) saved in the location given by FilePath
+
+   DESCRIPTION:
+      PLOTHIDDENSTATES plot true and estimated hidden states
+
+   EXAMPLES:
+      PLOTHIDDENSTATES(data, model, estimation, misc)
+      PLOTHIDDENSTATES(data, model, estimation, misc, 'FilePath', 'figures')
+
+   EXTERNAL FUNCTIONS CALLED:
+      exportPlot
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also <a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">EXPORTPLOT</a>, <a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">PLOTESTIMATIONS</a>, <a href="plotPredictedData.html" class="code" title="function [FigureNames] = plotPredictedData(data, model, estimation, misc, varargin)">PLOTPREDICTEDDATA</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>	DEFINEREFERENCETIMESTEP computes reference timestep of a timestamp vector</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li><li><a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">exportPlot</a>	EXPORTPLOT Export the current figure in TeX file using matlab2tikz</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">plotEstimations</a>	PLOTESTIMATIONS Plot hidden states results</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [FigureNames] = plotHiddenStates(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%PLOTHIDDENSTATES Plot true and estimated hidden states</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     PLOTHIDDENSTATES(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data         -     structure (required)</span>
+0009 <span class="comment">%                         see documentation for details about the fields of</span>
+0010 <span class="comment">%                         data</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      model            - structure (required)</span>
+0013 <span class="comment">%                         see documentation for details about the fields of</span>
+0014 <span class="comment">%                         model</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%      estimation       - structure (required)</span>
+0017 <span class="comment">%                         see documentation for details about the fields of</span>
+0018 <span class="comment">%                         estimation</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      misc             - structure (required)</span>
+0021 <span class="comment">%                         see documentation for details about the fields of</span>
+0022 <span class="comment">%                         misc</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%      isExportPDF      - logical (optional)</span>
+0025 <span class="comment">%                         if isExportPDF, export the figure in PDF format</span>
+0026 <span class="comment">%                         default: false</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%      isExportPNG      - logical (optional)</span>
+0029 <span class="comment">%                         if isExportPNG, export the figure in PNG format</span>
+0030 <span class="comment">%                         default: true</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%      isExportTEX      - logical (optional)</span>
+0033 <span class="comment">%                         if isExportTEX, export the figure in TEX format</span>
+0034 <span class="comment">%                         default: false</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%      FilePath         - character (optional)</span>
+0037 <span class="comment">%                         directory where to save the file</span>
+0038 <span class="comment">%                         default: '.'  (current folder)</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   OUTPUT:</span>
+0041 <span class="comment">%     FigureNames       - cell array of character</span>
+0042 <span class="comment">%                        record name of the saved figures</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%      Figure(s) on screen</span>
+0045 <span class="comment">%      If applicable, figure(s) saved in the location given by FilePath</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   DESCRIPTION:</span>
+0048 <span class="comment">%      PLOTHIDDENSTATES plot true and estimated hidden states</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%   EXAMPLES:</span>
+0051 <span class="comment">%      PLOTHIDDENSTATES(data, model, estimation, misc)</span>
+0052 <span class="comment">%      PLOTHIDDENSTATES(data, model, estimation, misc, 'FilePath', 'figures')</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0055 <span class="comment">%      exportPlot</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   SUBFUNCTIONS:</span>
+0058 <span class="comment">%      N/A</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%   See also EXPORTPLOT, PLOTESTIMATIONS, PLOTPREDICTEDDATA</span>
+0061 
+0062 <span class="comment">%   AUTHORS:</span>
+0063 <span class="comment">%       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet,</span>
+0064 <span class="comment">%</span>
+0065 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0066 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%   MATLAB VERSION:</span>
+0069 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0070 <span class="comment">%</span>
+0071 <span class="comment">%   DATE CREATED:</span>
+0072 <span class="comment">%       June 6, 2018</span>
+0073 <span class="comment">%</span>
+0074 <span class="comment">%   DATE LAST UPDATE:</span>
+0075 <span class="comment">%       June 8, 2018</span>
+0076 
+0077 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0078 
+0079 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0080 p = inputParser;
+0081 
+0082 defaultFilePath = <span class="string">'.'</span>;
+0083 defaultisExportPDF = false;
+0084 defaultisExportPNG = true;
+0085 defaultisExportTEX = false;
+0086 
+0087 validationFonction = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0088     ~isempty(x(~isspace(x)));
+0089 
+0090 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0091 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0092 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0093 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0094 addParameter(p,<span class="string">'isExportPDF'</span>, defaultisExportPDF,  @islogical);
+0095 addParameter(p,<span class="string">'isExportPNG'</span>, defaultisExportPNG,  @islogical);
+0096 addParameter(p,<span class="string">'isExportTEX'</span>, defaultisExportTEX,  @islogical);
+0097 addParameter(p, <span class="string">'FilePath'</span>, defaultFilePath, validationFonction)
+0098 parse(p,data, model, estimation, misc, varargin{:});
+0099 
+0100 data=p.Results.data;
+0101 model=p.Results.model;
+0102 estimation=p.Results.estimation;
+0103 misc=p.Results.misc;
+0104 isExportPDF = p.Results.isExportPDF;
+0105 isExportPNG = p.Results.isExportPNG;
+0106 isExportTEX = p.Results.isExportTEX;
+0107 FilePath=p.Results.FilePath;
+0108 
+0109 <span class="comment">%% Remove space in filename</span>
+0110 <span class="comment">%FilePath = FilePath(~isspace(FilePath));</span>
+0111 
+0112 <span class="comment">%% Create specified path if not existing</span>
+0113 [isFileExist] = <a href="../../../BDLM_DATA_LOADER_9/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FilePath, <span class="string">'dir'</span>);
+0114 <span class="keyword">if</span> ~isFileExist
+0115     <span class="comment">% create directory</span>
+0116     mkdir(FilePath)
+0117     <span class="comment">% set directory on path</span>
+0118     addpath(FilePath)
+0119 <span class="keyword">end</span>
+0120 
+0121 
+0122 <span class="comment">%% Get amplitude values to plot</span>
+0123 
+0124 <span class="comment">% Get number of hidden states</span>
+0125 numberOfHiddenStates = size(model.hidden_states_names{1},1);
+0126 
+0127 <span class="comment">% Get estimated hidden state valuesd (if applicable)</span>
+0128 <span class="keyword">if</span> isfield(estimation,<span class="string">'x'</span>)
+0129     dataset_x=estimation.x; <span class="comment">% mean estimated hidden states</span>
+0130     dataset_V=estimation.V; <span class="comment">% posterior variance estimated hidden states</span>
+0131 <span class="keyword">end</span>
+0132 
+0133 <span class="comment">% Get true hidden state values</span>
+0134 <span class="keyword">if</span> isfield(estimation,<span class="string">'ref'</span>)
+0135     dataset_x_ref = estimation.ref;
+0136 <span class="keyword">end</span>
+0137 
+0138 <span class="comment">%% Define timestamp</span>
+0139 <span class="comment">% Get timestamps vector</span>
+0140 timestamps=data.timestamps{1};
+0141 
+0142 <span class="comment">% Get reference timestep</span>
+0143 [referenceTimestep]=<a href="../../../BDLM_DATA_LOADER_9/functions/ModelConfiguration/defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>(timestamps);
+0144 
+0145 <span class="comment">% Compute timestep vector</span>
+0146 <span class="comment">%[timesteps]=computeTimeSteps(timestamps);</span>
+0147 
+0148 <span class="comment">% Define timestamp vector for main plot</span>
+0149 plot_time_1=1:misc.subsample:length(timestamps);
+0150 
+0151 <span class="comment">% Define timestamp vector for secondary plot plot</span>
+0152 <span class="keyword">if</span>  misc.isSecondaryPlots
+0153     
+0154     time_fraction=0.641;
+0155     plot_time_2=round(time_fraction*length(timestamps)): <span class="keyword">...</span>
+0156         round(time_fraction*length(timestamps))+(14/referenceTimestep);
+0157 <span class="keyword">end</span>
+0158 
+0159 
+0160 <span class="comment">%% Define paramater for plot appeareance</span>
+0161 <span class="comment">% Get subplot parameter</span>
+0162 <span class="keyword">if</span> ~misc.isSecondaryPlots
+0163     idx_supp_plot=1;
+0164 <span class="keyword">else</span>
+0165     idx_supp_plot=0;
+0166 <span class="keyword">end</span>
+0167 
+0168 <span class="comment">% Define X-axis lag</span>
+0169 Xaxis_lag=50;
+0170 
+0171 <span class="comment">% Define blue color for plots</span>
+0172 BlueColor = [0, 0.4, 0.8];
+0173 
+0174 <span class="comment">%% Plot hidden states</span>
+0175 loop=0;
+0176 <span class="keyword">for</span> idx=1:numberOfHiddenStates
+0177     <span class="keyword">if</span> and(strncmpi(model.hidden_states_names{1}(idx,1),<span class="string">'x^{SK'</span>,5), <span class="keyword">...</span>
+0178             ~strcmp(model.hidden_states_names{1}(idx,1),<span class="string">'x^{SK1}'</span>))
+0179         <span class="comment">% Special plot for static kernel regression</span>
+0180     <span class="keyword">elseif</span> and(strncmpi(model.hidden_states_names{1}(idx,1),<span class="string">'x^{DK'</span>,5),<span class="keyword">...</span>
+0181             ~strcmp(model.hidden_states_names{1}(idx,1),<span class="string">'x^{DK1}'</span>))
+0182         <span class="comment">% Special plot for dynamic kernel regression</span>
+0183     <span class="keyword">elseif</span> strncmpi(model.hidden_states_names{1}(idx,1),<span class="string">'x^{DH}'</span>,5)
+0184         <span class="comment">% Special plot for dynamic regression</span>
+0185     <span class="keyword">else</span>
+0186         
+0187         <span class="keyword">if</span> idx &gt; 1 &amp;&amp; ~strcmp(model.hidden_states_names{1}{idx-1,3},  <span class="keyword">...</span>
+0188                 model.hidden_states_names{1}{idx,3})
+0189             loop=0;
+0190         <span class="keyword">end</span>
+0191         
+0192         loop=loop+1;
+0193         
+0194         <span class="comment">%FigHandle = figure;</span>
+0195         FigHandle = figure(<span class="string">'DefaultAxesPosition'</span>, [0.1, 0.17, 0.8, 0.8]);
+0196         set(FigHandle, <span class="string">'Position'</span>, [100, 100, 1300, 270])
+0197         subplot(1,3,1:2+idx_supp_plot,<span class="string">'align'</span>)
+0198         
+0199         <span class="comment">%% Main plot</span>
+0200         <span class="keyword">if</span> isfield(estimation,<span class="string">'x'</span>)
+0201             
+0202             xpl=dataset_x(idx,plot_time_1);
+0203             spl=dataset_V(idx,plot_time_1);
+0204             
+0205             mean_xpl=nanmean(xpl(round(0.05*length(xpl)):end));
+0206             std_xpl=nanstd(xpl(round(0.05*length(xpl)):end));
+0207             mean_spl=nanmean(sqrt(spl(round(0.05*length(xpl)):end)));
+0208             mult_factor=6;
+0209             
+0210             miny=mean_xpl-mult_factor*(std_xpl+mean_spl);
+0211             maxy=mean_xpl+mult_factor*(std_xpl+mean_spl);
+0212             px=[timestamps(plot_time_1);
+0213                 flipud(timestamps(plot_time_1))]';
+0214             py=[xpl-sqrt(spl) fliplr(xpl+sqrt(spl))];
+0215             hold on
+0216             <span class="comment">% Plot estimated posterior state variance values</span>
+0217             patch(px,py,<span class="string">'green'</span>,<span class="string">'EdgeColor'</span>,<span class="string">'none'</span>,<span class="string">'FaceColor'</span>,<span class="string">'green'</span>, <span class="keyword">...</span>
+0218                 <span class="string">'FaceAlpha'</span>,0.2);
+0219             <span class="comment">% Plot estimated posterior state mean values</span>
+0220             plot(timestamps(plot_time_1),xpl,<span class="string">'k'</span>,<span class="string">'Linewidth'</span>,misc.linewidth)
+0221             
+0222             <span class="keyword">if</span> isfield(estimation,<span class="string">'ref'</span>)
+0223                 <span class="comment">% Plot true values</span>
+0224                 plot(timestamps(plot_time_1), <span class="keyword">...</span>
+0225                     dataset_x_ref(plot_time_1,idx), <span class="string">'--r'</span>)
+0226             <span class="keyword">end</span>
+0227             
+0228             <span class="keyword">if</span> loop==1
+0229                 <span class="keyword">if</span> ~misc.isSmoother
+0230                     <span class="keyword">if</span> ~isfield(estimation,<span class="string">'ref'</span>)
+0231                         h=legend(<span class="string">'$\mu_{t|t}\pm\sigma_{t|t}$'</span>,<span class="string">'$\mu_{t|t}$'</span>);
+0232                     <span class="keyword">else</span>
+0233                         h=legend(<span class="string">'$\mu_{t|t}\pm\sigma_{t|t}$'</span>,<span class="string">'$\mu_{t|t}$'</span>, <span class="keyword">...</span>
+0234                             <span class="string">'reference'</span>);
+0235                     <span class="keyword">end</span>
+0236                 <span class="keyword">else</span>
+0237                     <span class="keyword">if</span> ~isfield(estimation,<span class="string">'ref'</span>)
+0238                         h=legend(<span class="string">'$\mu_{t|T}\pm\sigma_{t|T}$'</span>,<span class="string">'$\mu_{t|T}$'</span>);
+0239                     <span class="keyword">else</span>
+0240                         h=legend(<span class="string">'$\mu_{t|T}\pm\sigma_{t|T}$'</span>,<span class="string">'$\mu_{t|T}$'</span>, <span class="keyword">...</span>
+0241                             <span class="string">'reference'</span>);
+0242                     <span class="keyword">end</span>
+0243                 <span class="keyword">end</span>
+0244                 set(h,<span class="string">'Interpreter'</span>,<span class="string">'Latex'</span>)
+0245                 PatchInLegend = findobj(h, <span class="string">'type'</span>, <span class="string">'patch'</span>);
+0246                 set(PatchInLegend, <span class="string">'facea'</span>, 0.5)
+0247             <span class="keyword">end</span>
+0248             
+0249             
+0250         <span class="keyword">else</span>
+0251             
+0252             <span class="keyword">if</span> isfield(estimation,<span class="string">'ref'</span>)
+0253                 <span class="comment">% Plot true values</span>
+0254                 plot(timestamps(plot_time_1), <span class="keyword">...</span>
+0255                     dataset_x_ref(plot_time_1,idx), <span class="string">'Color'</span>, BlueColor,  <span class="keyword">...</span>
+0256                     <span class="string">'LineWidth'</span>, misc.linewidth)
+0257             <span class="keyword">end</span>
+0258             
+0259         <span class="keyword">end</span>
+0260         
+0261         ylabel([<span class="string">'$'</span> model.hidden_states_names{1}{idx,1} <span class="string">'$ ['</span> <span class="string">'$'</span> <span class="keyword">...</span>
+0262             model.hidden_states_names{1}{idx,3} <span class="string">']$'</span> ],<span class="string">'Interpreter'</span>,<span class="string">'Latex'</span>)
+0263         datetick(<span class="string">'x'</span>,<span class="string">'yy-mm'</span>,<span class="string">'keepticks'</span>)
+0264         set(gca, <span class="string">'Fontsize'</span>, 16)
+0265         xlabel(<span class="string">'Time [YY-MM]'</span>)
+0266         xlim([timestamps(1)-Xaxis_lag,timestamps(end)])
+0267         hold off
+0268         
+0269         <span class="comment">%% Secondary plots</span>
+0270         <span class="keyword">if</span> misc.isSecondaryPlots
+0271             subplot(1,3,3,<span class="string">'align'</span>)
+0272             
+0273             <span class="keyword">if</span> isfield(estimation,<span class="string">'x'</span>)
+0274                 
+0275                 xpl=dataset_x(idx,plot_time_2);
+0276                 spl=dataset_V(idx,plot_time_2);
+0277                 
+0278                 px=[timestamps(plot_time_2); flipud(timestamps(plot_time_2))]';
+0279                 py=[xpl-sqrt(spl), fliplr(xpl+sqrt(spl))];
+0280                 hold on
+0281                 <span class="comment">% Plot estimated posterior state variance values</span>
+0282                 patch(px,py,<span class="string">'green'</span>,<span class="string">'EdgeColor'</span>,<span class="string">'none'</span>, <span class="keyword">...</span>
+0283                     <span class="string">'FaceColor'</span>,<span class="string">'green'</span>,<span class="string">'FaceAlpha'</span>,0.2);
+0284                 <span class="comment">% Plot estimated posterior state mean values</span>
+0285                 plot(timestamps(plot_time_2),xpl,<span class="string">'k'</span>,<span class="string">'Linewidth'</span>,misc.linewidth)
+0286                 
+0287                 <span class="keyword">if</span> isfield(estimation,<span class="string">'ref'</span>)
+0288                     <span class="comment">% Plot true values</span>
+0289                     plot(timestamps(plot_time_2), <span class="keyword">...</span>
+0290                         dataset_x_ref(plot_time_2,idx), <span class="string">'--r'</span>)
+0291                 <span class="keyword">end</span>
+0292                 
+0293             <span class="keyword">else</span>
+0294                 <span class="comment">% Plot true values</span>
+0295                 plot(timestamps(plot_time_2),dataset_x_ref(plot_time_2,idx), <span class="keyword">...</span>
+0296                     <span class="string">'Color'</span>, BlueColor, <span class="string">'LineWidth'</span>, misc.linewidth )
+0297             <span class="keyword">end</span>
+0298             
+0299             set(gca,<span class="string">'XTick'</span>,linspace(timestamps(plot_time_2(1)), <span class="keyword">...</span>
+0300                 timestamps(plot_time_2(size(timestamps(plot_time_2),1))), <span class="keyword">...</span>
+0301                 misc.ndivy),<span class="keyword">...</span>
+0302                 <span class="string">'YTick'</span>, [], <span class="keyword">...</span>
+0303                 <span class="string">'box'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+0304                 <span class="string">'Fontsize'</span>, 16);
+0305             
+0306             datetick(<span class="string">'x'</span>,<span class="string">'mm-dd'</span>,<span class="string">'keepticks'</span>)
+0307             year=datevec(timestamps(plot_time_2(1)));
+0308             xlabel([<span class="string">'Time ['</span> num2str(year(1)) <span class="string">'--MM-DD]'</span>])
+0309             hold off
+0310             
+0311             
+0312         <span class="keyword">end</span>
+0313         
+0314         <span class="comment">%% Export plots</span>
+0315         <span class="keyword">if</span> isExportPDF || isExportPNG || isExportTEX
+0316             
+0317             <span class="comment">% Define the name of the figure</span>
+0318             match = [string(<span class="string">'^'</span>),string(<span class="string">'{'</span>),string(<span class="string">'}'</span>), string(<span class="string">'x'</span>)];
+0319             NameFigure = [ model.hidden_states_names{1}{idx,3}, <span class="string">'_'</span>, <span class="keyword">...</span>
+0320                 erase(model.hidden_states_names{1}{idx,1}, match), <span class="keyword">...</span>
+0321                 <span class="string">'_'</span>, num2str(loop)];
+0322             
+0323             <span class="comment">% Record Figure Name</span>
+0324             FigureNames{idx} = NameFigure;
+0325             
+0326             <span class="comment">% Export figure to location given by FilePath</span>
+0327             <a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">exportPlot</a>(NameFigure, <span class="string">'FilePath'</span>, FilePath,  <span class="keyword">...</span>
+0328                 <span class="string">'isExportPDF'</span>, isExportPDF, <span class="keyword">...</span>
+0329                 <span class="string">'isExportPNG'</span>, isExportPNG, <span class="keyword">...</span>
+0330                 <span class="string">'isExportTEX'</span>, isExportTEX);
+0331         <span class="keyword">else</span>
+0332           FigureNames{1} = [];  
+0333             
+0334         <span class="keyword">end</span>
+0335     <span class="keyword">end</span>
+0336 <span class="keyword">end</span>
+0337 
+0338 <span class="comment">%--------------------END CODE ------------------------</span>
+0339 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

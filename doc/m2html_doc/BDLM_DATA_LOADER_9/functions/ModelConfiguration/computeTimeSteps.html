@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of computeTimeSteps</title>
+  <meta name="keywords" content="computeTimeSteps">
+  <meta name="description" content="COMPUTETIMESTEPS compute timestep vector from timestamps vector">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelConfiguration</a> &gt; computeTimeSteps.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/ModelConfiguration&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>computeTimeSteps
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>COMPUTETIMESTEPS compute timestep vector from timestamps vector</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [timesteps]=computeTimeSteps(timestamps) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">COMPUTETIMESTEPS compute timestep vector from timestamps vector
+
+   SYNOPSIS:
+     [timestep]=COMPUTETIMESTEPS(timestamps)
+ 
+   INPUT:
+      timestamps                 - Nx1 real array (required)
+                                  timestamp vector
+                                  N: number of samples in the time series
+ 
+   OUTPUT:
+      timesteps                 - (N-1)x1 real array (required)
+                                  timestep vector
+                                  N: number of samples in the time series
+
+   DESCRIPTION:
+      COMPUTETIMESTEPS compute timestep vector from timestamps vector
+ 
+   EXAMPLES:
+      [timesteps]=COMPUTETIMESTEPS(timestamps)
+ 
+   See also <a href="displayModelMatrices.html" class="code" title="function displayModelMatrices(model, data, estimation, misc, TimestampIndex)">DISPLAYMODELMATRICES</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>	DEFINEREFERENCETIMESTEP computes reference timestep of a timestamp vector</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/functions/DataSimulation/simulateDataFromCustomAnomalies.html" class="code" title="function [data, model, estimation, misc]=simulateDataFromCustomAnomalies(data, model, misc)">simulateDataFromCustomAnomalies</a>	SIMULATEDATAFROMCUSTOMANOMALIES Perform deterministic data simulation</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/DataSimulation/simulateDataFromTransitionProbabilities.html" class="code" title="function [data, model, estimation, misc]=simulateDataFromTransitionProbabilities(data, model, misc)">simulateDataFromTransitionProbabilities</a>	SIMULATEDATAFROMTRANSITIONPROBABILITIES Perform stochastic data simulation</li><li><a href="displayModelMatrices.html" class="code" title="function displayModelMatrices(model, data, estimation, misc, TimestampIndex)">displayModelMatrices</a>	DISPLAYMODELMATRICES displays A,C, Q, R matrices for a given timestamp</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/ModelParametersLearning/NR_EM.html" class="code" title="function [optim]=NR_EM(data, model, misc, varargin)">NR_EM</a>	INPUTS:</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/RTS_SKS.html" class="code" title="function [x, V, VV, S] = RTS_SKS(estimation,data,model)">RTS_SKS</a>	% Get timestamps</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/SKF.html" class="code" title="function [x, V, VV, S, loglik, pr_model_false_full, U,D] = SKF(data,model,misc)">SKF</a>	INPUTS:</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/StateEstimation/state_estimation.html" class="code" title="function [estimation]=state_estimation(data,model,estimation, misc, varargin)">state_estimation</a>	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotDynamicRegression.html" class="code" title="function [FigureNames] = plotDynamicRegression(data, model, estimation, misc, varargin)">plotDynamicRegression</a>	PLOTDYNAMICREGRESSION Plot dynamic regression time series pattern</li><li><a href="../../../BDLM_DATA_LOADER_9/functions/VisualizationTools/plotPredictedData.html" class="code" title="function [FigureNames] = plotPredictedData(data, model, estimation, misc, varargin)">plotPredictedData</a>	PLOTPREDICTEDDATA Plot observed and predicted data</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [timesteps]=computeTimeSteps(timestamps)</a>
+0002 <span class="comment">%COMPUTETIMESTEPS compute timestep vector from timestamps vector</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [timestep]=COMPUTETIMESTEPS(timestamps)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      timestamps                 - Nx1 real array (required)</span>
+0009 <span class="comment">%                                  timestamp vector</span>
+0010 <span class="comment">%                                  N: number of samples in the time series</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   OUTPUT:</span>
+0013 <span class="comment">%      timesteps                 - (N-1)x1 real array (required)</span>
+0014 <span class="comment">%                                  timestep vector</span>
+0015 <span class="comment">%                                  N: number of samples in the time series</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   DESCRIPTION:</span>
+0018 <span class="comment">%      COMPUTETIMESTEPS compute timestep vector from timestamps vector</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%   EXAMPLES:</span>
+0021 <span class="comment">%      [timesteps]=COMPUTETIMESTEPS(timestamps)</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%   See also DISPLAYMODELMATRICES</span>
+0024  
+0025 <span class="comment">%   AUTHORS:</span>
+0026 <span class="comment">%      James-A Goulet, Luong Ha Nguyen, Ianis Gaudot</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0029 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%   MATLAB VERSION:</span>
+0032 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%   DATE CREATED:</span>
+0035 <span class="comment">%       April 24, 2018</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   DATE LAST UPDATE:</span>
+0038 <span class="comment">%       April 24, 2018</span>
+0039  
+0040 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0041  
+0042 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0043 p = inputParser;
+0044 ValidationFcn = @(x)isnumeric(x)&amp;~isempty(x)&amp;length(x)&gt;2;
+0045 addRequired(p,<span class="string">'timestamps'</span>, ValidationFcn );
+0046 parse(p,timestamps);     
+0047 
+0048 <span class="comment">%% Compute timestep vector</span>
+0049 
+0050 [referencetimestep]=<a href="defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>(timestamps);
+0051 
+0052 timesteps = [referencetimestep; diff(timestamps)];
+0053 
+0054 <span class="comment">%--------------------END CODE ------------------------</span>
+0055 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of chooseProjectName</title>
+  <meta name="keywords" content="chooseProjectName">
+  <meta name="description" content="CHOOSEPROJECTNAME Request user's input to choose a project name">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">BDLM_DATA_LOADER_9</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; chooseProjectName.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for BDLM_DATA_LOADER_9/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>chooseProjectName
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>CHOOSEPROJECTNAME Request user's input to choose a project name</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [misc]=chooseProjectName(misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CHOOSEPROJECTNAME Request user's input to choose a project name
+   SYNOPSIS:
+     [misc]=CHOOSEPROJECTNAME(misc, varargin)
+ 
+   INPUT:
+      misc     - structure (required)
+
+      FilePath - character (optional)
+                 saving directory for the project file
+                 default: '.' (current directory)
+   OUTPUT:
+      misc     - structure
+
+   DESCRIPTION:
+      CHOOSEPROJECTNAME request user's input to choose a project name
+      CHOOSEPROJECTNAME verifies that the provided project name does not 
+      already exist from previously saved projects located in the
+      &quot;FilePath&quot; location given in argument. 
+
+   EXAMPLES:
+      [misc]=CHOOSEPROJECTNAME(misc)
+      [misc]=CHOOSEPROJECTNAME(misc, 'FilePath', 'saved_projects')
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../BDLM_DATA_LOADER_9/BDLM.html" class="code" title="">BDLM</a>	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [misc]=chooseProjectName(misc, varargin)</a>
+0002 <span class="comment">%CHOOSEPROJECTNAME Request user's input to choose a project name</span>
+0003 <span class="comment">%   SYNOPSIS:</span>
+0004 <span class="comment">%     [misc]=CHOOSEPROJECTNAME(misc, varargin)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%   INPUT:</span>
+0007 <span class="comment">%      misc     - structure (required)</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%      FilePath - character (optional)</span>
+0010 <span class="comment">%                 saving directory for the project file</span>
+0011 <span class="comment">%                 default: '.' (current directory)</span>
+0012 <span class="comment">%   OUTPUT:</span>
+0013 <span class="comment">%      misc     - structure</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   DESCRIPTION:</span>
+0016 <span class="comment">%      CHOOSEPROJECTNAME request user's input to choose a project name</span>
+0017 <span class="comment">%      CHOOSEPROJECTNAME verifies that the provided project name does not</span>
+0018 <span class="comment">%      already exist from previously saved projects located in the</span>
+0019 <span class="comment">%      &quot;FilePath&quot; location given in argument.</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   EXAMPLES:</span>
+0022 <span class="comment">%      [misc]=CHOOSEPROJECTNAME(misc)</span>
+0023 <span class="comment">%      [misc]=CHOOSEPROJECTNAME(misc, 'FilePath', 'saved_projects')</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   See also</span>
+0026  
+0027 <span class="comment">%   AUTHORS:</span>
+0028 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0031 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   MATLAB VERSION:</span>
+0034 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   DATE CREATED:</span>
+0037 <span class="comment">%       April 27, 2018</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   DATE LAST UPDATE:</span>
+0040 <span class="comment">%       April 27, 2018</span>
+0041  
+0042 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0043 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0044 p = inputParser;
+0045 
+0046 validationFct_FilePath = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0047     ~isempty(x(~isspace(x)));
+0048 
+0049 defaultFilePath = <span class="string">'.'</span>;
+0050 
+0051 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0052 addParameter(p,<span class="string">'FilePath'</span>, defaultFilePath, validationFct_FilePath );
+0053 
+0054 parse(p,misc, varargin{:});
+0055 misc=p.Results.misc;  
+0056 FilePath=p.Results.FilePath;
+0057 
+0058 <span class="comment">%% Remove space in filename</span>
+0059 FilePath = FilePath(~isspace(FilePath));
+0060 
+0061 <span class="comment">%% Create specified path if not existing</span>
+0062 [isFileExist] = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FilePath, <span class="string">'dir'</span>);
+0063 <span class="keyword">if</span> ~isFileExist
+0064     <span class="comment">% create directory</span>
+0065     mkdir(FilePath)   
+0066     <span class="comment">% set directory on path</span>
+0067     addpath(FilePath)
+0068 <span class="keyword">end</span>
+0069 
+0070 <span class="comment">% define global variable for user's answers from input file</span>
+0071 <span class="keyword">global</span> isAnswersFromFile AnswersFromFile AnswersIndex    
+0072  
+0073 <span class="comment">%% Gather already existing project name from saved projects</span>
+0074 <span class="comment">% List files in specified directory</span>
+0075 <span class="comment">% pattern = 'PROJ*.mat';</span>
+0076 <span class="comment">% fullpattern = fullfile(FilePath, pattern);</span>
+0077 <span class="comment">% info_file=dir(fullpattern);</span>
+0078 <span class="comment">% info_file=info_file(~ismember({info_file.name},{'.','..', '.DS_Store'}));</span>
+0079 <span class="comment">%</span>
+0080 <span class="comment">% disp(' ')</span>
+0081 <span class="comment">% if ~isempty(info_file)</span>
+0082 <span class="comment">%     ProjectInfo= cell(length(info_file),1);</span>
+0083 <span class="comment">%</span>
+0084 <span class="comment">%     for i=1:length(info_file)</span>
+0085 <span class="comment">%         dat=load(fullfile(FilePath, info_file(i).name));</span>
+0086 <span class="comment">%         ProjectInfo{i} = dat.misc.ProjectName;</span>
+0087 <span class="comment">%     end</span>
+0088 <span class="comment">% end</span>
+0089 
+0090 ProjectsInfoFilename = <span class="string">'ProjectsInfo.mat'</span>;
+0091 
+0092 <span class="comment">% Load file display info</span>
+0093 FileContent = load(fullfile(FilePath, ProjectsInfoFilename));    
+0094 ProjectInfo = FileContent.ProjectInfo;
+0095 
+0096 
+0097 <span class="comment">%% Get project name from user's input</span>
+0098 isNameCorrect = false;
+0099 <span class="keyword">while</span> ~isNameCorrect
+0100     disp(<span class="string">' '</span>)
+0101     disp(<span class="string">'- Enter a project name (max 25 characters):'</span>)
+0102     <span class="comment">% read from user input file (use of global variable )?</span>
+0103     <span class="keyword">if</span> isAnswersFromFile
+0104         project_name=eval(char(AnswersFromFile{1}(AnswersIndex)));
+0105         disp([<span class="string">'     '</span>,project_name])
+0106     <span class="keyword">else</span>
+0107         project_name=input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0108     <span class="keyword">end</span>
+0109     
+0110     <span class="keyword">if</span> ischar(project_name)
+0111         <span class="comment">% Remove space and quotes</span>
+0112         project_name=strrep(project_name,<span class="string">''''</span>,<span class="string">''</span> ); <span class="comment">% remove single quotes</span>
+0113         project_name=strrep(project_name,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0114         project_name=strrep(project_name, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0115     <span class="keyword">end</span>
+0116     
+0117     <span class="keyword">if</span> isempty(project_name)
+0118         disp(<span class="string">' '</span>)
+0119         disp(<span class="string">'%%%%%%%%%%%%%%%%%%%%%%%%% &gt; HELP &lt; %%%%%%%%%%%%%%%%%%%%%%%'</span>)
+0120         disp(<span class="string">' '</span>)
+0121         disp(<span class="string">' Choose the name of the project.'</span>)
+0122         disp(<span class="string">' '</span>)
+0123         disp(<span class="string">'%%%%%%%%%%%%%%%%%%%%%%%%% &gt; HELP &lt; %%%%%%%%%%%%%%%%%%%%%%%'</span>)
+0124         disp(<span class="string">' '</span>)
+0125     <span class="keyword">elseif</span> length(project_name)&gt;25
+0126         disp(<span class="string">'     wrong input -&gt; string &gt; 25 characters'</span>)
+0127     <span class="keyword">else</span>
+0128         
+0129         <span class="keyword">if</span> ~isempty(ProjectInfo)
+0130             
+0131         Test = strfind(ProjectInfo(:,1), project_name);
+0132         Index = find(not(cellfun(<span class="string">'isempty'</span>, Test)));
+0133         <span class="keyword">if</span> ~isempty(Index)
+0134         <span class="comment">%if any(ismember(upper(ProjectInfo{1}), upper(project_name)))</span>
+0135             fprintf([<span class="string">'     Project name %s already exists.'</span> <span class="keyword">...</span>
+0136                 <span class="string">' Provide another name. \n'</span>], project_name)
+0137             isNameCorrect = false;
+0138         <span class="keyword">else</span>
+0139             isNameCorrect = true;
+0140         <span class="keyword">end</span>
+0141         <span class="keyword">else</span>            
+0142             isNameCorrect = true;
+0143         <span class="keyword">end</span>
+0144     <span class="keyword">end</span>
+0145 <span class="keyword">end</span>
+0146 
+0147 <span class="comment">%% Store project name</span>
+0148 misc.ProjectName = project_name;
+0149 
+0150 <span class="comment">% Increment global variable to read next answer when required</span>
+0151 AnswersIndex = AnswersIndex + 1;
+0152 <span class="comment">%--------------------END CODE ------------------------</span>
+0153 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Mon 18-Jun-2018 12:19:50 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

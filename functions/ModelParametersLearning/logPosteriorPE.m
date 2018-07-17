@@ -63,7 +63,7 @@ elseif strcmp(option.optim_mode,'MLE')
 end
 
 %% Log-likehood
-[~,~,~,~,loglik,~,~] = SKF(data,model,option);
+[~,~,~,~,loglik,~,~] = SwitchingKalmanFilter(data,model,option);
 log_lik_0            = loglik;
 
 if getlogpdf
@@ -176,15 +176,15 @@ while stepSize_test
     m_2.parameter           = p_LL(:,2);
     model_store{1}          = m_1;
     model_store{2}          = m_2;
-    if option.parallel == 1
+    if option.isParallel
         parfor i=1:2
             % LL calcultation
-            [~,~,~,~,log_lik_s(i),~,~]=SKF(data,model_store{i},option); 
+            [~,~,~,~,log_lik_s(i),~,~]=SwitchingKalmanFilter(data,model_store{i},option); 
         end
     else
         for i=1:2
             % LL calcultation
-            [~,~,~,~,log_lik_s(i),~,~]=SKF(data,model_store{i},option); 
+            [~,~,~,~,log_lik_s(i),~,~]=SwitchingKalmanFilter(data,model_store{i},option); 
         end
     end
     log_lik_1=log_lik_s(1);
