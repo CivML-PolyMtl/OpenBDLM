@@ -104,11 +104,11 @@ isNameCorrect = false;
 while ~isNameCorrect
     disp(' ')
     fprintf(['- Enter the name of the subdirectory in which ' ...
-        'to save the files (max 25 characters):\n'])
+        'to save the CSV files (max 25 characters):\n'])
     % read from user input file (use of global variable )?
     if isAnswersFromFile
         database_name=eval(char(AnswersFromFile{1}(AnswersIndex)));
-        disp(database_name)
+        disp(['     ', database_name])
     else
         database_name=input('     directory name >> ','s');
     end

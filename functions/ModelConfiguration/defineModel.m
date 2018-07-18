@@ -457,7 +457,7 @@ model.nb_class = nb_models;
 
 % Model blocks
 for j=1:nb_models
-    str_3 = strings;
+    str_3 = ""; %strings;
     for i=1:numberOfTimeSeries
         str_1 = sprintf('%d ', comp{j}{i});
         str_2 = sprintf('[%s] ', str_1 );
@@ -470,7 +470,7 @@ end
 
 % Model constrains
 for j=2:nb_models
-    str_3 = strings;
+    str_3 = ""; %strings;
     for i=1:numberOfTimeSeries
         str_1 = sprintf('%d ', const{j}{i});
         str_2 = sprintf('[%s] ', str_1 );
@@ -481,7 +481,7 @@ for j=2:nb_models
 end
 
 % Observations interdependencies
-str_3 = strings;
+str_3 = ""; %strings;
 for j=1:numberOfTimeSeries
     str_1=sprintf('%d ',comp_ic{1,j});
     str_2 = sprintf('[%s] ', str_1 );

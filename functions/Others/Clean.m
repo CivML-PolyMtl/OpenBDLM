@@ -1,12 +1,13 @@
-function Clean(FoldersList)
+function Clean(varargin)
 %CLEAN Permanently removes all elements in specified directories
 %
 %   SYNOPSIS:
 %     CLEAN(FoldersList)
 %
 %   INPUT:
-%      FolderList - cell array of strings (required)
+%      FolderList - cell array of strings (optionnal)
 %                   FolderList contains list of folder to delete
+%                   default: {'saved_projects', 'config_files', 'processed_data', 'figures', 'raw_data'}
 %
 %   OUTPUT:
 %      N/A
@@ -34,7 +35,7 @@ function Clean(FoldersList)
 %       April 17, 2018
 %
 %   DATE LAST UPDATE:
-%       April 17, 2018
+%       July 18, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -42,9 +43,12 @@ function Clean(FoldersList)
 
 p = inputParser;
 
-addRequired(p,'FoldersList', @iscell);
+defaultFilderList = {'saved_projects', 'config_files', 'processed_data', ...
+    'figures', 'raw_data'};
 
-parse(p, FoldersList);
+addParameter(p,'FoldersList', defaultFilderList, @iscell);
+
+parse(p, varargin{:});
 
 FoldersList=p.Results.FoldersList;
 
@@ -62,7 +66,6 @@ end
 
 % Remove redundant fields
 FoldersList=unique(FoldersList);
-
 fprintf('Do you want to remove the content of ');
 fprintf('%s, ', FoldersList{1:end});
 fprintf('?\n')
@@ -90,7 +93,7 @@ while ~isYesNoCorrect
                 continue
             else
                 
-                command = ['rm -rf ', FoldersList{i}];
+                command = ['rm -rf ', FoldersList{i},'/*'];
                 [status,~] = system(command);
                 
                 if status ~= 0

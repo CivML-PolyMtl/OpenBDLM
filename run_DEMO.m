@@ -1,5 +1,9 @@
-%% Live demo 4
+%% Control script to run demos
+
 clear -global isAnswersFromFile AnswersFromFile AnswersIndex
+
+% Clean directory tree
+Clean
 
 %% Define global variables
 global isAnswersFromFile AnswersFromFile AnswersIndex
@@ -7,10 +11,11 @@ global isAnswersFromFile AnswersFromFile AnswersIndex
 FilePath = fullfile(pwd, 'input_files');
 
 %% List of input files to read
-InputFileList = {fullfile(FilePath, 'input_1.txt')} ;
-%, ...
-%    fullfile(FilePath, 'input_2.txt'), ...
-%    fullfile(FilePath, 'input_3.txt') };
+InputFileList = {fullfile(FilePath, 'input_DEMO1.m'), ...
+    fullfile(FilePath, 'input_DEMO2.m'), ...
+    fullfile(FilePath, 'input_DEMO3.m'), ...
+    fullfile(FilePath, 'input_DEMO4.m'), ...
+    } ;
 
 for i=1:length(InputFileList)
     

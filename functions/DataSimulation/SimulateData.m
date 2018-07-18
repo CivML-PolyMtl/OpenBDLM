@@ -98,7 +98,7 @@ end
 
 if isPlot
     plotData(data, model, estimation, misc, 'isPdf', false, 'FilePath', 'figures', ...
-        'isSaveFigures', false );
+        'isSaveFigures', true );
 end
 
 %--------------------END CODE ------------------------

@@ -132,7 +132,7 @@ end
 if isSaveFigures
     
     %% Remove space in filename
-    FilePath = FilePath(~isspace(FilePath));
+    %FilePath = FilePath(~isspace(FilePath));
     
     %% Create specified path if not existing
     [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -278,7 +278,7 @@ for i=1:numberOfTimeSeries
     
     
     if isSaveFigures
-        % Export figure in fig amd pdf in specified directory
+        % Export figure in fig and pdf in specified directory
         filename=fullfile(fullname, ['num_', sprintf('%03d',inc)]);
         set(gcf,'PaperType', 'usletter', 'PaperOrientation', 'landscape')
         if isPdf
