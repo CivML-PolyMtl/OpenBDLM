@@ -290,9 +290,14 @@ while ~isAnswerCorrect
             [data, model, estimation, misc]= ...
                 SimulateData(data, model, misc, 'isPlot', true);
             
+            % Save data in binary format
             [dataFilename] = saveDataBinary(data, ...
                 'FilePath', 'processed_data');
             misc.dataFilename = dataFilename;
+            
+            % Save data in CSV format
+            saveDataCSV(data,'FilePath', 'raw_data')
+            
             % Save project
             saveProject(data, model, estimation, misc, ...
                 'FilePath','saved_projects')
@@ -525,10 +530,20 @@ while(1)
             % Convert cell2mat
             [data] = convertCell2Mat(data);
             
+            % save true hidden states values if they exist
+            if isfield(estimation, 'ref')
+                ref=estimation.ref;
+            end
+            
             % Filter / Smoother
             [estimation]=StateEstimation(data, model, misc, ...
                 'isSmoother',isSmoother);
             
+            % store back true hidden states values if they exist
+            if exist('ref', 'var') == 1 
+                estimation.ref=ref;
+            end
+                        
             % Convert mat2cell
             [data] = convertMat2Cell(data);
             

@@ -57,11 +57,6 @@ parse(p,FileName, FileType);
 FileName=p.Results.FileName;
 FileType=p.Results.FileType;
 
-
-%% Remove space
-FileName = FileName(~isspace(FileName));
-FileType = FileType(~isspace(FileType));
-
 %% Convert relative to absolute path
 if isempty(strfind(FileName, '/')) && isempty(strfind(FileName, '\'))
     FileName=fullfile(pwd, FileName);
