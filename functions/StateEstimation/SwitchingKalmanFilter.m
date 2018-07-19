@@ -184,6 +184,10 @@ W=zeros(M,M);
 LL=zeros(M,M,T);
 
 loglik = 0;
+
+%% Interventions
+interventions=find(ismember(data.timestamps,data.interventions{1}));
+
 %% Estimate state for each t
 for t=1:T
     log_S_marginal = zeros(M,M);
@@ -197,6 +201,10 @@ for t=1:T
             R{j,t} = model.R{j}(model.parameter(...
                 model.p_ref),data.timestamps(t),timesteps(t));
             Z{t} = model.Z(model.parameter(...
+                model.p_ref),data.timestamps(t),timesteps(t));
+            B=model.B{j}(model.parameter(...
+                model.p_ref),data.timestamps(t),timesteps(t))';
+            WB=model.W{j}(model.parameter(...
                 model.p_ref),data.timestamps(t),timesteps(t));
         else
             idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
@@ -272,9 +280,16 @@ for t=1:T
             else
                 %% Kalman filter
                 warning('off','all')
+                if any(t==interventions)
+                    B_=B;
+                    WB_=WB;
+                else
+                    B_=0;
+                    WB_=0;
+                end
                 [x_ij{j}(:,i), V_ij{j}(:,:,i), VV_ij{j}(:,:,i), LL(i,j,t)] = ...
                     KalmanFilter(A{j,t},C{j,t},Q{j,i,t},R{j,t}, ...
-                    DataValues(t,:)', prevX, prevV);
+                    DataValues(t,:)', prevX, prevV,'B',B_,'W',WB_);
                 warning('on','all')
             end
             

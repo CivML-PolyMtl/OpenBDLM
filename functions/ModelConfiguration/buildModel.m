@@ -73,6 +73,9 @@ misc.dt_ref = dt_ref;
 %% Get number of time series
 numberOfTimeSeries = length(data.labels);
 
+%% Get the number of time steps
+numberOfTimeSteps = length(data.timestamps{1});
+
 %% Get number of model class
 numberOfModelClass = size(model.components.block,2);
 model.nb_class = size(model.components.block,2);
@@ -81,7 +84,7 @@ model.nb_class = size(model.components.block,2);
 
 PriorType = 'normal';
 PriorMean = 0;
-PriorSdev = 1;
+PriorSdev = 1E6;
 
 %% Block Component definition
 
@@ -103,9 +106,15 @@ if misc.isDataSimulation
     LL.pQ0={'0'};
     LL.init={'10','0.1^2'};
 else
-    LL.pQ0={'0*nanstd(data.values{obs})'};
-    LL.init={'nanmean(data.values{obs})','(2*nanstd(data.values{obs}))^2'};
+    LL.pQ0={'0'};
+    LL.init={'nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps)))','(1E-1*nanstd(data.values{obs}))^2'};
 end
+LL.B=@(p,t,dt) 0;
+LL.pB=[];
+LL.pB0=[];
+LL.W=@(p,t,dt) 0;
+LL.pW=[];
+LL.pW0=[];
 
 %#12 Local trend
 model.components.idx{12}='LT';
@@ -126,10 +135,20 @@ if misc.isDataSimulation
     LT.init={'[10 -0.1]','[0.1^2 0.1^2]'};
 else
     LT.pQ0={'1E-7*nanstd(data.values{obs})'};
-    LT.init={'[nanmean(data.values{obs}) 0]','[(2*nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2]'};
+    LT.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-3*nanstd(data.values{obs}))^2]'};
 end
-
-
+LT.B=@(p,t,dt) zeros(1,2);
+LT.pB=[];
+LT.pB0=[];
+LT.W=@(p,t,dt) zeros(2);
+LT.pW=[];
+LT.pW0=[];
+% LT.B=@(p,t,dt) p'*dt/dt_ref;
+% LT.pB=[{'B_L','LT',[],[],[-inf,inf]};{'B_T','LT',[],[],[-inf,inf]}];
+% LT.pB0=[{'1E-2'};{'1E-3'}];
+% LT.W=@(p,t,dt) diag((p*dt/dt_ref).^2);
+% LT.pW=[{'\sigma_WL','LT',[],[],[0,inf]};{'\sigma_WT','LT',[],[],[0,inf]}];
+% LT.pW0=[{'nanstd(data.values(:,obs))'};{'0.1*nanstd(data.values(:,obs))'}];
 
 %#13 Local acceleration
 model.components.idx{13}='LA';
@@ -150,10 +169,20 @@ if misc.isDataSimulation
     LA.init={'[10 0 0]','[0.1^2 0.1^2 0.1^2]'};
 else
     LA.pQ0={'1E-8*nanstd(data.values{obs})'};
-    LA.init={'[nanmean(data.values{obs}) 0 0]','[(2*nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2]'};
+    LA.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-3*nanstd(data.values{obs}))^2 (1E-6*nanstd(data.values{obs}))^2]'};
 end
-
-
+LA.B=@(p,t,dt) zeros(1,3);
+LA.pB=[];
+LA.pB0=[];
+LA.W=@(p,t,dt) zeros(3);
+LA.pW=[];
+LA.pW0=[];
+% LA.B=@(p,t,dt) p'*dt/dt_ref;
+% LA.pB=[{'B_L','LA',[],[],[-inf,inf]};{'B_T','LA',[],[],[-inf,inf]};{'B_LA','LA',[],[],[-inf,inf]}];
+% LA.pB0=[{'1E-2'};{'1E-3'};{'1E-4'}];
+% LA.W=@(p,t,dt) diag((p*dt/dt_ref).^2);
+% LA.pW=[{'\sigma_WL','LA',[],[],[0,inf]};{'\sigma_WT','LA',[],[],[0,inf]};{'\sigma_WA','LA',[],[],[0,inf]}];
+% LA.pW0=[{'nanstd(data.values(:,obs))'};{'0.1*nanstd(data.values(:,obs))'};{'0.01*nanstd(data.values(:,obs))'}];
 
 %#21 Local level compatible with LT
 model.components.idx{21}='LcT';
@@ -174,11 +203,16 @@ if misc.isDataSimulation
     LcT.init={'[10 0]','[0.1^2 (1E-6)^2]'};
 else
     LcT.pQ0={'1E-7*nanstd(data.values{obs})'};
-    LcT.init={'[nanmean(data.values{obs}) 0]','[(2*nanstd(data.values{obs}))^2 (1E-6*nanstd(data.values{obs}))^2]'};
+    LcT.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-6*nanstd(data.values{obs}))^2]'};
 end
+LcT.B=@(p,t,dt) zeros(1,2);
+LcT.pB=[];
+LcT.pB0=[];
+LcT.W=@(p,t,dt) zeros(2);
+LcT.pW=[];
+LcT.pW0=[];
 
 %#22 Local level compatible with LA
-%model.components.idx{22}='LA';
 model.components.idx{22}='LcA';
 LcA.A=@(p,t,dt) [1 0 0;0 0 0; 0 0 0]';
 LcA.pA=[];
@@ -197,8 +231,14 @@ if misc.isDataSimulation
     LcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
     LcA.pQ0={'1E-7*nanstd(data.values{obs})'};
-    LcA.init={'[nanmean(data.values{obs}) 0 0]','[(2*nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2]'};
+    LcA.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-3*nanstd(data.values{obs}))^2 (1E-6*nanstd(data.values{obs}))^2]'};
 end
+LcA.B=@(p,t,dt) zeros(1,3);
+LcA.pB=[];
+LcA.pB0=[];
+LcA.W=@(p,t,dt) zeros(3);
+LcA.pW=[];
+LcA.pW0=[];
 
 
 %#23 Local trend compatible with LA
@@ -220,9 +260,14 @@ if misc.isDataSimulation
     TcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
     TcA.pQ0={'1E-8*nanstd(data.values{obs})'};
-    TcA.init={'[nanmean(data.values{obs}) 0 0]','[(2*nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2 (nanstd(data.values{obs}))^2]'};
+    TcA.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-3*nanstd(data.values{obs}))^2 (1E-6*nanstd(data.values{obs}))^2]'};
 end
-
+TcA.B=@(p,t,dt) zeros(1,3);
+TcA.pB=[];
+TcA.pB0=[];
+TcA.W=@(p,t,dt) zeros(3);
+TcA.pW=[];
+TcA.pW0=[];
 
 %#31 Periodic component
 model.components.idx{31}='PD';
@@ -245,6 +290,12 @@ else
     PD.pQ0={'0*nanstd(data.values{obs})'};
     PD.init={'[5,0]','[(2*nanstd(data.values{obs}))^2,(2*nanstd(data.values{obs}))^2]'};
 end
+PD.B=@(p,t,dt) 0;
+PD.pB=[];
+PD.pB0=[];
+PD.W=@(p,t,dt) diag([0,0]);
+PD.pW=[];
+PD.pW0=[];
 
 %#41 Autoregressive component
 model.components.idx{41}='AR';
@@ -267,6 +318,12 @@ else
     AR.pQ0={'1E-1*nanstd(data.values{obs})'};
     AR.init={'0','(nanstd(data.values{obs}))^2'};
 end
+AR.B=@(p,t,dt) 0;
+AR.pB=[];
+AR.pB0=[];
+AR.W=@(p,t,dt) 0;
+AR.pW=[];
+AR.pW0=[];
 
 %#51 Dynamic regression with hidden component
 if ~isfield(model.components,'nb_DH_p')
@@ -339,6 +396,18 @@ else
     SK.pQ0={'0'};
     SK.init={['[' repmat('0 ',[1,model.components.nb_SK_p]) ']'],['[' repmat('(nanstd(data.values{obs}))^2 ',[1,model.components.nb_SK_p]) ']']};
 end
+SK.B=@(p,t,dt) zeros(1,model.components.nb_SK_p);
+SK.pB=[];
+SK.pB0=[];
+SK.W=@(p,t,dt) zeros(model.components.nb_SK_p);
+SK.pW=[];
+SK.pW0=[];
+% SK.B=@(p,t,dt) zeros(1,model.components.nb_SK_p);
+% SK.pB=[];
+% SK.pB0=[];
+% SK.W=@(p,t,dt) eye(model.components.nb_SK_p)*p^2*dt/dt_ref;
+% SK.pW={'\sigma_W','SK',[],[],[0,inf]};
+% SK.pW0={'nanstd(data.values(:,obs))'};
 
 %#53 Dynamic Kernel Regression
 if ~isfield(model.components,'nb_DK_p')
@@ -377,6 +446,41 @@ else
     DK.pQ0={'(nanstd(data.values{obs}))^2 '};
     DK.init={['[' repmat('0 ',[1,model.components.nb_DK_p]) ']'],['[' repmat('(nanstd(data.values{obs}))^2 ',[1,model.components.nb_DK_p]) ']']};
 end
+DK.B=@(p,t,dt) zeros(1,model.components.nb_DK_p);
+DK.pB=[];
+DK.pB0=[];
+DK.W=@(p,t,dt) zeros(model.components.nb_DK_p);
+DK.pW=[];
+DK.pW0=[];
+% DK.B=@(p,t,dt) zeros(1,model.components.nb_DK_p);
+% DK.pB=[];
+% DK.pB0=[];
+% DK.W=@(p,t,dt) eye(model.components.nb_DK_p)*p^2*dt/dt_ref;
+% DK.pW={'\sigma_W','DK',[],[],[0,inf]};
+% DK.pW0={'1E-2*nanstd(data.values(:,obs))'};
+
+%#61 Level intervention
+model.components.idx{61}='LI';
+LI.A=@(p,t,dt) 1;
+LI.pA=[];
+LI.pA0=[];
+LI.C=@(p,t,dt) 1;
+LI.pC=[];
+LI.pC0=[];
+LI.I=@(p,t,dt) 0;
+LI.pI=[];
+LI.pI0=[];
+LI.Q=@(p,t,dt) 0;
+LI.pQ=[];
+LI.x={'x^{LI}',[],[]};
+LI.pQ0={'0'};
+LI.init={'0','1E-20'};
+LI.B=@(p,t,dt) p'*dt/dt_ref;
+LI.pB=[{'b','LI',[],[],[-inf,inf]}];
+LI.pB0=[{'1E-1*nanstd(data.values{obs})'}];
+LI.W=@(p,t,dt) (p*dt/dt_ref).^2;
+LI.pW=[{'\sigma_W','LI',[],[],[0,inf]}];
+LI.pW0=[{'nanstd(data.values{obs}(:))'}];
 
 %% Block initialization
 param_properties={};        %Reference vector for parameter names in A,C,Q,R matrices
@@ -388,6 +492,8 @@ for class_from=1:numberOfModelClass  %Loop over each model class
     h_count=0;                   %Count of the number of periodic component
     A{class_from}=[];            %Matrices initialization
     R{class_from}=[];
+    B{class_from}=[];
+    W{class_from}=[];
     initX{class_from}=[];        %Initial state variable expected value
     initV{class_from}=[];        %Initial state variable variance
     hidden_states_names{class_from}={};     %Reference vector for hidden state variables names
@@ -534,6 +640,56 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                         param_idx=param_idx+nb_param;
                     end
                     nb_hidden_states{class_from}{obs}=nb_hidden_states{class_from}{obs}+length(eval([block_name '.A(ones(1,1000),1,1)']));
+               
+                    if isfield(data,'interventions')
+                        % B - Interventions mean shift
+                        nb_param=eval(['size(' block_name '.pB,1)']);
+                        if nb_param>0
+                            p_idx=param_idx:param_idx-1+nb_param;
+                        else
+                            p_idx=[];
+                        end
+                        B{class_from}=[B{class_from},',',[block_name '.B(p([' num2str(p_idx) ']),t,dt)']];
+                        name=eval([block_name '.pB']);
+                        if ~isempty(name)
+                            for i=1:size(name,1)
+                                p_value=eval(eval([block_name '.pB0{i}']));
+                                parameter=[parameter;p_value];
+                                name{i,3}=[num2str(class_from)];
+                                name{i,4}=data.labels{obs};
+                                name{i,6}=PriorType;
+                                name{i,7}=PriorMean;
+                                name{i,8}=PriorSdev;
+                            end
+                        end
+                        param_properties=[param_properties;name];
+                        B_param_ref{class_from}{obs}{block}=p_idx;
+                        param_idx=param_idx+nb_param;
+                        
+                        % W - Interventions covariance
+                        nb_param=eval(['size(' block_name '.pW,1)']);
+                        if nb_param>0
+                            p_idx=param_idx:param_idx-1+nb_param;
+                        else
+                            p_idx=[];
+                        end
+                        W{class_from}=[W{class_from},',',[block_name '.W(p([' num2str(p_idx) ']),t,dt)']];
+                        name=eval([block_name '.pW']);
+                        if ~isempty(name)
+                            for i=1:size(name,1)
+                                p_value=eval(eval([block_name '.pW0{i}']));
+                                parameter=[parameter;p_value];
+                                name{i,3}=[num2str(class_from)];
+                                name{i,4}=data.labels{obs};
+                                name{i,6}=PriorType;
+                                name{i,7}=PriorMean;
+                                name{i,8}=PriorSdev;
+                            end
+                        end
+                        param_properties=[param_properties;name];
+                        W_param_ref{class_from}{obs}{block}=p_idx;
+                        param_idx=param_idx+nb_param;
+                    end
                 end
             end
             if class_from==class_to
@@ -624,6 +780,8 @@ for class_from=1:numberOfModelClass  %Loop over each model class
             model.C{class_from}=eval(['@(p,t,dt) reshape([' ([Cc{class_from}{:}]) '],[' num2str(sum([nb_hidden_states{class_from}{:}])) ','  num2str(numberOfTimeSeries) '])''']);
             model.R{class_from}=eval(['@(p,t,dt) blkdiag(' R{class_from}(2:end) ')']);
             model.Q{class_from}{class_to}=eval(['@(p,t,dt) blkdiag(' Q{class_from}{class_to}(2:end) ')']);
+            model.B{class_from}=eval(['@(p,t,dt) [' B{class_from}(2:end) ']']);
+            model.W{class_from}=eval(['@(p,t,dt) blkdiag(' W{class_from}(2:end) ')']);
         end
     end
 end
