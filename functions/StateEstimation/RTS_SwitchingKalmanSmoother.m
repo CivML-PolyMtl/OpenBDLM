@@ -136,6 +136,9 @@ S = zeros(T,M);
 S(T,:)=estimation.S(T,:);
 W=zeros(M,M);
 
+%% Interventions
+interventions=find(ismember(data.timestamps,data.interventions{1}));
+
 %% Estimate state for each time t
 for t=T-1:-1:1
     S_marginal = zeros(M,M);
@@ -146,7 +149,14 @@ for t=T-1:-1:1
         for j=1:M
             Q_k = model.Q{k}{j}(model.parameter(model.p_ref),timestamps(t+1),timesteps(t+1));
 
-            [x_jk{j}(:,k), V_jk{j}(:,:,k), VV_jk{k}(:,:,j)] = smooth_update_SKF(x{k}(:,t+1), V{k}(:,:,t+1), estimation.x_M{j}(:,t), estimation.V_M{j}(:,:,t), estimation.V_M{k}(:,:,t+1), estimation.VV_M{k}(:,:,t+1), A_k, Q_k);
+            if any(t+1==interventions)
+                B_=model.B{j}(model.parameter(model.p_ref),data.timestamps(t),timesteps(t))';
+                WB_=model.W{j}(model.parameter(model.p_ref),data.timestamps(t),timesteps(t))';
+            else
+                B_=0;
+                WB_=0;
+            end
+            [x_jk{j}(:,k), V_jk{j}(:,:,k), VV_jk{k}(:,:,j)] = smooth_update_SKF(x{k}(:,t+1), V{k}(:,:,t+1), estimation.x_M{j}(:,t), estimation.V_M{j}(:,:,t), estimation.V_M{k}(:,:,t+1), estimation.VV_M{k}(:,:,t+1), A_k, Q_k,'B',B_,'W',WB_);
             U(j,k)=estimation.S(t,j)*Z_k(j,k);
         end
         U(:,k)=U(:,k)/sum(U(:,k));
@@ -178,7 +188,7 @@ end
 %--------------------END CODE ------------------------ 
 end
 
-function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update_SKF(xsmooth_future, Vsmooth_future, xfilt, Vfilt, Vfilt_future, VVfilt_future, A, Q)
+function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update_SKF(xsmooth_future, Vsmooth_future, xfilt, Vfilt, Vfilt_future, VVfilt_future, A, Q,varargin)
 % One step of the backwards RTS smoothing equations.
 % function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update(xsmooth_future, Vsmooth_future, ...
 %    xfilt, Vfilt,  Vfilt_future, VVfilt_future, A, B, u)
@@ -200,11 +210,21 @@ function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update_SKF(xsmooth_future,
 % VVsmooth_future = Cov[X_t+1,X_t|T]
 
 %xpred = E[X(t+1) | t]
+args = varargin;
+B=0;    % Mean correction term
+W=0;    % Covariance correction term
+for t=1:2:length(args)
+    switch args{t}
+        case 'B', B = args{t+1};
+        case 'W', W = args{t+1};
+        otherwise, error(['unrecognized argument ' args{t}])
+    end
+end
 
 Vfilt=(Vfilt + Vfilt')/2;
 
-xpred = A*xfilt;
-Vpred = A*Vfilt*A'+ Q; % Vpred = Cov[X(t+1) | t]
+xpred = A*xfilt+B;
+Vpred = A*Vfilt*A'+ Q+W; % Vpred = Cov[X(t+1) | t]
 J = Vfilt * A'*pinv(Vpred); % smoother gain matrix
 xsmooth = xfilt + J*(xsmooth_future - xpred);
 Vsmooth = Vfilt + J*(Vsmooth_future - Vpred)*J';

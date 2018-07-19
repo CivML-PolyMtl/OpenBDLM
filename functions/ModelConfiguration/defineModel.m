@@ -250,12 +250,13 @@ disp('     41: Autoregressive process (AR(1))')
 disp('     51: Dynamic regression with hidden component')
 disp('     52: Static kernel regression')
 disp('     53: Dynamic kernel regression')
+disp('     61: Level Intervention')
 disp('     --------------------------------------------------------')
 disp(' ')
 
 
-all_components=[11 12 13 21 22 23 31 41 51 52 53];
-level_components=[11 12 13 21 22 23];
+all_components=[11 12 13 21 22 23 31 41 51 52 53 61];
+level_components=[11 12 13 21 22 23 61];
 
 module=module+1;
 
@@ -320,7 +321,7 @@ for j=1:nb_models
             elseif ~all(ismember(comp{j}{i}(1),level_components))
                 disp(' ')
                 disp(['     wrong input -> first component should be a' ...
-                    ' level component (i.e. either 11 12 13 21 22 23 )'])
+                    ' level component (i.e. either 11 12 13 21 22 23 61)'])
                 disp(' ')
                 continue
             elseif length(comp{j}{i}) > 1 && ...
@@ -399,10 +400,10 @@ if nb_models>1
                     const{j}{i}=eval(char(AnswersFromFile{1}(AnswersIndex)));
                     
                     if length(const{j}{i}(:)) ~= 1
-                    disp(['     [' sprintf('%d,', const{j}{i}(1:end-1) ) ...
-                        num2str(const{j}{i}(end)) ']'])
+                        disp(['     [' sprintf('%d,', const{j}{i}(1:end-1) ) ...
+                            num2str(const{j}{i}(end)) ']'])
                     else
-                         disp(['     [' num2str(const{j}{i}(end)) ']'])
+                        disp(['     [' num2str(const{j}{i}(end)) ']'])
                     end
                 else
                     const{j}{i}=input(['     time serie #' num2str(i) ...
@@ -457,37 +458,37 @@ model.nb_class = nb_models;
 
 % Model blocks
 for j=1:nb_models
-    str_3 = ""; %strings;
+    str_3 = ' '; %strings;
     for i=1:numberOfTimeSeries
         str_1 = sprintf('%d ', comp{j}{i});
-        str_2 = sprintf('[%s] ', str_1 );
-        str_3 = [str_3 str_2];
+        str_2 = strjoin([{'['} str_1 {']'}]);
+        str_3 = [str_3 ' ' str_2];
     end
-    str_4 = sprintf('model.components.block{%d}={%s};', j, strjoin(str_3) );
+    str_4 = sprintf('model.components.block{%d}={%s};', j, str_3 );
     eval(str_4)
 end
 
 
 % Model constrains
 for j=2:nb_models
-    str_3 = ""; %strings;
+    str_3 = ''; %strings;
     for i=1:numberOfTimeSeries
         str_1 = sprintf('%d ', const{j}{i});
-        str_2 = sprintf('[%s] ', str_1 );
-        str_3 = [str_3 str_2];
+        str_2 = strjoin([{'['} str_1 {']'}]);
+        str_3 = [str_3 ' ' str_2];
     end
-    str_4 = sprintf('model.components.const{%d}={%s};', j, strjoin(str_3) );
+    str_4 = sprintf('model.components.const{%d}={%s};', j, str_3 );
     eval(str_4)
 end
 
 % Observations interdependencies
-str_3 = ""; %strings;
+str_3 = ''; %strings;
 for j=1:numberOfTimeSeries
-    str_1=sprintf('%d ',comp_ic{1,j});
-    str_2 = sprintf('[%s] ', str_1 );
-    str_3 = [str_3 str_2];
+    str_1 = sprintf('%d ', comp_ic{1,j});
+    str_2 = strjoin([{'['} str_1 {']'}]);
+    str_3 = [str_3 ' ' str_2];
 end
-str_4=sprintf('model.components.ic={%s};', strjoin(str_3));
+str_4=sprintf('model.components.ic={%s};', str_3);
 eval(str_4)
 
 %--------------------END CODE ------------------------
