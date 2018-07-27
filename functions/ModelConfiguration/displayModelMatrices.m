@@ -1,8 +1,8 @@
-function displayModelMatrices(model, data, estimation, misc, TimestampIndex)
+function displayModelMatrices(data, model, estimation, misc, TimestampIndex)
 %DISPLAYMODELMATRICES Display A,C, Q, R matrices for a given timestamp
 %
 %   SYNOPSIS:
-%     DISPLAYMODELMATRICES(model, data, estimation, misc, TimestampIndex)
+%     DISPLAYMODELMATRICES(data, model, estimation, misc, TimestampIndex)
 %
 %   INPUT:
 %      data                  - structure (required)
@@ -33,8 +33,8 @@ function displayModelMatrices(model, data, estimation, misc, TimestampIndex)
 %      given timestamp
 %
 %   EXAMPLES:
-%      DISPLAYMODELMATRICES(model, data, estimation, misc, 1)
-%      DISPLAYMODELMATRICES(model, data, estimation, misc, 365)
+%      DISPLAYMODELMATRICES(data, model, estimation, misc, 1)
+%      DISPLAYMODELMATRICES(data, model, estimation, misc, 365)
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      computeTimeStep
@@ -54,7 +54,7 @@ function displayModelMatrices(model, data, estimation, misc, TimestampIndex)
 %       April 24, 2018
 %
 %   DATE LAST UPDATE:
-%       April 24, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -88,25 +88,8 @@ if ~isValid
     return
 end
 
-%% Verification there is a single timestamp vector for all time series
-
-% Get number of time series
-numberOfTimeSeries = length(data.timestamps);
-
-if numberOfTimeSeries > 1
-    
-    [isMerged] = verificationMergedDataset(data);
-    
-    if ~isMerged
-        disp(' ')
-        disp('ERROR: Timestamps vector are not identical.')
-        disp(' ')
-        return
-    end
-end    
-
 %% Get timestamps
-timestamps = data.timestamps{1};
+timestamps = data.timestamps;
 
 %% Compute timestep vector
 [timesteps]=computeTimeSteps(timestamps);

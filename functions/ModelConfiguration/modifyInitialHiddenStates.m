@@ -1,8 +1,8 @@
-function [model]= modifyInitialHiddenStates(data, model, estimation, misc, varargin)
+function [model, misc]= modifyInitialHiddenStates(data, model, estimation, misc, varargin)
 %MODIFYINITIALHIDDENSTATES Request user to modify initial hidden states
 %
 %   SYNOPSIS:
-%     [model] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc, varargin)
+%     [model, misc] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc, varargin)
 %
 %   INPUT:
 %      data             - structure (required)
@@ -32,6 +32,11 @@ function [model]= modifyInitialHiddenStates(data, model, estimation, misc, varar
 %                          see documentation for details about the fields of
 %                          model
 %
+%      misc             - structure (required)
+%                         see documentation for details about the fields of
+%                         misc
+%
+%
 %      Updated project file with new initial hidden states values
 %
 %   DESCRIPTION:
@@ -40,8 +45,8 @@ function [model]= modifyInitialHiddenStates(data, model, estimation, misc, varar
 %      initial hidden state values
 %
 %   EXAMPLES:
-%      [model] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc)
-%      [model] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc, 'FilePath', 'saved_projects')
+%      [model, misc] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc)
+%      [model, misc] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc, 'FilePath', 'saved_projects')
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      saveProject
@@ -64,7 +69,7 @@ function [model]= modifyInitialHiddenStates(data, model, estimation, misc, varar
 %       June 11, 2018
 %
 %   DATE LAST UPDATE:
-%       June 27, 2018
+%       July 20, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -88,9 +93,6 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
-
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
 
 %% Display current values
 disp(['#  |state variable    |observation    '...
@@ -117,23 +119,24 @@ while ~isCorrectAnswer
     disp('     3   ->  Return to menu')
     disp(' ')
     
-    if isAnswersFromFile
-        user_inputs.inp_2 = eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        user_inputs.inp_2 =  ...
+            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(user_inputs.inp_2)
     else
         user_inputs.inp_2 =  input('     Selection : ');
     end
     
     if user_inputs.inp_2==1
-        AnswersIndex=AnswersIndex+1;
+        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
         
         isCorrect = false;
         while ~isCorrect
             disp('     Modify variable # ')
             
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_3)
             else
                 user_inputs.inp_3 =  input('     choice >> ');
@@ -143,7 +146,7 @@ while ~isCorrectAnswer
                     user_inputs.inp_3 <= length(model.initX{1})
                 
                 isCorrect = true;
-                AnswersIndex=AnswersIndex+1;                
+                misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;               
             else
                 disp('     Wrong input.')
                 continue
@@ -156,9 +159,9 @@ while ~isCorrectAnswer
         while ~isCorrect
             disp('     New E[x_0] : ')
             
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_4)
             else
                 user_inputs.inp_4 =  input('     choice >> ');
@@ -167,7 +170,7 @@ while ~isCorrectAnswer
             if  ~ischar(user_inputs.inp_4)
                 
                 isCorrect = true;
-                AnswersIndex=AnswersIndex+1;                
+                misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;                
             else
                 disp('     Wrong input.')
                 continue
@@ -180,9 +183,9 @@ while ~isCorrectAnswer
         while ~isCorrect
             disp('     New var[x_0] : ')
             
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_5 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_5)
             else
                 user_inputs.inp_5 =  input('     choice >> ');
@@ -191,7 +194,7 @@ while ~isCorrectAnswer
             if  ~ischar(user_inputs.inp_5) && user_inputs.inp_5 >= 0
                 
                 isCorrect = true;
-                AnswersIndex=AnswersIndex+1;               
+                misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;               
             else
                 disp('     Wrong input.')
                 continue
@@ -235,11 +238,11 @@ while ~isCorrectAnswer
             end
         end
         
-        AnswersIndex=AnswersIndex+1;
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
         
     elseif user_inputs.inp_2==3
-        AnswersIndex=AnswersIndex+1;
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
         
     else

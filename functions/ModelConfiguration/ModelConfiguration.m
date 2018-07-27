@@ -100,7 +100,7 @@ if ~misc.isDataSimulation
     misc.method = 'kalman';
     
     %Save project
-    saveProject(data, model, estimation, misc, 'FilePath', 'saved_projects');
+    %saveProject(data, model, estimation, misc, 'FilePath', 'saved_projects');
     
 else
     %% Model configuration for simulated data     
@@ -111,7 +111,7 @@ else
     misc.method = 'kalman';
     
     %Save project
-    saveProject(data, model, estimation, misc, 'FilePath', 'saved_projects');
+    %saveProject(data, model, estimation, misc, 'FilePath', 'saved_projects');
 end
 %--------------------END CODE ------------------------
 end

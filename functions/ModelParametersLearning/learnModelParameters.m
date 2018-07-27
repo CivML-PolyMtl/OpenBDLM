@@ -126,7 +126,7 @@ if strcmp(Method, 'NR')
     %% Model parameters optimization using Newton-Raphson technique
     
     % Define the maximal number of optimization iterations
-    misc.iteration_limit_calibration=25;
+    misc.iteration_limit_calibration=5;
     
     % Define the maximal optimization time [min]
     misc.time_limit_calibration=60;
@@ -192,7 +192,9 @@ elseif strcmp(Method, 'SGA')
     %% Model parameters optimization using Stochastic Gradient Ascent approach
     
     % Define the maximal number of optimization iterations
-    misc.iteration_limit_calibration=50;
+    misc.iteration_limit_calibration=5;
+    
+    misc.isParallel = true;
     
     % Define the maximal optimization time [min]
     misc.time_limit_calibration=60;
@@ -203,17 +205,6 @@ elseif strcmp(Method, 'SGA')
     misc  = optim.misc;
     
 end
-
-%% State estimation with learned model parameters
-
-% Filter 
-% smooth = 1;
-% [estimation]=state_estimation(data, model, estimation, misc, ...
-% 'smooth',smooth);
-
-
-%% Save project
-%saveProject(data, model, estimation, misc, 'FilePath', FilePath)
 
 %--------------------END CODE ------------------------
 end

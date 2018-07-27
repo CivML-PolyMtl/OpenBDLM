@@ -33,7 +33,7 @@ function [misc]=defineCustomAnomalies(data, model, misc)
 %       April 24, 2018
 %
 %   DATE LAST UPDATE:
-%       April 24, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -44,22 +44,17 @@ addRequired(p,'model', @isstruct );
 addRequired(p,'misc', @isstruct );
 parse(p,data, model, misc);
 
-data=p.Results.data;
+%data=p.Results.data;
 %model=p.Results.model;
 misc=p.Results.misc;
 
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
-
-
-timestamps=data.timestamps{1};
 
 isCorrect = false;
 while ~isCorrect
     disp('- Define custom anomalies ? (y/n): ')
-    if isAnswersFromFile
+    if misc.BatchMode.isBatchMode
         choice_custom_anomalies = ...
-            eval(char(AnswersFromFile{1}(AnswersIndex)));
+            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ',choice_custom_anomalies])
     else
         choice_custom_anomalies = input('     choice >> ','s');
@@ -119,16 +114,16 @@ while ~isCorrect
     end
     
 end
-AnswersIndex = AnswersIndex+1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
 disp(' ')
 if misc.isCustomAnomalies
     %% Request anomalies start
     isCorrect = false;
     while ~isCorrect
-        disp('- Anomalies starts (in sample index)')
-        if isAnswersFromFile
+        disp('- Anomalies starts (in sample index) ?')
+        if misc.BatchMode.isBatchMode
             start_custom_anomalies = ...
-                eval(char(AnswersFromFile{1}(AnswersIndex)));
+                eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
             disp(['     ',num2str(start_custom_anomalies)])
         else
             start_custom_anomalies= input('     choice >> ');
@@ -141,7 +136,6 @@ if misc.isCustomAnomalies
         elseif ischar(start_custom_anomalies)|| ...
                  any(rem(start_custom_anomalies,1)~=0) || ...
                  ~any(all(start_custom_anomalies > 0))
-%                 ~all(start_custom_anomalies < length(timestamps))
             
             disp(' ')
             disp(['     wrong input -> should be strictly ' ...
@@ -166,18 +160,17 @@ if misc.isCustomAnomalies
             
         end
     end
-    AnswersIndex = AnswersIndex+1;
+    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
     disp(' ')
     
     
     %% Request anomalies durations
     isCorrect=false;
     while ~isCorrect
-        disp('- Anomalies durations (in number of points)')
-        disp(' ')
-        if isAnswersFromFile
+        disp('- Anomalies durations (in number of points) ?')
+        if misc.BatchMode.isBatchMode
             duration_custom_anomalies = ...
-                eval(char(AnswersFromFile{1}(AnswersIndex)));
+                eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
             disp(['     ', num2str(duration_custom_anomalies)])
         else
             duration_custom_anomalies= input( '     choice >> ');
@@ -226,17 +219,16 @@ if misc.isCustomAnomalies
             isCorrect = true;
         end
     end
-    AnswersIndex = AnswersIndex+1;
+    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
     disp(' ')
     
     %% Request anomalies amplitudes
     isCorrect=false;
     while ~isCorrect        
-        disp('- Anomalies amplitudes (i.e change in local trend) >> ')
-        disp(' ')
-        if isAnswersFromFile
+        disp('- Anomalies amplitudes (i.e change in local trend) ? ')
+        if misc.BatchMode.isBatchMode
             amplitude_custom_anomalies = ...
-                eval(char(AnswersFromFile{1}(AnswersIndex)));
+                eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
             disp(['     ', num2str(amplitude_custom_anomalies)])
         else
             amplitude_custom_anomalies=input('     choice >> ');
@@ -270,7 +262,7 @@ if misc.isCustomAnomalies
             amplitude_custom_anomalies;
         isCorrect = true;
     end
-        AnswersIndex = AnswersIndex+1;
+        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
     
 else
     return

@@ -1,8 +1,8 @@
-function [data]=extractSynchronousRecords(data, varargin)
+function [data, misc]=extractSynchronousRecords(data, misc, varargin)
 %EXTRACTSYNCHRONOUSRECORDS Extract synchronous records among time series
 %
 %   SYNOPSIS:
-%     [data]=EXTRACTSYNCHRONOUSRECORDS(data, varargin)
+%     [data, misc]=EXTRACTSYNCHRONOUSRECORDS(data, misc, varargin)
 %
 %   INPUT:
 %      data       - structure (required)
@@ -28,10 +28,16 @@ function [data]=extractSynchronousRecords(data, varargin)
 %                     if true, plot data
 %                     default: false
 %
+%      misc         - structure
+%                     see the documentation for details about the
+%                     field in misc
 %   OUTPUT:
 %      data       - structure
 %                   fields of data are timestamps, values, labels
 %
+%      misc         - structure
+%                     see the documentation for details about the
+%                     field in misc
 %   DESCRIPTION:
 %      EXTRACTSYNCHRONOUSRECORDS extracts synchronous records among time
 %      series
@@ -55,9 +61,9 @@ function [data]=extractSynchronousRecords(data, varargin)
 %      Data from time series #2,#3,#4 during time range C would be retained.
 %
 %   EXAMPLES:
-%      [data] = EXTRACTSYNCHRONOUSRECORDS(data)
-%      [data] = EXTRACTSYNCHRONOUSRECORDS(data, 'isPlot', true, 'isOutpufile', true)
-%      [data] = EXTRACTSYNCHRONOUSRECORDS(data, 'isPlot', true)
+%      [data, misc] = EXTRACTSYNCHRONOUSRECORDS(data, misc)
+%      [data, misc] = EXTRACTSYNCHRONOUSRECORDS(data, misc, 'isPlot', true, 'isOutpufile', true)
+%      [data, misc] = EXTRACTSYNCHRONOUSRECORDS(data, misc, 'isPlot', true)
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      verificationDataStructure
@@ -78,7 +84,7 @@ function [data]=extractSynchronousRecords(data, varargin)
 %       April 13, 2018
 %
 %   DATE LAST UPDATE:
-%       April 13, 2018
+%       July 20, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -88,12 +94,14 @@ defaultisOutputFile = false;
 defaultisPlot = false;
 
 addRequired(p,'data', @isstruct );
+addRequired(p,'misc', @isstruct );
 addParameter(p,'isOutputFile',defaultisOutputFile,@islogical);
 addParameter(p,'isPlot',defaultisPlot,@islogical);
 
-parse(p,data, varargin{:} );
+parse(p,data, misc, varargin{:} );
 
 data=p.Results.data;
+misc=p.Results.misc;
 isOutputFile=p.Results.isOutputFile;
 isPlot=p.Results.isPlot;
 
@@ -144,7 +152,7 @@ for i = 1:numberOfTimeSeries
 end
 
 if isOutputFile ==  true
-    saveDataBinary(data, 'FilePath','processed_data')
+    [misc, ~] = saveDataBinary(data, 'FilePath','processed_data');
 end
 
 if isPlot == true

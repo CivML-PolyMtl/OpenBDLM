@@ -74,7 +74,7 @@ function [FigureNames] = plotModelProbability(data, model, estimation, misc, var
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       June 8, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -147,9 +147,8 @@ BlueColor = [0, 0.4, 0.8];
 
 %% Define timestamp
 
-
 % Get timestamps vector
-timestamps=data.timestamps{1};
+timestamps=data.timestamps;
 % Get reference timestep
 [referenceTimestep]=defineReferenceTimeStep(timestamps);
 

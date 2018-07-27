@@ -1,24 +1,26 @@
-function [data]=chooseTimeSeries(data,varargin)
+function [data, misc]=chooseTimeSeries(data,misc, varargin)
 %CHOOSETIMESERIES Request the user to select a time series subset
 %
 %   SYNOPSIS:
-%     [data]=CHOOSETIMESERIES(data, varargin)
+%     [data, misc]=CHOOSETIMESERIES(data, misc, varargin)
 %
 %   INPUT:
-%      data         - structure (required)
-%                     data must contain three fields :
+%       data         - structure (required)
+%                               data must contain three fields:
 %
-%                         'timestamps' is a 1×N cell array
-%                         each cell is a M_ix1 real array
+%                               'timestamps' is a M×1 array
 %
-%                         'values' is a 1×N cell array
-%                         each cell is a M_ix1 real array
+%                               'values' is a MxN array
 %
-%                         'labels' is a 1×N cell array
-%                         each cell is a character array
+%                               'labels' is a 1×N cell array
+%                               each cell is a character array
 %
-%                   N: number of time series
-%                   M_i: number of samples of time series i
+%                               N: number of time series
+%                               M: number of samples
+%
+%      misc          - structure
+%                      see the documentation for details about the
+%                      field in misc
 %
 %      isOutputFile - logical (optional)
 %                     if true, save the data in a DATA_*.mat Matlab file
@@ -32,15 +34,19 @@ function [data]=chooseTimeSeries(data,varargin)
 %      data         - structure
 %                     fields of data are timestamps, values, labels
 %
+%      misc         - structure
+%                      see the documentation for details about the
+%                      field in misc
+%
 %   DESCRIPTION:
 %      CHOOSETIMESERIES requests user to select  a subset of time series
 %      from full data structure
 %      CHOOSETIMESERIES replace/overwrite input data structure
 %
 %   EXAMPLES:
-%      [data] = CHOOSETIMESERIES(data)
-%      [data] = CHOOSETIMESERIES(data, 'isPlot', true)
-%      [data] = CHOOSETIMESERIES(data, 'isPlot', true, 'isOutputfile', true)
+%      [data, misc] = CHOOSETIMESERIES(data, misc)
+%      [data, misc] = CHOOSETIMESERIES(data, misc, 'isPlot', true)
+%      [data, misc] = CHOOSETIMESERIES(data, misc, 'isPlot', true, 'isOutputfile', true)
 %
 %
 %   EXTERNAL FUNCTIONS CALLED:
@@ -64,7 +70,7 @@ function [data]=chooseTimeSeries(data,varargin)
 %       April 12, 2018
 %
 %   DATE LAST UPDATE:
-%       April 13, 2018
+%       July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -75,38 +81,38 @@ defaultisOutputFile = false;
 defaultisPlot = false;
 
 addRequired(p,'data', @isstruct );
+addRequired(p,'misc', @isstruct );
 addParameter(p,'isOutputFile',defaultisOutputFile,@islogical);
 addParameter(p,'isPlot',defaultisPlot,@islogical);
 
-parse(p,data, varargin{:} );
+parse(p,data, misc, varargin{:} );
 
 data=p.Results.data;
+misc=p.Results.misc;
 isOutputFile=p.Results.isOutputFile;
 isPlot=p.Results.isPlot;
 
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
 
 % Validation of structure data
-isValid = verificationDataStructure(data);
-if ~isValid
-    disp(' ')
-    disp('ERROR: Unable to read the data from the structure.')
-    disp(' ')
-    return
-end
+% isValid = verificationDataStructure(data);
+% if ~isValid
+%     disp(' ')
+%     disp('ERROR: Unable to read the data from the structure.')
+%     disp(' ')
+%     return
+% end
 
 %% Display data on screen
 displayData(data)
 
 % Get number of time series in dataset
-numberOfTimeSeries = length(data.values);
+numberOfTimeSeries = size(data.values,2);
 
 %% Request the user to choose some time series
 while(1)
     fprintf('- Choose the time series to process (e.g [1 3 4]) : \n');
-    if isAnswersFromFile
-        chosen_ts=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        chosen_ts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', num2str(chosen_ts) ])
     else
         chosen_ts = input('     choice >> ');
@@ -146,13 +152,12 @@ while(1)
 end
 
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
 
 %% Remove unselected time series from data structure
 
-data.timestamps = data.timestamps(chosen_ts);
-data.values = data.values(chosen_ts);
-data.labels = data.labels(chosen_ts);
+data.values = data.values(:,chosen_ts);
+data.labels = data.labels(:,chosen_ts);
 
 %% Display data on screen
 displayData(data)

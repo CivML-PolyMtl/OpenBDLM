@@ -1,21 +1,23 @@
-function [data]=defineTimestamps(data)
+function [data, misc]=defineTimestamps(data, misc)
 %DEFINETIMESTAMPS Request user's input to define data timestamps
 %
 %   SYNOPSIS:
-%     [data]=DEFINETIMESTAMPS(data)
+%     [data, misc]=DEFINETIMESTAMPS(data, misc)
 %
 %   INPUT:
 %      data - structure(required)
+%      misc - structure(required)
 %
 %   OUTPUT:
-%      data - structure(required)
+%      data - structure
+%      data - structure
 %
 %   DESCRIPTION:
 %      DEFINETIMESTAMPS request user input to define data timestamps
 %      DEFINETIMESTAMPS create the field timestamps of the structure data
 %
 %   EXAMPLES:
-%      [data]=DEFINETIMESTAMPS(data)
+%      [data, misc]=DEFINETIMESTAMPS(data, misc)
 %
 %   See also DEFINEDATALABELS, DEFINECUSTOMANOMALIES
 
@@ -32,19 +34,18 @@ function [data]=defineTimestamps(data)
 %       April 24, 2018
 %
 %   DATE LAST UPDATE:
-%       April 24, 2018
+%       July 20, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 
 addRequired(p,'data', @isstruct );
-parse(p,data);
+addRequired(p,'misc', @isstruct );
+parse(p,data, misc);
 
 data=p.Results.data;
-
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
+misc=p.Results.misc;
 
 %% Verify presence of field "labels" in structure data
 
@@ -70,8 +71,8 @@ fmt = 'yyyy-mm-dd';
 isCorrect = false;
 while ~isCorrect
     fprintf('  Start date (%s): \n',fmt);
-    if isAnswersFromFile
-        tts=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        tts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', tts])
     else
         tts = input('     choice >> ','s');
@@ -117,15 +118,15 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 disp(' ')
 
 %% Request user's input to specify end date
 isCorrect = false;
 while ~isCorrect
     fprintf('  End date (%s): \n',fmt);
-    if isAnswersFromFile
-        tte=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        tte=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', tte])
     else
         tte = input('     choice >> ','s');
@@ -179,13 +180,13 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 disp(' ')
 isCorrect = false;
 while ~isCorrect
     disp('  Time step (in day): ');
-    if isAnswersFromFile
-        dt=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        dt=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', num2str(dt)])
     else
         dt=input('     choice >> ');
@@ -222,12 +223,12 @@ while ~isCorrect
     end
 end
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 
-% Generate timestamp vector for each observation
-for i=1:numberOfTimeSeries
-data.timestamps{i}=(datenum(tts):dt:datenum(tte))';
-end
+% Generate timestamp vector
+
+data.timestamps=(datenum(tts):dt:datenum(tte))';
+
 
 %--------------------END CODE ------------------------
 end

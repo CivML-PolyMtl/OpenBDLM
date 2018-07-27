@@ -55,9 +55,6 @@ parse(p,misc, varargin{:});
 misc=p.Results.misc;  
 FilePath=p.Results.FilePath;
 
-%% Remove space in filename
-FilePath = FilePath(~isspace(FilePath));
-
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -65,34 +62,13 @@ if ~isFileExist
     mkdir(FilePath)   
     % set directory on path
     addpath(FilePath)
-end
-
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex    
- 
-%% Gather already existing project name from saved projects
-% List files in specified directory
-% pattern = 'PROJ*.mat';
-% fullpattern = fullfile(FilePath, pattern);
-% info_file=dir(fullpattern);
-% info_file=info_file(~ismember({info_file.name},{'.','..', '.DS_Store'}));
-% 
-% disp(' ')
-% if ~isempty(info_file)
-%     ProjectInfo= cell(length(info_file),1);
-%     
-%     for i=1:length(info_file)
-%         dat=load(fullfile(FilePath, info_file(i).name));
-%         ProjectInfo{i} = dat.misc.ProjectName;
-%     end
-% end 
+end 
 
 ProjectsInfoFilename = 'ProjectsInfo.mat';
 
 % Load file display info 
-FileContent = load(fullfile(FilePath, ProjectsInfoFilename));    
+FileContent = load(fullfile(pwd, FilePath, ProjectsInfoFilename));    
 ProjectInfo = FileContent.ProjectInfo;
-
 
 %% Get project name from user's input
 isNameCorrect = false;
@@ -100,8 +76,8 @@ while ~isNameCorrect
     disp(' ')
     disp('- Enter a project name (max 25 characters):')
     % read from user input file (use of global variable )?
-    if isAnswersFromFile
-        project_name=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        project_name=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ',project_name])
     else
         project_name=input('     choice >> ','s');
@@ -128,7 +104,7 @@ while ~isNameCorrect
         
         if ~isempty(ProjectInfo)
         
-         Test_Name = strcmp(ProjectInfo(:,1), project_name);
+         Test_Name = strcmpi(ProjectInfo(:,1), project_name);
                
         if any(Test_Name)
             fprintf(['     Project name %s already exists.' ...
@@ -147,6 +123,6 @@ end
 misc.ProjectName = project_name;
 
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
 %--------------------END CODE ------------------------ 
 end

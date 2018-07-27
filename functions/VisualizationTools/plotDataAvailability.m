@@ -5,20 +5,18 @@ function plotDataAvailability(data, varargin)
 %      PLOTDATAAVAILABILITY(data, varargin)
 %
 %   INPUT:
-%      data         - structure (required)
-%                     data must contain three fields :
+%       data            - structure (required)
+%                               data must contain three fields:
 %
-%                           'timestamps' is a 1×N cell array
-%                           each cell is a M_ix1 real array
+%                               'timestamps' is a M×1 array
 %
-%                           'values' is a 1×N cell array
-%                           each cell is a M_ix1 real array
+%                               'values' is a MxN  array
 %
-%                           'labels' is a 1×N cell array
-%                           each cell is a character array
+%                               'labels' is a 1×N cell array
+%                               each cell is a character array
 %
-%                       N: number of time series
-%                       M_i: number of samples of time series i
+%                               N: number of time series
+%                               M: number of samples
 %
 %      isSaveFigure - logical (optionnal)
 %                     if isSaveFigures = true, save figures in FilePath in
@@ -63,7 +61,7 @@ function plotDataAvailability(data, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       May 21, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -109,7 +107,7 @@ end
 %% Plot data availability
 
 % Get number of time series in dataset
-numberOfTimeSeries = length(data.values);
+numberOfTimeSeries = size(data.values,2);
 
 figure('Visible', 'on')
 set(gcf,'color','w');
@@ -120,9 +118,9 @@ sensor=cell(1,numberOfTimeSeries);
 for i=1:numberOfTimeSeries
     
     % Get timestamps
-    timestamps=data.timestamps{i};
+    timestamps=data.timestamps;
     % Get amplitude values
-    values=data.values{i};
+    values=data.values(:,i);
     % Get time series name
     sname=data.labels{i};
     

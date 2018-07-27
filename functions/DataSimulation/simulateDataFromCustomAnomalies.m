@@ -77,7 +77,7 @@ model=p.Results.model;
 misc=p.Results.misc;
 
 %% Get timestamps
-timestamps = data.timestamps{1};
+timestamps = data.timestamps;
 
 %% Compute timestep vector
 [timesteps]=computeTimeSteps(timestamps);
@@ -236,13 +236,14 @@ y_obs=y_obs';
 
 if isfield(data, 'values')
     for i=1:numberOfTimeSeries
-        y_obs(isnan(data.values{i}),i)=NaN; % add NaN
+        y_obs(isnan(data.values(:,i)),i)=NaN; % add NaN
     end
 end
 
 % Fill data with y_obs (simulated data)
+data.values = [];
 for i=1:numberOfTimeSeries
-    data.values{i} = y_obs(:,i);
+    data.values = [ data.values y_obs(:,i)];
 end
 
 % Store model which has been used to simulate the data

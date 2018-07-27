@@ -9,22 +9,22 @@ function [data]=convertCell2Mat(data)
 %                          data must contain three fields :
 %
 %                               'timestamps' is a 1×N cell array
-%                                each cell is a Mx1 real array
+%                                each cell is a M_ix1 real array
 %
 %                               'values' is a 1×N cell array
-%                                each cell is a Mx1 real array
+%                                each cell is a M_ix1 real array
 %
 %                               'labels' is a 1×N cell array
 %                                each cell is a character array
 %
 %                                N: number of time series
-%                                M: number of samples of time series i
+%                                M_i: number of samples of time series i
 % 
 %   OUTPUT:
-%      data             - structure (required)
+%      data             - structure 
 %                          data must contain three fields :
 %
-%                               'timestamps' is a M×N array
+%                               'timestamps' is a M×1 array
 %
 %                               'values' is a M×N array
 %
@@ -32,7 +32,7 @@ function [data]=convertCell2Mat(data)
 %                                each cell is a character array
 %
 %                                N: number of time series
-%                                M: number of samples of time series i
+%                                M: number of samples 
 % 
 %   DESCRIPTION:
 %      CONVERTCELL2MAT convert cells in data.timestamps and data.values to 
@@ -71,18 +71,6 @@ addRequired(p,'data', @isstruct );
 parse(p,data);
 
 data=p.Results.data;      
- 
-
-% Verification unique timestamp vector (merged dataset)
-
-[isMerged]=verificationMergedDataset(data);
-
-if ~isMerged
-    disp(' ')
-    disp(['     ERROR: convertCell2Mat not '...
-        'permitted because different timestamp vector in the dataset.'])
-    disp(' ')
-end
 
 % Convert the field values
 if iscell(data.values)

@@ -137,7 +137,7 @@ end
 
 %% Define timestamp
 % Get timestamps vector
-timestamps=data.timestamps{1};
+timestamps=data.timestamps;
 
 % Get reference timestep
 [referenceTimestep]=defineReferenceTimeStep(timestamps);
@@ -202,13 +202,13 @@ for idx=1:numberOfHiddenStates
             xpl=dataset_x(idx,plot_time_1);
             spl=dataset_V(idx,plot_time_1);
             
-            mean_xpl=nanmean(xpl(round(0.25*length(xpl)):end));
-            std_xpl=nanstd(xpl(round(0.25*length(xpl)):end));
-            mean_spl=nanmean(sqrt(spl(round(0.25*length(xpl)):end)));
-            mult_factor=5;
-            
-            miny=mean_xpl-mult_factor*(std_xpl+mean_spl);
-            maxy=mean_xpl+mult_factor*(std_xpl+mean_spl);
+%             mean_xpl=nanmean(xpl(round(0.25*length(xpl)):end));
+%             std_xpl=nanstd(xpl(round(0.25*length(xpl)):end));
+%             mean_spl=nanmean(sqrt(spl(round(0.25*length(xpl)):end)));
+%             mult_factor=5;
+%             
+%             miny=mean_xpl-mult_factor*(std_xpl+mean_spl);
+%             maxy=mean_xpl+mult_factor*(std_xpl+mean_spl);
             px=[timestamps(plot_time_1);
                 flipud(timestamps(plot_time_1))]';
             py=[xpl-sqrt(spl) fliplr(xpl+sqrt(spl))];
@@ -262,9 +262,9 @@ for idx=1:numberOfHiddenStates
             model.hidden_states_names{1}{idx,3} ']$' ],'Interpreter','Latex')
         datetick('x','yy-mm','keepticks')
         set(gca, 'Fontsize', 16)
-        if miny~=maxy
-            set(gca,'Ylim',[miny,maxy])
-        end
+%         if miny~=maxy
+%             set(gca,'Ylim',[miny,maxy])
+%         end
         xlabel('Time [YY-MM]')
         xlim([timestamps(1)-Xaxis_lag,timestamps(end)])
         hold off

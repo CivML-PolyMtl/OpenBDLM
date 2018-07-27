@@ -5,20 +5,18 @@ function [isValid]=verificationDataStructure(data)
 %     [isValid]=VERIFICATIONDATASTRUCTURE(data)
 %
 %   INPUT:
-%      data       - structure (required)
-%                   data must contain three fields :
+%       data      - structure (required)
+%                   data must contain three fields:
 %
-%                       'timestamps' is a 1×N cell array
-%                       each cell is a M_ix1 real array
+%                       'timestamps' is a M×1 array
 %
-%                       'values' is a 1×N cell array
-%                       each cell is a M_ix1 real array
+%                       'values' is a MxN  array
 %
 %                       'labels' is a 1×N cell array
-%                       each cell is a character array
+%                        each cell is a character array
 %
-%                 N: number of time series
-%                 M_i: number of samples of time series i
+%                           N: number of time series
+%                           M: number of samples
 %
 %   OUTPUT:
 %      isValid    - logical
@@ -47,7 +45,7 @@ function [isValid]=verificationDataStructure(data)
 %       April 12, 2018
 %
 %   DATE LAST UPDATE:
-%       April 12, 2018
+%       July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -68,38 +66,23 @@ if ~isfield(data,'timestamps') || ~isfield(data,'values') || ...
     return
 end
 
-% verification non empty labels
-if any (cellfun(@isempty, data.timestamps)) || ...
-        any (cellfun(@isempty, data.values)) || ...
-        any (cellfun(@isempty, data.labels))
-    isValid = false;
-    return
-end
-
-
-% verification there are data
-% if any( structfun(@isempty, data) )
-%     isValid = false;
-%     return
-% end
-
-% verification data contains cell array
-if ~all( structfun(@iscell, data) )
+% verification that each field in not empty
+if isempty(data.timestamps) || ...
+   isempty(data.values) || ...
+   any (cellfun(@isempty, data.labels))
+    
     isValid = false;
     return
 end
 
 % verification that same number of observations in each field
-if length(data.timestamps) ~= length(data.values) || ...
-        length(data.timestamps) ~= length(data.labels) || ...
-        length(data.values) ~= length(data.labels)
+if size(data.values,2) ~= length(data.labels)
     isValid = false;
     return
 end
 
 % verification that same number of samples for each time/value pair
-if any(cellfun(@length, (data.timestamps))- ...
-        cellfun(@length, (data.values)))
+if  size(data.timestamps,1) ~= size(data.values,1)
     isValid = false;
     return
 end
@@ -107,7 +90,7 @@ end
 % verification that timestamps are in chronological order
 isChronological = @(x) any(diff(x) <= 0);
 
-if any (cellfun(isChronological, data.timestamps))
+if any(isChronological(data.timestamps))
     isValid = false;
     return
 end

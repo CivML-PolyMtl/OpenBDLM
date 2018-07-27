@@ -1,29 +1,26 @@
-function [ProjectInfo]=displayProjects(varargin)
+function [ProjectInfo]=displayProjects(misc)
 %DISPLAYPROJECTS displays on screen information about saved projects
 %
 %   SYNOPSIS:
-%     DISPLAYPROJECTS(varargin)
+%     [ProjectInfo]=DISPLAYPROJECTS(ProjectInfoFile, FilePath )
 %
 %   INPUT:
-%      FilePath    - character (optional)
-%                    directory where to save the file
-%                    default: '.'  (current folder)
-%
+%      misc                 - structure (required)
+%                            see documentation for details about the fields
+%                            in structure "misc"
 %   OUTPUT:
-%      ProjectInfo - cell array
-%                    info about each project
-%      
-%
+%      ProjectInfo          - cell array
+%                             info about each project
+%  
 %   DESCRIPTION:
 %      DISPLAYPROJECTS displays on screen information about saved projects
 %      DISPLAYPROJECTS search for Matlab binary PROJ_*.mat file in
 %      specified location given by FilePath
 %
 %   EXAMPLES:
-%      displayProjects
-%      displayProjects('FilePath', './saved_projects')
+%      [ProjectInfo]=displayProjects(misc)
 %
-%   See also INITIALIZEPROJECT, SAVEPROJECT
+%   See also 
 
 %   AUTHORS:
 %      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
@@ -38,26 +35,21 @@ function [ProjectInfo]=displayProjects(varargin)
 %       June 4, 2018
 %
 %   DATE LAST UPDATE:
-%       June 5, 2018
+%       July 26, 2018
 
 %--------------------BEGIN CODE ----------------------
 
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 
-defaultFilePath = '.';
-addParameter(p,'FilePath', defaultFilePath );
-parse(p, varargin{:});
+addRequired(p, 'misc', @isstruct )
+parse(p, misc);
 
-FilePath=p.Results.FilePath;
+misc=p.Results.misc;
 
-% Validation of FilePath
-if ~ischar(FilePath) || isempty(FilePath(~isspace(FilePath)))
-    disp(' ')
-    disp('ERROR: Path should be a non-empty character array.')
-    disp(' ')
-    return
-end
+FilePath = misc.ProjectPath;
+ProjectsInfoFilename=misc.ProjectInfoFilename;
+
 
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -67,12 +59,9 @@ if ~isFileExist
     addpath(FilePath)
 end
 
-
 %% Test existence of the file that contains all information about projects
-
-ProjectsInfoFilename = 'ProjectsInfo.mat';
-
-[isFileExist] = testFileExistence(fullfile(pwd, FilePath, ProjectsInfoFilename), 'file');
+[isFileExist] = ...
+    testFileExistence(fullfile(pwd, FilePath, ProjectsInfoFilename), 'file');
 
 if isFileExist
     
@@ -83,13 +72,13 @@ if isFileExist
     if ~isempty(ProjectInfo)
         
         % Sort according to ProjectDateCreation
-        [~,I] = sort(datetime(ProjectInfo(:,2), 'Format', 'yyyy-MM-dd hh:mm:ss'));
+        [~,I] = sort(datetime(ProjectInfo(:,2), ...
+            'Format', 'yyyy-MM-dd hh:mm:ss'));
         % Rearrange array 
         ProjectInfo(:,1) = ProjectInfo(I,1);
         ProjectInfo(:,2) = ProjectInfo(I,2);
         ProjectInfo(:,3) = ProjectInfo(I,3);
-        
-        
+               
         % Display information
         disp('Saved projects: ')
         disp(' ')

@@ -78,9 +78,6 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
-%% Remove space in filename
-%FilePath = FilePath(~isspace(FilePath));
-
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -125,7 +122,7 @@ dat.misc=misc;
 
 %% Save binary file in specified location
 save(fullname, '-struct', 'dat')
-fprintf('     Saving project as %s... \n', fullfile(FilePath, name_projectfile ) );
+fprintf('     Project saved in %s. \n', fullfile(FilePath, name_projectfile ));
 
 
 %% Add information specific file if required

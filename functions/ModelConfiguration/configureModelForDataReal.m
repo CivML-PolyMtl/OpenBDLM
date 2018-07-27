@@ -69,12 +69,15 @@ function [data, model, estimation, misc]=configureModelForDataReal(data, model, 
 %       April 20, 2018
 % 
 %   DATE LAST UPDATE:
-%       May 28, 2018
+%       July 25, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
+
+validationFct_FilePath = @(x) ischar(x) && ...
+    ~isempty(x(~isspace(x)));
 
 addRequired(p,'data', @isstruct );
 addRequired(p,'model', @isstruct );
@@ -94,27 +97,10 @@ if ~isValid
     disp('     ERROR: Unable to read the data from the structure.')
     disp(' ')
     return
-end
-
-%% Verification there is a single timestamp vector for all time series
-
-% Get number of time series
-numberOfTimeSeries = length(data.labels);
-
-if numberOfTimeSeries > 1
-    
-    [isMerged] = verificationMergedDataset(data);
-    
-    if ~isMerged
-        disp(' ')
-        disp('    ERROR: Timestamps vector are not identical.')
-        disp(' ')
-        return
-    end
-end    
+end   
 
 %% Compute reference time step from timestamp vector
-timestamps = data.timestamps{1};
+timestamps = data.timestamps;
 [dt_ref] = defineReferenceTimeStep(timestamps);
 misc.dt_ref = dt_ref;
 
@@ -124,7 +110,7 @@ misc.dt_ref = dt_ref;
 misc.trainingPeriod = trainingPeriod;
 
 %% Define model
-[model] = defineModel(data, misc);
+[model, misc] = defineModel(data, misc);
 
 %% Build model
 [model] = buildModel(data, model, misc);

@@ -1,8 +1,8 @@
-function [model] = modifyModelParameters(data, model, estimation, misc, varargin)
+function [model, misc] = modifyModelParameters(data, model, estimation, misc, varargin)
 %MODIFYMODELPARAMETERS Request user to modify model parameters values
 %
 %   SYNOPSIS:
-%     [model] = MODIFYMODELPARAMETERS(data, model, estimation, misc, varargin)
+%     [model, misc] = MODIFYMODELPARAMETERS(data, model, estimation, misc, varargin)
 %
 %   INPUT:
 %      data             - structure (required)
@@ -32,14 +32,18 @@ function [model] = modifyModelParameters(data, model, estimation, misc, varargin
 %                          see documentation for details about the fields of
 %                          model
 %
+%      misc             - structure (required)
+%                         see documentation for details about the fields of
+%                         misc
+%
 %      Updated project file with new model parameters values
 %
 %   DESCRIPTION:
 %      MODIFYMODELPARAMETERS modifies model parameters (values, domain)
 %
 %   EXAMPLES:
-%      [model] = MODIFYMODELPARAMETERS(data, model, estimation, misc)
-%      [model] = MODIFYMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects')
+%      [model, misc] = MODIFYMODELPARAMETERS(data, model, estimation, misc)
+%      [model, misc] = MODIFYMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects')
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      saveProject
@@ -62,7 +66,7 @@ function [model] = modifyModelParameters(data, model, estimation, misc, varargin
 %       June 11, 2018
 %
 %   DATE LAST UPDATE:
-%       July 10, 2018
+%       July 20, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -86,9 +90,6 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
-
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
 
 
 %% Display current values
@@ -135,9 +136,9 @@ while ~isCorrectAnswer
     disp('     5   ->  Return to menu  ')
     disp(' ')
     
-    if isAnswersFromFile
+    if misc.BatchMode.isBatchMode
         user_inputs.inp_1 = ...
-            eval(char(AnswersFromFile{1}(AnswersIndex)));
+            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(user_inputs.inp_1)
     else
         user_inputs.inp_1 =  input('     choice >> ');
@@ -146,14 +147,14 @@ while ~isCorrectAnswer
     
     if user_inputs.inp_1 == 1
         
-        AnswersIndex=AnswersIndex+1;
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
         isCorrect = false;
         while ~isCorrect
             disp('     Modify parameter # ')
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_2 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_2)
             else
                 user_inputs.inp_2 =  input('     choice >> ');
@@ -161,7 +162,7 @@ while ~isCorrectAnswer
             
             if rem(user_inputs.inp_2,1) == 0 && (user_inputs.inp_2 > 0) && ...
                     user_inputs.inp_2 <= length(model.param_properties)
-                AnswersIndex=AnswersIndex+1;
+                misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
                 disp('    Wrong input.')
@@ -173,16 +174,16 @@ while ~isCorrectAnswer
         isCorrect = false;
         while ~isCorrect
             disp('     New value :')
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_3)
             else
                 user_inputs.inp_3 =  input('     choice >> ');
             end
             
             if isnumeric(user_inputs.inp_3) && length(user_inputs.inp_3) ==1
-                AnswersIndex=AnswersIndex+1;
+                misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
                 disp('    Wrong input.')
@@ -194,9 +195,9 @@ while ~isCorrectAnswer
         isCorrect = false;
         while ~isCorrect
             disp('     New bounds : ')
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 
                 disp(['     [' sprintf('%d,', user_inputs.inp_4(1:end-1) ) ...
                     num2str(user_inputs.inp_4(end)) ']'])
@@ -206,7 +207,7 @@ while ~isCorrectAnswer
             end
             
             if isnumeric(user_inputs.inp_4) && length(user_inputs.inp_4) ==2
-                AnswersIndex=AnswersIndex+1;
+                misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
                 disp('    Wrong input.')
@@ -231,14 +232,14 @@ while ~isCorrectAnswer
         
     elseif user_inputs.inp_1 ==2            
 
-        AnswersIndex=AnswersIndex+1;
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
         isCorrect = false;
         while ~isCorrect
             disp('     Modify prior for parameter # ')
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_2 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_2)
             else
                 user_inputs.inp_2 =  input('     choice >> ');
@@ -246,7 +247,7 @@ while ~isCorrectAnswer
             
             if rem(user_inputs.inp_2,1) == 0 && (user_inputs.inp_2 > 0) && ...
                     user_inputs.inp_2 <= length(model.param_properties)
-                AnswersIndex=AnswersIndex+1;
+                misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
                 disp('    Wrong input.')
@@ -258,16 +259,16 @@ while ~isCorrectAnswer
         isCorrect = false;
         while ~isCorrect
             disp('     New prior type :')
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_3)
             else
                 user_inputs.inp_3 =  input('     choice >> ');
             end
             
             if ischar(user_inputs.inp_3)
-                AnswersIndex=AnswersIndex+1;
+                misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
                 disp('    Wrong input.')
@@ -279,16 +280,16 @@ while ~isCorrectAnswer
                 isCorrect = false;
         while ~isCorrect
             disp('     New prior mean :')
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_4)
             else
                 user_inputs.inp_4 =  input('     choice >> ');
             end
             
             if isnumeric(user_inputs.inp_4) && length(user_inputs.inp_4) ==1
-                AnswersIndex=AnswersIndex+1;
+                misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
                 disp('    Wrong input.')
@@ -301,16 +302,16 @@ while ~isCorrectAnswer
         isCorrect = false;
         while ~isCorrect
             disp('     New prior standard deviation :')
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_5 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_5)
             else
                 user_inputs.inp_5 =  input('     choice >> ');
             end
             
             if isnumeric(user_inputs.inp_5) && length(user_inputs.inp_5) ==1
-                AnswersIndex=AnswersIndex+1;
+                misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
                 disp('    Wrong input.')
@@ -335,19 +336,17 @@ while ~isCorrectAnswer
         saveProject(data, model, estimation, misc, 'FilePath', FilePath)
         
         isCorrectAnswer = true;
-        
-        
-        
+               
 
     elseif user_inputs.inp_1 ==3
         
-        AnswersIndex=AnswersIndex+1;
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         isCorrect = false;
         while ~isCorrect
             disp('     Constrain parameter # ')
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_2 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_2)
             else
                 user_inputs.inp_2 =  input('     choice >> ');
@@ -355,7 +354,7 @@ while ~isCorrectAnswer
             
             if rem(user_inputs.inp_2,1) == 0 && (user_inputs.inp_2 > 0) && ...
                     user_inputs.inp_2 <= length(model.param_properties)
-                AnswersIndex=AnswersIndex+1;
+                misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
                 disp('    Wrong input.')
@@ -367,9 +366,9 @@ while ~isCorrectAnswer
         isCorrect = false;
         while ~isCorrect
             disp('     to parameter # ')
-            if isAnswersFromFile
+            if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
-                    eval(char(AnswersFromFile{1}(AnswersIndex)));
+                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_3)
             else
                 user_inputs.inp_3 =  input('     choice >> ');
@@ -377,7 +376,7 @@ while ~isCorrectAnswer
             
             if all(rem(user_inputs.inp_3,1)) == 0 && all(user_inputs.inp_3 > 0) && ...
                     all( user_inputs.inp_3 <= length(model.param_properties))
-                AnswersIndex=AnswersIndex+1;
+                misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
                 disp('    Wrong input.')
@@ -398,7 +397,16 @@ while ~isCorrectAnswer
         
     elseif user_inputs.inp_1 ==4
         disp(' ')
+        disp(['%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', ...
+            '%%%%%%%%%%%%%%'])
+        disp('%% D - Model parameters:');
+        disp(['%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', ...
+            '%%%%%%%%%%%%%%'])
+        disp('% Model parameters properties:')
         disp('model.param_properties={')
+        disp(['%     |Parameter     |Component |Model # |Observation  '...
+    ' |Bounds min/max        |Prior type' ...
+    ' |Mean prior       |Sdev prior |Parameter #'])
         for i=1:size(model.param_properties,1)
             space=repmat(' ',1,8-length(model.param_properties{i,1}));
             disp(sprintf(['\t''%-s''' space ',\t ''%-s'',\t  '...
@@ -408,20 +416,23 @@ while ~isCorrectAnswer
         end
         disp('};')
         disp(' ')
+        disp('% Model parameters values:')
         disp('model.parameter=[')
+        disp('% |Parameter value    |Parameter # |Parameter')
         for i=1:size(model.parameter,1)
             disp(sprintf('%-8.5G \t %%#%d \t%%%-s',  ...
                 model.parameter(i),i,model.param_properties{i,1}));
         end
         disp(']; ')
         disp(' ')
+        disp('% Model parameters constrains:')
         disp(['model.p_ref=[' num2str(model.p_ref) '];'])
         disp(' ')
         
         isCorrectAnswer = true;
         
     elseif user_inputs.inp_1 ==5
-        AnswersIndex=AnswersIndex+1;
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
     else
         disp('     Wrong input.')

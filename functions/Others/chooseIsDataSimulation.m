@@ -42,8 +42,6 @@ addRequired(p,'misc', @isstruct );
 parse(p,misc);
 misc=p.Results.misc;  
  
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
 
 %% Project to simulate data ?
 isYesNoCorrect = false;
@@ -51,8 +49,8 @@ while ~isYesNoCorrect
     disp(' ')
     fprintf('- Does this project aim to perform data simulation ? \n')
     % read from user input file (use of global variable )?
-    if isAnswersFromFile
-        choice=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        choice=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', choice])
     else
         choice = input('     (y/n) >> ','s');
@@ -83,7 +81,7 @@ while ~isYesNoCorrect
     
 end
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1; 
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
 disp(' ')
 %--------------------END CODE ------------------------ 
 end

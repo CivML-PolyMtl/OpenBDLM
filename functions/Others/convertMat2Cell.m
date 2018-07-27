@@ -8,7 +8,7 @@ function [data]=convertMat2Cell(data)
 %      data             - structure (required)
 %                          data must contain three fields :
 %
-%                               'timestamps' is a M×N array
+%                               'timestamps' is a M×1 array
 %
 %                               'values' is a M×N array
 %
@@ -19,20 +19,20 @@ function [data]=convertMat2Cell(data)
 %                                M: number of samples of time series i
 %
 %   OUTPUT:
-%      data             - structure (required)
+%      data             - structure 
 %                          data must contain three fields :
 %
 %                               'timestamps' is a 1×N cell array
-%                                each cell is a Mx1 real array
+%                                each cell is a M_ix1 real array
 %
 %                               'values' is a 1×N cell array
-%                                each cell is a Mx1 real array
+%                                each cell is a M_ix1 real array
 %
 %                               'labels' is a 1×N cell array
 %                                each cell is a character array
 %
 %                                N: number of time series
-%                                M: number of samples of time series i
+%                                M_i: number of samples of time series i
 %
 %   DESCRIPTION:
 %      CONVERTMAT2CELL Convert matrices in data.timestamps and data.values
@@ -62,7 +62,7 @@ function [data]=convertMat2Cell(data)
 %       June 14, 2018
 %
 %   DATE LAST UPDATE:
-%       June 14, 2018
+%       July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications

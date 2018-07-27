@@ -137,7 +137,7 @@ end
 
 %% Define timestamp
 % Get timestamps vector
-timestamps=data.timestamps{1};
+timestamps=data.timestamps;
 
 % Get reference timestep
 [referenceTimestep]=defineReferenceTimeStep(timestamps);

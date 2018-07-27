@@ -1,23 +1,34 @@
-function [data]=readMultipleCSVFiles(varargin)
+function [dataOrig, misc]=readMultipleCSVFiles(misc)
 %READMULTIPLECSVFILES Read data from .csv files
 %
 %   SYNOPSIS:
-%     [data]=READMULTIPLECSVFILES(varargin)
+%     [data, misc]=READMULTIPLECSVFILES(misc)
 %
 %   INPUT:
 %
-%      isOutputFile - logical (optional)
-%                     if true, save the data in a DATA_*.mat Matlab file
-%                     default: false
-%
-%      isPlot       - logical (optional)
-%                     if true, plot data
-%                     default: false
+%      misc          - structure
+%                      see the documentation for details about the
+%                      field in misc
 %
 %   OUTPUT:
-%      data         - structure array
-%                     fields of data are timestamps, values, labels
+%      dataOrig     - structure array
+%                     dataOrig must contain three fields :
 %
+%                           'timestamps' is a 1×N cell array
+%                            each cell is a M_ix1 real array
+%
+%                           'values' is a 1×N cell array
+%                            each cell is a M_ix1 real array
+%
+%                           'labels' is a 1×N cell array
+%                            each cell is a character array
+%
+%                               N: number of time series
+%                               M_i: number of samples of time series i
+%
+%      misc         - structure
+%                     see the documentation for details about the
+%                     field in misc
 %
 %   DESCRIPTION:
 %      READMULTIPLECSVFILES reads data from multiple .csv files and put
@@ -27,8 +38,7 @@ function [data]=readMultipleCSVFiles(varargin)
 %      data contains three fields timestamps, values, labels
 %
 %   EXAMPLES:
-%      [data]=READMULTIPLECSVFILES
-%      [data]=READMULTIPLECSVFILES('isPlot', 'true', 'isOutputFile', true)
+%      [data, misc]=READMULTIPLECSVFILES(misc)
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      readSingleCSVFile, plotData, plotDataAvailability,
@@ -38,7 +48,7 @@ function [data]=readMultipleCSVFiles(varargin)
 %             PLOTDATAAVAILABILITY, SAVEDATABINARY
 
 %   AUTHORS:
-%      Ianis Gaudot, Luong Ha Nguyen,, James-A Goulet
+%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
 %
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
@@ -50,36 +60,29 @@ function [data]=readMultipleCSVFiles(varargin)
 %      April 10, 2018
 %
 %   DATE LAST UPDATE:
-%      July 2, 2018
+%      July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
 
 %% Get arguments passed to the function and proceed to some verifications
 
 p = inputParser;
-defaultisOutputFile = false;
-defaultisPlot = false;
 
-addParameter(p,'isOutputFile',defaultisOutputFile,@islogical);
-addParameter(p,'isPlot',defaultisPlot,@islogical);
+addRequired(p, 'misc', @isstruct);
 
-parse(p, varargin{:} );
+parse(p, misc );
 
-isOutputFile=p.Results.isOutputFile;
-isPlot=p.Results.isPlot;
+misc=p.Results.misc;
 
-
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
 
 %% Request CSVFileList from user
-if isAnswersFromFile
+if misc.BatchMode.isBatchMode
     while(1)
         
         disp(' ')
         fprintf(['Provide a list of .CSV filename to process ' ...
             '(e.g. {''raw_data/data_Tamar/*.csv'', ''disp_001.csv''}) :  \n'])
-        CSVFileList=eval(char(AnswersFromFile{1}(AnswersIndex)));
+        CSVFileList=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(CSVFileList)
         %     else
         %         CSVFileList=input('     list of filenames >> ');
@@ -109,13 +112,7 @@ if isAnswersFromFile
             continue
             
         else
-            %         else
-            %             break
-            %         end
-            %     end
-            
-            %     % Increment global variable to read next answer when required
-            %     AnswersIndex = AnswersIndex + 1;
+
             
             %% Clean the list of CSV files
             
@@ -127,9 +124,9 @@ if isAnswersFromFile
                 disp(' ')
                 disp('WARNING: File list is empty.')
                 disp(' ')
-                data.timestamps=[];
-                data.values=[];
-                data.labels=[];
+                dataOrig.timestamps=[];
+                dataOrig.values=[];
+                dataOrig.labels=[];
                 return
             end
             
@@ -172,9 +169,9 @@ if isAnswersFromFile
                             %                 fprintf('WARNING: Skip file. \n')
                         else
                             % Store in structure array
-                            data.timestamps{inc} = dat(:,1);
-                            data.values{inc} = dat(:,2);
-                            data.labels{inc} = label;
+                            dataOrig.timestamps{inc} = dat(:,1);
+                            dataOrig.values{inc} = dat(:,2);
+                            dataOrig.labels{inc} = label;
                         end
                     end
                     
@@ -185,11 +182,11 @@ if isAnswersFromFile
             
         end
         
-        if ~exist('data', 'var')
+        if ~exist('dataOrig', 'var')
             continue
         else
             % Increment global variable to read next answer when required
-            AnswersIndex = AnswersIndex + 1;
+            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
             break
         end
                
@@ -228,14 +225,14 @@ else
                 %                 fprintf('WARNING: Skip file. \n')
             else
                 % Store in structure array
-                data.timestamps{inc} = dat(:,1);
-                data.values{inc} = dat(:,2);
-                data.labels{inc} = label;
+                dataOrig.timestamps{inc} = dat(:,1);
+                dataOrig.values{inc} = dat(:,2);
+                dataOrig.labels{inc} = label;
             end
             
         end        
         
-        if ~exist('data', 'var')
+        if ~exist('dataOrig', 'var')
             continue
         else
             break
@@ -243,16 +240,6 @@ else
         
     end
     
-end
-
-% Plot of requested
-if isPlot
-    plotData(data, 'FigurePath', 'figures')
-end
-
-% Save in binary file if requested
-if isOutputFile
-    saveDataBinary(data, 'FilePath','processed_data')
 end
 %--------------------END CODE ------------------------
 end

@@ -1,32 +1,22 @@
-function plotData(data, model, estimation, misc, varargin)
+function plotData(data, misc, varargin)
 %PLOTDATA Plot amplitude and time step of time series data
 %
 %   SYNOPSIS:
-%     PLOTDATA(data, model, estimation, misc varargin)
+%     PLOTDATA(data, misc, varargin)
 %
 %   INPUT:
-%      data             - structure (required)
-%                          data must contain three fields :
+%       data            - structure (required)
+%                               data must contain three fields:
 %
-%                               'timestamps' is a 1×N cell array
-%                               each cell is a M_ix1 real array
+%                               'timestamps' is a M×1 array
 %
-%                               'values' is a 1×N cell array
-%                               each cell is a M_ix1 real array
+%                               'values' is a MxN  array
 %
 %                               'labels' is a 1×N cell array
 %                               each cell is a character array
 %
-%                                   N: number of time series
-%                                   M_i: number of samples of time series i
-%
-%      model            - structure (required)
-%                         see documentation for details about the fields of
-%                         model
-%
-%      estimation       - structure (required)
-%                         see documentation for details about the fields of
-%                         estimation
+%                               N: number of time series
+%                               M: number of samples
 %
 %      misc             - structure (required)
 %                         see documentation for details about the fields of
@@ -56,11 +46,11 @@ function plotData(data, model, estimation, misc, varargin)
 %      Format of output figures: fig
 %
 %   EXAMPLES:
-%      PLOTDATA(data, model, estimation, misc)
-%      PLOTDATA(data, model, estimation, misc, 'Filepath', './figures/')
-%      PLOTDATA(data, model, estimation, misc,'Filepath', './figures/', 'isSaveFigures', false)
-%      PLOTDATA(data, model, estimation, misc, 'Filepath', './figures/', 'isPdf', true)
-%      PLOTDATA(data, model, estimation, misc, 'isPdf', true)
+%      PLOTDATA(data, misc)
+%      PLOTDATA(data, misc, 'Filepath', './figures/')
+%      PLOTDATA(data, misc,'Filepath', './figures/', 'isSaveFigures', false)
+%      PLOTDATA(data, misc, 'Filepath', './figures/', 'isPdf', true)
+%      PLOTDATA(data, misc, 'isPdf', true)
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      plotDataAvailability, verificationDataStructure, export_fig,
@@ -83,7 +73,7 @@ function plotData(data, model, estimation, misc, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       June 12, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -98,17 +88,13 @@ validationFct_FilePath = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
 addRequired(p,'data', @isstruct );
-addRequired(p,'model', @isstruct );
-addRequired(p,'estimation', @isstruct );
 addRequired(p,'misc', @isstruct );
 addParameter(p,'FilePath', defaultFilePath, validationFct_FilePath);
 addParameter(p,'isPdf', defaultisPdf, @islogical );
 addParameter(p,'isSaveFigures', defaultisSaveFigures, @islogical );
-parse(p,data, model, estimation, misc, varargin{:});
+parse(p,data, misc, varargin{:});
 
 data=p.Results.data;
-model=p.Results.model;
-estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 isPdf = p.Results.isPdf;
@@ -142,34 +128,30 @@ if isSaveFigures
         % set directory on path
         addpath(FilePath)
     end
-    
-    
+       
     fullname=fullfile(FilePath, misc.ProjectName);
     
     [isFileExist] = testFileExistence(fullname, 'dir');
     if isFileExist
         disp(' ')
-        fprintf('Directory %s already exists. Overwrite ?\n', fullname)
+        fprintf('Directory %s already exists. Overwrite ? (y/n) \n', ...
+            fullname)
         
         isYesNoCorrect = false;
         while ~isYesNoCorrect
-            choice = input('     (y/n) >> ','s');
+            choice = input('     choice >> ','s');
             if isempty(choice)
                 disp(' ')
                 disp('     wrong input --> please make a choice')
                 disp(' ')
-            elseif strcmp(choice,'y') || strcmp(choice,'yes') ||  ...
-                    strcmp(choice,'Y') || strcmp(choice,'Yes')  || ...
-                    strcmp(choice,'YES')
+            elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
                 
                 isYesNoCorrect =  true;
 
-            elseif strcmp(choice,'n') || strcmp(choice,'no') ||  ...
-                    strcmp(choice,'N') || strcmp(choice,'No')  || ...
-                    strcmp(choice,'NO')
-                
-                
-                [name] = incrementFilename([misc.ProjectName, '_new'], FilePath);
+            elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+                                
+                [name] = incrementFilename([misc.ProjectName, '_new'], ...
+                    FilePath);
                 fullname=fullfile(FilePath, name);
                 
                 % Create new directory
@@ -197,7 +179,7 @@ end
 %% Create a figure for each time series
 
 % Get number of time series
-numberOfTimeSeries = length(data.values);
+numberOfTimeSeries = size(data.values, 2);
 % Set color of each plot
 color = [0, 0.4, 0.8];
 
@@ -205,9 +187,9 @@ inc=0;
 for i=1:numberOfTimeSeries
     inc=inc+1;
     % get timestamps
-    timestamps=data.timestamps{i};
+    timestamps=data.timestamps;
     % get values
-    values=data.values{i};
+    values=data.values(:,i);
     % compute reference (most frequent) time step
     [ReferenceTimestep]=defineReferenceTimeStep(timestamps);
     %Store the number of time steps
@@ -348,8 +330,7 @@ else
 end
 
 if isSaveFigures
-    fprintf('Figures saved in %s \n', fullname);
-    disp('->done.')
+    fprintf('     Figures saved in %s \n', fullname);
     disp(' ')
 end
 %--------------------END CODE ------------------------

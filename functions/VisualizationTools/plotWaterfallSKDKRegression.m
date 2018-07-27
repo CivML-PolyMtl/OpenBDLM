@@ -73,7 +73,7 @@ function [FigureNames] = plotWaterfallSKDKRegression(data, model, estimation, mi
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       June 8, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -108,8 +108,6 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
-%% Remove space in filename
-%FilePath = FilePath(~isspace(FilePath));
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -120,15 +118,12 @@ if ~isFileExist
     addpath(FilePath)
 end
 
-
 %% Define timestamp
 % Get timestamps vector
-timestamps=data.timestamps{1};
+timestamps=data.timestamps;
 
-
-% Get number of time series
+%% Get number of time series
 numberOfTimeSeries = length(data.labels);
-
 
 %% Create static/dynamic kernel regression waterfall plot for each time series
 % Loop over time series
@@ -324,6 +319,5 @@ for obs=1:numberOfTimeSeries
        FigureNames{1} = [];  
     end
 end
-
 %--------------------END CODE ------------------------
 end

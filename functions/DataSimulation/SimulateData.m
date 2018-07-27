@@ -83,7 +83,7 @@ isPlot=p.Results.isPlot;
 
 if isfield(data, 'values')
     % prevent overwriting by incrementing ProjectName
-    ProjectName = incrementProjectName('new', 'saved_projects' );
+    ProjectName = incrementProjectName(misc, 'new', misc.ProjectPath );
     misc.ProjectName = ProjectName;   
 end
 
@@ -97,8 +97,8 @@ else
 end
 
 if isPlot
-    plotData(data, model, estimation, misc, 'isPdf', false, 'FilePath', 'figures', ...
-        'isSaveFigures', true );
+    plotData(data, misc, 'isPdf', false, ...
+        'FilePath', 'figures','isSaveFigures', true );
 end
 
 %--------------------END CODE ------------------------

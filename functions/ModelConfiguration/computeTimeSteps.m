@@ -5,14 +5,14 @@ function [timesteps]=computeTimeSteps(timestamps)
 %     [timestep]=COMPUTETIMESTEPS(timestamps)
 % 
 %   INPUT:
-%      timestamps                 - Nx1 real array (required)
-%                                  timestamp vector
-%                                  N: number of samples in the time series
+%      timestamps                 - Mx1 real array (required)
+%                                   timestamp vector
+%                                   M: number of samples in the time series
 % 
 %   OUTPUT:
-%      timesteps                 - (N-1)x1 real array (required)
-%                                  timestep vector
-%                                  N: number of samples in the time series
+%      timesteps                  - (M-1)x1 real array (required)
+%                                   timestep vector
+%                                   M: number of samples in the time series
 %
 %   DESCRIPTION:
 %      COMPUTETIMESTEPS compute timestep vector from timestamps vector
@@ -35,7 +35,7 @@ function [timesteps]=computeTimeSteps(timestamps)
 %       April 24, 2018
 % 
 %   DATE LAST UPDATE:
-%       April 24, 2018
+%       July 24, 2018
  
 %--------------------BEGIN CODE ---------------------- 
  
