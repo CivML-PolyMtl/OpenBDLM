@@ -113,7 +113,8 @@ FilePath=p.Results.FilePath;
 
 %% Verification if there are data to plot, or not
 if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
-    disp('No plot to create...')
+    disp(' ')
+    disp('     No plot to create...')
     return
 end
 

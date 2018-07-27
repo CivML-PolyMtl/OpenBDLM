@@ -1,12 +1,12 @@
-function [data]=mergeTimeStampVectors(data, varargin)
+function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)
 %MERGETIMESTAMPVECTORS Create a single time vector from a set of time series
 %
 %   SYNOPSIS:
-%     [data]=MERGETIMESTAMPVECTORS(data, varargin)
+%     [data, misc]=MERGETIMESTAMPVECTORS(data, misc, varargin)
 %
 %   INPUT:
-%       data        - structure (required)
-%                      data must contain three fields :
+%       dataOrig    - structure (required)
+%                     dataOrig must contain three fields :
 %
 %                           'timestamps' is a 1×N cell array
 %                           each cell is a M_ix1 real array
@@ -17,8 +17,12 @@ function [data]=mergeTimeStampVectors(data, varargin)
 %                           'labels' is a 1×N cell array
 %                           each cell is a character array
 %
-%                 N: number of time series
-%                 M_i: number of samples of time series i
+%                               N: number of time series
+%                               M_i: number of samples of time series i
+%
+%      misc         - structure
+%                     see the documentation for details about the
+%                     field in misc
 %
 %      NanThreshold - real (optional)
 %                     maximum amount of missing data (NaN) allowed at each
@@ -40,8 +44,22 @@ function [data]=mergeTimeStampVectors(data, varargin)
 %                     default: false
 %
 %   OUTPUT:
-%      data         - structure (required)
-%                     fields of data are timestamps, values, labels
+%       data        - structure (required)
+%                     data must contain three fields :
+%
+%                           'timestamps' is a M×1 array
+%
+%                           'values' is a M×N array
+%
+%                           'labels' is a 1×N cell array
+%                           each cell is a character array
+%
+%                           N: number of time series
+%                           M: number of samples
+%
+%      misc         - structure
+%                     see the documentation for details about the
+%                     field in misc
 %
 %   DESCRIPTION:
 %      MERGETIMESTAMPVECTORS process a set of time series, each having
@@ -59,12 +77,12 @@ function [data]=mergeTimeStampVectors(data, varargin)
 %      Tolerance variable is a real value given in number of days.
 %
 %   EXAMPLES:
-%      [data] = MERGETIMESTAMPVECTORS (data)
-%      [data] = MERGETIMESTAMPVECTORS (data, 'NanThreshold', 100, ...
+%      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig, misc)
+%      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig, misc, 'NanThreshold', 100, ...
 %               'Tolerance', 0.01)
-%      [data] = MERGETIMESTAMPVECTORS (data, 'NanThreshold', 100, ...
+%      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig, misc, 'NanThreshold', 100, ...
 %               'Tolerance', 0.01, 'isPlot', true, 'isOutputFile', true)
-%      [data] = MERGETIMESTAMPVECTORS (data, 'Tolerance', 0.01 )
+%      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig,misc, 'Tolerance', 0.01 )
 %
 %   See also EXTRACTSYNCHRONOUSRECORDS
 
@@ -81,7 +99,7 @@ function [data]=mergeTimeStampVectors(data, varargin)
 %       April 13, 2018
 %
 %   DATE LAST UPDATE:
-%       April 16, 2018
+%       July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -91,45 +109,36 @@ defaulttolerance = 10^(-6);
 defaultisOutputFile =  false;
 defaultisPlot = false;
 
-addRequired(p,'data', @isstruct );
+addRequired(p,'dataOrig', @isstruct );
+addRequired(p,'misc', @isstruct );
 validationFcn = @(x) isreal(x) & x >= 0 & x <= 100;
 addParameter(p,'NanThreshold',defaultNanThreshold,validationFcn);
 addParameter(p,'tolerance',defaulttolerance,@isreal);
 addParameter(p,'isOutputFile',defaultisOutputFile,@islogical);
 addParameter(p,'isPlot',defaultisPlot,@islogical);
 
-parse(p,data, varargin{:} );
+parse(p,dataOrig, misc, varargin{:} );
 
-data=p.Results.data;
+dataOrig=p.Results.dataOrig;
+misc=p.Results.misc;
 NaNThreshold = p.Results.NanThreshold;
 tolerance = p.Results.tolerance;
 isOutputFile=p.Results.isOutputFile;
 isPlot=p.Results.isPlot;
 
-% Validation of structure data
-isValid = verificationDataStructure(data);
-if ~isValid
-    disp(' ')
-    disp('ERROR: Unable to read the data from the structure.')
-    disp(' ')
-    return
-end
-
-%displayData(data)
-
 %% Gather all serial date number in a single matrix
 
 % Get number of time series
-numberOfTimeSeries = length(data.values);
+numberOfTimeSeries = length(dataOrig.values);
 
 % Get lengh of each time series (number of samples)
-AllTimeSeriesLength = cellfun(@length, data.values);
+AllTimeSeriesLength = cellfun(@length, dataOrig.values);
 
 % Gather serial dates number in same matrix
 alldates = [];
 % Load array
 for i=1:numberOfTimeSeries
-    alldates = [alldates ; data.timestamps{i}];
+    alldates = [alldates ; dataOrig.timestamps{i}];
 end
 
 %% Full outer join
@@ -155,7 +164,7 @@ fullOuterJoin(:,1) = keys; % union of dates
 %% Build full outerjoin
 for i=1:numberOfTimeSeries    
     % stores values
-    fullOuterJoin(indice(1:AllTimeSeriesLength(i),i),i+1) = data.values{i};
+    fullOuterJoin(indice(1:AllTimeSeriesLength(i),i),i+1) = dataOrig.values{i};
 end
 
 %% Remove time samples to try to reach NaNThreshold condition
@@ -184,46 +193,61 @@ end
 
 if NaNThresholdTested ~= NaNThreshold
     disp(' ')
-    fprintf(['WARNING: NaNThreshold has been increased from ' ...
+    fprintf(['     WARNING: NaNThreshold has been increased from ' ...
         '%6.2f %% to %6.2f %% to avoid removing all the data'], ...
         NaNThreshold, NaNThresholdTested )
     disp(' ')
 end
 
 %% Overwrite data structure
+TimeSeriesIdxToRemove = [];
+
+data.timestamps = [];
+data.values = [];
+
 for i=1:numberOfTimeSeries
     
     if ~all(isnan(tmp(:,i+1)))
         % stores timestamps
-        data.timestamps{i} = tmp(:,1);
+        data.timestamps = [data.timestamps tmp(:,1) ];
         % stores values
-        data.values{i} = tmp(:,i+1);
+        data.values = [ data.values tmp(:,i+1)];
+        
+        data.labels{i} = dataOrig.labels{i};
     else
-        fprintf(['WARNING: %s has been removed because ' ...
-            'it is full of missing data (NaN)'], data.labels{i})
+        fprintf(['     WARNING: %s has been removed because ' ...
+            'it is full of missing data (NaN)'], dataOrig.labels{i})
         disp(' ')
-        data.timestamps{i}=[];
-        data.values{i} = [];  
+        
+        TimeSeriesIdxToRemove = [i TimeSeriesIdxToRemove];
+
+        data.timestamps = [data.timestamps zeros(size(tmp,1),1 )];
+        data.values = [data.values zeros(size(tmp,1),1 )];
         data.labels{i} = [];
-        disp(' ')
+        
+%         data.timestamps{i}=[];
+%         data.values{i} = [];  
+%         data.labels{i} = [];
+%         disp(' ')
 
         continue
     end
 end
 
 % Remove empty fields
-data.timestamps(cellfun(@isempty, data.timestamps))=[];
-data.values(cellfun(@isempty, data.values))=[];
+data.timestamps(:,TimeSeriesIdxToRemove)=[];
+data.timestamps = data.timestamps(:,1);
+data.values(:,TimeSeriesIdxToRemove)=[];
 data.labels(cellfun(@isempty, data.labels))=[];
 
 %% Plot
-if isPlot
-    plotData(data, 'FigurePath', 'figures')
-end
-
-%% Save in binary DATA_*.mat file
-if isOutputFile
-    saveDataBinary(data, 'FilePath','processed_data')
-end
+% if isPlot
+%     plotData(data, 'FigurePath', 'figures')
+% end
+% 
+% %% Save in binary DATA_*.mat file
+% if isOutputFile
+%     [misc, ~] = saveDataBinary(data, misc, 'FilePath','processed_data');
+% end
 %--------------------END CODE ------------------------
 end

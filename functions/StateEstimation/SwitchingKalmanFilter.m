@@ -93,7 +93,7 @@ function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)
 %       June 29, 2018
 % 
 %   DATE LAST UPDATE:
-%       June 29, 2018
+%       July 23, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -186,7 +186,17 @@ LL=zeros(M,M,T);
 loglik = 0;
 
 %% Interventions
-interventions=find(ismember(data.timestamps,data.interventions{1}));
+if isfield(data, 'interventions')   
+   % Non empty cell ?
+   isIntervention = cellfun('isempty', data.interventions);
+    
+   if isIntervention
+        interventions=find(ismember(data.timestamps,data.interventions{1}));       
+   end
+else
+    data.interventions{1}=[];
+    interventions=find(ismember(data.timestamps,data.interventions{1}));
+end
 
 %% Estimate state for each t
 for t=1:T

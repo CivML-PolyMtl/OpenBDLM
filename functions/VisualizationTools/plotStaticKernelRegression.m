@@ -72,7 +72,7 @@ function [FigureNames] = plotStaticKernelRegression(data, model, estimation, mis
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       June 7, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -106,9 +106,6 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
-%% Remove space in filename
-%FilePath = FilePath(~isspace(FilePath));
-
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -120,7 +117,7 @@ end
 
 %% Define timestamp
 % Get timestamps vector
-timestamps=data.timestamps{1};
+timestamps=data.timestamps;
 
 % Get reference timestep
 [referenceTimestep]=defineReferenceTimeStep(timestamps);

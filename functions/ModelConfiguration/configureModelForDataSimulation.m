@@ -87,23 +87,23 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 
 %% Request user's input to define data labels
-[data]=defineDataLabels(data);
+[data, misc]=defineDataLabels(data, misc);
 
 %% Request user's input to define timestamps
-[data]=defineTimestamps(data);
+[data, misc]=defineTimestamps(data, misc);
 
 %% Compute reference time step from timestamp vector
-timestamps = data.timestamps{1};
+timestamps = data.timestamps;
 [dt_ref] = defineReferenceTimeStep(timestamps);
 misc.dt_ref = dt_ref;
 
 %% Get training dataset from timestamp vector
-[trainingPeriod] = defineTrainingPeriod (timestamps);
+[trainingPeriod] = defineTrainingPeriod(timestamps);
 
 misc.trainingPeriod = trainingPeriod;
 
 %% Define model
-[model] = defineModel(data, misc);
+[model, misc] = defineModel(data, misc);
 
 %% Define custom anomalies
 if model.nb_class > 1

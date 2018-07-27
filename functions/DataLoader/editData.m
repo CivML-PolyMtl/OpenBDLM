@@ -1,45 +1,48 @@
-function [data, dataFilename]=editData(data, varargin)
+function [data, misc, dataFilename]=editData(data, misc, varargin)
 %EDITDATA Control script to edit dataset (selection, resampling, etc..)
 %
 %   SYNOPSIS:
-%     [data, dataFilename]=EDITDATA(data, varargin)
+%     [data, misc, dataFilename]=EDITDATA(data, misc, varargin)
 %
 %   INPUT:
-%   INPUT:
-%      data             - structure (required)
-%                          data must contain three fields :
+%       data            - structure (required)
+%                         data must contain three fields:
 %
-%                               'timestamps' is a 1×N cell array
-%                               each cell is a M_ix1 real array
+%                               'timestamps' is a M×1 array
 %
-%                               'values' is a 1×N cell array
-%                               each cell is a M_ix1 real array
+%                               'values' is a MxN  array
 %
 %                               'labels' is a 1×N cell array
-%                               each cell is a character array
+%                                each cell is a character array
 %
 %                                   N: number of time series
-%                                   M_i: number of samples of time series i
+%                                   M: number of samples
+%
+%     misc              - structure
+%                           see the documentation for details about the
+%                           field in misc
 %
 %      FilePath         - character (optional)
 %                         directory where to save the plot
 %                         defaut: '.'  (current folder)
 %
 %   OUTPUT:
-%      data             - structure
-%                          data must contain three fields :
+%       data            - structure (required)
+%                               data must contain three fields:
 %
-%                               'timestamps' is a 1×N cell array
-%                               each cell is a M_ix1 real array
+%                               'timestamps' is a M×1 array
 %
-%                               'values' is a 1×N cell array
-%                               each cell is a M_ix1 real array
+%                               'values' is a MxN  array
 %
 %                               'labels' is a 1×N cell array
 %                               each cell is a character array
 %
-%                                   N: number of time series
-%                                   M_i: number of samples of time series i
+%                               N: number of time series
+%                               M: number of samples
+%
+%   misc                - structure
+%                           see the documentation for details about the
+%                           field in misc
 %
 %      dataFilename -  character
 %                      full name of the filename where data are saved
@@ -48,10 +51,10 @@ function [data, dataFilename]=editData(data, varargin)
 %      EDITDATA edits dataset
 %      Editing dataset includes, among others:
 %
-%         - Select some time series
-%         - Select data analysis time period
-%         - Resampling
-%         - Remove missing data
+%         - select some time series
+%         - select data analysis time period
+%         - resampling
+%         - remove missing data
 %
 %     The updated dataset is saved in the location given by FilePath.
 %     The name of the *.MAT file containing the dataset is returned in
@@ -59,8 +62,8 @@ function [data, dataFilename]=editData(data, varargin)
 %
 %
 %   EXAMPLES:
-%      [data, dataFilename]=EDITDATA(data)
-%      [data, dataFilename]=EDITDATA(data, 'FilePath', 'processed_data')
+%      [data, misc,  dataFilename]=EDITDATA(data, misc)
+%      [data, misc, dataFilename]=EDITDATA(data, misc, 'FilePath', 'processed_data')
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      saveDataBinary, chooseTimeSeries, resampleData, selectTimePeriod,
@@ -86,10 +89,9 @@ function [data, dataFilename]=editData(data, varargin)
 %       July 4, 2018
 %
 %   DATE LAST UPDATE:
-%       July 5, 2018
+%       July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
-
 
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
@@ -99,40 +101,44 @@ validationFct_FilePath = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
 addRequired(p,'data', @isstruct );
+addRequired(p,'misc', @isstruct );
 addParameter(p,'FilePath', defaultFilePath, validationFct_FilePath );
-parse(p,data, varargin{:});
+parse(p,data, misc, varargin{:});
 
 data=p.Results.data;
+misc=p.Results.misc;
 FilePath = p.Results.FilePath;
-
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
-
 
 PossibleAnswers = [1 2 3 4 5 6];
 
+
+%% Save current dataset
+misc.dataBeforeEditing = data;
+
+
+%% Display data editing menu
 while(1)
+    % Plot current data
+    close all
+    plotData(data, misc, 'FilePath', 'figures', ...
+        'isPdf', false,'isSaveFigure', false)
     
     disp(' ')
-    disp(['-----------------------------------------', ...
-        '-----------------------------------------------------'])
-    disp(' / Choose from')
-    disp(['-----------------------------------------', ...
-        '-----------------------------------------------------'])
-    
+    disp('- Choose from')
     disp(' ')
     disp('     1  ->  Select time series')
     disp('     2  ->  Select data analysis time period ')
     disp('     3  ->  Remove missing data')
     disp('     4  ->  Resample')
-    disp('     5  ->  Auto-select synchronous time series')
     disp(' ')
-    disp('     6  ->  Save database')
+    disp('     5  ->  Reset changes')
+    disp('     6  ->  Save changes and continue analysis')
     disp(' ')
     
     
-    if isAnswersFromFile
-        user_inputs.inp_1=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        user_inputs.inp_1=eval(char(misc.BatchMode.Answers{ ...
+            misc.BatchMode.AnswerIndex}));
         disp(['     ',num2str(user_inputs.inp_1)])
     else
         user_inputs.inp_1 = input('     choice >> ');
@@ -146,18 +152,26 @@ while(1)
         continue
         
     elseif user_inputs.inp_1 == 6
-        AnswersIndex = AnswersIndex +1;
-        [dataFilename] = saveDataBinary(data,'FilePath', FilePath);        
+        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
+        
+        % Remove original data
+        misc=rmfield(misc, 'dataBeforeEditing');
+        
+        % Save data 
+        [misc, dataFilename] = saveDataBinary(data,misc, ...
+            'FilePath', FilePath);
+        
+        close all
         return
     else
-        AnswersIndex = AnswersIndex+1;
+        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
         
         if user_inputs.inp_1 == 1
-            [data]=chooseTimeSeries(data, 'isPlot', true);
+            [data, misc]=chooseTimeSeries(data, misc, 'isPlot', false);
             continue
             
         elseif user_inputs.inp_1 == 2
-            [data]=selectTimePeriod(data);
+            [data, misc]=selectTimePeriod(data, misc);
             continue
             
         elseif user_inputs.inp_1 == 3
@@ -165,31 +179,37 @@ while(1)
             isAnswerCorrect = false;
             while ~isAnswerCorrect
                 disp(' ')
-                disp(['     Give percentage of missing data (NaN)', ...
-                    ' allowed for each timestamp:'])
-                if isAnswersFromFile
-                    user_inputs.inp_2=eval(char(AnswersFromFile{1} ...
-                        (AnswersIndex)));
+                disp(['     Percentage of missing data ', ...
+                    'allowed at each timestamp:'])
+                disp(['     (Example: 25 means that, at each ', ...
+                        'timestamp maximum 25% of the data can be NaN)'])
+                if misc.BatchMode.isBatchMode
+                    user_inputs.inp_2= eval(char(misc.BatchMode.Answers{...
+                        misc.BatchMode.AnswerIndex}));
                     disp(['     ',num2str(user_inputs.inp_2)])
                 else
+                    disp(' ')
                     user_inputs.inp_2 = input('     choice >> ');
                 end
                 
                 if  isnumeric(user_inputs.inp_2) && ...
                         length(user_inputs.inp_2) ==1
                     
-                    [data] = mergeTimeStampVectors (data, ...
+                    % Convert mat2cell
+                    [dataCell]=convertMat2Cell(data);
+                    
+                    [data, misc] = mergeTimeStampVectors (dataCell, misc, ...
                         'NaNThreshold', user_inputs.inp_2);
                     isAnswerCorrect = true;
                 else
+                    disp(' ')
                     disp('     wrong input')
                     continue
                 end
-                
-                
+                                
             end
             
-            AnswersIndex=AnswersIndex+1;
+            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
         elseif user_inputs.inp_1 == 4
             
@@ -197,15 +217,47 @@ while(1)
             while ~isAnswerCorrect
                 disp(' ')
                 disp('     Give time step (in day)')
-                if isAnswersFromFile
-                    dt_ref=eval(char(AnswersFromFile{1}(AnswersIndex)));
+                if misc.BatchMode.isBatchMode
+                    dt_ref=eval(char(misc.BatchMode.Answers{ ...
+                        misc.BatchMode.AnswerIndex}));
                     disp(['     ',num2str(dt_ref)])
                 else
                     dt_ref = input('     choice >> ');
                 end
                 
                 if  isnumeric(dt_ref) && length(dt_ref) ==1
-                    [data] =  resampleData(data, 'Timestep', dt_ref);
+                    [data, misc] =  resampleData(data, misc, ...
+                        'Timestep', dt_ref);
+                    isAnswerCorrect = true;
+                else
+                    disp(' ')
+                    disp('     wrong input')
+                    continue
+                end
+                
+            end
+            
+            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+            
+            
+        elseif user_inputs.inp_1 == 5
+            
+            isAnswerCorrect = false;
+            while ~isAnswerCorrect
+                disp(' ')
+                disp('     Do you really want to reset the changes ? (y/n)')
+                if misc.BatchMode.isBatchMode
+                    choice=eval(char(misc.BatchMode.Answers{ ...
+                        misc.BatchMode.AnswerIndex}));
+                    disp(['     ',num2str(choice)])
+                else
+                    choice = input('     choice >> ', 's');
+                end
+                
+                if  strcmpi(choice,'y') || strcmpi(choice,'yes')
+                    data = misc.dataBeforeEditing;
+                    isAnswerCorrect = true;
+                elseif strcmpi(choice,'n') || strcmpi(choice,'no')
                     isAnswerCorrect = true;
                 else
                     disp('     wrong input')
@@ -214,15 +266,7 @@ while(1)
                 
             end
             
-            AnswersIndex=AnswersIndex+1;
-            
-        elseif user_inputs.inp_1 == 5
-            
-            % Remove trailing missing data
-            [data] =  removeTrailingNaN(data);
-            
-            % Extract syncronous time series
-            [data]=extractSynchronousRecords(data);
+            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
         elseif isempty(user_inputs.inp_1 )
             disp(' ')

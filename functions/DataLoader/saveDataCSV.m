@@ -1,32 +1,38 @@
-function saveDataCSV(data,varargin)
+function [misc] = saveDataCSV(data, misc, varargin)
 %SAVEDATACSV Save time series data in separate .csv files
 %
 %   SYNOPSIS:
-%     SAVEDATACSV(data,varargin)
+%     [misc] = SAVEDATACSV(data,misc, varargin)
 %
 %   INPUT:
-%      data       - structure (required)
-%                   data must contain three fields :
+%       data      - structure (required)
+%                   data must contain three fields:
 %
-%                       'timestamps' is a 1×N cell array
-%                       each cell is a M_ix1 real array
+%                        'timestamps' is a M×1 array
 %
-%                       'values' is a 1×N cell array
-%                       each cell is a M_ix1 real array
+%                        'values' is a MxN  array
 %
-%                       'labels' is a 1×N cell array
-%                       each cell is a character array
+%                        'labels' is a 1×N cell array
+%                         each cell is a character array
 %
-%                 N: number of time series
-%                 M_i: number of samples of time series i
+%                         N: number of time series
+%                         M: number of samples
 %
+%      misc       - structure
+%                   see the documentation for details about the
+%                   field in misc
 %
 %      FilePath   - character (optional)
 %                   directory where to save the csv files
 %                   default: '.'  (current folder)
 %
 %   OUTPUT:
-%      CSV files with extension .csv saved in FilePath/DirName/ location.
+%
+%      misc       - structure
+%                   see the documentation for details about the
+%                   field in misc
+%
+%      CSV files with extension .csv saved in the location given by FilePath.
 %
 %   DESCRIPTION:
 %      SAVEDATACSV saves each time series in data in separate *.csv files
@@ -57,7 +63,7 @@ function saveDataCSV(data,varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       April 17, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -69,14 +75,14 @@ validationFct_FilePath = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
 addRequired(p,'data', @isstruct );
+addRequired(p,'misc', @isstruct );
 addParameter(p,'FilePath', defaultFilePath, validationFct_FilePath );
-parse(p,data, varargin{:});
+parse(p,data, misc, varargin{:});
 
 data=p.Results.data;
+misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
 
 % Validation of structure data
 isValid = verificationDataStructure(data);
@@ -86,9 +92,6 @@ if ~isValid
     disp(' ')
     return
 end
-
-%% Remove space in filename
-%FilePath = FilePath(~isspace(FilePath));
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -106,8 +109,9 @@ while ~isNameCorrect
     fprintf(['- Enter the name of the subdirectory in which ' ...
         'to save the CSV files (max 25 characters):\n'])
     % read from user input file (use of global variable )?
-    if isAnswersFromFile
-        database_name=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        database_name= ...
+            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', database_name])
     else
         database_name=input('     directory name >> ','s');
@@ -132,20 +136,20 @@ while ~isNameCorrect
         name_datadir=database_name;
         fullname=fullfile(FilePath, name_datadir);
         
-        if exist(fullname, 'dir') == 7
+        [isFileExist] = testFileExistence(fullname, 'dir');
+        
+        if isFileExist
             disp(' ')
-            fprintf('Directory %s already exists. Overwrite ?\n', fullname)
+            fprintf('Directory %s already exists. Overwrite ? (y/n)\n', fullname)
             
             isYesNoCorrect = false;
             while ~isYesNoCorrect
-                choice = input('     (y/n) >> ','s');
+                choice = input('     choice >> ','s');
                 if isempty(choice)
                     disp(' ')
                     disp('     wrong input --> please make a choice')
                     disp(' ')
-                elseif strcmp(choice,'y') || strcmp(choice,'yes') ||  ...
-                        strcmp(choice,'Y') || strcmp(choice,'Yes')  || ...
-                        strcmp(choice,'YES')
+                elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
                     
                     isYesNoCorrect =  true;
                     isNameCorrect = true;
@@ -158,11 +162,8 @@ while ~isNameCorrect
                     mkdir(fullname)
                     addpath(fullname)
                     
-                elseif strcmp(choice,'n') || strcmp(choice,'no') ||  ...
-                        strcmp(choice,'N') || strcmp(choice,'No')  || ...
-                        strcmp(choice,'NO')
-                    
-                    
+                elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+                                        
                     [name_datadir] = incrementFilename('data_new', FilePath);
                     fullname=fullfile(FilePath, name_datadir);
                     
@@ -192,16 +193,16 @@ while ~isNameCorrect
 end
 
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 
 %% Save CSV files in specified location
 % Get number of time series
-numberOfTimeSeries=length(data.values);
+numberOfTimeSeries=size(data.values,2);
 % Loop over each time series
 for i=1:numberOfTimeSeries
     % Get serial number corresponding to the first timestamp for this time
     % series
-    first_timestamps=data.timestamps{i}(1);
+    first_timestamps=data.timestamps(1);
     % Convert the serial date to string date
     date_str=datestr(first_timestamps, 'yyyy-mm-dd-HH:MM:SS');
     
@@ -214,13 +215,13 @@ for i=1:numberOfTimeSeries
     % write csv header
     fprintf(fid, '%s \n', [ sensor_name ', ''' date_str '''']) ;
     % write timestamps, amplitude values in csv file
-    dlmwrite( file_name, [data.timestamps{i}(:) data.values{i}(:)] , ...
+    dlmwrite( file_name, [data.timestamps(:) data.values(:,i)] , ...
         '-append', 'precision','%f');
     % close file
     fclose(fid);
 end
-
-fprintf('     CSV files saved in %s \n', fullname);
+disp(' ')
+fprintf('     CSV files saved in %s. \n', fullname);
 % disp('->done.')
 disp(' ')
 %--------------------END CODE ------------------------

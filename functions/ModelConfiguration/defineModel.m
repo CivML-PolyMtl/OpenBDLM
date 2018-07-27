@@ -1,4 +1,4 @@
-function [model]=defineModel(data, misc)
+function [model, misc]=defineModel(data, misc)
 %DEFINEMODEL Request user's input to define model
 %
 %   SYNOPSIS:
@@ -29,6 +29,9 @@ function [model]=defineModel(data, misc)
 %                            see documentation for details about the fields
 %                            in structure "model"
 %
+%      misc                - structure (required)
+%                            see documentation for details about the fields
+%                            in structure "misc"
 %
 %   DESCRIPTION:
 %      DEFINEMODEL requests user to define model
@@ -54,7 +57,7 @@ function [model]=defineModel(data, misc)
 %       April 20, 2018
 %
 %   DATE LAST UPDATE:
-%       April 20, 2018
+%       July 20, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -79,8 +82,6 @@ if ~misc.isDataSimulation
     end
 end
 
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
 
 % display loaded data
 displayData(data)
@@ -108,8 +109,8 @@ if numberOfTimeSeries > 1
         while ~isCorrect
             disp([ num2str(module) '  -  Identifies dependence between' ...
                 ' time series; use [0] to indicate no dependence'])
-            if isAnswersFromFile
-                comp_ic{1,i}=eval(char(AnswersFromFile{1}(AnswersIndex)));
+            if misc.BatchMode.isBatchMode
+                comp_ic{1,i}=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 if length( comp_ic{1,i}(:)) ~=1
                     disp(['     [' sprintf('%d,', comp_ic{1,i}(1:end-1) ) ...
                         num2str(comp_ic{1,i}(end)) ']'])
@@ -178,7 +179,7 @@ if numberOfTimeSeries > 1
                 isCorrect=true;
             end
         end
-        AnswersIndex = AnswersIndex+1;
+        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
     end
 else
     comp_ic={[]};
@@ -191,8 +192,8 @@ isCorrect = false;
 while ~isCorrect
     disp( ['- How many model classes do ' ...
         'you want for each time-series? '])
-    if isAnswersFromFile
-        nb_models=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        nb_models=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', nb_models])
     else
         nb_models=input('     choice >> ');
@@ -231,7 +232,7 @@ while ~isCorrect
         isCorrect = true;
     end
 end
-AnswersIndex = AnswersIndex+1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
 
 
 %% Identify model components for each model class and time series
@@ -256,7 +257,7 @@ disp(' ')
 
 
 all_components=[11 12 13 21 22 23 31 41 51 52 53 61];
-level_components=[11 12 13 21 22 23 61];
+level_components=[11 12 13 21 22 23];
 
 module=module+1;
 
@@ -271,8 +272,8 @@ for j=1:nb_models
         while ~isCorrect
             disp(['- Identify components for each' ...
                 ' model class and observation; e.g. [11 31 41]'])
-            if isAnswersFromFile
-                comp{j}{i}=eval(char(AnswersFromFile{1}(AnswersIndex)));
+            if misc.BatchMode.isBatchMode
+                comp{j}{i}=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 if length(comp{j}{i}(:)) ~=1
                     disp(['     [' sprintf('%d,', comp{j}{i}(1:end-1) ) ...
                         num2str(comp{j}{i}(end)) ']'])
@@ -321,7 +322,7 @@ for j=1:nb_models
             elseif ~all(ismember(comp{j}{i}(1),level_components))
                 disp(' ')
                 disp(['     wrong input -> first component should be a' ...
-                    ' level component (i.e. either 11 12 13 21 22 23 61)'])
+                    ' level component (i.e. either 11 12 13 21 22 23)'])
                 disp(' ')
                 continue
             elseif length(comp{j}{i}) > 1 && ...
@@ -377,7 +378,7 @@ for j=1:nb_models
                 continue
             else
                 isCorrect=true;
-                AnswersIndex = AnswersIndex+1;
+                misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             end
         end
     end
@@ -396,8 +397,8 @@ if nb_models>1
                 disp(['- Identify shared parameters' ...
                     ' between the components of the model' ...
                     ' class #1; e.g. [0 1 1]'])
-                if isAnswersFromFile
-                    const{j}{i}=eval(char(AnswersFromFile{1}(AnswersIndex)));
+                if misc.BatchMode.isBatchMode
+                    const{j}{i}=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                     
                     if length(const{j}{i}(:)) ~= 1
                         disp(['     [' sprintf('%d,', const{j}{i}(1:end-1) ) ...
@@ -444,7 +445,7 @@ if nb_models>1
                     continue
                 else
                     isCorrect = true;
-                    AnswersIndex = AnswersIndex+1;
+                    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
                 end
             end
         end

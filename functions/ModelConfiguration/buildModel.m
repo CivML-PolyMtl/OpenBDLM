@@ -1,4 +1,4 @@
-function [model]=buildModel(data, model, misc)
+function [model, misc]=buildModel(data, model, misc)
 %BUILDMODEL Build model (build A,C, Q, R matrices)
 %
 %   SYNOPSIS:
@@ -6,19 +6,17 @@ function [model]=buildModel(data, model, misc)
 % 
 %   INPUT:
 %       data       - structure (required)
-%                      data must contain three fields :
+%                    data must contain three fields:
 %
-%                           'timestamps' is a 1×N cell array
-%                           each cell is a M_ix1 real array
+%                       'timestamps' is a M×1 array
 %
-%                           'values' is a 1×N cell array
-%                           each cell is a M_ix1 real array
+%                       'values' is a MxN  array
 %
-%                           'labels' is a 1×N cell array
-%                           each cell is a character array
+%                       'labels' is a 1×N cell array
+%                               each cell is a character array
 %
 %                           N: number of time series
-%                           M_i: number of samples of time series i
+%                           M: number of samples
 %
 %      model       - structure (required)
 %
@@ -26,6 +24,8 @@ function [model]=buildModel(data, model, misc)
 % 
 %   OUTPUT:
 %      model       - structure
+%
+%      misc        - structure 
 % 
 %   DESCRIPTION:
 %      BUILDMODEL builds model (build A,C,Q,R matrices)
@@ -48,7 +48,7 @@ function [model]=buildModel(data, model, misc)
 %       April 23, 2018
 % 
 %   DATE LAST UPDATE:
-%       June 1, 2018
+%       July 25, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 
@@ -66,7 +66,7 @@ misc=p.Results.misc;
 
 %% Get reference time step
 %% Compute reference time step from timestamp vector
-timestamps = data.timestamps{1};
+timestamps = data.timestamps;
 [dt_ref] = defineReferenceTimeStep(timestamps);
 misc.dt_ref = dt_ref;
 
@@ -74,11 +74,17 @@ misc.dt_ref = dt_ref;
 numberOfTimeSeries = length(data.labels);
 
 %% Get the number of time steps
-numberOfTimeSteps = length(data.timestamps{1});
+numberOfTimeSteps = length(data.timestamps);
 
 %% Get number of model class
 numberOfModelClass = size(model.components.block,2);
 model.nb_class = size(model.components.block,2);
+
+%% Data simulation ?
+if ~isfield(misc, 'isDataSimulation')
+    misc.isDataSimulation = false;
+end
+
 
 %% Default prior information
 
@@ -107,7 +113,7 @@ if misc.isDataSimulation
     LL.init={'10','0.1^2'};
 else
     LL.pQ0={'0'};
-    LL.init={'nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps)))','(1E-1*nanstd(data.values{obs}))^2'};
+    LL.init={'nanmean(data.values(1:round(0.1*numberOfTimeSteps), obs))','(1E-1*nanstd(data.values(:,obs)))^2'};
 end
 LL.B=@(p,t,dt) 0;
 LL.pB=[];
@@ -134,8 +140,8 @@ if misc.isDataSimulation
     LT.pQ0={'1E-7'};
     LT.init={'[10 -0.1]','[0.1^2 0.1^2]'};
 else
-    LT.pQ0={'1E-7*nanstd(data.values{obs})'};
-    LT.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-3*nanstd(data.values{obs}))^2]'};
+    LT.pQ0={'1E-7*nanstd(data.values(:,obs))'};
+    LT.init={'[nanmean(data.values(1:round(0.1*numberOfTimeSteps), obs)) 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2]'};
 end
 LT.B=@(p,t,dt) zeros(1,2);
 LT.pB=[];
@@ -168,8 +174,8 @@ if misc.isDataSimulation
     LA.pQ0={'1E-8'};
     LA.init={'[10 0 0]','[0.1^2 0.1^2 0.1^2]'};
 else
-    LA.pQ0={'1E-8*nanstd(data.values{obs})'};
-    LA.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-3*nanstd(data.values{obs}))^2 (1E-6*nanstd(data.values{obs}))^2]'};
+    LA.pQ0={'1E-8*nanstd(data.values(:,obs))'};
+    LA.init={'[nanmean(data.values(1:round(0.1*numberOfTimeSteps), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2 (1E-6*nanstd(data.values(:,obs)))^2]'};
 end
 LA.B=@(p,t,dt) zeros(1,3);
 LA.pB=[];
@@ -202,8 +208,8 @@ if misc.isDataSimulation
     LcT.pQ0={'1E-7'};
     LcT.init={'[10 0]','[0.1^2 (1E-6)^2]'};
 else
-    LcT.pQ0={'1E-7*nanstd(data.values{obs})'};
-    LcT.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-6*nanstd(data.values{obs}))^2]'};
+    LcT.pQ0={'1E-7*nanstd(data.values(:,obs))'};
+    LcT.init={'[nanmean(data.values(1:round(0.1*numberOfTimeSteps), obs)) 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-6*nanstd(data.values(:,obs)))^2]'};
 end
 LcT.B=@(p,t,dt) zeros(1,2);
 LcT.pB=[];
@@ -230,8 +236,8 @@ if misc.isDataSimulation
     LcA.pQ0={'1E-7'};
     LcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
-    LcA.pQ0={'1E-7*nanstd(data.values{obs})'};
-    LcA.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-3*nanstd(data.values{obs}))^2 (1E-6*nanstd(data.values{obs}))^2]'};
+    LcA.pQ0={'1E-7*nanstd(data.values(:,obs))'};
+    LcA.init={'[nanmean(data.values(1:round(0.1*numberOfTimeSteps), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2 (1E-6*nanstd(data.values(:,obs)))^2]'};
 end
 LcA.B=@(p,t,dt) zeros(1,3);
 LcA.pB=[];
@@ -259,8 +265,8 @@ if misc.isDataSimulation
     TcA.pQ0={'1E-8'};
     TcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
-    TcA.pQ0={'1E-8*nanstd(data.values{obs})'};
-    TcA.init={'[nanmean(data.values{obs}(1:round(0.1*numberOfTimeSteps))) 0 0]','[(1E-1*nanstd(data.values{obs}))^2 (1E-3*nanstd(data.values{obs}))^2 (1E-6*nanstd(data.values{obs}))^2]'};
+    TcA.pQ0={'1E-8*nanstd(data.values(:,obs))'};
+    TcA.init={'[nanmean(data.values(1:round(0.1*numberOfTimeSteps), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2 (1E-6*nanstd(data.values(:,obs)))^2]'};
 end
 TcA.B=@(p,t,dt) zeros(1,3);
 TcA.pB=[];
@@ -287,8 +293,8 @@ if misc.isDataSimulation
     PD.pQ0={'0'};
     PD.init={'[10,10]','[(2*0.1)^2,(2*0.1)^2]'};
 else
-    PD.pQ0={'0*nanstd(data.values{obs})'};
-    PD.init={'[5,0]','[(2*nanstd(data.values{obs}))^2,(2*nanstd(data.values{obs}))^2]'};
+    PD.pQ0={'0*nanstd(data.values(:,obs))'};
+    PD.init={'[5,0]','[(2*nanstd(data.values(:,obs)))^2,(2*nanstd(data.values(:,obs)))^2]'};
 end
 PD.B=@(p,t,dt) 0;
 PD.pB=[];
@@ -315,8 +321,8 @@ if misc.isDataSimulation
     AR.pQ0={'1E-1*0.1'};
     AR.init={'0','0.1^2'};
 else
-    AR.pQ0={'1E-1*nanstd(data.values{obs})'};
-    AR.init={'0','(nanstd(data.values{obs}))^2'};
+    AR.pQ0={'1E-1*nanstd(data.values(:,obs))'};
+    AR.init={'0','(nanstd(data.values(:,obs)))^2'};
 end
 AR.B=@(p,t,dt) 0;
 AR.pB=[];
@@ -356,7 +362,7 @@ if misc.isDataSimulation
     DH.init={'1','0.1^2'};
 else
     DH.pQ0={'0'};
-    DH.init={'0','(nanstd(data.values{obs}))^2'};
+    DH.init={'0','(nanstd(data.values(:,obs)))^2'};
 end
 
 
@@ -394,7 +400,7 @@ if misc.isDataSimulation
     SK.init={['[' sprintf('%f ', summ_trun) ']'],['[' repmat('0.01 ',[1,model.components.nb_SK_p]) ']']};    
 else
     SK.pQ0={'0'};
-    SK.init={['[' repmat('0 ',[1,model.components.nb_SK_p]) ']'],['[' repmat('(nanstd(data.values{obs}))^2 ',[1,model.components.nb_SK_p]) ']']};
+    SK.init={['[' repmat('0 ',[1,model.components.nb_SK_p]) ']'],['[' repmat('(nanstd(data.values(:,obs)))^2 ',[1,model.components.nb_SK_p]) ']']};
 end
 SK.B=@(p,t,dt) zeros(1,model.components.nb_SK_p);
 SK.pB=[];
@@ -443,8 +449,8 @@ if misc.isDataSimulation
     DK.init={['[' sprintf('%f ', summ_trun) ']'],['[' repmat('0.01 ',[1,model.components.nb_DK_p]) ']']};
 else
     
-    DK.pQ0={'(nanstd(data.values{obs}))^2 '};
-    DK.init={['[' repmat('0 ',[1,model.components.nb_DK_p]) ']'],['[' repmat('(nanstd(data.values{obs}))^2 ',[1,model.components.nb_DK_p]) ']']};
+    DK.pQ0={'(nanstd(data.values(:,obs)))^2 '};
+    DK.init={['[' repmat('0 ',[1,model.components.nb_DK_p]) ']'],['[' repmat('(nanstd(data.values(:,obs)))^2 ',[1,model.components.nb_DK_p]) ']']};
 end
 DK.B=@(p,t,dt) zeros(1,model.components.nb_DK_p);
 DK.pB=[];
@@ -477,10 +483,10 @@ LI.pQ0={'0'};
 LI.init={'0','1E-20'};
 LI.B=@(p,t,dt) p'*dt/dt_ref;
 LI.pB=[{'b','LI',[],[],[-inf,inf]}];
-LI.pB0=[{'1E-1*nanstd(data.values{obs})'}];
+LI.pB0=[{'1E-1*nanstd(data.values(:,obs))'}];
 LI.W=@(p,t,dt) (p*dt/dt_ref).^2;
 LI.pW=[{'\sigma_W','LI',[],[],[0,inf]}];
-LI.pW0=[{'nanstd(data.values{obs}(:))'}];
+LI.pW0=[{'nanstd(data.values(:, obs))'}];
 
 %% Block initialization
 param_properties={};        %Reference vector for parameter names in A,C,Q,R matrices
@@ -701,7 +707,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                if misc.isDataSimulation 
                    parameter=[parameter;0.01];            
                else
-                   parameter=[parameter;0.05*nanstd(data.values{obs})];
+                   parameter=[parameter;0.05*nanstd(data.values(:,obs))];
                end
                 param_idx=param_idx+1;
                 

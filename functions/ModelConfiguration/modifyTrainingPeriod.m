@@ -46,7 +46,7 @@ function [misc] = modifyTrainingPeriod(data, model, estimation, misc, varargin)
 %   SUBFUNCTIONS:
 %      N/A
 %
-%   See also BDLM
+%   See also 
 
 %   AUTHORS:
 %       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet,
@@ -61,7 +61,7 @@ function [misc] = modifyTrainingPeriod(data, model, estimation, misc, varargin)
 %       June 12, 2018
 %
 %   DATE LAST UPDATE:
-%       June 27, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -86,22 +86,8 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
-
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
-
-%% Verification merged data
-[isMerged]=verificationMergedDataset(data);
-
-if ~isMerged
-    disp(['     ERROR: Impossible to modify training period because '...
-        'the timestamp vector is different for each time series.'])
-    disp(' ')
-    return
-end
-
 %% Define timestamps
-timestamps = data.timestamps{1};
+timestamps = data.timestamps;
 
 %% Get current training period
 if isfield(misc, 'trainingPeriod')
@@ -129,8 +115,8 @@ while ~isCorrectAnswer
     disp('     2 ->  Return to menu')
     disp(' ')
     
-    if isAnswersFromFile
-        user_inputs.inp_1=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        user_inputs.inp_1=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(user_inputs.inp_1)
     else
         user_inputs.inp_1 = input('     choice >> ');
@@ -138,7 +124,7 @@ while ~isCorrectAnswer
     
     if user_inputs.inp_1 == 1
         
-        AnswersIndex=AnswersIndex+1;
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
         %% Modify current training period
         % Start of training period (in days)
@@ -147,8 +133,8 @@ while ~isCorrectAnswer
         while ~isCorrect
             disp('     Start training [days]: ');
             
-            if isAnswersFromFile
-                startTraining=eval(char(AnswersFromFile{1}(AnswersIndex)));
+            if misc.BatchMode.isBatchMode
+                startTraining=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(startTraining)
             else
                 startTraining=input('     choice >> ');
@@ -177,7 +163,7 @@ while ~isCorrectAnswer
                     disp(' ')
                     continue
                 else
-                    AnswersIndex=AnswersIndex+1;
+                    misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                     isCorrect = true;
                 end
             end
@@ -189,8 +175,8 @@ while ~isCorrectAnswer
         while ~isCorrect
             disp('     End training [days]: ');
             
-            if isAnswersFromFile
-                endTraining = eval(char(AnswersFromFile{1}(AnswersIndex)));
+            if misc.BatchMode.isBatchMode
+                endTraining = eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
                 disp(endTraining)
             else
                 endTraining=input('     choice >> ');
@@ -224,7 +210,7 @@ while ~isCorrectAnswer
                     disp(' ')
                     continue
                 else
-                    AnswersIndex=AnswersIndex+1;
+                    misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                     isCorrect = true;
                 end
             end
@@ -233,7 +219,7 @@ while ~isCorrectAnswer
         break
         
     elseif user_inputs.inp_1 == 2
-        AnswersIndex=AnswersIndex+1;
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
         
     else

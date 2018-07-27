@@ -1,30 +1,23 @@
-function [isAnswersFromFile, AnswersFromFile, AnswersIndex]=loadAnswersFromFile(filename)
+function [Answers]=loadAnswersFromFile(filename)
 %LOADANSWERSFROMFILE Load user's answers from an input text file
 %
 %   SYNOPSIS:
-%     [isAnswersFromFile, AnswersFromFile]=LOADANSWERSFROMFILE(filename)
+%     [Answers]=LOADANSWERSFROMFILE(filename)
 %
 %   INPUT:
 %      filename         - character (required)
 %                         Name of the text file to read
 %
 %   OUTPUT:
-%      isAnswersFromFile - logical
-%                         if isAnswerFromFile = true, read answer from file
-%                         if isAnswerFromFile = false, interactive user
-%                         input
-%
-%      AnswersFromFile  - cell array
+%      Answers  - cell array
 %                         the cell array contains all answers
-%
-%      AnswersIndex     - integer
 %                         
 %   DESCRIPTION:
 %      LOADANSWERSFROMFILE loads user answer from input text file
 %      The text file should contain one answer per line
 %
 %   EXAMPLES:
-%      [isAnswersFromFile, AnswersFromFile]=loadAnswersFromFile('./input.txt')
+%      [Answers]=loadAnswersFromFile('./input.txt')
 %
 %   See also
 
@@ -41,7 +34,7 @@ function [isAnswersFromFile, AnswersFromFile, AnswersIndex]=loadAnswersFromFile(
 %       April 18, 2018
 %
 %   DATE LAST UPDATE:
-%       April 18, 2018
+%       July 23, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -68,13 +61,10 @@ if fid == -1
     disp(' ')
     fprintf('WARNING: Impossible to open %s. \n', filename)
     disp(' ')
-    AnswersFromFile = [];
-    AnswersIndex=[];
-    isAnswersFromFile = false;
+    Answers = [];
 else
     AnswersFromFile=textscan(fid, '%s', 'Delimiter', '\n');
-    isAnswersFromFile = true;
-    AnswersIndex=1;
+    Answers = AnswersFromFile{1};
     fclose(fid);
 end
 %--------------------END CODE ------------------------

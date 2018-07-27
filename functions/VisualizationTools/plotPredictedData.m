@@ -68,7 +68,7 @@ function [FigureNames] = plotPredictedData(data, model, estimation, misc, vararg
 %       June 5, 2018
 %
 %   DATE LAST UPDATE:
-%       June 8, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -102,9 +102,6 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
-%% Remove space in filename
-%FilePath = FilePath(~isspace(FilePath));
-
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -117,10 +114,10 @@ end
 %% Get amplitude values to plot
 
 % Get number of time series
-numberOfTimeSeries = length(data.labels);
+numberOfTimeSeries = size(data.values,2);
 
 % Get observation amplitude values
-DataValues = cell2mat(data.values);
+DataValues = data.values;
 
 % Get predicted data amplitude value
 if isfield(estimation, 'y')
@@ -131,7 +128,7 @@ end
 %% Define timstamps
 
 % Get timestamps vector
-timestamps=data.timestamps{1};
+timestamps=data.timestamps;
 
 % Get reference timestep
 [referenceTimestep]=defineReferenceTimeStep(timestamps);
@@ -167,8 +164,7 @@ for i=1:numberOfTimeSeries
     FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
     set(FigHandle, 'Position', [100, 100, 1300, 270])
     subplot(1,3,1:2+idx_supp_plot,'align')
-    
-    
+      
     % Observations
     ypl=DataValues(plot_time_1,i)';
     sv = sqrt(model.R{1}(model.parameter,timestamps(1),timesteps(1)));

@@ -6,19 +6,17 @@ function displayData(data)
 % 
 %   INPUT:
 %       data       - structure (required)
-%                      data must contain three fields :
+%                      data must contain three fields:
 %
-%                           'timestamps' is a 1×N cell array
-%                           each cell is a M_ix1 real array
+%                           'timestamps' is a M×1 array
 %
-%                           'values' is a 1×N cell array
-%                           each cell is a M_ix1 real array
+%                           'values' is a MxN  array
 %
 %                           'labels' is a 1×N cell array
 %                           each cell is a character array
 %
-%                 N: number of time series
-%                 M_i: number of samples of time series i
+%                           N: number of time series
+%                           M: number of samples
 %
 %   OUTPUT:
 %      Print message on screen
@@ -44,7 +42,7 @@ function displayData(data)
 %       April 12, 2018
 % 
 %   DATE LAST UPDATE:
-%       April 13, 2018
+%       July 24, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -78,7 +76,7 @@ fprintf('     %-30s\n', ...
     '-----------------------------------']);
 fprintf(' \n')
 for i=1:numberOfTimeSeries
-    sz=size(data.timestamps{i});
+    sz=size(data.timestamps(:));
     fprintf('     %-25s %-25s %-25s\t\n', num2str(i), data.labels{i}, ...
         ['[', num2str(sz(1)),'x', num2str(sz(2)), ']' ] )
 end

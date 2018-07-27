@@ -1,33 +1,17 @@
-%% Control script to run demos
-
-clear -global isAnswersFromFile AnswersFromFile AnswersIndex
-
-% Clean directory tree
-Clean
-
-%% Define global variables
-global isAnswersFromFile AnswersFromFile AnswersIndex
-
+%% Control script to run OpenBDLM demos
 FilePath = fullfile(pwd, 'input_files');
 
 %% List of input files to read
-InputFileList = {fullfile(FilePath, 'input_DEMO1.m'), ...
-    fullfile(FilePath, 'input_DEMO2.m'), ...
-    fullfile(FilePath, 'input_DEMO3.m'), ...
-    fullfile(FilePath, 'input_DEMO4.m'), ...
-    } ;
+InputFileList = {fullfile(FilePath, 'input_DEMO.m')};
 
 for i=1:length(InputFileList)
     
     InputFile = InputFileList{i};
     
     %% Try to load answer from input file
-    [isAnswersFromFile, AnswersFromFile, AnswersIndex]= ...
-        loadAnswersFromFile(InputFile);
+    [Answers]= loadAnswersFromFile(InputFile);
         
     %% Run BDLM
-    run('OpenBDLM_main.m')
+    [data, model, estimation, misc] = OpenBDLM_main(Answers);
     
 end
-
-clear -global isAnswersFromFile AnswersFromFile AnswersIndex

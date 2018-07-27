@@ -77,9 +77,7 @@ while ~isYesNoCorrect
         disp(' ')
         disp('     wrong input --> please make a choice')
         disp(' ')
-    elseif strcmp(choice,'y') || strcmp(choice,'yes') ||  ...
-            strcmp(choice,'Y') || strcmp(choice,'Yes')  || ...
-            strcmp(choice,'YES')
+    elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
         
         for i=1:length(FoldersList)
             
@@ -109,9 +107,7 @@ while ~isYesNoCorrect
         
         isYesNoCorrect =  true;
         
-    elseif strcmp(choice,'n') || strcmp(choice,'no') ||  ...
-            strcmp(choice,'N') || strcmp(choice,'No')  || ...
-            strcmp(choice,'NO')
+    elseif strcmpi(choice,'n') || strcmpi(choice,'no')
         
         fprintf('No files has been removed.\n')
         isYesNoCorrect =  true;

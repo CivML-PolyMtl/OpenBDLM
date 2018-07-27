@@ -1,60 +1,62 @@
-function [data, dataFilename]=DataLoader(varargin)
+function [data, misc, dataFilename]=DataLoader(misc, varargin)
 %DATALOADER Create a data file
 %
 %   SYNOPSIS:
-%     [data, dataFilename]=DATALOADER(varargin)
+%     [data, misc, dataFilename]=DATALOADER(misc, varargin)
 %
 %   INPUT:
-%      FilePath   - character (optional)
-%                   saving directory for data
-%                   default: '.'  (current folder)
+%      misc                 - structure
+%                             see the documentation for details about the
+%                             field in misc
 %
-%      isOverlapDetection  - logical (optional)
-%                            if isOverlapDetection = true, automatic
-%                            overlap detection
-%                            default: false
+%      FilePath             - character (optional)
+%                               saving directory for data
+%                               default: '.'  (current folder)
 %
-%      NaNThreshold        - real (optional)
-%                            maximum amount of missing data (NaN)
-%                            allowed at each timestamp, given in percent
-%                            0<= NanThreshold <= 100
-%                            default: 100
+%      NaNThreshold         - real (optional)
+%                               maximum amount of missing data (NaN)
+%                               allowed at each timestamp, given in percent
+%                               0<= NanThreshold <= 100
+%                               default: 100
 %
-%      Tolerance    - real (optional)
-%                     value given in number of days
-%                     timestamps +/- tolerance are considered equal
-%                     default: 10E-6
+%      Tolerance            - real (optional)
+%                               value given in number of days
+%                               timestamps +/- tolerance are considered equal
+%                               default: 10E-6
 %   OUTPUT:
-%      data         - structure
-%                     data must contain three fields :
+%       data                - structure (required)
+%                             data must contain three fields:
 %
-%                         'timestamps' is a 1×N cell array
-%                         each cell is a M_ix1 real array
+%                               'timestamps' is a M×1 array
 %
-%                         'values' is a 1×N cell array
-%                         each cell is a M_ix1 real array
+%                               'values' is a MxN  array
 %
-%                         'labels' is a 1×N cell array
-%                         each cell is a character array
+%                               'labels' is a 1×N cell array
+%                                each cell is a character array
 %
-%                   N: number of time series
-%                   M_i: number of samples of time series i
+%                                   N: number of time series
+%                                   M: number of samples
 %
-%     dataFilename  -  character
+%     misc                  - structure
+%                             see the documentation for details about the
+%                             field in misc
+%
+%     dataFilename          -  character
 %
 %   DESCRIPTION:
-%      DATALOADER chooses a file DATA_*.mat amongst file already existing
-%      or create a new one
+%      DATALOADER:
+%           - loads an existing processed database
+%           - creates a new one from raw .csv files
 %
 %   EXAMPLES:
-%      [data, dataFilename ] = DATALOADER
-%      [data, dataFilename] = DATALOADER('FilePath', 'processed_data')
-%      [data, dataFilename] = DATALOADER('FilePath', 'processed_data', 'NaNThreshold', 30, 'isOverlapDetection', true, 'Tolerance', 10E-3)
+%      [data, misc, dataFilename] = DATALOADER(misc)
+%      [data, misc, dataFilename] = DATALOADER(misc, 'FilePath', 'processed_data')
+%      [data, misc, dataFilename] = DATALOADER(misc, 'FilePath', 'processed_data', 'NaNThreshold', 30, 'Tolerance', 10E-3)
 %
 %   EXTERNAL FUNCTIONS CALLED:
-%      displayDataBinary, loadData
+%      displayDataBinary, loadData, editData
 %
-%   See also DISPLAYDATABINARY, LOADDATA
+%   See also DISPLAYDATABINARY, LOADDATA, EDITDATA
 
 %   AUTHORS:
 %      Ianis Gaudot, Luong Ha Nguyen,  James-A Goulet
@@ -69,29 +71,27 @@ function [data, dataFilename]=DataLoader(varargin)
 %       April 19, 2018
 %
 %   DATE LAST UPDATE:
-%       April 19, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
 
 p = inputParser;
 defaultFilePath = '.';
-defaultisOverlapDetection = false;
 defaultNaNThreshold = 100;
 defaulttolerance = 10E-6;
 
-
+addRequired(p, 'misc', @isstruct)
 addParameter(p,'FilePath',defaultFilePath);
-addParameter(p,'isOverlapDetection',defaultisOverlapDetection,@islogical);
 validationFcnNaNThreshold = @(x) isreal(x) & x >= 0 & x <= 100;
 addParameter(p,'NaNThreshold',defaultNaNThreshold,validationFcnNaNThreshold);
 validationFcntolerance = @(x) isreal(x) & x >= 0;
 addParameter(p, 'Tolerance', defaulttolerance, validationFcntolerance);
 
-parse(p, varargin{:} );
+parse(p, misc, varargin{:} );
 
+misc=p.Results.misc;
 FilePath=p.Results.FilePath;
-isOverlapDetection = p.Results.isOverlapDetection;
 NaNThreshold = p.Results.NaNThreshold;
 tolerance = p.Results.Tolerance;
 
@@ -103,21 +103,20 @@ if ~ischar(FilePath) || isempty(FilePath(~isspace(FilePath)))
     return
 end
 
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
-
 %% Choice for new datase
 disp(' ')
-fprintf('     %-3s -> %-25s\t\n', num2str(0), 'Build new database')
+disp('- Choose a database')
+disp(' ')
+fprintf('     %-3s -> %-25s\t\n', num2str(0), ...
+    'Build a new database from .csv files')
 disp(' ')
 [FileInfo] = displayDataBinary('FilePath', FilePath);
 
 while(1)
-    if isAnswersFromFile
-        chosen_db=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        chosen_db=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', num2str(chosen_db)])
     else
-        disp(' ')
         chosen_db=input('     choice >> ');
     end
     if ischar(chosen_db) || any(mod(chosen_db,1)) || ~isempty(chosen_db(chosen_db<0))
@@ -134,12 +133,13 @@ while(1)
         disp(' ')
         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
         disp('                                                         ')
-        disp(' Selection ''0'' creates a new processed database from raw data stored in .csv files.')
-        disp(' If applicable, previously processed database can also be chosen. ')
+        disp([' Selection ''0'' creates a new processed database ',...
+            ' from raw data stored in .csv files.'])
+        disp([' If applicable, previously processed ', ...
+            'database can also be chosen. '])
         disp(' ')
         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
         disp(' ')
-        inc=inc-1;
         continue
     elseif chosen_db > length(FileInfo)
         disp(' ')
@@ -152,29 +152,76 @@ while(1)
 end
 
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex +1 ;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
 
 %% Load database
 if chosen_db == 0
-    % No database is selected, then call dataloader
-    [data] = loadData('FilePath', FilePath, ...
-        'NaNThreshold', NaNThreshold, 'Tolerance', tolerance,  ...
-        'isOverlapDetection', isOverlapDetection ,'isPdf', false);
+    % No database is selected, loading new data is needed
+    [data, misc] = loadData(misc, 'FilePath', FilePath, ...
+        'NaNThreshold', NaNThreshold, 'Tolerance', tolerance, 'isPdf', false);
     
     % Display available data on screen
     displayData(data)
     
-    [data, dataFilename ] = editData(data, 'FilePath', FilePath);
+    % Edit dataset
+    [data, misc, dataFilename ] = editData(data, misc,  'FilePath', FilePath);
     
 else
     % Select the data
     [data]=load(fullfile(FilePath, FileInfo{chosen_db}));
-    %dataFilename = fullfile(FilePath, FileInfo{chosen_db});
     
     % Display available data on screen
     displayData(data)
     
-    [data, dataFilename ] = editData(data, 'FilePath', FilePath);
+    % Give the possibility to edit the dataset
+    isYesNoCorrect = false;
+    while ~isYesNoCorrect
+        disp(' ')
+        fprintf('- Do you want to edit the database ? (y/n) \n')
+        % read from user input file (use of global variable )?
+        if misc.BatchMode.isBatchMode
+            choice=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            disp(['     ', choice])
+        else
+            choice = input('     choice >> ','s');
+        end
+        if isempty(choice)
+            disp(' ')
+            disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
+            disp('                                                         ')
+            disp([' Answer ''yes'' allows to edit the database. ', ...
+                ' Editing the database includes selecting time series, performing'
+                'resampling, select a sub-period of analysis,' ...
+                ', removing missing data, etc ...'])
+            disp([' Answer ''no'' means that the currently selected database', ...
+                'will be used for the analysis.'])
+            disp(' ')
+            disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
+            disp(' ')
+        elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
+            
+            % yes, edit the dataset
+            [data, misc, dataFilename ] = ...
+                editData(data, misc, 'FilePath', FilePath);
+            
+            isYesNoCorrect =  true;
+            
+        elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+            
+            % no, use the data as such
+            dataFilename = fullfile(FilePath, FileInfo{chosen_db});
+            misc.isDataSimulation = false;
+            isYesNoCorrect =  true;
+            
+        else
+            disp(' ')
+            disp('     wrong input')
+            disp(' ')
+        end
+        
+    end
+    % Increment global variable to read next answer when required
+    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
     
 end
 %--------------------END CODE ------------------------

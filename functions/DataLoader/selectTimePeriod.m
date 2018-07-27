@@ -1,24 +1,26 @@
-function [data]=selectTimePeriod(data)
+function [data, misc]=selectTimePeriod(data, misc)
 %SELECTTIMEPERIOD Select data between two dates
 %
 %   SYNOPSIS:
-%     [data]=SELECTTIMEPERIOD(data)
+%     [data, misc]=SELECTTIMEPERIOD(data, misc)
 %
 %   INPUT:
-%      data             - structure (required)
-%                          data must contain three fields :
+%       data            - structure (required)
+%                               data must contain three fields:
 %
-%                               'timestamps' is a 1×N cell array
-%                               each cell is a M_ix1 real array
+%                               'timestamps' is a M×1 array
 %
-%                               'values' is a 1×N cell array
-%                               each cell is a M_ix1 real array
+%                               'values' is a MxN  array
 %
 %                               'labels' is a 1×N cell array
 %                               each cell is a character array
 %
-%                                   N: number of time series
-%                                   M_i: number of samples of time series i
+%                           N: number of time series
+%                           M: number of samples
+%
+%      misc             - structure
+%                          see the documentation for details about the
+%                          field in misc
 %
 %   OUTPUT:
 %      data             - structure
@@ -36,6 +38,10 @@ function [data]=selectTimePeriod(data)
 %                                   N: number of time series
 %                                   M_i: number of samples of time series i
 %
+%      misc             - structure
+%                          see the documentation for details about the
+%                          field in misc
+%
 %   DESCRIPTION:
 %      SELECTTIMEPERIOD select data between two dates.
 %      SELECTTIMEPERIOD request user's input to get the two dates.
@@ -46,7 +52,7 @@ function [data]=selectTimePeriod(data)
 %      Padding with missing data is useful for prediction.
 %
 %   EXAMPLES:
-%      [data]=SELECTTIMEPERIOD(data)
+%      [data, misc]=SELECTTIMEPERIOD(data, misc)
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      convertMat2Cell, convertCell2Mat
@@ -69,20 +75,18 @@ function [data]=selectTimePeriod(data)
 %       July 4, 2018
 %
 %   DATE LAST UPDATE:
-%       July 5, 2018
+%       July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 
 addRequired(p,'data', @isstruct );
-parse(p,data);
+addRequired(p,'misc', @isstruct );
+parse(p,data, misc);
 
 data=p.Results.data;
-
-
-% define global variable for user's answers from input file
-global isAnswersFromFile AnswersFromFile AnswersIndex
+misc=p.Results.misc;
 
 %% Get number of time series
 
@@ -96,8 +100,8 @@ fmt = 'yyyy-mm-dd';
 isCorrect = false;
 while ~isCorrect
     fprintf('  Start date (%s): \n',fmt);
-    if isAnswersFromFile
-        tts=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        tts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', tts])
     else
         tts = input('     choice >> ','s');
@@ -140,15 +144,15 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 disp(' ')
 
 %% Request user's input to specify end date
 isCorrect = false;
 while ~isCorrect
     fprintf('  End date (%s): \n',fmt);
-    if isAnswersFromFile
-        tte=eval(char(AnswersFromFile{1}(AnswersIndex)));
+    if misc.BatchMode.isBatchMode
+        tte=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', tte])
     else
         tte = input('     choice >> ','s');
@@ -199,11 +203,11 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-AnswersIndex = AnswersIndex + 1;
+misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 
 
 % Get timestamp vector
-timestamps = data.timestamps{1};
+timestamps = data.timestamps;
 
 if datenum(tte, fmt) > timestamps(end)
     
@@ -216,8 +220,8 @@ if datenum(tte, fmt) > timestamps(end)
         disp('     Padding with NaN will be done.')
         disp(['     Give a time step (in day) ', ...
             'to perform the data padding.'])
-        if isAnswersFromFile
-            dt_ref=eval(char(AnswersFromFile{1}(AnswersIndex)));
+        if misc.BatchMode.isBatchMode
+            dt_ref=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
             disp(['     ',num2str(dt_ref)])
         else
             dt_ref = input('     choice >> ');
@@ -233,7 +237,7 @@ if datenum(tte, fmt) > timestamps(end)
     end
     
     % Increment global variable to read next answer when required
-    AnswersIndex = AnswersIndex + 1;
+    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
     
 else
     isPadding = false;
@@ -249,10 +253,7 @@ end
 % Get sample index the closest to user's requested end date
 [~, IdxEnd] = min(abs(timestamps-datenum(tte, fmt)));
 
-% Convert cell2mat
-[data] = convertCell2Mat(data);
-
-% Extract xcorresponding portion of data
+% Extract corresponding portion of data
 
 if ~isPadding
     data.timestamps = data.timestamps(IdxStart:IdxEnd,:);
@@ -260,12 +261,11 @@ if ~isPadding
 else       
     extra_ts = timestamps(end)+dt_ref:dt_ref:datenum(tte, fmt);
     
-    data.timestamps = [ repmat(data.timestamps(IdxStart:IdxEnd,1),1,numberOfTimeSeries); repmat( extra_ts', 1, numberOfTimeSeries)];
-    data.values = [ data.values(IdxStart:IdxEnd,:) ;  NaN(length(extra_ts),numberOfTimeSeries ) ];
+    data.timestamps = [ repmat(data.timestamps(IdxStart:IdxEnd,1), ...
+        1,numberOfTimeSeries); repmat( extra_ts', 1, numberOfTimeSeries)];
+    data.values = [ data.values(IdxStart:IdxEnd,:) ; ...
+        NaN(length(extra_ts),numberOfTimeSeries ) ];
 end
-
-% Convert back to cell array
-[data] = convertMat2Cell(data);
 
 %--------------------END CODE ------------------------
 end

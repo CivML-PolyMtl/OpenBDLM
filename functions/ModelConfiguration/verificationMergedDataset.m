@@ -5,20 +5,18 @@ function [isMerged]=verificationMergedDataset(data)
 %     [output_1,output_2, output_3]=VERIFICATIONMERGEDDATASET(input_1,input_2)
 % 
 %   INPUT:
-%      data       - structure (required)
-%                   data must contain three fields :
+%       data      - structure (required)
+%                               data must contain three fields:
 %
-%                       'timestamps' is a 1×N cell array
-%                       each cell is a M_ix1 real array
+%                               'timestamps' is a M×1 array
 %
-%                       'values' is a 1×N cell array
-%                       each cell is a M_ix1 real array
+%                               'values' is a MxN  array
 %
-%                       'labels' is a 1×N cell array
-%                       each cell is a character array
+%                               'labels' is a 1×N cell array
+%                               each cell is a character array
 %
-%                 N: number of time series
-%                 M_i: number of samples of time series i
+%                               N: number of time series
+%                               M: number of samples
 % 
 %   OUTPUT:
 %      isMerged   - logical
@@ -50,7 +48,7 @@ function [isMerged]=verificationMergedDataset(data)
 %       April 19, 2018
 % 
 %   DATE LAST UPDATE:
-%       July 2, 2018
+%       July 24, 2018
  
 %--------------------BEGIN CODE ---------------------- 
  %% Get arguments passed to the function and proceed to some verifications

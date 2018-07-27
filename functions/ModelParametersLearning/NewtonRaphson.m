@@ -152,10 +152,19 @@ timestamps = data.timestamps;
 % Get training period
 training_start_idx = day2sampleIndex(misc.trainingPeriod(1), timestamps);
 training_end_idx = day2sampleIndex(misc.trainingPeriod(2), timestamps);
-% Resize timestamps
 
+
+%% Interventions
+if ~isfield(data, 'interventions')   
+    data.interventions{1}=[];
+end
+
+
+% Resize timestamps
 data_train.timestamps = timestamps(training_start_idx:training_end_idx);
 data_train.interventions      = data.interventions;
+
+
 % Get timestep training vector
 [data_train.dt_steps]=computeTimeSteps(data_train.timestamps);
 data_train.nb_steps = length(training_start_idx:training_end_idx);

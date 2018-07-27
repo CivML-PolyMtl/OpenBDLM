@@ -1,4 +1,4 @@
-function [ProjectName]=incrementProjectName( ReferenceName, FilePath)
+function [ProjectName]=incrementProjectName(misc, ReferenceName, FilePath)
 %INCREMENTPROJECTNAME Increment project name to avoid overwriting
 %
 %   SYNOPSIS:
@@ -51,11 +51,13 @@ p = inputParser;
 validationFct_FilePath = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
+addRequired(p,'misc', @isstruct );
 addRequired(p,'ReferenceName', validationFct_FilePath );
 addRequired(p,'FilePath', validationFct_FilePath );
 
-parse(p,ReferenceName, FilePath);
+parse(p,misc, ReferenceName, FilePath);
 
+misc=p.Results.misc;
 ReferenceName=p.Results.ReferenceName;
 FilePath=p.Results.FilePath;
 
@@ -63,10 +65,10 @@ FilePath=p.Results.FilePath;
 %% Gather already existing project name from saved projects
 % Load file that contains info about already saved projects
 
-ProjectsInfoFilename = 'ProjectsInfo.mat';
+ProjectsInfoFilename = misc.ProjectInfoFilename;
 
 % Load file 
-FileContent = load(fullfile(FilePath, ProjectsInfoFilename));
+FileContent = load(fullfile(pwd, FilePath, ProjectsInfoFilename));
 ProjectInfo = FileContent.ProjectInfo;
 
 if ~isempty(ProjectInfo)   
