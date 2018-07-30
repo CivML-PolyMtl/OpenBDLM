@@ -42,10 +42,15 @@ addRequired(p,'misc', @isstruct );
 parse(p,misc);
 misc=p.Results.misc;  
  
-
 %% Project to simulate data ?
+incTest=0;
+MaxFailAttempts = 4;
+
 isYesNoCorrect = false;
 while ~isYesNoCorrect
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     disp(' ')
     fprintf('- Does this project aim to perform data simulation ? \n')
     % read from user input file (use of global variable )?

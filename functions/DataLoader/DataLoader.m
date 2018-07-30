@@ -112,7 +112,13 @@ fprintf('     %-3s -> %-25s\t\n', num2str(0), ...
 disp(' ')
 [FileInfo] = displayDataBinary('FilePath', FilePath);
 
+incTest=0;
+MaxFailAttempts=4;
 while(1)
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     if misc.BatchMode.isBatchMode
         chosen_db=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(['     ', num2str(chosen_db)])
@@ -135,7 +141,7 @@ while(1)
         disp('                                                         ')
         disp([' Selection ''0'' creates a new processed database ',...
             ' from raw data stored in .csv files.'])
-        disp([' If applicable, previously processed ', ...
+        disp([' Previously processed ', ...
             'database can also be chosen. '])
         disp(' ')
         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
@@ -174,8 +180,17 @@ else
     displayData(data)
     
     % Give the possibility to edit the dataset
+    
+    incTest=0;
+    MaxFailAttempts=4;
+    
     isYesNoCorrect = false;
     while ~isYesNoCorrect
+        
+        incTest=incTest+1;
+        if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+        
         disp(' ')
         fprintf('- Do you want to edit the database ? (y/n) \n')
         % read from user input file (use of global variable )?

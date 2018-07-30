@@ -76,9 +76,6 @@ function [data, model, estimation, misc]=configureModelForDataReal(data, model, 
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 
-validationFct_FilePath = @(x) ischar(x) && ...
-    ~isempty(x(~isspace(x)));
-
 addRequired(p,'data', @isstruct );
 addRequired(p,'model', @isstruct );
 addRequired(p,'estimation', @isstruct );

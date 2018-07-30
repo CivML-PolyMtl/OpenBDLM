@@ -71,8 +71,14 @@ FileContent = load(fullfile(pwd, FilePath, ProjectsInfoFilename));
 ProjectInfo = FileContent.ProjectInfo;
 
 %% Get project name from user's input
+incTest=0;
+MaxFailAttempts = 4;
+
 isNameCorrect = false;
 while ~isNameCorrect
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     disp(' ')
     disp('- Enter a project name (max 25 characters):')
     % read from user input file (use of global variable )?

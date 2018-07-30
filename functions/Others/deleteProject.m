@@ -112,7 +112,7 @@ else
             
             ProjectInfo(ProjectIdx,:) = [];
             save(fullfile(FilePath, ...
-                ProjectInfoFile), 'ProjectInfo' );
+                ProjectInfofile), 'ProjectInfo' );
             disp(' ')
             disp('     The projects files have been deleted')
             disp(' ')
