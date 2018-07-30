@@ -99,9 +99,6 @@ if ~misc.isDataSimulation
     % Set defaut method for filtering/smoothing
     misc.method = 'kalman';
     
-    %Save project
-    %saveProject(data, model, estimation, misc, 'FilePath', 'saved_projects');
-    
 else
     %% Model configuration for simulated data     
     [data, model, estimation, misc] = ...
@@ -110,8 +107,6 @@ else
     % Set defaut method for filtering/smoothing
     misc.method = 'kalman';
     
-    %Save project
-    %saveProject(data, model, estimation, misc, 'FilePath', 'saved_projects');
 end
 %--------------------END CODE ------------------------
 end

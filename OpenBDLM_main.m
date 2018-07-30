@@ -168,12 +168,19 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
     set(0,'DefaultAxesFontSize',20)
     %Set display format
     format short g
- 
+    
     %% Display welcome menu
     welcomeOpenBDLM('version', version)
     
+    incTest=0;
+    MaxFailAttempts = 4;
+    
     isAnswerCorrect = false;
     while ~isAnswerCorrect
+        
+        incTest=incTest+1;
+        if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
         disp(' ')
         disp('- Start a new project: ')
@@ -253,7 +260,14 @@ elseif misc.ReadFromConfigFileMode.isReadFromConfigFileMode
         configFileName);
 end
 
+incTest=0;
+MaxFailAttempts = 4;
 while(1)
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     %% Display menu
     [PossibleAnswers]=displayMenuOpenBDLM();
     
@@ -289,7 +303,6 @@ while(1)
                 piloteInitialStateEstimation(data, model, estimation, misc);
             
         elseif  user_inputs.inp_1==3
-            
             %% Hidden states estimation
             [data, model, estimation, misc]= ...
                 piloteStateEstimation(data, model, estimation, misc);

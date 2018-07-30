@@ -186,7 +186,15 @@ LL=zeros(M,M,T);
 loglik = 0;
 
 %% Interventions
+% if isfield(data, 'interventions')   
+%     interventions=find(ismember(data.timestamps,data.interventions));
+% end
+
+%% Interventions
 if isfield(data, 'interventions')   
+    interventions=find(ismember(data.timestamps,data.interventions));
+else
+    data.interventions=[];
     interventions=find(ismember(data.timestamps,data.interventions));
 end
 

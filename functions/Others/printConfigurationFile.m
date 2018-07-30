@@ -225,7 +225,7 @@ fprintf(fileID,'data.timestamps=dat.timestamps;\n');
 fprintf(fileID,'misc.trainingPeriod=[%d,%d];\n',trainingPeriod);
 fprintf(fileID,'misc.dataFilename=''%s'';\n',dataFilename);
 %fprintf(fileID,'misc.isDataSimulation=%d;\n',isDataSimulation);
-fprintf(fileID,'data.interventions{1}=[];\n');
+fprintf(fileID,'data.interventions=[];\n');
 fprintf(fileID,'data.labels={');
 for i=1:numberOfTimeSeries
     fprintf(fileID,'''%s''', labels{i});

@@ -137,7 +137,15 @@ S(T,:)=estimation.S(T,:);
 W=zeros(M,M);
 
 %% Interventions
+% if isfield(data, 'interventions')   
+%     interventions=find(ismember(data.timestamps,data.interventions));
+% end
+
+%% Interventions
 if isfield(data, 'interventions')   
+    interventions=find(ismember(data.timestamps,data.interventions));
+else
+    data.interventions=[];
     interventions=find(ismember(data.timestamps,data.interventions));
 end
 
