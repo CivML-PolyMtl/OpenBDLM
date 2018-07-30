@@ -138,15 +138,7 @@ W=zeros(M,M);
 
 %% Interventions
 if isfield(data, 'interventions')   
-   % Non empty cell ?
-   isIntervention = cellfun('isempty', data.interventions);
-    
-   if isIntervention
-        interventions=find(ismember(data.timestamps,data.interventions{1}));       
-   end
-else
-    data.interventions{1}=[];
-    interventions=find(ismember(data.timestamps,data.interventions{1}));
+    interventions=find(ismember(data.timestamps,data.interventions));
 end
 
 %% Estimate state for each time t
