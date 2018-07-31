@@ -70,7 +70,7 @@ disp('     Type ''Q'' to Quit')
 disp(' ')
 
 % List possible answers
-menuChoices = [1 2 3 11 12 13 14 15 16 17 21 31];
+menuChoices = [1 2 3 11 12 13 14 15 16 17 21 ];
 
 %--------------------END CODE ------------------------
 end

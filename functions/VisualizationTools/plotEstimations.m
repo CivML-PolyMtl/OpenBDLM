@@ -118,9 +118,6 @@ if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
     return
 end
 
-%% Remove space in filename
-%FilePath = FilePath(~isspace(FilePath));
-
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -129,7 +126,6 @@ if ~isFileExist
     % set directory on path
     addpath(FilePath)
 end
-
 
 %% Create subdirectory where to save the figures
 

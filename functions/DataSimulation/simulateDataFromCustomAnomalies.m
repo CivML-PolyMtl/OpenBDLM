@@ -137,7 +137,8 @@ for t=1:T
         anomaly_counter = anomaly_counter+1;
     end
     
-    if ongoing_anomaly && elapsed_points < misc.custom_anomalies.duration_custom_anomalies(anomaly_counter)
+    if ongoing_anomaly && elapsed_points < ...
+            misc.custom_anomalies.duration_custom_anomalies(anomaly_counter)
         elapsed_points=elapsed_points+1;
     else
         j=1;
