@@ -80,7 +80,7 @@ if isFileExist
         ProjectInfo(:,3) = ProjectInfo(I,3);
                
         % Display information
-        disp('Saved projects: ')
+        disp('- Load a saved project: ')
         disp(' ')
         for i=1:size(ProjectInfo,1)
             fprintf('     %-3s -> %-25s %-10s\t\n', num2str(i), ...

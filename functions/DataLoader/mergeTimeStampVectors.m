@@ -224,11 +224,6 @@ for i=1:numberOfTimeSeries
         data.timestamps = [data.timestamps zeros(size(tmp,1),1 )];
         data.values = [data.values zeros(size(tmp,1),1 )];
         data.labels{i} = [];
-        
-%         data.timestamps{i}=[];
-%         data.values{i} = [];  
-%         data.labels{i} = [];
-%         disp(' ')
 
         continue
     end

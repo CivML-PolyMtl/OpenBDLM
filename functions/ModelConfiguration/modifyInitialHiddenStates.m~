@@ -152,9 +152,7 @@ while ~isCorrectAnswer
                 user_inputs.inp_3 =  input('     choice >> ');
             end
             
-            if  ~isempty(user_inputs.inp_3) && ...
-                    rem(user_inputs.inp_3,1) == 0 && ...
-                    (user_inputs.inp_3 > 0) && ...
+            if  ~isempty() rem(user_inputs.inp_3,1) == 0 && (user_inputs.inp_3 > 0) && ...
                     user_inputs.inp_3 <= length(model.initX{1})
                 
                 isCorrect = true;
@@ -183,7 +181,7 @@ while ~isCorrectAnswer
                 user_inputs.inp_4 =  input('     choice >> ');
             end
             
-            if  ~isempty(user_inputs.inp_4) && ~ischar(user_inputs.inp_4)
+            if  ~ischar(user_inputs.inp_4)
                 
                 isCorrect = true;
                 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
@@ -212,8 +210,7 @@ while ~isCorrectAnswer
                 user_inputs.inp_5 =  input('     choice >> ');
             end
             
-            if  ~isempty(user_inputs.inp_5) && ...
-                    ~ischar(user_inputs.inp_5) && user_inputs.inp_5 >= 0
+            if  ~ischar(user_inputs.inp_5) && user_inputs.inp_5 >= 0
                 
                 isCorrect = true;
                 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;

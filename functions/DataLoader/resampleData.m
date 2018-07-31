@@ -105,15 +105,6 @@ dt_ref=p.Results.Timestep;
 
 numberOfTimeSeries =size(data.values, 2);
 
-%% Verify that the dataset is merged (unique timestamp vector)
-% 
-% [isMerged] = verificationMergedDataset(data);
-% 
-% if ~isMerged
-%     % If not, merge the dataset
-%    [data, misc] = mergeTimeStampVectors(data, misc, 'NaNThreshold', 100);
-% end
-
 %% Convert data structure from array to cell
 [dataCell]=convertMat2Cell(data);
 

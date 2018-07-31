@@ -34,7 +34,7 @@ function [model, misc]=defineModel(data, misc)
 %                            in structure "misc"
 %
 %   DESCRIPTION:
-%      DEFINEMODEL requests user to define model
+%      DEFINEMODEL requests user'S input to define model
 %
 %   EXAMPLES:
 %      [model, misc]=DEFINEMODEL(data, misc)
@@ -83,6 +83,8 @@ if ~misc.isDataSimulation
 end
 
 
+MaxFailAttempts = 4;
+
 % display loaded data
 displayData(data)
 
@@ -105,8 +107,15 @@ if numberOfTimeSeries > 1
     module=module+1;
     
     for i=1:numberOfTimeSeries
+        
+        incTest=0;
         isCorrect=false;
         while ~isCorrect
+            
+            incTest=incTest+1;
+            if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                    'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+            
             disp([ num2str(module) '  -  Identifies dependence between' ...
                 ' time series; use [0] to indicate no dependence'])
             if misc.BatchMode.isBatchMode
@@ -155,7 +164,6 @@ if numberOfTimeSeries > 1
                 disp(' ')
                 continue
             elseif length(comp_ic{1,i})>numberOfTimeSeries-1
-                % || ~isempty(find([comp_ic{1}] >4,1))
                 disp(' ')
                 disp('     wrong input -> invalid input')
                 disp(' ')
@@ -188,8 +196,14 @@ end
 %% Get number of model class
 disp(' ')
 module=module+1;
+incTest=0;
 isCorrect = false;
 while ~isCorrect
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     disp( ['- How many model classes do ' ...
         'you want for each time-series? '])
     if misc.BatchMode.isBatchMode
@@ -268,8 +282,15 @@ for j=1:nb_models
         disp(['    Model class #' num2str(j)])
     end
     for i=1:numberOfTimeSeries
+        
+        incTest=0;
         isCorrect = false;
         while ~isCorrect
+            
+            incTest=incTest+1;
+            if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                    'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+            
             disp(['- Identify components for each' ...
                 ' model class and observation; e.g. [11 31 41]'])
             if misc.BatchMode.isBatchMode
@@ -392,8 +413,14 @@ if nb_models>1
     for j=2:nb_models
         disp(['    Model class #' num2str(j)])
         for i=1:numberOfTimeSeries
+            
+            incTest=0;
             isCorrect = false;
             while ~isCorrect
+                incTest=incTest+1;
+                if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+                
                 disp(['- Identify shared parameters' ...
                     ' between the components of the model' ...
                     ' class #1; e.g. [0 1 1]'])

@@ -57,7 +57,7 @@ disp('     3  ->  Estimate hidden states values')
 disp(' ')
 disp('     11 ->  Display and modify current model parameter values')
 disp(['     12 ->  Display and modify current ', ...
-    ' initial hidden states values'])
+    'initial hidden states values'])
 disp('     13 ->  Display and modify current training period')
 disp('     14 ->  Plots')
 disp('     15 ->  Display model matrices')
@@ -66,7 +66,7 @@ disp('     17 ->  Export project in configuration file format')
 disp(' ')
 disp('     21 ->  Version control')
 disp(' ')
-disp('     31 ->  Quit')
+disp('     Type ''Q'' to Quit')
 disp(' ')
 
 % List possible answers

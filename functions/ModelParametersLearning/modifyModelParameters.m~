@@ -66,7 +66,7 @@ function [model, misc] = modifyModelParameters(data, model, estimation, misc, va
 %       June 11, 2018
 %
 %   DATE LAST UPDATE:
-%       July 31, 2018
+%       July 20, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -114,8 +114,7 @@ for i=1:length(model.parameter)
         model.param_properties{i,3}, ...
         model.param_properties{i,4}, ...
         num2str(model.parameter(i_ref)), ...
-        [num2str(model.param_properties{i,5}(1)), '/', ...
-        num2str(model.param_properties{i,5}(2)) ], ...
+        [num2str(model.param_properties{i,5}(1)), '/', num2str(model.param_properties{i,5}(2)) ], ...
         model.param_properties{i_ref,6}, ...
         num2str(model.param_properties{i_ref,7}), ...
         num2str(model.param_properties{i_ref,8}), ...
@@ -153,7 +152,8 @@ while ~isCorrectAnswer
     if user_inputs.inp_1 == 1
         
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
-              
+        
+        
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -172,14 +172,12 @@ while ~isCorrectAnswer
                 user_inputs.inp_2 =  input('     choice >> ');
             end
             
-            if ~isempty(user_inputs.inp_2) && ...
-                    rem(user_inputs.inp_2,1) == 0 && ...
-                    (user_inputs.inp_2 > 0) && ...
+            if rem(user_inputs.inp_2,1) == 0 && (user_inputs.inp_2 > 0) && ...
                     user_inputs.inp_2 <= length(model.param_properties)
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                disp('    Wrong input.')
                 continue
             end
             
@@ -204,13 +202,11 @@ while ~isCorrectAnswer
                 user_inputs.inp_3 =  input('     choice >> ');
             end
             
-            if ~isempty(user_inputs.inp_3) && ...
-                    isnumeric(user_inputs.inp_3) && ...
-                    length(user_inputs.inp_3) ==1
+            if isnumeric(user_inputs.inp_3) && length(user_inputs.inp_3) ==1
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                disp('    Wrong input.')
                 continue
             end
             
@@ -236,13 +232,11 @@ while ~isCorrectAnswer
                 user_inputs.inp_4 =  input('     choice >> ');
             end
             
-            if ~isempty(user_inputs.inp_4) && ...
-                    isnumeric(user_inputs.inp_4) && ...
-                length(user_inputs.inp_4) ==2 
+            if isnumeric(user_inputs.inp_4) && length(user_inputs.inp_4) ==2
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                disp('    Wrong input.')
                 continue
             end
             
@@ -284,13 +278,12 @@ while ~isCorrectAnswer
             end
             
             if ~isempty(user_inputs.inp_2) && ...
-                    rem(user_inputs.inp_2,1) == 0 && ...
-                    (user_inputs.inp_2 > 0) && ...
+                    rem(user_inputs.inp_2,1) == 0 && (user_inputs.inp_2 > 0) && ...
                     user_inputs.inp_2 <= length(model.param_properties)
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                disp('    Wrong input.')
                 continue
             end
             
@@ -313,12 +306,11 @@ while ~isCorrectAnswer
                 user_inputs.inp_3 =  input('     choice >> ');
             end
             
-            if ~isempty(user_inputs.inp_3) && ...
-                    ischar(user_inputs.inp_3)
+            if ischar(user_inputs.inp_3)
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                disp('    Wrong input.')
                 continue
             end
             
@@ -341,13 +333,11 @@ while ~isCorrectAnswer
                 user_inputs.inp_4 =  input('     choice >> ');
             end
             
-            if ~isempty(user_inputs.inp_4) && ...
-                    isnumeric(user_inputs.inp_4) && ...
-                    length(user_inputs.inp_4) ==1
+            if isnumeric(user_inputs.inp_4) && length(user_inputs.inp_4) ==1
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                disp('    Wrong input.')
                 continue
             end
             
@@ -370,13 +360,11 @@ while ~isCorrectAnswer
                 user_inputs.inp_5 =  input('     choice >> ');
             end
             
-            if ~isempty(user_inputs.inp_5) && ...
-                isnumeric(user_inputs.inp_5) && ...
-                length(user_inputs.inp_5) ==1
+            if isnumeric(user_inputs.inp_5) && length(user_inputs.inp_5) ==1
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                disp('    Wrong input.')
                 continue
             end
             
@@ -420,14 +408,12 @@ while ~isCorrectAnswer
                 user_inputs.inp_2 =  input('     choice >> ');
             end
             
-            if ~isempty(user_inputs.inp_2) && ...
-                    rem(user_inputs.inp_2,1) == 0 && ...
-                    (user_inputs.inp_2 > 0) && ...
+            if rem(user_inputs.inp_2,1) == 0 && (user_inputs.inp_2 > 0) && ...
                     user_inputs.inp_2 <= length(model.param_properties)
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                disp('    Wrong input.')
                 continue
             end
             
@@ -449,14 +435,12 @@ while ~isCorrectAnswer
                 user_inputs.inp_3 =  input('     choice >> ');
             end
             
-            if ~isempty(user_inputs.inp_3) && ...
-                    all(rem(user_inputs.inp_3,1)) == 0 && ...
-                    all(user_inputs.inp_3 > 0) && ...
+            if all(rem(user_inputs.inp_3,1)) == 0 && all(user_inputs.inp_3 > 0) && ...
                     all( user_inputs.inp_3 <= length(model.param_properties))
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                disp('    Wrong input.')
                 continue
             end
             

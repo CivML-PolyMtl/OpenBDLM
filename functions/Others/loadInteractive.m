@@ -34,9 +34,9 @@ function [data, model, estimation, misc]=loadInteractive(misc)
 %   EXTERNAL FUNCTIONS CALLED:
 %       chooseProjectName, chooseIsDataSimulation,
 %       printProjectDateCreation, DataLoader, ModelConfiguration,
-%       SimulateData, saveDataBinary, saveDataCSV, saveProject, 
+%       SimulateData, saveDataBinary, saveDataCSV, saveProject,
 %       printConfigurationFile
-%       
+%
 %   SUBFUNCTIONS:
 %      N/A
 %
@@ -117,6 +117,13 @@ if misc.isDataSimulation
     %% Save project
     saveProject(data, model, estimation, misc, ...
         'FilePath', ProjectFilePath)
+       
+else
+    
+    %% Save project
+    saveProject(data, model, estimation, misc, ...
+        'FilePath', ProjectFilePath)
+    
 end
 
 %% Create config file

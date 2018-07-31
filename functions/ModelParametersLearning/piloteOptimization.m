@@ -81,15 +81,22 @@ misc=p.Results.misc;
 
 FilePath = misc.ProjectPath;
 
+MaxFailAttempts=4;
+
 disp(' ')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
 disp('/ Learn model parameters')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
-
-isCorrectAnswer_2 =  false;
-while ~isCorrectAnswer_2
+incTest=0;
+isCorrectAnswer =  false;
+while ~isCorrectAnswer
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     disp(' ')
     disp('     1 ->  Newton-Raphson')
     disp('     2 ->  Stochastic Gradient Ascent')
@@ -98,14 +105,14 @@ while ~isCorrectAnswer_2
     disp(' ')
     
     if misc.BatchMode.isBatchMode
-        user_inputs.inp_2=eval(char(misc.BatchMode.Answers ...
+        user_inputs=eval(char(misc.BatchMode.Answers ...
             {misc.BatchMode.AnswerIndex}));
-        disp(user_inputs.inp_2)
+        disp(user_inputs)
     else
-        user_inputs.inp_2 = input('     choice >> ');
+        user_inputs = input('     choice >> ');
     end
     
-    if user_inputs.inp_2 == 1
+    if user_inputs == 1
         
         % Learn model parameters
         [data, model, estimation, misc]= ...
@@ -118,8 +125,8 @@ while ~isCorrectAnswer_2
         saveProject(data, model, estimation, misc, ...
             'FilePath', FilePath)
         
-        isCorrectAnswer_2 =  true;
-    elseif user_inputs.inp_2 == 2
+        isCorrectAnswer =  true;
+    elseif user_inputs == 2
         
         % Learn model parameters
         [data, model, estimation, misc]= ...
@@ -132,8 +139,8 @@ while ~isCorrectAnswer_2
         saveProject(data, model, estimation, misc, ...
             'FilePath', FilePath)
         
-        isCorrectAnswer_2 =  true;
-    elseif user_inputs.inp_2 == 3
+        isCorrectAnswer =  true;
+    elseif user_inputs == 3
         break
     else
         disp(' ')

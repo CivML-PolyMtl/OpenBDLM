@@ -109,6 +109,8 @@ data=p.Results.data;
 misc=p.Results.misc;
 FilePath = p.Results.FilePath;
 
+MaxFailAttempts=4;
+
 PossibleAnswers = [1 2 3 4 5 6];
 
 
@@ -117,7 +119,13 @@ misc.dataBeforeEditing = data;
 
 
 %% Display data editing menu
+incTest=0;
 while(1)
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     % Plot current data
     close all
     plotData(data, misc, 'FilePath', 'figures', ...
@@ -134,8 +142,7 @@ while(1)
     disp('     5  ->  Reset changes')
     disp('     6  ->  Save changes and continue analysis')
     disp(' ')
-    
-    
+        
     if misc.BatchMode.isBatchMode
         user_inputs.inp_1=eval(char(misc.BatchMode.Answers{ ...
             misc.BatchMode.AnswerIndex}));
@@ -157,7 +164,7 @@ while(1)
         % Remove original data
         misc=rmfield(misc, 'dataBeforeEditing');
         
-        % Save data 
+        % Save data
         [misc, dataFilename] = saveDataBinary(data,misc, ...
             'FilePath', FilePath);
         
@@ -168,21 +175,30 @@ while(1)
         
         if user_inputs.inp_1 == 1
             [data, misc]=chooseTimeSeries(data, misc, 'isPlot', false);
+            incTest=0;
             continue
             
         elseif user_inputs.inp_1 == 2
             [data, misc]=selectTimePeriod(data, misc);
+            incTest=0;
             continue
             
         elseif user_inputs.inp_1 == 3
             
+            incTest_2=0;
             isAnswerCorrect = false;
             while ~isAnswerCorrect
+                
+                incTest_2=incTest_2+1;
+                if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
+                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+                
+                
                 disp(' ')
                 disp(['     Percentage of missing data ', ...
                     'allowed at each timestamp:'])
                 disp(['     (Example: 25 means that, at each ', ...
-                        'timestamp maximum 25% of the data can be NaN)'])
+                    'timestamp maximum 25% of the data can be NaN)'])
                 if misc.BatchMode.isBatchMode
                     user_inputs.inp_2= eval(char(misc.BatchMode.Answers{...
                         misc.BatchMode.AnswerIndex}));
@@ -200,21 +216,28 @@ while(1)
                     
                     [data, misc] = mergeTimeStampVectors (dataCell, misc, ...
                         'NaNThreshold', user_inputs.inp_2);
+                    incTest=0;
                     isAnswerCorrect = true;
                 else
                     disp(' ')
                     disp('     wrong input')
                     continue
                 end
-                                
+                
             end
             
             misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
         elseif user_inputs.inp_1 == 4
             
+            incTest_2=0;
             isAnswerCorrect = false;
             while ~isAnswerCorrect
+                
+                incTest_2=incTest_2+1;
+                if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
+                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+                
                 disp(' ')
                 disp('     Give time step (in day)')
                 if misc.BatchMode.isBatchMode
@@ -228,6 +251,7 @@ while(1)
                 if  isnumeric(dt_ref) && length(dt_ref) ==1
                     [data, misc] =  resampleData(data, misc, ...
                         'Timestep', dt_ref);
+                    incTest=0;
                     isAnswerCorrect = true;
                 else
                     disp(' ')
@@ -242,8 +266,14 @@ while(1)
             
         elseif user_inputs.inp_1 == 5
             
+            incTest_2=0;
             isAnswerCorrect = false;
             while ~isAnswerCorrect
+                
+                incTest_2=incTest_2+1;
+                if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
+                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+                
                 disp(' ')
                 disp('     Do you really want to reset the changes ? (y/n)')
                 if misc.BatchMode.isBatchMode
@@ -258,6 +288,7 @@ while(1)
                     data = misc.dataBeforeEditing;
                     isAnswerCorrect = true;
                 elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+                    incTest=0;
                     isAnswerCorrect = true;
                 else
                     disp('     wrong input')

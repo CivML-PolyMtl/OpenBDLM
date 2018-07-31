@@ -48,9 +48,16 @@ parse(p,data, model, misc);
 %model=p.Results.model;
 misc=p.Results.misc;
 
+MaxFailAttempts=4;
 
+incTest=0;
 isCorrect = false;
 while ~isCorrect
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     disp('- Define custom anomalies ? (y/n): ')
     if misc.BatchMode.isBatchMode
         choice_custom_anomalies = ...
@@ -90,19 +97,13 @@ while ~isCorrect
             '%%%%%%%%%%%%%%%%%%%%'])
         disp(' ')
         
-    elseif strcmp(choice_custom_anomalies,'y') ||  ...
-            strcmp(choice_custom_anomalies,'yes') || ...
-            strcmp(choice_custom_anomalies,'Y') || ...
-            strcmp(choice_custom_anomalies,'Yes')  || ...
-            strcmp(choice_custom_anomalies,'YES')
+    elseif strcmpi(choice_custom_anomalies,'y') ||  ...
+            strcmpi(choice_custom_anomalies,'yes')
         
         misc.isCustomAnomalies = true;
         isCorrect = true;
-    elseif strcmp(choice_custom_anomalies,'n') || ...
-            strcmp(choice_custom_anomalies,'no') ||  ...
-            strcmp(choice_custom_anomalies,'N') || ...
-            strcmp(choice_custom_anomalies,'No')  || ...
-            strcmp(choice_custom_anomalies,'NO')
+    elseif strcmpi(choice_custom_anomalies,'n') || ...
+            strcmpi(choice_custom_anomalies,'no')
         
         misc.isCustomAnomalies = false;
         isCorrect = true;
@@ -118,8 +119,14 @@ misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
 disp(' ')
 if misc.isCustomAnomalies
     %% Request anomalies start
+    incTest=0;
     isCorrect = false;
     while ~isCorrect
+        
+        incTest=incTest+1;
+        if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+        
         disp('- Anomalies starts (in sample index) ?')
         if misc.BatchMode.isBatchMode
             start_custom_anomalies = ...
@@ -134,8 +141,8 @@ if misc.isCustomAnomalies
             disp(' ')
             continue
         elseif ischar(start_custom_anomalies)|| ...
-                 any(rem(start_custom_anomalies,1)~=0) || ...
-                 ~any(all(start_custom_anomalies > 0))
+                any(rem(start_custom_anomalies,1)~=0) || ...
+                ~any(all(start_custom_anomalies > 0))
             
             disp(' ')
             disp(['     wrong input -> should be strictly ' ...
@@ -165,8 +172,14 @@ if misc.isCustomAnomalies
     
     
     %% Request anomalies durations
+    incTest=0;
     isCorrect=false;
     while ~isCorrect
+        
+        incTest=incTest+1;
+        if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+        
         disp('- Anomalies durations (in number of points) ?')
         if misc.BatchMode.isBatchMode
             duration_custom_anomalies = ...
@@ -223,8 +236,14 @@ if misc.isCustomAnomalies
     disp(' ')
     
     %% Request anomalies amplitudes
+    incTest=0;
     isCorrect=false;
-    while ~isCorrect        
+    while ~isCorrect
+        
+        incTest=incTest+1;
+        if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+        
         disp('- Anomalies amplitudes (i.e change in local trend) ? ')
         if misc.BatchMode.isBatchMode
             amplitude_custom_anomalies = ...
@@ -262,7 +281,7 @@ if misc.isCustomAnomalies
             amplitude_custom_anomalies;
         isCorrect = true;
     end
-        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
     
 else
     return

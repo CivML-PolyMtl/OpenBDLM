@@ -101,9 +101,6 @@ model=p.Results.model;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
-%% Remove space in filename
-FilePath = FilePath(~isspace(FilePath));
-
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -127,6 +124,8 @@ labels = data.labels;
 % Get data file
 dataFilename = misc.dataFilename;
 
+dataFilename=strsplit(dataFilename, '/');
+dataFilename=dataFilename{end};
 
 FileName = fullfile(FilePath, ['CFG_', ProjectName, '.m'] );
 
@@ -223,9 +222,9 @@ fprintf(fileID,'dat=load(''%s''); \n', dataFilename );
 fprintf(fileID,'data.values=dat.values;\n' );
 fprintf(fileID,'data.timestamps=dat.timestamps;\n');
 fprintf(fileID,'misc.trainingPeriod=[%d,%d];\n',trainingPeriod);
-fprintf(fileID,'misc.dataFilename=''%s'';\n',dataFilename);
+%fprintf(fileID,'misc.dataFilename=''%s'';\n',dataFilename);
 %fprintf(fileID,'misc.isDataSimulation=%d;\n',isDataSimulation);
-fprintf(fileID,'data.interventions=[];\n');
+%fprintf(fileID,'data.interventions=[];\n');
 fprintf(fileID,'data.labels={');
 for i=1:numberOfTimeSeries
     fprintf(fileID,'''%s''', labels{i});
@@ -375,17 +374,17 @@ fprintf(fileID, '\n');
     fprintf(fileID,'\n');
 end
 
-%Method
-fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
-fprintf(fileID, '\n');
-fprintf(fileID, '%%%% Filtering method\n');
-fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
-fprintf(fileID, '\n');
-if isfield(misc, 'method') && ~isempty(misc.method)
-    fprintf(fileID,'misc.method=''%s'';\n\n',misc.method);
-else
-    fprintf(fileID,'misc.method=''kalman'';\n');
-end
+% %Method
+% fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
+% fprintf(fileID, '\n');
+% fprintf(fileID, '%%%% Filtering method\n');
+% fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
+% fprintf(fileID, '\n');
+% if isfield(misc, 'method') && ~isempty(misc.method)
+%     fprintf(fileID,'misc.method=''%s'';\n\n',misc.method);
+% else
+%     fprintf(fileID,'misc.method=''kalman'';\n');
+% end
 
 configFilename = FileName;
 

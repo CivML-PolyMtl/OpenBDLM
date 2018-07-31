@@ -192,6 +192,8 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
         %% Display existing & saved projects
         [~] = displayProjects(misc);
         
+        disp('- Type ''Q'' to Quit.')
+        disp(' ')
         if misc.BatchMode.isBatchMode
             UserChoice= ...
                 eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
@@ -217,7 +219,7 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
                 
                 continue
                 
-            elseif strncmpi('quit', UserChoice, 4)
+            elseif strncmpi('q', UserChoice, 4)
                 %% Quit the program
                 disp(' ')
                 data=struct; model=struct; estimation=struct; misc=struct;
@@ -273,72 +275,81 @@ while(1)
     
     %% Read user's choice
     if misc.BatchMode.isBatchMode
-        user_inputs.inp_1=eval( ...
+        user_inputs=eval( ...
             char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ',num2str(user_inputs.inp_1)])
+        disp(['     ',num2str(user_inputs)])
     else
-        user_inputs.inp_1 = input('     choice >> ');
+        user_inputs = input('     choice >> ');
     end
     
-    if ~any(ismember(PossibleAnswers, user_inputs.inp_1 ))
+    if ischar(user_inputs)
+        
+        if strcmpi(user_inputs, 'Q')
+            disp(' ')
+            disp('     See you soon !')
+            return
+        else
+            disp(' ')
+            disp('     wrong input')
+            continue
+            
+        end
+    elseif ~ischar(user_inputs) && ...
+            ~any(ismember(PossibleAnswers, user_inputs ))
         disp(' ')
         disp('     wrong input')
         continue
         
-    elseif user_inputs.inp_1 == 31
-        disp(' ')
-        disp('     See you soon !')
-        return
     else
         misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
         
-        if  user_inputs.inp_1==1
+        if  user_inputs==1
             %% Learn model parameters
             [data, model, estimation, misc]= ...
                 piloteOptimization(data, model, estimation, misc);
             
-        elseif  user_inputs.inp_1==2
+        elseif  user_inputs==2
             %% Initial hidden states estimation
             [data, model, estimation, misc]= ...
                 piloteInitialStateEstimation(data, model, estimation, misc);
             
-        elseif  user_inputs.inp_1==3
+        elseif  user_inputs==3
             %% Hidden states estimation
             [data, model, estimation, misc]= ...
                 piloteStateEstimation(data, model, estimation, misc);
             
-        elseif  user_inputs.inp_1==11
+        elseif  user_inputs==11
             %% Modify model parameters
             [model, misc]= ...
                 piloteModifyModelParameters(data, model, estimation, misc);
             
-        elseif  user_inputs.inp_1==12
+        elseif  user_inputs==12
             %% Modify initial hidden states
             [model, misc]= ...
                 piloteModifyInitialStates(data, model, estimation, misc);
             
-        elseif  user_inputs.inp_1==13
+        elseif  user_inputs==13
             %% Modify training period
             [misc]=piloteModifyTrainingPeriod(data, model, estimation, misc);
             
-        elseif  user_inputs.inp_1==14
+        elseif  user_inputs==14
             %% Plot tools
             pilotePlot(data, model, estimation, misc)
             
-        elseif  user_inputs.inp_1==15
+        elseif  user_inputs==15
             %% Display model matrices
             piloteDisplayModelMatrices(data, model, estimation, misc)
             
-        elseif  user_inputs.inp_1==16
+        elseif  user_inputs==16
             %% Simulate data
             [data, model, estimation, misc]= ...
                 piloteSimulateData(data, model, misc);
             
-        elseif  user_inputs.inp_1==17
+        elseif  user_inputs==17
             %% Export project in a configuration file
             pilotePrintConfigurationFile(data, model, estimation, misc)
             
-        elseif  user_inputs.inp_1==21
+        elseif  user_inputs==21
             %% Version control
             piloteVersionControl()
             

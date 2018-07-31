@@ -52,7 +52,7 @@ function [trainingPeriod]=defineTrainingPeriod(timestamps, varargin)
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
-defaultPercent = 25.0;
+defaultPercent = 100.0;
 ValidationFcn = @(x)isnumeric(x)&~isempty(x);
 addRequired(p,'timestamps', ValidationFcn );
 addParameter(p, 'Percent', defaultPercent, @isreal)

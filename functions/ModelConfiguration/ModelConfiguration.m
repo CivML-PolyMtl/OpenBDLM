@@ -96,16 +96,10 @@ if ~misc.isDataSimulation
     [data, model, estimation, misc] =  ...
         configureModelForDataReal(data, model, estimation, misc);
     
-    % Set defaut method for filtering/smoothing
-    misc.method = 'kalman';
-    
 else
     %% Model configuration for simulated data     
     [data, model, estimation, misc] = ...
         configureModelForDataSimulation (data, model, estimation, misc);
-    
-    % Set defaut method for filtering/smoothing
-    misc.method = 'kalman';
     
 end
 %--------------------END CODE ------------------------

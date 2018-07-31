@@ -92,15 +92,7 @@ misc=p.Results.misc;
 isOutputFile=p.Results.isOutputFile;
 isPlot=p.Results.isPlot;
 
-
-% Validation of structure data
-% isValid = verificationDataStructure(data);
-% if ~isValid
-%     disp(' ')
-%     disp('ERROR: Unable to read the data from the structure.')
-%     disp(' ')
-%     return
-% end
+MaxFailAttempts=4;
 
 %% Display data on screen
 displayData(data)
@@ -109,7 +101,13 @@ displayData(data)
 numberOfTimeSeries = size(data.values,2);
 
 %% Request the user to choose some time series
+incTest=0;
 while(1)
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     fprintf('- Choose the time series to process (e.g [1 3 4]) : \n');
     if misc.BatchMode.isBatchMode
         chosen_ts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
