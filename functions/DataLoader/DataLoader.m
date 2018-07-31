@@ -170,17 +170,24 @@ if chosen_db == 0
     displayData(data)
     
     % Edit dataset
-    [data, misc, dataFilename ] = editData(data, misc,  'FilePath', FilePath);
+    [data, misc, dataFilename ] = ...
+        editData(data, misc, 'FilePath', FilePath);
     
 else
     % Select the data
     [data]=load(fullfile(FilePath, FileInfo{chosen_db}));
     
+    % Duplicate data binary MAT file with a new name based on current
+    % project    
+    % Save data in binary format
+    fprintf('     Duplicate %s --> %s ... ', FileInfo{chosen_db}, ...
+        ['DATA_',misc.ProjectName,'.mat']);
+    [misc, dataFilename] = saveDataBinary(data, misc, 'FilePath', FilePath);
+        
     % Display available data on screen
     displayData(data)
     
-    % Give the possibility to edit the dataset
-    
+    % Give the possibility to edit the dataset    
     incTest=0;
     MaxFailAttempts=4;
     
@@ -224,7 +231,7 @@ else
         elseif strcmpi(choice,'n') || strcmpi(choice,'no')
             
             % no, use the data as such
-            dataFilename = fullfile(FilePath, FileInfo{chosen_db});
+            %dataFilename = fullfile(FilePath, FileInfo{chosen_db});
             misc.isDataSimulation = false;
             isYesNoCorrect =  true;
             

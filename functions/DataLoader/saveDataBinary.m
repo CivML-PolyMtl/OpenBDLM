@@ -98,85 +98,45 @@ if ~isFileExist
     addpath(FilePath)
 end
 
-%% Get file name from external input
-isNameCorrect = false;
-while ~isNameCorrect    
-    disp(' ')
-    disp('- Enter a database reference name (max 25 characters):')
-    % read from user input file (use of global variable )?
-    if misc.BatchMode.isBatchMode
-        database_name=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ',database_name])
-    else
-        database_name=input('     database name >> ','s');
-    end
-    
-    if ischar(database_name)
-    % Remove space and quotes
-    database_name=strrep(database_name,'''','' ); % remove single quotes
-    database_name=strrep(database_name,'"','' ); % remove double quotes
-    database_name=strrep(database_name, ' ','' ); % remove spaces
-    end
-    
-    if isempty(database_name)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        disp(' Choose the name of the database.')
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-    elseif length(database_name)>25
-        disp('     wrong input -> string > 25 characters')
-    else
-        name_datafile=['DATA_', database_name, '.mat'];
-        fullname=fullfile(FilePath, name_datafile);
-        
-        [isFileExist]=testFileExistence(fullname, 'file');
-        
-        %if exist(fullname, 'file') == 2
-        if isFileExist
-            disp(' ')
-            fprintf('File %s already exists. Overwrite ? (y/n) \n', fullname)           
-            isYesNoCorrect = false;
-            while ~isYesNoCorrect
-                choice = input('     choice >> ','s');
-                if isempty(choice)
-                    disp(' ')
-                    disp('     wrong input --> please make a choice')
-                    disp(' ')
-                elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
-                    
-                    isYesNoCorrect =  true;
-                    isNameCorrect = true;
+ProjectName=misc.ProjectName;
+fullname = fullfile(FilePath, ['DATA_', ProjectName, '.mat'] );
 
-                elseif strcmpi(choice,'n') || strcmpi(choice,'no')
-                    
-                    [name] = incrementFilename('DATA_new', FilePath, ...
+[isFileExist] = testFileExistence(fullname, 'file');
+
+if isFileExist
+    isAnswerCorrect = false;
+    while ~isAnswerCorrect
+        disp(' ')
+        fprintf(['     Data file name %s already exists. ' ...
+        'Overwrite ? (y/n) \n'], ['DATA_', ProjectName, '.mat'])
+        choice = input('     choice >> ','s');
+        % Remove space and quotes
+        choice=strrep(choice,'''','' ); % remove quotes
+        choice=strrep(choice,'"','' ); % remove double quotes
+        choice=strrep(choice, ' ','' ); % remove spaces
+        
+        if isempty(choice)
+            disp(' ')
+            disp('     wrong input --> please make a choice')
+            disp(' ')
+            continue
+        elseif strcmpi(choice,'y') || strcmpi(choice,'yes') 
+            %fullname = fullfile(FilePath, ['CFG_' ProjectName '.m']);
+            isAnswerCorrect =  true;
+        elseif strcmpi(choice,'n') || strcmpi(choice,'no') 
+            [name]=incrementFilename('DATA_new', FilePath, ...
                         'FileExtension','mat');
-                    fullname=fullfile(FilePath, name);
-                    
-                    isYesNoCorrect =  true;
-                    isNameCorrect = true;
-                    
-                else
-                    disp(' ')
-                    disp('     wrong input')
-                    disp(' ')
-                end
-                
-            end
+            fullname = fullfile(FilePath, name);
+            isAnswerCorrect = true;
         else
-            
-            isNameCorrect = true;
-            
+            disp(' ')
+            disp('     wrong input')
+            disp(' ')
+            continue
         end
         
     end
 end
-
-% Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 
 dataFilename = fullname;
 

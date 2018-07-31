@@ -46,7 +46,7 @@ function [misc] = modifyTrainingPeriod(data, model, estimation, misc, varargin)
 %   SUBFUNCTIONS:
 %      N/A
 %
-%   See also 
+%   See also
 
 %   AUTHORS:
 %       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet,
@@ -89,6 +89,8 @@ FilePath=p.Results.FilePath;
 %% Define timestamps
 timestamps = data.timestamps;
 
+MaxFailAttempts=4;
+
 %% Get current training period
 if isfield(misc, 'trainingPeriod')
     disp(' ')
@@ -106,9 +108,15 @@ else
     disp(' ')
 end
 
-
+incTest=0;
 isCorrectAnswer =  false;
 while ~isCorrectAnswer
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
+    
     disp(' ')
     disp('     1 ->  Modify training period')
     disp(' ')
@@ -129,8 +137,14 @@ while ~isCorrectAnswer
         %% Modify current training period
         % Start of training period (in days)
         disp(' ')
+        incTest=0;
         isCorrect = false;
         while ~isCorrect
+            
+            incTest=incTest+1;
+            if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                    'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+            
             disp('     Start training [days]: ');
             
             if misc.BatchMode.isBatchMode
@@ -139,8 +153,7 @@ while ~isCorrectAnswer
             else
                 startTraining=input('     choice >> ');
             end
-            
-            
+                        
             if isempty(startTraining)
                 disp(' ')
                 disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
@@ -170,9 +183,15 @@ while ~isCorrectAnswer
         end
         
         % End of training period (in days)
-        disp(' ')
+        disp(' ')       
+        incTest=0;
         isCorrect = false;
         while ~isCorrect
+            
+            incTest=incTest+1;
+            if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                    'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+            
             disp('     End training [days]: ');
             
             if misc.BatchMode.isBatchMode

@@ -47,6 +47,8 @@ parse(p,data, misc);
 data=p.Results.data;
 misc=p.Results.misc;
 
+MaxFailAttempts=4;
+
 %% Verify presence of field "labels" in structure data
 
 if ~isfield(data, 'labels')
@@ -62,14 +64,21 @@ else
 end
 
 %% Get number of time series
-numberOfTimeSeries = length(data.labels);
+
+%snumberOfTimeSeries = length(data.labels);
 
 disp('- Define timestamps ')
 fmt = 'yyyy-mm-dd';
 
 %% Request user's input to specify start date
+incTest=0;
 isCorrect = false;
 while ~isCorrect
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     fprintf('  Start date (%s): \n',fmt);
     if misc.BatchMode.isBatchMode
         tts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
@@ -87,7 +96,7 @@ while ~isCorrect
         disp(' ')
         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
         disp(' ')
-        disp([' This is the date corresponding with the' ...
+        disp([' This is the date corresponding with the ' ...
             'first sample of the simulated time series.'])
         disp(' The date should be provided in yyyy-mm-dd format.       ')
         disp([' Note that all the simulated time series' ...
@@ -122,8 +131,13 @@ misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 disp(' ')
 
 %% Request user's input to specify end date
+incTest=0;
 isCorrect = false;
 while ~isCorrect
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     fprintf('  End date (%s): \n',fmt);
     if misc.BatchMode.isBatchMode
         tte=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
@@ -182,8 +196,13 @@ end
 % Increment global variable to read next answer when required
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 disp(' ')
+incTest=0;
 isCorrect = false;
 while ~isCorrect
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     disp('  Time step (in day): ');
     if misc.BatchMode.isBatchMode
         dt=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));

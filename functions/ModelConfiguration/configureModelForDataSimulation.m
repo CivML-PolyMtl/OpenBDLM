@@ -113,5 +113,8 @@ end
 %% Build model
 [model] = buildModel(data, model, misc);
 
+%% Set default variable
+[misc]=setDefaultConfig(misc, data);
+
 %--------------------END CODE ------------------------
 end

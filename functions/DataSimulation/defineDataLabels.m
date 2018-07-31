@@ -10,7 +10,7 @@ function [data, misc]=defineDataLabels(data, misc)
 %
 %   OUTPUT:
 %      data     - structure
-%      misc     - structure 
+%      misc     - structure
 %
 %   DESCRIPTION:
 %      DEFINEDATALABELS request user input to define data labels
@@ -47,17 +47,26 @@ parse(p,data, misc);
 data=p.Results.data;
 misc=p.Results.misc;
 
+MaxFailAttempts=4;
+
 %% Request user's input to get the number of time series to simulate
+
+incTest=0;
 isCorrect =false;
 while ~isCorrect
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     disp('- Give the number of time series to simulate:')
     if misc.BatchMode.isBatchMode
         user_choice=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(user_choice)       
+        disp(user_choice)
     else
         user_choice=input('     choice >> ');
     end
-
+    
     if isempty(user_choice)
         disp(' ')
         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
@@ -67,7 +76,7 @@ while ~isCorrect
         disp(' ')
         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
         disp(' ')
-        continue        
+        continue
     elseif (rem(user_choice,1) == 0) && (user_choice > 0)
         nts = user_choice;
         isCorrect =  true;
@@ -93,10 +102,10 @@ misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 % isCorrect =false;
 % while ~isCorrect
 %     disp(['- Provide time series reference names [max. 10 characters]' ...
-%         '(ex: {''CF001'', ''D0023''}) : '])   
+%         '(ex: {''CF001'', ''D0023''}) : '])
 %     if misc.BatchMode.isBatchMode
 %         choice_labels=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-%         disp(choice_labels)       
+%         disp(choice_labels)
 %     else
 %         choice_labels=input('     reference names >> ');
 %     end
@@ -104,9 +113,9 @@ misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 %         disp(' ')
 %         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
 %         disp('                                                         ')
-%         disp([' The reference names are used to' ...  
+%         disp([' The reference names are used to' ...
 %             ' name the simulated time series.       '])
-%         disp([' The list of reference names should be provided' ...  
+%         disp([' The list of reference names should be provided' ...
 %         ' using a cell array of character vectors.'])
 %         disp([' The number of reference names entered provides' ...
 %             ' the number of time series to simulate.'])
@@ -115,17 +124,17 @@ misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 %         disp(' ')
 %         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
 %         disp(' ')
-%         continue        
+%         continue
 %     elseif ~iscellstr(choice_labels)
 %         disp(' ')
-%         disp(['     wrong input -> should be a cell array' ... 
+%         disp(['     wrong input -> should be a cell array' ...
 %             'of character vectors. Example : {''CF001'', ''D0023''} '])
 %         disp(' ')
 %         continue
 %     else
 %         % count number of character in each character vector
 %         ll=length(choice_labels);
-%         
+%
 %         if any(ll(ll>10))
 %             disp(' ')
 %             disp(['     wrong input -> each reference name' ...
@@ -133,20 +142,20 @@ misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 %             disp(' ')
 %             continue
 %         end
-%         
+%
 %         % Remove spaces in the reference names (if existing)
 %         choice_labels=cellfun(@(x) x(x~=' '), choice_labels, 'un', 0);
-%         
+%
 %         % remove empty cells
 %         choice_labels(cellfun('isempty',choice_labels)) = [];
-%         
+%
 %         % verify that each reference name does not start with a digit
 %         TF = isstrprop(choice_labels,'digit');
 %         rec=zeros(1,length(TF));
 %         for  i=1:length(TF)
 %             rec(i)=TF{i}(1);
 %         end
-%         
+%
 %         if any(rec)
 %             disp(' ')
 %             disp(['     wrong input -> first character of'  ...
@@ -154,10 +163,10 @@ misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 %             disp(' ')
 %             continue
 %         end
-%         
+%
 %         % Remove redundancy
 %         choice_labels=unique(choice_labels);
-%         
+%
 %         isCorrect = true;
 %     end
 % end

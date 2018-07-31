@@ -83,6 +83,8 @@ misc=p.Results.misc;
 ProjectPath=misc.ProjectPath;
 FigurePath=misc.FigurePath;
 
+MaxFailAttempts=4;
+
 disp(' ')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
@@ -91,8 +93,14 @@ disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
 
 %% Request user's choice about filtering or smoothing
+incTest=0;
 isCorrectAnswer =  false;
 while ~isCorrectAnswer
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     disp(' ')
     disp('     1 ->  Filter')
     disp('     2 ->  Smoother')

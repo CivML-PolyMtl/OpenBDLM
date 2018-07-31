@@ -63,21 +63,22 @@ function [dataOrig, misc]=readMultipleCSVFiles(misc)
 %      July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
-
 %% Get arguments passed to the function and proceed to some verifications
-
 p = inputParser;
-
 addRequired(p, 'misc', @isstruct);
-
 parse(p, misc );
-
 misc=p.Results.misc;
 
+MaxFailAttempts=4;
 
 %% Request CSVFileList from user
 if misc.BatchMode.isBatchMode
+    incTest=0;
     while(1)
+        
+        incTest=incTest+1;
+        if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
         disp(' ')
         fprintf(['Provide a list of .CSV filename to process ' ...
@@ -112,12 +113,11 @@ if misc.BatchMode.isBatchMode
             continue
             
         else
-
+            
             
             %% Clean the list of CSV files
             
             % Remove empty fields
-            
             CSVFileList=CSVFileList(~cellfun(@isempty, CSVFileList));
             
             if isempty(CSVFileList)
@@ -189,7 +189,7 @@ if misc.BatchMode.isBatchMode
             misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
             break
         end
-               
+        
     end
     
 else
@@ -230,7 +230,7 @@ else
                 dataOrig.labels{inc} = label;
             end
             
-        end        
+        end
         
         if ~exist('dataOrig', 'var')
             continue

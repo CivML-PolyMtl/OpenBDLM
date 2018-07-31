@@ -107,6 +107,8 @@ misc.InteractiveMode = InteractiveMode_s;
 misc.ReadFromConfigFileMode = ReadFromConfigFileMode_s;
 misc.BatchMode = BatchMode_s;
 
+%% Set default variable
+[misc]=setDefaultConfig(misc, data);
 
 %% Save the project
 saveProject(data, model, estimation, misc,'FilePath', ProjectFilePath);

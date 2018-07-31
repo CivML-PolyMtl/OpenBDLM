@@ -149,15 +149,11 @@ if isExportPNG || isExportPDF || isExportTEX
                 disp(' ')
                 disp('     wrong input --> please make a choice')
                 disp(' ')
-            elseif strcmp(choice,'y') || strcmp(choice,'yes') ||  ...
-                    strcmp(choice,'Y') || strcmp(choice,'Yes')  || ...
-                    strcmp(choice,'YES')
+            elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
                 
                 isYesNoCorrect =  true;
                 
-            elseif strcmp(choice,'n') || strcmp(choice,'no') ||  ...
-                    strcmp(choice,'N') || strcmp(choice,'No')  || ...
-                    strcmp(choice,'NO')
+            elseif strcmpi(choice,'n') || strcmpi(choice,'no')
                 
                 [name] = incrementFilename([misc.ProjectName, '_new'], FilePath);
                 fullname=fullfile(FilePath, name);
@@ -280,7 +276,6 @@ FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
 
 FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
 
-
 %% Concatenate all pdfs in a single pdf file
 if isExportPDF
     
@@ -316,10 +311,7 @@ if isExportPDF
         
         FigureNames_sort = [FigureNames_sort FigureNames_sub];
     end
-    
-    
-    
-    
+      
     pdfFileName = ['ESTIMATIONS_', misc.ProjectName,'.pdf'];
     fullPdfFileName = fullfile (fullname, pdfFileName);
     
@@ -330,8 +322,7 @@ if isExportPDF
     end
     
     FigureNames_sort = strcat(fullfile(fullname, FigureNames_sort),'.pdf');
-    
-    
+        
     % Merge all pdfs for creating one single one in specified location
     append_pdfs(fullPdfFileName, FigureNames_sort{:})
     

@@ -88,17 +88,22 @@ parse(p,data, misc);
 data=p.Results.data;
 misc=p.Results.misc;
 
+MaxFailAttempts=4;
+
 %% Get number of time series
-
 numberOfTimeSeries =size(data.values, 2);
-
 
 disp('- Define timestamps ')
 fmt = 'yyyy-mm-dd';
 
 %% Request user's input to specify start date
+incTest=0;
 isCorrect = false;
 while ~isCorrect
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     fprintf('  Start date (%s): \n',fmt);
     if misc.BatchMode.isBatchMode
         tts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
@@ -148,8 +153,14 @@ misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 disp(' ')
 
 %% Request user's input to specify end date
+incTest=0;
 isCorrect = false;
 while ~isCorrect
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
     fprintf('  End date (%s): \n',fmt);
     if misc.BatchMode.isBatchMode
         tte=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
@@ -212,16 +223,22 @@ timestamps = data.timestamps;
 if datenum(tte, fmt) > timestamps(end)
     
     isPadding = true;
-    
+    incTest=0;
     isAnswerCorrect = false;
     while ~isAnswerCorrect
+        
+        incTest=incTest+1;
+        if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+                'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+        
         disp(' ')
         disp('     The end date > last date.')
         disp('     Padding with NaN will be done.')
         disp(['     Give a time step (in day) ', ...
             'to perform the data padding.'])
         if misc.BatchMode.isBatchMode
-            dt_ref=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            dt_ref= ...
+                eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
             disp(['     ',num2str(dt_ref)])
         else
             dt_ref = input('     choice >> ');
@@ -258,7 +275,7 @@ end
 if ~isPadding
     data.timestamps = data.timestamps(IdxStart:IdxEnd,:);
     data.values = data.values(IdxStart:IdxEnd,:);
-else       
+else
     extra_ts = timestamps(end)+dt_ref:dt_ref:datenum(tte, fmt);
     
     data.timestamps = [ repmat(data.timestamps(IdxStart:IdxEnd,1), ...
