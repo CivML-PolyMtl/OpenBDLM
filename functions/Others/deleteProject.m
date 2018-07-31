@@ -49,7 +49,6 @@ function deleteProject(misc, ProjectIdx)
 %       July 27, 2018
 
 %--------------------BEGIN CODE ----------------------
-
 %% Get arguments passed to the function and proceed to some verifications
 
 p = inputParser;
@@ -72,12 +71,12 @@ ProjectInfofile = misc.ProjectInfoFilename;
 FileContent = load(fullfile(pwd, FilePath,ProjectInfofile));
 ProjectInfo = FileContent.ProjectInfo;
 
-if isempty(ProjectInfo)
-    disp(' ')
-    disp('     There is no saved project to delete.')
-    disp(' ')
-    return
-end
+% if isempty(ProjectInfo)
+%     disp(' ')
+%     disp('     There is no saved project to delete.')
+%     disp(' ')
+%     return
+% end
 
 % Get number of saved projects
 NumberOfSavedProjects = size(ProjectInfo,1);

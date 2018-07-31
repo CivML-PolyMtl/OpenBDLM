@@ -192,7 +192,7 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
         %% Display existing & saved projects
         [~] = displayProjects(misc);
         
-        disp('- Type ''Q'' to Quit.')
+        disp('- Type ''D'' to Delete projects. Type ''Q'' to Quit.')
         disp(' ')
         if misc.BatchMode.isBatchMode
             UserChoice= ...
@@ -210,19 +210,16 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
             
             misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
-            if strncmp('delete_',UserChoice,7)
-                %% Delete a project file
-                UserChoice=char(UserChoice);
-                UserChoice=eval(UserChoice(1,8:end));
-                
-                deleteProject(misc, UserChoice)
-                
+            if strncmp('D',UserChoice,1) && length(UserChoice) ==1
+                %% Delete project file(s)               
+                piloteDeleteProject(misc)
                 continue
                 
             elseif strncmpi('q', UserChoice, 4)
                 %% Quit the program
                 disp(' ')
                 data=struct; model=struct; estimation=struct; misc=struct;
+                close all
                 disp('     See you soon !')
                 return
                 
@@ -287,6 +284,7 @@ while(1)
         if strcmpi(user_inputs, 'Q')
             disp(' ')
             disp('     See you soon !')
+            close all
             return
         else
             disp(' ')

@@ -93,6 +93,9 @@ MaxFailAttempts=4;
 %% Get number of time series
 numberOfTimeSeries =size(data.values, 2);
 
+%% Get timestamps
+timestamps=data.timestamps;
+
 disp('- Define timestamps ')
 fmt = 'yyyy-mm-dd';
 
@@ -122,7 +125,7 @@ while ~isCorrect
         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
         disp(' ')
         disp([' This is the date corresponding to the' ...
-            'first sample to analyze.'])
+            ' first sample to analyze.'])
         disp(' The date should be provided in yyyy-mm-dd format.       ')
         disp(' ')
         disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
@@ -205,10 +208,19 @@ while ~isCorrect
         if datenum(tte) <= datenum(tts)
             disp(' ')
             disp(['     wrong input: end date  ' ...
-                'should be more recent than start date'])
+                'should be more recent than start date', ])
             disp(' ')
             continue
         end
+        
+        if datenum(tte) <= datenum(timestamps(1))
+            disp(' ')
+            disp(['     wrong input: end date  ' ...
+                'should be more recent that the date of first data sample'])
+            disp(' ')
+            continue
+        end
+        
         
     end
     isCorrect = true;
@@ -216,9 +228,6 @@ end
 % Increment global variable to read next answer when required
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 
-
-% Get timestamp vector
-timestamps = data.timestamps;
 
 if datenum(tte, fmt) > timestamps(end)
     

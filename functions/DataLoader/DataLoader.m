@@ -181,7 +181,7 @@ else
     % project    
     % Save data in binary format
     fprintf('     Duplicate %s --> %s ... ', FileInfo{chosen_db}, ...
-        ['DATA_',misc.ProjectName,'.mat']);
+        ['DATA_', misc.ProjectName ,'.mat']);
     [misc, dataFilename] = saveDataBinary(data, misc, 'FilePath', FilePath);
         
     % Display available data on screen
