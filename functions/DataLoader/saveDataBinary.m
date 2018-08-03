@@ -80,6 +80,8 @@ data=p.Results.data;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
+FilePath_full=fullfile(FilePath, 'mat');
+
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
@@ -90,16 +92,17 @@ if ~isValid
 end
 
 %% Create specified path if not existing
-[isFileExist] = testFileExistence(FilePath, 'dir');
+[isFileExist] = testFileExistence(FilePath_full, 'dir');
 if ~isFileExist
     % create directory
-    mkdir(FilePath)   
+    mkdir(FilePath_full)   
     % set directory on path
     addpath(FilePath)
+    addpath(FilePath_full)    
 end
 
 ProjectName=misc.ProjectName;
-fullname = fullfile(FilePath, ['DATA_', ProjectName, '.mat'] );
+fullname = fullfile(FilePath_full, ['DATA_', ProjectName, '.mat'] );
 
 [isFileExist] = testFileExistence(fullname, 'file');
 
@@ -124,9 +127,9 @@ if isFileExist
             %fullname = fullfile(FilePath, ['CFG_' ProjectName '.m']);
             isAnswerCorrect =  true;
         elseif strcmpi(choice,'n') || strcmpi(choice,'no') 
-            [name]=incrementFilename('DATA_new', FilePath, ...
+            [name]=incrementFilename('DATA_new', FilePath_full, ...
                         'FileExtension','mat');
-            fullname = fullfile(FilePath, name);
+            fullname = fullfile(FilePath_full, name);
             isAnswerCorrect = true;
         else
             disp(' ')

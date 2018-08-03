@@ -63,6 +63,11 @@ elseif strcmp(option.optim_mode,'MLE')
 end
 
 %% Log-likehood
+
+% Insert parameter values in param_properties
+[model.param_properties]=writeParameterProperties(model.param_properties, ...
+[model.parameter, model.p_ref], 9);
+
 [~,~,~,~,loglik,~,~] = SwitchingKalmanFilter(data,model,option);
 log_lik_0            = loglik;
 
@@ -171,9 +176,17 @@ while stepSize_test
     p_LL(param_idx_loop,2)  = pOR + delta_grad_OR;
     model_store             = cell(1,2);
     m_1                     = model;
-    m_2                     = model;
+    m_2                     = model;        
     m_1.parameter           = p_LL(:,1);
     m_2.parameter           = p_LL(:,2);
+    
+    % Insert parameter values in param_properties
+    [m_1.param_properties]=writeParameterProperties(m_1.param_properties, ...
+    [m_1.parameter, model.p_ref], 9);
+    
+    [m_2.param_properties]=writeParameterProperties(m_2.param_properties, ...
+    [m_2.parameter, model.p_ref], 9);    
+
     model_store{1}          = m_1;
     model_store{2}          = m_2;
     if option.isParallel

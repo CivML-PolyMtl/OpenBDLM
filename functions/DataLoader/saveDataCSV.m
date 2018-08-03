@@ -83,6 +83,8 @@ data=p.Results.data;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
+FilePath_full=fullfile(FilePath, 'csv');
+
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
@@ -93,17 +95,18 @@ if ~isValid
 end
 
 %% Create specified path if not existing
-[isFileExist] = testFileExistence(FilePath, 'dir');
+[isFileExist] = testFileExistence(FilePath_full, 'dir');
 if ~isFileExist
     % create directory
-    mkdir(FilePath)
+    mkdir(FilePath_full)
     % set directory on path
     addpath(FilePath)
+    addpath(FilePath_full)
 end
 
 %% Get saving directory name from external input
 name_datadir=misc.ProjectName;
-fullname=fullfile(FilePath, name_datadir);
+fullname=fullfile(FilePath_full, name_datadir);
 
 [isFileExist] = testFileExistence(fullname, 'dir');
 
@@ -127,8 +130,8 @@ if isFileExist
         elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
             isAnswerCorrect =  true;
         elseif strcmpi(choice,'n') || strcmpi(choice,'no')
-            [name_datadir] = incrementFilename('data_new', FilePath);
-            fullname=fullfile(FilePath, name_datadir);
+            [name_datadir] = incrementFilename('data_new', FilePath_full);
+            fullname=fullfile(FilePath_full, name_datadir);
             
             % Create new directory
             mkdir(fullname)

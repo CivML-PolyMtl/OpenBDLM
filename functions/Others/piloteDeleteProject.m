@@ -59,6 +59,13 @@ MaxFailAttempts=4;
 FileContent = load(fullfile(pwd, FilePath,ProjectInfofile));
 ProjectInfo = FileContent.ProjectInfo;
 
+disp(' ')
+disp(['-----------------------------------------', ...
+    '-----------------------------------------------------'])
+disp('/    Delete project(s)')
+disp(['-----------------------------------------', ...
+    '-----------------------------------------------------'])
+
 if isempty(ProjectInfo)
     disp(' ')
     disp('     There is no saved project to delete.')
@@ -87,11 +94,13 @@ while(1)
     
     if isempty(ProjectIdx)
         disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%')
+        disp(['     %%%%%%%%%%%%%%%%%%%%%%%%% ', ...
+            ' > HELP < %%%%%%%%%%%%%%%%%%%%%%%%'])
         disp(' ')
-        disp(' Choosing [1,2] will delete projects #1 and #2.')
+        disp('     Choosing [1,2] will delete projects #1 and #2.')
         disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%')
+        disp(['     %%%%%%%%%%%%%%%%%%%%%%%%% ', ...
+            ' > HELP < %%%%%%%%%%%%%%%%%%%%%%%%'])
         disp(' ')
         continue
     elseif ischar(ProjectIdx) || any(mod(ProjectIdx,1)) || ...

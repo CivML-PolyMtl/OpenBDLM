@@ -76,25 +76,29 @@ data=p.Results.data;
 model=p.Results.model;
 misc=p.Results.misc;
 
-ProcessedDataPath=misc.ProcessedDataPath;
+DataPath=misc.DataPath;
 ProjectPath=misc.ProjectPath;
 
 disp(' ')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
-disp( '/ Simulate data')
+disp( '/    Simulate data')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
 disp(' ')
-
+disp('     ...in progress')
+disp(' ')
 %% Simulate data
 [data, model, estimation, misc]= ...
     SimulateData(data, model, misc, 'isPlot', true);
 
 %% Save simulated data
 [misc, dataFilename] = saveDataBinary(data, misc, ...
-    'Filepath', ProcessedDataPath);
+    'Filepath', DataPath);
 misc.dataFilename = dataFilename;
+
+%% Save data in CSV format
+[misc] = saveDataCSV(data, misc, 'FilePath', DataPath);
 
 %% Store date creation
 [misc] =  printProjectDateCreation(misc);

@@ -42,18 +42,17 @@ function helpMain
 %--------------------BEGIN CODE ----------------------
 
 disp(' ')
-disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
+disp('     %%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
 disp(' ')
-disp('Several choices are possible: ')
+disp('     Several choices are possible: ')
 disp(' ')
-disp(' Type a configuration file name.')
-disp([' Type 0 to start the interactive tool' , ...
-    ' for creating a new project.'])
-disp(' Type # to load the  project number #.')
-disp(' Type ''delete_#'' to delete the project number #.')
-disp(' Type ''Quit'' to quit.')
+disp(['     Type 0 to create a new project' , ...
+    ' from the interactive tool.'])
+disp('     Type # to load the saved project number #.')
+disp('     Type ''D'' to Delete project(s).')
+disp('     Type ''Q'' to Quit.')
 disp(' ')
-disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
+disp('     %%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
 disp(' ')
 %--------------------END CODE ------------------------
 end

@@ -88,6 +88,16 @@ M = model.nb_class;           %Number of model classes or regime
 numberOfTimeSeries=length(data.labels);            %Number of observations
 
 
+%% Read model parameter properties
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref = arrayOut(:,2);
+
 %% Initialization
 
 y_obs= zeros(numberOfTimeSeries,T);
@@ -115,7 +125,7 @@ for t=1:T
     end
     
     % Get transition probabilities matrix for this time step
-    Z = model.Z(model.parameter(model.p_ref),timestamps(t),timesteps(t));
+    Z = model.Z(parameter(p_ref),timestamps(t),timesteps(t));
     
     % Get transition regime (j) from Z
     
@@ -148,14 +158,10 @@ for t=1:T
         
     end
     
-    A_j = model.A{j}(model.parameter(model.p_ref), ...
-        timestamps(t),timesteps(t));
-    C_j = model.C{j}(model.parameter(model.p_ref), ...
-        timestamps(t),timesteps(t));
-    R_j = model.R{j}(model.parameter(model.p_ref),...
-        timestamps(t),timesteps(t));
-    Q_j = model.Q{i}{j}(model.parameter(model.p_ref), ...
-        timestamps(t),timesteps(t));
+    A_j = model.A{j}(parameter(p_ref), timestamps(t),timesteps(t));
+    C_j = model.C{j}(parameter(p_ref), timestamps(t),timesteps(t));
+    R_j = model.R{j}(parameter(p_ref), timestamps(t),timesteps(t));
+    Q_j = model.Q{i}{j}(parameter(p_ref), timestamps(t),timesteps(t));
     
     if t==1
         prevX = model.initX{i};
@@ -178,13 +184,10 @@ for t=1:T
     i=j;
 end
 
-
 % Save hidden states for plot_estimate
 estimation.ref = [x' SS'];
-%data.ref_S=SS;
 
 % Add NaN if applicable
-%y_pred=y_pred';
 y_obs=y_obs';
 
 if isfield(data, 'values')

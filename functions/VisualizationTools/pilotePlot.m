@@ -72,7 +72,7 @@ misc=p.Results.misc;
 disp(' ')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
-disp('/ Plot')
+disp('/    Plot')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
 
@@ -82,7 +82,7 @@ while ~isCorrectAnswer
     disp('     1 ->  Plot data')
     disp('     2 ->  Plot hidden states')
     disp(' ')
-    disp('     3 ->  Return to menu')
+    disp('     Type ''R'' to return to the previous menu')
     disp(' ')
     
     if misc.BatchMode.isBatchMode
@@ -93,11 +93,17 @@ while ~isCorrectAnswer
         user_inputs.inp_2 = input('     choice >> ');
     end
     
-    if user_inputs.inp_2 == 1
+    
+    if ischar(user_inputs.inp_2) && length(user_inputs.inp_2) == 1 && ...
+            strcmpi(user_inputs.inp_2, 'R')
+        break
+    elseif user_inputs.inp_2 == 1
         
         [isValid] = verificationDataStructure(data);
         
         if isValid
+            disp(' ')
+            disp('     ...in progress')
             plotData(data, misc, ...
                 'FilePath', 'figures', ...
                 'isPdf', false, ...
@@ -108,15 +114,14 @@ while ~isCorrectAnswer
         end
         
     elseif user_inputs.inp_2 == 2
+        disp(' ')
+        disp('     ...in progress')
         plotEstimations(data, model, estimation, misc, ...
             'FilePath', 'figures', ...
             'isExportTEX', false, ...
             'isExportPNG', false, ...
             'isExportPDF', false);
         isCorrectAnswer =  true;
-        
-    elseif user_inputs.inp_2 == 3
-        break
     else
         disp(' ')
         disp('      wrong input')

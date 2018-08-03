@@ -69,8 +69,7 @@ parse(p, misc);
 
 misc=p.Results.misc;
 
-ProcessedFilePath=misc.ProcessedDataPath;
-RawFilePath=misc.RawDataPath;
+DataPath=misc.DataPath;
 ProjectFilePath=misc.ProjectPath;
 ConfigFilePath=misc.ConfigPath;
 
@@ -78,6 +77,13 @@ ConfigFilePath=misc.ConfigPath;
 data=struct;
 model=struct;
 estimation=struct;
+
+disp(['-----------------------------------------', ...
+    '-----------------------------------------------------'])
+disp('/    Start a new project')
+disp(['-----------------------------------------', ...
+    '-----------------------------------------------------'])
+disp(' ')
 
 %% Choose project name
 [misc] =  chooseProjectName(misc, ...
@@ -92,7 +98,7 @@ estimation=struct;
 if ~misc.isDataSimulation
     %% Load data
     [data, misc, dataFilename ] = DataLoader(misc, ...
-        'FilePath', ProcessedFilePath);
+        'FilePath', DataPath);
     misc.dataFilename = dataFilename;
 end
 
@@ -108,11 +114,11 @@ if misc.isDataSimulation
     
     %% Save data in binary format
     [misc, dataFilename] = saveDataBinary(data, misc, ...
-        'FilePath', ProcessedFilePath);
+        'FilePath', DataPath);
     misc.dataFilename = dataFilename;
     
     %% Save data in CSV format
-    [misc] = saveDataCSV(data, misc, 'FilePath', RawFilePath);
+    [misc] = saveDataCSV(data, misc, 'FilePath', DataPath);
     
     %% Save project
     saveProject(data, model, estimation, misc, ...

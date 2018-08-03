@@ -75,7 +75,7 @@ ConfigPath=misc.ConfigPath;
 disp(' ')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
-disp('/ Export project in configuration file format')
+disp('/    Export project in configuration file format')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
 disp(' ')

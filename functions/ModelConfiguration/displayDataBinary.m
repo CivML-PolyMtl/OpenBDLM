@@ -53,21 +53,21 @@ parse(p, varargin{:});
 
 FilePath=p.Results.FilePath;
 
-%% Remove space in filename
-FilePath = FilePath(~isspace(FilePath));
+FilePath_full=fullfile(FilePath, 'mat');
 
 %% Create specified path if not existing
-[isFileExist] = testFileExistence(FilePath, 'dir');
+[isFileExist] = testFileExistence(FilePath_full, 'dir');
 if ~isFileExist
     % create directory
-    mkdir(FilePath)   
+    mkdir(FilePath_full)   
     % set directory on path
     addpath(FilePath)
+    addpath(FilePath_full)
 end
 
 %% List files in specified directory
 pattern = 'DATA*.mat';
-fullpattern = fullfile(FilePath, pattern);
+fullpattern = fullfile(FilePath_full, pattern);
 
 info_file=dir(fullpattern);
 info_file=info_file(~ismember({info_file.name},{'.','..', '.DS_Store'}));

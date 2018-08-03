@@ -102,6 +102,15 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
+%% Read model parameter properties
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -167,7 +176,7 @@ for i=1:numberOfTimeSeries
     
     % Observations
     ypl=DataValues(plot_time_1,i)';
-    sv = sqrt(model.R{1}(model.parameter,timestamps(1),timesteps(1)));
+    sv = sqrt(model.R{1}(parameter,timestamps(1),timesteps(1)));
     psy=[ypl-sv(i,i), fliplr(ypl+sv(i,i))];
     
     %% Main plot

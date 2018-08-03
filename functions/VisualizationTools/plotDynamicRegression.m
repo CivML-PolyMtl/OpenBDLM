@@ -107,8 +107,31 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
-%% Remove space in filename
-%FilePath = FilePath(~isspace(FilePath));
+%% Read model parameter properties
+% Current model parameters
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, ...
+    [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref=arrayOut(:,2);
+
+if isfield(model, 'ref')
+    % Reference model parameters
+    idx_pvalues=size(model.param_properties,2)-1;
+    idx_pref= size(model.param_properties,2);
+    
+    [arrayOut]=...
+        readParameterProperties(model.ref.param_properties, ...
+        [idx_pvalues, idx_pref]);
+    
+    parameter_ref= arrayOut(:,1);
+end
+
+
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -185,7 +208,7 @@ for idx=1:numberOfHiddenStates
             % Extract estimated pattern from control points
             y_DRHC = zeros(1,length(timestamps));
             for i=1:length(timestamps)
-                M=model.C{1}(model.parameter(model.p_ref), ...
+                M=model.C{1}(parameter(p_ref), ...
                     timestamps(i),timesteps(i));
                 y_DRHC(i)=M(pos, contains ...
                     (model.hidden_states_names{1,1}(:,1),'x^{DH}'));
@@ -224,14 +247,13 @@ for idx=1:numberOfHiddenStates
                 hold on
                 y_DRHC_ref = zeros(1,length(timestamps));
                 for i=1:length(timestamps)
-                    M_ref=model.C{1}(model.ref.parameter(model.p_ref), ...
+                    M_ref=model.C{1}(parameter_ref(p_ref), ...
                         timestamps(i),timesteps(i));
                     y_DRHC_ref(i)=M_ref(pos, contains ...
                         (model.ref.hidden_states_names{1,1}(:,1),'x^{DH}'));
                 end
                 plot(timestamps(plot_time_1), ...
-                    dataset_x_ref(plot_time_1,idx).*y_DRHC_ref(plot_time_1)','r--')
-                
+                    dataset_x_ref(plot_time_1,idx).*y_DRHC_ref(plot_time_1)','r--')                
                 
             end
             
@@ -241,7 +263,7 @@ for idx=1:numberOfHiddenStates
                 
                 y_DRHC_ref = zeros(1,length(timestamps));
                 for i=1:length(timestamps)
-                    M_ref=model.C{1}(model.ref.parameter(model.p_ref),...
+                    M_ref=model.C{1}(parameter_ref(p_ref),...
                         timestamps(i),timesteps(i));
                     y_DRHC_ref(i)=M_ref(pos, contains ...
                         (model.ref.hidden_states_names{1,1}(:,1),'x^{DH}'));
@@ -289,9 +311,7 @@ for idx=1:numberOfHiddenStates
                     'FaceColor','green','FaceAlpha',0.2);
                 hold on
                 % Plot estimated posterior state mean values
-                plot(timestamps(plot_time_2),xpl,'k','Linewidth',misc.linewidth)
-                
-                
+                plot(timestamps(plot_time_2),xpl,'k','Linewidth',misc.linewidth)                
                 
                 if isfield(estimation,'ref')
                     % Plot true values
@@ -306,9 +326,7 @@ for idx=1:numberOfHiddenStates
                     dataset_x_ref(plot_time_2,idx).*y_DRHC_ref(plot_time_2)', ...
                     'Color', BlueColor, 'LineWidth', misc.linewidth)
             end
-            
-            
-            
+                      
             set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
                 timestamps(plot_time_2(end)),misc.ndivx),...
                 'box'  ,'off', ...

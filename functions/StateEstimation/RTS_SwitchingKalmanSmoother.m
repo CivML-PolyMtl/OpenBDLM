@@ -108,7 +108,18 @@ T = length(timestamps);
 
 %% Get number of model classes
 M = model.nb_class; 
- 
+
+%% Read model parameter properties
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref = arrayOut(:,2);
+
+
 %% Initialization
 x = cell(1,M);
 V = cell(1,M);
@@ -137,11 +148,6 @@ S(T,:)=estimation.S(T,:);
 W=zeros(M,M);
 
 %% Interventions
-% if isfield(data, 'interventions')   
-%     interventions=find(ismember(data.timestamps,data.interventions));
-% end
-
-%% Interventions
 if isfield(data, 'interventions')   
     interventions=find(ismember(data.timestamps,data.interventions));
 else
@@ -154,19 +160,30 @@ for t=T-1:-1:1
     S_marginal = zeros(M,M);
     U = zeros(M,M);
     for k=1:M
-        A_k = model.A{k}(model.parameter(model.p_ref),timestamps(t+1),timesteps(t+1));
-        Z_k = model.Z(model.parameter(model.p_ref),timestamps(t+1),timesteps(t+1));
+        A_k = model.A{k}(parameter(p_ref),timestamps(t+1),timesteps(t+1));
+        Z_k = model.Z(parameter(p_ref),timestamps(t+1),timesteps(t+1));
         for j=1:M
-            Q_k = model.Q{k}{j}(model.parameter(model.p_ref),timestamps(t+1),timesteps(t+1));
+            Q_k = model.Q{k}{j}(parameter(p_ref), ...
+                timestamps(t+1),timesteps(t+1));
 
             if any(t+1==interventions)
-                B_=model.B{j}(model.parameter(model.p_ref),data.timestamps(t),timesteps(t))';
-                WB_=model.W{j}(model.parameter(model.p_ref),data.timestamps(t),timesteps(t))';
+                B_=model.B{j}(parameter(p_ref), ...
+                    data.timestamps(t),timesteps(t))';
+                WB_=model.W{j}(parameter(p_ref),...
+                    data.timestamps(t),timesteps(t))';
             else
                 B_=0;
                 WB_=0;
             end
-            [x_jk{j}(:,k), V_jk{j}(:,:,k), VV_jk{k}(:,:,j)] = smooth_update_SKF(x{k}(:,t+1), V{k}(:,:,t+1), estimation.x_M{j}(:,t), estimation.V_M{j}(:,:,t), estimation.V_M{k}(:,:,t+1), estimation.VV_M{k}(:,:,t+1), A_k, Q_k,'B',B_,'W',WB_);
+            
+            [x_jk{j}(:,k), V_jk{j}(:,:,k), VV_jk{k}(:,:,j)] = ...
+                smooth_update_SKF(x{k}(:,t+1), ...
+                V{k}(:,:,t+1), estimation.x_M{j}(:,t), ...
+                estimation.V_M{j}(:,:,t), ...
+                estimation.V_M{k}(:,:,t+1), ...
+                estimation.VV_M{k}(:,:,t+1), ...
+                A_k, Q_k,'B',B_,'W',WB_);
+            
             U(j,k)=estimation.S(t,j)*Z_k(j,k);
         end
         U(:,k)=U(:,k)/sum(U(:,k));
@@ -198,7 +215,10 @@ end
 %--------------------END CODE ------------------------ 
 end
 
-function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update_SKF(xsmooth_future, Vsmooth_future, xfilt, Vfilt, Vfilt_future, VVfilt_future, A, Q,varargin)
+function [xsmooth, Vsmooth, VVsmooth_future] = ...
+    smooth_update_SKF(xsmooth_future, Vsmooth_future, xfilt, Vfilt, ...
+    Vfilt_future, VVfilt_future, A, Q,varargin)
+
 % One step of the backwards RTS smoothing equations.
 % function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update(xsmooth_future, Vsmooth_future, ...
 %    xfilt, Vfilt,  Vfilt_future, VVfilt_future, A, B, u)
@@ -238,5 +258,6 @@ Vpred = A*Vfilt*A'+ Q+W; % Vpred = Cov[X(t+1) | t]
 J = Vfilt * A'*pinv(Vpred); % smoother gain matrix
 xsmooth = xfilt + J*(xsmooth_future - xpred);
 Vsmooth = Vfilt + J*(Vsmooth_future - Vpred)*J';
-VVsmooth_future = VVfilt_future + (Vsmooth_future - Vfilt_future)*pinv(Vfilt_future)*VVfilt_future;
+VVsmooth_future = VVfilt_future + ...
+    (Vsmooth_future - Vfilt_future)*pinv(Vfilt_future)*VVfilt_future;
 end

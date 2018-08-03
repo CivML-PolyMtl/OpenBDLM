@@ -135,7 +135,7 @@ if isFileExist
     while ~isAnswerCorrect
         disp(' ')
         fprintf(['     Configuration file name %s already exists. ' ...
-        'Overwrite ? (y/n) \n'], ['CFG_', ProjectName, '.m'])
+            'Overwrite ? (y/n) \n'], ['CFG_', ProjectName, '.m'])
         choice = input('     choice >> ','s');
         % Remove space and quotes
         choice=strrep(choice,'''','' ); % remove quotes
@@ -147,10 +147,10 @@ if isFileExist
             disp('     wrong input --> please make a choice')
             disp(' ')
             continue
-        elseif strcmpi(choice,'y') || strcmpi(choice,'yes') 
+        elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
             configFilename = fullfile(FilePath, ['CFG_' ProjectName '.m']);
             isAnswerCorrect =  true;
-        elseif strcmpi(choice,'n') || strcmpi(choice,'no') 
+        elseif strcmpi(choice,'n') || strcmpi(choice,'no')
             [name]=incrementFilename('CFG_new', ...
                 'config_files', 'FileExtension', 'm');
             configFilename = fullfile(FilePath, name);
@@ -289,75 +289,95 @@ for j=1:numberOfTimeSeries
     fprintf(fileID,'] ');
 end
 fprintf(fileID,'};\n');
+fprintf(fileID, '\n');
 
-%% Print model parameters information
-fprintf(fileID,' \n');
+%% Print model parameters properties information
 fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID, '\n');
 fprintf(fileID,'%%%% D - Model parameters \n');
 fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID, '\n');
-fprintf(fileID,'%% Model parameters properties: \n');
 fprintf(fileID,'model.param_properties={\n');
-fprintf(fileID,['%%     |Parameter     |Component |Model # |Observation  '...
-    ' |Bounds min/max        |Prior type' ...
-    ' |Mean prior       |Sdev prior |Parameter #\n']);
+fprintf(fileID, ['    %% #1             #2         #3       #4  ', ...
+    '    #5                  #6          #7      #8      #9    ', ...
+    '          #10', '\n']);
+fprintf(fileID, ['    %% Param name     Block name Model ', ...
+    '   Obs     Bound               Prior       Mean    Std   ', ...
+    '  Values          Ref', '\n']);
 for i=1:size(model.param_properties,1)
-    space=repmat(' ',1,8-length(model.param_properties{i,1}));
-    
-    fprintf(fileID,['\t %-s''%-s'',\t''%-s'' ,\t''%-s'',\t'  ...
-        '''%-s'',\t[ %-5G, %-5G],\t ''%-s'',\t %-5G ,\t %-5G %%#%d \n'], ...
-        space, model.param_properties{i,:}, i);
-    
+    space=repmat(' ',1,10-length(model.param_properties{i,1}));
+    fprintf(fileID, ['\t''%-s''' space ',\t ', ...
+        '''%-s'',\t\t''%-s'',\t ''%-s'',\t [ %-5G, %-5G],\t ', ...
+        '''%-s'',\t %-2.2G,\t %-2.2G,\t %-8.5G, ' ' ', ...
+        '\t %-2.3G %%#%d' '\n'], model.param_properties{i,:},i);
 end
 fprintf(fileID,'};\n');
-fprintf(fileID,'\n');
-fprintf(fileID,'%% Model parameters values: \n');
-fprintf(fileID,'model.parameter=[\n');
-fprintf(fileID,'%%|Parameter value    |Parameter # |Parameter\n');
-for i=1:size(model.parameter,1)
-    fprintf(fileID,'%-8.5G \t %%#%d %%%s\n', model.parameter(i),i, model.param_properties{i,1});
-end
-fprintf(fileID,'];\n ');
+fprintf(fileID, '\n');
 
-fprintf(fileID,' \n');
-fprintf(fileID,'%% Model parameters constrains: \n');
-fprintf(fileID,['model.p_ref=[' num2str(model.p_ref) '];\n']);
-fprintf(fileID,' \n');
+% fprintf(fileID,' \n');
+% fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
+% fprintf(fileID, '\n');
+% fprintf(fileID,'%%%% D - Model parameters \n');
+% fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
+% fprintf(fileID, '\n');
+% fprintf(fileID,'%% Model parameters properties: \n');
+% fprintf(fileID,'model.param_properties={\n');
+% fprintf(fileID,['%%     |Parameter     |Component |Model # |Observation  '...
+%     ' |Bounds min/max        |Prior type' ...
+%     ' |Mean prior       |Sdev prior |Parameter #\n']);
+% for i=1:size(model.param_properties,1)
+%     space=repmat(' ',1,8-length(model.param_properties{i,1}));
+%
+%     fprintf(fileID,['\t %-s''%-s'',\t''%-s'' ,\t''%-s'',\t'  ...
+%         '''%-s'',\t[ %-5G, %-5G],\t ''%-s'',\t %-5G ,\t %-5G %%#%d \n'], ...
+%         space, model.param_properties{i,:}, i);
+%
+% end
+
+% fprintf(fileID,'};\n');
+% fprintf(fileID,'\n');
+% fprintf(fileID,'%% Model parameters values: \n');
+% fprintf(fileID,'model.parameter=[\n');
+% fprintf(fileID,'%%|Parameter value    |Parameter # |Parameter\n');
+% for i=1:size(model.parameter,1)
+%     fprintf(fileID,'%-8.5G \t %%#%d %%%s\n', model.parameter(i),i, model.param_properties{i,1});
+% end
+% fprintf(fileID,'];\n ');
+%
+% fprintf(fileID,' \n');
+% fprintf(fileID,'%% Model parameters constrains: \n');
+% fprintf(fileID,['model.p_ref=[' num2str(model.p_ref) '];\n']);
+% fprintf(fileID,' \n');
 
 %% Print initial states
 fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID, '\n');
-fprintf(fileID,'%%%% E - Initial states values :\n');
+fprintf(fileID,'%%%% E - Initial states values \n');
 fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID, '\n');
 for m=1:model.nb_class
-    fprintf(fileID,'%% Initial hidden states mean for model %s:\n', num2str(m));
-    %fprintf(fileID, 'model.initX{ %s }=[\n', num2str(m) );
+    fprintf(fileID,['%% Initial hidden states ', ... 
+        'mean for model %s:\n'], num2str(m));
     fprintf(fileID, 'model.initX{ %s }=[', num2str(m) );
     for i=1:size(model.initX{m},1)
-        %fprintf(fileID, '\t%-6.3G \n', model.initX{m}(i,:));
         fprintf(fileID, '\t%-6.3G', model.initX{m}(i,:));
     end
-    %fprintf(fileID,'];\n');
     fprintf(fileID,']'';\n');
     fprintf(fileID,'\n');
     
-    fprintf(fileID,'%% Initial hidden states variance for model %s: \n', num2str(m));
+    fprintf(fileID,['%% Initial hidden ', ... 
+        'states variance for model %s: \n'], num2str(m));
     
     % Variance only;
     diagV=diag(model.initV{m});
     
-    %fprintf(fileID,'model.initV{ %s }=[\n',  num2str(m) );
     fprintf(fileID, 'model.initV{ %s }=diag([ ', num2str(m) );
     %for i=1:size(model.initV{m},1)
     for i=1:length(diagV)
-        %fprintf(fileID, '\t%-8.3G', model.initV{m}(i,:));
         fprintf(fileID, '\t%-6.3G', diagV(i,:));
-        %fprintf(fileID, '\n');
     end
     fprintf(fileID,' ]);\n');
-        fprintf(fileID,'\n');
+    fprintf(fileID,'\n');
     fprintf(fileID,'%% Initial probability for model %s\n', num2str(m));
     for i=1:size(model.initS{m},1)
         fprintf(fileID,'model.initS{%d}=[%-6.3G];\n', m, model.initS{m});
@@ -368,7 +388,7 @@ end
 %% Custom anomalies
 if isfield(misc, 'custom_anomalies')
     fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
-fprintf(fileID, '\n');
+    fprintf(fileID, '\n');
     fprintf(fileID,'%%%% Custom anomalies :\n');
     fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
     fprintf(fileID, '\n');
@@ -381,20 +401,7 @@ fprintf(fileID, '\n');
     fprintf(fileID,'\n');
 end
 
-% %Method
-% fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
-% fprintf(fileID, '\n');
-% fprintf(fileID, '%%%% Filtering method\n');
-% fprintf(fileID,repmat('%s',1,75),repmat('%',1,75));
-% fprintf(fileID, '\n');
-% if isfield(misc, 'method') && ~isempty(misc.method)
-%     fprintf(fileID,'misc.method=''%s'';\n\n',misc.method);
-% else
-%     fprintf(fileID,'misc.method=''kalman'';\n');
-% end
-
 fprintf('     Configuration file saved in %s. \n', configFilename )
-
 
 %--------------------END CODE ------------------------
 end
