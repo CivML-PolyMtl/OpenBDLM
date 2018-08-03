@@ -82,12 +82,14 @@ ReadFromConfigFileMode_s = misc.ReadFromConfigFileMode;
 BatchMode_s = misc.BatchMode;
 
 %% Load a configuration file
+disp(' ')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
-disp('    Load configuration file ')
+disp('/    Load a configuration file ')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
-disp('    ...in progress')
+disp(' ')
+disp('     ...in progress')
 disp(' ')
 
 %% Run the configuration file

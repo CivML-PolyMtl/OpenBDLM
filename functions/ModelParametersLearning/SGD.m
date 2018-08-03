@@ -1,4 +1,4 @@
-function [optim] = SGD(data, model, misc, varargin)
+function [optim, model] = SGD(data, model, misc, varargin)
 % INPUTS:
 % maxIter                   - Maximal number of epochs. Defaut is 30.
 % Ndata4miniBatch           - Size of mini batch. Defaut is 0.2 of the training
@@ -30,6 +30,7 @@ function [optim] = SGD(data, model, misc, varargin)
 % OUTPUTS:
 % optim.parameter_opt       - optimal parameters in original space.
 % optim.parameterTR_opt     - optimal parameters in transformed space.
+% model
 
 % TIPS:
 % - THE HEAVILY COMPUTATIONNAL RESOURCE IS REQUIRED FOR THIS ALGORITHM 
@@ -64,8 +65,24 @@ termination_tolerance   = 0.95;
 timeLimit               = misc.time_limit_calibration*60;
 hessianDefaut           = 1000;
 misc.parallel         = 0;
-%% Data
 
+
+%% Read model parameter properties
+% Current model parameters
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref=arrayOut(:,2);
+
+% Assign model.parameters
+model.parameter=parameter;
+model.p_ref=p_ref;
+
+%% Data
 % Get training period
 training_start_idx = day2sampleIndex(misc.trainingPeriod(1), data.timestamps);
 training_end_idx = day2sampleIndex(misc.trainingPeriod(2), data.timestamps);
@@ -472,6 +489,15 @@ optim.data_valid            = data_valid;
 optim.data                  = data;
 optim.data_train            = data_valid;
 optim.misc                = misc;
+
+%% Write model.parameters in model.param_properties
+
+% Add parameter and p_ref to param_properties
+parameter=optim.parameter_opt;
+
+[model.param_properties]=writeParameterProperties(model.param_properties, ...
+    [parameter, p_ref], 9);
+
 end
 
 function [data_train, data_valid] = dataSplit(data, idxTrain, alpha_split, varargin)

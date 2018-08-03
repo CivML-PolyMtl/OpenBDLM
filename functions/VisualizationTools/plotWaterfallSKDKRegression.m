@@ -108,6 +108,17 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
+%% Read model parameter properties
+% Current model parameters
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, ...
+    [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -134,7 +145,7 @@ for obs=1:numberOfTimeSeries
     
     % Get hidden states associated to this observation
     TestNameHiddenStates = ...
-        strfind(model.hidden_states_names{1}(:,3), labels);
+        strfind(model.hidden_states_names{1}(:,3), num2str(obs));
     IndexNameHiddenStates = ...
         find(not(cellfun('isempty', TestNameHiddenStates )));
     
@@ -147,7 +158,7 @@ for obs=1:numberOfTimeSeries
     strs(cellfun('isempty',strs)) = [];
     
     TestNameParameters = ...
-        strfind(strs, labels);
+        strfind(strs, num2str(obs));
     IndexNameParameters = ...
         find(not(cellfun('isempty',  TestNameParameters)));
     
@@ -155,7 +166,7 @@ for obs=1:numberOfTimeSeries
     param_properties_sub =  model.param_properties(IndexNameParameters,:);
     
     % Get estimated current parameter values
-    parameter_sub = model.parameter(IndexNameParameters,:);
+    parameter_sub = parameter(IndexNameParameters,:);
     
     %% Get amplitude values to plot
     % Estimated hidden states values

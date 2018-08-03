@@ -100,19 +100,6 @@ misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 Percent=p.Results.Percent;
 
-% %% Verification merged data
-% [isMerged]=verificationMergedDataset(data);
-% 
-% if ~isMerged
-%     disp(['     ERROR: Option not available because '...
-%         'the timestamp vector is different for each time series.'])
-%     disp(' ')
-%     return
-% end
-
-% Convert cell2mat
-% [data] = convertCell2Mat(data);
-
 %% Extract subset of data
 % Define timestamps
 timestamps = data.timestamps;
@@ -143,13 +130,6 @@ for i=1:model.nb_class
     model.initV{i}=estimation.V_M{i}(:,:,1);
     model.initS{i}=estimation.S(1,i);
 end
-
-% Convert mat2cell
-% [data] = convertMat2Cell(data);
-
-%% Save the project
-% saveProject(data, model, estimation, misc, ...
-%     'FilePath',FilePath)
 
 %--------------------END CODE ------------------------
 end

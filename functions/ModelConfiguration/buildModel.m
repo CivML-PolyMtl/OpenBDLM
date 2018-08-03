@@ -3,7 +3,7 @@ function [model, misc]=buildModel(data, model, misc)
 %
 %   SYNOPSIS:
 %     [model]=BUILDMODEL(data, model, misc, model)
-% 
+%
 %   INPUT:
 %       data       - structure (required)
 %                    data must contain three fields:
@@ -21,36 +21,36 @@ function [model, misc]=buildModel(data, model, misc)
 %      model       - structure (required)
 %
 %      misc        - structure (required)
-% 
+%
 %   OUTPUT:
 %      model       - structure
 %
-%      misc        - structure 
-% 
+%      misc        - structure
+%
 %   DESCRIPTION:
 %      BUILDMODEL builds model (build A,C,Q,R matrices)
-% 
+%
 %   EXAMPLES:
 %      [model] = BUILDMODEL(data, model, misc)
-% 
+%
 %   See also DEFINEMODEL
- 
-%   AUTHORS: 
+
+%   AUTHORS:
 %      James-A Goulet, Luong Ha Nguyen, Ianis Gaudot
-% 
+%
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
-% 
+%
 %   MATLAB VERSION:
 %      Tested on 9.1.0.441655 (R2016b)
-% 
+%
 %   DATE CREATED:
 %       April 23, 2018
-% 
+%
 %   DATE LAST UPDATE:
 %       July 25, 2018
- 
-%--------------------BEGIN CODE ---------------------- 
+
+%--------------------BEGIN CODE ----------------------
 
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
@@ -136,7 +136,7 @@ LT.pI0=[];
 LT.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2;dt^2/2 dt];
 LT.pQ={'\sigma_w','LT',[],[],[0,inf], PriorType, PriorMean, PriorSdev };
 LT.x={'x^{LL}',[],[];'x^{LT}',[],[]};
-if misc.isDataSimulation 
+if misc.isDataSimulation
     LT.pQ0={'1E-7'};
     LT.init={'[10 -0.1]','[0.1^2 0.1^2]'};
 else
@@ -170,7 +170,7 @@ LA.pI0=[];
 LA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^5/20 dt^4/8 dt^3/6;dt^4/8 dt^3/3 dt^2/2;dt^3/6 dt^2/2 dt];
 LA.pQ={'\sigma_w','LA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 LA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LA}',[],[]};
-if misc.isDataSimulation 
+if misc.isDataSimulation
     LA.pQ0={'1E-8'};
     LA.init={'[10 0 0]','[0.1^2 0.1^2 0.1^2]'};
 else
@@ -204,7 +204,7 @@ LcT.pI0=[];
 LcT.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0;0 1E-15/(p^2*dt/dt_ref)];
 LcT.pQ={'\sigma_w','LcT',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 LcT.x={'x^{LL}',[],[];'x^{LTc}',[],[]};
-if misc.isDataSimulation 
+if misc.isDataSimulation
     LcT.pQ0={'1E-7'};
     LcT.init={'[10 0]','[0.1^2 (1E-6)^2]'};
 else
@@ -261,7 +261,7 @@ TcA.pC0=[];
 TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-15/(p^2*dt/dt_ref)];
 TcA.pQ={'\sigma_w','TcA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 TcA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LAc}',[],[]};
-if misc.isDataSimulation 
+if misc.isDataSimulation
     TcA.pQ0={'1E-8'};
     TcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
@@ -289,7 +289,7 @@ PD.pI0={'0.5'};
 PD.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0;0 1];
 PD.pQ={'\sigma_w','PD',[],[],[nan,nan], PriorType, PriorMean, PriorSdev};
 PD.x={'x^{S1}',[],[];'x^{S2}',[],[]};
-if misc.isDataSimulation 
+if misc.isDataSimulation
     PD.pQ0={'0'};
     PD.init={'[10,10]','[(2*0.1)^2,(2*0.1)^2]'};
 else
@@ -317,7 +317,7 @@ AR.pI0={'0.5'};
 AR.Q=@(p,t,dt) p^2*dt/dt_ref;
 AR.pQ={'\sigma_w','AR',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 AR.x={'x^{AR}',[],[]};
-if misc.isDataSimulation 
+if misc.isDataSimulation
     AR.pQ0={'1E-1*0.1'};
     AR.init={'0','0.1^2'};
 else
@@ -344,7 +344,7 @@ DH.pC=[];
 DH.pC0=[{'0.013'}, {'0.082'}, {'0.34'}, {'0.67'}, {'0.90'} ];
 for i=1:model.components.nb_DH_p
     DH.pC=[DH.pC;{['ycp' num2str(i)],'DH' ,[],[],[0,1], PriorType, PriorMean, PriorSdev }];
-    %DH.pC0=[DH.pC0,{'0.5'}];     
+    %DH.pC0=[DH.pC0,{'0.5'}];
 end
 
 DH.pC=[DH.pC;{['x_0' num2str(i)],'DH' ,[],[],[0,inf], PriorType, PriorMean, PriorSdev}; ...
@@ -388,7 +388,7 @@ for i=1:model.components.nb_SK_p
     SK.x=[SK.x;{['x^{SK' num2str(i) '}'],[],[]}];
 end
 clear i
-if misc.isDataSimulation 
+if misc.isDataSimulation
     t = linspace(1,2*pi, model.components.nb_SK_p);
     a=sin(t);
     b=sin(4*t+30);
@@ -397,7 +397,7 @@ if misc.isDataSimulation
     summ_trun = summ(1:model.components.nb_SK_p);
     
     SK.pQ0={'0'};
-    SK.init={['[' sprintf('%f ', summ_trun) ']'],['[' repmat('0.01 ',[1,model.components.nb_SK_p]) ']']};    
+    SK.init={['[' sprintf('%f ', summ_trun) ']'],['[' repmat('0.01 ',[1,model.components.nb_SK_p]) ']']};
 else
     SK.pQ0={'0'};
     SK.init={['[' repmat('0 ',[1,model.components.nb_SK_p]) ']'],['[' repmat('(nanstd(data.values(:,obs)))^2 ',[1,model.components.nb_SK_p]) ']']};
@@ -437,7 +437,7 @@ for i=1:model.components.nb_DK_p
     DK.x=[DK.x;{['x^{DK' num2str(i) '}'],[],[]}];
 end
 clear i
-if misc.isDataSimulation 
+if misc.isDataSimulation
     t = linspace(1,2*pi, model.components.nb_DK_p);
     a=sin(t);
     b=sin(4*t+30);
@@ -524,7 +524,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                     name=eval([block_name '.x']);
                     for i=1:size(name,1)
                         name{i,2}=num2str(class_from);
-                        name{i,3}=data.labels{obs};
+                        name{i,3}=num2str(obs);
                         hidden_states_names{class_from}=[hidden_states_names{class_from};name(i,:)];
                     end
                     % initial hidden state values
@@ -557,7 +557,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                 p_value=eval([block_name '.pA0{' num2str(k_count) '}']);
                                 parameter=[parameter;eval(p_value)];
                                 name{i,3}=[num2str(class_from)];
-                                name{i,4}=data.labels{obs};
+                                name{i,4}=num2str(obs);
                             end
                         else
                             name=eval([block_name '.pA']);
@@ -568,7 +568,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                         end
                         if ~isempty(name)&&~strcmp(block_name,'DK')
                             name{3}=[num2str(class_from)];
-                            name{4}=data.labels{obs};
+                            name{4}=num2str(obs);
                         end
                         param_properties=[param_properties;name];
                         A_param_ref{class_from}{obs}{block}=p_idx;
@@ -596,7 +596,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                             p_value=eval(eval([block_name '.pQ0{:}']));
                             parameter=[parameter;p_value];
                             name{3}=[num2str(class_from)];
-                            name{4}=data.labels{obs};
+                            name{4}=num2str(obs);
                         end
                         param_properties=[param_properties;name];
                         Q_param_ref{class_from}{obs}{block}=p_idx;
@@ -622,7 +622,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                     p_value=eval([block_name '.pC0{' num2str(h_count) '}']);
                                     parameter=[parameter;eval(p_value)];
                                     name{i,3}=[num2str(class_from)];
-                                    name{i,4}=data.labels{obs};
+                                    name{i,4}=num2str(obs);
                                 end
                             elseif any(strcmp(eval([block_name '.pC{1,1}']),'\ell'))
                                 C_block_K=[block_name '.C(p([' num2str(p_idx) ']),t,dt)'];
@@ -632,13 +632,13 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                     p_value=eval([block_name '.pC0{' num2str(k_count) '}']);
                                     parameter=[parameter;eval(p_value)];
                                     name{i,3}=[num2str(class_from)];
-                                    name{i,4}=data.labels{obs};
+                                    name{i,4}=num2str(obs);
                                 end
                             else
                                 p_value=eval([block_name '.pC0{' num2str(p_count) '}']);
                                 parameter=[parameter;eval(h_value)];
                                 name{3}=[num2str(class_from)];
-                                name{4}=data.labels{obs};
+                                name{4}=num2str(obs);
                             end
                         end
                         param_properties=[param_properties;name];
@@ -646,7 +646,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                         param_idx=param_idx+nb_param;
                     end
                     nb_hidden_states{class_from}{obs}=nb_hidden_states{class_from}{obs}+length(eval([block_name '.A(ones(1,1000),1,1)']));
-               
+                    
                     if isfield(data,'interventions')
                         % B - Interventions mean shift
                         nb_param=eval(['size(' block_name '.pB,1)']);
@@ -662,7 +662,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                 p_value=eval(eval([block_name '.pB0{i}']));
                                 parameter=[parameter;p_value];
                                 name{i,3}=[num2str(class_from)];
-                                name{i,4}=data.labels{obs};
+                                name{i,4}=num2str(obs);
                                 name{i,6}=PriorType;
                                 name{i,7}=PriorMean;
                                 name{i,8}=PriorSdev;
@@ -686,7 +686,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                 p_value=eval(eval([block_name '.pW0{i}']));
                                 parameter=[parameter;p_value];
                                 name{i,3}=[num2str(class_from)];
-                                name{i,4}=data.labels{obs};
+                                name{i,4}=num2str(obs);
                                 name{i,6}=PriorType;
                                 name{i,7}=PriorMean;
                                 name{i,8}=PriorSdev;
@@ -702,13 +702,13 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                 
                 R{class_from}=[R{class_from},',p([' num2str(param_idx) '])^2'];
                 C{class_from}{obs,obs}=[C{class_from}{obs,obs},',[' C_block(2:end) ']'];
-                param_properties=[param_properties;{['\sigma_v'],[],[num2str(class_from)],[data.labels{obs}],[0,inf], PriorType, PriorMean, PriorSdev}];
-                                
-               if misc.isDataSimulation 
-                   parameter=[parameter;0.01];            
-               else
-                   parameter=[parameter;0.05*nanstd(data.values(:,obs))];
-               end
+                param_properties=[param_properties;{['\sigma_v'],[],[num2str(class_from)],[num2str(obs)],[0,inf], PriorType, PriorMean, PriorSdev}];
+                
+                if misc.isDataSimulation
+                    parameter=[parameter;0.01];
+                else
+                    parameter=[parameter;0.05*nanstd(data.values(:,obs))];
+                end
                 param_idx=param_idx+1;
                 
                 % PCA inter-component regression
@@ -716,7 +716,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                     %PCA_coeff=model.components.PCA{obs};
                     for pca_idx=1:length(model.components.ic{obs})
                         PCA_reg_param{obs}(pca_idx)=param_idx;
-                        param_properties=[param_properties;{['\phi'],[ data.labels{obs}(1) '|' 'PC' num2str(pca_idx) ],[num2str(class_from)],[data.labels{obs}],[-inf,inf], PriorType, PriorMean, PriorSdev}];
+                        param_properties=[param_properties;{['\phi'],[ num2str(obs) '|' 'PC' num2str(pca_idx) ],[num2str(class_from)],[num2str(obs)],[-inf,inf], PriorType, PriorMean, PriorSdev}];
                         parameter=[parameter;1];
                         param_idx=param_idx+1;
                     end
@@ -726,9 +726,9 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                 % I - Inter-component regression
                 for obs_idx=1:numberOfTimeSeries
                     
-                     if obs_idx ~= obs
-                         C{class_from}{obs_idx,obs} = [];
-                     end
+                    if obs_idx ~= obs
+                        C{class_from}{obs_idx,obs} = [];
+                    end
                     
                     ic_idx=find([model.components.ic{obs_idx}]==obs);
                     if ~isempty(ic_idx)
@@ -741,7 +741,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                 %if param_reg==0
                                 p_idx=param_idx:param_idx-1+nb_param;
                                 param_reg=p_idx;
-                                param_properties=[param_properties;{'\phi', [data.labels{obs_idx}(1) '|' data.labels{obs}(1) '(' block_name ')' ],[num2str(class_from)],[data.labels{obs}],[-inf,inf], PriorType, PriorMean, PriorSdev}];
+                                param_properties=[param_properties;{'\phi', [num2str(obs_idx) '|' num2str(obs) '(' block_name ')' ],[num2str(class_from)],[num2str(obs)],[-inf,inf], PriorType, PriorMean, PriorSdev}];
                                 parameter=[parameter;eval(eval([block_name '.pI0{:}']))];
                                 param_idx=param_idx+1;
                                 %else
@@ -758,9 +758,9 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                 if block_idx==52||block_idx==53
                                     C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(p_idx) ']),t,dt)*' C_block_K]];
                                 else
-                                
-                                C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(p_idx) ']),t,dt)']];
-                                
+                                    
+                                    C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(p_idx) ']),t,dt)']];
+                                    
                                 end
                             end
                             if isfield(model.components,'PCA')
@@ -822,7 +822,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                     end
                                     parameter=[parameter;1E3*eval(eval([block_name '.pQ0{:}']))];
                                     name{3}=[num2str(class_from) num2str(class_to)];
-                                    name{4}=data.labels{obs};
+                                    name{4}=num2str(obs);
                                 end
                                 param_properties=[param_properties;name];
                             end
@@ -879,19 +879,46 @@ else
     end
     model.Z=@(p,t,dt) [reshape(model.Z),[numberOfModelClass,numberOfModelClass]]^(dt/dt_ref);
 end
-if ~isfield(model,'parameter')
-    model.parameter=parameter;
-end
-if ~isfield(model,'p_ref')
-    model.p_ref=1:length(parameter);
-end
-if ~isfield(model,'param_properties')
-    model.param_properties=param_properties;
-end
+
 if ~isfield(model.components,'PCA')
     model.components.PCA=cell(1,numberOfTimeSeries);
 end
+
+
+% Model hidden states name
 model.hidden_states_names=hidden_states_names;
 
-%--------------------END CODE ------------------------ 
+% Create model.param_properties using default values only if
+% model.param_properties does not exist
+
+if ~isfield(model,'param_properties')
+    
+    % No parameter constrain by default
+    p_ref = 1:length(parameter);
+    p_ref=p_ref';
+    
+    % Add parameter and p_ref to param_properties
+    [model.param_properties]=writeParameterProperties(param_properties, ...
+        [parameter, p_ref], size(param_properties,2)+1);
+    
+else
+    
+    %% Read model parameter properties
+    idx_pvalues=size(model.param_properties,2)-1;
+    idx_pref= size(model.param_properties,2);
+    
+    [arrayOut]=...
+        readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+    
+    parameter= arrayOut(:,1);
+    p_ref = arrayOut(:,2);
+    
+    %% Write model parameter properties
+    % Add parameter and p_ref to param_properties
+    [model.param_properties]=writeParameterProperties(param_properties, ...
+        [parameter, p_ref], 9);
+    
+end
+
+%--------------------END CODE ------------------------
 end

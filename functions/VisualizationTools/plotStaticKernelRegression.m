@@ -106,6 +106,31 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
+%% Read model parameter properties
+
+% Current model parameters
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, ...
+    [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+
+if isfield(model, 'ref')
+    % Reference model parameters
+    idx_pvalues=size(model.param_properties,2)-1;
+    idx_pref= size(model.param_properties,2);
+    
+    [arrayOut]=...
+        readParameterProperties(model.ref.param_properties, ...
+        [idx_pvalues, idx_pref]);
+    
+    parameter_ref= arrayOut(:,1);
+end
+
+
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -158,8 +183,12 @@ for obs=1:numberOfTimeSeries
     labels=data.labels{obs};
     
     % Get hidden states associated to this observation
+    %     TestNameHiddenStates = ...
+    %         strfind(model.hidden_states_names{1}(:,3), labels);
+    
     TestNameHiddenStates = ...
-        strfind(model.hidden_states_names{1}(:,3), labels);
+        strfind(model.hidden_states_names{1}(:,3), num2str(obs));
+    
     IndexNameHiddenStates = ...
         find(not(cellfun('isempty', TestNameHiddenStates )));
     
@@ -171,8 +200,12 @@ for obs=1:numberOfTimeSeries
     strs=model.param_properties(:,4);
     strs(cellfun('isempty',strs)) = [];
     
+    %     TestNameParameters = ...
+    %         strfind(strs, labels);
+    
     TestNameParameters = ...
-        strfind(strs, labels);
+        strfind(strs, num2str(obs));
+    
     IndexNameParameters = ...
         find(not(cellfun('isempty',  TestNameParameters)));
     
@@ -180,11 +213,11 @@ for obs=1:numberOfTimeSeries
     param_properties_sub =  model.param_properties(IndexNameParameters,:);
     
     % Get estimated current parameter values
-    parameter_sub = model.parameter(IndexNameParameters,:);
+    parameter_sub = parameter(IndexNameParameters,:);
     
     if isfield(estimation, 'ref')
-    % Get true parameter values
-        parameter_ref_sub = model.ref.parameter(IndexNameParameters,:);
+        % Get true parameter values
+        parameter_ref_sub = parameter_ref(IndexNameParameters,:);
     end
     
     %% Get amplitude values to plot
@@ -214,7 +247,7 @@ for obs=1:numberOfTimeSeries
             Kernel_regression=[];
         end
     end
-       
+    
     
     if isempty(Kernel_regression)
         continue
@@ -389,7 +422,7 @@ for obs=1:numberOfTimeSeries
                 'LineWidth', misc.linewidth)
             
         end
-               
+        
         set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
             timestamps(plot_time_2(end)),misc.ndivx),...
             'box'  ,'off', ...

@@ -95,10 +95,21 @@ isSmoother=p.Results.isSmoother;
 isQuiet=p.Results.isQuiet;
 
 if ~isQuiet
-    disp('     State estimation in progress...')
+    disp('     ...in progress')
     disp(' ')
 end
 
+%% Read model parameter properties
+% Current model parameters
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, ...
+    [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref=arrayOut(:,2);
 
 %% Get timestamps information
 
@@ -150,7 +161,7 @@ for t=1:T
         estimation.V(:,t)=...
             estimation.V(:,t)+estimation.S(t,j)*diag(estimation.V_M{j}(:,:,t));
         
-        C_j=model.C{j}(model.parameter(model.p_ref),timestamps(t),timesteps(t));
+        C_j=model.C{j}(parameter(p_ref),timestamps(t),timesteps(t));
         
         estimation.y(:,t)= ...
             estimation.y(:,t)+estimation.S(t,j)*(C_j*estimation.x_M{j}(:,t));
@@ -172,7 +183,7 @@ for t=1:T
 end
 
 if ~isQuiet
-    disp('    -> done.')
+    disp('     -> done.')
 end
 %--------------------END CODE ------------------------
 end

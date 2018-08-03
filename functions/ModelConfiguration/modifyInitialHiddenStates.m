@@ -97,10 +97,10 @@ MaxFailAttempts=4;
 
 
 %% Display current values
-disp(['#  |state variable    |observation    '...
+disp(['     #  |state variable    |observation    '...
     '         |E[x_0]         |var[x_0] '])
 for i=1:length(model.initX{1})
-    disp([repmat('0',1,2-length(num2str(i))) num2str(i) '  '  ...
+    disp([repmat('     0',1,2-length(num2str(i))) num2str(i) '  '  ...
         model.hidden_states_names{1}{i,1} ...
         repmat(' ',1,19-length(model.hidden_states_names{1}{i,1})) ...
         model.hidden_states_names{1}{i,3} ...
@@ -121,7 +121,7 @@ while ~isCorrectAnswer
     disp('     1   ->  Modify a initial value')
     disp('     2   ->  Export initial values in config file format')
     disp(' ')
-    disp('     3   ->  Return to menu')
+    disp('     Type ''R'' to return to the previous menu')
     disp(' ')
     
     if misc.BatchMode.isBatchMode
@@ -129,10 +129,16 @@ while ~isCorrectAnswer
             eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(user_inputs.inp_2)
     else
-        user_inputs.inp_2 =  input('     Selection : ');
+        user_inputs.inp_2 =  input('     choice >> ');
     end
     
-    if user_inputs.inp_2==1
+    if ischar(user_inputs.inp_2) && length(user_inputs.inp_2) == 1 && ...
+            strcmpi(user_inputs.inp_2, 'R')
+        
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        return
+        
+    elseif user_inputs.inp_2==1
         misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
         
         incTest_2=0;
@@ -260,10 +266,6 @@ while ~isCorrectAnswer
             end
         end
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
-        return
-        
-    elseif user_inputs.inp_2==3
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
         

@@ -147,15 +147,15 @@ if strcmp(Method, 'NR')
         model.initV_prev=model.initV;
         model.initS_prev=model.initS;
         
-        [optim] = NewtonRaphson(data, model, misc, ...
+        [optim, model] = NewtonRaphson(data, model, misc, ...
             'OptimMode','MLE', ...
             'isParallel',true, ...
             'isQuiet', false, ...
             'isLaplaceApprox', false);
         
-        model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);
-        model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);
-        %data    = optim.data;
+        %model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);
+        %model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);
+        
         misc  = optim.misc;
         
         % Save the previous log-likelihood from Newton-Raphson
@@ -172,6 +172,7 @@ if strcmp(Method, 'NR')
             'FilePath', 'saved_projects', 'Percent', 25);
         
         misc.optim_mode = optim.optim_mode;
+        
         % Calculate log-posterior with initial value x_t optimized using SKS
         [log_lik_testInitValues,~,~,~]=logPosteriorPE(optim.data_train, ...
             model, misc, 'getlogpdf', 1);
@@ -187,7 +188,7 @@ if strcmp(Method, 'NR')
         
         
     end
-    
+        
 elseif strcmp(Method, 'SGA')
     %% Model parameters optimization using Stochastic Gradient Ascent approach
     
@@ -198,13 +199,21 @@ elseif strcmp(Method, 'SGA')
     
     % Define the maximal optimization time [min]
     misc.time_limit_calibration=60;
-    [optim] = SGD(data, model, misc, 'metric_mode', 'predCap', 'optim_mode', 'MLE');
-    model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);
-    model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);
-    %data    = optim.data;
+    [optim, model] = SGD(data, model, misc, 'metric_mode', 'predCap', ...
+        'optim_mode', 'MLE', ...
+        'maxEpoch', misc.iteration_limit_calibration );
+    
+    %model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);
+    %model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);
+    
     misc  = optim.misc;
     
 end
+
+% Remove extra field from structure model
+model = rmfield(model,'parameter');
+model = rmfield(model,'parameterTR');
+model = rmfield(model,'p_ref');
 
 %--------------------END CODE ------------------------
 end

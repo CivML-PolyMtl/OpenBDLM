@@ -116,8 +116,6 @@ while ~isCorrectAnswer
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    
-    disp(' ')
     disp('     1 ->  Modify training period')
     disp(' ')
     disp('     2 ->  Return to menu')

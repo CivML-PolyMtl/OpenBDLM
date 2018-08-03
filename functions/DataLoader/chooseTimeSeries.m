@@ -1,4 +1,4 @@
-function [data, misc]=chooseTimeSeries(data,misc, varargin)
+function [data, misc]=chooseTimeSeries(data, misc, varargin)
 %CHOOSETIMESERIES Request the user to select a time series subset
 %
 %   SYNOPSIS:
@@ -92,6 +92,8 @@ misc=p.Results.misc;
 isOutputFile=p.Results.isOutputFile;
 isPlot=p.Results.isPlot;
 
+DataPath=misc.DataPath;
+
 MaxFailAttempts=4;
 
 %% Display data on screen
@@ -167,7 +169,7 @@ end
 
 %% Save in binary DATA_*.mat file
 if isOutputFile
-    saveDataBinary(data, 'FilePath','processed_data')
+    saveDataBinary(data, 'FilePath', DataPath)
 end
 %--------------------END CODE ------------------------
 end

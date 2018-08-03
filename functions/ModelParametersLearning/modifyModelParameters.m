@@ -93,19 +93,30 @@ FilePath=p.Results.FilePath;
 
 MaxFailAttempts=4;
 
+%% Read model parameter properties
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref = arrayOut(:,2);
+
 %% Display current values
-disp(['#   |Parameter    |Component |Model # |Observation '...
-    '        |Current value |Bounds min/max |Prior type' ...
+disp(['     #   |Parameter    |Component |Model # |Observation '...
+    '|Current value |Bounds min/max |Prior type' ...
     ' |Mean prior |Sdev prior |Constraint'])
-for i=1:length(model.parameter)
-    i_ref=model.p_ref(i);
+for i=1:length(parameter)
+    i_ref=p_ref(i);
     if i~=i_ref
         contraint=['@' num2str(i_ref)];
     else
         contraint='';
     end
     
-    format = '%-4s %-13s %-10s %-8s %-20s %-14s %-15s %-11s %-11s %-11s %-10s\n';
+    format = ['     %-4s %-13s %-10s %-8s ' ...
+        '%-12s %-14s %-15s %-11s %-11s %-11s %-10s\n'];
     
     fprintf(format, ...
         ['0',num2str(i)], ...
@@ -113,7 +124,7 @@ for i=1:length(model.parameter)
         model.param_properties{i,2}, ...
         model.param_properties{i,3}, ...
         model.param_properties{i,4}, ...
-        num2str(model.parameter(i_ref)), ...
+        num2str(parameter(i_ref)), ...
         [num2str(model.param_properties{i,5}(1)), '/', ...
         num2str(model.param_properties{i,5}(2)) ], ...
         model.param_properties{i_ref,6}, ...
@@ -138,7 +149,7 @@ while ~isCorrectAnswer
     disp(['     4   ->  Export current  ' ...
         'parameter properties in config file format'])
     disp(' ')
-    disp('     5   ->  Return to menu  ')
+    disp('     Type ''R'' to return to the previous menu')
     disp(' ')
     
     if misc.BatchMode.isBatchMode
@@ -149,11 +160,16 @@ while ~isCorrectAnswer
         user_inputs.inp_1 =  input('     choice >> ');
     end
     
-    
-    if user_inputs.inp_1 == 1
+    if ischar(user_inputs.inp_1) && length(user_inputs.inp_1) == 1 && ...
+            strcmpi(user_inputs.inp_1, 'R')
         
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
-              
+        return
+        
+    elseif user_inputs.inp_1 == 1
+        
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -184,6 +200,8 @@ while ~isCorrectAnswer
             end
             
         end
+        
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
         incTest_2=0;
         isCorrect = false;
@@ -216,6 +234,8 @@ while ~isCorrectAnswer
             
         end
         
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -238,7 +258,7 @@ while ~isCorrectAnswer
             
             if ~isempty(user_inputs.inp_4) && ...
                     isnumeric(user_inputs.inp_4) && ...
-                length(user_inputs.inp_4) ==2 
+                    length(user_inputs.inp_4) ==2
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
@@ -250,17 +270,17 @@ while ~isCorrectAnswer
         
         % Change parameter values
         if ~isempty(user_inputs.inp_3)
-            model.parameter(user_inputs.inp_2)=user_inputs.inp_3;
+            parameter(user_inputs.inp_2)=user_inputs.inp_3;
         end
         if ~isempty(user_inputs.inp_4)
             model.param_properties{user_inputs.inp_2,5}=user_inputs.inp_4;
         end
         disp(' ')
         % Save project
-        saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+        % saveProject(data, model, estimation, misc, 'FilePath', FilePath)
         
         isCorrectAnswer = true;
-               
+        
     elseif user_inputs.inp_1 ==2
         
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
@@ -296,6 +316,8 @@ while ~isCorrectAnswer
             
         end
         
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -323,6 +345,8 @@ while ~isCorrectAnswer
             end
             
         end
+        
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
         incTest_2=0;
         isCorrect = false;
@@ -353,6 +377,8 @@ while ~isCorrectAnswer
             
         end
         
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -371,8 +397,8 @@ while ~isCorrectAnswer
             end
             
             if ~isempty(user_inputs.inp_5) && ...
-                isnumeric(user_inputs.inp_5) && ...
-                length(user_inputs.inp_5) ==1
+                    isnumeric(user_inputs.inp_5) && ...
+                    length(user_inputs.inp_5) ==1
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
@@ -395,8 +421,10 @@ while ~isCorrectAnswer
         
         disp(' ')
         % Save project
-        saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+        %saveProject(data, model, estimation, misc, 'FilePath', FilePath)
         
+        
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         isCorrectAnswer = true;
         
         
@@ -432,6 +460,9 @@ while ~isCorrectAnswer
             end
             
         end
+        
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -463,58 +494,59 @@ while ~isCorrectAnswer
         end
         
         % Change values
-        model.p_ref(user_inputs.inp_2)=user_inputs.inp_3;
+        p_ref(user_inputs.inp_2)=user_inputs.inp_3;
         model.param_properties{user_inputs.inp_2,5}=[nan,nan];
         disp(' ')
         % Save project
-        saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+        %saveProject(data, model, estimation, misc, 'FilePath', FilePath)
         
         
         isCorrectAnswer = true;
         
     elseif user_inputs.inp_1 ==4
-        disp(' ')
-        disp(['%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', ...
-            '%%%%%%%%%%%%%%'])
-        disp('%% D - Model parameters:');
-        disp(['%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', ...
-            '%%%%%%%%%%%%%%'])
-        disp('% Model parameters properties:')
-        disp('model.param_properties={')
-        disp(['%     |Parameter     |Component |Model # |Observation  '...
-            ' |Bounds min/max        |Prior type' ...
-            ' |Mean prior       |Sdev prior |Parameter #'])
+        
+        fprintf(repmat('%s',1,75),repmat('%',1,75));
+        fprintf('\n');
+        fprintf('%%%% D - Model parameters \n');
+        fprintf(repmat('%s',1,75),repmat('%',1,75));
+        fprintf('\n');
+        fprintf('model.param_properties={\n');
+        fprintf(['    %% #1             #2         #3       #4  ', ...
+            '    #5                  #6          #7      #8      #9    ', ...
+            '          #10', '\n']);
+        fprintf(['    %% Param name     Block name Model ', ...
+            '   Obs     Bound               Prior       Mean    Std   ', ...
+            '  Values          Ref', '\n']);
         for i=1:size(model.param_properties,1)
-            space=repmat(' ',1,8-length(model.param_properties{i,1}));
-            disp(sprintf(['\t''%-s''' space ',\t ''%-s'',\t  '...
-                ' ''%-s'',\t ''%-s'',\t '...
-                '[ %-5G, %-5G],\t ''%-s'',\t %-5G ,\t %-5G   %%#%d'], ...
-                model.param_properties{i,:},i));
+            space=repmat(' ',1,10-length(model.param_properties{i,1}));
+            fprintf(['\t''%-s''' space ',\t ', ...
+                '''%-s'',\t\t''''%-s'',\t ''%-s'',\t [ %-5G, %-5G],\t ', ...
+                '''%-s'',\t %-2.2G,\t %-2.2G,\t %-8.5G, ' ' ', ...
+                '\t %-2.3G %%#%d' '\n'], model.param_properties{i,:},i);
         end
-        disp('};')
-        disp(' ')
-        disp('% Model parameters values:')
-        disp('model.parameter=[')
-        disp('% |Parameter value    |Parameter # |Parameter')
-        for i=1:size(model.parameter,1)
-            disp(sprintf('%-8.5G \t %%#%d \t%%%-s',  ...
-                model.parameter(i),i,model.param_properties{i,1}));
-        end
-        disp(']; ')
-        disp(' ')
-        disp('% Model parameters constrains:')
-        disp(['model.p_ref=[' num2str(model.p_ref) '];'])
-        disp(' ')
+        fprintf('};\n');
+        fprintf('\n');
         
         isCorrectAnswer = true;
         
-    elseif user_inputs.inp_1 ==5
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
-        return
     else
         disp('     Wrong input.')
         continue
     end
 end
+
+
+%% Write parameter properties
+[model.param_properties]= ...
+    writeParameterProperties(model.param_properties, ...
+    [parameter, p_ref], size(model.param_properties,2)-1);
+
+
+%% Save project
+saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+
+
+misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+
 %--------------------END CODE ------------------------
 end

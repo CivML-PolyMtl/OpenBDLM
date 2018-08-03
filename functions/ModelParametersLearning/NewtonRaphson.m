@@ -1,4 +1,4 @@
-function [optim]=NewtonRaphson(data, model, misc, varargin)
+function [optim, model]=NewtonRaphson(data, model, misc, varargin)
 %NEWTONRAPHSON Learn BDLM models parameters using the Newton-Raphson technique
 %
 %   SYNOPSIS:
@@ -19,7 +19,7 @@ function [optim]=NewtonRaphson(data, model, misc, varargin)
 %
 %     OptimMode        - character (optional)
 %                         can be either 'MLE' (for maximizing the log-
-%                         likelihood) 
+%                         likelihood)
 %                         or 'MAP' (for maximizing the log-posterior)
 %                         'MAP' require prior information
 %                         default: 'MAP'
@@ -50,6 +50,10 @@ function [optim]=NewtonRaphson(data, model, misc, varargin)
 %                       The parameter covariance matrix is computed using
 %                       the Laplace Approximation.
 %
+%     model            - structure (required)
+%                         see documentation for details about the fields of
+%                         model
+%
 %
 %   DESCRIPTION:
 %      NEWTONRAPHSON is an implementation of the Newton-Raphson
@@ -59,28 +63,28 @@ function [optim]=NewtonRaphson(data, model, misc, varargin)
 %      The optimization mode 'MAP' provides the Maximum A Posteriori estimation.
 %      'MAP' requires to provide a prior for each model parameters.
 %      The MLE (MAP) Newton-Raphson technique is used to iteratively
-%      search for the maximum of the log-likelihood (log-posterior) using 
+%      search for the maximum of the log-likelihood (log-posterior) using
 %      numerical derivatives.
 %
-%      By default, NEWTONRAPHSON computes point estimate (MLE or MAP) of 
+%      By default, NEWTONRAPHSON computes point estimate (MLE or MAP) of
 %      the model parameters.
 %      If the optional argument 'isLaplaceApproximation' = true,
-%      NEWTONRAPHSON provides confidence intervals around the point estimate, 
-%      assuming that the function around the optimized parameter value can 
+%      NEWTONRAPHSON provides confidence intervals around the point estimate,
+%      assuming that the function around the optimized parameter value can
 %      be approximated using a gaussian distribution.
-%      Note that setting 'isLaplaceApproximation' = true can significantly 
+%      Note that setting 'isLaplaceApproximation' = true can significantly
 %      increases the computation time for high dimensional problem.
 %
 %      For bounded model parameters ([a,b], [0,Inf]), NEWTONRAPHSON works in
 %      transformed space.
 %
 %      WARNING: Newton-Raphson technique is sensitive to initial the model
-%      parameters values. Newton-Raphson can reach a local maximum, instead 
+%      parameters values. Newton-Raphson can reach a local maximum, instead
 %      of the global maximum of that function, which is the solution
 %      (if a global maximum exists).
-%      Always re-run the optimizations several times, with different 
-%      (and possibly random) starting model parameters values, in order to 
-%      check that the proposed solution is stable. 
+%      Always re-run the optimizations several times, with different
+%      (and possibly random) starting model parameters values, in order to
+%      check that the proposed solution is stable.
 %
 %   EXAMPLES:
 %      [optim]=NEWTONRAPHSON(data, model, misc)
@@ -146,6 +150,22 @@ misc.isParallel = isParallel;
 
 misc.optim_mode = OptimMode;
 
+
+%% Read model parameter properties
+% Current model parameters
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref=arrayOut(:,2);
+
+% Assign model.parameters
+model.parameter=parameter;
+model.p_ref=p_ref;
+
 %% Resize the dataset according to the chosen training period
 % Get timestamp vector
 timestamps = data.timestamps;
@@ -154,7 +174,7 @@ training_start_idx = day2sampleIndex(misc.trainingPeriod(1), timestamps);
 training_end_idx = day2sampleIndex(misc.trainingPeriod(2), timestamps);
 
 %% Interventions
-if ~isfield(data, 'interventions')   
+if ~isfield(data, 'interventions')
     data.interventions=[];
 end
 
@@ -615,6 +635,15 @@ if isLaplaceApprox
     optim.hessParamOR_matrix    = hessParamOR_matrix;
 end
 
+
+
+%% Write model.parameters in model.param_properties
+
+% Add parameter and p_ref to param_properties
+parameter=optim.parameter_opt;
+[model.param_properties]=writeParameterProperties(model.param_properties, ...
+    [parameter, p_ref], 9);
+
 %--------------------END CODE ------------------------
 end
 
@@ -626,9 +655,9 @@ if size(model.param_properties,2)>6
     % mean
     logpriorMu               = [model.param_properties{:,7}];
     % standard deviation
-    logpriorSig              = [model.param_properties{:,8}]; 
+    logpriorSig              = [model.param_properties{:,8}];
     % distribution name
-    logpriorName             = {model.param_properties{:,6}}; 
+    logpriorName             = {model.param_properties{:,6}};
     prior_empty = 0;
 else
     prior_empty = 1;
@@ -637,7 +666,7 @@ nb_param                 = length(search_idx);
 gradParamTR_matrix       = zeros(nb_param,nb_param);
 hessParanTR_prior_matrix = zeros(nb_param,nb_param);
 % stepsize for the numerical hessian
-delta_diff               = 1E-6*ones(nb_param,1);         
+delta_diff               = 1E-6*ones(nb_param,1);
 for p = 1 : nb_param
     idx = search_idx(p);
     gradParamTR_matrix(p,p) = func_gradTR2OR{p}(pTR(idx));
@@ -677,6 +706,11 @@ end
 
 function  LL = loglik4hessian (p, data, model, misc, search_idx)
 model.parameter(search_idx) = p;
+
+% Insert parameter values in param_properties
+[model.param_properties]=writeParameterProperties(model.param_properties, ...
+[p, model.p_ref], 9);
+
 [~,~,~,~,LL,~,~]            = SwitchingKalmanFilter(data,model,misc);
 end
 

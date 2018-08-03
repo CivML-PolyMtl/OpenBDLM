@@ -148,8 +148,18 @@ else
         'recognized | SwitchingKalmanFilter.m'])
 end
 
-%% Initialization
+%% Read model parameter properties
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
 
+[arrayOut]=...
+    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref = arrayOut(:,2);
+
+
+%% Initialization
 x = cell(1,M);
 V = cell(1,M);
 VV = cell(1,M);
@@ -186,11 +196,6 @@ LL=zeros(M,M,T);
 loglik = 0;
 
 %% Interventions
-% if isfield(data, 'interventions')   
-%     interventions=find(ismember(data.timestamps,data.interventions));
-% end
-
-%% Interventions
 if isfield(data, 'interventions')   
     interventions=find(ismember(data.timestamps,data.interventions));
 else
@@ -204,36 +209,36 @@ for t=1:T
     lik_merge=0;
     for j=1:M       % transition model
         if (t==1 | (timesteps(t)~=timesteps(1:t-1)))
-            A{j,t} = model.A{j}(model.parameter(...
-                model.p_ref),data.timestamps(t),timesteps(t));
-            C{j,t} = model.C{j}(model.parameter(...
-                model.p_ref),data.timestamps(t),timesteps(t));
-            R{j,t} = model.R{j}(model.parameter(...
-                model.p_ref),data.timestamps(t),timesteps(t));
-            Z{t} = model.Z(model.parameter(...
-                model.p_ref),data.timestamps(t),timesteps(t));
-            B=model.B{j}(model.parameter(...
-                model.p_ref),data.timestamps(t),timesteps(t))';
-            WB=model.W{j}(model.parameter(...
-                model.p_ref),data.timestamps(t),timesteps(t));
+            A{j,t} = model.A{j}(parameter(...
+                p_ref),data.timestamps(t),timesteps(t));
+            C{j,t} = model.C{j}(parameter(...
+                p_ref),data.timestamps(t),timesteps(t));
+            R{j,t} = model.R{j}(parameter(...
+                p_ref),data.timestamps(t),timesteps(t));
+            Z{t} = model.Z(parameter(...
+                p_ref),data.timestamps(t),timesteps(t));
+            B=model.B{j}(parameter(...
+                p_ref),data.timestamps(t),timesteps(t))';
+            WB=model.W{j}(parameter(...
+                p_ref),data.timestamps(t),timesteps(t));
         else
             idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
             if any([model.components.block{1}{1}== ...
                     52,model.components.block{1}{1}==53])
-                A{j,t}=model.A{j}(model.parameter(...
-                    model.p_ref),data.timestamps(t),timesteps(t));
+                A{j,t}=model.A{j}(parameter(...
+                    p_ref),data.timestamps(t),timesteps(t));
             else
                 A{j,t}=A{j,idx};
             end
-            C{j,t} = model.C{j}(model.parameter(...
-                model.p_ref),data.timestamps(t),timesteps(t));
+            C{j,t} = model.C{j}(parameter(...
+                p_ref),data.timestamps(t),timesteps(t));
             R{j,t}=R{j,idx};
             Z{t}=Z{idx};
             
         end
         for i=1:M   % starting model
             if (t==1 | (timesteps(t)~=timesteps(1:t-1)))
-                Q{j,i,t} = model.Q{j}{i}(model.parameter(model.p_ref), ...
+                Q{j,i,t} = model.Q{j}{i}(parameter(p_ref), ...
                     data.timestamps(t),timesteps(t));
             else
                 idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
@@ -241,13 +246,13 @@ for t=1:T
             end
             if and(j==1,i==2)
                 Q{j,i,t}=diag(diag(Q{j,j,t}));
-                Q{j,i,t}(2,2)=model.parameter(...
+                Q{j,i,t}(2,2)=parameter(...
                     sigma22_idx)^2*(timesteps(t)^2/referencetimestep);
             elseif and(j==2,i==1)
-                QQ = model.Q{j}{j}(model.parameter(...
-                    model.p_ref),data.timestamps(t),timesteps(t));
+                QQ = model.Q{j}{j}(parameter(...
+                    p_ref),data.timestamps(t),timesteps(t));
                 Q{j,i,t}=diag(diag(QQ));
-                Q{j,i,t}(2,2)=model.parameter(...
+                Q{j,i,t}(2,2)=parameter(...
                     sigma22_idx)^2*(timesteps(t)^4/(3*referencetimestep));
             end
             

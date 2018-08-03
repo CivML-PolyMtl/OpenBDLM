@@ -18,7 +18,7 @@ function [data, misc, dataFilename]=editData(data, misc, varargin)
 %                                   N: number of time series
 %                                   M: number of samples
 %
-%     misc              - structure
+%      misc             - structure
 %                           see the documentation for details about the
 %                           field in misc
 %
@@ -40,7 +40,7 @@ function [data, misc, dataFilename]=editData(data, misc, varargin)
 %                               N: number of time series
 %                               M: number of samples
 %
-%   misc                - structure
+%       misc            - structure
 %                           see the documentation for details about the
 %                           field in misc
 %
@@ -59,7 +59,6 @@ function [data, misc, dataFilename]=editData(data, misc, varargin)
 %     The updated dataset is saved in the location given by FilePath.
 %     The name of the *.MAT file containing the dataset is returned in
 %     dataFilename output.
-%
 %
 %   EXAMPLES:
 %      [data, misc,  dataFilename]=EDITDATA(data, misc)

@@ -263,8 +263,13 @@ for idx=1:numberOfHiddenStates
             
         end
         
+%         ylabel(['$' model.hidden_states_names{1}{idx,1} '$ [' '$' ...
+%             model.hidden_states_names{1}{idx,3} ']$' ],'Interpreter','Latex')
+
         ylabel(['$' model.hidden_states_names{1}{idx,1} '$ [' '$' ...
-            model.hidden_states_names{1}{idx,3} ']$' ],'Interpreter','Latex')
+            data.labels{str2double(model.hidden_states_names{1}{idx,3})} ...
+            ']$' ],'Interpreter','Latex')
+
         datetick('x','yy-mm','keepticks')
         set(gca, 'Fontsize', 16)
         if miny~=maxy

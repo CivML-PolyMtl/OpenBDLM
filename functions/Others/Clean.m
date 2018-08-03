@@ -43,8 +43,8 @@ function Clean(varargin)
 
 p = inputParser;
 
-defaultFilderList = {'saved_projects', 'config_files', 'processed_data', ...
-    'figures', 'raw_data'};
+defaultFilderList = {'saved_projects', 'config_files', 'data', ...
+    'figures'};
 
 addParameter(p,'FoldersList', defaultFilderList, @iscell);
 

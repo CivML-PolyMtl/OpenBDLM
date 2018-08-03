@@ -175,7 +175,7 @@ if chosen_db == 0
     
 else
     % Select the data
-    [data]=load(fullfile(FilePath, FileInfo{chosen_db}));
+    [data]=load(fullfile( FilePath, 'mat', FileInfo{chosen_db}));
     
     % Duplicate data binary MAT file with a new name based on current
     % project    

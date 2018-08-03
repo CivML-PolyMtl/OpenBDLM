@@ -145,8 +145,7 @@ switch nargin
 end
 
 %% Define path (not recommanded to change)
-misc.RawDataPath            = 'raw_data';
-misc.ProcessedDataPath      = 'processed_data';
+misc.DataPath               = 'data';
 misc.ConfigPath             = 'config_files';
 misc.ProjectPath            = 'saved_projects';
 misc.FigurePath             = 'figures';
@@ -155,7 +154,7 @@ misc.FigurePath             = 'figures';
 misc.ProjectInfoFilename    = 'ProjectsInfo.mat';
 
 %% Set version
-version = '1.3';
+version = '1.5';
 
 %Initialize random stream number based on clock
 %RandStream.setGlobalStream(RandStream('mt19937ar','seed',861040000));
@@ -185,14 +184,14 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
         disp(' ')
         disp('- Start a new project: ')
         disp(' ')
-        fprintf('     %-3s\n', '*      Enter a configuration filename')
+        %        fprintf('     %-3s\n', '*      Enter a configuration filename')
         fprintf('     %-3s\n', '0   -> Interactive tool')
         disp(' ')
         
         %% Display existing & saved projects
         [~] = displayProjects(misc);
         
-        disp('- Type ''D'' to Delete projects. Type ''Q'' to Quit.')
+        disp('- Type ''D'' to Delete project(s). Type ''Q'' to Quit.')
         disp(' ')
         if misc.BatchMode.isBatchMode
             UserChoice= ...
@@ -210,8 +209,8 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
             
             misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
-            if strncmp('D',UserChoice,1) && length(UserChoice) ==1
-                %% Delete project file(s)               
+            if strncmpi('D',UserChoice,1) && length(UserChoice) ==1
+                %% Delete project file(s)
                 piloteDeleteProject(misc)
                 continue
                 
@@ -223,12 +222,16 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
                 disp('     See you soon !')
                 return
                 
+                %             else
+                %                 %% Load project from configuration file
+                %                 [data, model, estimation, misc]= ...
+                %                     loadConfigurationFile(misc, UserChoice);
+                %
+                %                 isAnswerCorrect = true;
             else
-                %% Load project from configuration file
-                [data, model, estimation, misc]= ...
-                    loadConfigurationFile(misc, UserChoice);
-                
-                isAnswerCorrect = true;
+                disp(' ')
+                disp('     wrong input')
+                continue
             end
             
         elseif UserChoice == 0
@@ -290,7 +293,6 @@ while(1)
             disp(' ')
             disp('     wrong input')
             continue
-            
         end
     elseif ~ischar(user_inputs) && ...
             ~any(ismember(PossibleAnswers, user_inputs ))
@@ -305,52 +307,52 @@ while(1)
             %% Learn model parameters
             [data, model, estimation, misc]= ...
                 piloteOptimization(data, model, estimation, misc);
-            
+            incTest=0;
         elseif  user_inputs==2
             %% Initial hidden states estimation
             [data, model, estimation, misc]= ...
                 piloteInitialStateEstimation(data, model, estimation, misc);
-            
+            incTest=0;
         elseif  user_inputs==3
             %% Hidden states estimation
             [data, model, estimation, misc]= ...
                 piloteStateEstimation(data, model, estimation, misc);
-            
+            incTest=0;
         elseif  user_inputs==11
             %% Modify model parameters
             [model, misc]= ...
                 piloteModifyModelParameters(data, model, estimation, misc);
-            
+            incTest=0;
         elseif  user_inputs==12
             %% Modify initial hidden states
             [model, misc]= ...
                 piloteModifyInitialStates(data, model, estimation, misc);
-            
+            incTest=0;
         elseif  user_inputs==13
             %% Modify training period
             [misc]=piloteModifyTrainingPeriod(data, model, estimation, misc);
-            
+            incTest=0;
         elseif  user_inputs==14
             %% Plot tools
             pilotePlot(data, model, estimation, misc)
-            
+            incTest=0;
         elseif  user_inputs==15
             %% Display model matrices
             piloteDisplayModelMatrices(data, model, estimation, misc)
-            
+            incTest=0;
         elseif  user_inputs==16
             %% Simulate data
             [data, model, estimation, misc]= ...
                 piloteSimulateData(data, model, misc);
-            
+            incTest=0;
         elseif  user_inputs==17
             %% Export project in a configuration file
             pilotePrintConfigurationFile(data, model, estimation, misc)
-            
+            incTest=0;
         elseif  user_inputs==21
             %% Version control
             piloteVersionControl()
-            
+            incTest=0;
         end
         
     end

@@ -76,6 +76,15 @@ model=p.Results.model;
 %misc=p.Results.misc;
 TimestampIndex = p.Results.TimestampIndex;
 
+%% Read model parameter properties
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref = arrayOut(:,2);
 
 %% Verify merged dataset
 
@@ -106,7 +115,7 @@ for m=1:model.nb_class
     end
     disp(['       ' sprintf('M%s|%s      ',name1{:})])
     disp(['   ' sprintf('%10s',model.hidden_states_names{1}{:,1})])
-    M=model.A{m}(model.parameter(model.p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+    M=model.A{m}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
     
     %% Display transition matrix A
     for i=1:size(M,1)
@@ -120,7 +129,7 @@ for m=1:model.nb_class
         end
     end
     disp(' ')
-    M=model.C{m}(model.parameter(model.p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+    M=model.C{m}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
     %% Display observation matrix C
     for i=1:size(M,1)
         if i==1 && size(M,1) ~= 1
@@ -134,7 +143,7 @@ for m=1:model.nb_class
         end
     end
     disp(' ')
-    M=model.Q{m}{m}(model.parameter(model.p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+    M=model.Q{m}{m}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
      %% Display process noise covariance matrix Q
     for i=1:size(M,1)
         if i==1
@@ -149,7 +158,7 @@ for m=1:model.nb_class
     if model.nb_class>1
         for j=setdiff(1:model.nb_class,m)
             disp(' ')
-            M=model.Q{m}{j}(model.parameter(model.p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+            M=model.Q{m}{j}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
             for i=1:size(M,1)
                 if i==1 && size(M,1) ~= 1
                     disp([' Q_' num2str(m) num2str(j) '=[' sprintf('%-10.2G',M(i,:))]);                    
@@ -166,7 +175,7 @@ for m=1:model.nb_class
 end
 disp(' ')
 disp([' ' sprintf('%-s  ',data.labels{:})])
-M=model.R{m}(model.parameter(model.p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+M=model.R{m}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
  %% Display measurements noise covariance matrix R
 for i=1:size(M,1)
     if i==1 && size(M,1) ~= 1

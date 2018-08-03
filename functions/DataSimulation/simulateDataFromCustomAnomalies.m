@@ -87,6 +87,16 @@ M = model.nb_class;           %Number of model classes or regime
 numberOfTimeSeries=length(data.labels);            %Number of observations
 
 
+%% Read model parameter properties
+idx_pvalues=size(model.param_properties,2)-1;
+idx_pref= size(model.param_properties,2);
+
+[arrayOut]=...
+    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+
+parameter= arrayOut(:,1);
+p_ref = arrayOut(:,2);
+
 %% Initialization
 
 y_obs= zeros(numberOfTimeSeries,T);
@@ -102,7 +112,6 @@ end
 elapsed_points=0;
 anomaly_counter=0;
 ongoing_anomaly=false;
-
 
 %% Simulate data
 
@@ -145,16 +154,15 @@ for t=1:T
     end
     
     % Define matrices
-    A_j = model.A{j}(model.parameter(model.p_ref),timestamps(t),timesteps(t));
-    C_j = model.C{j}(model.parameter(model.p_ref),timestamps(t),timesteps(t));
-    R_j = model.R{j}(model.parameter(model.p_ref),timestamps(t),timesteps(t));
+    A_j = model.A{j}(parameter(p_ref),timestamps(t),timesteps(t));
+    C_j = model.C{j}(parameter(p_ref),timestamps(t),timesteps(t));
+    R_j = model.R{j}(parameter(p_ref),timestamps(t),timesteps(t));
     if i == j
-        Q_j = model.Q{i}{j}(model.parameter(model.p_ref),timestamps(t),timesteps(t));
+        Q_j = model.Q{i}{j}(parameter(p_ref),timestamps(t),timesteps(t));
     else
         Q_j = zeros(size(x,1)) ;
     end
-    
-    
+        
     if t==1
         prevX = model.initX{i};
     else
@@ -177,21 +185,27 @@ for t=1:T
                 
                 pos_LTc=pos_LTc+1;
                 
-                x(Index_LTc(pos_LTc),t) = misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+                x(Index_LTc(pos_LTc),t) = ...
+                    misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
                 
             elseif  any(cell2mat(model.components.block{1,1}(n)) == 22)
                 
                 pos_LAc=pos_LAc+1;
                 
-                x(Index_LAc(pos_LAc)-1,t) = misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
-                x(Index_LAc(pos_LAc),t) = misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+                x(Index_LAc(pos_LAc)-1,t) = ...
+                    misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+                x(Index_LAc(pos_LAc),t) = ...
+                    misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
                 
             elseif any(cell2mat(model.components.block{1,1}(n)) == 23)
                 
                 pos_LAc=pos_LAc+1;
                 
-                x(Index_LAc(pos_LAc)-1,t) = prevX(Index_LAc(pos_LAc)-1)+misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
-                x(Index_LAc(pos_LAc),t) = misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+                x(Index_LAc(pos_LAc)-1,t) = ...
+                    prevX(Index_LAc(pos_LAc)-1)+ ...
+                    misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+                x(Index_LAc(pos_LAc),t) = ...
+                    misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
                 
             end
             
@@ -205,16 +219,17 @@ for t=1:T
         
         for n=1:numberOfTimeSeries
             
-            if  any(cell2mat(model.components.block{1,1}(n)) == 22) || any(cell2mat(model.components.block{1,1}(n)) == 23)
+            if  any(cell2mat(model.components.block{1,1}(n)) == 22) ...
+                    || any(cell2mat(model.components.block{1,1}(n)) == 23)
                 
                 pos_LAc=pos_LAc+1;
                 
-                x(Index_LAc(pos_LAc)-1,t) = model.initX{1,1}(Index_LAc(pos_LAc)-1,1) ;
+                x(Index_LAc(pos_LAc)-1,t) = ...
+                    model.initX{1,1}(Index_LAc(pos_LAc)-1,1) ;
                 x(Index_LAc(pos_LAc),t) = 0;
             end
         end
-    end
-    
+    end  
     
     % Compute y_pred=C.x
     y_pred(:,t) = C_j*x(:,t);
@@ -229,10 +244,8 @@ end
 
 % Save hidden states for plot_estimate
 estimation.ref = [x' SS'];
-%data.ref_S=SS;
 
 % Add NaN if applicable
-%y_pred=y_pred';
 y_obs=y_obs';
 
 if isfield(data, 'values')
