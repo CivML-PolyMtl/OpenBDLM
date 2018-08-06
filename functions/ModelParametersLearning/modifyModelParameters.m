@@ -74,7 +74,6 @@ p = inputParser;
 
 defaultFilePath = '.';
 
-
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
@@ -98,7 +97,8 @@ idx_pvalues=size(model.param_properties,2)-1;
 idx_pref= size(model.param_properties,2);
 
 [arrayOut]=...
-    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+    readParameterProperties(model.param_properties, ...
+    [idx_pvalues, idx_pref]);
 
 parameter= arrayOut(:,1);
 p_ref = arrayOut(:,2);
@@ -118,8 +118,8 @@ for i=1:length(parameter)
     format = ['     %-4s %-13s %-10s %-8s ' ...
         '%-12s %-14s %-15s %-11s %-11s %-11s %-10s\n'];
     
-    fprintf(format, ...
-        ['0',num2str(i)], ...
+    fprintf(format, ...        
+        num2str(i, '%03d' ), ...
         model.param_properties{i,1}, ...
         model.param_properties{i,2}, ...
         model.param_properties{i,3}, ...
@@ -170,6 +170,7 @@ while ~isCorrectAnswer
         
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
+        %% Provide the index of the parameter to modify              
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -182,7 +183,8 @@ while ~isCorrectAnswer
             disp('     Modify parameter # ')
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_2 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_2)
             else
                 user_inputs.inp_2 =  input('     choice >> ');
@@ -201,13 +203,13 @@ while ~isCorrectAnswer
             
         end
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        %misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
+        %% Provide the new value of the parameter
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
-            
-            
+                        
             incTest_2=incTest_2+1;
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
@@ -216,7 +218,8 @@ while ~isCorrectAnswer
             disp('     New value :')
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_3)
             else
                 user_inputs.inp_3 =  input('     choice >> ');
@@ -234,8 +237,7 @@ while ~isCorrectAnswer
             
         end
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
-        
+        %% Provide the new model parameter constraints 
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -247,9 +249,11 @@ while ~isCorrectAnswer
             disp('     New bounds : ')
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 
-                disp(['     [' sprintf('%d,', user_inputs.inp_4(1:end-1) ) ...
+                disp(['     [' sprintf('%d,', ...
+                    user_inputs.inp_4(1:end-1) ) ...
                     num2str(user_inputs.inp_4(end)) ']'])
                 
             else
@@ -264,8 +268,7 @@ while ~isCorrectAnswer
             else
                 disp('     Wrong input.')
                 continue
-            end
-            
+            end            
         end
         
         % Change parameter values
@@ -276,12 +279,12 @@ while ~isCorrectAnswer
             model.param_properties{user_inputs.inp_2,5}=user_inputs.inp_4;
         end
         disp(' ')
-        % Save project
-        % saveProject(data, model, estimation, misc, 'FilePath', FilePath)
         
         isCorrectAnswer = true;
         
     elseif user_inputs.inp_1 ==2
+        
+        %% Provide the index of the parameter for which to modify the prior
         
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
@@ -297,13 +300,15 @@ while ~isCorrectAnswer
             disp('     Modify prior for parameter # ')
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_2 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_2)
             else
                 user_inputs.inp_2 =  input('     choice >> ');
             end
             
-            if ~isempty(user_inputs.inp_2) && ...
+            if ~ischar(user_inputs.inp_2) && ...
+                    ~isempty(user_inputs.inp_2) && ...
                     rem(user_inputs.inp_2,1) == 0 && ...
                     (user_inputs.inp_2 > 0) && ...
                     user_inputs.inp_2 <= length(model.param_properties)
@@ -316,8 +321,7 @@ while ~isCorrectAnswer
             
         end
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
-        
+        %% Provide the type of prior
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -329,7 +333,8 @@ while ~isCorrectAnswer
             disp('     New prior type :')
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_3)
             else
                 user_inputs.inp_3 =  input('     choice >> ');
@@ -346,8 +351,7 @@ while ~isCorrectAnswer
             
         end
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
-        
+        %% Provide the new mean of the prior
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -359,7 +363,8 @@ while ~isCorrectAnswer
             disp('     New prior mean :')
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_4)
             else
                 user_inputs.inp_4 =  input('     choice >> ');
@@ -377,8 +382,7 @@ while ~isCorrectAnswer
             
         end
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
-        
+        %% Provide the new standard deviation
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -390,7 +394,8 @@ while ~isCorrectAnswer
             disp('     New prior standard deviation :')
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_5 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_5)
             else
                 user_inputs.inp_5 =  input('     choice >> ');
@@ -420,16 +425,12 @@ while ~isCorrectAnswer
         end
         
         disp(' ')
-        % Save project
-        %saveProject(data, model, estimation, misc, 'FilePath', FilePath)
-        
-        
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+                
         isCorrectAnswer = true;
         
         
     elseif user_inputs.inp_1 ==3
-        
+        %% Provide the index of the parameter(s) to constrain
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         incTest_2=0;
         isCorrect = false;
@@ -442,7 +443,8 @@ while ~isCorrectAnswer
             disp('     Constrain parameter # ')
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_2 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_2)
             else
                 user_inputs.inp_2 =  input('     choice >> ');
@@ -461,7 +463,7 @@ while ~isCorrectAnswer
             
         end
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        %misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
         incTest_2=0;
         isCorrect = false;
@@ -474,7 +476,8 @@ while ~isCorrectAnswer
             disp('     to parameter # ')
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{ ...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_3)
             else
                 user_inputs.inp_3 =  input('     choice >> ');
@@ -496,15 +499,12 @@ while ~isCorrectAnswer
         % Change values
         p_ref(user_inputs.inp_2)=user_inputs.inp_3;
         model.param_properties{user_inputs.inp_2,5}=[nan,nan];
-        disp(' ')
-        % Save project
-        %saveProject(data, model, estimation, misc, 'FilePath', FilePath)
-        
+        disp(' ')       
         
         isCorrectAnswer = true;
         
-    elseif user_inputs.inp_1 ==4
-        
+    elseif user_inputs.inp_1 == 4
+        %% Display parameter properties in configuration file format
         fprintf(repmat('%s',1,75),repmat('%',1,75));
         fprintf('\n');
         fprintf('%%%% D - Model parameters \n');
@@ -527,6 +527,7 @@ while ~isCorrectAnswer
         fprintf('};\n');
         fprintf('\n');
         
+        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         isCorrectAnswer = true;
         
     else
@@ -535,18 +536,13 @@ while ~isCorrectAnswer
     end
 end
 
-
 %% Write parameter properties
 [model.param_properties]= ...
     writeParameterProperties(model.param_properties, ...
     [parameter, p_ref], size(model.param_properties,2)-1);
 
-
 %% Save project
 saveProject(data, model, estimation, misc, 'FilePath', FilePath)
-
-
-misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
 
 %--------------------END CODE ------------------------
 end

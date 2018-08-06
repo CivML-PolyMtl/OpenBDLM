@@ -97,16 +97,19 @@ MaxFailAttempts=4;
 
 
 %% Display current values
-disp(['     #  |state variable    |observation    '...
-    '         |E[x_0]         |var[x_0] '])
+disp(['     #     |state variable    |observation    '...
+    '   |E[x_0]    |var[x_0] '])
+
+format = ('     %-5s %-18s %-18s %-10s %-10s\n');
+
 for i=1:length(model.initX{1})
-    disp([repmat('     0',1,2-length(num2str(i))) num2str(i) '  '  ...
-        model.hidden_states_names{1}{i,1} ...
-        repmat(' ',1,19-length(model.hidden_states_names{1}{i,1})) ...
-        model.hidden_states_names{1}{i,3} ...
-        repmat(' ',1,25-length(model.hidden_states_names{1}{i,3})) ...
-        sprintf('%-10.5G',model.initX{1}(i)) ...
-        repmat(' ',1,6) sprintf('%-10.5G',model.initV{1}(i,i))])
+    
+    fprintf(format, ...        
+        num2str(i, '%03d' ), ...
+        model.hidden_states_names{1}{i,1}, ...
+        model.hidden_states_names{1}{i,3}, ...
+        num2str(model.initX{1}(i)), ...
+        num2str(model.initV{1}(i,i)));
 end
 
 incTest=0;
@@ -139,8 +142,9 @@ while ~isCorrectAnswer
         return
         
     elseif user_inputs.inp_2==1
-        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
+        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
         
+        %% Providing index of the variable to modify
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -152,7 +156,8 @@ while ~isCorrectAnswer
             
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_3)
             else
                 user_inputs.inp_3 =  input('     choice >> ');
@@ -172,6 +177,7 @@ while ~isCorrectAnswer
             
         end
         
+        %% Providing new expected value
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -179,11 +185,13 @@ while ~isCorrectAnswer
             incTest_2=incTest_2+1;
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+            
             disp('     New E[x_0] : ')
             
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_4)
             else
                 user_inputs.inp_4 =  input('     choice >> ');
@@ -200,6 +208,7 @@ while ~isCorrectAnswer
             
         end
         
+        %% Providing new variance value
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -212,7 +221,8 @@ while ~isCorrectAnswer
             
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_5 = ...
-                    eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 disp(user_inputs.inp_5)
             else
                 user_inputs.inp_5 =  input('     choice >> ');
@@ -246,25 +256,64 @@ while ~isCorrectAnswer
         
     elseif user_inputs.inp_2==2
         
+        %% Display in configuration file format
+        fprintf(repmat('%s',1,75),repmat('%',1,75));
+        fprintf( '\n');
+        fprintf('%%%% E - Initial states values \n');
+        fprintf(repmat('%s',1,75),repmat('%',1,75));
+        fprintf('\n');
+        
         for m=1:model.nb_class
-            disp(' ')
-            disp(['model.initX{' num2str(m) '}=['])
+            % Expected initial hidden states
+            fprintf(['%% Initial hidden states ', ...
+                'mean for model %s:\n'], num2str(m));
+            fprintf( 'model.initX{ %s }=[', num2str(m) );
             for i=1:size(model.initX{m},1)
-                disp(sprintf(['\t%-6.3G'], model.initX{m}(i,:)));
+                fprintf( '\t%-6.3G', model.initX{m}(i,:));
             end
-            disp('];')
-            disp(' ')
-            disp(['model.initV{' num2str(m) '}=['])
-            for i=1:size(model.initV{m},1)
-                disp(sprintf(['\t%-8.3G'], model.initV{m}(i,:)));
+            fprintf(']'';\n');
+            fprintf('\n');
+            
+            % Initial hidden states variance (ignore covariance)
+            fprintf(['%% Initial hidden ', ...
+                'states variance for model %s: \n'], num2str(m));
+            
+            diagV=diag(model.initV{m});
+            
+            fprintf('model.initV{ %s }=diag([ ', num2str(m) );
+            for i=1:length(diagV)
+                fprintf( '\t%-6.3G', diagV(i,:));
             end
-            disp('];')
-            disp(' ')
+            fprintf(' ]);\n');
+            fprintf('\n');
+            fprintf('%% Initial probability for model %s\n', num2str(m));
             for i=1:size(model.initS{m},1)
-                disp(sprintf('model.initS{%d}=[%-6.3G];',  ...
-                    m, model.initS{m}));
+                fprintf('model.initS{%d}=[%-6.3G];\n', m, model.initS{m});
             end
+            fprintf('\n');
         end
+        
+
+        %         %% Display in configuration file format
+        %         for m=1:model.nb_class
+        %             disp(' ')
+        %             disp(['model.initX{' num2str(m) '}=['])
+        %             for i=1:size(model.initX{m},1)
+        %                 disp(sprintf(['\t%-6.3G'], model.initX{m}(i,:)));
+        %             end
+        %             disp('];')
+        %             disp(' ')
+        %             disp(['model.initV{' num2str(m) '}=['])
+        %             for i=1:size(model.initV{m},1)
+        %                 disp(sprintf(['\t%-8.3G'], model.initV{m}(i,:)));
+        %             end
+        %             disp('];')
+        %             disp(' ')
+        %             for i=1:size(model.initS{m},1)
+        %                 disp(sprintf('model.initS{%d}=[%-6.3G];',  ...
+        %                     m, model.initS{m}));
+        %             end
+        %         end
         
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
