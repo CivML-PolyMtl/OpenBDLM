@@ -149,6 +149,7 @@ misc.DataPath               = 'data';
 misc.ConfigPath             = 'config_files';
 misc.ProjectPath            = 'saved_projects';
 misc.FigurePath             = 'figures';
+misc.VersionControlPath     = 'version_control';
 
 %% Define project info filename (not recommanded to change)
 misc.ProjectInfoFilename    = 'ProjectsInfo.mat';
@@ -184,14 +185,15 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
         disp(' ')
         disp('- Start a new project: ')
         disp(' ')
-        %        fprintf('     %-3s\n', '*      Enter a configuration filename')
+        fprintf('     %-3s\n', '*      Enter a configuration filename')
         fprintf('     %-3s\n', '0   -> Interactive tool')
         disp(' ')
         
         %% Display existing & saved projects
         [~] = displayProjects(misc);
         
-        disp('- Type ''D'' to Delete project(s). Type ''Q'' to Quit.')
+        disp(['- Type ''D'' to Delete project(s), ', ...
+            '''V'' for Version control, ''Q'' to Quit.'])
         disp(' ')
         if misc.BatchMode.isBatchMode
             UserChoice= ...
@@ -209,12 +211,19 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
             
             misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
-            if strncmpi('D',UserChoice,1) && length(UserChoice) ==1
+            if strcmpi('D',UserChoice) && length(UserChoice) == 1
                 %% Delete project file(s)
                 piloteDeleteProject(misc)
+                incTest=0;
                 continue
                 
-            elseif strncmpi('q', UserChoice, 4)
+           elseif strcmpi('V', UserChoice) && length(UserChoice) == 1
+                %% Version control
+                piloteVersionControl(misc)
+                data=struct; model=struct; estimation=struct; misc=struct;
+                return
+                
+            elseif strcmpi('Q', UserChoice) && length(UserChoice) == 1
                 %% Quit the program
                 disp(' ')
                 data=struct; model=struct; estimation=struct; misc=struct;
@@ -222,16 +231,13 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
                 disp('     See you soon !')
                 return
                 
-                %             else
-                %                 %% Load project from configuration file
-                %                 [data, model, estimation, misc]= ...
-                %                     loadConfigurationFile(misc, UserChoice);
-                %
-                %                 isAnswerCorrect = true;
             else
-                disp(' ')
-                disp('     wrong input')
-                continue
+                %% Load project from configuration file
+                [data, model, estimation, misc]= ...
+                    loadConfigurationFile(misc, UserChoice);
+                
+                isAnswerCorrect = true;
+                
             end
             
         elseif UserChoice == 0
@@ -348,10 +354,6 @@ while(1)
         elseif  user_inputs==17
             %% Export project in a configuration file
             pilotePrintConfigurationFile(data, model, estimation, misc)
-            incTest=0;
-        elseif  user_inputs==21
-            %% Version control
-            piloteVersionControl()
             incTest=0;
         end
         

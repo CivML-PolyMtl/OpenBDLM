@@ -134,7 +134,7 @@ if isSaveFigures
     [isFileExist] = testFileExistence(fullname, 'dir');
     if isFileExist
         disp(' ')
-        fprintf('Directory %s already exists. Overwrite ? (y/n) \n', ...
+        fprintf('     Directory %s already exists. Overwrite ? (y/n) \n', ...
             fullname)
         
         isYesNoCorrect = false;

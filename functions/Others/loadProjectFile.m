@@ -82,6 +82,10 @@ ProjectInfo = FileContent.ProjectInfo;
 if isempty(ProjectInfo)
     disp(' ')
     disp('     There is no saved project to load.')
+    data=[];
+    model=[];
+    estimation=[];
+    
     disp(' ')
     return
 end
@@ -115,7 +119,7 @@ else
     misc.InteractiveMode = InteractiveMode_s;
     misc.ReadFromConfigFileMode = ReadFromConfigFileMode_s;
     misc.BatchMode = BatchMode_s;
-       
+    
 end
 %--------------------END CODE ------------------------
 end

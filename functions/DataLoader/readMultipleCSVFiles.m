@@ -81,7 +81,7 @@ if misc.BatchMode.isBatchMode
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
         disp(' ')
-        fprintf(['Provide a list of .CSV filename to process ' ...
+        fprintf(['- Provide a list of .CSV filename to process ' ...
             '(e.g. {''raw_data/data_Tamar/*.csv'', ''disp_001.csv''}) :  \n'])
         CSVFileList=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
         disp(CSVFileList)
@@ -148,7 +148,7 @@ if misc.BatchMode.isBatchMode
                 % pattern
                 if isempty(InfoFile)  % the file does not exist
                     disp(' ')
-                    fprintf('%s is not found.', CSVFileList{i})
+                    fprintf('     %s is not found.', CSVFileList{i})
                     disp(' ')
                     continue
                 else % the file exists

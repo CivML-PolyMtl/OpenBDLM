@@ -71,13 +71,6 @@ ProjectInfofile = misc.ProjectInfoFilename;
 FileContent = load(fullfile(pwd, FilePath,ProjectInfofile));
 ProjectInfo = FileContent.ProjectInfo;
 
-% if isempty(ProjectInfo)
-%     disp(' ')
-%     disp('     There is no saved project to delete.')
-%     disp(' ')
-%     return
-% end
-
 % Get number of saved projects
 NumberOfSavedProjects = size(ProjectInfo,1);
 
@@ -106,11 +99,12 @@ else
             disp(' ')
         elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
             
-            % Delete file
+            % Delete project file
             delete(ProjectInfo{ProjectIdx,3});
             
+            % Delete info in FileInfo
             ProjectInfo(ProjectIdx,:) = [];
-            save(fullfile(FilePath, ...
+            save(fullfile(pwd, FilePath, ...
                 ProjectInfofile), 'ProjectInfo' );
             disp(' ')
             disp('     The projects files have been deleted')

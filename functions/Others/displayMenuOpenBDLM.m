@@ -64,8 +64,6 @@ disp('     15 ->  Display model matrices')
 disp('     16 ->  Simulate data')
 disp('     17 ->  Export project in configuration file format')
 disp(' ')
-disp('     21 ->  Version control')
-disp(' ')
 disp('     Type ''Q'' to Quit')
 disp(' ')
 

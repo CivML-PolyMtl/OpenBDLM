@@ -1,18 +1,20 @@
-function piloteVersionControl()
+function piloteVersionControl(misc)
 %PILOTEVERSIONCONTROL Pilote function for version control
 %
 %   SYNOPSIS:
-%     PILOTEVERSIONCONTROL()
+%     PILOTEVERSIONCONTROL(misc)
 %
 %   INPUT:
-%
+%      misc             - structure (required)
+%                         see documentation for details about the fields of
+%                         misc
 %   OUTPUT:
-%
+%      N/A
 %   DESCRIPTION:
 %      PILOTEVERSIONCONTROL Pilote function for version control
 %
 %   EXAMPLES:
-%      PILOTEVERSIONCONTROL()
+%      PILOTEVERSIONCONTROL(misc)
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      versionControl
@@ -35,9 +37,19 @@ function piloteVersionControl()
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       July 27, 2018
+%       August 7, 2018
 
 %--------------------BEGIN CODE ----------------------
+%% Get arguments passed to the function and proceed to some verifications
+p = inputParser;
+
+addRequired(p,'misc',  @isstruct);
+
+parse(p,misc);
+
+misc=p.Results.misc;
+
+VersionControlPath=misc.VersionControlPath;
 
 disp(' ')
 disp(['-----------------------------------------', ...
@@ -45,9 +57,20 @@ disp(['-----------------------------------------', ...
 disp('/    Version control')
 disp(['-----------------------------------------', ...
     '-----------------------------------------------------'])
-disp(' ')
-disp('     Coming soon... ')
-disp(' ')
 
+[controlOut]=versionControl(misc, 'FilePath', VersionControlPath);
+
+fprintf('\n');
+fprintf('\n');
+for i=1:size(controlOut,1)    
+    if ~controlOut{i, 2} || ~controlOut{i,3}
+       resStr = 'FAIL';
+    else
+       resStr = 'PASS';
+    end
+    
+    fprintf('==> Version control test %s: %s\n', num2str(i), resStr)   
+end
+fprintf('\n');
 %--------------------END CODE ------------------------
 end
