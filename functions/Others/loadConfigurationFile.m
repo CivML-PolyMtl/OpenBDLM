@@ -93,7 +93,8 @@ disp('     ...in progress')
 disp(' ')
 
 %% Run the configuration file
-run(fullfile(pwd, ConfigFilePath, ConfigFileName));
+%run(fullfile(pwd, ConfigFilePath, ConfigFileName));
+run(ConfigFileName);
 
 %% Initialize variable estimation as a structure
 estimation = struct;

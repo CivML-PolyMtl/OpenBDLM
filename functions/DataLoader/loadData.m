@@ -77,7 +77,6 @@ function [data, misc]=loadData(misc, varargin)
 %       July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
-
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 defaultNaNThreshold = 100;
@@ -85,8 +84,11 @@ defaultisPdf = true;
 defaultFilePath = '.';
 defaulttolerance = 10E-6;
 
+validationFct_FilePath = @(x) ischar(x) && ...
+    ~isempty(x(~isspace(x)));
+
 addRequired(p, 'misc', @isstruct)
-addParameter(p,'FilePath',defaultFilePath);
+addParameter(p,'FilePath',defaultFilePath, validationFct_FilePath);
 validationFcnNaNThreshold = @(x) isreal(x) & x >= 0 & x <= 100;
 addParameter(p,'NaNThreshold',defaultNaNThreshold,validationFcnNaNThreshold);
 addParameter(p,'isPdf',defaultisPdf,@islogical);
@@ -100,14 +102,6 @@ NaNThreshold = p.Results.NaNThreshold;
 %isPdf=p.Results.isPdf;
 FilePath = p.Results.FilePath;
 tolerance = p.Results.Tolerance;
-
-% Validation of FilePath
-if ~ischar(FilePath) || isempty(FilePath(~isspace(FilePath)))
-    disp(' ')
-    disp('ERROR: Path should be a non-empty character array.')
-    disp(' ')
-    return
-end
 
 % Create file path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');

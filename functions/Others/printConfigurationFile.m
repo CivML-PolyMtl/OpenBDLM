@@ -366,6 +366,7 @@ if isfield(misc, 'custom_anomalies')
     fprintf(fileID,'\n');
 end
 
+fclose(fileID);
 fprintf('     Configuration file saved in %s. \n', configFilename )
 
 %--------------------END CODE ------------------------

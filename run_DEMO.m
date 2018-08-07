@@ -2,7 +2,7 @@
 FilePath = fullfile(pwd, 'input_files');
 
 %% List of input files to read
-InputFileList = {fullfile(FilePath, 'input_DEMO2.m')};
+InputFileList = {fullfile(FilePath, 'input_DEMO.m')};
 
 for i=1:length(InputFileList)
     

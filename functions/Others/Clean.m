@@ -66,6 +66,9 @@ end
 
 % Remove redundant fields
 FoldersList=unique(FoldersList);
+
+%% Request if permanently remove files from disk
+
 fprintf('Do you want to remove the content of ');
 fprintf('%s, ', FoldersList{1:end});
 fprintf('?\n')
@@ -81,9 +84,9 @@ while ~isYesNoCorrect
         
         for i=1:length(FoldersList)
             
-            if exist(FoldersList{i}, 'dir') == 0 && ...
-                    exist(FoldersList{i}, 'file') == 0
-                
+            isDir = testFileExistence(FoldersList{i}, 'dir');
+            
+            if ~isDir
                 disp(' ')
                 fprintf('WARNING: %s does not exist.\n',  ...
                     char(FoldersList{i}))
@@ -91,15 +94,17 @@ while ~isYesNoCorrect
                 continue
             else
                 
-                command = ['rm -rf ', FoldersList{i},'/*'];
-                [status,~] = system(command);
-                
-                if status ~= 0
-                    disp(' ')
-                    fprintf('WARNING: Impossible to remove %s .\n',  ...
-                        char(FoldersList{i}))
-                    disp(' ')
+                warning off
+                % Delete folders
+                try rmdir(fullfile(FoldersList{i}, '*'), 's')
+                catch
                 end
+                
+                % Delete files
+                try delete(fullfile(FoldersList{i}, '*')) 
+                catch
+                end                              
+                warning on                              
                 
             end
             
@@ -109,7 +114,7 @@ while ~isYesNoCorrect
         
     elseif strcmpi(choice,'n') || strcmpi(choice,'no')
         
-        fprintf('No files has been removed.\n')
+        fprintf('     No files has been removed.\n')
         isYesNoCorrect =  true;
         
     else
