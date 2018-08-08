@@ -101,7 +101,7 @@ while ~isCorrectAnswer
     disp('     1 ->  Newton-Raphson')
     disp('     2 ->  Stochastic Gradient Ascent')
     disp(' ')
-    disp('     3 ->  Return to menu')
+    disp('     Type ''R'' to return to the previous menu')
     disp(' ')
     
     if misc.BatchMode.isBatchMode
@@ -140,7 +140,8 @@ while ~isCorrectAnswer
             'FilePath', FilePath)
         
         isCorrectAnswer =  true;
-    elseif user_inputs == 3
+    elseif ischar(user_inputs) && length(user_inputs) == 1 && ...
+            strcmpi(user_inputs, 'R')
         break
     else
         disp(' ')

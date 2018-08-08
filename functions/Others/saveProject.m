@@ -122,8 +122,8 @@ dat.misc=misc;
 
 %% Save binary file in specified location
 save(fullname, '-struct', 'dat')
-fprintf('     Project saved in %s. \n', fullfile(FilePath, name_projectfile ));
-
+fprintf('     Project saved in %s. \n', ...
+    fullfile(FilePath, name_projectfile ));
 
 %% Add information specific file if required
 
