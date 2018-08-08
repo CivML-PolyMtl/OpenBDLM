@@ -1,4 +1,4 @@
-function [data, model, estimation, misc]=piloteSimulateData(data, model, misc)
+function [data, model, estimation, misc]=piloteSimulateData(data, model,estimation, misc)
 %PILOTESIMULATEDATA Pilote function to simulate data
 %
 %   SYNOPSIS:
@@ -12,6 +12,10 @@ function [data, model, estimation, misc]=piloteSimulateData(data, model, misc)
 %      model               - structure
 %                            see documentation for details about the fields
 %                            in structure "model"
+%
+%      estimation         - structure
+%                            see documentation for details about the fields
+%                            in structure "estimation"
 %
 %      misc               - structure
 %                            see documentation for details about the fields
@@ -69,11 +73,13 @@ p = inputParser;
 
 addRequired(p,'data', @isstruct );
 addRequired(p,'model', @isstruct );
+addRequired(p,'estimation', @isstruct );
 addRequired(p,'misc', @isstruct );
-parse(p,data, model, misc );
+parse(p,data, model, estimation, misc );
 
 data=p.Results.data;
 model=p.Results.model;
+estimation=p.Results.estimation;
 misc=p.Results.misc;
 
 DataPath=misc.DataPath;
@@ -88,6 +94,30 @@ disp(['-----------------------------------------', ...
 disp(' ')
 disp('     ...in progress')
 disp(' ')
+
+isSimulateFromData=false;
+
+if isfield(data, 'values')
+    
+    %% Save a copy of original project
+    isSimulateFromData=true;
+    
+    % save data, model, estimation, misc
+    dataBackup=data;
+    modelBackup=model;
+    estimationBackup=estimation;
+    miscBackup=misc;
+    
+    %% Create a new project
+    % prevent overwriting by incrementing ProjectName
+    ProjectName = incrementProjectName(misc, 'new', misc.ProjectPath );
+    misc.ProjectName = ProjectName;
+    
+    %% Store date creation
+    [misc] =  printProjectDateCreation(misc);
+        
+end
+
 %% Simulate data
 [data, model, estimation, misc]= ...
     SimulateData(data, model, misc, 'isPlot', true);
@@ -100,12 +130,18 @@ misc.dataFilename = dataFilename;
 %% Save data in CSV format
 [misc] = saveDataCSV(data, misc, 'FilePath', DataPath);
 
-%% Store date creation
-[misc] =  printProjectDateCreation(misc);
-
-%% Save project
+%% Save new project
 saveProject(data, model, estimation, misc, ...
     'FilePath', ProjectPath)
+
+%% Restore the original project
+if isSimulateFromData
+    % restore original data, model, estimation, misc
+    data=dataBackup;
+    model=modelBackup;
+    estimation=estimationBackup;
+    misc=miscBackup;
+end
 
 %--------------------END CODE ------------------------
 end

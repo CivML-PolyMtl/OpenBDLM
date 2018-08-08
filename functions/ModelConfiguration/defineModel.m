@@ -119,7 +119,8 @@ if numberOfTimeSeries > 1
             disp(['- Identifies dependence between' ...
                 ' time series; use [0] to indicate no dependence'])
             if misc.BatchMode.isBatchMode
-                comp_ic{1,i}=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                comp_ic{1,i}=eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 if length( comp_ic{1,i}(:)) ~=1
                     disp(['     [' sprintf('%d,', comp_ic{1,i}(1:end-1) ) ...
                         num2str(comp_ic{1,i}(end)) ']'])
@@ -207,8 +208,9 @@ while ~isCorrect
     disp( ['- How many model classes do ' ...
         'you want for each time-series? '])
     if misc.BatchMode.isBatchMode
-        nb_models=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ', nb_models])
+        nb_models=eval(char(misc.BatchMode.Answers{...
+            misc.BatchMode.AnswerIndex}));
+        disp(['     ', num2str(nb_models)])
     else
         nb_models=input('     choice >> ');
     end
@@ -294,7 +296,8 @@ for j=1:nb_models
             disp(['- Identify components for each' ...
                 ' model class and observation; e.g. [11 31 41]'])
             if misc.BatchMode.isBatchMode
-                comp{j}{i}=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                comp{j}{i}=eval(char(misc.BatchMode.Answers{...
+                    misc.BatchMode.AnswerIndex}));
                 if length(comp{j}{i}(:)) ~=1
                     disp(['     [' sprintf('%d,', comp{j}{i}(1:end-1) ) ...
                         num2str(comp{j}{i}(end)) ']'])
@@ -425,7 +428,8 @@ if nb_models>1
                     ' between the components of the model' ...
                     ' class #1; e.g. [0 1 1]'])
                 if misc.BatchMode.isBatchMode
-                    const{j}{i}=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                    const{j}{i}=eval(char(misc.BatchMode.Answers{ ...
+                        misc.BatchMode.AnswerIndex}));
                     
                     if length(const{j}{i}(:)) ~= 1
                         disp(['     [' sprintf('%d,', const{j}{i}(1:end-1) ) ...
@@ -472,7 +476,8 @@ if nb_models>1
                     continue
                 else
                     isCorrect = true;
-                    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+                    misc.BatchMode.AnswerIndex = ...
+                        misc.BatchMode.AnswerIndex+1;
                 end
             end
         end

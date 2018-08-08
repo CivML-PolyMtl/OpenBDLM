@@ -349,7 +349,7 @@ while(1)
         elseif  user_inputs==16
             %% Simulate data
             [data, model, estimation, misc]= ...
-                piloteSimulateData(data, model, misc);
+                piloteSimulateData(data, model, estimation, misc);
             incTest=0;
         elseif  user_inputs==17
             %% Export project in a configuration file

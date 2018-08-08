@@ -81,11 +81,11 @@ model=p.Results.model;
 misc=p.Results.misc;
 isPlot=p.Results.isPlot;
 
-if isfield(data, 'values')
-    % prevent overwriting by incrementing ProjectName
-    ProjectName = incrementProjectName(misc, 'new', misc.ProjectPath );
-    misc.ProjectName = ProjectName;   
-end
+% if isfield(data, 'values')
+%     % prevent overwriting by incrementing ProjectName
+%     ProjectName = incrementProjectName(misc, 'new', misc.ProjectPath );
+%     misc.ProjectName = ProjectName;   
+% end
 
 if isfield(misc, 'custom_anomalies') && ~isempty(misc.custom_anomalies)
     [data, model, estimation, misc]= ...
