@@ -29,8 +29,8 @@ function [optim, model]=NewtonRaphson(data, model, misc, varargin)
 %                         computations
 %                         default: true
 %
-%   isQuiet            - logical (optional)
-%                         if isQuiet = false, throw information on screen
+%   isMute            - logical (optional)
+%                         if isMute = false, throw information on screen
 %                         default: false
 %
 %    isLaplaceApprox   -  logical (optional)
@@ -124,7 +124,7 @@ p = inputParser;
 defaultMethod = 'MLE';
 defaultisParallel = true;
 defaultisLaplaceApprox = false;
-defaultisQuiet = false;
+defaultisMute = false;
 
 validationFonctionOptimMode = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x))) && (strcmp(x,'MLE') || strcmp(x,'MAP'))  ;
@@ -135,7 +135,7 @@ addRequired(p,'misc', @isstruct );
 addParameter(p, 'OptimMode', defaultMethod, validationFonctionOptimMode)
 addParameter(p, 'isParallel', defaultisParallel, @islogical)
 addParameter(p, 'isLaplaceApprox', defaultisLaplaceApprox, @islogical)
-addParameter(p, 'isQuiet', defaultisQuiet, @islogical)
+addParameter(p, 'isMute', defaultisMute, @islogical)
 parse(p,data, model,  misc, varargin{:});
 
 data=p.Results.data;
@@ -144,12 +144,20 @@ misc=p.Results.misc;
 OptimMode = p.Results.OptimMode;
 isParallel=p.Results.isParallel;
 isLaplaceApprox = p.Results.isLaplaceApprox;
-isQuiet = p.Results.isQuiet;
+isMute = p.Results.isMute;
 
 misc.isParallel = isParallel;
 
 misc.optim_mode = OptimMode;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
 
 %% Read model parameter properties
 % Current model parameters
@@ -227,31 +235,41 @@ model.parameterTR   = parameter_TR;
 nb_levels_lambda_ref    = 4;
 convergence_tolerance   = 1E-7;
 
-if ~isQuiet
-    %% Diaplay analysis parameters
-    disp(['---------------------------------', ...
-        '-------------------------------------------------------------'])
-    disp('Estimate the parameters for the Bayesian Dynamic Linear Model')
-    disp(['---------------------------------', ...
-        '-------------------------------------------------------------'])
-    disp(' ')
-    disp(['    \\start Newton-Raphson maximization ', ...
-        ' algorithm (finite difference method)'])
-    disp(' ')
-    disp(['      Training period:                                      ',...
+disp('     Learning model parameters (Newton-Raphson) ...')
+
+if ~isMute
+    %% Display analysis parameters
+%     fprintf(fileID, ['---------------------------------', ...
+%         '----------------------------------------------', ...
+%         '--------------- \n']);
+%     fprintf(fileID, ['Estimate the parameters for ', ...
+%         'the Bayesian Dynamic Linear Model \n']);
+%     fprintf(fileID, ['---------------------------------', ...
+%         '-----------------------------------------------', ...
+%         '--------------\n']);
+    fprintf(fileID, '\n');
+    fprintf(fileID, ['    \\Start Newton-Raphson maximization ', ...
+        ' algorithm (finite difference method)\n']);
+    fprintf(fileID, '\n');
+    fprintf(fileID, ['      Training period:', ...
+        '                                      ',...
         ' ' num2str(misc.trainingPeriod(1)) '-',...
-        ''  num2str(misc.trainingPeriod(2)) ' [days]'])
-    disp(['      Maximal number of iteration:                          ',...
-        ' ' num2str(misc.iteration_limit_calibration)])
-    disp(['      Total time limit for calibration :                    ',...
-        ' ' num2str(misc.time_limit_calibration) ' [min]'])
-    disp(['      Convergence criterion:                                ',...
-        ' ' num2str(convergence_tolerance) '*LL'])
-    disp(['      Nb. of search levels for \lambda:                     ',...
-        ' ' num2str(nb_levels_lambda_ref) '*2'])
-    disp(' ')
-    disp('    ...in progress')
-    disp(' ')
+        ''  num2str(misc.trainingPeriod(2)) ' [days]\n']);
+    fprintf(fileID, ['      Maximal number of iteration:', ...
+        '                          ',...
+        ' ' num2str(misc.iteration_limit_calibration), '\n']);
+    fprintf(fileID, ['      Total time limit for calibration :', ...
+        '                    ',...
+        ' ' num2str(misc.time_limit_calibration) ' [min]\n']);
+    fprintf(fileID, ['      Convergence criterion:', ...
+        '                                ',...
+        ' ' num2str(convergence_tolerance) '*LL\n']);
+    fprintf(fileID, ['      Nb. of search levels for \\lambda:', ...
+        '                     ',...
+        ' ' num2str(nb_levels_lambda_ref) '*2\n']);
+    fprintf(fileID, '\n');
+%     fprintf(fileID, '    ...in progress\n');
+%     fprintf(fileID, '\n');
 end
 
 %% Matrices & parameter initilization
@@ -267,10 +285,10 @@ delta_grad               = 1E-3*ones(size(parameter_OR));
 %% Log-likelihood initialization
 [logpdf_0, ~, ~,~] = logPosteriorPE(data_train, model, misc, 'getlogpdf', 1);
 if isinf(logpdf_0)
-    disp('warning LL0=-inf')
+    fprintf(fileID, 'warning LL0=-inf\n');
 end
-if ~isQuiet
-    disp(['           Initial LL: ' num2str(logpdf_0)])
+if ~isMute
+    fprintf(fileID, '           Initial LL: %s\n', num2str(logpdf_0));
 end
 name_idx_1='';
 name_idx_2='';
@@ -288,11 +306,11 @@ for i=parameter_search_idx'
     name_idx_2=[name_idx_2  name_p2{i} ...
         repmat(' ',[1,15-length(name_p2{i})]) ' '];
 end
-if ~isQuiet
-    disp(['                       ' name_idx_2])
-    disp(['      parameter names: ' name_idx_1])
-    fprintf(['       initial values: ' repmat(['%#-+15.2e' ' '], ...
-        [1,length(parameter_OR)])],parameter_OR(parameter_search_idx))
+if ~isMute
+    fprintf(fileID, '                       %s \n', name_idx_2);
+    fprintf(fileID, '      parameter names: %s \n', name_idx_1);
+    fprintf(fileID, ['       initial values: ' repmat(['%#-+15.2e' ' '], ...
+        [1,length(parameter_OR)])],parameter_OR(parameter_search_idx));
 end
 
 %% NR Optimization loops
@@ -301,8 +319,8 @@ time_loop=0;
 search_loop=1;
 while and(search_loop<=misc.iteration_limit_calibration, ...
         time_loop<(misc.time_limit_calibration*60))
-    if ~isQuiet
-        disp(' ')
+    if ~isMute
+        fprintf(fileID, '\n');
     end
     parameter_OR_ref = parameter_OR;
     parameter_TR_ref = parameter_TR;
@@ -321,10 +339,11 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
     param_idx_loop = parameter_search_idx(param_idx);
     param          = parameter_OR_ref(param_idx_loop);
     param_TR       = parameter_TR_ref(param_idx_loop);
-    if ~isQuiet
-        disp('--------------------------')
-        disp(['    Loop #' num2str(search_loop) ' : ', ...
-            ' ' [name_p2{param_idx_loop} '|' name_p1{param_idx_loop}]])
+    if ~isMute
+        fprintf(fileID, '--------------------------\n');
+        fprintf(fileID, '    Loop #%s : %s | %s \n', ...
+            num2str(search_loop), name_p2{param_idx_loop}, ...
+            name_p1{param_idx_loop});
     end
     H_test       = 1;
     loop_count   = 1;
@@ -334,9 +353,9 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
     while H_test
         loop_count=loop_count +1;
         if loop_count >5 || hessian_fail
-            if ~isQuiet
-                disp(['           Warning:>5 failed ',...
-                    'attempts to compute the Hessian'])
+            if ~isMute
+                fprintf(fileID, ['           Warning:>5 failed ',...
+                    'attempts to compute the Hessian \n']);
             end
             skip_loop_H = 1;
             hessian_fail_hist(param_idx)        = ...
@@ -346,9 +365,10 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
             parameter_TR(param_idx_loop)        = ...
                 parameter_TR_ref(param_idx_loop);
             if hessian_fail_hist(param_idx)>3
-                if ~isQuiet
-                    disp(['           Warning: 3nd discontinued fails ', ...
-                        'to compute the Hessian  -> converged=1'])
+                if ~isMute
+                    fprintf(fileID, ['           Warning: ', ...
+                        '3nd discontinued fails ', ...
+                        'to compute the Hessian  -> converged=1\n']);
                 end
                 converged(param_idx) = 1;
             end
@@ -384,8 +404,9 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
                 %Gradient descent must be used to reach the maxima
                 delta_p_TR = 0.1*GlogpdfTR_loop/HlogpdfTR_loop;
             end
-            if ~isQuiet
-                disp('           Warning: Hessian is positive ')
+            if ~isMute
+                fprintf(fileID, ['           Warning: ', ...
+                    'Hessian is positive\n']);
             end
             H_test = 0;
         elseif isnan(HlogpdfTR_loop)
@@ -406,8 +427,8 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
             std_p_TR(param_idx_loop) = NaN;
         end
         delta_p = transfFunc.InvTR{param_idx}(param_TR+delta_p_TR) - param;
-        if ~isQuiet
-            disp(['       delta_param: ' num2str(delta_p)])
+        if ~isMute
+            fprintf(fileID, '       delta_param: %s \n', num2str(delta_p));
         end
         try
             %% LL test
@@ -450,14 +471,17 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
             logpdf_0                            = logpdf_test;
             parameter_TR_ref(param_idx_loop)    = parameter_TR(param_idx_loop);
             parameter_OR_ref(param_idx_loop)    = parameter_OR(param_idx_loop);
-            if ~isQuiet
-                disp(['    log-likelihood: ' num2str(logpdf_0)])
-                disp(['      param change: ' num2str(param) ' -> ',...
-                    '' num2str(parameter_OR(param_idx_loop))])
-                disp(' ')
-                disp(['                    ' name_idx_2])
-                disp(['   parameter names: ' name_idx_1])
-                fprintf(['    current values: ' repmat(['%#-+15.2e' ' '], ...
+            if ~isMute
+                fprintf(fileID, ['    log-likelihood :', ...
+                    ' %s\n'], num2str(logpdf_0));
+                fprintf(fileID, ['    param change   :', ...
+                    ' %s -> %s\n'], num2str(param),...
+                    num2str(parameter_OR(param_idx_loop)));
+                fprintf(fileID, '\n');
+                fprintf(fileID, '                    %s\n', name_idx_2);
+                fprintf(fileID, '   parameter names: %s\n', name_idx_1);
+                fprintf(fileID, ['    current values: ', ...
+                    '' repmat(['%#-+15.2e' ' '], ...
                     [1,length(parameter_OR(parameter_search_idx))-1]) ...
                     '%#-+15.2e\n',...
                     '  current f.o. std: ' repmat(['%#-+15.2e' ' '],...
@@ -486,9 +510,10 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
         else
             converged(param_idx)=0;
             if n>nb_levels_lambda
-                if ~isQuiet
-                    disp(' ')
-                    disp('      ...optimization loop has failed')
+                if ~isMute
+                    fprintf(fileID, '\n');
+                    fprintf(fileID, ['      ...optimization ', ...
+                        ' loop has failed\n']);
                 end
                 parameter_OR(param_idx_loop) = ...
                     parameter_OR_ref(param_idx_loop);
@@ -505,12 +530,16 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
                 break
             elseif n < nb_levels_lambda
                 delta_p_TR  = delta_p_TR/(2^n);
-                delta_p     = transfFunc.InvTR{param_idx}(param_TR + delta_p_TR)-param;
-                if ~isQuiet
-                    disp(['           Warning: log-likelihood has ',...
-                        'decreased -> delta_param: ', ...
-                        '' sprintf('%#-+8.2e',delta_p) ' ', ...
-                        ' (delta_p_TR=delta_p_TR/(2^' num2str(n) '))'])
+                delta_p     = ...
+                    transfFunc.InvTR{param_idx}(param_TR + ...
+                    delta_p_TR)-param;
+                
+                if ~isMute
+                    fprintf(fileID, ['           Warning: ', ...
+                        'log-likelihood has ',...
+                        'decreased -> delta_param: %s ', ...
+                        '(delta_p_TR=delta_p_TR/(2^%s))\n'], ...
+                        delta_p, num2str(n));
                 end
             elseif n == nb_levels_lambda
                 if reverse == 0
@@ -527,11 +556,11 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
                     delta_p          = transfFunc.InvTR{param_idx} ...
                         (param_TR+delta_p_TR)-param;
                 end
-                if ~isQuiet
-                    disp(['           Warning: log-likelihood has ',...
-                        'decreased -> delta_param: ', ...
-                        '' sprintf('%#-+8.2e',delta_p) '', ...
-                        ' (delta_p_TR=-delta_p_TR)'])
+                if ~isMute
+                    fprintf(fileID, ['           Warning: ', ...
+                        'log-likelihood has ',...
+                        'decreased -> delta_param: %s ', ...
+                        '(delta_p_TR=-delta_p_TR)\n'], num2str(delta_p));
                 end
                 
             end
@@ -539,7 +568,8 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
                 %% LL test
                 parameter_TR(param_idx_loop) = param_TR + delta_p_TR;
                 parameter_OR(param_idx_loop) = ...
-                    transfFunc.InvTR{param_idx}(parameter_TR(param_idx_loop));
+                    transfFunc.InvTR{param_idx}(parameter_TR(...
+                    param_idx_loop));
                 model.parameter              = parameter_OR;
                 model.parameterTR            = parameter_TR;
                 [logpdf_test, ~, ~,~]        = ...
@@ -551,56 +581,61 @@ while and(search_loop<=misc.iteration_limit_calibration, ...
     end
     search_loop=search_loop+1;
     if all(optimization_fail>0)
-        if ~isQuiet
-            disp(' ')
-            disp(['          WARNING: the optimization has failed ',...
-                ' for every parameter'])
+        if ~isMute
+            fprintf(fileID, '\n');
+            fprintf(fileID, ['          WARNING: the optimization ', ...
+                'has failed ',...
+                'for every parameter\n']);
         end
         break
     elseif all(converged)
-        if ~isQuiet
-            disp(' ')
-            disp(['             DONE: the optimization has converged ', ...
-                ' for all parameters'])
+        if ~isMute
+            fprintf(fileID, '\n');
+            fprintf(fileID, ['             DONE: the optimization ', ...
+                'has converged ', ...
+                'for all parameters\n']);
         end
         break
     end
     time_loop=toc;
 end
-if ~isQuiet
+if ~isMute
     if ~or(all(optimization_fail),all(converged))
-        disp(' ')
-        disp(' ')
-        disp(' ')
+        fprintf(fileID, '\n');
+        fprintf(fileID, '\n');
+        fprintf(fileID, '\n');
         if time_loop>(misc.time_limit_calibration*60)
-            disp(['          WARNING : the optimization has reached  ', ...
+            fprintf(fileID, ['          WARNING : the ', ...
+                'optimization has reached  ', ...
                 'the maximum allowed time (',...
-                '' num2str(misc.time_limit_calibration) ' [min]) ',...
-                'without convergence'])
+                '%s [min]) ',...
+                'without convergence \n'], ...
+                num2str(misc.time_limit_calibration));
         else
-            disp(['          WARNING : the optimization has reached the ',...
+            fprintf(fileID, ['          WARNING : the ', ...
+                'optimization has reached the ',...
                 ' maximum number of loops (',...
-                '' num2str(misc.iteration_limit_calibration) ') ',...
-                'without convergence'])
+                '%s) without convergence \n'], ...
+                num2str(misc.iteration_limit_calibration));
         end
     end
 end
 
-if ~isQuiet
+if ~isMute
     %% Display final results
-    disp(' ')
-    disp(' ----------------------')
-    disp('    Final results')
-    disp(' ----------------------')
-    disp(['   log-likelihood: ' num2str(logpdf_0)])
-    disp(['                     ' name_idx_2])
-    disp(['  parameter names: ' name_idx_1])
-    fprintf(['   current values: ' repmat(['%#-+15.2e' ' '], ...
+    fprintf(fileID, '\n');
+    fprintf(fileID, ' ----------------------\n');
+    fprintf(fileID, '    Final results\n');
+    fprintf(fileID, ' ----------------------\n');
+    fprintf(fileID, '   log-likelihood: %s\n', num2str(logpdf_0));
+    fprintf(fileID, '                   %s\n', name_idx_2);
+    fprintf(fileID, '  parameter names: %s\n', name_idx_1);
+    fprintf(fileID, ['   current values: ' repmat(['%#-+15.2e' ' '], ...
         [1,length(parameter_OR(parameter_search_idx))-1]) '%#-+15.2e\n',...
         ' current f.o. std: ' repmat(['%#-+15.2e' ' '], ...
         [1,length(parameter_OR(parameter_search_idx))-1]) '%#-+15.2e\n'],...
         parameter_OR(parameter_search_idx),...
-        std_p(parameter_search_idx))
+        std_p(parameter_search_idx));
 end
 %% Outputs
 optim.parameter_opt         = parameter_OR;
@@ -616,11 +651,10 @@ optim.data_train            = data_train;
 optim.optim_mode            = misc.optim_mode ;
 optim.misc                = misc;
 
-
 %% Laplace Approximation
 %if all(converged) && isLaplaceApprox
 if isLaplaceApprox
-    disp('    Laplace Approximation...')
+    fprintf(fileID, '    Laplace Approximation...\n');
     [covParamTR_matrix, hessParamTR_matrix, hessParamOR_matrix] = ...
         LaplaceApproximation(data, model, misc,...
         parameter_TR,...
@@ -634,8 +668,6 @@ if isLaplaceApprox
     optim.hessParamTR_matrix    = hessParamTR_matrix;
     optim.hessParamOR_matrix    = hessParamOR_matrix;
 end
-
-
 
 %% Write model.parameters in model.param_properties
 
@@ -697,7 +729,8 @@ if ~any(any(isnan(hessParamTR_matrix)))
         if ~any(any(isnan(std_p_TR(search_idx))))
             covParamTR_matrix   = diag(std_p_TR(search_idx).^2);
         else
-            disp('     Warning: Covariance matrix cannot be computed.')
+            fprintf(fileID, ['     Warning: Covariance matrix ', ...
+                'cannot be computed.\n']);
             covParamTR_matrix = NaN(nb_param, nb_param);
         end
     end
@@ -708,8 +741,9 @@ function  LL = loglik4hessian (p, data, model, misc, search_idx)
 model.parameter(search_idx) = p;
 
 % Insert parameter values in param_properties
-[model.param_properties]=writeParameterProperties(model.param_properties, ...
-[p, model.p_ref], 9);
+[model.param_properties]=...
+    writeParameterProperties(model.param_properties, ...
+    [p, model.p_ref], 9);
 
 [~,~,~,~,LL,~,~]            = SwitchingKalmanFilter(data,model,misc);
 end

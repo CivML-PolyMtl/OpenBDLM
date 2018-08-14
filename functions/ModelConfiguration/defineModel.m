@@ -57,7 +57,7 @@ function [model, misc]=defineModel(data, misc)
 %       April 20, 2018
 %
 %   DATE LAST UPDATE:
-%       July 20, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -70,28 +70,36 @@ parse(p,data, misc);
 data=p.Results.data;
 misc=p.Results.misc;
 
+MaxFailAttempts = 4;
+
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 if ~misc.isDataSimulation
     % Validation of structure data
     isValid = verificationDataStructure(data);
     if ~isValid
-        disp(' ')
-        disp('ERROR: Unable to read the data from the structure.')
-        disp(' ')
+        fprintf(fileID,'\n');
+        fprintf(fileID,['     ERROR: Unable to read ', ...
+            'the data from the structure.\n']);
+        fprintf(fileID,'\n');
         model = [];
         return
     end
 end
 
-
-MaxFailAttempts = 4;
-
 % display loaded data
-displayData(data)
+displayData(data, misc)
 
 % Get number of time series in dataset
 numberOfTimeSeries = length(data.labels);
 
-module = 0;
 %% Define time series dependencies
 if numberOfTimeSeries > 1
     
@@ -102,10 +110,7 @@ if numberOfTimeSeries > 1
     end
     
     comp_ic = cell(1,numberOfTimeSeries);
-    
-    disp(' ')
-    module=module+1;
-    
+        
     for i=1:numberOfTimeSeries
         
         incTest=0;
@@ -115,18 +120,16 @@ if numberOfTimeSeries > 1
             incTest=incTest+1;
             if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
-            
-            disp(['- Identifies dependence between' ...
-                ' time series; use [0] to indicate no dependence'])
+            fprintf(fileID,'\n');
+            fprintf(fileID,['- Identifies dependence between' ...
+                ' time series; use [0] to indicate no dependence\n']);
             if misc.BatchMode.isBatchMode
                 comp_ic{1,i}=eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                if length( comp_ic{1,i}(:)) ~=1
-                    disp(['     [' sprintf('%d,', comp_ic{1,i}(1:end-1) ) ...
-                        num2str(comp_ic{1,i}(end)) ']'])
-                else
-                    disp(['     [' num2str(comp_ic{1,i}(end)) ']'])
-                end
+                
+                fprintf(fileID, ['     [%s] ', ...
+                    '\n'], strjoin(cellstr(num2str(comp_ic{1,i}(:))),', '));
+                
             else
                 comp_ic{1,i}=input(['    time serie #' num2str(i) ...
                     ' depends on time series # >> ']);
@@ -143,42 +146,30 @@ if numberOfTimeSeries > 1
             end
             
             if isempty(comp_ic{1,i})
-                disp(' ')
-                disp(['%%%%%%%%%%%%%%%%%%%%%%%%%' ...
-                    '> HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%'])
-                disp(' ')
-                disp([' Mention here whether some time series'...
-                    ' depend on other time series.  '])
-                disp(' ')
-                disp(['%%%%%%%%%%%%%%%%%%%%%%%%%' ...
-                    '> HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%'])
-                disp(' ')
                 continue
             elseif ischar(comp_ic{1,i})
-                disp(' ')
-                disp('     wrong input -> should be integers')
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     wrong input -> should be integers\n');
+                fprintf(fileID,'\n');
                 continue
             elseif ~isempty(comp_ic{1,i}) && any(rem(comp_ic{1,i},1))
-                disp(' ')
-                disp('     wrong input -> should be integers')
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     wrong input -> should be integers\n');
+                fprintf(fileID,'\n');
                 continue
             elseif length(comp_ic{1,i})>numberOfTimeSeries-1
-                disp(' ')
-                disp('     wrong input -> invalid input')
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     wrong input -> invalid input\n');
+                fprintf(fileID,'\n');
                 continue
                 
             elseif any(ismember(comp_ic{1,i}, ForbiddenIndexes{i})) ...
                     || ~isempty(find(comp_ic{1,i}>numberOfTimeSeries,1))
-                disp(' ')
-                disp(['     wrong input -> conflicts in the ' ...
-                    'dependency vector.'])
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> conflicts in the ' ...
+                    'dependency vector.\n']);
+                fprintf(fileID,'\n');
                 continue
-                
-                
                 
             else
                 if comp_ic{1,i} == 0
@@ -195,8 +186,7 @@ else
 end
 
 %% Get number of model class
-disp(' ')
-module=module+1;
+fprintf(fileID,'\n');
 incTest=0;
 isCorrect = false;
 while ~isCorrect
@@ -205,83 +195,73 @@ while ~isCorrect
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    disp( ['- How many model classes do ' ...
-        'you want for each time-series? '])
+    fprintf(fileID, ['- How many model classes do ' ...
+        'you want for each time-series? \n']);
     if misc.BatchMode.isBatchMode
         nb_models=eval(char(misc.BatchMode.Answers{...
             misc.BatchMode.AnswerIndex}));
-        disp(['     ', num2str(nb_models)])
+        fprintf(fileID,'     %s', num2str(nb_models));
     else
         nb_models=input('     choice >> ');
     end
     if isempty(nb_models)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%')
-        disp('                                                         ')
-        disp([' Bayesian dynamic linear modelling enables to run more' ...
-            'than one model class to interpret time series with' ...
-            'switching dynamics.'])
-        disp([' This section allows to choose the number of model' ...
-            'class to process each time series.'])
-        disp(' A maximum of 2 model classes is supported. ')
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
         continue
     elseif length(nb_models) > 1
-        disp(' ')
-        disp('     wrong input -> should be a single integer')
-        disp(' ')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'     wrong input -> should be a single integer\n');
+        fprintf(fileID,'\n');
         continue
     elseif ischar(nb_models)|| rem(nb_models,1)~=0 || sign(nb_models) == -1
-        disp(' ')
-        disp('     wrong input -> not a positive integer')
-        disp(' ')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'     wrong input -> not a positive integer\n');
+        fprintf(fileID,'\n');
         continue
     elseif nb_models > 2
-        disp(' ')
-        disp(['     wrong input -> more than 2 model classes ' ...
-            'is not supported.'])
-        disp(' ')
+        fprintf(fileID,'\n');
+        fprintf(fileID,['     wrong input -> more than 2 model classes ' ...
+            'is not supported.\n']);
+        fprintf(fileID,'\n');
         continue
     else
         isCorrect = true;
     end
 end
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
-
-
+fprintf(fileID,'\n');
 %% Identify model components for each model class and time series
-disp(' ')
-disp('     --------------------------------------------------------')
-disp('     BDLM Component reference numbers')
-disp('     --------------------------------------------------------')
-disp('     11: Local level')
-disp('     12: Local trend')
-disp('     13: Local acceleration')
-disp('     21: Local level compatible with local trend')
-disp('     22: Local level compatible with local acceleration')
-disp('     23: Local trend compatible with local acceleration')
-disp('     31: Periodic')
-disp('     41: Autoregressive process (AR(1))')
-disp('     51: Dynamic regression with hidden component')
-disp('     52: Static kernel regression')
-disp('     53: Dynamic kernel regression')
-disp('     61: Level Intervention')
-disp('     --------------------------------------------------------')
-disp(' ')
-
+fprintf(fileID,'\n');
+fprintf(fileID,['     -------------------------', ...
+    '-------------------------------\n']);
+fprintf(fileID,'     BDLM Component reference numbers\n');
+fprintf(fileID,['     -------------------', ...
+    '-------------------------------------\n']);
+fprintf(fileID,'     11: Local level \n');
+fprintf(fileID,'     12: Local trend \n');
+fprintf(fileID,'     13: Local acceleration \n');
+fprintf(fileID,'     21: Local level compatible with local trend \n');
+fprintf(fileID,['     22: Local level compatible ', ...
+    'with local acceleration \n']);
+fprintf(fileID,['     23: Local trend compatible ', ...
+    'with local acceleration \n']);
+fprintf(fileID,'     31: Periodic \n');
+fprintf(fileID,'     41: Autoregressive process (AR(1)) \n');
+fprintf(fileID,'     51: Dynamic regression with hidden component \n');
+fprintf(fileID,'     52: Static kernel regression \n');
+fprintf(fileID,'     53: Dynamic kernel regression \n');
+fprintf(fileID,'     61: Level Intervention \n');
+fprintf(fileID,['     ---------------------------', ...
+    '-----------------------------\n']);
+fprintf(fileID,'\n');
 
 all_components=[11 12 13 21 22 23 31 41 51 52 53 61];
 level_components=[11 12 13 21 22 23];
-
-module=module+1;
 
 comp=cell(nb_models,numberOfTimeSeries);
 
 for j=1:nb_models
     if nb_models>1
-        disp(['    Model class #' num2str(j)])
+        fprintf(fileID,'\n');
+        fprintf(fileID,'- Model class # %s \n', num2str(j));
     end
     for i=1:numberOfTimeSeries
         
@@ -292,113 +272,95 @@ for j=1:nb_models
             incTest=incTest+1;
             if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
-            
-            disp(['- Identify components for each' ...
-                ' model class and observation; e.g. [11 31 41]'])
+            fprintf(fileID,'\n');
+            fprintf(fileID,['     Identify components for ' ...
+                'time series #%s; e.g. [11 31 41]\n'], num2str(i));
             if misc.BatchMode.isBatchMode
                 comp{j}{i}=eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                if length(comp{j}{i}(:)) ~=1
-                    disp(['     [' sprintf('%d,', comp{j}{i}(1:end-1) ) ...
-                        num2str(comp{j}{i}(end)) ']'])
-                else
-                    disp(['     [' num2str(comp{j}{i}(end)) ']'])
-                end
+                
+                fprintf(fileID, ['     [%s] ', ...
+                    '\n'], strjoin(cellstr(num2str(comp{j}{i}(:))),', '));
+                
             else
-                comp{j}{i}=input(['     time serie #' num2str(i) ' >> ']);
+                comp{j}{i}=input('     choice >> ');
             end
             if isempty(comp{j}{i})
-                disp(' ')
-                disp(['%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%' ...
-                    '%%%%%%%%%%%%%%'])
-                disp(' ')
-                disp([' Bayesian dynamic linear modelling requires' ...
-                    'a user''s defined model structure. '])
-                disp([' The structure of the model is defined' ...
-                    'using components. '])
-                disp(' There is one reference number per components.')
-                disp([' For instance, [11 31 41] builds a model with' ...
-                    'a local level, a periodic component,' ...
-                    'and an AR(1) process.'])
-                disp(' ')
-                disp([' The first six components are used to describe' ...
-                    'the baseline of the time series (level components).'])
-                disp([' Compatibility rules for the level components' ...
-                    'apply between model classes. '])
-                disp(' ')
-                disp([' Default model parameters values are assigned ' ...
-                    'to each model component.'])
-                disp(' ')
-                disp(['%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%' ...
-                    '%%%%%%%%%%%%%%'])
-                disp(' ')
+                continue
             elseif ischar(comp{j}{i})
-                disp(' ')
-                disp('     wrong input -> should be integers')
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     wrong input -> should be integers\n');
+                fprintf(fileID,'\n');
                 continue
             elseif ~all(ismember(comp{j}{i},all_components))
-                disp(' ')
-                disp(['     wrong input -> at least one component' ...
-                    ' is unknown '])
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> at ', ...
+                    'least one component' ...
+                    ' is unknown \n']);
+                fprintf(fileID,' ');
                 continue
             elseif ~all(ismember(comp{j}{i}(1),level_components))
-                disp(' ')
-                disp(['     wrong input -> first component should be a' ...
-                    ' level component (i.e. either 11 12 13 21 22 23)'])
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> first ', ...
+                    'component should be a' ...
+                    ' level component (i.e. either 11 12 13 21 22 23)\n']);
+                fprintf(fileID,'\n');
                 continue
             elseif length(comp{j}{i}) > 1 && ...
                     any(ismember(comp{j}{i}(2:end),level_components))
-                disp(' ')
-                disp(['     wrong input -> only the first component' ...
-                    ' should be a level component'])
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> ', ...
+                    'only the first component' ...
+                    ' should be a level component\n']);
+                fprintf(fileID,'\n');
                 continue
             elseif j == 1 && nb_models>1 && ...
                     any(ismember(comp{j}{i}(1),level_components(1:3)))
-                disp(' ')
-                disp(['     wrong input -> the first component for' ...
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> the ', ...
+                    'first component for' ...
                     ' model class 1 should be a level compatible' ...
-                    ' component (i.e. either 21 22 23 )'])
-                disp(' ')
+                    ' component (i.e. either 21 22 23 )\n']);
+                fprintf(fileID,'\n');
                 continue
             elseif j == 1 && nb_models == 1 && ...
                     any(ismember(comp{j}{i}(1),level_components(4:6)))
-                disp(' ')
-                disp(['     wrong input -> the first component for ' ...
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> the ', ...
+                    'first component for ' ...
                     'model class 1 should not be a level compatible ' ...
-                    'component (i.e. only 11 12 13 are supported).'])
-                disp(' ')
+                    'component (i.e. only 11 12 13 are supported).\n']);
+                fprintf(fileID,'\n');
                 continue
             elseif j == 2 && nb_models>1 && comp{1}{i}(1) == 21 && ...
                     comp{j}{i}(1) ~= 12
-                disp(' ')
-                disp(['     wrong input -> the level component' ...
-                    ' for the two model classes are not compatibles'])
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> the ', ...
+                    'level component' ...
+                    ' for the two model classes are not compatibles']);
+                fprintf(fileID,'\n');
                 continue
             elseif j == 2 && nb_models>1 && comp{1}{i}(1) == 22 && ...
                     comp{j}{i}(1) ~= 13
-                disp(' ')
-                disp(['     wrong input -> the level' ...
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> the level' ...
                     ' component for the two model classes are not' ...
-                    ' compatibles'])
-                disp(' ')
+                    ' compatibles\n']);
+                fprintf(fileID,'\n');
                 continue
             elseif j == 2 && nb_models>1 && comp{1}{i}(1) == 23 && ...
                     comp{j}{i}(1) ~= 13
-                disp(' ')
-                disp(['     wrong input -> the level component ' ...
-                    'for the two model classes are not compatibles'])
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> the ', ...
+                    'level component ' ...
+                    'for the two model classes are not compatibles\n']);
+                fprintf(fileID,'\n');
                 continue
             elseif j>1&& length(comp{j}{i})~=length(comp{j-1}{i})
-                disp(' ')
-                disp(['     wrong input -> all model' ...
-                    ' classes must have the same number of components'])
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> all model' ...
+                    ' classes must have the same number of components\n']);
+                fprintf(fileID,'\n');
                 continue
             else
                 isCorrect=true;
@@ -410,69 +372,55 @@ end
 
 %% Identify constrained components
 const=cell(nb_models,numberOfTimeSeries);
-disp(' ')
 if nb_models>1
-    module=module+1;
     for j=2:nb_models
-        disp(['    Model class #' num2str(j)])
+        %fprintf(fileID,'- Model class # %s\n', num2str(j));
         for i=1:numberOfTimeSeries
             
             incTest=0;
             isCorrect = false;
             while ~isCorrect
                 incTest=incTest+1;
-                if incTest > MaxFailAttempts ; error(['Too many failed ', ...
-                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end
-                
-                disp(['- Identify shared parameters' ...
+                if incTest > MaxFailAttempts
+                    error(['Too many failed ', ...
+                        'attempts (', num2str(MaxFailAttempts)  ').'])
+                end
+                fprintf(fileID,'\n');
+                fprintf(fileID,['- Identify the shared parameters' ...
                     ' between the components of the model' ...
-                    ' class #1; e.g. [0 1 1]'])
+                    ' classes 1 and 2 for time ', ...
+                    ' series #%s ; e.g. [0 1 1]\n'], ...
+                    num2str(i));
                 if misc.BatchMode.isBatchMode
                     const{j}{i}=eval(char(misc.BatchMode.Answers{ ...
                         misc.BatchMode.AnswerIndex}));
                     
-                    if length(const{j}{i}(:)) ~= 1
-                        disp(['     [' sprintf('%d,', const{j}{i}(1:end-1) ) ...
-                            num2str(const{j}{i}(end)) ']'])
-                    else
-                        disp(['     [' num2str(const{j}{i}(end)) ']'])
-                    end
+                    fprintf(fileID, ['     [%s] ', ...
+                        '\n'], strjoin(cellstr(num2str(const{j}{i}(:))),', '));
+                    
                 else
-                    const{j}{i}=input(['     time serie #' num2str(i) ...
-                        ' >> ']);
+                    const{j}{i}=input('     choice >>');
                 end
                 if isempty(const{j}{i})
-                    disp(' ')
-                    disp(['%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%' ...
-                        '%%%%%%%%%%%%%%%%%%%'])
-                    disp(' ')
-                    disp([' For a given component and two model ' ...
-                        'classes, sharing model parameters implies of' ...
-                        'having the same parameters for the' ...
-                        'two model classes.  '])
-                    disp([' Sharing parameters between the same component' ...
-                        'of different model classes enables to reduce' ...
-                        'the total number of model parameters.'])
-                    disp(' ')
-                    disp(['%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%' ...
-                        '%%%%%%%%%%%%%%%%%%%'])
-                    disp(' ')
+                    continue
                 elseif length(const{j}{i})~=length(comp{j}{i})
-                    disp(' ')
-                    disp(['     wrong input -> the number of ' ...
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,['     wrong input -> the number of ' ...
                         'constraint parameters must be the same ' ...
-                        'as the number of components'])
-                    disp(' ')
+                        'as the number of components\n']);
+                    fprintf(fileID,'\n');
                     continue
                 elseif ischar(const{j}{i})
-                    disp(' ')
-                    disp('     wrong input -> should be integers')
-                    disp(' ')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,['     wrong input -> ', ...
+                        'should be integers\n']);
+                    fprintf(fileID,'\n');
                     continue
                 elseif ~all(ismember(const{j}{i}, [0,1]))
-                    disp(' ')
-                    disp('     wrong input -> should be 0 or 1')
-                    disp(' ')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,['     wrong input -> ', ...
+                        'should be 0 or 1\n']);
+                    fprintf(fileID,'\n');
                     continue
                 else
                     isCorrect = true;
@@ -483,11 +431,10 @@ if nb_models>1
         end
     end
 end
-
+fprintf(fileID,'\n');
 
 
 model.nb_class = nb_models;
-
 
 % Model blocks
 for j=1:nb_models

@@ -53,7 +53,7 @@ function saveProject(data, model, estimation, misc, varargin)
 %       April 18, 2018
 %
 %   DATE LAST UPDATE:
-%       June 11, 2018
+%       August 13, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -78,6 +78,18 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
+ProjectsInfoFilename = misc.ProjectInfoFilename;
+
+% Set fileID for logfile
+if misc.isQuiet
+   % output message in logfile
+   fileID=fopen(misc.logFileName, 'a');  
+else
+   % output message on screen and logfile using diary command
+   fileID=1; 
+end
+
+
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -91,9 +103,10 @@ end
 if isfield(misc, 'ProjectName')
     project_name = misc.ProjectName;
 else
-    disp(' ')
-    disp('     ERROR: Unable to read project name from the structure. ')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,['     ERROR: Unable to read project ', ...
+        'name from the structure.\n']);
+    fprintf(fileID,'\n');
     return
 end
 
@@ -105,9 +118,10 @@ if ischar(project_name)
 end
 
 if isempty(project_name)
-    disp(' ')
-    disp('     ERROR: Unable to read project name from the structure. ')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,['     ERROR: Unable to read project', ...
+        ' name from the structure.\n']);
+    fprintf(fileID,'\n');
     return
 else
     name_projectfile=['PROJ_', project_name, '.mat'];
@@ -121,15 +135,23 @@ dat.estimation=estimation;
 dat.misc=misc;
 
 %% Save binary file in specified location
+disp('     Saving project...')
 save(fullname, '-struct', 'dat')
-fprintf('     Project saved in %s. \n', ...
+fprintf(fileID, '     Project saved in %s. \n', ...
     fullfile(FilePath, name_projectfile ));
 
 %% Add information specific file if required
-
-ProjectsInfoFilename = 'ProjectsInfo.mat';
-
-% Load file 
+% Test existence of the file that contains all information about projects
+[isFileExist] = ...
+    testFileExistence(fullfile(pwd, FilePath, ProjectsInfoFilename), 'file');
+% If not existing create the file
+if ~isFileExist
+     ProjectInfo = {};  
+    % create file
+    save(fullfile(pwd, FilePath, ProjectsInfoFilename), 'ProjectInfo');
+end
+    
+% Load the file 
 FileContent = load(fullfile(pwd, FilePath, ProjectsInfoFilename));
 ProjectInfo = FileContent.ProjectInfo;
 
@@ -144,7 +166,7 @@ if ~isempty(ProjectInfo)
             misc.ProjectDateCreation, fullname }];
                 
     elseif any(Test_Name) && ~any(Test_Date)
-        
+        % overwrite project but change date of creation
         ProjectInfo{Test_Name,2} =  misc.ProjectDateCreation;
         
     end

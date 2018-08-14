@@ -56,7 +56,7 @@ function [data, model, estimation, misc]=loadConfigurationFile(misc, ConfigFileN
 %       July 26, 2018
 %
 %   DATE LAST UPDATE:
-%       July 26, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -73,8 +73,16 @@ parse(p, misc, ConfigFileName);
 misc=p.Results.misc;
 ConfigFileName=p.Results.ConfigFileName;
 
-ConfigFilePath=misc.ConfigPath;
 ProjectFilePath=misc.ProjectPath;
+
+% Set fileID for logfile
+if misc.isQuiet
+   % output message in logfile
+   fileID=fopen(misc.logFileName, 'a');  
+else
+   % output message on screen and logfile using diary command
+   fileID=1; 
+end
 
 % Save current misc variable about reading mode
 InteractiveMode_s= misc.InteractiveMode;
@@ -82,18 +90,17 @@ ReadFromConfigFileMode_s = misc.ReadFromConfigFileMode;
 BatchMode_s = misc.BatchMode;
 
 %% Load a configuration file
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/    Load a configuration file ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp(' ')
-disp('     ...in progress')
-disp(' ')
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+disp('     Loading configuration file...');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'\n');
+% fprintf(fileID,'     ...in progress \n');
+% fprintf(fileID,'\n');
 
 %% Run the configuration file
-%run(fullfile(pwd, ConfigFilePath, ConfigFileName));
 run(ConfigFileName);
 
 %% Initialize variable estimation as a structure
@@ -114,7 +121,7 @@ misc.BatchMode = BatchMode_s;
 [misc]=setDefaultConfig(misc, data);
 
 %% Save the project
-saveProject(data, model, estimation, misc,'FilePath', ProjectFilePath);
+% saveProject(data, model, estimation, misc,'FilePath', ProjectFilePath);
 
 %--------------------END CODE ------------------------
 end

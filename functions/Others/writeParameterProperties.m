@@ -113,11 +113,7 @@ function [cellOutput] = insertArrayInCell(cellInput, arrayInput, Pos)
 
 % Verify compatibility size
 if size(arrayInput, 1) ~= size(cellInput,1)
-    disp(' ')
-    disp('     Impossible to concatenate. Size does not match. ')
-    disp(' ')
-    cellOutput = {};
-    return
+    error('     Impossible to concatenate. Size does not match. ')
 end
 
 Position_end = Pos+size(arrayInput,2)-1;

@@ -75,7 +75,7 @@ function [data, misc]=selectTimePeriod(data, misc)
 %       July 4, 2018
 %
 %   DATE LAST UPDATE:
-%       July 24, 2018
+%       August 13, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -90,13 +90,22 @@ misc=p.Results.misc;
 
 MaxFailAttempts=4;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 %% Get number of time series
 numberOfTimeSeries =size(data.values, 2);
 
 %% Get timestamps
 timestamps=data.timestamps;
 
-disp('- Define timestamps ')
+fprintf(fileID, '- Define timestamps\n');
 fmt = 'yyyy-mm-dd';
 
 %% Request user's input to specify start date
@@ -107,10 +116,10 @@ while ~isCorrect
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    fprintf('  Start date (%s): \n',fmt);
+    fprintf(fileID,'     Start date (%s): \n',fmt);
     if misc.BatchMode.isBatchMode
         tts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ', tts])
+        fprintf(fileID, '     %s\n', tts);
     else
         tts = input('     choice >> ','s');
     end
@@ -121,30 +130,21 @@ while ~isCorrect
     tts=strrep(tts, ' ','' ); % remove spaces
     
     if isempty(tts)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        disp([' This is the date corresponding to the' ...
-            ' first sample to analyze.'])
-        disp(' The date should be provided in yyyy-mm-dd format.       ')
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
         continue
     else
         try
             datenum(tts,fmt);
         catch
-            disp(' ')
-            disp(['     wrong format. Format should be ',fmt ])
-            disp(' ')
+            fprintf(fileID, '\n');
+            fprintf(fileID, '     wrong format. Format should be %s\n',fmt );
+            fprintf(fileID, '\n');
             continue
         end
         
         if ~strcmp(datestr(tts, fmt), tts )
-            disp(' ')
-            disp('     wrong input: Invalid date. ')
-            disp(' ')
+            fprintf(fileID, '\n');
+            fprintf(fileID, '     wrong input: Invalid date.\n');
+            fprintf(fileID, '\n');
             continue
         end
         
@@ -153,7 +153,7 @@ while ~isCorrect
 end
 % Increment global variable to read next answer when required
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
-disp(' ')
+fprintf(fileID, '\n');
 
 %% Request user's input to specify end date
 incTest=0;
@@ -164,10 +164,10 @@ while ~isCorrect
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    fprintf('  End date (%s): \n',fmt);
+    fprintf(fileID, '     End date (%s): \n',fmt);
     if misc.BatchMode.isBatchMode
         tte=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ', tte])
+        fprintf(fileID, '     %s\n', tte);
     else
         tte = input('     choice >> ','s');
     end
@@ -178,46 +178,38 @@ while ~isCorrect
     tte=strrep(tte, ' ','' ); % remove spaces
     
     if isempty(tte)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        disp([' This is the date corresponding to the' ...
-            'last sample to analyze.'])
-        disp(' The date should be provided in yyyy-mm-dd format.       ')
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
         continue
     else
         try
             datenum(tte,fmt);
         catch
-            disp(' ')
-            disp(['     wrong format. Format should be ',fmt ])
-            disp(' ')
+            fprintf(fileID, '\n');
+            fprintf(fileID, '     wrong format. Format should be %s\n',fmt );
+            fprintf(fileID, '\n');
             continue
         end
         
         if ~strcmp(datestr(tte, fmt), tte )
-            disp(' ')
-            disp('    wrong input: Invalid date. ')
-            disp(' ')
+            fprintf(fileID, '\n');
+            fprintf(fileID, '    wrong input: Invalid date.\n');
+            fprintf(fileID, '\n');
             continue
         end
         
         if datenum(tte) <= datenum(tts)
-            disp(' ')
-            disp(['     wrong input: end date  ' ...
-                'should be more recent than start date', ])
-            disp(' ')
+            fprintf(fileID, '\n');
+            fprintf(fileID, ['     wrong input: end date  ' ...
+                'should be more recent than start date\n']);
+            fprintf(fileID, '\n');
             continue
         end
         
         if datenum(tte) <= datenum(timestamps(1))
-            disp(' ')
-            disp(['     wrong input: end date  ' ...
-                'should be more recent that the date of first data sample'])
-            disp(' ')
+            fprintf(fileID, '\n');
+            fprintf(fileID, ['     wrong input: end date  ' ...
+                'should be more recent that the ', ...
+                'date of first data sample\n']);
+            fprintf(fileID, '\n');
             continue
         end
         
@@ -240,15 +232,15 @@ if datenum(tte, fmt) > timestamps(end)
         if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
-        disp(' ')
-        disp('     The end date > last date.')
-        disp('     Padding with NaN will be done.')
-        disp(['     Give a time step (in day) ', ...
-            'to perform the data padding.'])
+        fprintf(fileID, '\n');
+        fprintf(fileID, '     The end date > last date.\n');
+        fprintf(fileID, '     Padding with NaN will be done.');
+        fprintf(fileID, ['     Give a time step (in day) ', ...
+            'to perform the data padding.\n']);
         if misc.BatchMode.isBatchMode
             dt_ref= ...
                 eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-            disp(['     ',num2str(dt_ref)])
+            fprintf(fileID, '     %s\n',num2str(dt_ref));
         else
             dt_ref = input('     choice >> ');
         end
@@ -256,7 +248,7 @@ if datenum(tte, fmt) > timestamps(end)
         if  isnumeric(dt_ref) && length(dt_ref) == 1
             isAnswerCorrect = true;
         else
-            disp('     wrong input')
+            fprintf(fileID, '     wrong input\n');
             continue
         end
         

@@ -66,7 +66,7 @@ function [model, misc] = modifyModelParameters(data, model, estimation, misc, va
 %       June 11, 2018
 %
 %   DATE LAST UPDATE:
-%       July 31, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -92,6 +92,15 @@ FilePath=p.Results.FilePath;
 
 MaxFailAttempts=4;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 %% Read model parameter properties
 idx_pvalues=size(model.param_properties,2)-1;
 idx_pref= size(model.param_properties,2);
@@ -104,9 +113,10 @@ parameter= arrayOut(:,1);
 p_ref = arrayOut(:,2);
 
 %% Display current values
-disp(['     #   |Parameter    |Component |Model # |Observation '...
+fprintf(fileID,['     #   |Parameter  ', ...
+    '  |Component |Model # |Observation '...
     '|Current value |Bounds min/max |Prior type' ...
-    ' |Mean prior |Sdev prior |Constraint'])
+    ' |Mean prior |Sdev prior |Constraint\n']);
 for i=1:length(parameter)
     i_ref=p_ref(i);
     if i~=i_ref
@@ -118,7 +128,7 @@ for i=1:length(parameter)
     format = ['     %-4s %-13s %-10s %-8s ' ...
         '%-12s %-14s %-15s %-11s %-11s %-11s %-10s\n'];
     
-    fprintf(format, ...        
+    fprintf(fileID, format, ...
         num2str(i, '%03d' ), ...
         model.param_properties{i,1}, ...
         model.param_properties{i,2}, ...
@@ -130,8 +140,7 @@ for i=1:length(parameter)
         model.param_properties{i_ref,6}, ...
         num2str(model.param_properties{i_ref,7}), ...
         num2str(model.param_properties{i_ref,8}), ...
-        contraint ...
-        )
+        contraint);
 end
 
 incTest=0;
@@ -142,23 +151,36 @@ while ~isCorrectAnswer
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    disp(' ')
-    disp('     1   ->  Modify a parameter value')
-    disp('     2   ->  Modify a parameter prior')
-    disp('     3   ->  Constrain a parameter to another')
-    disp(['     4   ->  Export current  ' ...
-        'parameter properties in config file format'])
-    disp(' ')
-    disp('     Type ''R'' to return to the previous menu')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     1   ->  Modify a parameter value\n');
+    fprintf(fileID,'     2   ->  Modify a parameter prior\n');
+    fprintf(fileID,'     3   ->  Constrain a parameter to another\n');
+    fprintf(fileID,['     4   ->  Export current  ' ...
+        'parameter properties in config file format\n']);
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     Type R to return to the previous menu\n');
+    fprintf(fileID,'\n');
     
     if misc.BatchMode.isBatchMode
         user_inputs.inp_1 = ...
             eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(user_inputs.inp_1)
+        user_inputs.inp_1 = num2str(user_inputs.inp_1);
+        if ischar(user_inputs.inp_1)
+            fprintf(fileID, '     %s  \n', user_inputs.inp_1);
+        else
+            fprintf(fileID, '     %s  \n', num2str(user_inputs.inp_1));
+        end
+        
     else
-        user_inputs.inp_1 =  input('     choice >> ');
+        user_inputs.inp_1 =  input('     choice >> ', 's');
     end
+    fprintf(fileID,'\n');
+    
+    % Remove space and simple/double quotes
+    user_inputs.inp_1=strrep(user_inputs.inp_1,'''',''); 
+    user_inputs.inp_1=strrep(user_inputs.inp_1,'"','' ); 
+    user_inputs.inp_1=strrep(user_inputs.inp_1, ' ','' ); 
+    
     
     if ischar(user_inputs.inp_1) && length(user_inputs.inp_1) == 1 && ...
             strcmpi(user_inputs.inp_1, 'R')
@@ -166,11 +188,11 @@ while ~isCorrectAnswer
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
         
-    elseif user_inputs.inp_1 == 1
-        
+    elseif round(str2double(user_inputs.inp_1)) == 1
+     
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
-        %% Provide the index of the parameter to modify              
+        %% Provide the index of the parameter to modify
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -179,13 +201,12 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            
-            disp('     Modify parameter # ')
+            fprintf(fileID,'     Modify parameter # \n');
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_2 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_2)
+                fprintf(fileID,'     %s \n', num2str(user_inputs.inp_2));
             else
                 user_inputs.inp_2 =  input('     choice >> ');
             end
@@ -197,30 +218,28 @@ while ~isCorrectAnswer
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
         end
         
-        %misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
-        
         %% Provide the new value of the parameter
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
-                        
+            
             incTest_2=incTest_2+1;
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            
-            disp('     New value :')
+            fprintf(fileID,'     New value :\n');
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_3)
+                
+                fprintf(fileID, '     %s\n', num2str(user_inputs.inp_3));
             else
                 user_inputs.inp_3 =  input('     choice >> ');
             end
@@ -231,13 +250,13 @@ while ~isCorrectAnswer
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
         end
         
-        %% Provide the new model parameter constraints 
+        %% Provide the new model parameter constraints
         incTest_2=0;
         isCorrect = false;
         while ~isCorrect
@@ -246,15 +265,15 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     New bounds : ')
+            fprintf(fileID,'     New bounds : \n');
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
                 
-                disp(['     [' sprintf('%d,', ...
-                    user_inputs.inp_4(1:end-1) ) ...
-                    num2str(user_inputs.inp_4(end)) ']'])
+                x=user_inputs.inp_4;
+                fprintf(fileID, ['     [%s] ', ...
+                    '\n'], strjoin(cellstr(num2str(x(:))),', '));
                 
             else
                 user_inputs.inp_4 =  input('     choice >> ');
@@ -266,9 +285,9 @@ while ~isCorrectAnswer
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
-            end            
+            end
         end
         
         % Change parameter values
@@ -278,11 +297,11 @@ while ~isCorrectAnswer
         if ~isempty(user_inputs.inp_4)
             model.param_properties{user_inputs.inp_2,5}=user_inputs.inp_4;
         end
-        disp(' ')
+        fprintf(fileID,'\n');
         
         isCorrectAnswer = true;
         
-    elseif user_inputs.inp_1 ==2
+    elseif round(str2double(user_inputs.inp_1)) == 2
         
         %% Provide the index of the parameter for which to modify the prior
         
@@ -296,13 +315,12 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            
-            disp('     Modify prior for parameter # ')
+            fprintf(fileID,'     Modify prior for parameter # \n');
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_2 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_2)
+                fprintf(fileID, '     %s  \n', num2str(user_inputs.inp_2));
             else
                 user_inputs.inp_2 =  input('     choice >> ');
             end
@@ -315,7 +333,7 @@ while ~isCorrectAnswer
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
@@ -330,12 +348,12 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     New prior type :')
+            fprintf(fileID,'     New prior type :\n');
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_3)
+                fprintf(fileID, '     %s  \n', user_inputs.inp_3);
             else
                 user_inputs.inp_3 =  input('     choice >> ');
             end
@@ -345,7 +363,7 @@ while ~isCorrectAnswer
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
@@ -360,12 +378,12 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     New prior mean :')
+            fprintf(fileID,'     New prior mean :\n');
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_4)
+                fprintf(fileID, '     %s  \n', num2str(user_inputs.inp_4));
             else
                 user_inputs.inp_4 =  input('     choice >> ');
             end
@@ -376,7 +394,7 @@ while ~isCorrectAnswer
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
@@ -391,12 +409,12 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     New prior standard deviation :')
+            fprintf(fileID,'     New prior standard deviation :\n');
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_5 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_5)
+                fprintf(fileID, '     %s  \n', num2str(user_inputs.inp_5));
             else
                 user_inputs.inp_5 =  input('     choice >> ');
             end
@@ -407,7 +425,7 @@ while ~isCorrectAnswer
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
@@ -424,12 +442,12 @@ while ~isCorrectAnswer
             model.param_properties{user_inputs.inp_2,8}=user_inputs.inp_5;
         end
         
-        disp(' ')
-                
+        fprintf(fileID,'\n');
+        
         isCorrectAnswer = true;
         
-        
-    elseif user_inputs.inp_1 ==3
+    elseif round(str2double(user_inputs.inp_1)) == 3
+    
         %% Provide the index of the parameter(s) to constrain
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         incTest_2=0;
@@ -440,12 +458,14 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     Constrain parameter # ')
+            fprintf(fileID,'     Constrain parameter # \n');
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_2 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_2)
+                
+                fprintf(fileID, '     %s  \n', num2str(user_inputs.inp_2));
+                
             else
                 user_inputs.inp_2 =  input('     choice >> ');
             end
@@ -457,13 +477,11 @@ while ~isCorrectAnswer
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.');
                 continue
             end
             
         end
-        
-        %misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
         incTest_2=0;
         isCorrect = false;
@@ -473,12 +491,12 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     to parameter # ')
+            fprintf(fileID,'     to parameter #\n');
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
                     eval(char(misc.BatchMode.Answers{ ...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_3)
+                fprintf(fileID,'     %s', num2str(user_inputs.inp_3));
             else
                 user_inputs.inp_3 =  input('     choice >> ');
             end
@@ -486,11 +504,12 @@ while ~isCorrectAnswer
             if ~isempty(user_inputs.inp_3) && ...
                     all(rem(user_inputs.inp_3,1)) == 0 && ...
                     all(user_inputs.inp_3 > 0) && ...
-                    all( user_inputs.inp_3 <= length(model.param_properties))
+                    all( user_inputs.inp_3 <= ...
+                    length(model.param_properties))
                 misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
                 isCorrect = true;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
@@ -499,39 +518,45 @@ while ~isCorrectAnswer
         % Change values
         p_ref(user_inputs.inp_2)=user_inputs.inp_3;
         model.param_properties{user_inputs.inp_2,5}=[nan,nan];
-        disp(' ')       
+        fprintf(fileID,'\n');
         
         isCorrectAnswer = true;
         
-    elseif user_inputs.inp_1 == 4
+    elseif round(str2double(user_inputs.inp_1)) == 4
         %% Display parameter properties in configuration file format
-        fprintf(repmat('%s',1,75),repmat('%',1,75));
-        fprintf('\n');
-        fprintf('%%%% D - Model parameters \n');
-        fprintf(repmat('%s',1,75),repmat('%',1,75));
-        fprintf('\n');
-        fprintf('model.param_properties={\n');
-        fprintf(['    %% #1             #2         #3       #4  ', ...
-            '    #5                  #6          #7      #8      #9    ', ...
+        fprintf(fileID,'\n');
+        fprintf(fileID, repmat('%s',1,75),repmat('%',1,75));
+        fprintf(fileID, '\n');
+        fprintf(fileID, '%%%% D - Model parameters \n');
+        fprintf(fileID, repmat('%s',1,75),repmat('%',1,75));
+        fprintf(fileID, '\n');
+        fprintf(fileID, 'model.param_properties={\n');
+        fprintf(fileID, ['        %% #1       ', ...
+            '      #2 .            #3       #4  ', ...
+            '    #5                      #6    ', ...
+            '          #7      #8      #9    ', ...
             '          #10', '\n']);
-        fprintf(['    %% Param name     Block name Model ', ...
-            '   Obs     Bound               Prior       Mean    Std   ', ...
+        fprintf(fileID, ['        %% Param name  ', ...
+            '   Block name     Model ', ...
+            '   Obs     Bound       ', ...
+            '            Prior           Mean    Std   ', ...
             '  Values          Ref', '\n']);
         for i=1:size(model.param_properties,1)
             space=repmat(' ',1,10-length(model.param_properties{i,1}));
-            fprintf(['\t''%-s''' space ',\t ', ...
-                '''%-s'',\t\t''''%-s'',\t ''%-s'',\t [ %-5G, %-5G],\t ', ...
+            fprintf(fileID, ['\t''%-s''' space ',\t ', ...
+                '''%-s'',\t\t''%-s'',\t ''%-s'',\t ', ...
+                '[ %-5G, %-5G],\t ', ...
                 '''%-s'',\t %-2.2G,\t %-2.2G,\t %-8.5G, ' ' ', ...
                 '\t %-2.3G %%#%d' '\n'], model.param_properties{i,:},i);
         end
-        fprintf('};\n');
-        fprintf('\n');
+        fprintf(fileID, '};\n');
+        fprintf(fileID, '\n');
         
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         isCorrectAnswer = true;
         
     else
-        disp('     Wrong input.')
+        fprintf(fileID,'     Wrong input.\n');
         continue
     end
 end
@@ -542,7 +567,7 @@ end
     [parameter, p_ref], size(model.param_properties,2)-1);
 
 %% Save project
-saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+%saveProject(data, model, estimation, misc, 'FilePath', FilePath)
 
 %--------------------END CODE ------------------------
 end

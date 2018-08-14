@@ -70,25 +70,28 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/ Display model matrices')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp(' ')
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'/ Display model matrices \n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'\n');
+
 isCorrectAnswer_2 =  false;
-disp('Timestamp index ? ')
+fprintf(fileID,'Timestamp index ? \n');
 while ~isCorrectAnswer_2
     user_inputs.inp_2 = input('     choice >> ');
     if isempty(user_inputs.inp_2)
-        disp(' ')
-        disp(['%%%%%%%%%%%%%%%%%%%%%%%%% ' ...
-            ' > HELP < %%%%%%%%%%%%%%%%%%%%%%%'])
-        disp(' ')
-        disp('Choose timestamp index. ')
-        disp('Timestamp index should be an integer value.')
-        disp(' ')
         continue
     elseif ~any(rem(user_inputs.inp_2,1)) && ...
             (user_inputs.inp_2 < length(data.timestamps)) && ...
@@ -100,12 +103,12 @@ while ~isCorrectAnswer_2
         
         isCorrectAnswer_2 =  true;
     else
-        disp(' ')
-        disp('Wrong input.')
-        disp(' ')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'Wrong input.\n');
+        fprintf(fileID,'\n');
         continue
     end
-    disp(' ')
+    fprintf(fileID,'\n');
 end
 
 

@@ -1,15 +1,21 @@
-function welcomeOpenBDLM(varargin)
+function welcomeOpenBDLM(misc, varargin)
 %WELCOMEOPENBDLM Print welcome message when starting the program
 %
 %   SYNOPSIS:
 %     WELCOMEOPENBDLM
 %
 %   INPUT:
-%      version - character (optional)
-%                give the version of the program
+%      misc                - structure
+%                             see the documentation for details about the
+%                             field in misc
+%
+%      version             - character (optional)
+%                             give the version of the program
 %
 %   OUTPUT:
-%      N/A
+%      misc                - structure
+%                             see the documentation for details about the
+%                             field in misc
 %
 %   DESCRIPTION:
 %      WELCOMEOPENBDLM prints welcome message when starting the program
@@ -51,25 +57,34 @@ defaultVersion = ' ';
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
+addRequired(p, 'misc', @isstruct)
 addParameter(p, 'version', defaultVersion, validationFonction)
-parse(p, varargin{:});
+parse(p, misc, varargin{:});
 
+misc=p.Results.misc;
 version=p.Results.version;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp(['///////////////////////////',...
-    '///////////////OpenBDLM_V', version ,'\\\\\\\\\\\\\\\\\\\\\\\', ...
-    '\\\\\\\\\\\\\\\\'])
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp(' ')
-disp(['            Structural Health Monitoring ',...
-    'using Bayesian Dynamic Linear Models'])
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
+if misc.isQuiet
+   fileID=fopen(misc.logFileName, 'a');
+else
+    fileID=1;
+end
+
+fprintf(fileID, '\n');
+fprintf(fileID, ['-----------------------------------------', ...
+    '-----------------------------------------------------\n']);
+% fprintf(fileID,['///////////////////////////',...
+%     '///////////////OpenBDLM_V %s \\\\\\\\\\\\\\\\\\\\\\\', ...
+%     '\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n'], version);
+disp(['     Starting OpenBDLM_V', version, '...' ])
+fprintf(fileID,['-----------------------------------------', ...
+    '-----------------------------------------------------\n']);
+fprintf(fileID,'\n');
+fprintf(fileID,['            Structural Health Monitoring ',...
+    'using Bayesian Dynamic Linear Models\n']);
+fprintf(fileID, '\n');
+fprintf(fileID, ['-----------------------------------------', ...
+    '-----------------------------------------------------\n']);
 
 %--------------------END CODE ------------------------
 end

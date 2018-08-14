@@ -106,9 +106,6 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
-%% Remove space in filename
-%FilePath = FilePath(~isspace(FilePath));
-
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -263,9 +260,6 @@ for idx=1:numberOfHiddenStates
             
         end
         
-%         ylabel(['$' model.hidden_states_names{1}{idx,1} '$ [' '$' ...
-%             model.hidden_states_names{1}{idx,3} ']$' ],'Interpreter','Latex')
-
         ylabel(['$' model.hidden_states_names{1}{idx,1} '$ [' '$' ...
             data.labels{str2double(model.hidden_states_names{1}{idx,3})} ...
             ']$' ],'Interpreter','Latex')

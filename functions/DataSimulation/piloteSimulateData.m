@@ -65,7 +65,7 @@ function [data, model, estimation, misc]=piloteSimulateData(data, model,estimati
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       July 27, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -85,15 +85,24 @@ misc=p.Results.misc;
 DataPath=misc.DataPath;
 ProjectPath=misc.ProjectPath;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp( '/    Simulate data')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp(' ')
-disp('     ...in progress')
-disp(' ')
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID, '/    Simulate data \n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'\n');
+% fprintf(fileID,'     ...in progress \n');
+% fprintf(fileID,'\n');
 
 isSimulateFromData=false;
 

@@ -54,7 +54,7 @@ function [model, misc]= modifyInitialHiddenStates(data, model, estimation, misc,
 %   SUBFUNCTIONS:
 %      N/A
 %
-%   See also BDLM, SAVEPROJECT
+%   See also
 
 %   AUTHORS:
 %       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet,
@@ -69,7 +69,7 @@ function [model, misc]= modifyInitialHiddenStates(data, model, estimation, misc,
 %       June 11, 2018
 %
 %   DATE LAST UPDATE:
-%       July 20, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -95,16 +95,24 @@ FilePath=p.Results.FilePath;
 
 MaxFailAttempts=4;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
 
 %% Display current values
-disp(['     #     |state variable    |observation    '...
-    '   |E[x_0]    |var[x_0] '])
+fprintf(fileID, ['     #     |state variable    |observation    '...
+    '   |E[x_0]    |var[x_0] \n']);
 
 format = ('     %-5s %-18s %-18s %-10s %-10s\n');
 
 for i=1:length(model.initX{1})
     
-    fprintf(format, ...        
+    fprintf(fileID, format, ...
         num2str(i, '%03d' ), ...
         model.hidden_states_names{1}{i,1}, ...
         model.hidden_states_names{1}{i,3}, ...
@@ -120,20 +128,33 @@ while ~isCorrectAnswer
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    disp(' ')
-    disp('     1   ->  Modify a initial value')
-    disp('     2   ->  Export initial values in config file format')
-    disp(' ')
-    disp('     Type ''R'' to return to the previous menu')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     1   ->  Modify a initial value\n');
+    fprintf(fileID,'     2   ->  Export initial values in config file format\n');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     Type R to return to the previous menu\n');
+    fprintf(fileID,'\n');
     
     if misc.BatchMode.isBatchMode
         user_inputs.inp_2 =  ...
             eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(user_inputs.inp_2)
+        user_inputs.inp_2 = num2str(user_inputs.inp_2);
+        
+        if ischar(user_inputs.inp_2)
+            fprintf(fileID, '     %s  \n', user_inputs.inp_2);
+        else
+            fprintf(fileID, '     %s  \n', num2str(user_inputs.inp_2));
+        end
+        
     else
-        user_inputs.inp_2 =  input('     choice >> ');
+        user_inputs.inp_2 =  input('     choice >> ', 's');
     end
+    
+    % Remove space and simple/double quotes
+    user_inputs.inp_2=strrep(user_inputs.inp_2,'''',''); 
+    user_inputs.inp_2=strrep(user_inputs.inp_2,'"','' ); 
+    user_inputs.inp_2=strrep(user_inputs.inp_2, ' ','' ); 
+    
     
     if ischar(user_inputs.inp_2) && length(user_inputs.inp_2) == 1 && ...
             strcmpi(user_inputs.inp_2, 'R')
@@ -141,7 +162,7 @@ while ~isCorrectAnswer
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
         
-    elseif user_inputs.inp_2==1
+    elseif round(str2double(user_inputs.inp_2)) == 1
         misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
         
         %% Providing index of the variable to modify
@@ -152,13 +173,13 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     Modify variable # ')
+            fprintf(fileID,'     Modify variable #\n');
             
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_3)
+                fprintf(fileID, '     %s\n', num2str(user_inputs.inp_3));
             else
                 user_inputs.inp_3 =  input('     choice >> ');
             end
@@ -171,7 +192,7 @@ while ~isCorrectAnswer
                 isCorrect = true;
                 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
@@ -186,13 +207,13 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     New E[x_0] : ')
+            fprintf(fileID,'     New E[x_0] : \n');
             
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_4)
+                fprintf(fileID, '     %s\n', num2str(user_inputs.inp_4));
             else
                 user_inputs.inp_4 =  input('     choice >> ');
             end
@@ -202,7 +223,7 @@ while ~isCorrectAnswer
                 isCorrect = true;
                 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
@@ -217,13 +238,13 @@ while ~isCorrectAnswer
             if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     New var[x_0] : ')
+            fprintf(fileID,'     New var[x_0] : \n');
             
             if misc.BatchMode.isBatchMode
                 user_inputs.inp_5 = ...
                     eval(char(misc.BatchMode.Answers{...
                     misc.BatchMode.AnswerIndex}));
-                disp(user_inputs.inp_5)
+                fprintf(fileID, '     %s', user_inputs.inp_5);
             else
                 user_inputs.inp_5 =  input('     choice >> ');
             end
@@ -234,7 +255,7 @@ while ~isCorrectAnswer
                 isCorrect = true;
                 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             else
-                disp('     Wrong input.')
+                fprintf(fileID,'     Wrong input.\n');
                 continue
             end
             
@@ -249,77 +270,56 @@ while ~isCorrectAnswer
         end
         
         % Save project
-        disp(' ')
-        saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+        %fprintf(fileID,'\n');
+        %saveProject(data, model, estimation, misc, 'FilePath', FilePath)
         
         return
         
-    elseif user_inputs.inp_2==2
+    elseif round(str2double(user_inputs.inp_2)) == 2
         
         %% Display in configuration file format
-        fprintf(repmat('%s',1,75),repmat('%',1,75));
-        fprintf( '\n');
-        fprintf('%%%% E - Initial states values \n');
-        fprintf(repmat('%s',1,75),repmat('%',1,75));
-        fprintf('\n');
+        fprintf(fileID, '\n');
+        fprintf(fileID, repmat('%s',1,75),repmat('%',1,75));
+        fprintf(fileID, '\n');
+        fprintf(fileID,'%%%% E - Initial states values \n');
+        fprintf(fileID, repmat('%s',1,75),repmat('%',1,75));
+        fprintf(fileID, '\n');
         
         for m=1:model.nb_class
             % Expected initial hidden states
-            fprintf(['%% Initial hidden states ', ...
+            fprintf(fileID, ['%% Initial hidden states ', ...
                 'mean for model %s:\n'], num2str(m));
-            fprintf( 'model.initX{ %s }=[', num2str(m) );
+            fprintf(fileID, 'model.initX{ %s }=[', num2str(m) );
             for i=1:size(model.initX{m},1)
-                fprintf( '\t%-6.3G', model.initX{m}(i,:));
+                fprintf(fileID, '\t%-6.3G', model.initX{m}(i,:));
             end
-            fprintf(']'';\n');
-            fprintf('\n');
+            fprintf(fileID, ']'';\n');
+            fprintf(fileID, '\n');
             
             % Initial hidden states variance (ignore covariance)
-            fprintf(['%% Initial hidden ', ...
+            fprintf(fileID, ['%% Initial hidden ', ...
                 'states variance for model %s: \n'], num2str(m));
             
             diagV=diag(model.initV{m});
             
-            fprintf('model.initV{ %s }=diag([ ', num2str(m) );
+            fprintf(fileID, 'model.initV{ %s }=diag([ ', num2str(m) );
             for i=1:length(diagV)
-                fprintf( '\t%-6.3G', diagV(i,:));
+                fprintf(fileID, '\t%-6.3G', diagV(i,:));
             end
-            fprintf(' ]);\n');
-            fprintf('\n');
-            fprintf('%% Initial probability for model %s\n', num2str(m));
+            fprintf(fileID, ' ]);\n');
+            fprintf(fileID, '\n');
+            fprintf(fileID, '%% Initial probability for model %s\n', num2str(m));
             for i=1:size(model.initS{m},1)
-                fprintf('model.initS{%d}=[%-6.3G];\n', m, model.initS{m});
+                fprintf(fileID, 'model.initS{%d}=[%-6.3G];\n', m, model.initS{m});
             end
-            fprintf('\n');
+            fprintf(fileID, '\n');
         end
-        
-
-        %         %% Display in configuration file format
-        %         for m=1:model.nb_class
-        %             disp(' ')
-        %             disp(['model.initX{' num2str(m) '}=['])
-        %             for i=1:size(model.initX{m},1)
-        %                 disp(sprintf(['\t%-6.3G'], model.initX{m}(i,:)));
-        %             end
-        %             disp('];')
-        %             disp(' ')
-        %             disp(['model.initV{' num2str(m) '}=['])
-        %             for i=1:size(model.initV{m},1)
-        %                 disp(sprintf(['\t%-8.3G'], model.initV{m}(i,:)));
-        %             end
-        %             disp('];')
-        %             disp(' ')
-        %             for i=1:size(model.initS{m},1)
-        %                 disp(sprintf('model.initS{%d}=[%-6.3G];',  ...
-        %                     m, model.initS{m}));
-        %             end
-        %         end
         
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
         
     else
-        disp('     Wrong input.')
+        fprintf(fileID,'     Wrong input.\n');
         continue
     end
     

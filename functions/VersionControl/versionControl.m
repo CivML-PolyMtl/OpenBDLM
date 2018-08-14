@@ -82,7 +82,7 @@ if isempty(InfoFile_1)  % the file does not exist
 else
     controlOut={};
     for j=1:length(InfoFile_1)
-                     
+        
         % Get name of the files
         ConfigFileName_src=InfoFile_1(j).name;
         
@@ -91,11 +91,10 @@ else
         subref_2=strsplit(subref_1{2}, '.');
         refname = subref_2{1};
         
-%         fprintf( '\n'); 
-%         fprintf( '\n');       
-%         fprintf('     Version control test %s \n', num2str(j));
-%         fprintf('\n');
-%         
+        disp(' ')
+        disp(['- Version control test #', num2str(j)]);
+        disp(' ')
+        
         
         DataFileName_src=['DATA_', refname, '.mat'];
         ProjectFileName_src=['PROJ_', refname, '.mat'];
@@ -105,10 +104,6 @@ else
         InfoFile_3=dir(fullfile(FilePath, ProjectFileName_src));
         
         if isempty(InfoFile_2) || isempty(InfoFile_3)
-%             disp(' ')
-%             disp(['     WARNING: Impossible to perform the test. ', ...
-%                 'Missing files.'])
-%             disp(' ')
             continue
         else
             
@@ -117,9 +112,6 @@ else
             if isfield(project.estimation, 'y')
                 y_ref=project.estimation.y;
             else
-%                 disp(' ')
-%                 disp('     WARNING: Impossible to perform the test.')
-%                 disp(' ')
                 continue
             end
             
@@ -143,9 +135,6 @@ else
                 % Verify size are compatible
                 if size(y_ref, 1) ~= size(y_test, 1) || ...
                         size(y_ref, 2) ~= size(y_ref, 2)
-%                     disp(' ')
-%                     disp('     WARNING: Impossible to perform the test.')
-%                     disp(' ')
                     continue
                 end
                 
@@ -171,29 +160,18 @@ else
         
         controlOut=[controlOut ; {refname, isRun, isValidSSE, mean_sse}];
         
-        %% Clean directory
-        %         warning off
-        %         % Project file
-        %         delete(fullfile(ProjectPath, ProjectFileName_src))
-        %         warning on
-        %
-        %         %% DeleteProject
-        %         warning off
-        %         % Load project info file array
-        %         FileContent = load(fullfile(pwd, ProjectPath,ProjectInfofile));
-        %         ProjectInfo = FileContent.ProjectInfo;
-        %
-        %         if ~isempty(ProjectInfo) && isRun
-        %
-        %             % Get number of saved projects
-        %             NumberOfSavedProjects = size(ProjectInfo,1);
-        %
-        %             % Delete project in file info
-        %             ProjectInfo(NumberOfSavedProjects,:) = [];
-        %             % Save file info
-        %             save(fullfile(pwd, ProjectPath, ProjectInfofile), 'ProjectInfo' );
-        %         end
-        %         warning on
+        
+        disp(' ')
+        if ~isRun || ~isValidSSE
+            resStr = 'FAIL';
+        else
+            resStr = 'PASS';
+        end
+        
+        disp( ['     ==> Version control ', ...
+            'test ' , num2str(j), ': ' , resStr]);
+        disp(' ')
+        
         
     end
     

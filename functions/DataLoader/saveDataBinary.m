@@ -60,7 +60,7 @@ function [misc, dataFilename] = saveDataBinary(data, misc, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       July 25, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -82,12 +82,21 @@ FilePath=p.Results.FilePath;
 
 FilePath_full=fullfile(FilePath, 'mat');
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
-    disp(' ')
-    disp('ERROR: Unable to read the data from the structure.')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'ERROR: Unable to read the data from the structure.\n');
+    fprintf(fileID,'\n');
     return
 end
 
@@ -101,6 +110,8 @@ if ~isFileExist
     addpath(FilePath_full)    
 end
 
+disp('     Save database (binary format)')
+
 ProjectName=misc.ProjectName;
 fullname = fullfile(FilePath_full, ['DATA_', ProjectName, '.mat'] );
 
@@ -109,9 +120,8 @@ fullname = fullfile(FilePath_full, ['DATA_', ProjectName, '.mat'] );
 if isFileExist
     isAnswerCorrect = false;
     while ~isAnswerCorrect
-        disp(' ')
-        fprintf(['     Data file name %s already exists. ' ...
-        'Overwrite ? (y/n) \n'], ['DATA_', ProjectName, '.mat'])
+        disp( ['     Data file name DATA_', ProjectName, '.mat ' , ...
+            'already exists. Overwrite ? (y/n)']);
         choice = input('     choice >> ','s');
         % Remove space and quotes
         choice=strrep(choice,'''','' ); % remove quotes
@@ -120,7 +130,7 @@ if isFileExist
         
         if isempty(choice)
             disp(' ')
-            disp('     wrong input --> please make a choice')
+            disp('     wrong input')
             disp(' ')
             continue
         elseif strcmpi(choice,'y') || strcmpi(choice,'yes') 
@@ -145,8 +155,8 @@ dataFilename = fullname;
 
 %% Save binary file in specified location
 save(fullname, '-struct', 'data')
-disp(' ')            
-fprintf('     Database saved in %s. \n', fullname);
-disp(' ')
+fprintf(fileID,'\n');            
+fprintf(fileID, '     Database saved in %s \n', fullname);
+fprintf(fileID,'\n');
 %--------------------END CODE ------------------------
 end

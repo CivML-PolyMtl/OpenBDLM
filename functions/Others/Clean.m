@@ -44,7 +44,7 @@ function Clean(varargin)
 p = inputParser;
 
 defaultFilderList = {'saved_projects', 'config_files', 'data', ...
-    'figures'};
+    'figures', 'log_files'};
 
 addParameter(p,'FoldersList', defaultFilderList, @iscell);
 
@@ -105,6 +105,18 @@ while ~isYesNoCorrect
                 catch
                 end                              
                 warning on                              
+                
+                % Add file .keep to allow the directory to be push in Git
+                % repos
+                phantomFilename='.keep';
+                
+                fileID=fopen(fullfile(FoldersList{i}, phantomFilename), 'w');
+                fclose(fileID);
+                
+                if strcmp(FoldersList{i}, 'data')
+                    mkdir('data/mat') ; mkdir('data/csv')
+                    addpath('data/mat') ; addpath('data/csv')        
+                end
                 
             end
             

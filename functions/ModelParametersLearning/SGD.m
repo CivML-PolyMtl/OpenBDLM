@@ -4,9 +4,9 @@ function [optim, model] = SGD(data, model, misc, varargin)
 % Ndata4miniBatch           - Size of mini batch. Defaut is 0.2 of the training
 %                             data.
 % alpha_split               - Portion of the validation data. Defaut is 0.3.
-% optim_mode                - Optimization method can be either MLE or MAP. 
+% optim_mode                - Optimization method can be either MLE or MAP.
 %                             Defaut is MLE.
-% optimizer                 - optimizer can be Adaptive Moment Estimation (ADAM) 
+% optimizer                 - optimizer can be Adaptive Moment Estimation (ADAM)
 %                             or Momentum (MMT). There are also 2
 %                             alternatives; ADAMbeta, MMTbeta. Defaut is MMT.
 %                             ADAM    : See Kingma and Lei Ba (2017)
@@ -33,10 +33,10 @@ function [optim, model] = SGD(data, model, misc, varargin)
 % model
 
 % TIPS:
-% - THE HEAVILY COMPUTATIONNAL RESOURCE IS REQUIRED FOR THIS ALGORITHM 
+% - THE HEAVILY COMPUTATIONNAL RESOURCE IS REQUIRED FOR THIS ALGORITHM
 % - If optimizer is ADAM, learningRate_mode should be either decay or
 %   defaut. Also, ADAM work well with a small training set.
-% - If optimizer is MMT, learningRate_mode should be hessian. 
+% - If optimizer is MMT, learningRate_mode should be hessian.
 %   MMT converge fast to the maximum point, but it is require a decent
 %   amount of data such > 2000 (data point).
 % - ADAM     -> learningRate_mode = defaut
@@ -46,9 +46,9 @@ function [optim, model] = SGD(data, model, misc, varargin)
 % - predCap is recommended as the metric for optimization process
 % - The hyperparameter such as alpha_split, learningRateDefaut, stdInit,
 %   beta_1, beta_2, epsilon, termination_tolorance are recommended to set
-%   as defaut for an effective performance. 
-%% Defaut values 
-warning('SGD ALGORITHM IS RECOMMENDED TO RUN ON MULTI-PROCESSORS')
+%   as defaut for an effective performance.
+%% Defaut values
+%warning('SGD ALGORITHM IS RECOMMENDED TO RUN ON MULTI-PROCESSORS')
 maxIter                 = 5;
 alpha_split             = 0.3;
 misc.optim_mode       = 'MLE';
@@ -65,6 +65,16 @@ termination_tolerance   = 0.95;
 timeLimit               = misc.time_limit_calibration*60;
 hessianDefaut           = 1000;
 misc.parallel         = 0;
+
+
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
 
 
 %% Read model parameter properties
@@ -94,10 +104,10 @@ idxTrain                    = misc.training_start_idx:misc.training_end_idx;
 [data_train, data_valid]    = dataSplit(data, idxTrain, alpha_split);
 data.dt_ref                 = data_train.dt_ref;
 data.dt_steps(1)            = data.dt_ref;
-Ndata4miniBatch             = round(0.2*size(data_valid.values,1)); 
+Ndata4miniBatch             = round(0.2*size(data_valid.values,1));
 NminiBatch                  = ceil(length(data_train.values)/Ndata4miniBatch);
 if NminiBatch<2
-   NminiBatch=1; 
+    NminiBatch=1;
 end
 %% If provided, employ user-specific arguments
 args    = varargin;
@@ -108,7 +118,7 @@ for n = 1:2:nargs
         case 'Ndata4miniBatch',     Ndata4miniBatch     = args{n+1};
         case 'validationSet',       alpha_split         = args{n+1};
         case 'optim_mode',          misc.optim_mode   = args{n+1};
-        case 'optimizer',           misc.optimizer    = args{n+1}; 
+        case 'optimizer',           misc.optimizer    = args{n+1};
         case 'metric_mode',         misc.metric_mode  = args{n+1};
         case 'learningRate_mode',   learningRate_mode   = args{n+1};
         case 'learningRate',        learningRateDefaut  = args{n+1};
@@ -120,28 +130,31 @@ for n = 1:2:nargs
     end
 end
 
+disp(['     Learning model parameters ', ...
+    '(Stochastic gradient descent) ...'])
+
 if disp_flag==1
     %% Diaplay analysis parameters
-    disp('----------------------------------------------------------------------------------------------')
-    disp('Stochastic Gradient Descent for the Bayesian Dynamic Linear Models')
-    disp('----------------------------------------------------------------------------------------------')
-    disp(' ')
-    disp('    \\start SGD algorithm (finite difference method)')
-    disp(' ')
-    disp(['      Optimization mode                                      ' misc.optim_mode])
-    disp(['      Optimizer                                              ' misc.optimizer])
-    disp(['      Metric                                                 ' misc.metric_mode])
-    disp(['      Learning Rate mode                                     ' learningRate_mode])
-    disp(['      Training period:                                       ' num2str(misc.trainingPeriod(1)) '-' num2str(misc.trainingPeriod(2)) ' [days]'])
-    disp(['      Validation set portion:                                ' num2str(alpha_split) ' [%]'])
-    disp(['      Training set:                                           ' num2str(size(data_train.values,1)) ' [data points]'])
-    disp(['      Validation set:                                        ' num2str(size(data_valid.values,1)-size(data_train.values,1)) ' [data points]'])    
-    disp(['      Mini batch:                                            ' num2str(Ndata4miniBatch) ' [data points]'])
-    disp(['      Number of max epoch:                                   ' num2str(maxIter) ' [epochs]'])
-    disp(['      Total time limit for calibration:                      ' num2str(misc.time_limit_calibration) ' [min]'])
-    disp(' ')
-    disp('    ...in progress')
-    disp(' ')
+%     fprintf(fileID, '----------------------------------------------------------------------------------------------\n');
+%     fprintf(fileID, 'Stochastic Gradient Descent for the Bayesian Dynamic Linear Models\n');
+%     fprintf(fileID, '----------------------------------------------------------------------------------------------\n');
+    fprintf(fileID, '\n');
+    fprintf(fileID, '    \\Start SGD algorithm (finite difference method)\n');
+    fprintf(fileID, '\n');
+    fprintf(fileID, '      Optimization mode                                       %s\n', misc.optim_mode);
+    fprintf(fileID, '      Optimizer                                               %s\n', misc.optimizer);
+    fprintf(fileID, '      Metric                                                  %s\n', misc.metric_mode);
+    fprintf(fileID, '      Learning Rate mode                                      %s\n', learningRate_mode);
+    fprintf(fileID, '      Training period:                                        %s - %s [days]\n', num2str(misc.trainingPeriod(1)), num2str(misc.trainingPeriod(2)) );
+    fprintf(fileID, '      Validation set portion:                                 %s [%%]\n', num2str(alpha_split) );
+    fprintf(fileID, '      Training set:                                           %s [data points]\n', num2str(size(data_train.values,1)));
+    fprintf(fileID, '      Validation set:                                         %s [data points]\n', num2str(size(data_valid.values,1)-size(data_train.values,1)));
+    fprintf(fileID, '      Mini batch:                                             %s [data points]\n', num2str(Ndata4miniBatch));
+    fprintf(fileID, '      Number of max epoch:                                    %s [epochs]\n', num2str(maxIter));
+    fprintf(fileID, '      Total time limit for calibration:                       %s [min]\n', num2str(misc.time_limit_calibration));
+    fprintf(fileID, '\n');
+%     fprintf(fileID, '    ...in progress\n');
+%     fprintf(fileID, '\n');
 end
 %% Initialize transformed model parameters
 %Identify parameters to be optimized
@@ -160,7 +173,7 @@ for i = 1 : nb_param
 end
 parameterSearchInit   = parameterRef(parameter_search_idx);
 parameterSearchInitTR = parameterRefTR(parameter_search_idx);
-parameter             = parameterRef; 
+parameter             = parameterRef;
 parameterTR           = parameterRefTR;
 model.parameterTR     = parameterTR;
 %% Parameter name
@@ -175,7 +188,7 @@ for i=parameter_search_idx'
     end
     name_p2{i}=[model.param_properties{i,2}, '|M', model.param_properties{i,3},'|',temp];
     name_idx_1=[name_idx_1  name_p1{i} repmat(' ',[1,15-length(name_p1{i})]) ' '];
-    name_idx_2=[name_idx_2  name_p2{i} repmat(' ',[1,15-length(name_p2{i})]) ' '];  
+    name_idx_2=[name_idx_2  name_p2{i} repmat(' ',[1,15-length(name_p2{i})]) ' '];
 end
 
 %% Optimization process
@@ -212,15 +225,15 @@ Nloop       = 0;
 time_loop   = 0;
 stop_loop = 0;
 if disp_flag==1
-    disp(' ')
-    disp(['               Nepoch #' num2str(Nepoch)])
-    disp(['               Metric: ' num2str(metricVL(1))])
-    disp(['                       ' name_idx_2])
-    disp(['      parameter names: ' name_idx_1])
-    fprintf(['       initial values: ' repmat(['%#-+15.2e' ' '],[1,length(parameterRef)]) '%#-+15.2e\n'],parameterRef(parameter_search_idx))
-    disp(' ')
+    fprintf(fileID, '\n');
+    fprintf(fileID, '               Nepoch # %s\n', num2str(Nepoch));
+    fprintf(fileID, '               Metric: %s\n', num2str(metricVL(1)));
+    fprintf(fileID, '                       %s\n', name_idx_2);
+    fprintf(fileID, '      parameter names: %s\n', name_idx_1);
+    fprintf(fileID, ['       initial values: ' repmat(['%#-+15.2e' ' '],[1,length(parameterRef)]) '%#-+15.2e\n'],parameterRef(parameter_search_idx));
+    fprintf(fileID, '\n');
 end
-while Nepoch <= maxIter && time_loop < timeLimit  
+while Nepoch <= maxIter && time_loop < timeLimit
     Nepoch                  = Nepoch + 1;
     parameterSearch_loop    = parameter(parameter_search_idx);
     parameterSearchTR_loop  = parameterTR(parameter_search_idx);
@@ -236,25 +249,25 @@ while Nepoch <= maxIter && time_loop < timeLimit
         rng('shuffle')
         idxDStart               = randi([1, datapointbound], 1);
         idxData4miniBatch       = idxDStart:idxDStart+Ndata4miniBatch;
-        [data_miniBatch, data_miniBatchTest]    = dataSplit(data_train, idxData4miniBatch , alpha_split,'getTimeStepRef',0);  
+        [data_miniBatch, data_miniBatchTest]    = dataSplit(data_train, idxData4miniBatch , alpha_split,'getTimeStepRef',0);
         % Parameter setup
         model.parameter(parameter_search_idx)   = parameterSearch_loop;
-        model.parameterTR(parameter_search_idx) = parameterSearchTR_loop; 
+        model.parameterTR(parameter_search_idx) = parameterSearchTR_loop;
         delta_grad_loop                         = delta_grad(parameter_search_idx);
         param_idx_loop                          = parameter_search_idx;
         parfor p = 1:nb_param
             % First and second derivatives computations
             [~, GlogpdfTR_loop, HlogpdfTR_loop, ~] = logPosteriorPE(data_miniBatch, model, misc,...
-                                                                                 'paramTR_index',param_idx_loop(p),...
-                                                                                 'stepSize4grad',delta_grad_loop(p));
-            % Store the 1st and 2nd derivatives                                                                 
-            if isnan(GlogpdfTR_loop) 
+                'paramTR_index',param_idx_loop(p),...
+                'stepSize4grad',delta_grad_loop(p));
+            % Store the 1st and 2nd derivatives
+            if isnan(GlogpdfTR_loop)
                 gradientTR(p, Nloop) = 0;
             else
-               gradientTR(p, Nloop)  = GlogpdfTR_loop;
+                gradientTR(p, Nloop)  = GlogpdfTR_loop;
             end
             hessianTR(p, Nloop)     = HlogpdfTR_loop;
-            % Learning rate 
+            % Learning rate
             if strcmp(learningRate_mode,'hessian')
                 if HlogpdfTR_loop < 0
                     learningRate(p, Nloop)  = -1/HlogpdfTR_loop;
@@ -262,7 +275,7 @@ while Nepoch <= maxIter && time_loop < timeLimit
                     learningRate(p, Nloop)  = 1/HlogpdfTR_loop;
                 elseif isnan(HlogpdfTR_loop)
                     learningRate(p, Nloop)=learningRateDefaut/(sqrt(paramMoveCount(p)));
-                end 
+                end
             elseif strcmp(learningRate_mode,'decay')
                 learningRate(p, Nloop)=learningRateDefaut/(sqrt(paramMoveCount(p)));
             elseif strcmp(learningRate_mode,'defaut')
@@ -271,7 +284,7 @@ while Nepoch <= maxIter && time_loop < timeLimit
         end
         % Learning rate constrains to avoid the exploding gradient problem.
         % See Recurent Neural Network (RNN) for futher details.
-       if any(any(isnan(hessianTR(:,Nloop))))
+        if any(any(isnan(hessianTR(:,Nloop))))
             hessianTR(:,Nloop)=hessianDefaut;
         end
         idx_lr = abs(hessianTR(:,Nloop))<0.001;
@@ -312,49 +325,49 @@ while Nepoch <= maxIter && time_loop < timeLimit
         end
         % Grid search setup
         [parameterSearchTRold_loop,...
-         momentumTRold_loop,...
-         RMSpropTRold_loop,...
-         gradientTRold_loop,...
-         learningRateTRold_loop,...
-         mmtHessianTRold_loop,...
-         hessianTRold_loop]         = paramGrid(parameterSearchTR_loop, momentumTR_loop, RMSpropTR_loop, gradientTR(:, Nloop), learningRate(:, Nloop), mmtHessianTR_loop, hessianTR(:, Nloop));
+            momentumTRold_loop,...
+            RMSpropTRold_loop,...
+            gradientTRold_loop,...
+            learningRateTRold_loop,...
+            mmtHessianTRold_loop,...
+            hessianTRold_loop]         = paramGrid(parameterSearchTR_loop, momentumTR_loop, RMSpropTR_loop, gradientTR(:, Nloop), learningRate(:, Nloop), mmtHessianTR_loop, hessianTR(:, Nloop));
         parameterSearchNew_loop     = zeros(nb_param, nb_param+1);
         parameterSearchTRNew_loop   = zeros(nb_param, nb_param+1);
-        momentumTRNew_loop          = zeros(nb_param, nb_param+1); 
+        momentumTRNew_loop          = zeros(nb_param, nb_param+1);
         RMSpropTRNew_loop           = zeros(nb_param, nb_param+1);
         funcInvTR                   = transfFunc.InvTR;
         mmtHessianTRNew_loop        = zeros(nb_param, nb_param+1);
         
         % New parameter values computed using ADAM or MMT
         if strcmp(misc.optimizer,'ADAM')
-             parfor p =1:nb_param+1
-                 [parameterSearchNew_loop(:,p),...
-                  parameterSearchTRNew_loop(:,p),...
-                  momentumTRNew_loop(:,p),...
-                  RMSpropTRNew_loop(:,p)] = ADAM(parameterSearchTRold_loop(:,p), momentumTRold_loop(:,p), RMSpropTRold_loop(:,p), gradientTRold_loop(:,p), learningRateTRold_loop(:, p), beta_1, beta_2, epsilon, paramMoveCount, funcInvTR);
-             end
-        elseif strcmp(misc.optimizer,'MMT')
-            parfor p = 1:nb_param+1              
+            parfor p =1:nb_param+1
                 [parameterSearchNew_loop(:,p),...
-                 parameterSearchTRNew_loop(:,p),...
-                 momentumTRNew_loop(:,p)] = MMT(parameterSearchTRold_loop(:,p), momentumTRold_loop(:,p), gradientTRold_loop(:,p), learningRateTRold_loop(:, p), beta_1, funcInvTR );
+                    parameterSearchTRNew_loop(:,p),...
+                    momentumTRNew_loop(:,p),...
+                    RMSpropTRNew_loop(:,p)] = ADAM(parameterSearchTRold_loop(:,p), momentumTRold_loop(:,p), RMSpropTRold_loop(:,p), gradientTRold_loop(:,p), learningRateTRold_loop(:, p), beta_1, beta_2, epsilon, paramMoveCount, funcInvTR);
+            end
+        elseif strcmp(misc.optimizer,'MMT')
+            parfor p = 1:nb_param+1
+                [parameterSearchNew_loop(:,p),...
+                    parameterSearchTRNew_loop(:,p),...
+                    momentumTRNew_loop(:,p)] = MMT(parameterSearchTRold_loop(:,p), momentumTRold_loop(:,p), gradientTRold_loop(:,p), learningRateTRold_loop(:, p), beta_1, funcInvTR );
             end
         elseif strcmp(misc.optimizer,'ADAMbeta')
             parfor p = 1:nb_param+1
                 [parameterSearchNew_loop(:,p),...
-                  parameterSearchTRNew_loop(:,p),...
-                  momentumTRNew_loop(:,p),...
-                  RMSpropTRNew_loop(:,p),...
-                  mmtHessianTRNew_loop(:,p)] = ADAMbeta(parameterSearchTRold_loop(:,p), momentumTRold_loop(:,p), mmtHessianTRold_loop(:,p), RMSpropTRold_loop(:,p), gradientTRold_loop(:,p), hessianTRold_loop(:,p), beta_1, beta_2, epsilon, paramMoveCount, funcInvTR);
-            end            
+                    parameterSearchTRNew_loop(:,p),...
+                    momentumTRNew_loop(:,p),...
+                    RMSpropTRNew_loop(:,p),...
+                    mmtHessianTRNew_loop(:,p)] = ADAMbeta(parameterSearchTRold_loop(:,p), momentumTRold_loop(:,p), mmtHessianTRold_loop(:,p), RMSpropTRold_loop(:,p), gradientTRold_loop(:,p), hessianTRold_loop(:,p), beta_1, beta_2, epsilon, paramMoveCount, funcInvTR);
+            end
         elseif strcmp(misc.optimizer,'MMTbeta')
             parfor p = 1:nb_param+1
                 [parameterSearchNew_loop(:,p),...
-                 parameterSearchTRNew_loop(:,p),...
-                 momentumTRNew_loop(:,p),...
-                 mmtHessianTRNew_loop(:,p)] = MMTbeta(parameterSearchTRold_loop(:,p), momentumTRold_loop(:,p), mmtHessianTRold_loop(:,p), gradientTRold_loop(:,p), hessianTRold_loop(:,p), beta_1, funcInvTR );
+                    parameterSearchTRNew_loop(:,p),...
+                    momentumTRNew_loop(:,p),...
+                    mmtHessianTRNew_loop(:,p)] = MMTbeta(parameterSearchTRold_loop(:,p), momentumTRold_loop(:,p), mmtHessianTRold_loop(:,p), gradientTRold_loop(:,p), hessianTRold_loop(:,p), beta_1, funcInvTR );
             end
-        end   
+        end
         % Parameter selection for the mini batch
         [metricVLhist(:,Nloop),idxMaxPC, ~, logpdfHist(:,Nloop)] = metricFct(data_miniBatch, data_miniBatchTest, model, misc, parameterSearchNew_loop, parameterSearchTRNew_loop);
         if strcmp(misc.metric_mode,'predCap')
@@ -387,9 +400,9 @@ while Nepoch <= maxIter && time_loop < timeLimit
         momentumTRhist(:,Nloop) = momentumTR_loop;
         RMSpropTRhist(:,Nloop)  = RMSpropTR_loop;
         mmtHessianTRhist(:,Nloop)= mmtHessianTR_loop;
-    end  
+    end
     % Metric calculation for each epoch
-    [metricVL(Nepoch),~, ~, logpdf(Nepoch)] = metricFct(data_train, data_valid, model, misc, parameterSearch_loop, parameterSearchTR_loop);    
+    [metricVL(Nepoch),~, ~, logpdf(Nepoch)] = metricFct(data_train, data_valid, model, misc, parameterSearch_loop, parameterSearchTR_loop);
     
     if sign(metricVL(Nepoch-1))==-1
         TL_loop = termination_tolerance+1;
@@ -397,12 +410,12 @@ while Nepoch <= maxIter && time_loop < timeLimit
         TL_loop = termination_tolerance;
     end
     
-    % Parameter update for the training set 
+    % Parameter update for the training set
     if or(metricVL(Nepoch) > metricVL(Nepoch-1)*TL_loop,logpdf(Nepoch) > logpdf(Nepoch-1)*TL_loop)
         parameterSearch(:,Nepoch)           = parameterSearch_loop;
         parameterSearchTR(:,Nepoch)         = parameterSearchTR_loop;
-        parameter(parameter_search_idx)     = parameterSearch(:,Nepoch);  
-        parameterTR(parameter_search_idx)   = parameterSearchTR(:,Nepoch); 
+        parameter(parameter_search_idx)     = parameterSearch(:,Nepoch);
+        parameterTR(parameter_search_idx)   = parameterSearchTR(:,Nepoch);
         momentumTR(:,Nepoch)                = momentumTR_loop;
         RMSpropTR(:,Nepoch)                 = RMSpropTR_loop;
         stop_loop = 0;
@@ -410,46 +423,50 @@ while Nepoch <= maxIter && time_loop < timeLimit
     else
         stop_loop = stop_loop + 1;
         if stop_loop > 3
-             stop_loop=0;
+            stop_loop=0;
             [metricVL(Nepoch),idxMaxEpochs]   = nanmax(metricVL);
             parameterSearch(:,Nepoch)         = parameterSearch(:,idxMaxEpochs);
-            parameterSearchTR(:,Nepoch)       = parameterSearchTR(:,idxMaxEpochs);  
+            parameterSearchTR(:,Nepoch)       = parameterSearchTR(:,idxMaxEpochs);
             parameter(parameter_search_idx)   = parameterSearch(:,idxMaxEpochs);
             parameterTR(parameter_search_idx) = parameterSearchTR(:,idxMaxEpochs);
             momentumTR(:,Nepoch)              = momentumTR(:,idxMaxEpochs);
             RMSpropTR(:,Nepoch)               = RMSpropTR(:,idxMaxEpochs);
-            logpdf(Nepoch)                    = logpdf(idxMaxEpochs); 
-            metricVL(Nepoch)                  = metricVL(idxMaxEpochs); 
+            logpdf(Nepoch)                    = logpdf(idxMaxEpochs);
+            metricVL(Nepoch)                  = metricVL(idxMaxEpochs);
             momentumTRhist(:,Nloop)           = momentumTR(:,Nepoch);
             RMSpropTRhist(:,Nloop)            = RMSpropTR(:,Nepoch);
             mmtHessianTR(:, Nepoch)           = mmtHessianTR(:,idxMaxEpochs);
         else
             parameterSearch(:,Nepoch)           = parameterSearch(:,Nepoch-1);
-            parameterSearchTR(:,Nepoch)         = parameterSearchTR(:,Nepoch-1);  
+            parameterSearchTR(:,Nepoch)         = parameterSearchTR(:,Nepoch-1);
             parameter(parameter_search_idx)     = parameterSearch(:,Nepoch-1);
-            parameterTR(parameter_search_idx)   = parameterSearchTR(:,Nepoch-1); 
+            parameterTR(parameter_search_idx)   = parameterSearchTR(:,Nepoch-1);
             momentumTR(:,Nepoch)                = momentumTR(:,1);
             RMSpropTR(:,Nepoch)                 = RMSpropTR(:,1);
             logpdf(Nepoch)                      = logpdf(Nepoch-1);
-            metricVL(Nepoch)                    = metricVL(Nepoch-1);       
+            metricVL(Nepoch)                    = metricVL(Nepoch-1);
             momentumTRhist(:,Nloop)             = momentumTR(:,Nepoch);
             RMSpropTRhist(:,Nloop)              = RMSpropTR(:,Nepoch);
             mmtHessianTR(:, Nepoch)             = mmtHessianTR(:,1);
-        end   
+        end
     end
     paramChange(:,Nepoch)  = (parameterSearch(:,Nepoch)-parameterSearch(:,Nepoch-1));
-    disp(' ')
-    disp('--------------------------')
-    disp(['    Epoch #' num2str(Nepoch)])
-    disp(['            Metric: ' num2str(metricVL(Nepoch))])
-    disp(['   parameter names: ' name_idx_2])
-    fprintf(['    current values: ' repmat(['%#-+15.2e' ' '],[1,length(parameter(parameter_search_idx))-1]) '%#-+15.2e\n',...
-             '      param change: ' repmat(['%#-+15.2e' ' '],[1,length(parameter(parameter_search_idx))-1]) '%#-+15.2e\n',...
-             '  initialize param: ' repmat(['%#-+15.2e' ' '],[1,length(parameter(parameter_search_idx))-1]) '%#-+15.2e\n'],...
-             parameter(parameter_search_idx),...
-             paramChange(:,Nepoch),...
-             paramReset);   
-    time_loop=toc; 
+    
+    if disp_flag == 1
+        fprintf(fileID, '\n');
+        fprintf(fileID, '--------------------------\n');
+        fprintf(fileID, '    Epoch #%s\n', num2str(Nepoch));
+        fprintf(fileID, '            Metric: %s\n', num2str(metricVL(Nepoch)));
+        fprintf(fileID, '   parameter names: %s\n', name_idx_2);
+        fprintf(fileID, ['    current values: ' repmat(['%#-+15.2e' ' '],[1,length(parameter(parameter_search_idx))-1]) '%#-+15.2e\n',...
+            '      param change: ' repmat(['%#-+15.2e' ' '],[1,length(parameter(parameter_search_idx))-1]) '%#-+15.2e\n',...
+            '  initialize param: ' repmat(['%#-+15.2e' ' '],[1,length(parameter(parameter_search_idx))-1]) '%#-+15.2e\n'],...
+            parameter(parameter_search_idx),...
+            paramChange(:,Nepoch),...
+            paramReset);
+        fprintf(fileID, '\n');
+    end
+    time_loop=toc;
 end
 
 %% Selection of the optimal parameters corresponding to the best log-post
@@ -467,7 +484,7 @@ optim.parameterTR_opt       = parameterTR_opt;
 optim.metricVLmax           = metricVLmax;
 optim.metricVL              = metricVL;
 optim.logpdf                = logpdf;
-optim.log_lik               = nanmax(logpdf); 
+optim.log_lik               = nanmax(logpdf);
 optim.Nepoch                = Nepoch;
 optim.converged             = 0;
 optim.gradientTR            = gradientTR;
@@ -478,7 +495,7 @@ optim.parameterSearchTR     = parameterSearchTR;
 optim.momentumTR            = momentumTR;
 optim.RMSpropTR             = RMSpropTR;
 optim.Ndata4miniBatch       = Ndata4miniBatch;
-optim.idxMax_loop           = idxMax_loop; 
+optim.idxMax_loop           = idxMax_loop;
 optim.optim_mode            = misc.optim_mode;
 optim.beta_1                = beta_1;
 optim.beta_2                = beta_2;
@@ -505,12 +522,12 @@ getTimeStepRef = 1;
 timeStepMean   = 0;
 args    = varargin;
 nargs   = length(varargin);
-tol     = 1e-4; 
+tol     = 1e-4;
 for n = 1:2:nargs
     switch args{n}
         case 'getTimeStepRef',   getTimeStepRef = args{n+1};
         case 'timeStepMean',     timeStepMean   = args{n+1};
-        otherwise, error(['Unrecognized argument' args{n}]) 
+        otherwise, error(['Unrecognized argument' args{n}])
     end
 end
 dataTrainingProcess.values      = data.values(idxTrain,:);
@@ -534,12 +551,12 @@ if getTimeStepRef==1
         data_train.dt_ref           = counts_dt_steps(find(counts_dt_steps(:,2)==max(counts_dt_steps(:,2)),1,'first'),1);
     end
     data_train.dt_steps = [data_train.dt_ref;data_train.dt_steps];
-    data_valid.dt_steps = diff(data_valid.timestamps);   
+    data_valid.dt_steps = diff(data_valid.timestamps);
     data_valid.dt_ref   = data_train.dt_ref;
     data_valid.dt_steps = [data_valid.dt_ref; data_valid.dt_steps];
 else
     data_train.dt_ref   = data.dt_ref;
-    data_train.dt_steps = data.dt_steps(1:NdataTrainingProcess-NdataValid,:); 
+    data_train.dt_steps = data.dt_steps(1:NdataTrainingProcess-NdataValid,:);
     data_valid.dt_ref   = data.dt_ref;
     data_valid.dt_steps = data.dt_steps(1:NdataTrainingProcess,:);
 end

@@ -78,12 +78,22 @@ data=struct;
 model=struct;
 estimation=struct;
 
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/    Start a new project')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp(' ')
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+
+fprintf(fileID,['-----------------------------------------', ...
+    '-----------------------------------------------------\n']);
+disp('     Start a new project');
+fprintf(fileID,['-----------------------------------------', ...
+    '-----------------------------------------------------\n']);
+fprintf(fileID,'\n');
 
 %% Choose project name
 [misc] =  chooseProjectName(misc, ...

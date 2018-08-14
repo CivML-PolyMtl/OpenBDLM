@@ -44,7 +44,7 @@ function [data, model, estimation, misc]=loadProjectFile(misc, ProjectIdx)
 %   See also
 
 %   AUTHORS:
-%       Luong Ianis Gaudot, Ha Nguyen, James-A Goulet,
+%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet,
 %
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
@@ -56,7 +56,7 @@ function [data, model, estimation, misc]=loadProjectFile(misc, ProjectIdx)
 %       July 26, 2018
 %
 %   DATE LAST UPDATE:
-%       July 26, 2018
+%       August 13, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -75,18 +75,29 @@ ProjectIdx=p.Results.ProjectIdx;
 ProjectInfofile=misc.ProjectInfoFilename;
 FilePath=misc.ProjectPath;
 
+
+% Set fileID for logfile
+if misc.isQuiet
+   % output message in logfile
+   fileID=fopen(misc.logFileName, 'a');  
+else
+   % output message on screen and logfile using diary command
+   fileID=1; 
+end
+
+
 % Load project info file array
 FileContent = load(fullfile(pwd, FilePath,ProjectInfofile));
 ProjectInfo = FileContent.ProjectInfo;
 
 if isempty(ProjectInfo)
-    disp(' ')
-    disp('     There is no saved project to load.')
+    fprintf(fileID, '\n');
+    fprintf(fileID, '     There is no saved project to load.\n');
     data=[];
     model=[];
     estimation=[];
     
-    disp(' ')
+    fprintf(fileID, '\n');
     return
 end
 
@@ -97,8 +108,8 @@ NumberOfSavedProjects = size(ProjectInfo,1);
 ProjectIdx(ProjectIdx>NumberOfSavedProjects) = [];
 
 if isempty(ProjectIdx)
-    disp(' ')
-    disp('     wrong input')
+    fprintf(fileID, '\n');
+    fprintf(fileID, '     wrong input\n');
     
     data=[];
     model=[];
@@ -107,18 +118,23 @@ if isempty(ProjectIdx)
     return
 else
     
-    % Save current misc variable about reading mode
+    % Save current misc variable about reading mode and quietness
     InteractiveMode_s= misc.InteractiveMode;
     ReadFromConfigFileMode_s = misc.ReadFromConfigFileMode;
     BatchMode_s = misc.BatchMode;
+    isQuiet_s = misc.isQuiet;
+    logFileName_s=misc.logFileName;
     
     %% Load the project
+    disp('     Loading project...')
     load(ProjectInfo{ProjectIdx,3});
-    
+        
     % Restore current misc variable about reading mode
     misc.InteractiveMode = InteractiveMode_s;
     misc.ReadFromConfigFileMode = ReadFromConfigFileMode_s;
     misc.BatchMode = BatchMode_s;
+    misc.isQuiet = isQuiet_s;
+    misc.logFileName=logFileName_s;
     
 end
 %--------------------END CODE ------------------------

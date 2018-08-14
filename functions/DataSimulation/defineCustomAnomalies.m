@@ -33,7 +33,7 @@ function [misc]=defineCustomAnomalies(data, model, misc)
 %       April 24, 2018
 %
 %   DATE LAST UPDATE:
-%       July 25, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -44,11 +44,19 @@ addRequired(p,'model', @isstruct );
 addRequired(p,'misc', @isstruct );
 parse(p,data, model, misc);
 
-%data=p.Results.data;
-%model=p.Results.model;
 misc=p.Results.misc;
 
 MaxFailAttempts=4;
+
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 
 incTest=0;
 isCorrect = false;
@@ -58,11 +66,11 @@ while ~isCorrect
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    disp('- Define custom anomalies ? (y/n): ')
+    fprintf(fileID,'- Define custom anomalies ? (y/n): \n');
     if misc.BatchMode.isBatchMode
         choice_custom_anomalies = ...
             eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ',choice_custom_anomalies])
+        fprintf(fileID,'     %s\n',choice_custom_anomalies);
     else
         choice_custom_anomalies = input('     choice >> ','s');
     end
@@ -77,26 +85,7 @@ while ~isCorrect
     
     
     if isempty(choice_custom_anomalies)
-        disp(' ')
-        disp(['%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%'...
-            '%%%%%%%%%%%%%%%%%%%%'])
-        disp('                                                         ')
-        disp([' An amomaly is a change in the baseline ' ... '
-            '(level of the time series) according to the previously' ...
-            'defined model classes.'])
-        disp(' ')
-        disp([' Answering ''yes'' enables to ' ... '
-            'generate user''s defined anomalies.'])
-        disp([' In such case, the user chooses the starts,' ...
-            ' the durations, and the amplitudes of the anomalies.'])
-        disp(' ')
-        disp([' Answering ''no'' lets the program generate' ...
-            ' anomalies from the default parameter values.'])
-        disp(' ')
-        disp(['%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%'...
-            '%%%%%%%%%%%%%%%%%%%%'])
-        disp(' ')
-        
+        continue        
     elseif strcmpi(choice_custom_anomalies,'y') ||  ...
             strcmpi(choice_custom_anomalies,'yes')
         
@@ -108,15 +97,15 @@ while ~isCorrect
         misc.isCustomAnomalies = false;
         isCorrect = true;
     else
-        disp(' ')
-        disp('     Wrong input.')
-        disp(' ')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'     Wrong input.\n');
+        fprintf(fileID,'\n');
         continue
     end
     
 end
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
-disp(' ')
+fprintf(fileID,'\n');
 if misc.isCustomAnomalies
     %% Request anomalies start
     incTest=0;
@@ -127,34 +116,36 @@ if misc.isCustomAnomalies
         if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
-        disp('- Anomalies starts (in sample index) ?')
+        fprintf(fileID,'- Anomalies starts (in sample index) ?\n');
         if misc.BatchMode.isBatchMode
             start_custom_anomalies = ...
                 eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-            disp(['     ',num2str(start_custom_anomalies)])
+            x=start_custom_anomalies;
+            fprintf(fileID, ['', ...
+                '     [%s]\n'], strjoin(cellstr(num2str(x(:))),', '));
         else
             start_custom_anomalies= input('     choice >> ');
         end
         if isempty(start_custom_anomalies)
-            disp(' ')
-            disp('     wrong input ->  input is empty')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'     wrong input ->  input is empty\n');
+            fprintf(fileID,'\n');
             continue
         elseif ischar(start_custom_anomalies)|| ...
                 any(rem(start_custom_anomalies,1)~=0) || ...
                 ~any(all(start_custom_anomalies > 0))
             
-            disp(' ')
-            disp(['     wrong input -> should be strictly ' ...
-                'positive integers'])
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,['     wrong input -> should be strictly ' ...
+                'positive integers\n']);
+            fprintf(fileID,'\n');
             continue
         elseif length(unique(start_custom_anomalies)) ~= ...
                 length(start_custom_anomalies)
-            disp(' ')
-            disp(['     wrong input -> at least two '
-                'anomaly starts are identical.'])
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,['     wrong input -> at least two '
+                'anomaly starts are identical.\n']);
+            fprintf(fileID,'\n');
             continue
         else
             % Sort vector
@@ -168,9 +159,8 @@ if misc.isCustomAnomalies
         end
     end
     misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
-    disp(' ')
-    
-    
+    fprintf(fileID,'\n');
+        
     %% Request anomalies durations
     incTest=0;
     isCorrect=false;
@@ -180,33 +170,39 @@ if misc.isCustomAnomalies
         if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
-        disp('- Anomalies durations (in number of points) ?')
+        fprintf(fileID,'- Anomalies durations (in number of points) ?\n');
         if misc.BatchMode.isBatchMode
             duration_custom_anomalies = ...
                 eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-            disp(['     ', num2str(duration_custom_anomalies)])
+            
+            x=duration_custom_anomalies;
+            fprintf(fileID, ['', ...
+                '     [%s]\n'], strjoin(cellstr(num2str(x(:))),', '));
+            
         else
             duration_custom_anomalies= input( '     choice >> ');
         end
         if isempty(duration_custom_anomalies)
-            disp(' ')
-            disp('     wrong input ->  input is empty')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'     wrong input ->  input is empty\n');
+            fprintf(fileID,'\n');
             continue
         elseif ischar( duration_custom_anomalies)|| ...
                 any(rem(duration_custom_anomalies,1)~=0) || ...
                 any(duration_custom_anomalies(duration_custom_anomalies ...
                 <= 0))
-            disp(' ')
-            disp('     wrong input -> should be strictly positive integers')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,['     wrong input -> ', ...
+                'should be strictly positive integers\n']);
+            fprintf(fileID,'\n');
             continue
         elseif length(duration_custom_anomalies) ~= ...
                 length(start_custom_anomalies)
-            disp(' ')
-            disp(['     wrong input -> length of the vector should be ', ...
-                num2str(length(start_custom_anomalies))])
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,['     wrong input -> ', ...
+                'length of the vector should be %s\n'], ...
+                num2str(length(start_custom_anomalies)));
+            fprintf(fileID,'\n');
             continue
         else
             overlap = false;
@@ -219,10 +215,10 @@ if misc.isCustomAnomalies
             end
             
             if overlap
-                disp(' ')
-                disp(['     wrong input -> at ' ...
-                    'least two overlapping anomalies'])
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input -> ', ...
+                    ' at least two overlapping anomalies\n']);
+                fprintf(fileID,'\n');
                 continue
             end
             
@@ -233,7 +229,7 @@ if misc.isCustomAnomalies
         end
     end
     misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
-    disp(' ')
+    fprintf(fileID,'\n');
     
     %% Request anomalies amplitudes
     incTest=0;
@@ -244,47 +240,56 @@ if misc.isCustomAnomalies
         if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
-        disp('- Anomalies amplitudes (i.e change in local trend) ? ')
+        fprintf(fileID,'- Anomalies amplitudes (i.e change in local trend) ?\n');
         if misc.BatchMode.isBatchMode
             amplitude_custom_anomalies = ...
                 eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-            disp(['     ', num2str(amplitude_custom_anomalies)])
+            
+            x=amplitude_custom_anomalies;
+            fprintf(fileID, ['', ...
+                '     [%s]\n'], strjoin(cellstr(num2str(x(:))),', '));
+            
         else
             amplitude_custom_anomalies=input('     choice >> ');
         end
         if isempty(amplitude_custom_anomalies)
-            disp(' ')
-            disp('     wrong input ->  input is empty')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'     wrong input ->  input is empty\n');
+            fprintf(fileID,'\n');
             continue
         elseif ischar( amplitude_custom_anomalies)
-            disp(' ')
-            disp('     wrong input ->  input contains character')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,['     wrong input ->  ', ...
+                'input contains character\n']);
+            fprintf(fileID,'\n');
             continue
         elseif length(amplitude_custom_anomalies) ~= ...
                 length(start_custom_anomalies)
-            disp(' ')
-            disp(['     wrong input -> length of the vector should be ', ...
-                num2str(length(start_custom_anomalies))])
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,['     wrong input -> ', ...
+                'length of the vector should be %s'], ...
+                num2str(length(start_custom_anomalies)));
+            fprintf(fileID,'\n');
             continue
         elseif ~all(amplitude_custom_anomalies)
-            disp(' ')
-            disp('     wrong input ->  input should be nonzero')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,['     wrong input ->  ', ...
+                'input should be nonzero\n']);
+            fprintf(fileID,'\n');
             continue
         end
         
         % Record anomalies amplitude
         misc.custom_anomalies.amplitude_custom_anomalies=...
             amplitude_custom_anomalies;
+        
         isCorrect = true;
     end
-    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
     
+    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;   
 else
     return
 end
+fprintf(fileID,'\n');
 %--------------------END CODE ------------------------
 end
