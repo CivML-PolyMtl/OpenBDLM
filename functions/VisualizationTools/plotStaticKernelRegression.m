@@ -343,16 +343,21 @@ for obs=1:numberOfTimeSeries
                 timestamps(1),model.ref.components.nb_SK_p);
             xpl(i)=CP*k';
         end
+        
+        miny=min(xpl);
+        maxy=max(xpl);
+        
         plot(timestamps(plot_time_1),xpl,'Color', BlueColor,  ...
             'LineWidth', misc.linewidth)
     end
     
     set(gca,'XTick' ,linspace(timestamps(plot_time_1(1)), ...
         timestamps(plot_time_1(size(timestamps(plot_time_1),1))), ...
-        misc.ndivx),...
-        'YTick'            ,linspace(min(xpl),max(xpl),misc.ndivy),...
-        'Ylim'             ,[min(xpl),max(xpl)],...
+        misc.ndivx), ...
         'box'              ,'off', 'Fontsize', 16);
+    if miny~=maxy
+        set(gca,'Ylim',[miny,maxy])
+    end    
     datetick('x','yy-mm','keepticks')
     xlabel('Time [YY-MM]')
     ylabel(['SK component', ' [', labels ,']'], 'Interpreter','Latex')
@@ -379,11 +384,11 @@ for obs=1:numberOfTimeSeries
                 xpl(pos)=CP*k';
                 spl(pos)=k*CPS*k';
             end
-            mean_xpl=mean(xpl(round(0.25*length(xpl)):end));
-            std_xpl=std(xpl(round(0.25*length(xpl)):end));
-            mult_factor=3;
-            miny=mean_xpl-mult_factor*std_xpl;
-            maxy=mean_xpl+mult_factor*std_xpl;
+%             mean_xpl=mean(xpl(round(0.25*length(xpl)):end));
+%             std_xpl=std(xpl(round(0.25*length(xpl)):end));
+%             mult_factor=3;
+%             miny=mean_xpl-mult_factor*std_xpl;
+%             maxy=mean_xpl+mult_factor*std_xpl;
             
             px=[timestamps(plot_time_2); flipud(timestamps(plot_time_2))]';
             py=[xpl-sqrt(spl), fliplr(xpl+sqrt(spl))];

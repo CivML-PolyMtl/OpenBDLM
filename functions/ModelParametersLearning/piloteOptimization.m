@@ -61,7 +61,7 @@ function [data, model, estimation, misc]=piloteOptimization(data, model, estimat
 %       July 26, 2018
 %
 %   DATE LAST UPDATE:
-%       July 27, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -81,14 +81,24 @@ misc=p.Results.misc;
 
 FilePath = misc.ProjectPath;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+
 MaxFailAttempts=4;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/ Learn model parameters')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '-----------------------------------------------------\n']);
+fprintf(fileID,'/ Learn model parameters\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '-----------------------------------------------------\n']);
 incTest=0;
 isCorrectAnswer =  false;
 while ~isCorrectAnswer
@@ -97,22 +107,34 @@ while ~isCorrectAnswer
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    disp(' ')
-    disp('     1 ->  Newton-Raphson')
-    disp('     2 ->  Stochastic Gradient Ascent')
-    disp(' ')
-    disp('     Type ''R'' to return to the previous menu')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     1 ->  Newton-Raphson\n');
+    fprintf(fileID,'     2 ->  Stochastic Gradient Ascent\n');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     Type R to return to the previous menu\n');
+    fprintf(fileID,'\n');
     
     if misc.BatchMode.isBatchMode
         user_inputs=eval(char(misc.BatchMode.Answers ...
             {misc.BatchMode.AnswerIndex}));
-        disp(user_inputs)
+        user_inputs = num2str(user_inputs);
+        if ischar(user_inputs)
+            fprintf(fileID, '     %s  \n', user_inputs);
+        else
+            fprintf(fileID, '     %s  \n', num2str(user_inputs));
+        end
+        
     else
-        user_inputs = input('     choice >> ');
+        user_inputs = input('     choice >> ', 's');
     end
     
-    if user_inputs == 1
+    % Remove space and simple/double quotes
+    user_inputs=strrep(user_inputs,'''',''); 
+    user_inputs=strrep(user_inputs,'"','' ); 
+    user_inputs=strrep(user_inputs, ' ','' ); 
+    
+    
+    if round(str2double(user_inputs)) == 1
         
         % Learn model parameters
         [data, model, estimation, misc]= ...
@@ -122,11 +144,11 @@ while ~isCorrectAnswer
             'Method', 'NR');
         
         % Save project
-        saveProject(data, model, estimation, misc, ...
-            'FilePath', FilePath)
+       % saveProject(data, model, estimation, misc, ...
+       %     'FilePath', FilePath)
         
         isCorrectAnswer =  true;
-    elseif user_inputs == 2
+    elseif round(str2double(user_inputs)) == 2
         
         % Learn model parameters
         [data, model, estimation, misc]= ...
@@ -136,16 +158,16 @@ while ~isCorrectAnswer
             'Method', 'SGA');
         
         % Save project
-        saveProject(data, model, estimation, misc, ...
-            'FilePath', FilePath)
+        %saveProject(data, model, estimation, misc, ...
+        %    'FilePath', FilePath)
         
         isCorrectAnswer =  true;
     elseif ischar(user_inputs) && length(user_inputs) == 1 && ...
             strcmpi(user_inputs, 'R')
         break
     else
-        disp(' ')
-        disp('      wrong input')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'      wrong input\n');
         continue
     end
     

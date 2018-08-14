@@ -58,9 +58,8 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %      modifyInitialHiddenStates, modifyTrainingPeriod, learnModelParameters,
 %      modifyModelParameters, chooseIsDataSimulation, chooseProjectName
 %      displayProjects, initializeProject, printConfigurationFile,
-%      printProjectDateCreation, readConfigurationFile
-%      saveProject, testFileExistence, computeInitialHiddenStates
-%      plotData, plotEstimations
+%      printProjectDateCreation, saveProject, testFileExistence,
+%      computeInitialHiddenStates,      plotData, plotEstimations
 %
 %   SUBFUNCTIONS:
 %      N/A
@@ -71,8 +70,8 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %    MODIFYINITIALHIDDENSTATES, MODIFYTRAININGPERIOD,VERIFICATIONDATASTRUCTURE
 %    MODIFYMODELPARAMETERS, CHOOSEISDATASIMULATION, CHOOSEPROJECTNAME
 %     DISPLAYPROJECTS, INITIALIZEPROJECT, PRINTCONFIGURATIONFILE,
-%    PRINTPROJECTDATECREATION, READCONFIGURATIONFILE, SAVEPROJECT,
-%    TESTFILEEXISTENCE, COMPUTEINITIALHIDDENSTATES, PLOTDATA, PLOTESTIMATIONS
+%    PRINTPROJECTDATECREATION, SAVEPROJECT, TESTFILEEXISTENCE,
+%    COMPUTEINITIALHIDDENSTATES, PLOTDATA, PLOTESTIMATIONS
 
 %   AUTHORS:
 %       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet
@@ -100,7 +99,7 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %       June 27, 2018
 %
 %   DATE LAST UPDATE:
-%       July 27, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Read input argument
@@ -134,9 +133,9 @@ switch nargin
         end
         
     otherwise
-        disp(' ')
+        disp(' ');
         disp('     ERROR: Unrecognized argument.')
-        disp(' ')
+        disp(' ');
         data=struct;
         model=struct;
         estimation=struct;
@@ -150,6 +149,7 @@ misc.ConfigPath             = 'config_files';
 misc.ProjectPath            = 'saved_projects';
 misc.FigurePath             = 'figures';
 misc.VersionControlPath     = 'version_control';
+misc.LogPath                = 'log_files';
 
 %% Define project info filename (not recommanded to change)
 misc.ProjectInfoFilename    = 'ProjectsInfo.mat';
@@ -159,6 +159,17 @@ version = '1.5';
 
 %Initialize random stream number based on clock
 %RandStream.setGlobalStream(RandStream('mt19937ar','seed',861040000));
+
+%% Create log file to record messages during program run
+[misc] = createLogFile(misc);
+
+if misc.isQuiet
+    % output messages in  a specific log file
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen
+    fileID=1;
+end
 
 if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
     
@@ -170,8 +181,8 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
     format short g
     
     %% Display welcome menu
-    welcomeOpenBDLM('version', version)
-    
+    welcomeOpenBDLM(misc, 'version', version)
+    %disp('     Starting OpenBDLM')
     incTest=0;
     MaxFailAttempts = 4;
     
@@ -182,32 +193,43 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
         if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
-        disp(' ')
-        disp('- Start a new project: ')
-        disp(' ')
-        fprintf('     %-3s\n', '*      Enter a configuration filename')
-        fprintf('     %-3s\n', '0   -> Interactive tool')
-        disp(' ')
+        fprintf(fileID, '\n');
+        fprintf(fileID,'- Start a new project: \n');
+        fprintf(fileID, '\n');
+        fprintf(fileID,['     *      ', ...
+            'Enter a configuration filename \n']);
+        fprintf(fileID, '     0   -> Interactive tool \n');
+        fprintf(fileID, '\n');
         
         %% Display existing & saved projects
         [~] = displayProjects(misc);
         
-        disp(['- Type ''D'' to Delete project(s), ', ...
-            '''V'' for Version control, ''Q'' to Quit.'])
-        disp(' ')
+        fprintf(fileID, ['- Type D to Delete project(s), ', ...
+            'V for Version control, Q to Quit.\n']);
         if misc.BatchMode.isBatchMode
             UserChoice= ...
-                eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-            disp(['     ', UserChoice])
+                eval(char(misc.BatchMode.Answers{...
+                misc.BatchMode.AnswerIndex}));
+            UserChoice = num2str(UserChoice);
+            if ischar(UserChoice)
+                fprintf(fileID, '     %s  \n', UserChoice);
+            else
+                fprintf(fileID, '     %s  \n', num2str(UserChoice));
+            end
         else
-            UserChoice = input('     choice >> ');
+            fprintf(fileID,'\n');
+            UserChoice = input('     choice >> ', 's');
         end
+        fprintf(fileID,'\n');
+        
+        % Remove space and quotes
+        UserChoice=strrep(UserChoice,'''',''); % remove quotes
+        UserChoice=strrep(UserChoice,'"','' ); % remove double quotes
+        UserChoice=strrep(UserChoice, ' ','' ); % remove spaces
         
         if isempty(UserChoice)
-            %% Display help
-            helpMain()
             continue
-        elseif ischar(UserChoice)
+        elseif isnan(str2double(UserChoice))
             
             misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
@@ -217,18 +239,19 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
                 incTest=0;
                 continue
                 
-           elseif strcmpi('V', UserChoice) && length(UserChoice) == 1
+            elseif strcmpi('V', UserChoice) && length(UserChoice) == 1
                 %% Version control
                 piloteVersionControl(misc)
                 data=struct; model=struct; estimation=struct; misc=struct;
+                diary off
                 return
                 
             elseif strcmpi('Q', UserChoice) && length(UserChoice) == 1
+                
                 %% Quit the program
-                disp(' ')
+                disp('     See you soon !');
+                if misc.isQuiet ; fclose(fileID); else ; diary off ; end
                 data=struct; model=struct; estimation=struct; misc=struct;
-                close all
-                disp('     See you soon !')
                 return
                 
             else
@@ -240,7 +263,7 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
                 
             end
             
-        elseif UserChoice == 0
+        elseif round(str2double(UserChoice)) == 0
             
             misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
@@ -252,6 +275,7 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
             misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
             %% Load project from project file
+            UserChoice = round(str2double(UserChoice));
             [data, model, estimation, misc]=loadProjectFile(misc, UserChoice);
             if ~isempty(model)
                 isAnswerCorrect = true;
@@ -277,37 +301,55 @@ while(1)
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
     %% Display menu
-    [PossibleAnswers]=displayMenuOpenBDLM();
+    [PossibleAnswers]=displayMenuOpenBDLM(misc);
     
     %% Read user's choice
     if misc.BatchMode.isBatchMode
         user_inputs=eval( ...
             char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ',num2str(user_inputs)])
+        user_inputs = num2str(user_inputs);
+        if ischar(user_inputs)
+            fprintf(fileID, '     %s  \n', user_inputs);
+        else
+            fprintf(fileID, '     %s  \n', num2str(user_inputs));
+        end
     else
-        user_inputs = input('     choice >> ');
+        user_inputs = input('     choice >> ', 's');
     end
     
-    if ischar(user_inputs)
+    % Remove space and quotes
+    user_inputs=strrep(user_inputs,'''',''); % remove quotes
+    user_inputs=strrep(user_inputs,'"','' ); % remove double quotes
+    user_inputs=strrep(user_inputs, ' ','' ); % remove spaces
+    
+    
+    if isnan(str2double(user_inputs))
         
         if strcmpi(user_inputs, 'Q')
-            disp(' ')
-            disp('     See you soon !')
-            close all
+            
+            %% Save project and quit
+            fprintf(fileID, '\n');
+            saveProject(data, model, estimation, misc, ...
+                'FilePath', misc.ProjectPath)
+            fprintf(fileID, '\n');
+            disp('     See you soon !');
+            if misc.isQuiet ; fclose(fileID); else ; diary off ; end
             return
         else
-            disp(' ')
-            disp('     wrong input')
+            fprintf(fileID, '\n');
+            fprintf(fileID, '     wrong input \n');
             continue
         end
     elseif ~ischar(user_inputs) && ...
             ~any(ismember(PossibleAnswers, user_inputs ))
-        disp(' ')
-        disp('     wrong input')
+        fprintf(fileID, '\n');
+        fprintf(fileID, '     wrong input \n');
         continue
         
     else
         misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+        
+        user_inputs = round(str2double(user_inputs));
         
         if  user_inputs==1
             %% Learn model parameters

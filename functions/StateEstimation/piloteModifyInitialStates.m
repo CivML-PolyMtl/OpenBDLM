@@ -78,12 +78,21 @@ misc=p.Results.misc;
 
 ProjectPath=misc.ProjectPath;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/    Modify current initial hidden states (x_0) values')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'/    Modify current initial hidden states (x_0) values \n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
 
 [model, misc] = modifyInitialHiddenStates(data, model, estimation, misc, ...
     'FilePath', ProjectPath);

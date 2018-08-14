@@ -51,7 +51,7 @@ function pilotePlot(data, model, estimation, misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       July 27, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -69,41 +69,63 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/    Plot')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
+
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '-----------------------------------------------------\n']);
+fprintf(fileID,'/    Plot\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '-----------------------------------------------------\n']);
 
 isCorrectAnswer =  false;
 while ~isCorrectAnswer
-    disp(' ')
-    disp('     1 ->  Plot data')
-    disp('     2 ->  Plot hidden states')
-    disp(' ')
-    disp('     Type ''R'' to return to the previous menu')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     1 ->  Plot data \n');
+    fprintf(fileID,'     2 ->  Plot hidden states \n');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     Type R to return to the previous menu\n');
+    fprintf(fileID,'\n');
     
     if misc.BatchMode.isBatchMode
         user_inputs.inp_2=eval(char(misc.BatchMode.Answers ...
             {misc.BatchMode.AnswerIndex}));
-        disp(user_inputs.inp_2)
+        user_inputs.inp_2 = num2str(user_inputs.inp_2);
+        if ischar(user_inputs)
+            fprintf(fileID, '     %s  \n', user_inputs);
+        else
+            fprintf(fileID, '     %s  \n', num2str(user_inputs));
+        end
+        
     else
-        user_inputs.inp_2 = input('     choice >> ');
+        user_inputs.inp_2 = input('     choice >> ', 's');
     end
+    
+    % Remove space and simple/double quotes
+    user_inputs.inp_2=strrep(user_inputs.inp_2,'''',''); 
+    user_inputs.inp_2=strrep(user_inputs.inp_2,'"','' ); 
+    user_inputs.inp_2=strrep(user_inputs.inp_2, ' ','' ); 
     
     
     if ischar(user_inputs.inp_2) && length(user_inputs.inp_2) == 1 && ...
             strcmpi(user_inputs.inp_2, 'R')
         break
-    elseif user_inputs.inp_2 == 1
+        
+    elseif round(str2double(user_inputs.inp_2)) == 1
         
         [isValid] = verificationDataStructure(data);
         
         if isValid
-            disp(' ')
-            disp('     ...in progress')
+%             fprintf(fileID,'\n');
+%             fprintf(fileID,'     ...in progress\n');
             plotData(data, misc, ...
                 'FilePath', 'figures', ...
                 'isPdf', false, ...
@@ -113,9 +135,9 @@ while ~isCorrectAnswer
             continue
         end
         
-    elseif user_inputs.inp_2 == 2
-        disp(' ')
-        disp('     ...in progress')
+    elseif round(str2double(user_inputs.inp_2)) == 2
+%         fprintf(fileID,'\n');
+%         fprintf(fileID,'     ...in progress\n');
         plotEstimations(data, model, estimation, misc, ...
             'FilePath', 'figures', ...
             'isExportTEX', false, ...
@@ -123,8 +145,8 @@ while ~isCorrectAnswer
             'isExportPDF', false);
         isCorrectAnswer =  true;
     else
-        disp(' ')
-        disp('      wrong input')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'      wrong input\n');
         continue
     end
     

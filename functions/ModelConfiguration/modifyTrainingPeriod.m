@@ -61,7 +61,7 @@ function [misc] = modifyTrainingPeriod(data, model, estimation, misc, varargin)
 %       June 12, 2018
 %
 %   DATE LAST UPDATE:
-%       July 25, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -86,6 +86,15 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 %% Define timestamps
 timestamps = data.timestamps;
 
@@ -93,19 +102,19 @@ MaxFailAttempts=4;
 
 %% Get current training period
 if isfield(misc, 'trainingPeriod')
-    disp(' ')
-    disp(['     Current training period: from ' ...
+    fprintf(fileID,'\n');
+    fprintf(fileID,['     Current training period: from ' ...
         num2str(misc.trainingPeriod(1)) ' to ' ...
-        num2str(misc.trainingPeriod(2)) ' days.'])
-    disp(' ')
+        num2str(misc.trainingPeriod(2)) ' days.\n']);
+    fprintf(fileID,'\n');
 else
     [trainingPeriod]=defineTrainingPeriod(timestamps);
     misc.trainingPeriod = trainingPeriod;
-    disp(' ')
-    disp(['     Current training period: from ' ...
+    fprintf(fileID,'\n');
+    fprintf(fileID,['     Current training period: from ' ...
         num2str(misc.trainingPeriod(1)) ' to ' ...
-        num2str(misc.trainingPeriod(2)) ' days.'])
-    disp(' ')
+        num2str(misc.trainingPeriod(2)) ' days.\n']);
+    fprintf(fileID,'\n');
 end
 
 incTest=0;
@@ -116,25 +125,39 @@ while ~isCorrectAnswer
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    disp('     1 ->  Modify training period')
-    disp(' ')
-    disp('     2 ->  Return to menu')
-    disp(' ')
+    fprintf(fileID,'     1 ->  Modify training period \n');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     Type R to return to the previous menu \n');
+    fprintf(fileID,'\n');
     
     if misc.BatchMode.isBatchMode
         user_inputs.inp_1=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(user_inputs.inp_1)
+        user_inputs.inp_1 = num2str(user_inputs.inp_1);
+        if ischar(user_inputs.inp_1)
+            fprintf(fileID, '     %s  \n', user_inputs.inp_1);
+        else
+            fprintf(fileID, '     %s  \n', num2str(user_inputs.inp_1));
+        end
+        
+        
     else
-        user_inputs.inp_1 = input('     choice >> ');
+        user_inputs.inp_1 = input('     choice >> ', 's');
     end
     
-    if user_inputs.inp_1 == 1
+        % Remove space and simple/double quotes
+        user_inputs.inp_1=strrep(user_inputs.inp_1,'''',''); 
+        user_inputs.inp_1=strrep(user_inputs.inp_1,'"','' ); 
+        user_inputs.inp_1=strrep(user_inputs.inp_1, ' ','' ); 
+    
+    
+    %if ~ischar(user_inputs.inp_1) && user_inputs.inp_1 == 1
+    if round(str2double(user_inputs.inp_1)) == 1
         
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         
         %% Modify current training period
         % Start of training period (in days)
-        disp(' ')
+        fprintf(fileID,'\n');
         incTest=0;
         isCorrect = false;
         while ~isCorrect
@@ -143,35 +166,28 @@ while ~isCorrectAnswer
             if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     Start training [days]: ');
+            fprintf(fileID,'     Start training [days]:\n');
             
             if misc.BatchMode.isBatchMode
                 startTraining=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-                disp(startTraining)
+                fprintf(fileID,'     %s\n', startTraining);
             else
                 startTraining=input('     choice >> ');
             end
                         
             if isempty(startTraining)
-                disp(' ')
-                disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-                disp('                                                         ')
-                disp(['Give start of the training period in '...
-                    'number of days since the first datapoint. '])
-                disp(' ')
-                disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-                disp(' ')
                 continue
             else
                 if ischar(startTraining)
-                    disp(' ')
-                    disp('     wrong input -> not an digit ')
-                    disp(' ')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,'     wrong input -> not an digit \n');
+                    fprintf(fileID,'\n');
                     continue
                 elseif length(startTraining) > 1
-                    disp(' ')
-                    disp('     wrong input -> should be single value ')
-                    disp(' ')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,['     ', ...
+                        'wrong input -> should be single value \n']);
+                    fprintf(fileID,'\n');
                     continue
                 else
                     misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
@@ -181,7 +197,7 @@ while ~isCorrectAnswer
         end
         
         % End of training period (in days)
-        disp(' ')       
+        fprintf(fileID,'\n');     
         incTest=0;
         isCorrect = false;
         while ~isCorrect
@@ -190,41 +206,35 @@ while ~isCorrectAnswer
             if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             
-            disp('     End training [days]: ');
+            fprintf(fileID,'     End training [days]: \n');
             
             if misc.BatchMode.isBatchMode
                 endTraining = eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-                disp(endTraining)
+                fprintf(fileID,'     %s\n', num2str(endTraining));
             else
                 endTraining=input('     choice >> ');
             end
             
             if isempty(endTraining)
-                disp(' ')
-                disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-                disp('                                                         ')
-                disp(['End of the training period in '...
-                    'number of days since the first datapoint. '])
-                disp(' ')
-                disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-                disp(' ')
                 continue
             else
                 if ischar(endTraining)
-                    disp(' ')
-                    disp('     wrong input -> not an digit ')
-                    disp(' ')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,'     wrong input -> not an digit \n');
+                    fprintf(fileID,'\n');
                     continue
                 elseif length(endTraining) > 1
-                    disp(' ')
-                    disp('     wrong input -> should be single value ')
-                    disp(' ')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,['     wrong input -> ', ...
+                        ' should be single value \n']);
+                    fprintf(fileID,'\n');
                     continue
                 elseif endTraining <= startTraining
-                    disp(' ')
-                    disp(['     wrong input -> should be greater '...
-                        'than start of training period.'])
-                    disp(' ')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,['     wrong input -> ', ...
+                        'should be greater '...
+                        'than start of training period.\n']);
+                    fprintf(fileID,'\n');
                     continue
                 else
                     misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
@@ -235,12 +245,15 @@ while ~isCorrectAnswer
         
         break
         
-    elseif user_inputs.inp_1 == 2
+    elseif ischar(user_inputs.inp_1) && strcmpi(user_inputs.inp_1, 'R') ...
+            && length(user_inputs.inp_1) ==1
         misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
         return
         
     else
-        disp('     Wrong input.')
+        fprintf(fileID, '\n');
+        fprintf(fileID,'     Wrong input.\n');
+        fprintf(fileID, '\n');
         continue
     end
     
@@ -252,14 +265,14 @@ trainingPeriod = [startTraining, endTraining];
 misc.trainingPeriod = trainingPeriod;
 
 %% Display the new training period
-disp(' ')
-disp(['     New training period: from ' ...
+fprintf(fileID,'\n');
+fprintf(fileID,['     New training period: from ' ...
     num2str(misc.trainingPeriod(1)) ' to ' ...
-    num2str(misc.trainingPeriod(2)) ' days.'])
-disp(' ')
+    num2str(misc.trainingPeriod(2)) ' days.\n']);
+fprintf(fileID,'\n');
 
 %% Save project with updated values
-saveProject(data, model, estimation, misc, 'FilePath', FilePath)
+%saveProject(data, model, estimation, misc, 'FilePath', FilePath)
 
 %--------------------END CODE ------------------------
 end

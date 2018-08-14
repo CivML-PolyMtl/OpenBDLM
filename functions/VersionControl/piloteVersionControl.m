@@ -37,7 +37,7 @@ function piloteVersionControl(misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       August 7, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -51,26 +51,23 @@ misc=p.Results.misc;
 
 VersionControlPath=misc.VersionControlPath;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/    Version control')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-
-[controlOut]=versionControl(misc, 'FilePath', VersionControlPath);
-
-fprintf('\n');
-fprintf('\n');
-for i=1:size(controlOut,1)    
-    if ~controlOut{i, 2} || ~controlOut{i,3}
-       resStr = 'FAIL';
-    else
-       resStr = 'PASS';
-    end
-    
-    fprintf('==> Version control test %s: %s\n', num2str(i), resStr)   
+% Set fileID for logfile
+if misc.isQuiet
+   % output message in logfile
+   fileID=fopen(misc.logFileName, 'a');  
+else
+   % output message on screen and logfile using diary command
+   fileID=1; 
 end
-fprintf('\n');
+
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'/    Version control \n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+
+[~]=versionControl(misc, 'FilePath', VersionControlPath);
+
 %--------------------END CODE ------------------------
 end

@@ -34,7 +34,7 @@ function [data, misc]=defineTimestamps(data, misc)
 %       April 24, 2018
 %
 %   DATE LAST UPDATE:
-%       July 20, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -49,25 +49,33 @@ misc=p.Results.misc;
 
 MaxFailAttempts=4;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 %% Verify presence of field "labels" in structure data
 
 if ~isfield(data, 'labels')
-    disp(['     ERROR: Structure data should contain ' ...
-        'a non-empty field named labels '])
+    fprintf(fileID,['     ERROR: Structure data should contain ' ...
+        'a non-empty field named labels \n']);
     return
 else
     if isempty(data.labels)
-        disp(['    ERROR: Structure data should contain ' ...
-            'a non-empty field named labels '])
+        fprintf(fileID,['    ERROR: Structure data should contain ' ...
+            'a non-empty field named labels \n']);
         return
     end
 end
 
 %% Get number of time series
 
-%snumberOfTimeSeries = length(data.labels);
-
-disp('- Define timestamps ')
+fprintf(fileID,'\n');
+fprintf(fileID,'- Define timestamps \n');
 fmt = 'yyyy-mm-dd';
 
 %% Request user's input to specify start date
@@ -79,10 +87,10 @@ while ~isCorrect
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    fprintf('  Start date (%s): \n',fmt);
+    fprintf(fileID, '  Start date (%s): \n',fmt);
     if misc.BatchMode.isBatchMode
         tts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ', tts])
+        fprintf(fileID,'     %s', tts);
     else
         tts = input('     choice >> ','s');
     end
@@ -93,33 +101,21 @@ while ~isCorrect
     tts=strrep(tts, ' ','' ); % remove spaces
     
     if isempty(tts)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        disp([' This is the date corresponding with the ' ...
-            'first sample of the simulated time series.'])
-        disp(' The date should be provided in yyyy-mm-dd format.       ')
-        disp([' Note that all the simulated time series' ...
-            'share the same timestamps (i.e. same start date, same' ...
-            ' end date, same time step).'])
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
         continue
     else
         try
             datenum(tts,fmt);
         catch
-            disp(' ')
-            disp(['     wrong format. Format should be ',fmt ])
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'     wrong format. Format should be %s \n',fmt);
+            fprintf(fileID,'\n');
             continue
         end
         
         if ~strcmp(datestr(tts, fmt), tts )
-            disp(' ')
-            disp('     wrong input: Invalid date. ')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'     wrong input: Invalid date.\n');
+            fprintf(fileID,'\n');
             continue
         end
         
@@ -128,7 +124,7 @@ while ~isCorrect
 end
 % Increment global variable to read next answer when required
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
-disp(' ')
+fprintf(fileID,'\n');
 
 %% Request user's input to specify end date
 incTest=0;
@@ -138,10 +134,10 @@ while ~isCorrect
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    fprintf('  End date (%s): \n',fmt);
+    fprintf(fileID, '  End date (%s): \n',fmt);
     if misc.BatchMode.isBatchMode
         tte=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ', tte])
+        fprintf(fileID,'     %s', tte);
     else
         tte = input('     choice >> ','s');
     end
@@ -152,41 +148,29 @@ while ~isCorrect
     tte=strrep(tte, ' ','' ); % remove spaces
     
     if isempty(tte)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        disp([' This is the date corresponding with the' ...
-            'last sample of the simulated time series.'])
-        disp(' The date should be provided in yyyy-mm-dd format.       ')
-        disp([' Note that all the simulated time series' ...
-            'share the same timestamps (i.e. same start date, same' ...
-            ' end date, same time step).'])
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
         continue
     else
         try
             datenum(tte,fmt);
         catch
-            disp(' ')
-            disp(['     wrong format. Format should be ',fmt ])
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'     wrong format. Format should be %s \n',fmt);
+            fprintf(fileID,'\n');
             continue
         end
         
         if ~strcmp(datestr(tte, fmt), tte )
-            disp(' ')
-            disp('    wrong input: Invalid date. ')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'    wrong input: Invalid date.\n');
+            fprintf(fileID,'\n');
             continue
         end
         
         if datenum(tte) <= datenum(tts)
-            disp(' ')
-            disp(['     wrong input: end date  ' ...
-                'should be more recent than start date'])
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,['     wrong input: end date  ' ...
+                'should be more recent than start date \n']);
+            fprintf(fileID,'\n');
             continue
         end
         
@@ -195,7 +179,8 @@ while ~isCorrect
 end
 % Increment global variable to read next answer when required
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
-disp(' ')
+fprintf(fileID,'\n');
+fprintf(fileID,'\n');
 incTest=0;
 isCorrect = false;
 while ~isCorrect
@@ -203,38 +188,26 @@ while ~isCorrect
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    disp('  Time step (in day): ');
+    fprintf(fileID,'  Time step (in day): \n');
     if misc.BatchMode.isBatchMode
         dt=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ', num2str(dt)])
+        fprintf(fileID,'     %s', num2str(dt));
     else
         dt=input('     choice >> ');
     end
     
     if isempty(dt)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp('                                                         ')
-        disp([' This is the time step for the time vector, ' ...
-            ' i.e. the number of days that separate two timestamps' ...
-            ' in the generated time vector.'])
-        disp([' Note that all the simulated time '...
-            ' series share the same timestamps ' ...
-            '(i.e. same start date, same end date, same time step).'])
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
         continue
     else
         if ischar(dt)
-            disp(' ')
-            disp('     wrong input -> not an digit ')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'     wrong input -> not an digit\n');
+            fprintf(fileID,'\n');
             continue
         elseif length(dt) > 1
-            disp(' ')
-            disp('     wrong input -> should be single value ')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'     wrong input -> should be single value\n');
+            fprintf(fileID,'\n');
             continue
         else
             isCorrect = true;
@@ -245,9 +218,8 @@ end
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
 
 % Generate timestamp vector
-
 data.timestamps=(datenum(tts):dt:datenum(tte))';
 
-
+fprintf(fileID,'\n');
 %--------------------END CODE ------------------------
 end

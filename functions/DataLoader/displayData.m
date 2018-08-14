@@ -1,4 +1,4 @@
-function displayData(data)
+function displayData(data, misc)
 %DISPLAYDATA Display on screen the content of the data in memory
 %
 %   SYNOPSIS:
@@ -17,6 +17,8 @@ function displayData(data)
 %
 %                           N: number of time series
 %                           M: number of samples
+%
+%      misc         - structure (required)
 %
 %   OUTPUT:
 %      Print message on screen
@@ -48,16 +50,17 @@ function displayData(data)
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 addRequired(p,'data', @isstruct );    
-parse(p,data);
+addRequired(p,'misc', @isstruct ); 
+parse(p,data, misc);
 
-% Validation of structure data
-% isValid = verificationDataStructure(data);
-% if ~isValid
-%     disp(' ')
-%     disp('ERROR: Unable to read the data from the structure.')
-%     disp(' ')
-%     return
-% end
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
 
 %% Display data on screen
  
@@ -65,25 +68,23 @@ parse(p,data);
 numberOfTimeSeries = length(data.labels);
 
 % Show on screen which data are available
-fprintf(' \n')
-fprintf('- Data available: \n')
+fprintf(fileID,' \n');
+fprintf(fileID,'- Data available: \n');
 
-fprintf(' \n')
-fprintf('     %-25s %-25s %-25s\t\n', ...
+fprintf(fileID, ' \n');
+fprintf(fileID, '     %-25s %-25s %-25s\t\n', ...
     'Time series number #', 'Reference name', 'Size');
-fprintf('     %-30s\n', ...
-    ['--------------------------------' ...
+fprintf(fileID, '     %-30s\n', ...
+    ['--------------------------------', ...
     '-----------------------------------']);
-fprintf(' \n')
 for i=1:numberOfTimeSeries
     sz=size(data.timestamps(:));
-    fprintf('     %-25s %-25s %-25s\t\n', num2str(i), data.labels{i}, ...
-        ['[', num2str(sz(1)),'x', num2str(sz(2)), ']' ] )
+    fprintf(fileID, '     %-25s %-25s %-25s\t\n', ...
+        num2str(i), data.labels{i}, ...
+        ['[', num2str(sz(1)),'x', num2str(sz(2)), ']' ] );
 end
-fprintf(' \n')
-fprintf('     %-30s\n', ...
+fprintf(fileID, '     %-30s\n', ...
     ['-------------------------------------' ...
     '------------------------------']);
-fprintf(' \n')
 %--------------------END CODE ------------------------ 
 end

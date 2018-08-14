@@ -54,7 +54,7 @@ function [misc]=piloteModifyTrainingPeriod(data, model, estimation, misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       July 27, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -71,13 +71,24 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 
-ProjectPath=misc.ProjectPath;            
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/    Modify training period')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
+ProjectPath=misc.ProjectPath;   
+
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'/    Modify training period \n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
 
 [misc] = modifyTrainingPeriod(data, model, estimation, misc, ...
     'FilePath', ProjectPath);

@@ -35,7 +35,7 @@ function [ProjectInfo]=displayProjects(misc)
 %       June 4, 2018
 %
 %   DATE LAST UPDATE:
-%       July 26, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -50,6 +50,15 @@ misc=p.Results.misc;
 FilePath = misc.ProjectPath;
 ProjectsInfoFilename=misc.ProjectInfoFilename;
 
+
+% Set fileID for logfile
+if misc.isQuiet
+   % output message in logfile
+   fileID=fopen(misc.logFileName, 'a');  
+else
+   % output message on screen and logfile using diary command
+   fileID=1; 
+end
 
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -80,13 +89,13 @@ if isFileExist
         ProjectInfo(:,3) = ProjectInfo(I,3);
                
         % Display information
-        disp('- Load a saved project: ')
-        disp(' ')
+        fprintf(fileID,'- Load a saved project: \n');
+        fprintf(fileID,'\n');
         for i=1:size(ProjectInfo,1)
-            fprintf('     %-3s -> %-25s %-10s\t\n', num2str(i), ...
-                ProjectInfo{i,1}, ProjectInfo{i,2})
+            fprintf(fileID,'     %-3s -> %-25s %-10s\t\n', num2str(i), ...
+                ProjectInfo{i,1}, ProjectInfo{i,2});
         end
-        disp(' ')
+        fprintf(fileID,'\n');
       
        save(fullfile(pwd, FilePath, ProjectsInfoFilename), 'ProjectInfo'); 
         

@@ -43,10 +43,10 @@ function [data, model, estimation, misc]=SimulateData(data, model, misc, varargi
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      simulateDataFromCustomAnomalies, simulateDataFromTransitionProbabilities
-%      incrementProjectName, saveProject
+%      incrementProjectName
 %
 %   See also SIMULATEDATADFROMCUSTOMANOMALIES,
-%   SIMULATEDATAFROMTRANSITIONPROBABILITIES, SAVEPROJECTS,
+%   SIMULATEDATAFROMTRANSITIONPROBABILITIES
 %   INCREMENTPROJECTNAME
 
 %   AUTHORS:
@@ -62,7 +62,7 @@ function [data, model, estimation, misc]=SimulateData(data, model, misc, varargi
 %       April 25, 2018
 %
 %   DATE LAST UPDATE:
-%       April 25, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -81,11 +81,7 @@ model=p.Results.model;
 misc=p.Results.misc;
 isPlot=p.Results.isPlot;
 
-% if isfield(data, 'values')
-%     % prevent overwriting by incrementing ProjectName
-%     ProjectName = incrementProjectName(misc, 'new', misc.ProjectPath );
-%     misc.ProjectName = ProjectName;   
-% end
+disp('     Simulating data...')
 
 if isfield(misc, 'custom_anomalies') && ~isempty(misc.custom_anomalies)
     [data, model, estimation, misc]= ...

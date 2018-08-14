@@ -1,11 +1,13 @@
-function [menuChoices]=displayMenuOpenBDLM
+function [menuChoices]=displayMenuOpenBDLM(misc)
 %DISPLAYMENUOPENBDLM Display OpenBDLM menu
 %
 %   SYNOPSIS:
 %     [menuChoices]=DISPLAYMENUOPENBDLM
 %
 %   INPUT:
-%      N/A
+%      misc                - structure
+%                             see the documentation for details about the
+%                             field in misc
 %
 %   OUTPUT:
 %      menuChoices - 1xN array of integer
@@ -39,33 +41,51 @@ function [menuChoices]=displayMenuOpenBDLM
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       July 27, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
+%% Get arguments passed to the function and proceed to some verifications
+p = inputParser;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/    Choose from')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
+addRequired(p, 'misc', @isstruct)
+parse(p, misc);
 
-disp(' ')
-disp('     1  ->  Learn model parameters values')
-disp('     2  ->  Estimate initial hidden states values')
-disp('     3  ->  Estimate hidden states values')
-disp(' ')
-disp('     11 ->  Display and modify current model parameter values')
-disp(['     12 ->  Display and modify current ', ...
-    'initial hidden states values'])
-disp('     13 ->  Display and modify current training period')
-disp('     14 ->  Plots')
-disp('     15 ->  Display model matrices')
-disp('     16 ->  Simulate data')
-disp('     17 ->  Export project in configuration file format')
-disp(' ')
-disp('     Type ''Q'' to Quit')
-disp(' ')
+misc=p.Results.misc;
+
+% Set fileID for logfile
+if misc.isQuiet
+   % output message in logfile
+   fileID=fopen(misc.logFileName, 'a');  
+else
+   % output message on screen and logfile using diary command
+   fileID=1; 
+end
+
+
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'/    Choose from \n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+
+fprintf(fileID,'\n');
+fprintf(fileID,'     1  ->  Learn model parameters values \n');
+fprintf(fileID,'     2  ->  Estimate initial hidden states values \n');
+fprintf(fileID,'     3  ->  Estimate hidden states values \n');
+fprintf(fileID,'\n');
+fprintf(fileID,['     11 ->  Display and modify ', ...
+    'current model parameter values \n']);
+fprintf(fileID,['     12 ->  Display and modify current ', ...
+    'initial hidden states values \n']);
+fprintf(fileID,'     13 ->  Display and modify current training period \n');
+fprintf(fileID,'     14 ->  Plots \n');
+fprintf(fileID,'     15 ->  Display model matrices \n');
+fprintf(fileID,'     16 ->  Simulate data \n');
+fprintf(fileID,'     17 ->  Export project in configuration file format \n');
+fprintf(fileID,'\n');
+fprintf(fileID,'     Type Q to Quit \n');
+fprintf(fileID,'\n');
 
 % List possible answers
 menuChoices = [1 2 3 11 12 13 14 15 16 17 21 ];

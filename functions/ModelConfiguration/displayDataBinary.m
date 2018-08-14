@@ -1,17 +1,21 @@
-function [FileInfo] = displayDataBinary(varargin)
+function [FileInfo] = displayDataBinary(misc, varargin)
 %DISPLAYDATABINARY Display the list of DATA_*.mat files
 %
 %   SYNOPSIS:
-%      [FileInfo] = DISPLAYDATABINARY(varargin)
+%      [FileInfo] = DISPLAYDATABINARY(misc, varargin)
 %
 %   INPUT:
-%      FilePath   - character (optional)
-%                   directory where to save the file
-%                   default: '.'  (current folder)
+%      misc          - structure
+%                      see the documentation for details about the
+%                      field in misc
+%
+%      FilePath     - character (optional)
+%                     directory where to save the file
+%                     default: '.'  (current folder)
 %
 %   OUTPUT:
-%      FileInfo   - cell array of string
-%                   name of each file
+%      FileInfo     - cell array of string
+%                     name of each file
 %
 %
 %   DESCRIPTION:
@@ -19,8 +23,8 @@ function [FileInfo] = displayDataBinary(varargin)
 %      specified location given by FilePath
 %
 %   EXAMPLES:
-%      [FileInfo] = DISPLAYDATABINARY
-%      [FileInfo] = DISPLAYDATABINARY('FilePath', 'processed_data')
+%      [FileInfo] = DISPLAYDATABINARY(misc)
+%      [FileInfo] = DISPLAYDATABINARY(misc, 'FilePath', 'processed_data')
 %
 %   See also CHOOSEDATABINARY, SAVEPROJECT
 
@@ -37,7 +41,7 @@ function [FileInfo] = displayDataBinary(varargin)
 %       April 19, 2018
 %
 %   DATE LAST UPDATE:
-%       April 19, 2018
+%       August 10, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -48,12 +52,23 @@ defaultFilePath = '.';
 validationFct_FilePath = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
+addRequired(p, 'misc', @isstruct);
 addParameter(p,'FilePath', defaultFilePath, validationFct_FilePath );
-parse(p, varargin{:});
+parse(p, misc, varargin{:});
 
 FilePath=p.Results.FilePath;
 
 FilePath_full=fullfile(FilePath, 'mat');
+
+
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath_full, 'dir');
@@ -77,7 +92,7 @@ if ~isempty(info_file)
     %% Display saved databases
     for i=1:length(info_file)
         FileInfo{i} = info_file(i).name;
-        fprintf('     %-3s -> %-25s\t\n', num2str(i), info_file(i).name)
+        fprintf(fileID, '     %-3s -> %-25s\t\n', num2str(i), info_file(i).name);
     end
 else
     FileInfo =[];

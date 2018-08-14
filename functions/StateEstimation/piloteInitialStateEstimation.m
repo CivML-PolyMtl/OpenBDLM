@@ -82,20 +82,30 @@ misc=p.Results.misc;
 
 ProjectPath=misc.ProjectPath;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp('/ Estimate initial hidden states x_0')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp(' ')
+
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'/ Estimate initial hidden states x_0 \n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'\n');
 
 % Compute initial hidden states values
 [model] = computeInitialHiddenStates(data, model, estimation, misc, ...
     'FilePath', ProjectPath, 'Percent', 100);
 
 % Save project
-saveProject(data, model, estimation, misc,'FilePath', ProjectPath)
+%saveProject(data, model, estimation, misc,'FilePath', ProjectPath)
 
 %--------------------END CODE ------------------------
 end

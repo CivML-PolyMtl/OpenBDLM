@@ -37,7 +37,7 @@ function [misc]=chooseProjectName(misc, varargin)
 %       April 27, 2018
 % 
 %   DATE LAST UPDATE:
-%       April 27, 2018
+%       August 9, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -54,6 +54,15 @@ addParameter(p,'FilePath', defaultFilePath, validationFct_FilePath );
 parse(p,misc, varargin{:});
 misc=p.Results.misc;  
 FilePath=p.Results.FilePath;
+
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -79,12 +88,12 @@ while ~isNameCorrect
     incTest=incTest+1;
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
-    disp(' ')
-    disp('- Enter a project name (max 25 characters):')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'- Enter a project name (max 25 characters):\n');
     % read from user input file (use of global variable )?
     if misc.BatchMode.isBatchMode
         project_name=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ',project_name])
+        fprintf(fileID,'     %s',project_name);
     else
         project_name=input('     choice >> ','s');
     end
@@ -97,15 +106,9 @@ while ~isNameCorrect
     end
     
     if isempty(project_name)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        disp(' Choose the name of the project.')
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
+        continue
     elseif length(project_name)>25
-        disp('     wrong input -> string > 25 characters')
+        fprintf(fileID,'     wrong input -> string > 25 characters\n');
     else
         
         if ~isempty(ProjectInfo)
@@ -113,8 +116,8 @@ while ~isNameCorrect
          Test_Name = strcmpi(ProjectInfo(:,1), project_name);
                
         if any(Test_Name)
-            fprintf(['     Project name %s already exists.' ...
-                ' Provide another name. \n'], project_name)
+            fprintf(fileID, ['     Project name %s already exists.' ...
+                ' Provide another name. \n'], project_name);
             isNameCorrect = false;
         else
             isNameCorrect = true;
@@ -130,5 +133,6 @@ misc.ProjectName = project_name;
 
 % Increment global variable to read next answer when required
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+fprintf(fileID,'\n');
 %--------------------END CODE ------------------------ 
 end

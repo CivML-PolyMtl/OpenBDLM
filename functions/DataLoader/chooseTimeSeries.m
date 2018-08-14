@@ -93,11 +93,19 @@ isOutputFile=p.Results.isOutputFile;
 isPlot=p.Results.isPlot;
 
 DataPath=misc.DataPath;
-
 MaxFailAttempts=4;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 %% Display data on screen
-displayData(data)
+displayData(data, misc)
 
 % Get number of time series in dataset
 numberOfTimeSeries = size(data.values,2);
@@ -110,40 +118,39 @@ while(1)
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    fprintf('- Choose the time series to process (e.g [1 3 4]) : \n');
+    fprintf(fileID, ['- Choose the time series ', ...
+        'to process (e.g [1 3 4]) : \n']);
     if misc.BatchMode.isBatchMode
-        chosen_ts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ', num2str(chosen_ts) ])
+        chosen_ts= ...
+            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+        x=chosen_ts;
+        fprintf(fileID, ['     [%s]', ...
+            '\n'], strjoin(cellstr(num2str(x(:))),', '));
+        
     else
         chosen_ts = input('     choice >> ');
     end
     if isempty(chosen_ts)
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
-        disp(' Choose among the time series.')
-        fprintf([' The raw data, time steps and missing data for each ' ...
-            'time series can be visualized in the PDF file.'])
-        disp(' ')
-        disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%')
-        disp(' ')
         continue
     elseif ischar(chosen_ts) || any(mod(chosen_ts,1)) || ...
             ~isempty(chosen_ts(chosen_ts<1))
-        disp('     wrong input -> should be positive integers')
+        fprintf(fileID,['     wrong input -> ', ...
+            'should be positive integers\n']);
         continue
     elseif length(chosen_ts) > numberOfTimeSeries
-        fprintf(['     wrong input -> number of chosen time series ' ...
+        fprintf(fileID, ['     wrong input -> ', ...
+            ' number of chosen time series ' ...
             '> number of time series available (%d) \n'], ...
-            numberOfTimeSeries  )
+            numberOfTimeSeries  );
         continue
     elseif length(chosen_ts) ~= length(unique(chosen_ts))
-        fprintf(['     wrong input -> a same time series' ...
-            'cannot be chosen twice.'])
+        fprintf(fileID, ['     wrong input -> a same time series' ...
+            'cannot be chosen twice.\n']);
         continue
     elseif ~isempty(chosen_ts(chosen_ts> numberOfTimeSeries))
-        disp(['     wrong input -> at least one time series index' ...
-            'is out of range.'])
+        fprintf(fileID,['     wrong input -> ', ...
+            'at least one time series index' ...
+            'is out of range.\n']);
         continue
     else
         
@@ -160,7 +167,7 @@ data.values = data.values(:,chosen_ts);
 data.labels = data.labels(:,chosen_ts);
 
 %% Display data on screen
-displayData(data)
+displayData(data, misc)
 
 %% Plot
 if isPlot

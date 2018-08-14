@@ -76,7 +76,7 @@ function plotEstimations(data, model, estimation, misc, varargin)
 %       May 24, 2018
 %
 %   DATE LAST UPDATE:
-%       June 11, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -110,11 +110,20 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
 
 %% Verification if there are data to plot, or not
 if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
-    disp(' ')
-    disp('     No plot to create.')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     No plot to create.\n');
+    fprintf(fileID,'\n');
     return
 end
 
@@ -135,16 +144,17 @@ if isExportPNG || isExportPDF || isExportTEX
     [isFileExist] = testFileExistence(fullname, 'dir');
     
     if isFileExist
-        disp(' ')
-        fprintf('Directory %s already exists. Overwrite ?\n', fullname)
+        %fprintf(fileID,'\n');
+        disp(['     Directory ', fullname,' already ', ...
+            'exists. Overwrite ?'] );
         
         isYesNoCorrect = false;
         while ~isYesNoCorrect
             choice = input('     (y/n) >> ','s');
             if isempty(choice)
-                disp(' ')
-                disp('     wrong input --> please make a choice')
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     wrong input --> please make a choice\n');
+                fprintf(fileID,'\n');
             elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
                 
                 isYesNoCorrect =  true;
@@ -161,9 +171,9 @@ if isExportPNG || isExportPDF || isExportTEX
                 isYesNoCorrect =  true;
                 
             else
-                disp(' ')
-                disp('     wrong input')
-                disp(' ')
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     wrong input\n');
+                fprintf(fileID,'\n');
             end
             
         end
@@ -181,9 +191,11 @@ else
     
 end
 
+disp('     Plotting hidden states estimations ...')
+
 %% Verification if there are data to plot, or not
 if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
-    disp('No plot to create.')
+    fprintf(fileID,'No plot to create.\n');
     return
 end
 
@@ -290,7 +302,7 @@ if isExportPDF
         pattern = data.labels{i};
         
         Test = strfind(FigureNames_full(:), pattern);
-        Index = find(not(cellfun('isempty', Test )));
+        Index = not(cellfun('isempty', Test ));
         
         FigureNames_sub =  ...
             FigureNames_full(Index);
@@ -301,7 +313,7 @@ if isExportPDF
     
     if model.nb_class>1
         Test = strfind(FigureNames_full(:), 'ModelProbability');
-        Index = find(not(cellfun('isempty', Test )));
+        Index = not(cellfun('isempty', Test ));
         FigureNames_sub =  ...
             FigureNames_full(Index);
         
@@ -327,7 +339,8 @@ if isExportPDF
     
 end
 if isExportPNG || isExportPDF || isExportTEX
-    fprintf('Figures saved in %s.', fullname)
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     Figures saved in %s.\n', fullname);
+    fprintf(fileID,'\n');
 end
 end

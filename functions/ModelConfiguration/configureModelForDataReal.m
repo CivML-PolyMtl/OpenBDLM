@@ -87,12 +87,23 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
-    disp(' ')
-    disp('     ERROR: Unable to read the data from the structure.')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,['     ERROR: Unable to ', ...
+        'read the data from the structure.\n']);
+    fprintf(fileID,'\n');
     return
 end   
 

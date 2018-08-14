@@ -73,7 +73,7 @@ function plotData(data, misc, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       July 25, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -100,25 +100,30 @@ FilePath=p.Results.FilePath;
 isPdf = p.Results.isPdf;
 isSaveFigures = p.Results.isSaveFigures;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 if isPdf && ~isSaveFigures
     isSaveFigures = true;
 end
-
 
 % Validation of structure data
 isValid = verificationDataStructure(data);
 
 if ~isValid
-    disp(' ')
-    disp('ERROR: Unable to read the data from the structure.')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'ERROR: Unable to read the data from the structure.\n');
+    fprintf(fileID,'\n');
     return
 end
 
 if isSaveFigures
-    
-    %% Remove space in filename
-    %FilePath = FilePath(~isspace(FilePath));
     
     %% Create specified path if not existing
     [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -128,28 +133,26 @@ if isSaveFigures
         % set directory on path
         addpath(FilePath)
     end
-       
+    
     fullname=fullfile(FilePath, misc.ProjectName);
     
     [isFileExist] = testFileExistence(fullname, 'dir');
     if isFileExist
-        disp(' ')
-        fprintf('     Directory %s already exists. Overwrite ? (y/n) \n', ...
-            fullname)
-        
+        disp( ['     Directory ', fullname ,' already exists. ', ...
+            'Overwrite ? (y/n)']);
         isYesNoCorrect = false;
         while ~isYesNoCorrect
             choice = input('     choice >> ','s');
             if isempty(choice)
                 disp(' ')
-                disp('     wrong input --> please make a choice')
+                disp('     wrong input')
                 disp(' ')
             elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
                 
                 isYesNoCorrect =  true;
-
+                
             elseif strcmpi(choice,'n') || strcmpi(choice,'no')
-                                
+                
                 [name] = incrementFilename([misc.ProjectName, '_new'], ...
                     FilePath);
                 fullname=fullfile(FilePath, name);
@@ -177,6 +180,8 @@ if isSaveFigures
 end
 
 %% Create a figure for each time series
+
+disp('     Plot data...')
 
 % Get number of time series
 numberOfTimeSeries = size(data.values, 2);
@@ -250,7 +255,8 @@ for i=1:numberOfTimeSeries
     set(gca,'FontSize',8)
     YTicks=([ 1 10 100 1000]);
     set(gca, 'YTick', YTicks)
-    set(gca,'YTickLabel', cellstr(num2str(round(log10(YTicks(:))), '10^%d')))
+    set(gca,'YTickLabel', ...
+        cellstr(num2str(round(log10(YTicks(:))), '10^%d')))
     set(gca,'YMinorTick','off')
     title('Time step', 'FontSize', 8)
     datetick('x','yy-mm','keepticks')
@@ -266,17 +272,17 @@ for i=1:numberOfTimeSeries
         if isPdf
             export_fig([filename '.pdf'], '-nocrop')
             saveas(gcf, [filename '.fig'])
-            close(gcf)
+            %close(gcf)
         else
             saveas(gcf, [filename '.fig'])
-            close(gcf)
+            %close(gcf)
         end
     end
     
     
 end
-%
-% %% Plot data availability
+
+% Plot data availability
 if isSaveFigures
     plotDataAvailability(data, 'FilePath', fullname, ...
         'isSaveFigures', isSaveFigures)
@@ -302,7 +308,7 @@ if isPdf
     
     match = cellfun(@(S) (strcmp( S(1:4), 'num_' ) || ...
         strcmp( S(1:7), 'availab' )) , {pdf_files.name} );
-
+    
     if ~isempty(match)
         pdf_files(~match) = [];
     end
@@ -330,8 +336,8 @@ else
 end
 
 if isSaveFigures
-    fprintf('     Figures saved in %s \n', fullname);
-    disp(' ')
+    fprintf(fileID, '     Figures saved in %s \n', fullname);
+    fprintf(fileID,'\n');
 end
 %--------------------END CODE ------------------------
 end

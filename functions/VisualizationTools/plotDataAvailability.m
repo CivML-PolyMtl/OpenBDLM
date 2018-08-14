@@ -190,7 +190,7 @@ set(gcf,'PaperType', 'usletter',  'PaperOrientation', 'landscape')
 if isSaveFigures
     export_fig([filename, '.pdf'], '-nocrop')
     saveas(gcf, [filename, '.fig'])
-    close(gcf)
+    %close(gcf)
 end
 %--------------------END CODE ------------------------
 end

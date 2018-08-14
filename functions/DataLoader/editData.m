@@ -112,10 +112,18 @@ MaxFailAttempts=4;
 
 PossibleAnswers = [1 2 3 4 5 6];
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 
 %% Save current dataset
 misc.dataBeforeEditing = data;
-
 
 %% Display data editing menu
 incTest=0;
@@ -130,31 +138,31 @@ while(1)
     plotData(data, misc, 'FilePath', 'figures', ...
         'isPdf', false,'isSaveFigure', false)
     
-    disp(' ')
-    disp('- Choose from')
-    disp(' ')
-    disp('     1  ->  Select time series')
-    disp('     2  ->  Select data analysis time period ')
-    disp('     3  ->  Remove missing data')
-    disp('     4  ->  Resample')
-    disp(' ')
-    disp('     5  ->  Reset changes')
-    disp('     6  ->  Save changes and continue analysis')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'- Choose from\n');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     1  ->  Select time series\n');
+    fprintf(fileID,'     2  ->  Select data analysis time period \n');
+    fprintf(fileID,'     3  ->  Remove missing data\n');
+    fprintf(fileID,'     4  ->  Resample\n');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     5  ->  Reset changes\n');
+    fprintf(fileID,'     6  ->  Save changes and continue analysis\n');
+    fprintf(fileID,'\n');
         
     if misc.BatchMode.isBatchMode
         user_inputs.inp_1=eval(char(misc.BatchMode.Answers{ ...
             misc.BatchMode.AnswerIndex}));
-        disp(['     ',num2str(user_inputs.inp_1)])
+        fprintf(fileID,'     %s\n',num2str(user_inputs.inp_1));
     else
         user_inputs.inp_1 = input('     choice >> ');
     end
     
     if ~any(ismember( PossibleAnswers, user_inputs.inp_1 )) && ...
             ~isempty(user_inputs.inp_1 )
-        disp(' ')
-        disp('     wrong input')
-        disp(' ')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'     wrong input\n');
+        fprintf(fileID,'\n');
         continue
         
     elseif user_inputs.inp_1 == 6
@@ -190,20 +198,19 @@ while(1)
                 
                 incTest_2=incTest_2+1;
                 if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
-                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end              
                 
-                
-                disp(' ')
-                disp(['     Percentage of missing data ', ...
-                    'allowed at each timestamp:'])
-                disp(['     (Example: 25 means that, at each ', ...
-                    'timestamp maximum 25% of the data can be NaN)'])
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     Percentage of missing data ', ...
+                    'allowed at each timestamp:\n']);
+                fprintf(fileID,['     (Example: 25 means that, at each ', ...
+                    'timestamp maximum 25% of the data can be NaN)\n']);
                 if misc.BatchMode.isBatchMode
                     user_inputs.inp_2= eval(char(misc.BatchMode.Answers{...
                         misc.BatchMode.AnswerIndex}));
-                    disp(['     ',num2str(user_inputs.inp_2)])
+                    fprintf(fileID,'     %s', num2str(user_inputs.inp_2));
                 else
-                    disp(' ')
+                    fprintf(fileID,'\n');
                     user_inputs.inp_2 = input('     choice >> ');
                 end
                 
@@ -218,8 +225,9 @@ while(1)
                     incTest=0;
                     isAnswerCorrect = true;
                 else
-                    disp(' ')
-                    disp('     wrong input')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,'     wrong input\n');
+                    fprintf(fileID,'\n');
                     continue
                 end
                 
@@ -237,12 +245,12 @@ while(1)
                 if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                         'attempts (', num2str(MaxFailAttempts)  ').']) ; end
                 
-                disp(' ')
-                disp('     Give time step (in day)')
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     Give time step (in day)\n');
                 if misc.BatchMode.isBatchMode
                     dt_ref=eval(char(misc.BatchMode.Answers{ ...
                         misc.BatchMode.AnswerIndex}));
-                    disp(['     ',num2str(dt_ref)])
+                    fprintf(fileID,'     %s',num2str(dt_ref));
                 else
                     dt_ref = input('     choice >> ');
                 end
@@ -253,8 +261,9 @@ while(1)
                     incTest=0;
                     isAnswerCorrect = true;
                 else
-                    disp(' ')
-                    disp('     wrong input')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,'     wrong input');
+                    fprintf(fileID,'\n');
                     continue
                 end
                 
@@ -273,12 +282,13 @@ while(1)
                 if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
                         'attempts (', num2str(MaxFailAttempts)  ').']) ; end
                 
-                disp(' ')
-                disp('     Do you really want to reset the changes ? (y/n)')
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     Do you really want ', ...
+                    'to reset the changes ? (y/n)\n']);
                 if misc.BatchMode.isBatchMode
                     choice=eval(char(misc.BatchMode.Answers{ ...
                         misc.BatchMode.AnswerIndex}));
-                    disp(['     ',num2str(choice)])
+                    fprintf(fileID,'     %s', choice);
                 else
                     choice = input('     choice >> ', 's');
                 end
@@ -290,7 +300,9 @@ while(1)
                     incTest=0;
                     isAnswerCorrect = true;
                 else
-                    disp('     wrong input')
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,'     wrong input\n');
+                    fprintf(fileID,'\n');
                     continue
                 end
                 
@@ -299,19 +311,11 @@ while(1)
             misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
             
         elseif isempty(user_inputs.inp_1 )
-            disp(' ')
-            disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
-            disp(' ')
-            disp(['Typing # selects the option number # among all', ...
-                ' available option to edit the dataset.'])
-            disp(' ')
-            disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%')
-            disp(' ')
             continue
         else
-            disp(' ')
-            disp('     wrong input.')
-            disp(' ')
+            fprintf(fileID,'\n');
+            fprintf(fileID,'     wrong input.\n');
+            fprintf(fileID,'\n');
             continue
             
         end

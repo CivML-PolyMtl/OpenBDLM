@@ -27,7 +27,7 @@ function [estimation]=StateEstimation(data, model, misc, varargin)
 %                         smoothing step
 %                         default = false
 %
-%      isQuiet          - logical (required)
+%      isMute           - logical (required)
 %                         if isQuiet == true, functions runs silently
 %                         default = false
 %
@@ -72,32 +72,39 @@ function [estimation]=StateEstimation(data, model, misc, varargin)
 %       June 29, 2018
 %
 %   DATE LAST UPDATE:
-%       June 29, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 
 defaultisSmoother =  false;
-defaultisQuiet =  false;
+defaultisMute =  false;
 
 addRequired(p,'data', @isstruct );
 addRequired(p,'model', @isstruct );
 addRequired(p,'misc', @isstruct );
 addParameter(p,'isSmoother', defaultisSmoother, @islogical );
-addParameter(p,'isQuiet', defaultisQuiet, @islogical );
+addParameter(p,'isMute', defaultisMute, @islogical );
 parse(p,data, model, misc, varargin{:});
 
 data=p.Results.data;
 model=p.Results.model;
 misc=p.Results.misc;
 isSmoother=p.Results.isSmoother;
-isQuiet=p.Results.isQuiet;
+isMute=p.Results.isMute;
 
-if ~isQuiet
-    disp('     ...in progress')
-    disp(' ')
+
+% Set fileID for logfile
+if misc.isQuiet
+   % output message in logfile
+   fileID=fopen(misc.logFileName, 'a');  
+else
+   % output message on screen and logfile using diary command
+   fileID=1; 
 end
+
+disp('     Computing hidden states ...');
 
 %% Read model parameter properties
 % Current model parameters
@@ -133,8 +140,9 @@ M = model.nb_class;
     estimation.LL,estimation.U,estimation.D]= ...
     SwitchingKalmanFilter(data,model,misc);
 
-if ~isQuiet
-    disp(['     -> log-likelihood:    ' num2str(estimation.LL)])
+if ~isMute
+    fprintf(fileID,['     log-likelihood: ', ...
+        ' %s \n'], num2str(estimation.LL));
 end
 
 %% Kalman smoother
@@ -182,8 +190,9 @@ for t=1:T
     end
 end
 
-if ~isQuiet
-    disp('     -> done.')
-end
+% if ~isMute
+%     fprintf(fileID,'     -> done \n');
+%     fprintf(fileID,'\n');
+% end
 %--------------------END CODE ------------------------
 end

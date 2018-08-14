@@ -85,12 +85,21 @@ FilePath=p.Results.FilePath;
 
 FilePath_full=fullfile(FilePath, 'csv');
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
-    disp(' ')
-    disp('ERROR: Unable to read the data from the structure.')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'ERROR: Unable to read the data from the structure.\n');
+    fprintf(fileID,'\n');
     return
 end
 
@@ -104,6 +113,8 @@ if ~isFileExist
     addpath(FilePath_full)
 end
 
+disp('     Save database (csv format)')
+
 %% Get saving directory name from external input
 name_datadir=misc.ProjectName;
 fullname=fullfile(FilePath_full, name_datadir);
@@ -113,9 +124,8 @@ fullname=fullfile(FilePath_full, name_datadir);
 if isFileExist
     isAnswerCorrect = false;
     while ~isAnswerCorrect
-        disp(' ')
-        fprintf(['     Directory %s already exists. ' ...
-            'Overwrite ? (y/n) \n'], name_datadir)
+        disp(['     Directory ', name_datadir , ' already exists. ' ...
+            'Overwrite ? (y/n)']);
         choice = input('     choice >> ','s');
         % Remove space and quotes
         choice=strrep(choice,'''','' ); % remove quotes
@@ -124,7 +134,7 @@ if isFileExist
         
         if isempty(choice)
             disp(' ')
-            disp('     wrong input --> please make a choice')
+            disp('     wrong input')
             disp(' ')
             continue
         elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
@@ -179,8 +189,8 @@ for i=1:numberOfTimeSeries
     % close file
     fclose(fid);
 end
-disp(' ')
-fprintf('     CSV files saved in %s. \n', fullname);
-disp(' ')
+fprintf(fileID,'\n');
+fprintf(fileID,'     CSV files saved in %s \n', fullname);
+fprintf(fileID,'\n');
 %--------------------END CODE ------------------------
 end

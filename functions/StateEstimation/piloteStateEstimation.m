@@ -83,14 +83,24 @@ misc=p.Results.misc;
 ProjectPath=misc.ProjectPath;
 FigurePath=misc.FigurePath;
 
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+
 MaxFailAttempts=4;
 
-disp(' ')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
-disp( '/    State estimation')
-disp(['-----------------------------------------', ...
-    '-----------------------------------------------------'])
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID, '/    State estimation\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
 
 %% Request user's choice about filtering or smoothing
 incTest=0;
@@ -101,29 +111,40 @@ while ~isCorrectAnswer
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    disp(' ')
-    disp('     1 ->  Filter')
-    disp('     2 ->  Smoother')
-    disp(' ')
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     1 ->  Filter \n');
+    fprintf(fileID,'     2 ->  Smoother \n');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     Type R to return to the previous menu \n');
+    fprintf(fileID,'\n');
     if misc.BatchMode.isBatchMode
         choice=eval(char(misc.BatchMode.Answers...
             {misc.BatchMode.AnswerIndex}));
-        disp(choice)
+        choice = num2str(choice);
+        fprintf(fileID, '     %s\n', num2str(choice));
     else
-        choice = input('     choice >> ');
+        choice = input('     choice >> ', 's');
     end
     
-    if choice == 1
+    % Remove space and quotes
+    choice=strrep(choice,'''',''); % remove quotes
+    choice=strrep(choice,'"','' ); % remove double quotes
+    choice=strrep(choice, ' ','' ); % remove spaces
+    
+    if round(str2double(choice)) == 1
         isSmoother = false;
         misc.isSmoother = isSmoother;
         isCorrectAnswer =  true;
-    elseif choice == 2
+    elseif round(str2double(choice)) == 2
         isSmoother = true;
         misc.isSmoother = isSmoother;
         isCorrectAnswer =  true;
+        
+    elseif ischar(choice) && length(choice) == 1 && strcmpi(choice, 'r')
+        return
     else
-        disp(' ')
-        disp('      wrong input')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'     wrong input \n');
         continue
     end
     
@@ -148,8 +169,8 @@ saveProject(data, model, estimation, misc, ...
     'FilePath',ProjectPath)
 
 % Plot estimations
-disp(' ')
-disp('     Plot hidden variables in progress...')
+fprintf(fileID,'\n');
+fprintf(fileID,'     Plot hidden variables in progress...\n');
 plotEstimations(data, model, estimation, misc,'FilePath', FigurePath, ...
     'isExportPDF', false, ...
     'isExportPNG', false, ...

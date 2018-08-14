@@ -33,7 +33,7 @@ function [misc]=chooseIsDataSimulation(misc)
 %       April 27, 2018
 % 
 %   DATE LAST UPDATE:
-%       April 27, 2018
+%       August 9, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -42,6 +42,15 @@ addRequired(p,'misc', @isstruct );
 parse(p,misc);
 misc=p.Results.misc;  
  
+% Set fileID for logfile
+if misc.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
 %% Project to simulate data ?
 incTest=0;
 MaxFailAttempts = 4;
@@ -51,42 +60,40 @@ while ~isYesNoCorrect
     incTest=incTest+1;
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
-    disp(' ')
-    fprintf('- Does this project aim to perform data simulation ? \n')
+    fprintf(fileID,'\n');
+    fprintf(fileID, ['- Does this project aim to ', ...
+        'perform data simulation ? (y/n) \n']);
     % read from user input file (use of global variable )?
     if misc.BatchMode.isBatchMode
         choice=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
-        disp(['     ', choice])
+        fprintf(fileID,'     %s', choice);
     else
-        choice = input('     (y/n) >> ','s');
+        choice = input('     choice >> ','s');
     end
     if isempty(choice)
-        disp(' ')
-        disp('     wrong input --> please make a choice')
-        disp(' ')
-    elseif strcmp(choice,'y') || strcmp(choice,'yes') ||  ...
-            strcmp(choice,'Y') || strcmp(choice,'Yes')  || ...
-            strcmp(choice,'YES')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'     wrong input --> please make a choice\n');
+        fprintf(fileID,'\n');
+    elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
         
         misc.isDataSimulation = true;
         isYesNoCorrect =  true;
         
-    elseif strcmp(choice,'n') || strcmp(choice,'no') ||  ...
-            strcmp(choice,'N') || strcmp(choice,'No')  || ...
-            strcmp(choice,'NO')
+    elseif strcmpi(choice,'n') || strcmpi(choice,'no') 
         
         misc.isDataSimulation = false;
         isYesNoCorrect =  true;
         
     else
-        disp(' ')
-        disp('     wrong input')
-        disp(' ')
+        fprintf(fileID,'\n');
+        fprintf(fileID,'     wrong input\n');
+        fprintf(fileID,'\n');
     end
     
 end
 % Increment global variable to read next answer when required
 misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
-disp(' ')
+fprintf(fileID,'\n');
+fprintf(fileID,'\n');
 %--------------------END CODE ------------------------ 
 end
