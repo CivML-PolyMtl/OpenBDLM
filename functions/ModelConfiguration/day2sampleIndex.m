@@ -38,7 +38,7 @@ function [Index]=day2sampleIndex(day, timestamps)
 %       April 20, 2018
 % 
 %   DATE LAST UPDATE:
-%       April 20, 2018
+%       August 15, 2018
  
 %--------------------BEGIN CODE ---------------------- 
  
@@ -53,8 +53,11 @@ parse(p,day,timestamps );
 day=p.Results.day;
 timestamps=p.Results.timestamps;
  
-Index = find(abs(timestamps-timestamps(1)-day+1)== ...
-    min(abs(timestamps-timestamps(1)-day+1)),1,'first');     
- 
+if day == Inf
+    Index=length(timestamps);
+else
+    Index = find(abs(timestamps-timestamps(1)-day+1)== ...
+        min(abs(timestamps-timestamps(1)-day+1)),1,'first');
+end
 %--------------------END CODE ------------------------ 
 end

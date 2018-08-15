@@ -113,7 +113,7 @@ if ~isFileExist
     addpath(FilePath_full)
 end
 
-disp('     Save database (csv format)')
+disp('     Saving database (csv format) ...')
 
 %% Get saving directory name from external input
 name_datadir=misc.ProjectName;
