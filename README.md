@@ -72,9 +72,9 @@ TBD
 
 ## Authors
 
-* **James A-Goulet** - *Initial work* - [http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_MAIN.html)(webpage)
-* **Luong Ha Nguyen - *Development* - [http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_LHNGUYEN.html](webpage)
-* **Ianis Gaudot - *Development* - [http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_IGAUDOT.html](webpage)
+* **James A-Goulet** - *Initial code and developments* - [webpage](http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_MAIN.html)
+* **Luong Ha Nguyen** - *Development* - [webpage](http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_LHNGUYEN.html)
+* **Ianis Gaudot** - *Development* - [webpage](http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_IGAUDOT.html)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
