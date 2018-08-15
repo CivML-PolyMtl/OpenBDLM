@@ -1,4 +1,4 @@
-OpenBLDM log file created on 15-Aug-2018 11:23:41
+OpenBLDM log file created on 15-Aug-2018 15:21:21
 
 ----------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ OpenBLDM log file created on 15-Aug-2018 11:23:41
 
 
 - Enter a project name (max 25 characters):
-     INIT
+     DEMO
 
 - Does this project aim to perform data simulation ? (y/n) 
      y
@@ -68,16 +68,16 @@ OpenBLDM log file created on 15-Aug-2018 11:23:41
      Identify components for time series #1; e.g. [11 31 41]
      [12, 31, 52, 41] 
 
-     Figures saved in figures/INIT 
+     Figures saved in figures/DEMO 
 
 
-     Database saved in data/mat/DATA_INIT.mat 
+     Database saved in data/mat/DATA_DEMO.mat 
 
 
-     CSV files saved in data/csv/INIT 
+     CSV files saved in data/csv/DEMO 
 
-     Project saved in saved_projects/PROJ_INIT.mat. 
-     Configuration file saved in config_files/CFG_INIT.m. 
+     Project saved in saved_projects/PROJ_DEMO.mat. 
+     Configuration file saved in config_files/CFG_DEMO.m. 
 
 ---------------------------------------------------------------------------------------------- 
 /    Choose from 
@@ -99,5 +99,5 @@ OpenBLDM log file created on 15-Aug-2018 11:23:41
 
      Q  
 
-     Project saved in saved_projects/PROJ_INIT.mat. 
+     Project saved in saved_projects/PROJ_DEMO.mat. 
 

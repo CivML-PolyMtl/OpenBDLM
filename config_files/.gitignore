@@ -1,0 +1,8 @@
+LOG_*
+DATA_*
+PROJ_*
+CFG_*
+*/*/*.csv
+*/*.fig
+*/*.pdf
+*/*.png
