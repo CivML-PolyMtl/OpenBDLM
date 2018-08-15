@@ -142,6 +142,7 @@ while ~isYesNoCorrect
                 fprintf(fileID, 'DATA_*\n');
                 fprintf(fileID, 'PROJ_*\n');
                 fprintf(fileID, 'CFG_*\n');
+                fprintf(fileID, 'ProjectsInfo.mat\n');
                 fprintf(fileID, '*/*/*.csv\n');
                 fprintf(fileID, '*/*.fig\n');
                 fprintf(fileID, '*/*.pdf\n');
