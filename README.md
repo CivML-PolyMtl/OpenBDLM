@@ -1,8 +1,6 @@
-# Project Title
+# OpenBDLM
 
-One Paragraph of project description goes here
-
-![Logo](image.png)
+Structural Health Monitoring using Bayesian Dynamic Linear Models
 
 
 ## Getting Started
@@ -11,7 +9,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Matlab version (>2016a) on Mac or Windows
+
 
 ```
 Give examples
@@ -39,21 +38,55 @@ End with an example of getting some data out of the system or using it for a lit
 
 Explain how to run the automated tests for this system
 
-### Break down into end to end tests
+### DEMO
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
+This gives a first overview of what the program does.
 
 ```
-Give an example
+run_DEMO
 ```
+
+### VERSION CONTROL
+
+For user purpose, version control tests verifies that the program gives the right results on your machine.
+For development purpose, version control tests verifies that change are compatible with previsous stable version.
+
+In Matlab command line type,
+
+```
+[data, model, estimation, misc] = OpenBDLM()
+```
+
+and then type V in the Matlab command line.
+
+```
+V
+```
+
+You should get semething like that if the program works well.
+
+```
+- Version control test #1
+ 
+     Starting OpenBDLM_V1.7...
+     Loading configuration file...
+     Building model...
+     Computing hidden states ...
+     Saving project...
+     Plotting hidden states estimations ...
+     Saving project...
+     See you soon !
+ 
+     ==> Version control test 1: PASS
+```
+
+If you get anything or something like that
+
+```
+==> Version control test 1: FAIL
+```
+
+It means something is wrong.
 
 ## Deployment
 
