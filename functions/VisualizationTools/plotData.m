@@ -117,9 +117,9 @@ end
 isValid = verificationDataStructure(data);
 
 if ~isValid
-    fprintf(fileID,'\n');
-    fprintf(fileID,'ERROR: Unable to read the data from the structure.\n');
-    fprintf(fileID,'\n');
+    disp(' ')
+    disp('     ERROR: Unable to read the data from the structure.');
+    disp(' ')
     return
 end
 
@@ -181,7 +181,7 @@ end
 
 %% Create a figure for each time series
 
-disp('     Plot data...')
+disp('     Plotting data...')
 
 % Get number of time series
 numberOfTimeSeries = size(data.values, 2);

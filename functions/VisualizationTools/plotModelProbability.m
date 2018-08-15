@@ -191,12 +191,12 @@ if isfield(estimation,'x')
     if isfield(estimation,'ref')
         % Plot true values
         plot(timestamps(plot_time_1), ...
-            dataset_x_ref(plot_time_1, end),'--r')
+            1-dataset_x_ref(plot_time_1, end),'--r')
     end
     
 else
     % Plot true values
-    plot(timestamps(plot_time_1),dataset_x_ref(plot_time_1, end), ...
+    plot(timestamps(plot_time_1),1-dataset_x_ref(plot_time_1, end), ...
         'Color', BlueColor, 'LineWidth', misc.linewidth)
 end
 
@@ -227,13 +227,13 @@ if misc.isSecondaryPlots
         if isfield(estimation,'ref')
             % Plot true values
             plot(timestamps(plot_time_2), ...
-                dataset_x_ref(plot_time_2,end), '--r')
+                1-dataset_x_ref(plot_time_2,end), '--r')
         end
         
         
     else
         % Plot true values
-        plot(timestamps(plot_time_2),dataset_x_ref(plot_time_2,end), ...
+        plot(timestamps(plot_time_2),1-dataset_x_ref(plot_time_2,end), ...
             'Color', BlueColor, 'LineWidth', misc.linewidth )
     end
     
