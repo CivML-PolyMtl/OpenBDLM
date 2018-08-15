@@ -255,7 +255,7 @@ Vfilt=(Vfilt + Vfilt')/2;
 
 xpred = A*xfilt+B;
 Vpred = A*Vfilt*A'+ Q+W; % Vpred = Cov[X(t+1) | t]
-J = Vfilt * A'*pinv(Vpred); % smoother gain matrix
+J = Vfilt * A'*pinv(Vpred,1E-3); % smoother gain matrix
 xsmooth = xfilt + J*(xsmooth_future - xpred);
 Vsmooth = Vfilt + J*(Vsmooth_future - Vpred)*J';
 VVsmooth_future = VVfilt_future + ...

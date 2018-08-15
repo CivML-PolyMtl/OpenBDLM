@@ -108,7 +108,6 @@ estimation = struct;
 
 %% Save the project date creation
 [misc]=printProjectDateCreation(misc);
-
 %% Build the model
 [model, misc] = buildModel(data, model, misc);
 
