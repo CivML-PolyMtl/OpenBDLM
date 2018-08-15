@@ -11,44 +11,74 @@ These instructions will get you a copy of the project up and running on your loc
 
 Matlab version (>2016a) on Mac or Windows
 
-
-```
-Give examples
-```
-
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+From the Github repository clone or download the program.
 
-Say what the step will be
+If downloading the program, you have to unzip the folder.
 
-```
-Give the example
-```
-
-And repeat
+Put OpenBDLM-master and all the subdirectory in your Matlab path.
+Remove from path all previously OpenBDLM version.
+Enter in OpenBDLM-master, and type in the Matlab command line 
 
 ```
-until finished
+OpenBLDM_main
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+You should see something like that if the programs works well:
 
-## Running the tests
+```
+----------------------------------------------------------------------------------------------
+     Starting OpenBDLM_V???...
+----------------------------------------------------------------------------------------------
 
-Explain how to run the automated tests for this system
+            Structural Health Monitoring using Bayesian Dynamic Linear Models
 
-### DEMO
+----------------------------------------------------------------------------------------------
 
-This gives a first overview of what the program does.
+- Start a new project: 
+
+     *      Enter a configuration filename 
+     0   -> Interactive tool 
+
+- Type D to Delete project(s), V for Version control, Q to Quit.
+
+     choice >> 
+```
+
+Type Q to Quit the program.
+
+
+Then, in the Matlab command line, type:
 
 ```
 run_DEMO
 ```
 
-### VERSION CONTROL
+to run a little demo.
 
-For user purpose, version control tests verifies that the program gives the right results on your machine.
+You should get semething like that if the program works well:
+
+```
+     Starting OpenBDLM_V1.7...
+     Starting a new project...
+     Building model...
+     Simulating data...
+     Plotting data...
+     Saving database (binary format) ...
+     Saving database (csv format) ...
+     Saving project...
+     Printing configuration file...
+     Saving database (binary format) ...
+     Saving project...
+     See you soon !
+```
+
+## Running the tests
+
+### Version control
+
+For the users, version control tests verifies that the program gives the right results on your machine.
 For development purpose, version control tests verifies that change are compatible with previsous stable version.
 
 In Matlab command line type,
@@ -59,11 +89,7 @@ In Matlab command line type,
 
 and then type V in the Matlab command line.
 
-```
-V
-```
-
-You should get semething like that if the program works well.
+You should get semething like that if the program works well:
 
 ```
 - Version control test #1
@@ -83,14 +109,10 @@ You should get semething like that if the program works well.
 If you get anything or something like that
 
 ```
-==> Version control test 1: FAIL
+     ==> Version control test 1: FAIL
 ```
 
 It means something is wrong.
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
