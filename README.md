@@ -4,6 +4,10 @@ One Paragraph of project description goes here
 
 ![logo](https://github.com/CivML-PolyMtl/OpenBDLM/tree/%E2%80%98Ianis_branch%E2%80%99/logo/image.png)
 
+<p align="center">
+  <img src="https://github.com/CivML-PolyMtl/OpenBDLM/tree/%E2%80%98Ianis_branch%E2%80%99/logo/image.png" width="350" title="hover text">
+</p>
+
 
 ## Getting Started
 
