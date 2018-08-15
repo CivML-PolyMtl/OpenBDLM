@@ -110,12 +110,29 @@ while ~isYesNoCorrect
                 % repos
                 phantomFilename='.keep';
                 
-                fileID=fopen(fullfile(FoldersList{i}, phantomFilename), 'w');
+                fileID=fopen(fullfile(FoldersList{i}, ...
+                    phantomFilename), 'w');
                 fclose(fileID);
                 
+                % Add .gitignore file
+%                 gitignorefilename='.gitignore';
+%                 fileID=fopen(fullfile(FoldersList{i}, ...
+%                     gitignorefilename), 'w');
+%                 
+%                 fprintf(fileID, 'LOG_*\n');
+%                 fprintf(fileID, 'DATA_*\n');
+%                 fprintf(fileID, 'PROJ_*\n');
+%                 fprintf(fileID, 'CFG_*\n');
+%                 fprintf(fileID, '*/*.csv\n');
+%                 fprintf(fileID, '*/*.fig\n');
+%                 fprintf(fileID, '*/*.pdf\n');
+%                 fprintf(fileID, '*/*.png\n');
+                
+                % re-build tree directory for data
                 if strcmp(FoldersList{i}, 'data')
                     mkdir('data/mat') ; mkdir('data/csv')
-                    addpath('data/mat') ; addpath('data/csv')        
+                    addpath('data/mat') ; addpath('data/csv')  
+
                 end
                 
             end

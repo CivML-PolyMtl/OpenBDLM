@@ -155,7 +155,7 @@ misc.LogPath                = 'log_files';
 misc.ProjectInfoFilename    = 'ProjectsInfo.mat';
 
 %% Set version
-version = '1.5';
+version = '1.7';
 
 %Initialize random stream number based on clock
 %RandStream.setGlobalStream(RandStream('mt19937ar','seed',861040000));
