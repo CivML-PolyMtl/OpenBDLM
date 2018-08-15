@@ -126,7 +126,7 @@ if strcmp(Method, 'NR')
     %% Model parameters optimization using Newton-Raphson technique
     
     % Define the maximal number of optimization iterations
-    misc.iteration_limit_calibration=5;
+    misc.iteration_limit_calibration=100;
     
     % Define the maximal optimization time [min]
     misc.time_limit_calibration=60;

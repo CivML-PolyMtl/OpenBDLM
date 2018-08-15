@@ -368,7 +368,7 @@ end
 
 %#52 Static Kernel Regression
 if ~isfield(model.components,'nb_SK_p')
-    model.components.nb_SK_p=50;
+    model.components.nb_SK_p=10;
 end
 model.components.idx{52}='SK';
 SK.A=@(p,t,dt) eye(model.components.nb_SK_p);
@@ -378,7 +378,7 @@ SK.C=@(p,t,dt) [Static_kernel_component(p,t,timestamps(1),model.components.nb_SK
 SK.pC=[{'\ell','SK',[],[],[0,inf], PriorType, PriorMean, PriorSdev};...
     {'p','SK',[],[],[nan,nan]}, PriorType, PriorMean, PriorSdev];
 SK.pC0=[{'0.5'};{'365.2422'}];
-SK.I=@(p,t,dt) p;
+SK.I=@(p,t,dt) p*ones(1,model.components.nb_SK_p);
 SK.pI={'\phi','SK,I',[],[],[-inf,inf], PriorType, PriorMean, PriorSdev};
 SK.pI0={'0.01'};
 SK.Q=@(p,t,dt) eye(model.components.nb_SK_p)*p^2*dt/dt_ref;
@@ -427,7 +427,7 @@ DK.pA0=[{'0.5'};{'365.2422'}];
 DK.C=@(p,t,dt) [1 zeros(1,model.components.nb_DK_p-1)];
 DK.pC=[];
 DK.pC0=[];
-DK.I=@(p,t,dt) p;
+DK.I=@(p,t,dt) p*[1 zeros(1,model.components.nb_DK_p)];
 DK.pI={'\phi','DK,I',[],[],[-inf,inf], PriorType, PriorMean, PriorSdev};
 DK.pI0={'0.01'};
 DK.Q=@(p,t,dt) blkdiag(0,eye(model.components.nb_DK_p-1)*p^2*dt/dt_ref);
@@ -736,41 +736,36 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                         for block=1:length(model.components.block{class_from}{obs}) %loop over each model block
                             block_idx=model.components.block{class_from}{obs}(block);
                             block_name=model.components.idx{block_idx};
-                            nb_param=eval(['size(' block_name '.pI,1)']);
-                            if nb_param>0
-                                %if param_reg==0
-                                p_idx=param_idx:param_idx-1+nb_param;
-                                param_reg=p_idx;
-                                param_properties=[param_properties;{'\phi', [num2str(obs_idx) '|' num2str(obs) '(' block_name ')' ],[num2str(class_from)],[num2str(obs)],[-inf,inf], PriorType, PriorMean, PriorSdev}];
-                                parameter=[parameter;eval(eval([block_name '.pI0{:}']))];
-                                param_idx=param_idx+1;
-                                %else
-                                %    p_idx=param_reg;
-                                %end
-                            else
-                                p_idx=[];
-                            end
                             
                             if class_from>1&&model.components.const{class_from}{obs}(block)==1
-                                C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(IC_param_ref{1}{obs}{block}) ']),t,dt)']];
+                                if block_idx==52||block_idx==53
+                                    C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(IC_param_ref{1}{obs}{block}) ']),t,dt).*' C_block_K]];
+                                else
+                                    C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(IC_param_ref{1}{obs}{block}) ']),t,dt)']];
+                                end
                             else
+                                nb_param=eval(['size(' block_name '.pI,1)']);
+                                if nb_param>0
+                                    p_idx=param_idx:param_idx-1+nb_param;
+                                    param_reg=p_idx;
+                                    param_properties=[param_properties;{'\phi', [num2str(obs_idx) '|' num2str(obs) '(' block_name ')' ],[num2str(class_from)],[num2str(obs)],[-inf,inf], PriorType, PriorMean, PriorSdev}];
+                                    parameter=[parameter;eval(eval([block_name '.pI0{:}']))];
+                                    param_idx=param_idx+1;
+                                    
+                                else
+                                    p_idx=[];
+                                end
                                 
                                 if block_idx==52||block_idx==53
-                                    C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(p_idx) ']),t,dt)*' C_block_K]];
+                                    C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(p_idx) ']),t,dt).*' C_block_K]];
                                 else
-                                    
                                     C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(p_idx) ']),t,dt)']];
-                                    
                                 end
                             end
                             if isfield(model.components,'PCA')
                                 C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},'*','sum(p([' num2str(PCA_reg_param{obs_idx}) ']).*model.components.PCA{' num2str(obs_idx) '}(' num2str(ic_idx) ',:)'')' ];
                             end
                             IC_param_ref{class_from}{obs}{block}=p_idx;
-                            
-                            %if eval([block_name '.I(parameter([' num2str(p_idx-1) ']))'])~=0&&class_from==1%||model.components.const{class_from}{obs}(block)==0
-                            
-                            %end
                         end
                     elseif obs_idx~=obs
                         C{class_from}{obs_idx,obs}=[',' num2str(zeros(1,nb_hidden_states{class_from}{obs}))];
@@ -803,22 +798,24 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                     block_name=model.components.idx{block_idx};
                     % Q - Model transition error covariance
                     if block_idx>10&&block_idx<30
-                        nb_param=size(eval([block_name '.Q(1,1,1)']),1);
+                        nb_param=1;
+                        %nb_param=size(eval([block_name '.Q(1,1,1)']),1);
                         if nb_param>0
                             p_idx=param_idx:param_idx-1+nb_param;
                         else
                             p_idx=[];
                         end
                         if class_from>1&&model.components.const{class_from}{obs}(block)==1
-                            Q{class_from}{class_to}=[Q{class_from}{class_to},',',[block_name '.Q(p([' num2str(Q_param_ref{1}{obs}{block}) ']).^2,t,dt)']];
+                            Q{class_from}{class_to}=[Q{class_from}{class_to},',',[block_name '.Q(p([' num2str(Q_param_ref{1}{obs}{block}) ']),t,dt)']];
                         else
-                            Q{class_from}{class_to}=[Q{class_from}{class_to},',',['diag(p([' num2str(p_idx) ']).^2)']];
-                            
+                            %Q{class_from}{class_to}=[Q{class_from}{class_to},',',['diag(p([' num2str(p_idx) ']))']];
+                            Q{class_from}{class_to}=[Q{class_from}{class_to},',',[block_name '.Q(p([' num2str(p_idx) ']),t,dt)']];
                             for i=1:nb_param
                                 name=[eval([block_name '.pQ'])];
                                 if ~isempty(name)
                                     if nb_param>1
-                                        name{1}=[name{1},'(' num2str(i),num2str(i) ')'];
+                                        name{1}=name{1};
+                                       %name{1}=[name{1},'(' num2str(i),num2str(i) ')'];
                                     end
                                     parameter=[parameter;1E3*eval(eval([block_name '.pQ0{:}']))];
                                     name{3}=[num2str(class_from) num2str(class_to)];
@@ -915,7 +912,7 @@ else
     
     %% Write model parameter properties
     % Add parameter and p_ref to param_properties
-    [model.param_properties]=writeParameterProperties(param_properties, ...
+    [model.param_properties]=writeParameterProperties(model.param_properties, ...
         [parameter, p_ref], 9);
     
 end

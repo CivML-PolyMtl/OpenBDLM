@@ -185,8 +185,8 @@ subplot(1,3,1:2+idx_supp_plot,'align')
 
 if isfield(estimation,'x')
     % Plot estimated values
-    plot(timestamps(plot_time_1),Pr_M(plot_time_1,1), ...
-        'color',[0.0 0.6 0.2],'Linewidth',misc.linewidth*2)
+    plot(timestamps(plot_time_1),Pr_M(plot_time_1,2), ...
+        'color',[1 0.0 0],'Linewidth',misc.linewidth*2)
     hold on
     if isfield(estimation,'ref')
         % Plot true values
@@ -207,8 +207,9 @@ set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
     'box' ,'off', 'Fontsize', 16);
 datetick('x','yy-mm','keepticks')
 xlabel('Time [YY-MM]')
-ylabel('$Pr(S=M1)$ ','Interpreter','Latex')
+ylabel('$Pr(S=M_2)$ ','Interpreter','Latex')
 xlim([timestamps(1)-Xaxis_lag,timestamps(end)])
+ylim([0,1])
 hold off
 
 
@@ -219,8 +220,8 @@ if misc.isSecondaryPlots
     if isfield(estimation,'x')
         
         % Plot estimated values
-        plot(timestamps(plot_time_2),Pr_M(plot_time_2,1), ...
-            'color',[0.0 0.6 0.2],'Linewidth',misc.linewidth*2)
+        plot(timestamps(plot_time_2),Pr_M(plot_time_2,2), ...
+            'color',[1 0.0 0],'Linewidth',misc.linewidth*2)
         hold on
         
         if isfield(estimation,'ref')
@@ -246,6 +247,8 @@ if misc.isSecondaryPlots
     year=datevec(timestamps(plot_time_2(1)));
     xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
     hold off
+    ylim([0,1])
+
 end
 
 

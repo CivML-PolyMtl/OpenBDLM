@@ -244,17 +244,17 @@ for t=1:T
                 idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
                 Q{j,i,t}=Q{j,i,idx};
             end
-            if and(j==1,i==2)
-                Q{j,i,t}=diag(diag(Q{j,j,t}));
-                Q{j,i,t}(2,2)=parameter(...
-                    sigma22_idx)^2*(timesteps(t)^2/referencetimestep);
-            elseif and(j==2,i==1)
-                QQ = model.Q{j}{j}(parameter(...
-                    p_ref),data.timestamps(t),timesteps(t));
-                Q{j,i,t}=diag(diag(QQ));
-                Q{j,i,t}(2,2)=parameter(...
-                    sigma22_idx)^2*(timesteps(t)^4/(3*referencetimestep));
-            end
+%             if and(j==1,i==2)
+%                 Q{j,i,t}=diag(diag(Q{j,j,t}));
+%                 Q{j,i,t}(2,2)=parameter(...
+%                     sigma22_idx)^2*(timesteps(t)^2/referencetimestep);
+%             elseif and(j==2,i==1)
+%                 QQ = model.Q{j}{j}(parameter(...
+%                     p_ref),data.timestamps(t),timesteps(t));
+%                 Q{j,i,t}=diag(diag(QQ));
+%                 Q{j,i,t}(2,2)=parameter(...
+%                     sigma22_idx)^2*(timesteps(t)^4/(3*referencetimestep));
+%             end
             
             if t==1
                 prevX = model.initX{i};
