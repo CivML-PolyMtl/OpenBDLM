@@ -2,6 +2,9 @@
 
 One Paragraph of project description goes here
 
+![logo](https://github.com/CivML-PolyMtl/OpenBDLM/tree/%E2%80%98Ianis_branch%E2%80%99/logo/image.png)
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -72,7 +75,7 @@ TBD
 
 ## Authors
 
-* **James A-Goulet** - *Initial code and developments* - [webpage](http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_MAIN.html)
+* **James A-Goulet** - *Initial code and development* - [webpage](http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_MAIN.html)
 * **Luong Ha Nguyen** - *Development* - [webpage](http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_LHNGUYEN.html)
 * **Ianis Gaudot** - *Development* - [webpage](http://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_IGAUDOT.html)
 
