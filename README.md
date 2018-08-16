@@ -3,9 +3,8 @@
 ![OpenBDLM](/logo/image.png)
 
 
- Structural Health Monitoring using Bayesian Dynamic Linear Models
+ -> Structural Health Monitoring using Bayesian Dynamic Linear Models <-
 
-<p style="text-align: center;"> Structural Health Monitoring using Bayesian Dynamic Linear Models
 
 
 ## Getting Started
