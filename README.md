@@ -98,7 +98,7 @@ For the users, version control tests verifies that the program runs properly on 
 
 1. no input (`OpenBLDM_main();`) The program then runs in *interactive mode*, in which online user's interactions from the command line is required to perform the analysis.
 2. a configuration file as input, (`OpenBLDM_main('CFG_DEMO.m');`). The configuration file is used to initialize the project, and the program then runs in *interactive mode*. Configuration file must follow a specific format (see OpenBDLM documentation)
-3. a cell array as input (`OpenBLDM_main({'''CFG_DEMO.m''','3','1','''Q''');`). The program runs in *batch mode*, in which pre-loaded commands stored in the input cell-array are sequentially read by the program to perform the analysis.
+3. a cell array as input (`OpenBLDM_main({'''CFG_DEMO.m''','3','1','''Q'''});`). The program runs in *batch mode*, in which pre-loaded commands stored in the input cell-array are sequentially read by the program to perform the analysis.
 
 ## Output
 
