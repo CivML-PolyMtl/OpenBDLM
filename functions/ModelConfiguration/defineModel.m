@@ -245,15 +245,13 @@ fprintf(fileID,['     23: Local trend compatible ', ...
     'with local acceleration \n']);
 fprintf(fileID,'     31: Periodic \n');
 fprintf(fileID,'     41: Autoregressive process (AR(1)) \n');
-fprintf(fileID,'     51: Dynamic regression with hidden component \n');
-fprintf(fileID,'     52: Static kernel regression \n');
-fprintf(fileID,'     53: Dynamic kernel regression \n');
+fprintf(fileID,'     51: Kernel regression \n');
 fprintf(fileID,'     61: Level Intervention \n');
 fprintf(fileID,['     ---------------------------', ...
     '-----------------------------\n']);
 fprintf(fileID,'\n');
 
-all_components=[11 12 13 21 22 23 31 41 51 52 53 61];
+all_components=[11 12 13 21 22 23 31 41 51 61];
 level_components=[11 12 13 21 22 23];
 
 comp=cell(nb_models,numberOfTimeSeries);

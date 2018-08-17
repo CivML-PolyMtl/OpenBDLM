@@ -126,7 +126,7 @@ if strcmp(Method, 'NR')
     %% Model parameters optimization using Newton-Raphson technique
     
     % Define the maximal number of optimization iterations
-    misc.iteration_limit_calibration=100;
+    misc.iteration_limit_calibration=200;
     
     % Define the maximal optimization time [min]
     misc.time_limit_calibration=60;
@@ -193,7 +193,7 @@ elseif strcmp(Method, 'SGA')
     %% Model parameters optimization using Stochastic Gradient Ascent approach
     
     % Define the maximal number of optimization iterations
-    misc.iteration_limit_calibration=5;
+    misc.iteration_limit_calibration=200;
     
     misc.isParallel = true;
     

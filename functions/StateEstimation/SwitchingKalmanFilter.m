@@ -178,7 +178,6 @@ Q=cell(M,M,T);
 
 for j=1:M
     ss=size(model.hidden_states_names{1},1);
-    %y_DK{j} = DataValues;
     
     x{j} = zeros(ss,T);
     V{j} = zeros(ss, ss,T);
@@ -223,8 +222,7 @@ for t=1:T
                 p_ref),data.timestamps(t),timesteps(t));
         else
             idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
-            if any([model.components.block{1}{1}== ...
-                    52,model.components.block{1}{1}==53])
+            if any(model.components.block{1}{1}==51)
                 A{j,t}=model.A{j}(parameter(...
                     p_ref),data.timestamps(t),timesteps(t));
             else

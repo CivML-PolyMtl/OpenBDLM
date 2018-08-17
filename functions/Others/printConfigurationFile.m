@@ -259,9 +259,7 @@ fprintf(fileID_CFG,'%% 22: Local level compatible with local acceleration\n');
 fprintf(fileID_CFG,'%% 23: Local trend compatible with local acceleration\n');
 fprintf(fileID_CFG,'%% 31: Periodic\n');
 fprintf(fileID_CFG,'%% 41: Autoregressive\n');
-fprintf(fileID_CFG,'%% 51: Dynamic regression with hidden component\n');
-fprintf(fileID_CFG,'%% 52: Static kernel regression\n');
-fprintf(fileID_CFG,'%% 53: Dynamic kernel regression\n');
+fprintf(fileID_CFG,'%% 51: Kernel regression\n');
 fprintf(fileID_CFG,'%% 61: Level Intervention\n');
 fprintf(fileID_CFG, '\n');
 % Print model components

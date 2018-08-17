@@ -59,7 +59,7 @@ numberOfTimeSeries = size(model.components.block{nb_models},2);
 
 NumberOfParameters= NumberOfParameters + nb_models*numberOfTimeSeries;
 
-components=[11 12 13 21 22 23 31 41 51 52 53];
+components=[11 12 13 21 22 23 31 41 51];
 
 %% Count the number of model parameters from components
 isDynamicRegression = false;
@@ -113,45 +113,19 @@ for i=1:numberOfTimeSeries
             end
         end
                 
-        % Count paramaters for dynamic regression
-        v_DH = ismember(model.components.block{1}{i}, components(9));
-        nb_control_points = 5;
-        if any(v_DH)
-            isDynamicRegression = true;
-            pos=find(model.components.const{2}{i}(v_DH) == 1,1 );
-            if ~isempty(pos)
-                NumberOfParameters= NumberOfParameters + ...
-                    length(v_DH(v_DH==true))*(nb_control_points+3);
-            else
-                NumberOfParameters= NumberOfParameters + ...
-                    length(v_DH(v_DH==true))*(nb_control_points+3)*nb_models;
-            end
+      
         end       
         
-        
-        % Count parameters for static kernel regression
-        v_SK = ismember(model.components.block{1}{i}, components(10));
-        if any(v_SK)
-            pos=find(model.components.const{2}{i}(v_SK) == 1,1 );
+        % Count parameters for kernel regression
+        v_KR = ismember(model.components.block{1}{i}, components(11));
+        if any(v_KR)
+            pos=find(model.components.const{2}{i}(v_KR) == 1,1 );
             if ~isempty(pos)
                 NumberOfParameters= NumberOfParameters + ...
-                    length(v_SK(v_SK==true))*3;
+                    length(v_KR(v_KR==true))*3;
             else
                 NumberOfParameters= NumberOfParameters + ...
-                    length(v_SK(v_SK==true))*3*nb_models;
-            end
-        end  
-        
-        % Count parameters for dynamic kernel regression
-        v_DK = ismember(model.components.block{1}{i}, components(11));
-        if any(v_DK)
-            pos=find(model.components.const{2}{i}(v_DK) == 1,1 );
-            if ~isempty(pos)
-                NumberOfParameters= NumberOfParameters + ...
-                    length(v_DK(v_DK==true))*3;
-            else
-                NumberOfParameters= NumberOfParameters + ...
-                    length(v_DK(v_DK==true))*3*nb_models;
+                    length(v_KR(v_KR==true))*3*nb_models;
             end
         end  
         
@@ -180,32 +154,12 @@ for i=1:numberOfTimeSeries
                 length(v_AR(v_AR==true))*2;
         end
         
-        
-        % Count parameters for dynamic regression
-        v_DH = ismember(model.components.block{1}{i}, components(9));
-        nb_control_points = 5;
-        if any(v_DH)
-                isDynamicRegression = true;
-                NumberOfParameters= NumberOfParameters + ...
-                    length(v_DH(v_DH==true))*(nb_control_points+3);
-        end
-
-      
-        
-        % Count parameters for static kernel regression
-        v_SK = ismember(model.components.block{1}{i}, components(10));
-        if any(v_SK)
-                NumberOfParameters= NumberOfParameters + ...
-                    length(v_SK(v_SK==true))*3;
-        end
-
-        
                 
-        % Count parameters for dynamic kernel regression
-        v_DK = ismember(model.components.block{1}{i}, components(11));
-        if any(v_DK)
+        % Count parameters for kernel regression
+        v_KR = ismember(model.components.block{1}{i}, components(11));
+        if any(v_KR)
                 NumberOfParameters= NumberOfParameters + ...
-                    length(v_DK(v_DK==true))*3;
+                    length(v_KR(v_KR==true))*3;
         end
         
         
