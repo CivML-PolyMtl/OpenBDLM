@@ -1,6 +1,4 @@
 
-# OpenBDLM
-
 <p align="center">
 <img src="/logo/image.png" height="150">
 
