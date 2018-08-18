@@ -1,7 +1,8 @@
 
 # OpenBDLM
 
-![OpenBDLM](/logo/image.png)
+<p align="center">
+<img src="/logo/image.png" height="150">
 
 <p align="center">
 Structural Health Monitoring using Bayesian Dynamic Linear Model
