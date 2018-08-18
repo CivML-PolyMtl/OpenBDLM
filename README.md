@@ -3,7 +3,7 @@
 <img src="/logo/image.png" height="150">
 
 <p align="center">
-Structural Health Monitoring using Bayesian Dynamic Linear Model
+Bayesian Dynamic Linear Model for time-series analysis
 </p>
 
 OpenBLDM is a Matlab open-source software designed to use Bayesian Dynamic Linear Models in the context of Structural Health Monitoring. OpenBLDM is capable to process simultaneously any time series data recorded on a civil structure (e.g. displacement, elongation, pressure, traffic, temperature, etc...) to monitor and predict its long-term behavior. OpenBLDM includes an anomaly detection tool which allows to detect abnormal structural behavior in a fully probabilistic framework.
