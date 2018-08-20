@@ -1,8 +1,8 @@
-function [FigureNames] = plotDynamicRegression(data, model, estimation, misc, varargin)
-%PLOTDYNAMICREGRESSION Plot dynamic regression time series pattern
+function [FigureNames] = plotKernelRegression(data, model, estimation, misc, varargin)
+%PLOTKERNELREGRESSION Plot Kernel regression time series pattern
 %
 %   SYNOPSIS:
-%     PLOTDYNAMICREGRESSION(data, model, estimation, misc, varargin)
+%     PLOTKERNELREGRESSION(data, model, estimation, misc, varargin)
 %
 %   INPUT:
 %      data             - structure (required)
@@ -44,13 +44,13 @@ function [FigureNames] = plotDynamicRegression(data, model, estimation, misc, va
 %      If applicable, figure(s) saved in the location given by FilePath
 %
 %   DESCRIPTION:
-%      PLOTDYNAMICREGRESSION plots dynamic regression hidden covariate
-%      PLOTDYNAMICREGRESSION plots pattern x dynamic regression coefficient
+%      PLOTKERNELREGRESSION plots dynamic regression hidden covariate
+%      PLOTKERNELREGRESSION plots pattern x dynamic regression coefficient
 %      The pattern
 %
 %   EXAMPLES:
-%      PLOTDYNAMICREGRESSION(data, model, estimation, misc)
-%      PLOTDYNAMICREGRESSION(data, model, estimation, misc, 'FilePath', 'figures')
+%      PLOTKERNELREGRESSION(data, model, estimation, misc)
+%      PLOTKERNELREGRESSION(data, model, estimation, misc, 'FilePath', 'figures')
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      exportPlot

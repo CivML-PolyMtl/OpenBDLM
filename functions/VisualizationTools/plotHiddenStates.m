@@ -171,14 +171,9 @@ BlueColor = [0, 0.4, 0.8];
 %% Plot hidden states
 loop=0;
 for idx=1:numberOfHiddenStates
-    if and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{SK',5), ...
-            ~strcmp(model.hidden_states_names{1}(idx,1),'x^{SK1}'))
-        % Special plot for static kernel regression
-    elseif and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{DK',5),...
-            ~strcmp(model.hidden_states_names{1}(idx,1),'x^{DK1}'))
+    if and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{KR',5),...
+            ~strcmp(model.hidden_states_names{1}(idx,1),'x^{KR1}'))
         % Special plot for dynamic kernel regression
-    elseif strncmpi(model.hidden_states_names{1}(idx,1),'x^{DH}',5)
-        % Special plot for dynamic regression
     else
         
         if idx > 1 && ~strcmp(model.hidden_states_names{1}{idx-1,3},  ...
@@ -202,7 +197,7 @@ for idx=1:numberOfHiddenStates
             mean_xpl=nanmean(xpl(round(0.25*length(xpl)):end));
             std_xpl=nanstd(xpl(round(0.25*length(xpl)):end));
             mean_spl=nanmean(sqrt(spl(round(0.25*length(xpl)):end)));
-            mult_factor=5;
+            mult_factor=3;
             
             miny=mean_xpl-mult_factor*(std_xpl+mean_spl);
             maxy=mean_xpl+mult_factor*(std_xpl+mean_spl);

@@ -1,8 +1,8 @@
-function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)
-%STATIC_KERNEL_COMPONENT Compute normalized kernel coefficients
+function [K_norm]=Kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)
+%KERNEL_COMPONENT Compute normalized kernel coefficients
 %
 %   SYNOPSIS:
-%     [K_norm]=STATIC_KERNEL_COMPONENT(reg_parameters,timestamp,timestamp_ref,nb_p)
+%     [K_norm]=KERNEL_COMPONENT(reg_parameters,timestamp,timestamp_ref,nb_p)
 % 
 %   INPUT:
 %      reg_parameters   - 2x1 real array (required)
@@ -24,11 +24,11 @@ function [K_norm]=Static_kernel_component(reg_parameters,timestamp,timestamp_ref
 %                         normalized kernel coefficients
 %
 %   DESCRIPTION:
-%      STATIC_KERNEL_COMPONENT computes normalized kernel coefficients
-%      used for static and dynamic kernel regression
+%      KERNEL_COMPONENT computes normalized kernel coefficients
+%      used for kernel regression
 % 
 %   EXAMPLES:
-%      [K_norm]=STATIC_KERNEL_COMPONENT(reg_parameters,timestamp,timestamp_ref,nb_p)
+%      [K_norm]=KERNEL_COMPONENT(reg_parameters,timestamp,timestamp_ref,nb_p)
 % 
 %   See also DEFINEMODEL, BUILDMODEL
  

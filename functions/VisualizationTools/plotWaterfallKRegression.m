@@ -1,8 +1,8 @@
-function [FigureNames] = plotWaterfallSKDKRegression(data, model, estimation, misc, varargin)
-%PLOTWATERFALLSKDKREGRESSION Waterfall plot for kernel regression component
+function [FigureNames] = plotWaterfallKRegression(data, model, estimation, misc, varargin)
+%PLOTWATERFALLKREGRESSION Waterfall plot for kernel regression component
 %
 %   SYNOPSIS:
-%     PLOTWATERFALLSKDKREGRESSION(data, model, estimation, misc, varargin)
+%     PLOTWATERFALLKREGRESSION(data, model, estimation, misc, varargin)
 %   INPUT:
 %      data             - structure (required)
 %                         see documentation for details about the fields of
@@ -43,12 +43,12 @@ function [FigureNames] = plotWaterfallSKDKRegression(data, model, estimation, mi
 %      If applicable, figure(s) saved in the location given by FilePath
 %
 %   DESCRIPTION:
-%      PLOTWATERFALLSKDKREGRESSION plot "waterfall" like plot for static
+%      PLOTWATERFALLKREGRESSION plot "waterfall" like plot for static
 %      and dynamic kernel regression components
 %
 %   EXAMPLES:
-%       PLOTWATERFALLSKDKREGRESSION(data, model, estimation, misc)
-%       PLOTWATERFALLSKDKREGRESSION(data, model, estimation, misc, 'FilePath', 'figures')
+%       PLOTWATERFALLKREGRESSION(data, model, estimation, misc)
+%       PLOTWATERFALLKREGRESSION(data, model, estimation, misc, 'FilePath', 'figures')
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      exportPlot
@@ -57,8 +57,7 @@ function [FigureNames] = plotWaterfallSKDKRegression(data, model, estimation, mi
 %      N/A
 %
 %   See also EXPORTPLOT, PLOTESTIMATIONS, PLOTPREDICTEDDATA,
-%   PLOTHIDDENSTATES, PLOTMODELPROBABILITY, PLOTDYNAMICREGRESSION,
-%   PLOTSTATICKERNELREGRESSION
+%   PLOTHIDDENSTATES, PLOTMODELPROBABILITY
 
 %   AUTHORS:
 %       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
@@ -177,13 +176,9 @@ for obs=1:numberOfTimeSeries
         numberOfHiddenStates_sub = size(hidden_states_names_sub,1);
         
         for idx=1:numberOfHiddenStates_sub
-            if and(strncmpi(hidden_states_names_sub(idx,1),'x^{SK',5), ...
-                    ~strcmp(hidden_states_names_sub(idx,1),'x^{SK1}'))
-                Kernel_regression='SK';
-                break
-            elseif and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{DK',5), ...
-                    ~strcmp(model.hidden_states_names{1}(idx,1),'x^{DK1}'))
-                Kernel_regression='DK';
+            if and(strncmpi(hidden_states_names_sub(idx,1),'x^{KR',5), ...
+                    ~strcmp(hidden_states_names_sub(idx,1),'x^{KR1}'))
+                Kernel_regression='KR';
                 break
             else
                 FigureNames{obs}=[];
@@ -214,7 +209,7 @@ for obs=1:numberOfTimeSeries
                 K_x_idx=[K_x_idx i];
             end
         end
-        if strcmp(Kernel_regression,'DK')
+        if strcmp(Kernel_regression,'KR')
             K_x_idx=K_x_idx(2:end);
         end
         
@@ -236,17 +231,10 @@ for obs=1:numberOfTimeSeries
             end
             
             for j=1:length(x)
-                if strcmp(Kernel_regression,'SK')
-                    p_KRHC=parameter_sub(1:length(parameter_sub));
-                    p_KRHC=p_KRHC(K_idx(2:end));
-                    k=Static_kernel_component(p_KRHC,x(j), ...
-                        timestamps(1),model.components.nb_SK_p);
-                elseif strcmp(Kernel_regression,'DK')
                     p_KRHC=parameter_sub(1:length(parameter_sub));
                     p_KRHC=p_KRHC(K_idx(1:2));
-                    k=Static_kernel_component(p_KRHC,x(j), ...
-                        timestamps(1),model.components.nb_DK_p-1);
-                end
+                    k=Kernel_component(p_KRHC,x(j), ...
+                        timestamps(1),model.components.nb_KR_p-1);
                 xpl(j)=CP(i,:)*k';
             end
             tsi_last=tsi;
@@ -278,13 +266,8 @@ for obs=1:numberOfTimeSeries
             
             xlabel('Time [YY]')
             ylabel('Time [MM-DD]')
-            if strcmp(Kernel_regression,'SK')
-                zlabel(['Static Kernel Regression', ' [', labels, ']'], ...
-                    'Interpreter','Latex')
-            elseif strcmp(Kernel_regression,'DK')
-                zlabel(['Dynamic Kernel Regression', ' [', labels, ']'], ...
+                zlabel(['Kernel Regression', ' [', labels, ']'], ...
                     'Interpreter','Latex' )
-            end
             set(gca, 'Fontsize', 16)
             grid on
             
