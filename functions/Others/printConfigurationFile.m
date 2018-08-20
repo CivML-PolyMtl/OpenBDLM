@@ -76,7 +76,7 @@ function [configFilename] = printConfigurationFile(data, model, estimation, misc
 %       April 26, 2018
 %
 %   DATE LAST UPDATE:
-%       August 15, 2018
+%       August 20, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -293,28 +293,47 @@ end
 fprintf(fileID_CFG,'};\n');
 fprintf(fileID_CFG, '\n');
 
-%% Print model parameters properties 
-fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
+%% Print model parameters properties
+
+fprintf(fileID_CFG,'\n');
+fprintf(fileID_CFG, repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID_CFG, '\n');
-fprintf(fileID_CFG,'%%%% D - Model parameters \n');
-fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
+fprintf(fileID_CFG, '%%%% D - Model parameters \n');
+fprintf(fileID_CFG, repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID_CFG, '\n');
-fprintf(fileID_CFG,'model.param_properties={\n');
-fprintf(fileID_CFG, ['    %% #1             #2         #3       #4  ', ...
-    '    #5                  #6          #7      #8      #9    ', ...
+fprintf(fileID_CFG, 'model.param_properties={\n');
+format = ['     %-13s %-15s %-6s %-6s ' ...
+    '[%-10s],    %-10s   %-8s %-15s %-15s %-6s %-6s\n'];
+
+fprintf(fileID_CFG, ['     %% #1       ', ...
+    '    #2             #3      #4  ', ...
+    '  #5               #6      ', ...
+    '     #7       #8              #9    ', ...
     '          #10', '\n']);
-fprintf(fileID_CFG, ['    %% Param name     Block name Model ', ...
-    '   Obs     Bound               Prior       Mean    Std   ', ...
-    '  Values          Ref', '\n']);
+fprintf(fileID_CFG, ['     %% Param name  ', ...
+    ' Block name     Model ', ...
+    '  Obs   Bound       ', ...
+    '     Prior        Mean     Std   ', ...
+    '          Values          Ref', '\n']);
 for i=1:size(model.param_properties,1)
-    space=repmat(' ',1,10-length(model.param_properties{i,1}));
-    fprintf(fileID_CFG, ['\t''%-s''' space ',\t ', ...
-        '''%-s'',\t\t''%-s'',\t ''%-s'',\t [ %-5G, %-5G],\t ', ...
-        '''%-s'',\t %-2.2G,\t %-2.2G,\t %-8.5G, ' ' ', ...
-        '\t %-2.3G %%#%d' '\n'], model.param_properties{i,:},i);
+    fprintf(fileID_CFG, format, ...
+        ['''', model.param_properties{i,1},'''', ','], ...
+        ['''',model.param_properties{i,2},'''', ','], ...
+        ['''',model.param_properties{i,3}, '''', ','], ...
+        ['''', model.param_properties{i,4},'''', ','], ...
+        strjoin(cellstr(num2str(model.param_properties{i,5})), ...
+        ', '), ...
+        ['''', model.param_properties{i,6},'''', ','], ...
+        [num2str(model.param_properties{i,7}), ','], ...
+        [num2str(model.param_properties{i,8}), ','], ...
+        [num2str(model.param_properties{i,9}), ','], ...
+        num2str(model.param_properties{i,10}), ...
+        ['%#', num2str(i)]);
+    
 end
-fprintf(fileID_CFG,'};\n');
+fprintf(fileID_CFG, '};\n');
 fprintf(fileID_CFG, '\n');
+
 
 %% Print initial states values
 fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
@@ -322,10 +341,10 @@ fprintf(fileID_CFG, '\n');
 fprintf(fileID_CFG,'%%%% E - Initial states values \n');
 fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID_CFG, '\n');
-    
+
 for m=1:model.nb_class
-    % Expected initial hidden states 
-    fprintf(fileID_CFG,['%% Initial hidden states ', ... 
+    % Expected initial hidden states
+    fprintf(fileID_CFG,['%% Initial hidden states ', ...
         'mean for model %s:\n'], num2str(m));
     fprintf(fileID_CFG, 'model.initX{ %s }=[', num2str(m) );
     for i=1:size(model.initX{m},1)
@@ -335,9 +354,9 @@ for m=1:model.nb_class
     fprintf(fileID_CFG,'\n');
     
     % Initial hidden states variance (ignore covariance)
-    fprintf(fileID_CFG,['%% Initial hidden ', ... 
+    fprintf(fileID_CFG,['%% Initial hidden ', ...
         'states variance for model %s: \n'], num2str(m));
-   
+    
     diagV=diag(model.initV{m});
     
     fprintf(fileID_CFG, 'model.initV{ %s }=diag([ ', num2str(m) );
@@ -353,7 +372,7 @@ for m=1:model.nb_class
     fprintf(fileID_CFG,'\n');
 end
 
-%% Print custom anomalies 
+%% Print custom anomalies
 if isfield(misc, 'custom_anomalies')
     fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
     fprintf(fileID_CFG, '\n');
