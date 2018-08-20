@@ -1,0 +1,9 @@
+LOG_*
+DATA_*
+PROJ_*
+CFG_*
+ProjectsInfo.mat
+*/*/*.csv
+*/*.fig
+*/*.pdf
+*/*.png

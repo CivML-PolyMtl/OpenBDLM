@@ -110,9 +110,9 @@ while ~isCorrectAnswer
     end
     
     % Remove space and simple/double quotes
-    user_inputs.inp_2=strrep(user_inputs.inp_2,'''',''); 
-    user_inputs.inp_2=strrep(user_inputs.inp_2,'"','' ); 
-    user_inputs.inp_2=strrep(user_inputs.inp_2, ' ','' ); 
+    user_inputs.inp_2=strrep(user_inputs.inp_2,'''','');
+    user_inputs.inp_2=strrep(user_inputs.inp_2,'"','' );
+    user_inputs.inp_2=strrep(user_inputs.inp_2, ' ','' );
     
     
     if ischar(user_inputs.inp_2) && length(user_inputs.inp_2) == 1 && ...
@@ -124,20 +124,20 @@ while ~isCorrectAnswer
         [isValid] = verificationDataStructure(data);
         
         if isValid
-%             fprintf(fileID,'\n');
-%             fprintf(fileID,'     ...in progress\n');
             plotData(data, misc, ...
                 'FilePath', 'figures', ...
                 'isPdf', false, ...
                 'isSaveFigure', false)
             isCorrectAnswer =  true;
         else
+            disp(' ')
+            disp(['     ERROR: Unable to ', ...
+                'read the data from the structure.']);
+            disp(' ')
             continue
         end
         
     elseif round(str2double(user_inputs.inp_2)) == 2
-%         fprintf(fileID,'\n');
-%         fprintf(fileID,'     ...in progress\n');
         plotEstimations(data, model, estimation, misc, ...
             'FilePath', 'figures', ...
             'isExportTEX', false, ...

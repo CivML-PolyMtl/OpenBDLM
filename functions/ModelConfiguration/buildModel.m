@@ -92,6 +92,8 @@ PriorType = 'normal';
 PriorMean = 0;
 PriorSdev = 1E6;
 
+disp('     Building model...')
+
 %% Block Component definition
 
 %#11 Local level

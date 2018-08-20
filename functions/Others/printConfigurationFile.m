@@ -76,7 +76,7 @@ function [configFilename] = printConfigurationFile(data, model, estimation, misc
 %       April 26, 2018
 %
 %   DATE LAST UPDATE:
-%       July 24, 2018
+%       August 15, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -101,6 +101,7 @@ model=p.Results.model;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
+DataPath = misc.DataPath;
 
 % Set fileID for logfile
 if misc.isQuiet
@@ -121,7 +122,7 @@ if ~isFileExist
 end
 
 
-disp('     Print configuration file...')
+disp('     Printing configuration file...')
 
 %% Gather information
 %Get project name
@@ -135,8 +136,10 @@ trainingPeriod = misc.trainingPeriod;
 % Get labels
 labels = data.labels;
 
-% Get data filename
-dataFilename=['DATA_', ProjectName, '.mat'];
+
+% Save data
+[misc, dataFilename] = saveDataBinary(data, misc, 'FilePath', DataPath, ...
+    'isForceOverwrite', true);
 
 % Get config filename
 configFilename = fullfile(FilePath, ['CFG_', ProjectName, '.m'] );
@@ -192,12 +195,6 @@ fileID_CFG=fopen(configFilename,'w');
 
 fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID_CFG, '\n');
-% fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,1),repmat(' ',1,73), ...
-%     repmat('%',1,1) );
-% fprintf(fileID_CFG, '\n');
-% fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,1),repmat(' ',1,73), ...
-%     repmat('%',1,1) );
-% fprintf(fileID_CFG, '\n');
 fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,1), repmat(' ',1,nshift_1), ...
     ConfigFileTitle, repmat(' ',1,75-(length(ConfigFileTitle)+2+nshift_1)), ...
     repmat('%',1,1) );
@@ -206,12 +203,6 @@ fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,1), repmat(' ',1,nshift_2), ..
     Autogen_str, repmat(' ',1,75-(length(Autogen_str)+2+nshift_2)), ...
     repmat('%',1,1) );
 fprintf(fileID_CFG, '\n');
-% fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,1),repmat(' ',1,73), ...
-%     repmat('%',1,1) );
-% fprintf(fileID_CFG, '\n');
-% fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,1),repmat(' ',1,73), ...
-%     repmat('%',1,1) );
-% fprintf(fileID_CFG, '\n');
 fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID_CFG, '\n');
 
