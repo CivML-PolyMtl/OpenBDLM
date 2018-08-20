@@ -89,12 +89,22 @@ if ~isempty(p_ref_target)
         cellOut(idx_to_replace, 5) = {[NaN, NaN]};
         
         % Duplicate prior type/mean/std
-        cellOut(idx_to_replace, 6) = cellOut(p_ref_target(i), 6);
-        cellOut(idx_to_replace, 7) = cellOut(p_ref_target(i), 7);
-        cellOut(idx_to_replace, 8) = cellOut(p_ref_target(i), 8);
-        
-        % Dupliacate parameter value
-        cellOut(idx_to_replace, 9) = cellOut(p_ref_target(i), 9);
+%         cellOut(idx_to_replace, 6) = cellOut(p_ref_target(i), 6);
+%         cellOut(idx_to_replace, 7) = cellOut(p_ref_target(i), 7);
+%         cellOut(idx_to_replace, 8) = cellOut(p_ref_target(i), 8);
+%         
+%         % Duplicate parameter value
+%         cellOut(idx_to_replace, 9) = cellOut(p_ref_target(i), 9);
+
+
+        % Duplicate prior type/mean/std
+        cellOut(idx_to_replace, 6) = {'N/A'};
+        cellOut(idx_to_replace, 7) = {NaN};
+        cellOut(idx_to_replace, 8) = {NaN};
+%         
+%         % Duplicate parameter value
+         cellOut(idx_to_replace, 9) = {NaN};
+
     end
 end
 

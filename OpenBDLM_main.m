@@ -99,7 +99,7 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %       June 27, 2018
 %
 %   DATE LAST UPDATE:
-%       August 9, 2018
+%       August 20, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Read input argument
@@ -155,7 +155,7 @@ misc.LogPath                = 'log_files';
 misc.ProjectInfoFilename    = 'ProjectsInfo.mat';
 
 %% Set version
-version = '1.7';
+version = '1.8';
 
 %Initialize random stream number based on clock
 %RandStream.setGlobalStream(RandStream('mt19937ar','seed',861040000));

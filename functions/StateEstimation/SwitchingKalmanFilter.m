@@ -222,7 +222,7 @@ for t=1:T
                 p_ref),data.timestamps(t),timesteps(t));
         else
             idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
-            if any(model.components.block{1}{1}==51)
+            if any([model.components.block{:}{:}]==51)
                 A{j,t}=model.A{j}(parameter(...
                     p_ref),data.timestamps(t),timesteps(t));
             else
