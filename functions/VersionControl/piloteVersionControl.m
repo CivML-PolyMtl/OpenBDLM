@@ -53,11 +53,11 @@ VersionControlPath=misc.VersionControlPath;
 
 % Set fileID for logfile
 if misc.isQuiet
-   % output message in logfile
-   fileID=fopen(misc.logFileName, 'a');  
+    % output message in logfile
+    fileID=fopen(misc.logFileName, 'a');
 else
-   % output message on screen and logfile using diary command
-   fileID=1; 
+    % output message on screen and logfile using diary command
+    fileID=1;
 end
 
 fprintf(fileID,'\n');
@@ -67,7 +67,36 @@ fprintf(fileID,'/    Version control \n');
 fprintf(fileID,['-----------------------------------------', ...
     '----------------------------------------------------- \n']);
 
+%% Notice user that we are about to permanently remove folder content
+disp(' ')
+disp(['WARNING: Running version control will permanently remove all ', ...
+    'previously saved PROJ_, CFG_, DATA_, and LOG_ files.'])
+disp('Do you want to continue ? (y/n)');
+
+isYesNoCorrect= false;
+while ~isYesNoCorrect
+    choice = input('     choice >> ','s');
+    if isempty(choice)
+        disp(' ')
+        disp('     wrong input')
+        disp(' ')
+    elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
+        
+        isYesNoCorrect =  true;
+        
+    elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+        return
+    else
+        disp(' ')
+        disp('     wrong input')
+        disp(' ')
+    end
+    
+end
+
+%% Run version control
 [~]=versionControl(misc, 'FilePath', VersionControlPath);
 
+close all;
 %--------------------END CODE ------------------------
 end

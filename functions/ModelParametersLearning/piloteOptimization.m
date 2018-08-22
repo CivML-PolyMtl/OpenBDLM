@@ -81,6 +81,7 @@ misc=p.Results.misc;
 
 FilePath = misc.ProjectPath;
 
+
 % Set fileID for logfile
 if misc.isQuiet
     % output message in logfile
@@ -143,10 +144,6 @@ while ~isCorrectAnswer
             'FilePath', FilePath, ...
             'Method', 'NR');
         
-        % Save project
-       % saveProject(data, model, estimation, misc, ...
-       %     'FilePath', FilePath)
-        
         isCorrectAnswer =  true;
     elseif round(str2double(user_inputs)) == 2
         
@@ -156,10 +153,6 @@ while ~isCorrectAnswer
             estimation, misc, ...
             'FilePath', FilePath, ...
             'Method', 'SGA');
-        
-        % Save project
-        %saveProject(data, model, estimation, misc, ...
-        %    'FilePath', FilePath)
         
         isCorrectAnswer =  true;
     elseif ischar(user_inputs) && length(user_inputs) == 1 && ...

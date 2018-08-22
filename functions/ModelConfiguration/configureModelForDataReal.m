@@ -115,7 +115,7 @@ misc.dt_ref = dt_ref;
 %% Get training dataset from timestamp vector
 [trainingPeriod] = defineTrainingPeriod (timestamps);
 
-misc.trainingPeriod = trainingPeriod;
+misc.options.trainingPeriod = trainingPeriod;
 
 %% Define model
 [model, misc] = defineModel(data, misc);
@@ -124,7 +124,7 @@ misc.trainingPeriod = trainingPeriod;
 [model] = buildModel(data, model, misc);
 
 %% Set default variable
-[misc]=setDefaultConfig(misc, data);
+%[misc]=setDefaultConfig(misc, data);
 
 %--------------------END CODE ------------------------ 
 end

@@ -1,96 +1,68 @@
-function [optim, model]=NewtonRaphson(data, model, misc, varargin)
+function [optim, model]=NewtonRaphson(data, model, misc)
 %NEWTONRAPHSON Learn BDLM models parameters using the Newton-Raphson technique
 %
 %   SYNOPSIS:
-%     [optim]=NEWTONRAPHSON(data, model, misc, varargin)
+%     [optim]=NEWTONRAPHSON(data, model, misc)
 %
 %   INPUT:
 %     data             - structure (required)
-%                         see documentation for details about the fields of
-%                         data
+%                        see documentation for details about the fields of
+%                        data
 %
 %     model            - structure (required)
-%                         see documentation for details about the fields of
-%                         model
+%                        see documentation for details about the fields of
+%                        model
 %
 %     misc             - structure (required)
-%                         see documentation for details about the fields of
-%                         misc
-%
-%     OptimMode        - character (optional)
-%                         can be either 'MLE' (for maximizing the log-
-%                         likelihood)
-%                         or 'MAP' (for maximizing the log-posterior)
-%                         'MAP' require prior information
-%                         default: 'MAP'
-%
-%    isParallel        - logical (optional)
-%                         if isParallel = true, performs parallel
-%                         computations
-%                         default: true
-%
-%   isMute            - logical (optional)
-%                         if isMute = false, throw information on screen
-%                         default: false
-%
-%    isLaplaceApprox   -  logical (optional)
-%                         if isLaplaceApprox = true, compute the full Laplace
-%                         approximation around the optimized model parameters
-%                         values to provide confidence interval
-%                         default: false
-%
+%                        see documentation for details about the fields of
+%                        misc
 %   OUTPUT:
-%      optim           - structure
-%                       * optim.parameter_OR_opt: optimal parameters in
-%                       original space
-%                       * optim.parameter_TR_opt: optimal parameters in
-%                       transformed space.
-%                       * optim.covParamTR_matrix: parameter covariance
-%                       matrix in transformed space.
-%                       The parameter covariance matrix is computed using
-%                       the Laplace Approximation.
+%     optim            - structure
+%                        * optim.parameter_OR_opt: optimal parameters in
+%                          original space
+%                        * optim.parameter_TR_opt: optimal parameters in
+%                          transformed space.
+%                        * optim.covParamTR_matrix: parameter covariance
+%                          matrix in transformed space. The parameter 
+%                          covariance matrix is computed using the Laplace 
+%                          Approximation arount the point estimate.
 %
 %     model            - structure (required)
-%                         see documentation for details about the fields of
-%                         model
-%
+%                           see documentation for details about the fields of
+%                           model
 %
 %   DESCRIPTION:
 %      NEWTONRAPHSON is an implementation of the Newton-Raphson
 %      algorithm to learn the model parameters of the Bayesian dynamic
 %      linear models.
-%      The optimization mode 'MLE' provides the Maximum Likelihood Estimation.
-%      The optimization mode 'MAP' provides the Maximum A Posteriori estimation.
-%      'MAP' requires to provide a prior for each model parameters.
+%      NEWTONRAPHSON can either perform Maximum Likelihood Estimation (MLE) 
+%      or Maximum A Posteriori estimation (MAP). MAP required a valid prior
+%      for each model parameter to learn.
 %      The MLE (MAP) Newton-Raphson technique is used to iteratively
 %      search for the maximum of the log-likelihood (log-posterior) using
 %      numerical derivatives.
 %
-%      By default, NEWTONRAPHSON computes point estimate (MLE or MAP) of
-%      the model parameters.
-%      If the optional argument 'isLaplaceApproximation' = true,
-%      NEWTONRAPHSON provides confidence intervals around the point estimate,
-%      assuming that the function around the optimized parameter value can
-%      be approximated using a gaussian distribution.
-%      Note that setting 'isLaplaceApproximation' = true can significantly
+%      NEWTONRAPHSON computes point estimate (MLE or MAP) of the model 
+%      parameters. It may also provide confidence intervals around the point 
+%      estimate using the Laplace approximation, assuming that the function 
+%      around the optimized parameter value can be approximated using a 
+%      gaussian distribution.
+%      Note that computing the Laplace approximation can significantly
 %      increases the computation time for high dimensional problem.
 %
 %      For bounded model parameters ([a,b], [0,Inf]), NEWTONRAPHSON works in
 %      transformed space.
 %
-%      WARNING: Newton-Raphson technique is sensitive to initial the model
+%      WARNING: Newton-Raphson technique is sensitive to the initial model
 %      parameters values. Newton-Raphson can reach a local maximum, instead
 %      of the global maximum of that function, which is the solution
 %      (if a global maximum exists).
 %      Always re-run the optimizations several times, with different
-%      (and possibly random) starting model parameters values, in order to
+%      starting model parameters values, in order to
 %      check that the proposed solution is stable.
 %
 %   EXAMPLES:
 %      [optim]=NEWTONRAPHSON(data, model, misc)
-%      [optim]=NEWTONRAPHSON(data, model, misc, 'isParallel', false)
-%      [optim]=NEWTONRAPHSON(data, model, misc, 'OptimMode', 'MLE', 'isParallel', false)
-%
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      logPosteriorPE, logPriorDistr, LaplaceApproximation,
@@ -114,41 +86,32 @@ function [optim, model]=NewtonRaphson(data, model, misc, varargin)
 %       June 22, 2018
 %
 %   DATE LAST UPDATE:
-%       June 22, 2018
+%       August 21, 2018
 
 %--------------------BEGIN CODE ----------------------
 
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 
-defaultMethod = 'MLE';
-defaultisParallel = true;
-defaultisLaplaceApprox = false;
-defaultisMute = false;
-
-validationFonctionOptimMode = @(x) ischar(x) && ...
-    ~isempty(x(~isspace(x))) && (strcmp(x,'MLE') || strcmp(x,'MAP'))  ;
-
 addRequired(p,'data', @isstruct );
 addRequired(p,'model', @isstruct );
 addRequired(p,'misc', @isstruct );
-addParameter(p, 'OptimMode', defaultMethod, validationFonctionOptimMode)
-addParameter(p, 'isParallel', defaultisParallel, @islogical)
-addParameter(p, 'isLaplaceApprox', defaultisLaplaceApprox, @islogical)
-addParameter(p, 'isMute', defaultisMute, @islogical)
-parse(p,data, model,  misc, varargin{:});
+
+parse(p,data, model,  misc);
 
 data=p.Results.data;
 model=p.Results.model;
 misc=p.Results.misc;
-OptimMode = p.Results.OptimMode;
-isParallel=p.Results.isParallel;
-isLaplaceApprox = p.Results.isLaplaceApprox;
-isMute = p.Results.isMute;
 
-misc.isParallel = isParallel;
-
-misc.optim_mode = OptimMode;
+%% Read current options from misc.options structure
+trainingPeriod=misc.options.trainingPeriod;
+%isMAP=misc.options.isMAP;
+%isPredCap=misc.options.isPredCap;
+isLaplaceApprox = misc.options.isLaplaceApprox;
+maxIterations = misc.options.maxIterations;
+maxTime = misc.options.maxTime;
+%isParallel=misc.options.isParallel;
+isMute=misc.options.isMute;
 
 % Set fileID for logfile
 if misc.isQuiet
@@ -178,8 +141,8 @@ model.p_ref=p_ref;
 % Get timestamp vector
 timestamps = data.timestamps;
 % Get training period
-training_start_idx = day2sampleIndex(misc.trainingPeriod(1), timestamps);
-training_end_idx = day2sampleIndex(misc.trainingPeriod(2), timestamps);
+training_start_idx = day2sampleIndex(trainingPeriod(1), timestamps);
+training_end_idx = day2sampleIndex(trainingPeriod(2), timestamps);
 
 %% Interventions
 if ~isfield(data, 'interventions')
@@ -238,29 +201,20 @@ convergence_tolerance   = 1E-7;
 disp('     Learning model parameters (Newton-Raphson) ...')
 
 if ~isMute
-    %% Display analysis parameters
-%     fprintf(fileID, ['---------------------------------', ...
-%         '----------------------------------------------', ...
-%         '--------------- \n']);
-%     fprintf(fileID, ['Estimate the parameters for ', ...
-%         'the Bayesian Dynamic Linear Model \n']);
-%     fprintf(fileID, ['---------------------------------', ...
-%         '-----------------------------------------------', ...
-%         '--------------\n']);
     fprintf(fileID, '\n');
     fprintf(fileID, ['    \\Start Newton-Raphson maximization ', ...
         ' algorithm (finite difference method)\n']);
     fprintf(fileID, '\n');
     fprintf(fileID, ['      Training period:', ...
         '                                      ',...
-        ' ' num2str(misc.trainingPeriod(1)) '-',...
-        ''  num2str(misc.trainingPeriod(2)) ' [days]\n']);
+        ' ' num2str(trainingPeriod(1)) '-',...
+        ''  num2str(trainingPeriod(2)) ' [days]\n']);
     fprintf(fileID, ['      Maximal number of iteration:', ...
         '                          ',...
-        ' ' num2str(misc.iteration_limit_calibration), '\n']);
+        ' ' num2str(maxIterations), '\n']);
     fprintf(fileID, ['      Total time limit for calibration :', ...
         '                    ',...
-        ' ' num2str(misc.time_limit_calibration) ' [min]\n']);
+        ' ' num2str(maxTime) ' [min]\n']);
     fprintf(fileID, ['      Convergence criterion:', ...
         '                                ',...
         ' ' num2str(convergence_tolerance) '*LL\n']);
@@ -268,8 +222,6 @@ if ~isMute
         '                     ',...
         ' ' num2str(nb_levels_lambda_ref) '*2\n']);
     fprintf(fileID, '\n');
-%     fprintf(fileID, '    ...in progress\n');
-%     fprintf(fileID, '\n');
 end
 
 %% Matrices & parameter initilization
@@ -317,8 +269,8 @@ end
 tic; % time counter initialization
 time_loop=0;
 search_loop=1;
-while and(search_loop<=misc.iteration_limit_calibration, ...
-        time_loop<(misc.time_limit_calibration*60))
+while and(search_loop<=maxIterations, ...
+        time_loop<(maxTime*60))
     if ~isMute
         fprintf(fileID, '\n');
     end
@@ -604,19 +556,19 @@ if ~isMute
         fprintf(fileID, '\n');
         fprintf(fileID, '\n');
         fprintf(fileID, '\n');
-        if time_loop>(misc.time_limit_calibration*60)
+        if time_loop>(maxTime*60)
             fprintf(fileID, ['          WARNING : the ', ...
                 'optimization has reached  ', ...
                 'the maximum allowed time (',...
                 '%s [min]) ',...
                 'without convergence \n'], ...
-                num2str(misc.time_limit_calibration));
+                num2str(maxTime));
         else
             fprintf(fileID, ['          WARNING : the ', ...
                 'optimization has reached the ',...
                 ' maximum number of loops (',...
                 '%s) without convergence \n'], ...
-                num2str(misc.iteration_limit_calibration));
+                num2str(maxIterations));
         end
     end
 end
@@ -648,8 +600,7 @@ optim.search_loop           = search_loop;
 optim.log_lik               = logpdf_0;
 optim.data                  = data;
 optim.data_train            = data_train;
-optim.optim_mode            = misc.optim_mode ;
-optim.misc                = misc;
+optim.misc                  = misc;
 
 %% Laplace Approximation
 %if all(converged) && isLaplaceApprox

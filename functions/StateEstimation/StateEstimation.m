@@ -189,10 +189,5 @@ for t=1:T
             estimation.y(:,t))*(my(:,j)-estimation.y(:,t))');
     end
 end
-
-% if ~isMute
-%     fprintf(fileID,'     -> done \n');
-%     fprintf(fileID,'\n');
-% end
 %--------------------END CODE ------------------------
 end

@@ -1,5 +1,5 @@
-\BOOKMARK [0][-]{chapter.1}{What OpenBanana does ?}{}% 1
-\BOOKMARK [0][-]{chapter.2}{Install OpenBanana}{}% 2
+\BOOKMARK [0][-]{chapter.1}{What OpenBDLM does ?}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Install OpenBDLM}{}% 2
 \BOOKMARK [0][-]{chapter.3}{Data processing}{}% 3
 \BOOKMARK [1][-]{section.3.1}{Purpose}{chapter.3}% 4
 \BOOKMARK [1][-]{section.3.2}{Input data format}{chapter.3}% 5
@@ -20,60 +20,53 @@
 \BOOKMARK [2][-]{subsection.4.4.5}{Local level compatible acceleration}{section.4.4}% 20
 \BOOKMARK [2][-]{subsection.4.4.6}{Local trend compatible acceleration}{section.4.4}% 21
 \BOOKMARK [2][-]{subsection.4.4.7}{Periodic}{section.4.4}% 22
-\BOOKMARK [2][-]{subsection.4.4.8}{Dynamic regression}{section.4.4}% 23
-\BOOKMARK [2][-]{subsection.4.4.9}{Static kernel regression}{section.4.4}% 24
-\BOOKMARK [2][-]{subsection.4.4.10}{Dynamic kernel regression}{section.4.4}% 25
-\BOOKMARK [2][-]{subsection.4.4.11}{Residual - first order autoregressive}{section.4.4}% 26
-\BOOKMARK [1][-]{section.4.5}{Model building functions}{chapter.4}% 27
-\BOOKMARK [0][-]{chapter.5}{Model parameters learning}{}% 28
-\BOOKMARK [1][-]{section.5.1}{Purpose}{chapter.5}% 29
-\BOOKMARK [1][-]{section.5.2}{Posterior}{chapter.5}% 30
-\BOOKMARK [2][-]{subsection.5.2.1}{Prior}{section.5.2}% 31
-\BOOKMARK [2][-]{subsection.5.2.2}{Likelihood}{section.5.2}% 32
-\BOOKMARK [1][-]{section.5.3}{Model parameters bounds and transformed spaces}{chapter.5}% 33
-\BOOKMARK [2][-]{subsection.5.3.1}{Logarithmic transformation}{section.5.3}% 34
-\BOOKMARK [2][-]{subsection.5.3.2}{Sigmoid transformation}{section.5.3}% 35
-\BOOKMARK [1][-]{section.5.4}{Gradient-based optimization techniques}{chapter.5}% 36
-\BOOKMARK [2][-]{subsection.5.4.1}{Newton-Raphson approach}{section.5.4}% 37
-\BOOKMARK [2][-]{subsection.5.4.2}{Stochastic Gradient Ascent approach}{section.5.4}% 38
-\BOOKMARK [1][-]{section.5.5}{Constrain model parameters between each others}{chapter.5}% 39
-\BOOKMARK [1][-]{section.5.6}{Model parameters learning functions}{chapter.5}% 40
-\BOOKMARK [0][-]{chapter.6}{Hidden states estimation}{}% 41
-\BOOKMARK [1][-]{section.6.1}{Purpose}{chapter.6}% 42
-\BOOKMARK [1][-]{section.6.2}{Kalman equations}{chapter.6}% 43
-\BOOKMARK [1][-]{section.6.3}{UD computations}{chapter.6}% 44
-\BOOKMARK [1][-]{section.6.4}{Filtering}{chapter.6}% 45
-\BOOKMARK [1][-]{section.6.5}{Smoothing}{chapter.6}% 46
-\BOOKMARK [1][-]{section.6.6}{Hidden states estimation functions}{chapter.6}% 47
-\BOOKMARK [0][-]{chapter.7}{Data simulation}{}% 48
-\BOOKMARK [1][-]{section.7.1}{Purpose}{chapter.7}% 49
-\BOOKMARK [1][-]{section.7.2}{Data simulation functions}{chapter.7}% 50
-\BOOKMARK [0][-]{chapter.8}{Model validation}{}% 51
-\BOOKMARK [1][-]{section.8.1}{Purpose}{chapter.8}% 52
-\BOOKMARK [1][-]{section.8.2}{Prediction capacity}{chapter.8}% 53
-\BOOKMARK [1][-]{section.8.3}{Posterior model parameters covariance matrix analysis}{chapter.8}% 54
-\BOOKMARK [1][-]{section.8.4}{Posterior state covariance matrix analysis}{chapter.8}% 55
-\BOOKMARK [1][-]{section.8.5}{Residual component analysis}{chapter.8}% 56
-\BOOKMARK [1][-]{section.8.6}{Model validation functions}{chapter.8}% 57
-\BOOKMARK [0][-]{chapter.9}{Visualization tools}{}% 58
-\BOOKMARK [1][-]{section.9.1}{Purpose}{chapter.9}% 59
-\BOOKMARK [1][-]{section.9.2}{Data availability plots}{chapter.9}% 60
-\BOOKMARK [1][-]{section.9.3}{Hidden states plots}{chapter.9}% 61
-\BOOKMARK [1][-]{section.9.4}{Export figures options}{chapter.9}% 62
-\BOOKMARK [1][-]{section.9.5}{Visualization tools functions}{chapter.9}% 63
-\BOOKMARK [0][-]{chapter.10}{Version control}{}% 64
-\BOOKMARK [1][-]{section.10.1}{Purpose}{chapter.10}% 65
-\BOOKMARK [1][-]{section.10.2}{Version control functions}{chapter.10}% 66
-\BOOKMARK [0][-]{chapter.11}{Examples}{}% 67
-\BOOKMARK [1][-]{section.11.1}{Example 1}{chapter.11}% 68
-\BOOKMARK [1][-]{section.11.2}{Example 2}{chapter.11}% 69
-\BOOKMARK [1][-]{section.11.3}{Example 3}{chapter.11}% 70
-\BOOKMARK [1][-]{section.11.4}{Example 4}{chapter.11}% 71
-\BOOKMARK [0][-]{chapter.12}{List of functions}{}% 72
-\BOOKMARK [0][-]{chapter.13}{Older versions}{}% 73
-\BOOKMARK [0][-]{chapter.14}{Last changes}{}% 74
-\BOOKMARK [1][-]{section.14.1}{Data loading}{chapter.14}% 75
-\BOOKMARK [1][-]{section.14.2}{Data simulation}{chapter.14}% 76
-\BOOKMARK [1][-]{section.14.3}{Create a configuration file}{chapter.14}% 77
-\BOOKMARK [1][-]{section.14.4}{Export figures}{chapter.14}% 78
-\BOOKMARK [1][-]{section.14.5}{Batch processing}{chapter.14}% 79
+\BOOKMARK [2][-]{subsection.4.4.8}{Kernel regression}{section.4.4}% 23
+\BOOKMARK [2][-]{subsection.4.4.9}{Residual - first order autoregressive}{section.4.4}% 24
+\BOOKMARK [1][-]{section.4.5}{Model building functions}{chapter.4}% 25
+\BOOKMARK [0][-]{chapter.5}{Model parameters learning}{}% 26
+\BOOKMARK [1][-]{section.5.1}{Purpose}{chapter.5}% 27
+\BOOKMARK [1][-]{section.5.2}{Posterior}{chapter.5}% 28
+\BOOKMARK [2][-]{subsection.5.2.1}{Prior}{section.5.2}% 29
+\BOOKMARK [2][-]{subsection.5.2.2}{Likelihood}{section.5.2}% 30
+\BOOKMARK [1][-]{section.5.3}{Model parameters bounds and transformed spaces}{chapter.5}% 31
+\BOOKMARK [2][-]{subsection.5.3.1}{Logarithmic transformation}{section.5.3}% 32
+\BOOKMARK [2][-]{subsection.5.3.2}{Sigmoid transformation}{section.5.3}% 33
+\BOOKMARK [1][-]{section.5.4}{Gradient-based optimization techniques}{chapter.5}% 34
+\BOOKMARK [2][-]{subsection.5.4.1}{Newton-Raphson approach}{section.5.4}% 35
+\BOOKMARK [2][-]{subsection.5.4.2}{Stochastic Gradient Ascent approach}{section.5.4}% 36
+\BOOKMARK [1][-]{section.5.5}{Constrain model parameters between each others}{chapter.5}% 37
+\BOOKMARK [1][-]{section.5.6}{Model parameters learning functions}{chapter.5}% 38
+\BOOKMARK [0][-]{chapter.6}{Hidden states estimation}{}% 39
+\BOOKMARK [1][-]{section.6.1}{Purpose}{chapter.6}% 40
+\BOOKMARK [1][-]{section.6.2}{Kalman equations}{chapter.6}% 41
+\BOOKMARK [1][-]{section.6.3}{UD computations}{chapter.6}% 42
+\BOOKMARK [1][-]{section.6.4}{Filtering}{chapter.6}% 43
+\BOOKMARK [1][-]{section.6.5}{Smoothing}{chapter.6}% 44
+\BOOKMARK [1][-]{section.6.6}{Hidden states estimation functions}{chapter.6}% 45
+\BOOKMARK [0][-]{chapter.7}{Data simulation}{}% 46
+\BOOKMARK [1][-]{section.7.1}{Purpose}{chapter.7}% 47
+\BOOKMARK [1][-]{section.7.2}{Data simulation functions}{chapter.7}% 48
+\BOOKMARK [0][-]{chapter.8}{Model validation}{}% 49
+\BOOKMARK [1][-]{section.8.1}{Purpose}{chapter.8}% 50
+\BOOKMARK [1][-]{section.8.2}{Prediction capacity}{chapter.8}% 51
+\BOOKMARK [1][-]{section.8.3}{Posterior model parameters covariance matrix analysis}{chapter.8}% 52
+\BOOKMARK [1][-]{section.8.4}{Posterior state covariance matrix analysis}{chapter.8}% 53
+\BOOKMARK [1][-]{section.8.5}{Residual component analysis}{chapter.8}% 54
+\BOOKMARK [1][-]{section.8.6}{Model validation functions}{chapter.8}% 55
+\BOOKMARK [0][-]{chapter.9}{Visualization tools}{}% 56
+\BOOKMARK [1][-]{section.9.1}{Purpose}{chapter.9}% 57
+\BOOKMARK [1][-]{section.9.2}{Data availability plots}{chapter.9}% 58
+\BOOKMARK [1][-]{section.9.3}{Hidden states plots}{chapter.9}% 59
+\BOOKMARK [1][-]{section.9.4}{Export figures options}{chapter.9}% 60
+\BOOKMARK [1][-]{section.9.5}{Visualization tools functions}{chapter.9}% 61
+\BOOKMARK [0][-]{chapter.10}{Version control}{}% 62
+\BOOKMARK [1][-]{section.10.1}{Purpose}{chapter.10}% 63
+\BOOKMARK [1][-]{section.10.2}{Version control functions}{chapter.10}% 64
+\BOOKMARK [0][-]{chapter.11}{Examples}{}% 65
+\BOOKMARK [1][-]{section.11.1}{Example 1}{chapter.11}% 66
+\BOOKMARK [1][-]{section.11.2}{Example 2}{chapter.11}% 67
+\BOOKMARK [1][-]{section.11.3}{Example 3}{chapter.11}% 68
+\BOOKMARK [1][-]{section.11.4}{Example 4}{chapter.11}% 69
+\BOOKMARK [0][-]{chapter.12}{List of functions}{}% 70
+\BOOKMARK [0][-]{chapter.13}{Older versions}{}% 71
+\BOOKMARK [0][-]{chapter.14}{Last changes}{}% 72

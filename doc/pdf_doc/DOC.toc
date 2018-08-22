@@ -1,5 +1,5 @@
-\contentsline {chapter}{\numberline {1}What OpenBanana does ?}{7}{chapter.1}
-\contentsline {chapter}{\numberline {2}Install OpenBanana}{9}{chapter.2}
+\contentsline {chapter}{\numberline {1}What OpenBDLM does ?}{7}{chapter.1}
+\contentsline {chapter}{\numberline {2}Install OpenBDLM}{9}{chapter.2}
 \contentsline {chapter}{\numberline {3}Data processing}{11}{chapter.3}
 \contentsline {section}{\numberline {3.1}Purpose}{11}{section.3.1}
 \contentsline {section}{\numberline {3.2}Input data format}{11}{section.3.2}
@@ -7,24 +7,22 @@
 \contentsline {section}{\numberline {3.4}Merging timestamps vector}{11}{section.3.4}
 \contentsline {section}{\numberline {3.5}Data processing functions}{11}{section.3.5}
 \contentsline {chapter}{\numberline {4}Model building}{13}{chapter.4}
-\contentsline {section}{\numberline {4.1}Purpose}{14}{section.4.1}
-\contentsline {section}{\numberline {4.2}Model class}{14}{section.4.2}
-\contentsline {section}{\numberline {4.3}Dependencies}{14}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Observed covariate}{14}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Hidden covariate}{14}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Model components}{14}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Local level}{14}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Local trend}{14}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Local acceleration}{14}{subsection.4.4.3}
-\contentsline {subsection}{\numberline {4.4.4}Local level compatible trend}{14}{subsection.4.4.4}
-\contentsline {subsection}{\numberline {4.4.5}Local level compatible acceleration}{14}{subsection.4.4.5}
-\contentsline {subsection}{\numberline {4.4.6}Local trend compatible acceleration}{14}{subsection.4.4.6}
-\contentsline {subsection}{\numberline {4.4.7}Periodic}{14}{subsection.4.4.7}
-\contentsline {subsection}{\numberline {4.4.8}Dynamic regression}{14}{subsection.4.4.8}
-\contentsline {subsection}{\numberline {4.4.9}Static kernel regression}{14}{subsection.4.4.9}
-\contentsline {subsection}{\numberline {4.4.10}Dynamic kernel regression}{14}{subsection.4.4.10}
-\contentsline {subsection}{\numberline {4.4.11}Residual - first order autoregressive}{14}{subsection.4.4.11}
-\contentsline {section}{\numberline {4.5}Model building functions}{14}{section.4.5}
+\contentsline {section}{\numberline {4.1}Purpose}{13}{section.4.1}
+\contentsline {section}{\numberline {4.2}Model class}{13}{section.4.2}
+\contentsline {section}{\numberline {4.3}Dependencies}{13}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Observed covariate}{13}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Hidden covariate}{13}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Model components}{13}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Local level}{13}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Local trend}{13}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Local acceleration}{13}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4.4.4}Local level compatible trend}{13}{subsection.4.4.4}
+\contentsline {subsection}{\numberline {4.4.5}Local level compatible acceleration}{13}{subsection.4.4.5}
+\contentsline {subsection}{\numberline {4.4.6}Local trend compatible acceleration}{13}{subsection.4.4.6}
+\contentsline {subsection}{\numberline {4.4.7}Periodic}{13}{subsection.4.4.7}
+\contentsline {subsection}{\numberline {4.4.8}Kernel regression}{13}{subsection.4.4.8}
+\contentsline {subsection}{\numberline {4.4.9}Residual - first order autoregressive}{13}{subsection.4.4.9}
+\contentsline {section}{\numberline {4.5}Model building functions}{13}{section.4.5}
 \contentsline {chapter}{\numberline {5}Model parameters learning}{15}{chapter.5}
 \contentsline {section}{\numberline {5.1}Purpose}{15}{section.5.1}
 \contentsline {section}{\numberline {5.2}Posterior}{15}{section.5.2}
@@ -72,8 +70,3 @@
 \contentsline {chapter}{\numberline {12}List of functions}{29}{chapter.12}
 \contentsline {chapter}{\numberline {13}Older versions}{31}{chapter.13}
 \contentsline {chapter}{\numberline {14}Last changes}{33}{chapter.14}
-\contentsline {section}{\numberline {14.1}Data loading}{33}{section.14.1}
-\contentsline {section}{\numberline {14.2}Data simulation}{33}{section.14.2}
-\contentsline {section}{\numberline {14.3}Create a configuration file}{34}{section.14.3}
-\contentsline {section}{\numberline {14.4}Export figures}{34}{section.14.4}
-\contentsline {section}{\numberline {14.5}Batch processing}{34}{section.14.5}

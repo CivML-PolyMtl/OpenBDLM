@@ -4,7 +4,7 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue}
 
-\title{OpenBanana: An open-source Matlab software for Structural Health Monitoring using Bayesian dynamic linear models}
+\title{OpenBDLM: An open-source Matlab software for Structural Health Monitoring using Bayesian dynamic linear models}
 \author{Ianis Gaudot, Luong H. Nguyen, James-A. Goulet \\ Polytechnique Montreal}
 
 \begin{document}
@@ -12,17 +12,18 @@
 
 \tableofcontents
 
-\chapter{What OpenBanana does ?}
+\chapter{What OpenBDLM does ?}
 \newpage
 
-\chapter{Install OpenBanana}
+\chapter{Install OpenBDLM}
 \newpage
 
 \chapter{Data processing}
+\section{Purpose}
 \section{Input data format}
 \section{Output data format}
 \section{Merging timestamps vector}
-\section{Associated functions}
+\section{Data processing functions}
 \newpage
 
 \chapter{Model building}
@@ -38,12 +39,12 @@
 \subsection{Local level compatible trend}
 \subsection{Local level compatible acceleration}
 \subsection{Local trend compatible acceleration}
-\subsection{Periodic component}
-\subsection{First order autoregressive component}
-\subsection{Dynamic regression component}
-\subsection{Static kernel regression component}
-\subsection{Dynamic kernel regression component}
-\section{Associated functions}
+\subsection{Periodic}
+\subsection{Dynamic regression}
+\subsection{Static kernel regression}
+\subsection{Dynamic kernel regression}
+\subsection{Residual - first order autoregressive}
+\section{Model building functions}
 \newpage
 
 \chapter{Model parameters learning}
@@ -58,42 +59,44 @@
 \subsection{Newton-Raphson approach}
 \subsection{Stochastic Gradient Ascent approach}
 \section{Constrain model parameters between each others}
-\section{Associated functions}
+\section{Model parameters learning functions}
 \newpage
 
 \chapter{Hidden states estimation}
+\section{Purpose}
 \section{Kalman equations}
-\section{UD computation}
+\section{UD computations}
 \section{Filtering}
 \section{Smoothing}
-\section{Associated functions}
+\section{Hidden states estimation functions}
 \newpage
 
 \chapter{Data simulation}
 \section{Purpose}
-\section{Associated functions}
+\section{Data simulation functions}
 \newpage
 
 \chapter{Model validation}
+\section{Purpose}
 \section{Prediction capacity}
 \section{Posterior model parameters covariance matrix analysis}
 \section{Posterior state covariance matrix analysis}
 \section{Residual component analysis}
-\section{Associated functions}
+\section{Model validation functions}
 \newpage
 
 \chapter{Visualization tools}
 \section{Purpose}
 \section{Data availability plots}
 \section{Hidden states plots}
-\section{Export figures in PDF, PNG, TEX}
-\section{Associated functions}
+\section{Export figures options}
+\section{Visualization tools functions}
 \newpage
 
 
 \chapter{Version control}
 \section{Purpose}
-\section{Associated functions}
+\section{Version control functions}
 \newpage
 
 \chapter{Examples}

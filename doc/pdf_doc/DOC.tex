@@ -4,7 +4,7 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue}
 
-\title{OpenBanana: An open-source Matlab software for Structural Health Monitoring using Bayesian dynamic linear models}
+\title{OpenBDLM: An open-source Matlab software for Structural Health Monitoring using Bayesian dynamic linear models}
 \author{Ianis Gaudot, Luong H. Nguyen, James-A. Goulet \\ Polytechnique Montreal}
 
 \begin{document}
@@ -12,10 +12,10 @@
 
 \tableofcontents
 
-\chapter{What OpenBanana does ?}
+\chapter{What OpenBDLM does ?}
 \newpage
 
-\chapter{Install OpenBanana}
+\chapter{Install OpenBDLM}
 \newpage
 
 \chapter{Data processing}
@@ -40,9 +40,7 @@
 \subsection{Local level compatible acceleration}
 \subsection{Local trend compatible acceleration}
 \subsection{Periodic}
-\subsection{Dynamic regression}
-\subsection{Static kernel regression}
-\subsection{Dynamic kernel regression}
+\subsection{Kernel regression}
 \subsection{Residual - first order autoregressive}
 \section{Model building functions}
 \newpage
@@ -99,6 +97,55 @@
 \section{Version control functions}
 \newpage
 
+\chapter{OpenBLDM options}
+
+%     isMAP            - logical (optional)
+%                         if isMAP = true, Newton-Raphson algorithm is used to 
+%                         maximizing the log-posterior (log-prior+log-likelihood)
+%                         otherwise, Newton-Raphson algorithm is used to maximize the 
+%                         log-likelihood (MLE)
+%                         default = true
+%
+%     isPredCap        - logical (optional)
+%                         if isPredCap = true, the training set is splitted
+%                         into a training and testing dataset.
+%                         The log-likelihood computed over the testing
+%                         dataset is the Prediction Capacity (PredCap).
+%                         if isPredCap = true, the Prediction Capacity is
+%                         used to drive the optimization process, otherwise
+%                         the log-likelihood over the full dataset is used.
+%                         default = false
+%
+%     isLaplaceApprox  -  logical (optional)
+%                         if isLaplaceApprox = true, compute the full Laplace
+%                         approximation around the optimized model parameters
+%                         values to provide confidence interval
+%                         default: false
+%     maxIteration     - integer (optional)
+%                         maximum number of Newton-Rapshon iterations
+%                         default = 200
+%
+%     maxTime          - integer (optional)
+%                         maximum time in minutes to spend in running the
+%                         Newton-Rapshon algorithm
+%                         default = 60 
+%
+%     isParallel       - logical (optional)
+%                         if isParallel = true, performs parallel
+%                         computations
+%                         default: true
+%
+%     isMute           - logical (optional)
+%                         if isMute = false, throw information on screen
+%                         default: false
+%
+%     isLaplaceApprox  -  logical (optional)
+%                         if isLaplaceApprox = true, compute the full Laplace
+%                         approximation around the optimized model parameters
+%                         values to provide confidence interval
+%                         default: false
+
+
 \chapter{Examples}
 \section{Example 1}
 Simulated data with: one time series, one model class, \{[12 31 41]\}.
@@ -110,7 +157,7 @@ Simulated data with: two time series with dependencies, one model class, \{[11 4
 Simulated data with one time series, two model classes, \{[21 31 41]\} and \{[12 31 41]\}.
 
 \section{Example 4}
-Real data with one time series, one model class, \{[12 52 41]\}.
+Real data with one time series, one model class, \{[12 51 41]\}.
 
 \newpage
 
@@ -122,43 +169,6 @@ Real data with one time series, one model class, \{[12 52 41]\}.
 \newpage
 
 \chapter{Last changes}
-
-This new version now includes the data loader and the data simulation tools.
-It also includes additionnal tools to export the figures in several format (.tex, .png, .pdf).
-This version also supports batch processing (loop over input files, see the script demo\_1.m). \\
-
-The model parameters and hidden state estimation functions are (almost) identical compared to the previous GitHub version.\\
-
-WARNING: the 'data' structure completely changed (cell array instead of simple array) then previous configuration file are NOT readable with this version. You have to initialize a new project using the interactive tool, and then copy/paste manually your previously learned initial hidden states and/or model parameters values.\\
-
-Note that the sofware will only work properly if you run it from the same folder that contains the file BDLM.m.
-As usual, always put all the folders in your Matlab path before running the program.
-
-\section{Data loading}
-Data loader is accessible via interactive tool (option '0').
-See the DataLoader.m function to change data loading option (handle quantity of allowed missing data, handle tolerance between timestamp, etc...).
-
-\section{Data simulation}
-Once a project has been created, data simulation is now possible through option '16'.
-A new project is created.
-
-\section{Create a configuration file}
-Option '0' builds a configuration file by default.
-At any time, option '17' export current model in configuration file format.
-
-\section{Export figures}
-The program can now save figures in tex, png and pdf format.
-See the plotEstimation.m function to change export options.
-When pdf export is done, the program builds a single pdf file containing all the figures.
-
-\section{Batch processing}
-
-Batch processing allows you to plan a succession of tasks in advance, and let them run during the night (or whenever you want).
-All the planned command have to be written in ASCII input files.\\
-
-See demo\_1.m for an example of batch processing. demo\_1.m sequentially creates 3 simulated dataset.\\
-
-WARNING: the beta version of this tool uses global variables (named 'isAnswersFromFile' 'AnswersFromFile' 'AnswersIndex'), so always clean your workspace by typing 'clear -global isAnswersFromFile AnswersFromFile AnswersIndex' before and after using batch processing.
 
 \newpage
 

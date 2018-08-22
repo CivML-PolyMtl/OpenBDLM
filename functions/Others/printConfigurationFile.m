@@ -132,7 +132,7 @@ nb_models = model.nb_class;
 % Get number of time series
 numberOfTimeSeries = length(data.labels);
 % Get training period
-trainingPeriod = misc.trainingPeriod;
+trainingPeriod = misc.options.trainingPeriod;
 % Get labels
 labels = data.labels;
 
@@ -225,7 +225,7 @@ fprintf(fileID_CFG, '\n');
 fprintf(fileID_CFG,'dat=load(''%s''); \n', dataFilename );
 fprintf(fileID_CFG,'data.values=dat.values;\n' );
 fprintf(fileID_CFG,'data.timestamps=dat.timestamps;\n');
-fprintf(fileID_CFG,'misc.trainingPeriod=[%d,%d];\n',trainingPeriod);
+%fprintf(fileID_CFG,'misc.trainingPeriod=[%d,%d];\n',trainingPeriod);
 fprintf(fileID_CFG,'data.labels={');
 for i=1:numberOfTimeSeries
     fprintf(fileID_CFG,'''%s''', labels{i});
@@ -372,6 +372,32 @@ for m=1:model.nb_class
     fprintf(fileID_CFG,'\n');
 end
 
+%% Print options
+fprintf(fileID_CFG, repmat('%s',1,75),repmat('%',1,75));
+fprintf(fileID_CFG, '\n');
+fprintf(fileID_CFG, '%%%% F - Options \n');
+fprintf(fileID_CFG, repmat('%s',1,75),repmat('%',1,75));
+fprintf(fileID_CFG, '\n');
+names = fieldnames(misc.options);
+
+for i=1:length(names)
+    
+    if strcmp(names{i}, 'trainingPeriod')
+        fprintf(fileID_CFG, 'misc.options.%s=[%s];\n', names{i},  ...
+            strjoin(cellstr(num2str(misc.options.(names{i}))),', '));
+        
+    elseif strcmp(names{i}, 'MethodStateEstimation') 
+        
+        fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
+            names{i}, ['''', num2str(misc.options.(names{i})), '''']); 
+    else
+        fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
+            names{i}, num2str(misc.options.(names{i})));
+    end
+end
+
+
+
 %% Print custom anomalies
 if isfield(misc, 'custom_anomalies')
     fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
@@ -379,11 +405,14 @@ if isfield(misc, 'custom_anomalies')
     fprintf(fileID_CFG,'%%%% Custom anomalies :\n');
     fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
     fprintf(fileID_CFG, '\n');
-    fprintf(fileID_CFG,['misc.custom_anomalies.start_custom_anomalies=[' ...
+    fprintf(fileID_CFG,[ ...
+        'misc.custom_anomalies.start_custom_anomalies=[' ...
         num2str(misc.custom_anomalies.start_custom_anomalies) '];\n']);
-    fprintf(fileID_CFG,['misc.custom_anomalies.duration_custom_anomalies=[' ...
+    fprintf(fileID_CFG,[...
+        'misc.custom_anomalies.duration_custom_anomalies=[' ...
         num2str(misc.custom_anomalies.duration_custom_anomalies) '];\n']);
-    fprintf(fileID_CFG,['misc.custom_anomalies.amplitude_custom_anomalies=[' ...
+    fprintf(fileID_CFG,[...
+        'misc.custom_anomalies.amplitude_custom_anomalies=[' ...
         num2str(misc.custom_anomalies.amplitude_custom_anomalies) '];\n']);
     fprintf(fileID_CFG,'\n');
 end

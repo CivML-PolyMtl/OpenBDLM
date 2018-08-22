@@ -93,7 +93,7 @@ function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)
 %       June 29, 2018
 % 
 %   DATE LAST UPDATE:
-%       July 23, 2018
+%       August 21, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -107,7 +107,11 @@ parse(p,data, model, misc);
 data=p.Results.data;
 model=p.Results.model;
 misc=p.Results.misc;
- 
+
+%% options from misc
+MethodStateEstimation=misc.options.MethodStateEstimation;
+
+
 %% Get timestamps information
 
 % Get timestamps
@@ -129,7 +133,7 @@ DataValues = data.values;
 M = model.nb_class;         
 
 %% Get method to use for filtering 'kalman' or 'UD'
-if strcmp(misc.method,'UD')
+if strcmp(MethodStateEstimation,'UD')
     U=cell(M,M,T);
     D=cell(M,M,T);
     if isfield(model,'U')     %Online procedure
@@ -140,7 +144,7 @@ if strcmp(misc.method,'UD')
             end
         end
     end
-elseif strcmp(misc.method,'kalman')
+elseif strcmp(MethodStateEstimation,'kalman')
     U=[];
     D=[];
 else
@@ -222,12 +226,23 @@ for t=1:T
                 p_ref),data.timestamps(t),timesteps(t));
         else
             idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
-            if any([model.components.block{:}{:}]==51)
-                A{j,t}=model.A{j}(parameter(...
-                    p_ref),data.timestamps(t),timesteps(t));
-            else
-                A{j,t}=A{j,idx};
-            end
+%             if any([model.components.block{:}{:}]==51)
+%                 A{j,t}=model.A{j}(parameter(...
+%                     p_ref),data.timestamps(t),timesteps(t));
+%             else
+%                 A{j,t}=A{j,idx};
+%             end
+            
+            for model_loop = 1:M 
+               extract_model = model.components.block{model_loop};
+               if any([extract_model{:}]==51)
+                   A{j,t}=model.A{j}(parameter(...
+                       p_ref),data.timestamps(t),timesteps(t));
+               else
+                   A{j,t}=A{j,idx};
+               end
+           end
+            
             C{j,t} = model.C{j}(parameter(...
                 p_ref),data.timestamps(t),timesteps(t));
             R{j,t}=R{j,idx};
@@ -258,7 +273,7 @@ for t=1:T
                 prevX = model.initX{i};
                 prevV = model.initV{i};
                 prevS = model.initS{i};
-                if strcmp(misc.method,'UD')
+                if strcmp(MethodStateEstimation,'UD')
                     if and(isempty(U{i,j,t}),isempty(D{i,j,t}))
                         error_myUD=1;
                         while error_myUD
@@ -284,7 +299,7 @@ for t=1:T
                 prevV = V{i}(:,:,t-1);
                 prevS = S(t-1,i);
             end
-            if strcmp(misc.method,'UD')
+            if strcmp(MethodStateEstimation,'UD')
                 %% UD filter
                 [x_ij{j}(:,i), V_ij{j}(:,:,i), VV_ij{j}(:,:,i), ...
                     U{i,j,t+1}, D{i,j,t+1}, LL(i,j,t)] = ...

@@ -176,5 +176,9 @@ else
     end
     
 end
+
+% Clean folder tree
+Clean('isForceDelete', true);
+
 %--------------------END CODE ------------------------
 end

@@ -6,7 +6,7 @@
 Bayesian Dynamic Linear Model for time-series analysis
 </p>
 
-OpenBLDM is a Matlab open-source software designed to use Bayesian Dynamic Linear Models in the context of Structural Health Monitoring. OpenBLDM is capable to process simultaneously any time series data recorded on a civil structure (e.g. displacement, elongation, pressure, traffic, temperature, etc...) to monitor and predict its long-term behavior. OpenBLDM includes an anomaly detection tool which allows to detect abnormal structural behavior in a fully probabilistic framework.
+OpenBDLM is a Matlab open-source software designed to use Bayesian Dynamic Linear Models for long-term time series analysis (hourly data and above). OpenBDLM is capable to process simultaneously any time series data to monitor and predict their long-term behavior. OpenBDLM includes an anomaly detection tool which allows to detect abnormal  behavior in a fully probabilistic framework.
 
 ## Installation
 
@@ -22,11 +22,11 @@ Matlab (version 2016a and above) installed on Mac OSX or Windows
 2. Add the `OpenBDLM-master/` folder and all the sub folders to your path in Matlab : e.g. 
     - using the "Set Path" dialog in Matlab, or 
     - by running the `addpath` function from the Matlab command window
- 3. Remove from your Matlab path all previously OpenBLDM versions
+ 3. Remove from your Matlab path all previously OpenBDLM versions
 
 ### Getting started
 
-Enter in the folder OpenBDLM-master, and type `OpenBDLM_main();` in the Matlab command line. The OpenBLDM main menu should appear on the Matlab command window:
+Enter in the folder OpenBDLM-master, and type `OpenBDLM_main();` in the Matlab command line. The OpenBDLM main menu should appear on the Matlab command window:
 
 ```
 ----------------------------------------------------------------------------------------------
@@ -65,15 +65,40 @@ Then, in the Matlab command line, type `run_DEMO` to run a little demo. You shou
      Saving project...
      See you soon !
 ```
-If you do not see anything except Matlab errors verify your Matlab version, and your Matlab path. Be sure that you run the program from the top-level of OpenBLDM-master folder, not from another folder.
+If you do not see anything except Matlab errors verify your Matlab version, and your Matlab path. Be sure that you run the program from the top-level of OpenBDLM-master folder, not from another folder.
 
-## Running the tests
+## Input
 
-### Demo
+`OpenBDLM_main` accepts three types of input
 
-Type `run_DEMO` to run a little demo.
+1. no input (`OpenBDLM_main();`) The program then runs in *interactive mode*, in which online user's interactions from the command line is required to perform the analysis.
+2. a configuration file as input, (`OpenBDLM_main('CFG_DEMO.m');`). The configuration file is used to initialize the project, and the program then runs in *interactive mode*. Configuration file must follow a specific format (see OpenBDLM documentation)
+3. a cell array as input (`OpenBDLM_main({'''CFG_DEMO.m''','3','1','''Q'''});`). The program runs in *batch mode*, in which pre-loaded commands stored in the input cell-array are sequentially read by the program to perform the analysis.
 
-### Version control
+## Output
+
+`OpenBDLM_main` returns four output:
+
+1. `data` structure which stores the time series data used for the analysis. 
+2. `model` 	structure which stores all the information about the model used for the analysis (current model structure and model parameters values)
+3. `estimation` structure which stores the computed hidden states estimation using the current data and model.
+4.  `misc` structure which stores all the internal variables used by the functions of the program
+
+Type  `[data, model, estimation, misc] = OpenBDLM_main();` to get `data`, `model`, `estimation`, and `misc` as a variable in the Matlab worskpace.
+
+Further details about `data`, `model`, `estimation`, and `misc` can be found in the OpenBDLM documentation.
+
+## Files
+
+`OpenBDLM_main` reads and/or create four types of files:
+
+1. Data file **DATA_*.mat**:  MAT binary file that store the time series data. These files are located in the`data` folder.
+3. Configuration file **CFG_*.m** : Matlab script used to initialize and export a project in human readable format. These files are located in the`config_files` folder.
+4. Project file **PROJ_*.mat** : MAT binary file that stores a full project for further analysis (basically a project file stores the structure `data`, `model`, `estimation`, and `misc` ). These files are located in the`saved_projects` folder.
+5. Log file **LOG_*.txt** : Text file that records information about the analysis. These files are located in the`log_files` folder.
+
+
+## Version control
 
 For the users, version control tests verifies that the program runs properly on your machine. For development purpose, version control tests verifies that changes you have made are still compatible with the previsous stable OpenBDLM version. To run version control, type `OpenBDLM_main();` in the Matlab command line, and then type `V`.  If program runs properly, you should get in the Matlab command window some messages as shown below:
 
@@ -91,37 +116,15 @@ For the users, version control tests verifies that the program runs properly on 
  
      ==> Version control test 1: PASS
 ```
-## Input
 
-`OpenBDLM_main` accepts three types of input
-
-1. no input (`OpenBLDM_main();`) The program then runs in *interactive mode*, in which online user's interactions from the command line is required to perform the analysis.
-2. a configuration file as input, (`OpenBLDM_main('CFG_DEMO.m');`). The configuration file is used to initialize the project, and the program then runs in *interactive mode*. Configuration file must follow a specific format (see OpenBDLM documentation)
-3. a cell array as input (`OpenBLDM_main({'''CFG_DEMO.m''','3','1','''Q'''});`). The program runs in *batch mode*, in which pre-loaded commands stored in the input cell-array are sequentially read by the program to perform the analysis.
-
-## Output
-
-`OpenBDLM_main` returns four outputs:
-
-1. `data` structure which stores the time series data used for the analysis. 
-2. `model` 	structure which stores all the information about the model used for the analysis (current model structure and model parameters values)
-3. `estimation` structure which stores the computed hidden states estimation using the current data and model.
-4.  `misc` structure which stores all the internal variables used by the functions of the program
-
-Type  `[data, model, estimation, misc] = OpenBLDM_main();` to get `data`, `model`, `estimation`, and `misc` as a variable in the Matlab worskpace.
-
-Further details about `data`, `model`, `estimation`, and `misc` can be found in the OpenBDLM documentation.
-
-## Files
-
-`OpenBDLM_main` reads and/or create four types of files:
-
-1. Data file **DATA_*.mat**:  MAT binary file that store the time series data. These files are located in the`data` folder.
-3. Configuration file **CFG_*.m** : Matlab script used to initialize and export a project in human readable format. These files are located in the`config_files` folder.
-4. Project file **PROJ_*.mat** : MAT binary file that stores a full project for further analysis (basically a project file stores the structure `data`, `model`, `estimation`, and `misc` ). These files are located in the`saved_projects` folder.
-5. Log file **LOG_*.txt** : Text file that records information about the analysis. These files are located in the`log_files` folder.
 
 ## Remarks
+
+Most functions accept numerous options; you can check them out by inspecting their help:
+
+```matlab
+help OpenBDLM_main
+```
 
 ## Built With
 
@@ -145,6 +148,8 @@ To be done...
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
+Note that OpenBDLM has been originally developed to use Bayesian Dynamic Linear Models in the context of Structural Health Monitoring, i.e to process simultaneously any time series data recorded on a civil structure (e.g. displacement, elongation, pressure, traffic, temperature, etc...) to monitor and predict its long-term behavior.
+
 ## License
 
 This project is licensed under the ???? license - see the [LICENSE.md](LICENSE.md) file for details
@@ -153,3 +158,4 @@ This project is licensed under the ???? license - see the [LICENSE.md](LICENSE.m
 
 * Brian Moore (UD filter implementation)
 * Kevin Murphy (initial SKF code)
+

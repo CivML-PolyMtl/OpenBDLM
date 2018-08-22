@@ -41,7 +41,7 @@ function [menuChoices]=displayMenuOpenBDLM(misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       August 9, 2018
+%       August 21, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -78,13 +78,17 @@ fprintf(fileID,['     11 ->  Display and modify ', ...
     'current model parameter values \n']);
 fprintf(fileID,['     12 ->  Display and modify current ', ...
     'initial hidden states values \n']);
-fprintf(fileID,'     13 ->  Display and modify current training period \n');
+fprintf(fileID,['     13 ->  Display and modify ', ...
+    'current training period \n']);
 fprintf(fileID,'     14 ->  Plots \n');
 fprintf(fileID,'     15 ->  Display model matrices \n');
 fprintf(fileID,'     16 ->  Simulate data \n');
-fprintf(fileID,'     17 ->  Export project in configuration file format \n');
+fprintf(fileID,['     17 ->  Export project ', ...
+    'in configuration file format \n']);
+fprintf(fileID,['     18 ->  Display current ', ...
+    'options in configuration file format \n']);
 fprintf(fileID,'\n');
-fprintf(fileID,'     Type Q to Quit \n');
+fprintf(fileID,'     Type Q to Save and Quit \n');
 fprintf(fileID,'\n');
 
 % List possible answers
