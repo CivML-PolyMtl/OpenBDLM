@@ -48,7 +48,7 @@ function [model, misc]=buildModel(data, model, misc)
 %       April 23, 2018
 %
 %   DATE LAST UPDATE:
-%       July 25, 2018
+%       August 22, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -88,9 +88,9 @@ end
 
 %% Default prior information
 
-PriorType = 'normal';
-PriorMean = 0;
-PriorSdev = 1E6;
+PriorType = 'N/A'; 
+PriorMean = NaN;
+PriorSdev = NaN;
 
 disp('     Building model...')
 

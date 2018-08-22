@@ -124,13 +124,7 @@ FilePath=p.Results.FilePath;
 
 if strcmp(Method, 'NR')
     %% Model parameters optimization using Newton-Raphson technique
-    
-    % Define the maximal number of optimization iterations
-    misc.iteration_limit_calibration=200;
-    
-    % Define the maximal optimization time [min]
-    misc.time_limit_calibration=60;
-    
+   
     % Define the maximal number of iteration for learning initial hidden
     % states values (multi-pass technique)
     iteration_limit_initValues=0;
@@ -147,11 +141,7 @@ if strcmp(Method, 'NR')
         model.initV_prev=model.initV;
         model.initS_prev=model.initS;
         
-        [optim, model] = NewtonRaphson(data, model, misc, ...
-            'OptimMode','MLE', ...
-            'isParallel',true, ...
-            'isMute', false, ...
-            'isLaplaceApprox', false);
+        [optim, model] = NewtonRaphson(data, model, misc);
         
         %model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);
         %model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);
@@ -192,16 +182,7 @@ if strcmp(Method, 'NR')
 elseif strcmp(Method, 'SGA')
     %% Model parameters optimization using Stochastic Gradient Ascent approach
     
-    % Define the maximal number of optimization iterations
-    misc.iteration_limit_calibration=200;
-    
-    misc.isParallel = true;
-    
-    % Define the maximal optimization time [min]
-    misc.time_limit_calibration=60;
-    [optim, model] = SGD(data, model, misc, 'metric_mode', 'predCap', ...
-        'optim_mode', 'MLE', ...
-        'maxEpoch', misc.iteration_limit_calibration );
+    [optim, model] = SGD(data, model, misc);
     
     %model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);
     %model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);

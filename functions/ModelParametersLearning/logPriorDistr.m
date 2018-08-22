@@ -2,7 +2,7 @@ function [logprior, Glogprior, Hlogprior]= logPriorDistr(P, Mu, Sigma, varargin)
 % The other distribution will be added later
 % From now, the prior distributions are assummed to be the Gaussian
 % distribution
-%% Defaut values
+%% Default values
 nameprior = 'normal';
 
 %% If provided, employ user-specific arguments

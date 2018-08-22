@@ -1,7 +1,8 @@
-function [metricVL, idxMaxM, logpdf_test, logpdf_train] = metricFct(data_train, data_test, model, option, parameterSearch, parameterSearchTR)
+function [metricVL, idxMaxM, logpdf_test, logpdf_train] = metricFct(data_train, data_test, model, misc, parameterSearch, parameterSearchTR)
 parameter_search_idx = ~all(isnan(reshape([model.param_properties{:,5}],2,size(model.param_properties,1))'),2);
 Nsamples             = size(parameterSearch,2);
-if strcmp(option.metric_mode,'predCap')
+%if strcmp(option.miscmetric_mode,'predCap')
+if misc.options.isPredCap
     modelStored          = cell(2*Nsamples,1);
     dataStored           = cell(2*Nsamples,1);
     model4loop           = model;
@@ -20,7 +21,7 @@ if strcmp(option.metric_mode,'predCap')
     end
     parfor s = 1 : 2*Nsamples
         try
-            [logpdf(s), ~, ~,~]  = logPosteriorPE(dataStored{s}, modelStored{s}, option, 'getlogpdf', 1);
+            [logpdf(s), ~, ~,~]  = logPosteriorPE(dataStored{s}, modelStored{s}, misc, 'getlogpdf', 1);
         catch err
             logpdf(s) = -Inf;
        end
@@ -33,7 +34,8 @@ if strcmp(option.metric_mode,'predCap')
     idxTrainInf                         = find(logpdf_train == -Inf); 
     metricVL                            = logpdf_test - logpdf_train;
     metricVL([idxTestInf idxTrainInf])  = -Inf;
-elseif strcmp(option.metric_mode, 'logpdf')
+%elseif strcmp(option.metric_mode, 'logpdf')
+else
     modelStored     = cell(Nsamples, 1);
     dataStored      = cell(Nsamples, 1);
     model4loop      = model;
@@ -45,7 +47,7 @@ elseif strcmp(option.metric_mode, 'logpdf')
     end
     parfor s = 1 : Nsamples
         try
-            [logpdf(s), ~, ~,~]  = logPosteriorPE(dataStored{s}, modelStored{s}, option, 'getlogpdf', 1);
+            [logpdf(s), ~, ~,~]  = logPosteriorPE(dataStored{s}, modelStored{s}, misc, 'getlogpdf', 1);
         catch err
             logpdf(s) =-Inf;
         end
