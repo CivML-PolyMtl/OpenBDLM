@@ -135,7 +135,7 @@ while(1)
     
     % Plot current data
     close all
-    plotData(data, misc, 'FilePath', 'figures', ...
+    plotDataSummary(data, misc, 'FilePath', 'figures', ...
         'isPdf', false,'isSaveFigure', false)
     
     fprintf(fileID,'\n');

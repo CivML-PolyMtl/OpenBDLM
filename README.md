@@ -14,7 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Matlab (version 2016a and above) installed on Mac OSX or Windows
+Matlab (version 2016a or higher) installed on Mac OSX or Windows
 
 ### Installing
 

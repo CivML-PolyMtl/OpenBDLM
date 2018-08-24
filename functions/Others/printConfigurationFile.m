@@ -382,14 +382,27 @@ names = fieldnames(misc.options);
 
 for i=1:length(names)
     
-    if strcmp(names{i}, 'trainingPeriod')
+    if strcmp(names{i}, 'trainingPeriod') || ...
+            strcmp(names{i}, 'FigurePosition')
         fprintf(fileID_CFG, 'misc.options.%s=[%s];\n', names{i},  ...
             strjoin(cellstr(num2str(misc.options.(names{i}))),', '));
         
-    elseif strcmp(names{i}, 'MethodStateEstimation') 
+    elseif strcmp(names{i}, 'MethodStateEstimation')
         
         fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
-            names{i}, ['''', num2str(misc.options.(names{i})), '''']); 
+            names{i}, ['''', num2str(misc.options.(names{i})), '''']);
+        
+    elseif strcmp(names{i}(1:2), 'is')
+        
+        if misc.options.(names{i})
+        
+        fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
+            names{i},  'true');
+        
+        else
+                 fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
+            names{i},  'false');   
+        end
     else
         fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
             names{i}, num2str(misc.options.(names{i})));

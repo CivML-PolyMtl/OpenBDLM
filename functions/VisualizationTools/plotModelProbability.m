@@ -74,7 +74,7 @@ function [FigureNames] = plotModelProbability(data, model, estimation, misc, var
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       July 25, 2018
+%       August 22, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -107,6 +107,14 @@ isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
+
+%% Get options from misc
+FigurePosition=misc.options.FigurePosition;
+isSecondaryPlot=misc.options.isSecondaryPlot;
+Linewidth=misc.options.Linewidth;
+ndivx = misc.options.ndivx;
+ndivy = misc.options.ndivy;
+Subsample=misc.options.Subsample;
 
 %% Remove space in filename
 %FilePath = FilePath(~isspace(FilePath));
@@ -153,10 +161,10 @@ timestamps=data.timestamps;
 [referenceTimestep]=defineReferenceTimeStep(timestamps);
 
 % Define timestamp vector for main plot
-plot_time_1=1:misc.subsample:length(timestamps);
+plot_time_1=1:Subsample:length(timestamps);
 
 % Define timestamp vector for secondary plot plot
-if  misc.isSecondaryPlots
+if  isSecondaryPlot
     
     time_fraction=0.641;
     plot_time_2=round(time_fraction*length(timestamps)): ...
@@ -165,7 +173,7 @@ end
 
 %% Define paramater for plot appeareance
 % Get subplot parameter
-if ~misc.isSecondaryPlots
+if ~isSecondaryPlot
     idx_supp_plot=1;
 else
     idx_supp_plot=0;
@@ -180,13 +188,13 @@ Xaxis_lag=50;
 %% Main plot
 
 FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
-set(FigHandle, 'Position', [100, 100, 1300, 270])
+set(FigHandle, 'Position', FigurePosition)
 subplot(1,3,1:2+idx_supp_plot,'align')
 
 if isfield(estimation,'x')
     % Plot estimated values
     plot(timestamps(plot_time_1),Pr_M(plot_time_1,2), ...
-        'color',[1 0.0 0],'Linewidth',misc.linewidth*2)
+        'color',[1 0.0 0],'Linewidth',Linewidth*2)
     hold on
     if isfield(estimation,'ref')
         % Plot true values
@@ -197,12 +205,12 @@ if isfield(estimation,'x')
 else
     % Plot true values
     plot(timestamps(plot_time_1),1-dataset_x_ref(plot_time_1, end), ...
-        'Color', BlueColor, 'LineWidth', misc.linewidth)
+        'Color', BlueColor, 'LineWidth', Linewidth)
 end
 
 set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
     timestamps(plot_time_1(size(timestamps(plot_time_1),1))), ...
-    misc.ndivx),...
+    ndivx),...
     'YTick',[0 0.5 1],...
     'box' ,'off', 'Fontsize', 16);
 datetick('x','yy-mm','keepticks')
@@ -214,14 +222,14 @@ hold off
 
 
 %% Secondary plots
-if misc.isSecondaryPlots
+if isSecondaryPlot
     subplot(1,3,3,'align')
     
     if isfield(estimation,'x')
         
         % Plot estimated values
         plot(timestamps(plot_time_2),Pr_M(plot_time_2,2), ...
-            'color',[1 0.0 0],'Linewidth',misc.linewidth*2)
+            'color',[1 0.0 0],'Linewidth',Linewidth*2)
         hold on
         
         if isfield(estimation,'ref')
@@ -234,13 +242,13 @@ if misc.isSecondaryPlots
     else
         % Plot true values
         plot(timestamps(plot_time_2),1-dataset_x_ref(plot_time_2,end), ...
-            'Color', BlueColor, 'LineWidth', misc.linewidth )
+            'Color', BlueColor, 'LineWidth', Linewidth )
     end
     
     
     set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
         timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-        misc.ndivy),...
+        ndivy),...
         'YTick', [], ...
         'box', 'off', 'Fontsize', 16);
     datetick('x','mm-dd','keepticks')

@@ -168,7 +168,7 @@ if chosen_db == 0
         'isPdf', false);
     
     % Display available data on screen
-    displayData(data)
+    displayData(data, misc)
     
     % Edit dataset
     [data, misc, dataFilename ] = ...
