@@ -102,6 +102,14 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
+%% Get options from misc
+FigurePosition=misc.options.FigurePosition;
+isSecondaryPlot=misc.options.isSecondaryPlot;
+Linewidth=misc.options.Linewidth;
+ndivx = misc.options.ndivx;
+ndivy = misc.options.ndivy;
+Subsample = misc.options.Subsample;
+
 %% Read model parameter properties
 idx_pvalues=size(model.param_properties,2)-1;
 idx_pref= size(model.param_properties,2);
@@ -134,7 +142,7 @@ if isfield(estimation, 'y')
     dataset_Vy=estimation.Vy;
 end
 
-%% Define timstamps
+%% Define timestamps
 
 % Get timestamps vector
 timestamps=data.timestamps;
@@ -146,9 +154,9 @@ timestamps=data.timestamps;
 [timesteps]=computeTimeSteps(timestamps);
 
 % Define timestamp vector for main plot
-plot_time_1=1:misc.subsample:length(timestamps);
+plot_time_1=1:Subsample:length(timestamps);
 
-if  misc.isSecondaryPlots
+if  isSecondaryPlot
     % Define timestamp vector for secondary plot plot
     time_fraction=0.641;
     plot_time_2=round(time_fraction*length(timestamps)): ...
@@ -159,7 +167,7 @@ end
 % Define X-axis lag
 Xaxis_lag=50;
 
-if ~misc.isSecondaryPlots
+if ~isSecondaryPlot
     idx_supp_plot=1;
 else
     idx_supp_plot=0;
@@ -171,7 +179,7 @@ BlueColor = [0, 0.4, 0.8];
 %% Plot observation & predicted data
 for i=1:numberOfTimeSeries
     FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
-    set(FigHandle, 'Position', [100, 100, 1300, 270])
+    set(FigHandle, 'Position', FigurePosition)
     subplot(1,3,1:2+idx_supp_plot,'align')
     
     % Observations
@@ -192,7 +200,7 @@ for i=1:numberOfTimeSeries
         hold on
         % Plot observation mean values
         plot(timestamps(plot_time_1),DataValues(plot_time_1,i), ...
-            '-r','Linewidth',misc.linewidth)
+            '-r','Linewidth',Linewidth)
         
         % Predictions
         xpl=dataset_y(i,plot_time_1);
@@ -211,7 +219,7 @@ for i=1:numberOfTimeSeries
         patch(px,py,'green','EdgeColor','none','FaceColor','green', ...
             'FaceAlpha',0.2);
         % Plot predicted data mean values
-        plot(timestamps(plot_time_1),xpl,'k','Linewidth',misc.linewidth)
+        plot(timestamps(plot_time_1),xpl,'k','Linewidth',Linewidth)
         
         if ~misc.isSmoother
             h=legend('$y_{t}\pm \sigma_V$', ...
@@ -230,7 +238,7 @@ for i=1:numberOfTimeSeries
         
         % Plot observation mean values
         plot(timestamps(plot_time_1),DataValues(plot_time_1,i), ...
-            'Color', BlueColor ,'Linewidth',misc.linewidth)
+            'Color', BlueColor ,'Linewidth',Linewidth)
         
         miny=min(DataValues(plot_time_1,i));
         maxy=max(DataValues(plot_time_1,i));
@@ -239,7 +247,7 @@ for i=1:numberOfTimeSeries
     
     
     set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
-        timestamps(plot_time_1(size(timestamps(plot_time_1),1))),misc.ndivx),...
+        timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
         'box','off',  ...
         'FontSize', 16);
     if miny~=maxy
@@ -252,7 +260,7 @@ for i=1:numberOfTimeSeries
     hold off
     
     %% Secondary plot
-    if misc.isSecondaryPlots
+    if isSecondaryPlot
         subplot(1,3,3,'align')
         
         if isfield(estimation, 'y')
@@ -262,7 +270,9 @@ for i=1:numberOfTimeSeries
             
             px=[timestamps(plot_time_2); flipud(timestamps(plot_time_2))]';
             py=[xpl-sqrt(spl), fliplr(xpl+sqrt(spl))];
-            psy=[xpl-sv(i,i), fliplr(xpl+sv(i,i))];
+            
+            psy=[DataValues(plot_time_2,i)'-sv(i,i), ...
+                fliplr(DataValues(plot_time_2,i)'+sv(i,i))];
             
             % Plot observations
             % Plot observation noise variance values
@@ -277,7 +287,7 @@ for i=1:numberOfTimeSeries
             patch(px,py,'green','EdgeColor','none','FaceColor','green', ...
                 'FaceAlpha',0.2);
             % Plot predicted data mean values
-            plot(timestamps(plot_time_2),xpl,'k','Linewidth',misc.linewidth)
+            plot(timestamps(plot_time_2),xpl,'k','Linewidth',Linewidth)
         else
             
             % Plot observation mean values
@@ -288,7 +298,7 @@ for i=1:numberOfTimeSeries
         
         set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
             timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-            misc.ndivy),...
+            ndivy),...
             'YTick', [], ...
             'box','off', ...
             'FontSize', 16);

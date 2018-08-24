@@ -68,13 +68,16 @@ misc.options.isMute = false;
 misc.options.MethodStateEstimation = 'kalman'; 
 
 % Plot options
-misc.options.isPlot = true;
+%misc.options.isPlot = true;
+misc.options.FigurePosition = [100, 100, 1300, 270];
 misc.options.isSecondaryPlot = true;
 misc.options.Subsample = 1;
-misc.options.isExportFIG = false;
+misc.options.Linewidth = 1;
+misc.options.ndivx = 5;
+misc.options.ndivy = 3;
+misc.options.isExportTEX = false;
 misc.options.isExportPNG = false;
 misc.options.isExportPDF = false;
-misc.options.isPDFSummary = false;
 
 %--------------------END CODE ------------------------ 
 end

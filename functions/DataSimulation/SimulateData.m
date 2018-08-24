@@ -62,7 +62,7 @@ function [data, model, estimation, misc]=SimulateData(data, model, misc, varargi
 %       April 25, 2018
 %
 %   DATE LAST UPDATE:
-%       August 9, 2018
+%       August 23, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -81,6 +81,9 @@ model=p.Results.model;
 misc=p.Results.misc;
 isPlot=p.Results.isPlot;
 
+FigurePath = misc.FigurePath;
+
+
 disp('     Simulating data...')
 
 if isfield(misc, 'custom_anomalies') && ~isempty(misc.custom_anomalies)
@@ -93,8 +96,8 @@ else
 end
 
 if isPlot
-    plotData(data, misc, 'isPdf', false, ...
-        'FilePath', 'figures','isSaveFigures', true );
+    plotDataSummary(data, misc, 'isPdf', false, ...
+        'FilePath', FigurePath ,'isSaveFigures', true);
 end
 
 %--------------------END CODE ------------------------

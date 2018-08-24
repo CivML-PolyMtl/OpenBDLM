@@ -199,32 +199,6 @@ if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
     return
 end
 
-%% Define parameters for plot appareance
-% Plot secondary close-up figure
-if ~isfield(misc,'isSecondaryPlots')
-    misc.isSecondaryPlots=true;
-end
-
-% Select linewidth
-if ~isfield(misc,'linewidth')
-    misc.linewidth=1;
-end
-
-% Select subsamples in order to reduce the number of points
-if ~isfield(misc,'subsample')
-    misc.subsample=1;
-end
-
-% number of x-axis division
-if ~isfield(misc,'ndivx')
-    misc.ndivx=5;
-end
-
-% number of y-axis division
-if ~isfield(misc,'ndivy')
-    misc.ndivy=3;
-end
-
 % Initialize a cell array that records the names of all the figures
 FigureNames_full = {};
 
@@ -250,15 +224,6 @@ FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
 
 %% Plot model probability
 [FigureNames] = plotModelProbability(data, model, estimation, misc, ...
-    'FilePath', fullname, ...
-    'isExportPDF', isExportPDF, ...
-    'isExportPNG', isExportPNG, ...
-    'isExportTEX', isExportTEX);
-
-FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
-
-%% Plot kernel regression results
-[FigureNames] = plotKernelRegression(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
@@ -324,9 +289,8 @@ if isExportPDF
         
     % Merge all pdfs for creating one single one in specified location
     append_pdfs(fullPdfFileName, FigureNames_sort{:})
-    
-    
-    open(fullPdfFileName)
+        
+    %open(fullPdfFileName)
     
 end
 if isExportPNG || isExportPDF || isExportTEX

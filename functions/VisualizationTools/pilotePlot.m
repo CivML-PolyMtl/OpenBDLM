@@ -51,7 +51,7 @@ function pilotePlot(data, model, estimation, misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       August 9, 2018
+%       August 22, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -69,6 +69,13 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 
+%% Get options from misc
+isExportPNG=misc.options.isExportPNG;
+isExportPDF=misc.options.isExportPDF;
+isExportTEX=misc.options.isExportTEX;
+
+FigurePath=misc.FigurePath ;
+ProjectName=misc.ProjectName;
 
 % Set fileID for logfile
 if misc.isQuiet
@@ -90,7 +97,8 @@ isCorrectAnswer =  false;
 while ~isCorrectAnswer
     fprintf(fileID,'\n');
     fprintf(fileID,'     1 ->  Plot data \n');
-    fprintf(fileID,'     2 ->  Plot hidden states \n');
+    fprintf(fileID,'     2 ->  Plot data summary \n');
+    fprintf(fileID,'     3 ->  Plot hidden states \n');
     fprintf(fileID,'\n');
     fprintf(fileID,'     Type R to return to the previous menu\n');
     fprintf(fileID,'\n');
@@ -125,9 +133,11 @@ while ~isCorrectAnswer
         
         if isValid
             plotData(data, misc, ...
-                'FilePath', 'figures', ...
-                'isPdf', false, ...
-                'isSaveFigure', false)
+                'isPlotTimestep', true, ...
+                'isExportTEX', isExportTEX, ...
+                'isExportPNG', isExportPNG, ...
+                'isExportPDF', isExportPDF);
+            
             isCorrectAnswer =  true;
         else
             disp(' ')
@@ -138,11 +148,73 @@ while ~isCorrectAnswer
         end
         
     elseif round(str2double(user_inputs.inp_2)) == 2
+        
+        plotDataSummary(data, misc, ...
+            'FilePath', FigurePath, ...
+            'isPdf', isExportPDF)
+        
+        isCorrectAnswer =  true;
+        
+    elseif round(str2double(user_inputs.inp_2)) == 3
+        
         plotEstimations(data, model, estimation, misc, ...
-            'FilePath', 'figures', ...
-            'isExportTEX', false, ...
-            'isExportPNG', false, ...
-            'isExportPDF', false);
+            'FilePath', FigurePath, ...
+            'isExportTEX', isExportTEX, ...
+            'isExportPNG', isExportPNG, ...
+            'isExportPDF', isExportPDF);
+        
+        pdfEstimation = ['ESTIMATIONS_',ProjectName,'.pdf'];
+        fullPath = fullfile(FigurePath, ProjectName);
+        fullpdfEstimation = fullfile (fullPath, pdfEstimation);
+        
+        if isExportPDF
+            
+            [isFileExist] = testFileExistence(fullpdfEstimation, 'file');
+            
+            if isFileExist
+                
+                % Create data availability plot in pdf
+                plotDataAvailability(data, misc, 'FilePath', fullPath, ...
+                    'isSaveFigures', true)
+                
+                % Create data amplitude plot in pdf
+                plotData(data, misc, ...
+                    'isPlotTimestep', false, ...
+                    'isExportTEX', false, ...
+                    'isExportPNG', false, ...
+                    'isExportPDF', true);
+                
+                plotDataTimestep(data, misc, ...
+                    'isExportTEX', false, ...
+                    'isExportPNG', false, ...
+                    'isExportPDF', true);
+                
+                pdfFileName = [ProjectName,'.pdf'];
+                fullPdfFileName = fullfile (fullPath, pdfFileName);
+                
+                [isFileExist] = testFileExistence(fullPdfFileName, 'file');
+                
+                if isFileExist ; delete(fullPdfFileName) ; end
+                
+                % Create list of files to merge
+                FigureNames_sort = {...
+                    ['AVAILABILITY_',ProjectName,'.pdf'], ...
+                    ['DATA_',ProjectName,'.pdf'], ...
+                    ['TIMESTEP_',ProjectName,'.pdf'], ...
+                    pdfEstimation};
+                
+                FigureNames_sort = ...
+                    strcat(fullfile(fullPath, FigureNames_sort));
+                
+                % Merge all pdfs
+                append_pdfs(fullPdfFileName, FigureNames_sort{:})
+                
+                open(fullPdfFileName)
+                
+            end
+            
+        end
+        
         isCorrectAnswer =  true;
     else
         fprintf(fileID,'\n');
