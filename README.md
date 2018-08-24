@@ -6,7 +6,7 @@
 Bayesian Dynamic Linear Model for time-series analysis
 </p>
 
-OpenBDLM is a Matlab open-source software designed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step of one hour and above). OpenBDLM is capable to process simultaneously any time series data to interpret, monitor and predict their long-term behavior. OpenBDLM also includes an anomaly detection tool which allows to detect abnormal behavior in a fully probabilistic framework.
+OpenBDLM is a Matlab open-source software designed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step of one hour or higher). OpenBDLM is capable to process simultaneously any time series data to interpret, monitor and predict their long-term behavior. OpenBDLM also includes an anomaly detection tool which allows to detect abnormal behavior in a fully probabilistic framework.
 
 ## Installation
 
