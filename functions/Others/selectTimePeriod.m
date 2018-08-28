@@ -91,9 +91,9 @@ misc=p.Results.misc;
 MaxFailAttempts=4;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -117,8 +117,8 @@ while ~isCorrect
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
     fprintf(fileID,'     Start date (%s): \n',fmt);
-    if misc.BatchMode.isBatchMode
-        tts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        tts=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID, '     %s\n', tts);
     else
         tts = input('     choice >> ','s');
@@ -152,7 +152,7 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
 fprintf(fileID, '\n');
 
 %% Request user's input to specify end date
@@ -165,8 +165,8 @@ while ~isCorrect
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
     fprintf(fileID, '     End date (%s): \n',fmt);
-    if misc.BatchMode.isBatchMode
-        tte=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        tte=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID, '     %s\n', tte);
     else
         tte = input('     choice >> ','s');
@@ -218,7 +218,7 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
 
 
 if datenum(tte, fmt) > timestamps(end)
@@ -237,9 +237,9 @@ if datenum(tte, fmt) > timestamps(end)
         fprintf(fileID, '     Padding with NaN will be done.');
         fprintf(fileID, ['     Give a time step (in day) ', ...
             'to perform the data padding.\n']);
-        if misc.BatchMode.isBatchMode
+        if misc.internalVars.BatchMode.isBatchMode
             dt_ref= ...
-                eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
             fprintf(fileID, '     %s\n',num2str(dt_ref));
         else
             dt_ref = input('     choice >> ');
@@ -255,7 +255,7 @@ if datenum(tte, fmt) > timestamps(end)
     end
     
     % Increment global variable to read next answer when required
-    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
+    misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
     
 else
     isPadding = false;

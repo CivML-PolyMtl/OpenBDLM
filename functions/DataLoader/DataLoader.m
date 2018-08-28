@@ -100,9 +100,9 @@ tolerance = p.Results.Tolerance;
 
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -126,9 +126,9 @@ while(1)
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
-    if misc.BatchMode.isBatchMode
+    if misc.internalVars.BatchMode.isBatchMode
         chosen_db= ...
-            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID, '     %s\n', num2str(chosen_db));
     else
         chosen_db=input('     choice >> ');
@@ -158,7 +158,7 @@ while(1)
 end
 
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 
 %% Load database
 if chosen_db == 0
@@ -203,8 +203,8 @@ else
         fprintf(fileID, '\n');
         fprintf(fileID, '- Do you want to edit the database ? (y/n) \n');
         % read from user input file (use of global variable )?
-        if misc.BatchMode.isBatchMode
-            choice=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+        if misc.internalVars.BatchMode.isBatchMode
+            choice=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
             fprintf(fileID, '     %s\n', choice);
         else
             choice = input('     choice >> ','s');
@@ -214,7 +214,7 @@ else
         elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
             
             % Increment global variable to read next answer when required
-            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             
             % yes, edit the dataset
             [data, misc, dataFilename ] = ...
@@ -225,10 +225,10 @@ else
         elseif strcmpi(choice,'n') || strcmpi(choice,'no')
             
             % no, use the data as such
-            misc.isDataSimulation = false;
+            misc.internalVars.isDataSimulation = false;
             
             % Increment global variable to read next answer when required
-            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             
             isYesNoCorrect =  true;
             

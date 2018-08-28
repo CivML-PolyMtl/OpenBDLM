@@ -49,9 +49,9 @@ misc=p.Results.misc;
 MaxFailAttempts=4;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -67,9 +67,9 @@ while ~isCorrect
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
     fprintf(fileID,'- Define custom anomalies ? (y/n): \n');
-    if misc.BatchMode.isBatchMode
+    if misc.internalVars.BatchMode.isBatchMode
         choice_custom_anomalies = ...
-            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s\n',choice_custom_anomalies);
     else
         choice_custom_anomalies = input('     choice >> ','s');
@@ -104,7 +104,7 @@ while ~isCorrect
     end
     
 end
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 fprintf(fileID,'\n');
 if misc.isCustomAnomalies
     %% Request anomalies start
@@ -117,9 +117,9 @@ if misc.isCustomAnomalies
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
         fprintf(fileID,'- Anomalies starts (in sample index) ?\n');
-        if misc.BatchMode.isBatchMode
+        if misc.internalVars.BatchMode.isBatchMode
             start_custom_anomalies = ...
-                eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
             x=start_custom_anomalies;
             fprintf(fileID, ['', ...
                 '     [%s]\n'], strjoin(cellstr(num2str(x(:))),', '));
@@ -158,7 +158,7 @@ if misc.isCustomAnomalies
             
         end
     end
-    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+    misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
     fprintf(fileID,'\n');
         
     %% Request anomalies durations
@@ -171,9 +171,9 @@ if misc.isCustomAnomalies
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
         fprintf(fileID,'- Anomalies durations (in number of points) ?\n');
-        if misc.BatchMode.isBatchMode
+        if misc.internalVars.BatchMode.isBatchMode
             duration_custom_anomalies = ...
-                eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
             
             x=duration_custom_anomalies;
             fprintf(fileID, ['', ...
@@ -228,7 +228,7 @@ if misc.isCustomAnomalies
             isCorrect = true;
         end
     end
-    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+    misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
     fprintf(fileID,'\n');
     
     %% Request anomalies amplitudes
@@ -241,9 +241,9 @@ if misc.isCustomAnomalies
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
         fprintf(fileID,'- Anomalies amplitudes (i.e change in local trend) ?\n');
-        if misc.BatchMode.isBatchMode
+        if misc.internalVars.BatchMode.isBatchMode
             amplitude_custom_anomalies = ...
-                eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+                eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
             
             x=amplitude_custom_anomalies;
             fprintf(fileID, ['', ...
@@ -286,7 +286,7 @@ if misc.isCustomAnomalies
         isCorrect = true;
     end
     
-    misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;   
+    misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;   
 else
     return
 end

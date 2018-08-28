@@ -88,9 +88,9 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -109,8 +109,8 @@ end
 
 %% Compute reference time step from timestamp vector
 timestamps = data.timestamps;
-[dt_ref] = defineReferenceTimeStep(timestamps);
-misc.dt_ref = dt_ref;
+%[dt_ref] = defineReferenceTimeStep(timestamps);
+%misc.dt_ref = dt_ref;
 
 %% Get training dataset from timestamp vector
 [trainingPeriod] = defineTrainingPeriod (timestamps);

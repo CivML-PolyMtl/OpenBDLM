@@ -72,14 +72,14 @@ addRequired(p,'ProjectIdx', validation_Fct_ProjectIdx );
 parse(p,misc, ProjectIdx);
 ProjectIdx=p.Results.ProjectIdx;
 
-ProjectInfofile=misc.ProjectInfoFilename;
-FilePath=misc.ProjectPath;
+ProjectInfofile=misc.internalVars.ProjectInfoFilename;
+FilePath=misc.internalVars.ProjectPath;
 
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
    % output message in logfile
-   fileID=fopen(misc.logFileName, 'a');  
+   fileID=fopen(misc.internalVars.logFileName, 'a');  
 else
    % output message on screen and logfile using diary command
    fileID=1; 
@@ -119,22 +119,22 @@ if isempty(ProjectIdx)
 else
     
     % Save current misc variable about reading mode and quietness
-    InteractiveMode_s= misc.InteractiveMode;
-    ReadFromConfigFileMode_s = misc.ReadFromConfigFileMode;
-    BatchMode_s = misc.BatchMode;
-    isQuiet_s = misc.isQuiet;
-    logFileName_s=misc.logFileName;
+    InteractiveMode_s= misc.internalVars.InteractiveMode;
+    ReadFromConfigFileMode_s = misc.internalVars.ReadFromConfigFileMode;
+    BatchMode_s = misc.internalVars.BatchMode;
+    isQuiet_s = misc.internalVars.isQuiet;
+    logFileName_s=misc.internalVars.logFileName;
     
     %% Load the project
     disp('     Loading project...')
     load(ProjectInfo{ProjectIdx,3});
         
     % Restore current misc variable about reading mode
-    misc.InteractiveMode = InteractiveMode_s;
-    misc.ReadFromConfigFileMode = ReadFromConfigFileMode_s;
-    misc.BatchMode = BatchMode_s;
-    misc.isQuiet = isQuiet_s;
-    misc.logFileName=logFileName_s;
+    misc.internalVars.InteractiveMode = InteractiveMode_s;
+    misc.internalVars.ReadFromConfigFileMode = ReadFromConfigFileMode_s;
+    misc.internalVars.BatchMode = BatchMode_s;
+    misc.internalVars.isQuiet = isQuiet_s;
+    misc.internalVars.logFileName=logFileName_s;
     
 end
 %--------------------END CODE ------------------------

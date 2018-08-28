@@ -74,13 +74,13 @@ isExportPNG=misc.options.isExportPNG;
 isExportPDF=misc.options.isExportPDF;
 isExportTEX=misc.options.isExportTEX;
 
-FigurePath=misc.FigurePath ;
+FigurePath=misc.internalVars.FigurePath ;
 ProjectName=misc.ProjectName;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -103,9 +103,9 @@ while ~isCorrectAnswer
     fprintf(fileID,'     Type R to return to the previous menu\n');
     fprintf(fileID,'\n');
     
-    if misc.BatchMode.isBatchMode
-        user_inputs.inp_2=eval(char(misc.BatchMode.Answers ...
-            {misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        user_inputs.inp_2=eval(char(misc.internalVars.BatchMode.Answers ...
+            {misc.internalVars.BatchMode.AnswerIndex}));
         user_inputs.inp_2 = num2str(user_inputs.inp_2);
         if ischar(user_inputs)
             fprintf(fileID, '     %s  \n', user_inputs);
@@ -224,7 +224,7 @@ while ~isCorrectAnswer
     
 end
 
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 
 %--------------------END CODE ------------------------
 end

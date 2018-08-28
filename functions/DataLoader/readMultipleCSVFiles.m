@@ -72,7 +72,7 @@ misc=p.Results.misc;
 MaxFailAttempts=4;
 
 %% Request CSVFileList from user
-if misc.BatchMode.isBatchMode
+if misc.internalVars.BatchMode.isBatchMode
     incTest=0;
     while(1)
         
@@ -83,7 +83,7 @@ if misc.BatchMode.isBatchMode
         disp(' ')
         fprintf(['- Provide a list of .CSV filename to process ' ...
             '(e.g. {''raw_data/data_Tamar/*.csv'', ''disp_001.csv''}) :  \n'])
-        CSVFileList=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+        CSVFileList=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         disp(CSVFileList)
         %     else
         %         CSVFileList=input('     list of filenames >> ');
@@ -186,7 +186,7 @@ if misc.BatchMode.isBatchMode
             continue
         else
             % Increment global variable to read next answer when required
-            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
+            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
             break
         end
         

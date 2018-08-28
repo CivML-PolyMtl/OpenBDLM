@@ -64,8 +64,8 @@ parse(p,misc, varargin{:});
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
-ProjectPath=misc.ProjectPath;
-ProjectInfofile = misc.ProjectInfoFilename;
+ProjectPath=misc.internalVars.ProjectPath;
+ProjectInfofile = misc.internalVars.ProjectInfoFilename;
 
 sse_threshold=1E-3;
 

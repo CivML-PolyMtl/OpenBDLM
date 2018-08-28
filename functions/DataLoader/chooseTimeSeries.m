@@ -92,13 +92,13 @@ misc=p.Results.misc;
 isOutputFile=p.Results.isOutputFile;
 isPlot=p.Results.isPlot;
 
-DataPath=misc.DataPath;
+DataPath=misc.internalVars.DataPath;
 MaxFailAttempts=4;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -120,9 +120,9 @@ while(1)
     
     fprintf(fileID, ['- Choose the time series ', ...
         'to process (e.g [1 3 4]) : \n']);
-    if misc.BatchMode.isBatchMode
+    if misc.internalVars.BatchMode.isBatchMode
         chosen_ts= ...
-            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         x=chosen_ts;
         fprintf(fileID, ['     [%s]', ...
             '\n'], strjoin(cellstr(num2str(x(:))),', '));
@@ -159,7 +159,7 @@ while(1)
 end
 
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 
 %% Remove unselected time series from data structure
 

@@ -78,12 +78,12 @@ estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
-ProjectsInfoFilename = misc.ProjectInfoFilename;
+ProjectsInfoFilename = misc.internalVars.ProjectInfoFilename;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
    % output message in logfile
-   fileID=fopen(misc.logFileName, 'a');  
+   fileID=fopen(misc.internalVars.logFileName, 'a');  
 else
    % output message on screen and logfile using diary command
    fileID=1; 
@@ -163,11 +163,11 @@ if ~isempty(ProjectInfo)
     
         % add a new line
         ProjectInfo  = [ProjectInfo ; { project_name, ...
-            misc.ProjectDateCreation, fullname }];
+            misc.internalVars.ProjectDateCreation, fullname }];
                 
     elseif any(Test_Name) && ~any(Test_Date)
         % overwrite project but change date of creation
-        ProjectInfo{Test_Name,2} =  misc.ProjectDateCreation;
+        ProjectInfo{Test_Name,2} =  misc.internalVars.ProjectDateCreation;
         
     end
     % save
@@ -176,7 +176,7 @@ if ~isempty(ProjectInfo)
 else
     % add a new line
     ProjectInfo  = [ProjectInfo ; { project_name, ...
-        misc.ProjectDateCreation, fullname }];
+        misc.internalVars.ProjectDateCreation, fullname }];
     % save
     save(fullfile(pwd, FilePath, ProjectsInfoFilename), 'ProjectInfo' );
 end

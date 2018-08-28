@@ -100,7 +100,7 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 isPlotTimestep = p.Results.isPlotTimestep;
 
-FigurePath=misc.FigurePath;
+FigurePath=misc.internalVars.FigurePath;
 
 %% Get options from misc
 FigurePosition=misc.options.FigurePosition;

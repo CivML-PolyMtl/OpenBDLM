@@ -109,17 +109,17 @@ ndivx=misc.options.ndivx;
 ndivy=misc.options.ndivy;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
 end
 
-if isPdf && ~isSaveFigures
-    isSaveFigures = true;
-end
+% if isPdf && ~isSaveFigures
+%     isSaveFigures = true;
+% end
 
 % Validation of structure data
 isValid = verificationDataStructure(data);
@@ -247,10 +247,10 @@ for i=1:numberOfTimeSeries
         set(gcf,'PaperType', 'usletter', 'PaperOrientation', 'landscape')
         if isPdf
             export_fig([filename '.pdf'], '-nocrop')
-            saveas(gcf, [filename '.fig'])
+            %saveas(gcf, [filename '.fig'])
             %close(gcf)
         else
-            saveas(gcf, [filename '.fig'])
+            %saveas(gcf, [filename '.fig'])
             %close(gcf)
         end
     end
@@ -319,10 +319,10 @@ for i=1:numberOfTimeSeries
         set(gcf,'PaperType', 'usletter', 'PaperOrientation', 'landscape')
         if isPdf
             export_fig([filename '.pdf'], '-nocrop')
-            saveas(gcf, [filename '.fig'])
+            %saveas(gcf, [filename '.fig'])
             %close(gcf)
         else
-            saveas(gcf, [filename '.fig'])
+            %saveas(gcf, [filename '.fig'])
             %close(gcf)
         end
     end

@@ -42,7 +42,7 @@ parse(p,misc);
 misc=p.Results.misc;    
 
 %% Store date of the creation of the project
-misc.ProjectDateCreation=datestr(now);
+misc.internalVars.ProjectDateCreation=datestr(now);
  
 %--------------------END CODE ------------------------ 
 end

@@ -79,13 +79,13 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 
-FilePath = misc.ProjectPath;
+FilePath = misc.internalVars.ProjectPath;
 
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -115,9 +115,9 @@ while ~isCorrectAnswer
     fprintf(fileID,'     Type R to return to the previous menu\n');
     fprintf(fileID,'\n');
     
-    if misc.BatchMode.isBatchMode
-        user_inputs=eval(char(misc.BatchMode.Answers ...
-            {misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        user_inputs=eval(char(misc.internalVars.BatchMode.Answers ...
+            {misc.internalVars.BatchMode.AnswerIndex}));
         user_inputs = num2str(user_inputs);
         if ischar(user_inputs)
             fprintf(fileID, '     %s  \n', user_inputs);
@@ -165,7 +165,7 @@ while ~isCorrectAnswer
     end
     
 end
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 
 %--------------------END CODE ------------------------
 end

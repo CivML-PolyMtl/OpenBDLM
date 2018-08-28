@@ -78,12 +78,12 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 
-ProjectPath=misc.ProjectPath;
+ProjectPath=misc.internalVars.ProjectPath;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;

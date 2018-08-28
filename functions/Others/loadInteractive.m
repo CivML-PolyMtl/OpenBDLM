@@ -69,9 +69,9 @@ parse(p, misc);
 
 misc=p.Results.misc;
 
-DataPath=misc.DataPath;
-ProjectFilePath=misc.ProjectPath;
-ConfigFilePath=misc.ConfigPath;
+DataPath=misc.internalVars.DataPath;
+ProjectFilePath=misc.internalVars.ProjectPath;
+ConfigFilePath=misc.internalVars.ConfigPath;
 
 %% Initialize data, model, estimation
 data=struct;
@@ -79,9 +79,9 @@ model=struct;
 estimation=struct;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -105,18 +105,18 @@ fprintf(fileID,'\n');
 %% Store date creation
 [misc] =  printProjectDateCreation(misc);
 
-if ~misc.isDataSimulation
+if ~misc.internalVars.isDataSimulation
     %% Load data
     [data, misc, dataFilename ] = DataLoader(misc, ...
         'FilePath', DataPath);
-    misc.dataFilename = dataFilename;
+    misc.internalVars.dataFilename = dataFilename;
 end
 
 %% Configure the model
 [data, model, estimation, misc] = ...
     ModelConfiguration(data, model, estimation, misc);
 
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     
     %% Simulate data
     [data, model, estimation, misc]= ...
@@ -125,7 +125,7 @@ if misc.isDataSimulation
     %% Save data in binary format
     [misc, dataFilename] = saveDataBinary(data, misc, ...
         'FilePath', DataPath);
-    misc.dataFilename = dataFilename;
+    misc.internalVars.dataFilename = dataFilename;
     
     %% Save data in CSV format
     [misc] = saveDataCSV(data, misc, 'FilePath', DataPath);

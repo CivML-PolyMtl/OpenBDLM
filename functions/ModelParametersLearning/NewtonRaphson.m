@@ -37,10 +37,10 @@ function [optim, model]=NewtonRaphson(data, model, misc)
 %      linear models.
 %      NEWTONRAPHSON can either perform Maximum Likelihood Estimation (MLE) 
 %      or Maximum A Posteriori estimation (MAP). MAP required a valid prior
-%      for each model parameter to learn.
+%      for each unknown model parameters.
 %      The MLE (MAP) Newton-Raphson technique is used to iteratively
-%      search for the maximum of the log-likelihood (log-posterior) using
-%      numerical derivatives.
+%      search for the maximum of the log-likelihood (or log-posterior) using
+%      approximated derivatives computed using the finite-difference method.
 %
 %      NEWTONRAPHSON computes point estimate (MLE or MAP) of the model 
 %      parameters. It may also provide confidence intervals around the point 
@@ -114,9 +114,9 @@ maxTime = misc.options.maxTime;
 isMute=misc.options.isMute;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
