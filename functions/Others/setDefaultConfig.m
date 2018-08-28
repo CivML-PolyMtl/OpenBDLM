@@ -57,8 +57,8 @@ misc=p.Results.misc;
 data=p.Results.data;
 
 %% Default method
-if ~isfield(misc, 'method')
-    misc.method = 'kalman';
+if ~isfield(misc.options, 'method')
+    misc.options.method = 'kalman';
 end
 
 %% Default training period
@@ -68,7 +68,7 @@ if ~isfield(misc, 'trainingPeriod')
     
     % Get training dataset from timestamp vector
     [trainingPeriod] = defineTrainingPeriod(timestamps, 'Percent', 100);
-    misc.trainingPeriod = trainingPeriod;
+    misc.options.trainingPeriod = trainingPeriod;
 end
 
 %--------------------END CODE ------------------------

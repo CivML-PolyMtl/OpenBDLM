@@ -57,7 +57,7 @@ misc=p.Results.misc;
 % Optimization options
 misc.options.trainingPeriod = [1,Inf];
 misc.options.isParallel = true;
-misc.options.maxIterations = 5;
+misc.options.maxIterations = 100;
 misc.options.maxTime = 60; 
 misc.options.isMAP = false;
 misc.options.isPredCap = false;

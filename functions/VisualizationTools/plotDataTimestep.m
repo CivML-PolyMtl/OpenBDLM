@@ -89,7 +89,7 @@ isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 
-FigurePath=misc.FigurePath;
+FigurePath=misc.internalVars.FigurePath;
 
 ProjectName=misc.ProjectName;
 

@@ -73,21 +73,21 @@ parse(p, misc, ConfigFileName);
 misc=p.Results.misc;
 ConfigFileName=p.Results.ConfigFileName;
 
-ProjectFilePath=misc.ProjectPath;
+%ProjectFilePath=misc.internalVars.ProjectPath;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
    % output message in logfile
-   fileID=fopen(misc.logFileName, 'a');  
+   fileID=fopen(misc.internalVars.logFileName, 'a');  
 else
    % output message on screen and logfile using diary command
    fileID=1; 
 end
 
 % Save current misc variable about reading mode
-InteractiveMode_s= misc.InteractiveMode;
-ReadFromConfigFileMode_s = misc.ReadFromConfigFileMode;
-BatchMode_s = misc.BatchMode;
+InteractiveMode_s= misc.internalVars.InteractiveMode;
+ReadFromConfigFileMode_s = misc.internalVars.ReadFromConfigFileMode;
+BatchMode_s = misc.internalVars.BatchMode;
 
 %% Load a configuration file
 fprintf(fileID,'\n');
@@ -112,12 +112,12 @@ estimation = struct;
 [model, misc] = buildModel(data, model, misc);
 
 % Restore misc variable about reading mode
-misc.InteractiveMode = InteractiveMode_s;
-misc.ReadFromConfigFileMode = ReadFromConfigFileMode_s;
-misc.BatchMode = BatchMode_s;
+misc.internalVars.InteractiveMode = InteractiveMode_s;
+misc.internalVars.ReadFromConfigFileMode = ReadFromConfigFileMode_s;
+misc.internalVars.BatchMode = BatchMode_s;
 
 %% Set default variable
-[misc]=setDefaultConfig(misc, data);
+%[misc]=setDefaultConfig(misc, data);
 
 %% Save the project
 % saveProject(data, model, estimation, misc,'FilePath', ProjectFilePath);

@@ -68,7 +68,7 @@ misc=p.Results.misc;
 %% Compute reference time step from timestamp vector
 timestamps = data.timestamps;
 [dt_ref] = defineReferenceTimeStep(timestamps);
-misc.dt_ref = dt_ref;
+%misc.dt_ref = dt_ref;
 
 %% Get number of time series
 numberOfTimeSeries = length(data.labels);
@@ -81,8 +81,8 @@ numberOfModelClass = size(model.components.block,2);
 model.nb_class = size(model.components.block,2);
 
 %% Data simulation ?
-if ~isfield(misc, 'isDataSimulation')
-    misc.isDataSimulation = false;
+if ~isfield(misc.internalVars, 'isDataSimulation')
+    misc.internalVars.isDataSimulation = false;
 end
 
 
@@ -110,7 +110,7 @@ LL.pI0=[];
 LL.Q=@(p,t,dt) p^2*dt';
 LL.pQ={'\sigma_w','LL',[],[],[nan,nan], PriorType, PriorMean, PriorSdev};
 LL.x={'x^{LL}',[],[]};
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     LL.pQ0={'0'};
     LL.init={'10','0.1^2'};
 else
@@ -138,7 +138,7 @@ LT.pI0=[];
 LT.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2;dt^2/2 dt];
 LT.pQ={'\sigma_w','LT',[],[],[0,inf], PriorType, PriorMean, PriorSdev };
 LT.x={'x^{LL}',[],[];'x^{LT}',[],[]};
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     LT.pQ0={'1E-7'};
     LT.init={'[10 -0.1]','[0.1^2 0.1^2]'};
 else
@@ -172,7 +172,7 @@ LA.pI0=[];
 LA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^5/20 dt^4/8 dt^3/6;dt^4/8 dt^3/3 dt^2/2;dt^3/6 dt^2/2 dt];
 LA.pQ={'\sigma_w','LA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 LA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LA}',[],[]};
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     LA.pQ0={'1E-8'};
     LA.init={'[10 0 0]','[0.1^2 0.1^2 0.1^2]'};
 else
@@ -206,7 +206,7 @@ LcT.pI0=[];
 LcT.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0;0 1E-15/(p^2*dt/dt_ref)];
 LcT.pQ={'\sigma_w','LcT',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 LcT.x={'x^{LL}',[],[];'x^{LTc}',[],[]};
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     LcT.pQ0={'1E-7'};
     LcT.init={'[10 0]','[0.1^2 (1E-6)^2]'};
 else
@@ -234,7 +234,7 @@ LcA.pA0=[];
 LcA.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0 0;0 0 0; 0 0 1E-15/(p^2*dt/dt_ref)];
 LcA.pQ={'\sigma_w','LcA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 LcA.x={'x^{LL}',[],[];'x^{LTc}',[],[];'x^{LAc}',[],[]};
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     LcA.pQ0={'1E-7'};
     LcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
@@ -263,7 +263,7 @@ TcA.pC0=[];
 TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-15/(p^2*dt/dt_ref)];
 TcA.pQ={'\sigma_w','TcA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 TcA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LAc}',[],[]};
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     TcA.pQ0={'1E-8'};
     TcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
@@ -291,7 +291,7 @@ PD.pI0={'0.5'};
 PD.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0;0 1];
 PD.pQ={'\sigma_w','PD',[],[],[nan,nan], PriorType, PriorMean, PriorSdev};
 PD.x={'x^{S1}',[],[];'x^{S2}',[],[]};
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     PD.pQ0={'0'};
     PD.init={'[10,10]','[(2*0.1)^2,(2*0.1)^2]'};
 else
@@ -319,7 +319,7 @@ AR.pI0={'0.5'};
 AR.Q=@(p,t,dt) p^2*dt/dt_ref;
 AR.pQ={'\sigma_w','AR',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 AR.x={'x^{AR}',[],[]};
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     AR.pQ0={'1E-1*0.1'};
     AR.init={'0','0.1^2'};
 else
@@ -357,7 +357,7 @@ for i=0:model.components.nb_KR_p-1
     KR.x=[KR.x;{['x^{KR' num2str(i) '}'],[],[]}];
 end
 clear i
-if misc.isDataSimulation
+if misc.internalVars.isDataSimulation
     t = linspace(1,2*pi, model.components.nb_KR_p);
     a=sin(t);
     b=sin(4*t+30);
@@ -626,7 +626,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                 C{class_from}{obs,obs}=[C{class_from}{obs,obs},',[' C_block(2:end) ']'];
                 param_properties=[param_properties;{['\sigma_v'],[],[num2str(class_from)],[num2str(obs)],[0,inf], PriorType, PriorMean, PriorSdev}];
                 
-                if misc.isDataSimulation
+                if misc.internalVars.isDataSimulation
                     parameter=[parameter;0.01];
                 else
                     parameter=[parameter;0.05*nanstd(data.values(:,obs))];

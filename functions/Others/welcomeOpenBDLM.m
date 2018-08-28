@@ -64,8 +64,8 @@ parse(p, misc, varargin{:});
 misc=p.Results.misc;
 version=p.Results.version;
 
-if misc.isQuiet
-   fileID=fopen(misc.logFileName, 'a');
+if misc.internalVars.isQuiet
+   fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     fileID=1;
 end

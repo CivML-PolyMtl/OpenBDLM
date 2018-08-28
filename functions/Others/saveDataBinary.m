@@ -95,9 +95,9 @@ isForceOverwrite = p.Results.isForceOverwrite;
 FilePath_full=fullfile(FilePath, 'mat');
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;

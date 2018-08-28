@@ -229,7 +229,7 @@ for idx=1:numberOfHiddenStates
             end
             
             if loop==1
-                if ~misc.isSmoother
+                if ~misc.internalVars.isSmoother
                     if ~isfield(estimation,'ref')
                         h=legend('$\mu_{t|t}\pm\sigma_{t|t}$','$\mu_{t|t}$');
                     else

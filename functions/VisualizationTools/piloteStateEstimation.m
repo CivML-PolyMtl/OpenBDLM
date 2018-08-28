@@ -80,13 +80,13 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 
-ProjectPath=misc.ProjectPath;
-FigurePath=misc.FigurePath;
+ProjectPath=misc.internalVars.ProjectPath;
+FigurePath=misc.internalVars.FigurePath;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -117,9 +117,9 @@ while ~isCorrectAnswer
     fprintf(fileID,'\n');
     fprintf(fileID,'     Type R to return to the previous menu \n');
     fprintf(fileID,'\n');
-    if misc.BatchMode.isBatchMode
-        choice=eval(char(misc.BatchMode.Answers...
-            {misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        choice=eval(char(misc.internalVars.BatchMode.Answers...
+            {misc.internalVars.BatchMode.AnswerIndex}));
         choice = num2str(choice);
         fprintf(fileID, '     %s\n', num2str(choice));
     else
@@ -133,11 +133,11 @@ while ~isCorrectAnswer
     
     if round(str2double(choice)) == 1
         isSmoother = false;
-        misc.isSmoother = isSmoother;
+        misc.internalVars.isSmoother = isSmoother;
         isCorrectAnswer =  true;
     elseif round(str2double(choice)) == 2
         isSmoother = true;
-        misc.isSmoother = isSmoother;
+        misc.internalVars.isSmoother = isSmoother;
         isCorrectAnswer =  true;
         
     elseif ischar(choice) && length(choice) == 1 && strcmpi(choice, 'r')
@@ -176,7 +176,7 @@ plotEstimations(data, model, estimation, misc,'FilePath', FigurePath, ...
     'isExportPNG', false, ...
     'isExportTEX', false)
 
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 
 %--------------------END CODE ------------------------
 end

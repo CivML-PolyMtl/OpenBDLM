@@ -47,7 +47,7 @@ addRequired(p, 'misc', @isstruct)
 parse(p, misc);
 misc=p.Results.misc;
 
-LogPath = misc.LogPath;
+LogPath = misc.internalVars.LogPath;
 
 [isExist] = testFileExistence(LogPath, 'dir');
 
@@ -63,21 +63,21 @@ datenow=strrep(datenow, ':', '_');
 
 logFileName=fullfile(LogPath, ['LOG_',datenow, '.txt']);
 
-if misc.InteractiveMode.isInteractiveMode || ...
-        misc.ReadFromConfigFileMode.isReadFromConfigFileMode
+if misc.internalVars.InteractiveMode.isInteractiveMode || ...
+        misc.internalVars.ReadFromConfigFileMode.isReadFromConfigFileMode
     
     FileID=fopen(logFileName, 'a');
     fprintf(FileID, 'OpenBLDM log file created on %s\n', datenow_ini);
     diary(logFileName)
-    misc.isQuiet = false;
-    misc.logFileName=logFileName;
+    misc.internalVars.isQuiet = false;
+    misc.internalVars.logFileName=logFileName;
     
-elseif misc.BatchMode.isBatchMode
+elseif misc.internalVars.BatchMode.isBatchMode
     
     FileID=fopen(logFileName, 'a');
     fprintf(FileID, 'OpenBLDM log file created on %s\n', datenow_ini);
-    misc.isQuiet = true;
-    misc.logFileName=logFileName;
+    misc.internalVars.isQuiet = true;
+    misc.internalVars.logFileName=logFileName;
     
 end
 

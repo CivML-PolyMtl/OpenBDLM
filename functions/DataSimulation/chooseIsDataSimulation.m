@@ -43,9 +43,9 @@ parse(p,misc);
 misc=p.Results.misc;  
  
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -64,8 +64,8 @@ while ~isYesNoCorrect
     fprintf(fileID, ['- Does this project aim to ', ...
         'perform data simulation ? (y/n) \n']);
     % read from user input file (use of global variable )?
-    if misc.BatchMode.isBatchMode
-        choice=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        choice=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s', choice);
     else
         choice = input('     choice >> ','s');
@@ -76,12 +76,12 @@ while ~isYesNoCorrect
         fprintf(fileID,'\n');
     elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
         
-        misc.isDataSimulation = true;
+        misc.internalVars.isDataSimulation = true;
         isYesNoCorrect =  true;
         
     elseif strcmpi(choice,'n') || strcmpi(choice,'no') 
         
-        misc.isDataSimulation = false;
+        misc.internalVars.isDataSimulation = false;
         isYesNoCorrect =  true;
         
     else
@@ -92,7 +92,7 @@ while ~isYesNoCorrect
     
 end
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 fprintf(fileID,'\n');
 fprintf(fileID,'\n');
 %--------------------END CODE ------------------------ 

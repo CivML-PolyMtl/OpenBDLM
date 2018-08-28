@@ -113,9 +113,9 @@ MaxFailAttempts=4;
 PossibleAnswers = [1 2 3 4 5 6];
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -150,9 +150,9 @@ while(1)
     fprintf(fileID,'     6  ->  Save changes and continue analysis\n');
     fprintf(fileID,'\n');
         
-    if misc.BatchMode.isBatchMode
-        user_inputs.inp_1=eval(char(misc.BatchMode.Answers{ ...
-            misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        user_inputs.inp_1=eval(char(misc.internalVars.BatchMode.Answers{ ...
+            misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s\n',num2str(user_inputs.inp_1));
     else
         user_inputs.inp_1 = input('     choice >> ');
@@ -166,7 +166,7 @@ while(1)
         continue
         
     elseif user_inputs.inp_1 == 6
-        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
+        misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex +1;
         
         % Remove original data
         misc=rmfield(misc, 'dataBeforeEditing');
@@ -178,7 +178,7 @@ while(1)
         close all
         return
     else
-        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
         
         if user_inputs.inp_1 == 1
             [data, misc]=chooseTimeSeries(data, misc, 'isPlot', false);
@@ -205,9 +205,9 @@ while(1)
                     'allowed at each timestamp:\n']);
                 fprintf(fileID,['     (Example: 25 means that, at each ', ...
                     'timestamp maximum 25% of the data can be NaN)\n']);
-                if misc.BatchMode.isBatchMode
-                    user_inputs.inp_2= eval(char(misc.BatchMode.Answers{...
-                        misc.BatchMode.AnswerIndex}));
+                if misc.internalVars.BatchMode.isBatchMode
+                    user_inputs.inp_2= eval(char(misc.internalVars.BatchMode.Answers{...
+                        misc.internalVars.BatchMode.AnswerIndex}));
                     fprintf(fileID,'     %s', num2str(user_inputs.inp_2));
                 else
                     fprintf(fileID,'\n');
@@ -233,7 +233,7 @@ while(1)
                 
             end
             
-            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             
         elseif user_inputs.inp_1 == 4
             
@@ -247,9 +247,9 @@ while(1)
                 
                 fprintf(fileID,'\n');
                 fprintf(fileID,'     Give time step (in day)\n');
-                if misc.BatchMode.isBatchMode
-                    dt_ref=eval(char(misc.BatchMode.Answers{ ...
-                        misc.BatchMode.AnswerIndex}));
+                if misc.internalVars.BatchMode.isBatchMode
+                    dt_ref=eval(char(misc.internalVars.BatchMode.Answers{ ...
+                        misc.internalVars.BatchMode.AnswerIndex}));
                     fprintf(fileID,'     %s',num2str(dt_ref));
                 else
                     dt_ref = input('     choice >> ');
@@ -269,7 +269,7 @@ while(1)
                 
             end
             
-            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             
             
         elseif user_inputs.inp_1 == 5
@@ -285,9 +285,9 @@ while(1)
                 fprintf(fileID,'\n');
                 fprintf(fileID,['     Do you really want ', ...
                     'to reset the changes ? (y/n)\n']);
-                if misc.BatchMode.isBatchMode
-                    choice=eval(char(misc.BatchMode.Answers{ ...
-                        misc.BatchMode.AnswerIndex}));
+                if misc.internalVars.BatchMode.isBatchMode
+                    choice=eval(char(misc.internalVars.BatchMode.Answers{ ...
+                        misc.internalVars.BatchMode.AnswerIndex}));
                     fprintf(fileID,'     %s', choice);
                 else
                     choice = input('     choice >> ', 's');
@@ -308,7 +308,7 @@ while(1)
                 
             end
             
-            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             
         elseif isempty(user_inputs.inp_1 )
             continue

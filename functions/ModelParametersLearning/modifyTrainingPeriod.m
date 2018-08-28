@@ -87,9 +87,9 @@ misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -130,8 +130,8 @@ while ~isCorrectAnswer
     fprintf(fileID,'     Type R to return to the previous menu \n');
     fprintf(fileID,'\n');
     
-    if misc.BatchMode.isBatchMode
-        user_inputs.inp_1=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        user_inputs.inp_1=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         user_inputs.inp_1 = num2str(user_inputs.inp_1);
         if ischar(user_inputs.inp_1)
             fprintf(fileID, '     %s  \n', user_inputs.inp_1);
@@ -153,7 +153,7 @@ while ~isCorrectAnswer
     %if ~ischar(user_inputs.inp_1) && user_inputs.inp_1 == 1
     if round(str2double(user_inputs.inp_1)) == 1
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
         
         %% Modify current training period
         % Start of training period (in days)
@@ -168,8 +168,8 @@ while ~isCorrectAnswer
             
             fprintf(fileID,'     Start training [days]:\n');
             
-            if misc.BatchMode.isBatchMode
-                startTraining=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            if misc.internalVars.BatchMode.isBatchMode
+                startTraining=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
                 fprintf(fileID,'     %s\n', startTraining);
             else
                 startTraining=input('     choice >> ');
@@ -190,7 +190,7 @@ while ~isCorrectAnswer
                     fprintf(fileID,'\n');
                     continue
                 else
-                    misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+                    misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
                     isCorrect = true;
                 end
             end
@@ -208,8 +208,8 @@ while ~isCorrectAnswer
             
             fprintf(fileID,'     End training [days]: \n');
             
-            if misc.BatchMode.isBatchMode
-                endTraining = eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            if misc.internalVars.BatchMode.isBatchMode
+                endTraining = eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
                 fprintf(fileID,'     %s\n', num2str(endTraining));
             else
                 endTraining=input('     choice >> ');
@@ -237,7 +237,7 @@ while ~isCorrectAnswer
                     fprintf(fileID,'\n');
                     continue
                 else
-                    misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+                    misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
                     isCorrect = true;
                 end
             end
@@ -247,7 +247,7 @@ while ~isCorrectAnswer
         
     elseif ischar(user_inputs.inp_1) && strcmpi(user_inputs.inp_1, 'R') ...
             && length(user_inputs.inp_1) ==1
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
         return
         
     else

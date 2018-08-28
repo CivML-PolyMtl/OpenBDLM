@@ -50,9 +50,9 @@ misc=p.Results.misc;
 MaxFailAttempts=4;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -69,8 +69,8 @@ while ~isCorrect
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
     fprintf(fileID,'- Give the number of time series to simulate:\n');
-    if misc.BatchMode.isBatchMode
-        user_choice=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        user_choice=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s\n', num2str(user_choice));
     else
         user_choice=input('     choice >> ');
@@ -97,6 +97,6 @@ for i=1:nts
 end
 
 % Increment AnswerIndex to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
 %--------------------END CODE ------------------------
 end

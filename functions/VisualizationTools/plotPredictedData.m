@@ -221,7 +221,7 @@ for i=1:numberOfTimeSeries
         % Plot predicted data mean values
         plot(timestamps(plot_time_1),xpl,'k','Linewidth',Linewidth)
         
-        if ~misc.isSmoother
+        if ~misc.internalVars.isSmoother
             h=legend('$y_{t}\pm \sigma_V$', ...
                 '$y_{t}$','$E[Y_t|y_{1:t}]\pm\sigma_E[Y_t|y_{1:t}]$',  ...
                 '$E[Y_t|y_{1:t}]$');

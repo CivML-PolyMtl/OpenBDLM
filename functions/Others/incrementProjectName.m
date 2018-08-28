@@ -65,7 +65,7 @@ FilePath=p.Results.FilePath;
 %% Gather already existing project name from saved projects
 % Load file that contains info about already saved projects
 
-ProjectsInfoFilename = misc.ProjectInfoFilename;
+ProjectsInfoFilename = misc.internalVars.ProjectInfoFilename;
 
 % Load file 
 FileContent = load(fullfile(pwd, FilePath, ProjectsInfoFilename));

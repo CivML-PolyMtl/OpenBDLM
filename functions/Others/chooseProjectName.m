@@ -56,9 +56,9 @@ misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -91,8 +91,8 @@ while ~isNameCorrect
     fprintf(fileID,'\n');
     fprintf(fileID,'- Enter a project name (max 25 characters):\n');
     % read from user input file (use of global variable )?
-    if misc.BatchMode.isBatchMode
-        project_name=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        project_name=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s',project_name);
     else
         project_name=input('     choice >> ','s');
@@ -132,7 +132,7 @@ end
 misc.ProjectName = project_name;
 
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 fprintf(fileID,'\n');
 %--------------------END CODE ------------------------ 
 end

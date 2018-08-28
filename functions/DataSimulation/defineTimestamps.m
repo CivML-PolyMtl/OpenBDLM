@@ -50,9 +50,9 @@ misc=p.Results.misc;
 MaxFailAttempts=4;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -88,8 +88,8 @@ while ~isCorrect
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
     fprintf(fileID, '  Start date (%s): \n',fmt);
-    if misc.BatchMode.isBatchMode
-        tts=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        tts=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s', tts);
     else
         tts = input('     choice >> ','s');
@@ -123,7 +123,7 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
 fprintf(fileID,'\n');
 
 %% Request user's input to specify end date
@@ -135,8 +135,8 @@ while ~isCorrect
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
     fprintf(fileID, '  End date (%s): \n',fmt);
-    if misc.BatchMode.isBatchMode
-        tte=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        tte=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s', tte);
     else
         tte = input('     choice >> ','s');
@@ -178,7 +178,7 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
 fprintf(fileID,'\n');
 fprintf(fileID,'\n');
 incTest=0;
@@ -189,8 +189,8 @@ while ~isCorrect
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
     fprintf(fileID,'  Time step (in day): \n');
-    if misc.BatchMode.isBatchMode
-        dt=eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        dt=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s', num2str(dt));
     else
         dt=input('     choice >> ');
@@ -215,7 +215,7 @@ while ~isCorrect
     end
 end
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
 
 % Generate timestamp vector
 data.timestamps=(datenum(tts):dt:datenum(tte))';

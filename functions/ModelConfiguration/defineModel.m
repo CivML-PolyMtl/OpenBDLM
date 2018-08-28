@@ -73,15 +73,15 @@ misc=p.Results.misc;
 MaxFailAttempts = 4;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
 end
 
-if ~misc.isDataSimulation
+if ~misc.internalVars.isDataSimulation
     % Validation of structure data
     isValid = verificationDataStructure(data);
     if ~isValid
@@ -123,9 +123,9 @@ if numberOfTimeSeries > 1
             fprintf(fileID,'\n');
             fprintf(fileID,['- Identifies dependence between' ...
                 ' time series; use [0] to indicate no dependence\n']);
-            if misc.BatchMode.isBatchMode
-                comp_ic{1,i}=eval(char(misc.BatchMode.Answers{...
-                    misc.BatchMode.AnswerIndex}));
+            if misc.internalVars.BatchMode.isBatchMode
+                comp_ic{1,i}=eval(char(misc.internalVars.BatchMode.Answers{...
+                    misc.internalVars.BatchMode.AnswerIndex}));
                 
                 fprintf(fileID, ['     [%s] ', ...
                     '\n'], strjoin(cellstr(num2str(comp_ic{1,i}(:))),', '));
@@ -179,7 +179,7 @@ if numberOfTimeSeries > 1
                 isCorrect=true;
             end
         end
-        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
     end
 else
     comp_ic={[]};
@@ -197,9 +197,9 @@ while ~isCorrect
     
     fprintf(fileID, ['- How many model classes do ' ...
         'you want for each time-series? \n']);
-    if misc.BatchMode.isBatchMode
-        nb_models=eval(char(misc.BatchMode.Answers{...
-            misc.BatchMode.AnswerIndex}));
+    if misc.internalVars.BatchMode.isBatchMode
+        nb_models=eval(char(misc.internalVars.BatchMode.Answers{...
+            misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s', num2str(nb_models));
     else
         nb_models=input('     choice >> ');
@@ -226,7 +226,7 @@ while ~isCorrect
         isCorrect = true;
     end
 end
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 fprintf(fileID,'\n');
 %% Identify model components for each model class and time series
 fprintf(fileID,'\n');
@@ -273,9 +273,9 @@ for j=1:nb_models
             fprintf(fileID,'\n');
             fprintf(fileID,['     Identify components for ' ...
                 'time series #%s; e.g. [11 31 41]\n'], num2str(i));
-            if misc.BatchMode.isBatchMode
-                comp{j}{i}=eval(char(misc.BatchMode.Answers{...
-                    misc.BatchMode.AnswerIndex}));
+            if misc.internalVars.BatchMode.isBatchMode
+                comp{j}{i}=eval(char(misc.internalVars.BatchMode.Answers{...
+                    misc.internalVars.BatchMode.AnswerIndex}));
                 
                 fprintf(fileID, ['     [%s] ', ...
                     '\n'], strjoin(cellstr(num2str(comp{j}{i}(:))),', '));
@@ -362,7 +362,7 @@ for j=1:nb_models
                 continue
             else
                 isCorrect=true;
-                misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+                misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             end
         end
     end
@@ -389,9 +389,9 @@ if nb_models>1
                     ' classes 1 and 2 for time ', ...
                     ' series #%s ; e.g. [0 1 1]\n'], ...
                     num2str(i));
-                if misc.BatchMode.isBatchMode
-                    const{j}{i}=eval(char(misc.BatchMode.Answers{ ...
-                        misc.BatchMode.AnswerIndex}));
+                if misc.internalVars.BatchMode.isBatchMode
+                    const{j}{i}=eval(char(misc.internalVars.BatchMode.Answers{ ...
+                        misc.internalVars.BatchMode.AnswerIndex}));
                     
                     fprintf(fileID, ['     [%s] ', ...
                         '\n'], strjoin(cellstr(num2str(const{j}{i}(:))),', '));
@@ -422,8 +422,8 @@ if nb_models>1
                     continue
                 else
                     isCorrect = true;
-                    misc.BatchMode.AnswerIndex = ...
-                        misc.BatchMode.AnswerIndex+1;
+                    misc.internalVars.BatchMode.AnswerIndex = ...
+                        misc.internalVars.BatchMode.AnswerIndex+1;
                 end
             end
         end

@@ -82,13 +82,13 @@ model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 
-DataPath=misc.DataPath;
-ProjectPath=misc.ProjectPath;
+DataPath=misc.internalVars.DataPath;
+ProjectPath=misc.internalVars.ProjectPath;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -119,7 +119,7 @@ if isfield(data, 'values')
     
     %% Create a new project
     % prevent overwriting by incrementing ProjectName
-    ProjectName = incrementProjectName(misc, 'new', misc.ProjectPath );
+    ProjectName = incrementProjectName(misc, 'new', misc.internalVars.ProjectPath );
     misc.ProjectName = ProjectName;
     
     %% Store date creation
@@ -134,7 +134,7 @@ end
 %% Save simulated data
 [misc, dataFilename] = saveDataBinary(data, misc, ...
     'Filepath', DataPath);
-misc.dataFilename = dataFilename;
+misc.internalVars.dataFilename = dataFilename;
 
 %% Save data in CSV format
 [misc] = saveDataCSV(data, misc, 'FilePath', DataPath);

@@ -101,12 +101,12 @@ model=p.Results.model;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
-DataPath = misc.DataPath;
+DataPath = misc.internalVars.DataPath;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;

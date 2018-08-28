@@ -50,8 +50,8 @@ parse(p,misc);
 
 misc=p.Results.misc;
 
-FilePath = misc.ProjectPath;
-ProjectInfofile = misc.ProjectInfoFilename;
+FilePath = misc.internalVars.ProjectPath;
+ProjectInfofile = misc.internalVars.ProjectInfoFilename;
 
 MaxFailAttempts=4;
 
@@ -82,9 +82,9 @@ while(1)
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     disp(' ')
     fprintf('- Choose the project index to delete (e.g [1 3 4]) : \n');
-    if misc.BatchMode.isBatchMode
+    if misc.internalVars.BatchMode.isBatchMode
         ProjectIdx= ...
-            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         disp(['     ', num2str(ProjectIdx) ])
     else
         ProjectIdx = input('     choice >> ');
@@ -116,7 +116,7 @@ end
 deleteProject(misc, ProjectIdx)
 
 % Increment global variable to read next answer when required
-misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 
 %--------------------END CODE ------------------------ 
 end

@@ -94,8 +94,8 @@ misc=p.Results.misc;
 
 %% Compute reference time step from timestamp vector
 timestamps = data.timestamps;
-[dt_ref] = defineReferenceTimeStep(timestamps);
-misc.dt_ref = dt_ref;
+%[dt_ref] = defineReferenceTimeStep(timestamps);
+%misc.dt_ref = dt_ref;
 
 %% Get training dataset from timestamp vector
 [trainingPeriod] = defineTrainingPeriod(timestamps);

@@ -64,8 +64,8 @@ parse(p,misc, ProjectIdx);
 misc=p.Results.misc;
 ProjectIdx=p.Results.ProjectIdx;
 
-FilePath = misc.ProjectPath;
-ProjectInfofile = misc.ProjectInfoFilename;
+FilePath = misc.internalVars.ProjectPath;
+ProjectInfofile = misc.internalVars.ProjectInfoFilename;
 
 % Load project info file array
 FileContent = load(fullfile(pwd, FilePath,ProjectInfofile));

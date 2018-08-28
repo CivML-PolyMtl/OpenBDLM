@@ -96,9 +96,9 @@ FilePath=p.Results.FilePath;
 MaxFailAttempts=4;
 
 % Set fileID for logfile
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output message in logfile
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen and logfile using diary command
     fileID=1;
@@ -135,9 +135,9 @@ while ~isCorrectAnswer
     fprintf(fileID,'     Type R to return to the previous menu\n');
     fprintf(fileID,'\n');
     
-    if misc.BatchMode.isBatchMode
+    if misc.internalVars.BatchMode.isBatchMode
         user_inputs.inp_2 =  ...
-            eval(char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         user_inputs.inp_2 = num2str(user_inputs.inp_2);
         
         if ischar(user_inputs.inp_2)
@@ -159,11 +159,11 @@ while ~isCorrectAnswer
     if ischar(user_inputs.inp_2) && length(user_inputs.inp_2) == 1 && ...
             strcmpi(user_inputs.inp_2, 'R')
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
         return
         
     elseif round(str2double(user_inputs.inp_2)) == 1
-        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
         
         %% Providing index of the variable to modify
         incTest_2=0;
@@ -175,10 +175,10 @@ while ~isCorrectAnswer
             
             fprintf(fileID,'     Modify variable #\n');
             
-            if misc.BatchMode.isBatchMode
+            if misc.internalVars.BatchMode.isBatchMode
                 user_inputs.inp_3 = ...
-                    eval(char(misc.BatchMode.Answers{...
-                    misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.internalVars.BatchMode.Answers{...
+                    misc.internalVars.BatchMode.AnswerIndex}));
                 fprintf(fileID, '     %s\n', num2str(user_inputs.inp_3));
             else
                 user_inputs.inp_3 =  input('     choice >> ');
@@ -190,7 +190,7 @@ while ~isCorrectAnswer
                     user_inputs.inp_3 <= length(model.initX{1})
                 
                 isCorrect = true;
-                misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
+                misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex +1;
             else
                 fprintf(fileID,'     Wrong input.\n');
                 continue
@@ -209,10 +209,10 @@ while ~isCorrectAnswer
             
             fprintf(fileID,'     New E[x_0] : \n');
             
-            if misc.BatchMode.isBatchMode
+            if misc.internalVars.BatchMode.isBatchMode
                 user_inputs.inp_4 = ...
-                    eval(char(misc.BatchMode.Answers{...
-                    misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.internalVars.BatchMode.Answers{...
+                    misc.internalVars.BatchMode.AnswerIndex}));
                 fprintf(fileID, '     %s\n', num2str(user_inputs.inp_4));
             else
                 user_inputs.inp_4 =  input('     choice >> ');
@@ -221,7 +221,7 @@ while ~isCorrectAnswer
             if  ~isempty(user_inputs.inp_4) && ~ischar(user_inputs.inp_4)
                 
                 isCorrect = true;
-                misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex +1;
+                misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex +1;
             else
                 fprintf(fileID,'     Wrong input.\n');
                 continue
@@ -240,10 +240,10 @@ while ~isCorrectAnswer
             
             fprintf(fileID,'     New var[x_0] : \n');
             
-            if misc.BatchMode.isBatchMode
+            if misc.internalVars.BatchMode.isBatchMode
                 user_inputs.inp_5 = ...
-                    eval(char(misc.BatchMode.Answers{...
-                    misc.BatchMode.AnswerIndex}));
+                    eval(char(misc.internalVars.BatchMode.Answers{...
+                    misc.internalVars.BatchMode.AnswerIndex}));
                 fprintf(fileID, '     %s', user_inputs.inp_5);
             else
                 user_inputs.inp_5 =  input('     choice >> ');
@@ -253,7 +253,7 @@ while ~isCorrectAnswer
                     ~ischar(user_inputs.inp_5) && user_inputs.inp_5 >= 0
                 
                 isCorrect = true;
-                misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+                misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             else
                 fprintf(fileID,'     Wrong input.\n');
                 continue
@@ -315,7 +315,7 @@ while ~isCorrectAnswer
             fprintf(fileID, '\n');
         end
         
-        misc.BatchMode.AnswerIndex=misc.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
         return
         
     else

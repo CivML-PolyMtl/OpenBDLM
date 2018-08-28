@@ -74,7 +74,7 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %    COMPUTEINITIALHIDDENSTATES, PLOTDATA, PLOTESTIMATIONS
 
 %   AUTHORS:
-%       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet
+%        James-A Goulet, Luong Ha Nguyen, Ianis Gaudot
 %
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
@@ -99,66 +99,27 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %       June 27, 2018
 %
 %   DATE LAST UPDATE:
-%       August 22, 2018
+%       August 27, 2018
 
 %--------------------BEGIN CODE ----------------------
-%% Read input argument
-switch nargin
-    case 0
-        
-        misc.InteractiveMode.isInteractiveMode = true;
-        misc.BatchMode.isBatchMode = false;
-        misc.ReadFromConfigFileMode.isReadFromConfigFileMode = false;
-        misc.BatchMode.Answers = [];
-        misc.BatchMode.AnswerIndex=NaN;
-        
-    case 1
-        
-        if iscell(UserInput)
-            
-            misc.InteractiveMode.isInteractiveMode = false;
-            misc.BatchMode.isBatchMode = true;
-            misc.ReadFromConfigFileMode.isReadFromConfigFileMode = false;
-            misc.BatchMode.Answers = UserInput;
-            misc.BatchMode.AnswerIndex=1;
-            
-        elseif ischar(UserInput)
-            
-            misc.InteractiveMode.isInteractiveMode = false;
-            misc.BatchMode.isBatchMode = false;
-            misc.ReadFromConfigFileMode.isReadFromConfigFileMode = true;
-            misc.ReadFromConfigFileMode.ConfigFilename = UserInput;
-            misc.BatchMode.Answers = [];
-            misc.BatchMode.AnswerIndex=NaN;
-        end
-        
-    otherwise
-        disp(' ');
-        disp('     ERROR: Unrecognized argument.')
-        disp(' ');
-        data=struct;
-        model=struct;
-        estimation=struct;
-        misc=struct;
-        return
+
+%% Version of the program
+OpenBDLMversion = '1.9';
+
+%% Read arguments and set internal variables
+if exist('UserInput', 'var')
+    [misc]=setInternalVars(UserInput);
+else
+    [misc]=setInternalVars();
 end
-
-%% Define path (not recommanded to change)
-misc.DataPath               = 'data';
-misc.ConfigPath             = 'config_files';
-misc.ProjectPath            = 'saved_projects';
-misc.FigurePath             = 'figures';
-misc.VersionControlPath     = 'version_control';
-misc.LogPath                = 'log_files';
-
-%% Define project info filename (not recommanded to change)
-misc.ProjectInfoFilename    = 'ProjectsInfo.mat';
-
-%% Set version
-version = '1.8';
-
-%Initialize random stream number based on clock
-%RandStream.setGlobalStream(RandStream('mt19937ar','seed',861040000));
+    
+if isempty(misc)
+    disp(' ');
+    disp('     ERROR: Unrecognized input argument.')
+    disp(' ');
+    data=struct;model=struct;estimation=struct;misc=struct;
+    return
+end
 
 %% Create log file to record messages during program run
 [misc] = createLogFile(misc);
@@ -166,18 +127,16 @@ version = '1.8';
 %% Set default options
 [misc]=setDefaultOptions(misc);
 
-%% Print options
-%[misc]=printOptions(misc);
-
-if misc.isQuiet
+if misc.internalVars.isQuiet
     % output messages in  a specific log file
-    fileID=fopen(misc.logFileName, 'a');
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
     % output message on screen
     fileID=1;
 end
 
-if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
+if misc.internalVars.InteractiveMode.isInteractiveMode || ...
+        misc.internalVars.BatchMode.isBatchMode
     
     %Set default font type
     set(0,'DefaultAxesFontname','Helvetica')
@@ -187,8 +146,7 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
     format short g
     
     %% Display welcome menu
-    welcomeOpenBDLM(misc, 'version', version)
-    %disp('     Starting OpenBDLM')
+    welcomeOpenBDLM(misc, 'version', OpenBDLMversion)
     incTest=0;
     MaxFailAttempts = 4;
     
@@ -212,10 +170,10 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
         
         fprintf(fileID, ['- Type D to Delete project(s), ', ...
             'V for Version control, Q to Save and Quit.\n']);
-        if misc.BatchMode.isBatchMode
+        if misc.internalVars.BatchMode.isBatchMode
             UserChoice= ...
-                eval(char(misc.BatchMode.Answers{...
-                misc.BatchMode.AnswerIndex}));
+                eval(char(misc.internalVars.BatchMode.Answers{...
+                misc.internalVars.BatchMode.AnswerIndex}));
             UserChoice = num2str(UserChoice);
             if ischar(UserChoice)
                 fprintf(fileID, '     %s  \n', UserChoice);
@@ -237,7 +195,8 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
             continue
         elseif isnan(str2double(UserChoice))
             
-            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
             
             if strcmpi('D',UserChoice) && length(UserChoice) == 1
                 %% Delete project file(s)
@@ -256,7 +215,11 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
                 
                 %% Quit the program
                 disp('     See you soon !');
-                if misc.isQuiet ; fclose(fileID); else ; diary off ; end
+                if misc.internalVars.isQuiet
+                    fclose(fileID);
+                else
+                    diary off
+                end
                 data=struct; model=struct; estimation=struct; misc=struct;
                 return
                 
@@ -271,27 +234,31 @@ if misc.InteractiveMode.isInteractiveMode || misc.BatchMode.isBatchMode
             
         elseif round(str2double(UserChoice)) == 0
             
-            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
             
             %% Load a project from interactive mode
             [data, model, estimation, misc]=loadInteractive(misc);
             
             isAnswerCorrect = true;
         else
-            misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
             
             %% Load project from project file
             UserChoice = round(str2double(UserChoice));
-            [data, model, estimation, misc]=loadProjectFile(misc, UserChoice);
+            [data, model, estimation, misc]= ...
+                loadProjectFile(misc, UserChoice);
             if ~isempty(model)
                 isAnswerCorrect = true;
             end
         end
     end
     
-elseif misc.ReadFromConfigFileMode.isReadFromConfigFileMode
+elseif misc.internalVars.ReadFromConfigFileMode.isReadFromConfigFileMode
     
-    configFileName = misc.ReadFromConfigFileMode.ConfigFilename;
+    configFileName = ...
+        misc.internalVars.ReadFromConfigFileMode.ConfigFilename;
     
     %% Load project from configuration file
     [data, model, estimation, misc]= loadConfigurationFile(misc, ...
@@ -310,9 +277,10 @@ while(1)
     [PossibleAnswers]=displayMenuOpenBDLM(misc);
     
     %% Read user's choice
-    if misc.BatchMode.isBatchMode
+    if misc.internalVars.BatchMode.isBatchMode
         user_inputs=eval( ...
-            char(misc.BatchMode.Answers{misc.BatchMode.AnswerIndex}));
+            char(misc.internalVars.BatchMode.Answers{...
+            misc.internalVars.BatchMode.AnswerIndex}));
         user_inputs = num2str(user_inputs);
         if ischar(user_inputs)
             fprintf(fileID, '     %s  \n', user_inputs);
@@ -336,10 +304,14 @@ while(1)
             %% Save project and quit
             fprintf(fileID, '\n');
             saveProject(data, model, estimation, misc, ...
-                'FilePath', misc.ProjectPath)
+                'FilePath', misc.internalVars.ProjectPath)
             fprintf(fileID, '\n');
             disp('     See you soon !');
-            if misc.isQuiet ; fclose(fileID); else ; diary off ; end
+            if misc.internalVars.isQuiet
+                fclose(fileID);
+            else
+                diary off
+            end
             return
         else
             fprintf(fileID, '\n');
@@ -353,7 +325,8 @@ while(1)
         continue
         
     else
-        misc.BatchMode.AnswerIndex = misc.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex = ...
+            misc.internalVars.BatchMode.AnswerIndex+1;
         
         user_inputs = round(str2double(user_inputs));
         

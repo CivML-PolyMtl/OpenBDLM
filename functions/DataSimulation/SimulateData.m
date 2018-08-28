@@ -81,7 +81,7 @@ model=p.Results.model;
 misc=p.Results.misc;
 isPlot=p.Results.isPlot;
 
-FigurePath = misc.FigurePath;
+FigurePath = misc.internalVars.FigurePath;
 
 
 disp('     Simulating data...')
@@ -97,7 +97,7 @@ end
 
 if isPlot
     plotDataSummary(data, misc, 'isPdf', false, ...
-        'FilePath', FigurePath ,'isSaveFigures', true);
+        'FilePath', FigurePath ,'isSaveFigures', false);
 end
 
 %--------------------END CODE ------------------------
