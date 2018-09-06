@@ -165,12 +165,9 @@ if exist('ref', 'var') == 1
 end
 
 % Save project
-saveProject(data, model, estimation, misc, ...
-    'FilePath',ProjectPath)
+saveProject(model, estimation, misc, 'FilePath',ProjectPath)
 
 % Plot estimations
-% fprintf(fileID,'\n');
-% fprintf(fileID,'     Plot hidden variables in progress...\n');
 plotEstimations(data, model, estimation, misc,'FilePath', FigurePath, ...
     'isExportPDF', false, ...
     'isExportPNG', false, ...

@@ -73,8 +73,6 @@ parse(p, misc, ConfigFileName);
 misc=p.Results.misc;
 ConfigFileName=p.Results.ConfigFileName;
 
-%ProjectFilePath=misc.internalVars.ProjectPath;
-
 % Set fileID for logfile
 if misc.internalVars.isQuiet
    % output message in logfile
@@ -97,8 +95,6 @@ disp('     Loading configuration file...');
 fprintf(fileID,['-----------------------------------------', ...
     '----------------------------------------------------- \n']);
 fprintf(fileID,'\n');
-% fprintf(fileID,'     ...in progress \n');
-% fprintf(fileID,'\n');
 
 %% Run the configuration file
 run(ConfigFileName);
@@ -115,12 +111,6 @@ estimation = struct;
 misc.internalVars.InteractiveMode = InteractiveMode_s;
 misc.internalVars.ReadFromConfigFileMode = ReadFromConfigFileMode_s;
 misc.internalVars.BatchMode = BatchMode_s;
-
-%% Set default variable
-%[misc]=setDefaultConfig(misc, data);
-
-%% Save the project
-% saveProject(data, model, estimation, misc,'FilePath', ProjectFilePath);
 
 %--------------------END CODE ------------------------
 end

@@ -130,14 +130,16 @@ while ~isCorrectAnswer
     
     fprintf(fileID,'\n');
     fprintf(fileID,'     1   ->  Modify a initial value\n');
-    fprintf(fileID,'     2   ->  Export initial values in config file format\n');
+    fprintf(fileID,['     2   ->  Export initial values ', ...
+        ' in config file format\n']);
     fprintf(fileID,'\n');
     fprintf(fileID,'     Type R to return to the previous menu\n');
     fprintf(fileID,'\n');
     
     if misc.internalVars.BatchMode.isBatchMode
         user_inputs.inp_2 =  ...
-            eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+            eval(char(misc.internalVars.BatchMode.Answers{...
+            misc.internalVars.BatchMode.AnswerIndex}));
         user_inputs.inp_2 = num2str(user_inputs.inp_2);
         
         if ischar(user_inputs.inp_2)
@@ -159,11 +161,13 @@ while ~isCorrectAnswer
     if ischar(user_inputs.inp_2) && length(user_inputs.inp_2) == 1 && ...
             strcmpi(user_inputs.inp_2, 'R')
         
-        misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex= ...
+            misc.internalVars.BatchMode.AnswerIndex+1;
         return
         
     elseif round(str2double(user_inputs.inp_2)) == 1
-        misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex = ...
+            misc.internalVars.BatchMode.AnswerIndex+1;
         
         %% Providing index of the variable to modify
         incTest_2=0;
@@ -190,7 +194,8 @@ while ~isCorrectAnswer
                     user_inputs.inp_3 <= length(model.initX{1})
                 
                 isCorrect = true;
-                misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex +1;
+                misc.internalVars.BatchMode.AnswerIndex = ...
+                    misc.internalVars.BatchMode.AnswerIndex +1;
             else
                 fprintf(fileID,'     Wrong input.\n');
                 continue
@@ -221,7 +226,8 @@ while ~isCorrectAnswer
             if  ~isempty(user_inputs.inp_4) && ~ischar(user_inputs.inp_4)
                 
                 isCorrect = true;
-                misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex +1;
+                misc.internalVars.BatchMode.AnswerIndex = ...
+                    misc.internalVars.BatchMode.AnswerIndex +1;
             else
                 fprintf(fileID,'     Wrong input.\n');
                 continue
@@ -253,7 +259,8 @@ while ~isCorrectAnswer
                     ~ischar(user_inputs.inp_5) && user_inputs.inp_5 >= 0
                 
                 isCorrect = true;
-                misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+                misc.internalVars.BatchMode.AnswerIndex = ...
+                    misc.internalVars.BatchMode.AnswerIndex+1;
             else
                 fprintf(fileID,'     Wrong input.\n');
                 continue
@@ -268,10 +275,6 @@ while ~isCorrectAnswer
             D(user_inputs.inp_3)=user_inputs.inp_5;
             model.initV{i}=diag(D);
         end
-        
-        % Save project
-        %fprintf(fileID,'\n');
-        %saveProject(data, model, estimation, misc, 'FilePath', FilePath)
         
         return
         
@@ -308,14 +311,17 @@ while ~isCorrectAnswer
             end
             fprintf(fileID, ' ]);\n');
             fprintf(fileID, '\n');
-            fprintf(fileID, '%% Initial probability for model %s\n', num2str(m));
+            fprintf(fileID, '%% Initial probability for model %s\n', ...
+                num2str(m));
             for i=1:size(model.initS{m},1)
-                fprintf(fileID, 'model.initS{%d}=[%-6.3G];\n', m, model.initS{m});
+                fprintf(fileID, 'model.initS{%d}=[%-6.3G];\n', ...
+                    m, model.initS{m});
             end
             fprintf(fileID, '\n');
         end
         
-        misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex= ...
+            misc.internalVars.BatchMode.AnswerIndex+1;
         return
         
     else
