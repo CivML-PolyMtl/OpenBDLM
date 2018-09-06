@@ -131,13 +131,13 @@ if misc.internalVars.isDataSimulation
     [misc] = saveDataCSV(data, misc, 'FilePath', DataPath);
     
     %% Save project
-    saveProject(data, model, estimation, misc, ...
+    saveProject(model, estimation, misc, ...
         'FilePath', ProjectFilePath)
        
 else
     
     %% Save project
-    saveProject(data, model, estimation, misc, ...
+    saveProject(model, estimation, misc, ...
         'FilePath', ProjectFilePath)
     
 end

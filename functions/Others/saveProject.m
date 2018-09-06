@@ -1,27 +1,26 @@
-function saveProject(data, model, estimation, misc, varargin)
-%SAVEPROJECT Save full project (data, model, estimation, misc) in file
+function saveProject(model, estimation, misc, varargin)
+%SAVEPROJECT Save the structure variables model, estimation, misc in project file
 %
 %   SYNOPSIS:
-%      saveProject(data, model, estimation, misc, varargin)
+%      saveProject(model, estimation, misc, varargin)
 %
 %   INPUT:
-%      data         - structure (required)
-%                     see documentation for details about the fiels of data
 %
-%      model        - structure (required)
-%                     see documentation for details about the fiels of
-%                     model
+%      model                - structure (required)
+%                             see documentation for details about the
+%                             fields of model
 %
-%      estimation   - structure (required)
-%                     see documentation for details about the fiels of
-%                     estimation
+%      estimation           - structure (required)
+%                             see documentation for details about the
+%                             fields of estimation
 %
-%      misc         - structure (required)
-%                     see documentation for details about the fiels of misc
+%      misc                 - structure (required)
+%                            see documentation for details about the
+%                            fields of misc
 %
-%      FilePath   - character (optional)
-%                   directory where to save the file
-%                   default: '.'  (current folder)
+%      FilePath             - character (optional)
+%                             directory where to save the Project file
+%                             default: '.'  (current folder)
 %
 %   OUTPUT:
 %      N/A
@@ -32,8 +31,8 @@ function saveProject(data, model, estimation, misc, varargin)
 %      Matlab .mat binary file in specified location given by FilePath
 %
 %   EXAMPLES:
-%      SAVEPROJECT(data, model, estimation, misc)
-%      SAVEPROJECT(data, model, estimation, misc, 'FilePath', './saved_projects')
+%      SAVEPROJECT(model, estimation, misc)
+%      SAVEPROJECT(model, estimation, misc, 'FilePath', './saved_projects')
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      testFileExistence
@@ -53,7 +52,7 @@ function saveProject(data, model, estimation, misc, varargin)
 %       April 18, 2018
 %
 %   DATE LAST UPDATE:
-%       August 13, 2018
+%       September 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -64,31 +63,29 @@ defaultFilePath = '.';
 validationFct_FilePath = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
-addRequired(p, 'data', @isstruct)
 addRequired(p, 'model', @isstruct)
 addRequired(p, 'estimation', @isstruct)
 addRequired(p, 'misc', @isstruct)
 addParameter(p,'FilePath', defaultFilePath, validationFct_FilePath );
 
-parse(p,data, model, estimation, misc, varargin{:});
+parse(p, model, estimation, misc, varargin{:});
 
-data=p.Results.data;
 model=p.Results.model;
 estimation=p.Results.estimation;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
 
+MaxSizeEstimation = misc.options.MaxSizeEstimation;
 ProjectsInfoFilename = misc.internalVars.ProjectInfoFilename;
 
 % Set fileID for logfile
 if misc.internalVars.isQuiet
-   % output message in logfile
-   fileID=fopen(misc.internalVars.logFileName, 'a');  
+    % output message in logfile
+    fileID=fopen(misc.internalVars.logFileName, 'a');
 else
-   % output message on screen and logfile using diary command
-   fileID=1; 
+    % output message on screen and logfile using diary command
+    fileID=1;
 end
-
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -128,14 +125,34 @@ else
     fullname=fullfile(FilePath, name_projectfile);
 end
 
+
+% Get the size of estimation variable in Mb
+
+EstimationInfo=whos('estimation');
+EstimationSize=EstimationInfo.bytes/1000000;
+
+isSaveEstimation = true;
+if EstimationSize > MaxSizeEstimation
+    % Create empty structure
+    estimation=struct;    
+    isSaveEstimation = false;
+end
+
 % Gather in a single structure for future saving
-dat.data=data;
 dat.model=model;
 dat.estimation=estimation;
 dat.misc=misc;
 
-%% Save binary file in specified location
+%% Save project binary file in specified location
 disp('     Saving project...')
+if ~isSaveEstimation
+    % Warning the user
+    fprintf(1, ['     Warning: estimations not saved ', ...
+        'because size (%s Mb) > threshold (%s Mb) set in ', ...
+        'misc.options.MaxSizeEstimation \n'], num2str(EstimationSize), ...
+        num2str(MaxSizeEstimation));   
+end
+
 save(fullname, '-struct', 'dat')
 fprintf(fileID, '     Project saved in %s. \n', ...
     fullfile(FilePath, name_projectfile ));
@@ -146,25 +163,25 @@ fprintf(fileID, '     Project saved in %s. \n', ...
     testFileExistence(fullfile(pwd, FilePath, ProjectsInfoFilename), 'file');
 % If not existing create the file
 if ~isFileExist
-     ProjectInfo = {};  
+    ProjectInfo = {};
     % create file
     save(fullfile(pwd, FilePath, ProjectsInfoFilename), 'ProjectInfo');
 end
-    
-% Load the file 
+
+% Load the file
 FileContent = load(fullfile(pwd, FilePath, ProjectsInfoFilename));
 ProjectInfo = FileContent.ProjectInfo;
 
 if ~isempty(ProjectInfo)
-    Test_Name = strcmp(ProjectInfo(:,1), project_name);    
+    Test_Name = strcmp(ProjectInfo(:,1), project_name);
     Test_Date = strcmp(ProjectInfo(:,2), project_name);
-
-    if ~any(Test_Name) && ~any(Test_Date)
     
+    if ~any(Test_Name) && ~any(Test_Date)
+        
         % add a new line
         ProjectInfo  = [ProjectInfo ; { project_name, ...
             misc.internalVars.ProjectDateCreation, fullname }];
-                
+        
     elseif any(Test_Name) && ~any(Test_Date)
         % overwrite project but change date of creation
         ProjectInfo{Test_Name,2} =  misc.internalVars.ProjectDateCreation;
@@ -172,7 +189,7 @@ if ~isempty(ProjectInfo)
     end
     % save
     save(fullfile(pwd, FilePath, ProjectsInfoFilename), 'ProjectInfo' );
-       
+    
 else
     % add a new line
     ProjectInfo  = [ProjectInfo ; { project_name, ...

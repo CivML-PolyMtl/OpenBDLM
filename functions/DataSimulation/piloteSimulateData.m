@@ -101,8 +101,6 @@ fprintf(fileID, '/    Simulate data \n');
 fprintf(fileID,['-----------------------------------------', ...
     '----------------------------------------------------- \n']);
 fprintf(fileID,'\n');
-% fprintf(fileID,'     ...in progress \n');
-% fprintf(fileID,'\n');
 
 isSimulateFromData=false;
 
@@ -140,8 +138,7 @@ misc.internalVars.dataFilename = dataFilename;
 [misc] = saveDataCSV(data, misc, 'FilePath', DataPath);
 
 %% Save new project
-saveProject(data, model, estimation, misc, ...
-    'FilePath', ProjectPath)
+saveProject(model, estimation, misc, 'FilePath', ProjectPath)
 
 %% Restore the original project
 if isSimulateFromData

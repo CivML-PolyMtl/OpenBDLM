@@ -56,7 +56,7 @@ function [data, model, estimation, misc]=loadProjectFile(misc, ProjectIdx)
 %       July 26, 2018
 %
 %   DATE LAST UPDATE:
-%       August 13, 2018
+%       September 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -73,8 +73,8 @@ parse(p,misc, ProjectIdx);
 ProjectIdx=p.Results.ProjectIdx;
 
 ProjectInfofile=misc.internalVars.ProjectInfoFilename;
-FilePath=misc.internalVars.ProjectPath;
-
+ProjectPath=misc.internalVars.ProjectPath;
+DataPath = misc.internalVars.DataPath;
 
 % Set fileID for logfile
 if misc.internalVars.isQuiet
@@ -87,7 +87,7 @@ end
 
 
 % Load project info file array
-FileContent = load(fullfile(pwd, FilePath,ProjectInfofile));
+FileContent = load(fullfile(pwd, ProjectPath,ProjectInfofile));
 ProjectInfo = FileContent.ProjectInfo;
 
 if isempty(ProjectInfo)
@@ -111,9 +111,9 @@ if isempty(ProjectIdx)
     fprintf(fileID, '\n');
     fprintf(fileID, '     wrong input\n');
     
-    data=[];
-    model=[];
-    estimation=[];
+    data=struct;
+    model=struct;
+    estimation=struct;
     
     return
 else
@@ -128,7 +128,16 @@ else
     %% Load the project
     disp('     Loading project...')
     load(ProjectInfo{ProjectIdx,3});
-        
+    
+    %% Load the data
+    dataFilename = ['DATA_', misc.ProjectName,'.mat'];
+    data=load(fullfile(DataPath, 'mat', dataFilename));
+    
+    % Set empty structure for estimation if it does not exist
+    if ~exist('estimation', 'var')
+        estimation=struct;
+    end
+    
     % Restore current misc variable about reading mode
     misc.internalVars.InteractiveMode = InteractiveMode_s;
     misc.internalVars.ReadFromConfigFileMode = ReadFromConfigFileMode_s;

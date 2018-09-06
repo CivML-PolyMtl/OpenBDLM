@@ -63,12 +63,12 @@ misc.options.isMAP = false;
 misc.options.isPredCap = false;
 misc.options.isLaplaceApprox = false;
 misc.options.isMute = false;
+misc.options.MaxSizeEstimation = 100;
 
 % Hidden states estimation options
 misc.options.MethodStateEstimation = 'kalman'; 
 
 % Plot options
-%misc.options.isPlot = true;
 misc.options.FigurePosition = [100, 100, 1300, 270];
 misc.options.isSecondaryPlot = true;
 misc.options.Subsample = 1;

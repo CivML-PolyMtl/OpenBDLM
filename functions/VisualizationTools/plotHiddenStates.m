@@ -147,18 +147,23 @@ timestamps=data.timestamps;
 % Get reference timestep
 [referenceTimestep]=defineReferenceTimeStep(timestamps);
 
-% Compute timestep vector
-%[timesteps]=computeTimeSteps(timestamps);
-
 % Define timestamp vector for main plot
 plot_time_1=1:Subsample:length(timestamps);
 
 % Define timestamp vector for secondary plot plot
-if  isSecondaryPlot
+if  isSecondaryPlot  
     
+    ZoomDuration = 14; % zoom duration in days
+    
+    if ZoomDuration/referenceTimestep >= 1
+    % Define timestamp vector for secondary plot plot
     time_fraction=0.641;
     plot_time_2=round(time_fraction*length(timestamps)): ...
-        round(time_fraction*length(timestamps))+(14/referenceTimestep);
+        round(time_fraction*length(timestamps))+ ...
+        (ZoomDuration/referenceTimestep);
+    else
+        isSecondaryPlot = false;
+    end
 end
 
 

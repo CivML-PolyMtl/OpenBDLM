@@ -99,12 +99,25 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %       June 27, 2018
 %
 %   DATE LAST UPDATE:
-%       August 27, 2018
+%       September 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 
 %% Version of the program
-OpenBDLMversion = '1.9';
+OpenBDLMversion = '1.10';
+
+%% Verify that the program is running from the right location
+currentFolder = cd;
+isFileExist  = (exist(fullfile(currentFolder, mfilename), 'file') == 2);
+
+if ~isFileExist
+    disp(' ');
+    disp(['     ERROR: ', mfilename, ...
+        ' is called from the wrong directory.'])
+    disp(' ');
+    data=struct;model=struct;estimation=struct;misc=struct;
+    return
+end
 
 %% Read arguments and set internal variables
 if exist('UserInput', 'var')
@@ -169,7 +182,7 @@ if misc.internalVars.InteractiveMode.isInteractiveMode || ...
         [~] = displayProjects(misc);
         
         fprintf(fileID, ['- Type D to Delete project(s), ', ...
-            'V for Version control, Q to Save and Quit.\n']);
+            'V for Version control, Q to Quit.\n']);
         if misc.internalVars.BatchMode.isBatchMode
             UserChoice= ...
                 eval(char(misc.internalVars.BatchMode.Answers{...
@@ -303,7 +316,7 @@ while(1)
             
             %% Save project and quit
             fprintf(fileID, '\n');
-            saveProject(data, model, estimation, misc, ...
+            saveProject(model, estimation, misc, ...
                 'FilePath', misc.internalVars.ProjectPath)
             fprintf(fileID, '\n');
             disp('     See you soon !');

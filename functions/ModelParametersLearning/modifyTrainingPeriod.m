@@ -104,16 +104,16 @@ MaxFailAttempts=4;
 if isfield(misc, 'trainingPeriod')
     fprintf(fileID,'\n');
     fprintf(fileID,['     Current training period: from ' ...
-        num2str(misc.trainingPeriod(1)) ' to ' ...
-        num2str(misc.trainingPeriod(2)) ' days.\n']);
+        num2str(misc.options.trainingPeriod(1)) ' to ' ...
+        num2str(misc.options.trainingPeriod(2)) ' days.\n']);
     fprintf(fileID,'\n');
 else
     [trainingPeriod]=defineTrainingPeriod(timestamps);
-    misc.trainingPeriod = trainingPeriod;
+    misc.options.trainingPeriod = trainingPeriod;
     fprintf(fileID,'\n');
     fprintf(fileID,['     Current training period: from ' ...
-        num2str(misc.trainingPeriod(1)) ' to ' ...
-        num2str(misc.trainingPeriod(2)) ' days.\n']);
+        num2str(misc.options.trainingPeriod(1)) ' to ' ...
+        num2str(misc.options.trainingPeriod(2)) ' days.\n']);
     fprintf(fileID,'\n');
 end
 
@@ -262,13 +262,13 @@ end
 
 % Record training period
 trainingPeriod = [startTraining, endTraining];
-misc.trainingPeriod = trainingPeriod;
+misc.options.trainingPeriod = trainingPeriod;
 
 %% Display the new training period
 fprintf(fileID,'\n');
 fprintf(fileID,['     New training period: from ' ...
-    num2str(misc.trainingPeriod(1)) ' to ' ...
-    num2str(misc.trainingPeriod(2)) ' days.\n']);
+    num2str(misc.options.trainingPeriod(1)) ' to ' ...
+    num2str(misc.options.trainingPeriod(2)) ' days.\n']);
 fprintf(fileID,'\n');
 
 %% Save project with updated values

@@ -115,7 +115,7 @@ if misc.internalVars.isDataSimulation
     LL.init={'10','0.1^2'};
 else
     LL.pQ0={'0'};
-    LL.init={'nanmean(data.values(:, obs))','(1E-1*nanstd(data.values(:,obs)))^2'};
+    LL.init={'nanmean(data.values(1:round(length(timestamps)*0.1), obs))','(2*nanstd(data.values(:,obs)))^2'};
 end
 LL.B=@(p,t,dt) 0;
 LL.pB=[];
@@ -143,7 +143,8 @@ if misc.internalVars.isDataSimulation
     LT.init={'[10 -0.1]','[0.1^2 0.1^2]'};
 else
     LT.pQ0={'1E-7*nanstd(data.values(:,obs))'};
-    LT.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2]'};
+    %LT.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2]'};
+    LT.init={'[nanmean(data.values(1:round(length(timestamps)*0.1), obs)) 0]','[(2*nanstd(data.values(:,obs)))^2 (nanstd(data.values(:,obs)))^2]'};
 end
 LT.B=@(p,t,dt) zeros(1,2);
 LT.pB=[];
@@ -177,7 +178,8 @@ if misc.internalVars.isDataSimulation
     LA.init={'[10 0 0]','[0.1^2 0.1^2 0.1^2]'};
 else
     LA.pQ0={'1E-8*nanstd(data.values(:,obs))'};
-    LA.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-4*nanstd(data.values(:,obs)))^2 (1E-8*nanstd(data.values(:,obs)))^2]'};
+    %LA.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-4*nanstd(data.values(:,obs)))^2 (1E-8*nanstd(data.values(:,obs)))^2]'};
+    LA.init={'[nanmean(data.values(1:round(length(timestamps)*0.1), obs)) 0 0]','[(2*nanstd(data.values(:,obs)))^2 (nanstd(data.values(:,obs)))^2 (nanstd(data.values(:,obs)))^2]'};
 end
 LA.B=@(p,t,dt) zeros(1,3);
 LA.pB=[];
@@ -203,7 +205,8 @@ LcT.pC0=[];
 LcT.I=@(p,t,dt) [0 0];
 LcT.pI=[];
 LcT.pI0=[];
-LcT.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0;0 1E-15/(p^2*dt/dt_ref)];
+%LcT.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0;0 1E-15/(p^2*dt/dt_ref)];
+LcT.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0;0 1E-30];
 LcT.pQ={'\sigma_w','LcT',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 LcT.x={'x^{LL}',[],[];'x^{LTc}',[],[]};
 if misc.internalVars.isDataSimulation
@@ -211,7 +214,8 @@ if misc.internalVars.isDataSimulation
     LcT.init={'[10 0]','[0.1^2 (1E-6)^2]'};
 else
     LcT.pQ0={'1E-7*nanstd(data.values(:,obs))'};
-    LcT.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-6*nanstd(data.values(:,obs)))^2]'};
+    %LcT.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-6*nanstd(data.values(:,obs)))^2]'};
+    LcT.init={'[nanmean(data.values(1:round(length(timestamps)*0.1), obs)) 0]','[(2*nanstd(data.values(:,obs)))^2 (nanstd(data.values(:,obs)))^2]'};
 end
 LcT.B=@(p,t,dt) zeros(1,2);
 LcT.pB=[];
@@ -231,7 +235,8 @@ LcA.pC=[];
 LcA.I=@(p,t,dt) [0 0 0];
 LcA.pI=[];
 LcA.pA0=[];
-LcA.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0 0;0 0 0; 0 0 1E-15/(p^2*dt/dt_ref)];
+%LcA.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0 0;0 0 0; 0 0 1E-15/(p^2*dt/dt_ref)];
+LcA.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0 0;0 0 0; 0 0 1E-30];
 LcA.pQ={'\sigma_w','LcA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 LcA.x={'x^{LL}',[],[];'x^{LTc}',[],[];'x^{LAc}',[],[]};
 if misc.internalVars.isDataSimulation
@@ -239,7 +244,8 @@ if misc.internalVars.isDataSimulation
     LcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
     LcA.pQ0={'1E-7*nanstd(data.values(:,obs))'};
-    LcA.init={'[nanmean(data.values(1:round(max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2 (1E-6*nanstd(data.values(:,obs)))^2]'};
+    %LcA.init={'[nanmean(data.values(1:round(max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2 (1E-6*nanstd(data.values(:,obs)))^2]'};
+    LcA.init={'[nanmean(data.values(1:round(length(timestamps)*0.1), obs)) 0 0]','[(2*nanstd(data.values(:,obs)))^2 (nanstd(data.values(:,obs)))^2 (nanstd(data.values(:,obs)))^2]'};
 end
 LcA.B=@(p,t,dt) zeros(1,3);
 LcA.pB=[];
@@ -260,7 +266,8 @@ TcA.pC0=[];
 TcA.I=@(p,t,dt) [0 0 0];
 TcA.pI=[];
 TcA.pC0=[];
-TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-15/(p^2*dt/dt_ref)];
+%TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-15/(p^2*dt/dt_ref)];
+TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-30];
 TcA.pQ={'\sigma_w','TcA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 TcA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LAc}',[],[]};
 if misc.internalVars.isDataSimulation
@@ -268,7 +275,8 @@ if misc.internalVars.isDataSimulation
     TcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
 else
     TcA.pQ0={'1E-8*nanstd(data.values(:,obs))'};
-    TcA.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-4*nanstd(data.values(:,obs)))^2 (1E-20*nanstd(data.values(:,obs)))^2]'};
+    %TcA.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-4*nanstd(data.values(:,obs)))^2 (1E-20*nanstd(data.values(:,obs)))^2]'};
+    TcA.init={'[nanmean(data.values(1:round(length(timestamps)*0.1), obs)) 0 0]','[(2*nanstd(data.values(:,obs)))^2 (nanstd(data.values(:,obs)))^2 (nanstd(data.values(:,obs)))^2]'};
 end
 TcA.B=@(p,t,dt) zeros(1,3);
 TcA.pB=[];
@@ -370,7 +378,8 @@ if misc.internalVars.isDataSimulation
 else
     
     KR.pQ0=[{'1E-1*nanstd(data.values(:,obs))'};{'0'}];
-    KR.init={['[' repmat('0 ',[1,model.components.nb_KR_p]) ']'],['[' '1E-4*nanstd(data.values(:,obs))^2 ' repmat('nanstd(data.values(:,obs))^2 ',[1,model.components.nb_KR_p-1]) ']']};
+    %KR.init={['[' repmat('0 ',[1,model.components.nb_KR_p]) ']'],['[' '1E-4*nanstd(data.values(:,obs))^2 ' repmat('nanstd(data.values(:,obs))^2 ',[1,model.components.nb_KR_p-1]) ']']};
+    KR.init={['[' repmat('0 ',[1,model.components.nb_KR_p]) ']'],['[' 'nanstd(data.values(:,obs))^2 ' repmat('nanstd(data.values(:,obs))^2 ',[1,model.components.nb_KR_p-1]) ']']};
 end
 KR.B=@(p,t,dt) zeros(1,model.components.nb_KR_p);
 KR.pB=[];
@@ -793,7 +802,6 @@ end
 if ~isfield(model.components,'PCA')
     model.components.PCA=cell(1,numberOfTimeSeries);
 end
-
 
 % Model hidden states name
 model.hidden_states_names=hidden_states_names;
