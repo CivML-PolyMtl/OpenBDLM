@@ -106,6 +106,9 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %% Version of the program
 OpenBDLMversion = '1.10';
 
+%% Warning if multiple conflictous installations
+findDuplicateInstallation
+
 %% Verify that the program is running from the right location
 currentFolder = cd;
 isFileExist  = (exist(fullfile(currentFolder, mfilename), 'file') == 2);

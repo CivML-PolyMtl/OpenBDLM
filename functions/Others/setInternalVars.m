@@ -93,6 +93,8 @@ if  ~isempty(misc)
     misc.internalVars.FigurePath             = 'figures';
     misc.internalVars.VersionControlPath     = 'version_control';
     misc.internalVars.LogPath                = 'log_files';
+    misc.internalVars.InputFilePath          = 'input_files';
+    misc.internalVars.FunctionPath           = 'functions';
     
     %% Define project info filename (not recommanded to change)
     misc.internalVars.ProjectInfoFilename    = 'ProjectsInfo.mat';
