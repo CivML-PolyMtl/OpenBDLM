@@ -41,7 +41,7 @@ function [ProjectName]=incrementProjectName(misc, ReferenceName, FilePath)
 %       April 25, 2018
 %
 %   DATE LAST UPDATE:
-%       June 18, 2018
+%       September 17, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -74,9 +74,10 @@ ProjectInfo = FileContent.ProjectInfo;
 if ~isempty(ProjectInfo)   
     Index_Name = strfind(upper(ProjectInfo(:,1)),upper(ReferenceName) );
     Test_Name = find(not(cellfun('isempty', Index_Name)));
+    ProjectInfo = ProjectInfo(Test_Name,1);
 end
 
-ProjectInfo = ProjectInfo(Test_Name,1);
+%ProjectInfo = ProjectInfo(Test_Name,1);
 
 if ~isempty(ProjectInfo)
     res_1=strsplit(ProjectInfo{end}, '_');

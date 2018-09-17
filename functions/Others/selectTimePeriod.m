@@ -279,8 +279,12 @@ if ~isPadding
 else
     extra_ts = timestamps(end)+dt_ref:dt_ref:datenum(tte, fmt);
     
-    data.timestamps = [ repmat(data.timestamps(IdxStart:IdxEnd,1), ...
-        1,numberOfTimeSeries); repmat( extra_ts', 1, numberOfTimeSeries)];
+    %data.timestamps = [ repmat(data.timestamps(IdxStart:IdxEnd,1), ...
+    %    1,numberOfTimeSeries); repmat( extra_ts', 1, numberOfTimeSeries)];
+    
+        data.timestamps = [ repmat(data.timestamps(IdxStart:IdxEnd,1), ...
+        1,1); repmat( extra_ts', 1, 1)];
+    
     data.values = [ data.values(IdxStart:IdxEnd,:) ; ...
         NaN(length(extra_ts),numberOfTimeSeries ) ];
 end
