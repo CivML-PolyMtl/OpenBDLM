@@ -218,7 +218,8 @@ for i=1:numberOfTimeSeries
     pos_isnan=find(isnan(values) );
     nb_steps=length(timestamps);
     percent_missing=(length(pos_isnan)/nb_steps)*100;
-    plot(not_nan_ts, not_nan_val, 'Color', color, 'LineWidth', Linewidth)
+    %plot(not_nan_ts, not_nan_val, 'Color', color, 'LineWidth', Linewidth)
+    plot(timestamps, values, 'Color', color, 'LineWidth', Linewidth)
     hold on
     text(0.075, 0.15, label, 'FontSize', 12, ...
         'HorizontalAlignment','center', 'Units', 'normalized', ...
