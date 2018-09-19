@@ -231,10 +231,10 @@ for obs=1:numberOfTimeSeries
             end
             
             for j=1:length(x)
-                    p_KRHC=parameter_sub(1:length(parameter_sub));
-                    p_KRHC=p_KRHC(K_idx(1:2));
-                    k=Kernel_component(p_KRHC,x(j), ...
-                        timestamps(1),model.components.nb_KR_p-1);
+                p_KRHC=parameter_sub(1:length(parameter_sub));
+                p_KRHC=p_KRHC(K_idx(1:2));
+                k=Kernel_component(p_KRHC,x(j), ...
+                    timestamps(1),model.components.nb_KR_p-1);
                 xpl(j)=CP(i,:)*k';
             end
             tsi_last=tsi;
@@ -247,13 +247,11 @@ for obs=1:numberOfTimeSeries
             
         end
         
-        
-        FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
-        set(FigHandle, 'Position', [100, 100, 1300, 270])
-        set(gca, 'Fontsize', 16)
-        
-        if isfield(estimation, 'x')
+        if isfield(estimation, 'x') && ts_plot > 1
             
+            FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
+            set(FigHandle, 'Position', [100, 100, 1300, 270])
+            set(gca, 'Fontsize', 16)
             
             subplot(1,2,1)
             waterfall(X,Y,Z)
@@ -266,8 +264,8 @@ for obs=1:numberOfTimeSeries
             
             xlabel('Time [YY]')
             ylabel('Time [MM-DD]')
-                zlabel(['Kernel Regression', ' [', labels, ']'], ...
-                    'Interpreter','Latex' )
+            zlabel(['Kernel Regression', ' [', labels, ']'], ...
+                'Interpreter','Latex' )
             set(gca, 'Fontsize', 16)
             grid on
             
@@ -305,12 +303,12 @@ for obs=1:numberOfTimeSeries
                 'isExportTEX', isExportTEX);
         else
             
-           FigureNames{1} = []; 
+            FigureNames{1} = [];
         end
-      
+        
         
     else
-       FigureNames{1} = [];  
+        FigureNames{1} = [];
     end
 end
 %--------------------END CODE ------------------------
