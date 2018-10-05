@@ -66,6 +66,6 @@ X=repmat(timestamp,[1,length(x_cp)]);
 
 K_raw=K(X,X_cp); %raw kernel evaluation
 K_norm=K_raw./repmat(sum(K_raw,2)+10^-8,[1,length(x_cp)]); %normalized kernel coefficients
-K_norm = K_norm - mean(K_norm); % force the mean to be zero
+%K_norm = K_norm - mean(K_norm); % force the mean to be zero
 %--------------------END CODE ---------------------- 
 end

@@ -247,11 +247,12 @@ for obs=1:numberOfTimeSeries
             
         end
         
-        if isfield(estimation, 'x') && ts_plot > 1
-            
-            FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
-            set(FigHandle, 'Position', [100, 100, 1300, 270])
-            set(gca, 'Fontsize', 16)
+        
+        FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
+        set(FigHandle, 'Position', [100, 100, 1300, 270])
+        set(gca, 'Fontsize', 16)
+        
+        if isfield(estimation, 'x')
             
             subplot(1,2,1)
             waterfall(X,Y,Z)
@@ -259,9 +260,8 @@ for obs=1:numberOfTimeSeries
             ylim([0 period])
             datetick('x','yy','keepticks')
             datetick('y','mm-dd','keepticks')
-            ylim([0 period])
             xlim([timestamps(1) timestamps(end)])
-            
+            ylim([0 period])
             xlabel('Time [YY]')
             ylabel('Time [MM-DD]')
             zlabel(['Kernel Regression', ' [', labels, ']'], ...
@@ -269,9 +269,10 @@ for obs=1:numberOfTimeSeries
             set(gca, 'Fontsize', 16)
             grid on
             
-            subplot(1,2,2)
-            [X2,Y2]=ndgrid(linspace(timestamps(1),tsi_last,ts_plot), ...
-                linspace(0,period,length(K_x_idx)));
+            subplot(1,2,2)            
+            z2=linspace(0,period,length(K_x_idx)+1);
+            z2(end)=[];
+            [X2,Y2]=ndgrid(linspace(timestamps(1),tsi_last,ts_plot), z2);
             plot3(X2,Y2,CP,'+r')
             xlim([timestamps(1) timestamps(end)])
             ylim([0 period])
@@ -288,7 +289,7 @@ for obs=1:numberOfTimeSeries
             grid on
             hold off
         end
-        
+              
         %% Export plots
         if isExportPDF || isExportPNG || isExportTEX
             
@@ -310,6 +311,7 @@ for obs=1:numberOfTimeSeries
     else
         FigureNames{1} = [];
     end
+    
 end
 %--------------------END CODE ------------------------
 end
