@@ -99,12 +99,12 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %       June 27, 2018
 %
 %   DATE LAST UPDATE:
-%       September 6, 2018
+%       September 17, 2018
 
 %--------------------BEGIN CODE ----------------------
 
 %% Version of the program
-OpenBDLMversion = '1.10';
+OpenBDLMversion = '1.11';
 
 %% Warning if multiple conflictous installations
 findDuplicateInstallation
