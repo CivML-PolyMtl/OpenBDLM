@@ -99,6 +99,7 @@ parameter= arrayOut(:,1);
 p_ref = arrayOut(:,2);
 
 %% Initialization
+rng(12345)
 
 y_obs= zeros(numberOfTimeSeries,T);
 y_pred= zeros(numberOfTimeSeries,T);

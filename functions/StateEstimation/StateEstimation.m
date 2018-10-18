@@ -72,7 +72,7 @@ function [estimation]=StateEstimation(data, model, misc, varargin)
 %       June 29, 2018
 %
 %   DATE LAST UPDATE:
-%       August 9, 2018
+%       October 18, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -147,8 +147,9 @@ end
 
 %% Kalman smoother
 if isSmoother
-    [estimation.x_M, estimation.V_M, estimation.VV_M, estimation.S]= ...
-        RTS_SwitchingKalmanSmoother(data,model, estimation);
+    [estimation.x_M, estimation.V_M, estimation.VV_M, estimation.S, ...
+        x_prior_smoothed, V_prior_smoothed, ~, S_prior_smoothed ]= ...
+        RTS_SwitchingKalmanSmoother(data, model, estimation);
 end
 
 %% Collapse multiple model classes in a single one
@@ -189,5 +190,13 @@ for t=1:T
             estimation.y(:,t))*(my(:,j)-estimation.y(:,t))');
     end
 end
+
+if isSmoother
+    %% Store the initial (at t=0) hidden states values learned from RTS smoother
+    estimation.x_prior_smoothed = x_prior_smoothed; % initial mean
+    estimation.V_prior_smoothed = V_prior_smoothed; % initial covariance
+    estimation.S_prior_smoothed = S_prior_smoothed; % initial state probability
+end
+
 %--------------------END CODE ------------------------
 end
