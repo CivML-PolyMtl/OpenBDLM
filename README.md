@@ -152,7 +152,7 @@ Note that OpenBDLM has been originally developed to use Bayesian Dynamic Linear 
 
 ## License
 
-This project is licensed under the ???? license - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
