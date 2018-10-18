@@ -41,7 +41,7 @@ function [misc]=printOptions(misc)
 %       August 14, 2018
 %
 %   DATE LAST UPDATE:
-%       August 21, 2018
+%       October 18, 2018
 
 %--------------------BEGIN CODE ----------------------
 

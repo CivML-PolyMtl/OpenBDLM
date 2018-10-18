@@ -6,19 +6,36 @@ function [data, misc, dataFilename]=editData(data, misc, varargin)
 %
 %   INPUT:
 %       data            - structure (required)
-%                         data must contain three fields:
+%                         Two formats are accepted:
+%
+%                           (1) data must contain three fields :
+%
+%                               'timestamps' is a 1×N cell array
+%                               each cell is a M_ix1 real array
+%
+%                               'values' is a 1×N cell array
+%                               each cell is a M_ix1 real array
+%
+%                               'labels' is a 1×N cell array
+%                               each cell is a character array
+%
+%                               N: number of time series
+%                               M_i: number of samples of time series i
+%
+%
+%                           (2) data must contain three fields:
 %
 %                               'timestamps' is a M×1 array
 %
 %                               'values' is a MxN  array
 %
 %                               'labels' is a 1×N cell array
-%                                each cell is a character array
+%                               each cell is a character array
 %
-%                                   N: number of time series
-%                                   M: number of samples
+%                               N: number of time series
+%                               M: number of samples
 %
-%      misc             - structure
+%      misc             - structure (required)
 %                           see the documentation for details about the
 %                           field in misc
 %
@@ -27,7 +44,7 @@ function [data, misc, dataFilename]=editData(data, misc, varargin)
 %                         defaut: '.'  (current folder)
 %
 %   OUTPUT:
-%       data            - structure (required)
+%       data            - structure
 %                               data must contain three fields:
 %
 %                               'timestamps' is a M×1 array
@@ -88,8 +105,8 @@ function [data, misc, dataFilename]=editData(data, misc, varargin)
 %       July 4, 2018
 %
 %   DATE LAST UPDATE:
-%       July 24, 2018
-
+%       October 18, 2018
+%
 %--------------------BEGIN CODE ----------------------
 
 %% Get arguments passed to the function and proceed to some verifications
@@ -110,7 +127,11 @@ FilePath = p.Results.FilePath;
 
 MaxFailAttempts=4;
 
-PossibleAnswers = [1 2 3 4 5 6];
+PossibleAnswers = [1 2 3 4 5 6 7];
+
+% Get information from misc
+NaNThreshold=misc.options.NaNThreshold;
+tolerance= misc.options.Tolerance;
 
 % Set fileID for logfile
 if misc.internalVars.isQuiet
@@ -121,8 +142,12 @@ else
     fileID=1;
 end
 
+% if data given in format (2), translate it to format (1)
+if ~iscell(data.timestamps) && ~iscell(data.values)
+    [data]=convertMat2Cell(data);
+end
 
-%% Save current dataset
+%% Save current dataset (original data)
 misc.dataBeforeEditing = data;
 
 %% Display data editing menu
@@ -145,11 +170,12 @@ while(1)
     fprintf(fileID,'     2  ->  Select data analysis time period \n');
     fprintf(fileID,'     3  ->  Remove missing data\n');
     fprintf(fileID,'     4  ->  Resample\n');
+    fprintf(fileID,'     5  ->  Change synchronization options\n');
     fprintf(fileID,'\n');
-    fprintf(fileID,'     5  ->  Reset changes\n');
-    fprintf(fileID,'     6  ->  Save changes and continue analysis\n');
+    fprintf(fileID,'     6  ->  Reset changes\n');
+    fprintf(fileID,'     7  ->  Save changes and continue analysis\n');
     fprintf(fileID,'\n');
-        
+    
     if misc.internalVars.BatchMode.isBatchMode
         user_inputs.inp_1=eval(char(misc.internalVars.BatchMode.Answers{ ...
             misc.internalVars.BatchMode.AnswerIndex}));
@@ -165,28 +191,69 @@ while(1)
         fprintf(fileID,'\n');
         continue
         
-    elseif user_inputs.inp_1 == 6
-        misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex +1;
+    elseif user_inputs.inp_1 == 7
+        misc.internalVars.BatchMode.AnswerIndex = ...
+            misc.internalVars.BatchMode.AnswerIndex +1;
         
         % Remove original data
         misc=rmfield(misc, 'dataBeforeEditing');
         
+        % Test that data timestamps have been merged
+        [isMerged]=verificationMergedDataset(data);
+        
+        if iscell(data.timestamps) && iscell(data.values) && isMerged
+            [data] = convertCell2Mat(data);
+        elseif iscell(data.timestamps) && iscell(data.values) && ~isMerged
+            % If not, merge data timestampps
+            disp('     Synchronizing time series ...')
+            [data, misc] = mergeTimeStampVectors(data, misc, ...
+                'NaNThreshold', NaNThreshold, 'tolerance', tolerance);
+        end
+        
         % Save data
         [misc, dataFilename] = saveDataBinary(data,misc, ...
-            'FilePath', FilePath);
+            'FilePath', FilePath, 'isForceOverwrite', true);
         
-        close all
+        %        close all
         return
     else
-        misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex = ...
+            misc.internalVars.BatchMode.AnswerIndex+1;
         
         if user_inputs.inp_1 == 1
-            [data, misc]=chooseTimeSeries(data, misc, 'isPlot', false);
+            % Choose some time series
+            [data, misc]=chooseTimeSeries(data, misc);
+            
+            % Merge the timestamp vectors of the selected time series if
+            % needed
+            [isMerged]=verificationMergedDataset(data);
+            
+            if ~isMerged
+                disp('     Synchronizing time series ...')
+                [data, misc] = mergeTimeStampVectors(data, misc, ...
+                    'NaNThreshold', NaNThreshold, 'tolerance', tolerance);
+            end
+            
             incTest=0;
             continue
             
         elseif user_inputs.inp_1 == 2
+            
+            % Merge the timestamp vectors of the selected time series if
+            % needed
+            [isMerged]=verificationMergedDataset(data);
+            if iscell(data.timestamps) && iscell(data.values) && isMerged
+                [data] = convertCell2Mat(data);
+            elseif iscell(data.timestamps) && iscell(data.values) && ~isMerged
+                % If not, merge data timestampps
+                disp('     Synchronizing time series ...')
+                [data, misc] = mergeTimeStampVectors(data, misc, ...
+                    'NaNThreshold', NaNThreshold, 'tolerance', tolerance);
+            end
+            
+            % Select period of analysis
             [data, misc]=selectTimePeriod(data, misc);
+            
             incTest=0;
             continue
             
@@ -198,13 +265,13 @@ while(1)
                 
                 incTest_2=incTest_2+1;
                 if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
-                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end              
+                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end
                 
                 fprintf(fileID,'\n');
                 fprintf(fileID,['     Percentage of missing data ', ...
                     'allowed at each timestamp:\n']);
                 fprintf(fileID,['     (Example: 25 means that, at each ', ...
-                    'timestamp maximum 25% of the data can be NaN)\n']);
+                    'timestamp maximum 25%% of the data can be NaN)\n']);
                 if misc.internalVars.BatchMode.isBatchMode
                     user_inputs.inp_2= eval(char(misc.internalVars.BatchMode.Answers{...
                         misc.internalVars.BatchMode.AnswerIndex}));
@@ -218,10 +285,13 @@ while(1)
                         length(user_inputs.inp_2) ==1
                     
                     % Convert mat2cell
-                    [dataCell]=convertMat2Cell(data);
+                    if ~iscell(data.timestamps) && ~iscell(data.values)
+                        [data]=convertMat2Cell(data);
+                    end
                     
-                    [data, misc] = mergeTimeStampVectors (dataCell, misc, ...
-                        'NaNThreshold', user_inputs.inp_2);
+                    [data, misc] = mergeTimeStampVectors (data, misc, ...
+                        'NaNThreshold', user_inputs.inp_2, ...
+                        'tolerance', tolerance);
                     incTest=0;
                     isAnswerCorrect = true;
                 else
@@ -233,9 +303,22 @@ while(1)
                 
             end
             
-            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
             
         elseif user_inputs.inp_1 == 4
+            
+            % Merge the timestamp vectors of the selected time series if
+            % needed
+            [isMerged]=verificationMergedDataset(data);
+            if iscell(data.timestamps) && iscell(data.values) && isMerged
+                [data] = convertCell2Mat(data);
+            elseif iscell(data.timestamps) && iscell(data.values) && ~isMerged
+                % If not, merge data timestampps
+                disp('     Synchronizing time series ...')
+                [data, misc] = mergeTimeStampVectors(data, misc, ...
+                    'NaNThreshold', NaNThreshold, 'tolerance', tolerance);
+            end
             
             incTest_2=0;
             isAnswerCorrect = false;
@@ -246,7 +329,7 @@ while(1)
                         'attempts (', num2str(MaxFailAttempts)  ').']) ; end
                 
                 fprintf(fileID,'\n');
-                fprintf(fileID,'     Give time step (in day)\n');
+                fprintf(fileID,'     Provide time step (in days)\n');
                 if misc.internalVars.BatchMode.isBatchMode
                     dt_ref=eval(char(misc.internalVars.BatchMode.Answers{ ...
                         misc.internalVars.BatchMode.AnswerIndex}));
@@ -269,10 +352,80 @@ while(1)
                 
             end
             
-            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
-            
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
             
         elseif user_inputs.inp_1 == 5
+            
+            % Change time synchronization options
+            % Synchronization options control how the merging of the
+            % timestamps vector of each time series is done
+            % Merging timestamps is required for further analysis
+            
+            % Change the amount of missing data allowed at each timestamp
+            incTest_2=0;
+            isCorrectAnswer =  false;
+            while ~isCorrectAnswer
+                
+                incTest_2=incTest_2+1;
+                if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
+                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     Provide a NaN threshold value (in %%): \n');
+                if misc.internalVars.BatchMode.isBatchMode
+                    NaNThreshold=eval(char(misc.internalVars.BatchMode.Answers...
+                        {misc.internalVars.BatchMode.AnswerIndex}));
+                    fprintf(fileID, '     %s\n', num2str(choice));
+                else
+                    NaNThreshold = input('     choice >> ');
+                end
+                
+                if  isnumeric(NaNThreshold) && length(NaNThreshold) ==1 && ...
+                        NaNThreshold >= 0 && NaNThreshold <= 100
+                    misc.options.NaNThreshold = NaNThreshold;
+                    isCorrectAnswer =  true;
+                else
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,'     wrong input \n');
+                    continue
+                end
+                
+            end
+            
+            % Change the tolerance
+            % timestamps +/- tolerance are considered equal
+            
+            incTest_2=0;
+            isCorrectAnswer =  false;
+            while ~isCorrectAnswer
+                
+                incTest_2=incTest_2+1;
+                if incTest_2 > MaxFailAttempts ; error(['Too many failed ', ...
+                        'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     Provide a tolerance value (in days): \n');
+                if misc.internalVars.BatchMode.isBatchMode
+                    tolerance=eval(char(misc.internalVars.BatchMode.Answers...
+                        {misc.internalVars.BatchMode.AnswerIndex}));
+                    fprintf(fileID, '     %s\n', num2str(choice));
+                else
+                    tolerance = input('     choice >> ');
+                end
+                    
+                if  isnumeric(tolerance) && length(tolerance) ==1 && ...
+                        tolerance >= 0
+                    
+                    misc.options.Tolerance = tolerance;
+                    isCorrectAnswer =  true;
+                else
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,'     wrong input \n');
+                    continue
+                end
+                
+            end
+            
+        elseif user_inputs.inp_1 == 6
             
             incTest_2=0;
             isAnswerCorrect = false;
@@ -308,7 +461,8 @@ while(1)
                 
             end
             
-            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
             
         elseif isempty(user_inputs.inp_1 )
             continue
