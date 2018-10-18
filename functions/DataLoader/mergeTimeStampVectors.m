@@ -235,14 +235,5 @@ data.timestamps = data.timestamps(:,1);
 data.values(:,TimeSeriesIdxToRemove)=[];
 data.labels(cellfun(@isempty, data.labels))=[];
 
-%% Plot
-% if isPlot
-%     plotData(data, 'FigurePath', 'figures')
-% end
-% 
-% %% Save in binary DATA_*.mat file
-% if isOutputFile
-%     [misc, ~] = saveDataBinary(data, misc, 'FilePath','processed_data');
-% end
 %--------------------END CODE ------------------------
 end

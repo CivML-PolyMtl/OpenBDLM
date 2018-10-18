@@ -56,7 +56,7 @@ function [data, model, estimation, misc]=loadConfigurationFile(misc, ConfigFileN
 %       July 26, 2018
 %
 %   DATE LAST UPDATE:
-%       August 9, 2018
+%       October 18, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -72,6 +72,9 @@ parse(p, misc, ConfigFileName);
 
 misc=p.Results.misc;
 ConfigFileName=p.Results.ConfigFileName;
+
+% Get information from misc
+DataPath = misc.internalVars.DataPath;
 
 % Set fileID for logfile
 if misc.internalVars.isQuiet
@@ -99,11 +102,16 @@ fprintf(fileID,'\n');
 %% Run the configuration file
 run(ConfigFileName);
 
+%% Save data binary
+[misc, ~] = saveDataBinary(data, misc, 'FilePath', DataPath, ...
+    'isForceOverwrite', true);
+
 %% Initialize variable estimation as a structure
 estimation = struct;
 
 %% Save the project date creation
 [misc]=printProjectDateCreation(misc);
+
 %% Build the model
 [model, misc] = buildModel(data, model, misc);
 

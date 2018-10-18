@@ -6,7 +6,24 @@ function plotDataAvailability(data, misc, varargin)
 %
 %   INPUT:
 %       data            - structure (required)
-%                               data must contain three fields:
+%                         Two formats are accepted:
+%
+%                           (1) data must contain three fields :
+%
+%                               'timestamps' is a 1×N cell array
+%                               each cell is a M_ix1 real array
+%
+%                               'values' is a 1×N cell array
+%                               each cell is a M_ix1 real array
+%
+%                               'labels' is a 1×N cell array
+%                               each cell is a character array
+%
+%                               N: number of time series
+%                               M_i: number of samples of time series i
+%
+%
+%                           (2) data must contain three fields:
 %
 %                               'timestamps' is a M×1 array
 %
@@ -90,22 +107,26 @@ FilePath=p.Results.FilePath;
 isSaveFigures = p.Results.isSaveFigures;
 
 
+%% Get info from misc
+% Project name
 ProjectName=misc.ProjectName;
-
-%% Get options from misc
+% Options
 FigurePosition=misc.options.FigurePosition;
+ndivx=misc.options.ndivx;
 
 % Validation of structure data
-isValid = verificationDataStructure(data);
-if ~isValid
-    disp(' ')
-    disp('ERROR: Unable to read the data from the structure.')
-    disp(' ')
-    return
-end
+% isValid = verificationDataStructure(data);
+% if ~isValid
+%     disp(' ')
+%     disp('ERROR: Unable to read the data from the structure.')
+%     disp(' ')
+%     return
+% end
 
-%% Remove space in filename
-%FilePath = FilePath(~isspace(FilePath));
+% If data given in format (2), translate it to format (1)
+if ~iscell(data.timestamps) && ~iscell(data.values)
+    [data]=convertMat2Cell(data);  
+end
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -119,26 +140,27 @@ end
 %% Plot data availability
 
 % Get number of time series in dataset
-numberOfTimeSeries = size(data.values,2);
+numberOfTimeSeries = length(data.values);
 
+% Data availability plot
 FigHandle = figure('Name','Data availability','NumberTitle','off', ...
     'DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
 set(FigHandle, 'Position', FigurePosition)
 %figure('Visible', 'on')
 set(gcf,'color','w');
+
 nan_detect=[];
 sensor=cell(1,numberOfTimeSeries);
 
 % Loop over time series
 %for i=1:numberOfTimeSeries
 inc=0;
-for i=numberOfTimeSeries:-1:1
+for i=numberOfTimeSeries:-1:1  
     inc=inc+1;
-    
     % Get timestamps
-    timestamps=data.timestamps;
+    timestamps=data.timestamps{i};
     % Get amplitude values
-    values=data.values(:,i);
+    values=data.values{i};
     % Get time series name
     sname=data.labels{i};
     
@@ -148,7 +170,6 @@ for i=numberOfTimeSeries:-1:1
     sensor{1,inc}=num2str(i);
     
     % Detect earliest start and latest end in the dataset
-    %if i == 1
     if i == numberOfTimeSeries
         begg_min=begg;
         endd_max=endd;
@@ -162,6 +183,16 @@ for i=numberOfTimeSeries:-1:1
     end
     
     % Indicate missing data (NaN) in the plot
+%     if ~isempty(nan_pos)
+%         plot( timestamps(nan_pos), (i-0.15)*ones(length(nan_pos),1),  ...
+%             'Color', [1 0 0], 'Marker', '*', 'LineStyle', 'none', ...
+%             'Markersize', 2.5, 'MarkerFaceColor',[1 0 0] )
+%         hold on
+%         nan_detect=1;
+%     end
+    
+
+    % Indicate missing data (NaN) in the plot
     if ~isempty(nan_pos)
         plot( timestamps(nan_pos), (inc-0.15)*ones(length(nan_pos),1),  ...
             'Color', [1 0 0], 'Marker', '*', 'LineStyle', 'none', ...
@@ -169,7 +200,7 @@ for i=numberOfTimeSeries:-1:1
         hold on
         nan_detect=1;
     end
-    
+
     % Indicate working period
     plot([begg, endd] , [ inc inc ], 'Color', [0.17, 0.88, 0.3], ...
         'linewidth', 10)
@@ -177,6 +208,17 @@ for i=numberOfTimeSeries:-1:1
     % Indicate time series reference name
     text(begg, inc, sname ,'FontSize', 10, 'Interpreter', 'none')
 end
+
+% % Add legend to plot
+% if ~isempty(nan_detect)
+%     text(endd_max-((endd_max-begg_min)/7.5), i+1-0.5, 'missing data',...
+%         'FontSize', 12, 'HorizontalAlignment','center', ...
+%         'BackgroundColor',[1. 1. 1.])
+%     hold on
+%     text(endd_max-((endd_max-begg_min)/4),  i+1-0.5, '+', ...
+%         'FontSize', 12, 'HorizontalAlignment','center', ...
+%         'BackgroundColor',[1. 1. 1.], 'Color', [1 0 0] )
+% end
 
 % Add legend to plot
 if ~isempty(nan_detect)
@@ -190,15 +232,37 @@ if ~isempty(nan_detect)
         'Color', [1 0 0] )
 end
 
-% Adjust xlim and ylim
+
+% % Adjust xlim and ylim
+% xlim([begg_min-1, endd_max+1])
+% ylim([ 0, i+1])
 xlim([begg_min-1, endd_max+1])
-%ylim([ 0, i+1])
 ylim([ 0, numberOfTimeSeries+1])
 
+
 % Sensor name index for the y labelling
+% set(gca,'YTick',linspace(1,i+1,i+1));
+% set(gca, 'YTicklabel', { sensor{1,:}, ' '})
+% set(gca,'XTick',linspace(begg_min,endd_max,5));
+% set(gca,'FontSize',8)
+% datetick('x','yy-mm','keepticks')
+% xlabel('Time [YY-MM]')
+% ylabel('time series #')
+% title('Data availability', 'Fontsize', 8)
+% 
+% % Export figure in PDF and save it in specified directory
+% filename=fullfile(FilePath, 'availability');
+% set(gcf,'PaperType', 'usletter',  'PaperOrientation', 'landscape')
+% if isPdf
+%     export_fig([filename, '.pdf'], '-nocrop')
+%     close(gcf)
+% else
+%     saveas(gcf, [filename, '.fig'])
+% end
+
 set(gca,'YTick',linspace(1, numberOfTimeSeries+1,numberOfTimeSeries+1));
 set(gca, 'YTicklabel', { sensor{1,:}, ' '})
-set(gca,'XTick',linspace(begg_min,endd_max,5));
+set(gca,'XTick',linspace(begg_min,endd_max,ndivx));
 set(gca,'FontSize',16)
 datetick('x','yy-mm','keepticks')
 xlabel('Time [YY-MM]')
@@ -206,13 +270,113 @@ ylabel('time series #')
 %title('Data availability', 'Fontsize', 8)
 
 % Export figure in PDF and save it in specified directory
-filename=fullfile(FilePath, ['AVAILABILITY_',ProjectName]);
+filename=fullfile(FilePath, 'AVAILABILITY');
 set(gcf,'PaperType', 'usletter',  'PaperOrientation', 'landscape')
 if isSaveFigures
     export_fig([filename, '.pdf'], '-nocrop')
-    %saveas(gcf, [filename, '.fig'])
-    %close(gcf)
 end
+
+
+
+
+%% Previous version
+% %% Plot data availability
+% 
+% % Get number of time series in dataset
+% numberOfTimeSeries = size(data.values,2);
+% 
+% FigHandle = figure('Name','Data availability','NumberTitle','off', ...
+%     'DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
+% set(FigHandle, 'Position', FigurePosition)
+% %figure('Visible', 'on')
+% set(gcf,'color','w');
+% nan_detect=[];
+% sensor=cell(1,numberOfTimeSeries);
+% 
+% % Loop over time series
+% %for i=1:numberOfTimeSeries
+% inc=0;
+% for i=numberOfTimeSeries:-1:1
+%     inc=inc+1;
+%     
+%     % Get timestamps
+%     timestamps=data.timestamps;
+%     % Get amplitude values
+%     values=data.values(:,i);
+%     % Get time series name
+%     sname=data.labels{i};
+%     
+%     nan_pos=find(isnan(values) );  % Position of the missing data (NaN)
+%     begg=timestamps(1); % Start of time series
+%     endd=timestamps(end); % End of time series
+%     sensor{1,inc}=num2str(i);
+%     
+%     % Detect earliest start and latest end in the dataset
+%     %if i == 1
+%     if i == numberOfTimeSeries
+%         begg_min=begg;
+%         endd_max=endd;
+%     else
+%         if begg < begg_min
+%             begg_min=begg;
+%         end
+%         if endd > endd_max
+%             endd_max=endd;
+%         end
+%     end
+%     
+%     % Indicate missing data (NaN) in the plot
+%     if ~isempty(nan_pos)
+%         plot( timestamps(nan_pos), (inc-0.15)*ones(length(nan_pos),1),  ...
+%             'Color', [1 0 0], 'Marker', '*', 'LineStyle', 'none', ...
+%             'Markersize', 2.5, 'MarkerFaceColor',[1 0 0] )
+%         hold on
+%         nan_detect=1;
+%     end
+%     
+%     % Indicate working period
+%     plot([begg, endd] , [ inc inc ], 'Color', [0.17, 0.88, 0.3], ...
+%         'linewidth', 10)
+%     hold on
+%     % Indicate time series reference name
+%     text(begg, inc, sname ,'FontSize', 10, 'Interpreter', 'none')
+% end
+% 
+% % Add legend to plot
+% if ~isempty(nan_detect)
+%     text(endd_max-((endd_max-begg_min)/7.5), ...
+%         numberOfTimeSeries+1-0.4, 'missing data',...
+%         'FontSize', 12, 'HorizontalAlignment','center')
+%     hold on
+%     text(endd_max-((endd_max-begg_min)/5.75),  ...
+%         numberOfTimeSeries+1-0.4, '+', ...
+%         'FontSize', 12, 'HorizontalAlignment','center', ...
+%         'Color', [1 0 0] )
+% end
+% 
+% % Adjust xlim and ylim
+% xlim([begg_min-1, endd_max+1])
+% %ylim([ 0, i+1])
+% ylim([ 0, numberOfTimeSeries+1])
+% 
+% % Sensor name index for the y labelling
+% set(gca,'YTick',linspace(1, numberOfTimeSeries+1,numberOfTimeSeries+1));
+% set(gca, 'YTicklabel', { sensor{1,:}, ' '})
+% set(gca,'XTick',linspace(begg_min,endd_max,5));
+% set(gca,'FontSize',16)
+% datetick('x','yy-mm','keepticks')
+% xlabel('Time [YY-MM]')
+% ylabel('time series #')
+% %title('Data availability', 'Fontsize', 8)
+% 
+% % Export figure in PDF and save it in specified directory
+% filename=fullfile(FilePath, ['AVAILABILITY_',ProjectName]);
+% set(gcf,'PaperType', 'usletter',  'PaperOrientation', 'landscape')
+% if isSaveFigures
+%     export_fig([filename, '.pdf'], '-nocrop')
+%     %saveas(gcf, [filename, '.fig'])
+%     %close(gcf)
+% end
 
 %--------------------END CODE ------------------------
 end

@@ -122,7 +122,7 @@ if ~isFileExist
     addpath(FilePath_full)
 end
 
-disp('     Saving database (binary format) ...')
+disp('     Saving data...')
 
 ProjectName=misc.ProjectName;
 name=['DATA_', ProjectName, '.mat'];

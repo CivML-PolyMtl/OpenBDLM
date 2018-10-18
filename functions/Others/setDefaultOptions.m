@@ -42,7 +42,7 @@ function [misc]=setDefaultOptions(misc)
 %       August 14, 2018
 % 
 %   DATE LAST UPDATE:
-%       August 14, 2018
+%       October 18, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -53,6 +53,10 @@ parse(p, misc);
 misc=p.Results.misc;
  
 %% Set default options
+
+% Syncronization options
+misc.options.NaNThreshold = 100;
+misc.options.Tolerance = 10^(-6);
 
 % Optimization options
 misc.options.trainingPeriod = [1,Inf];

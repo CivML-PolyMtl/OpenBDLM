@@ -83,7 +83,8 @@ if misc.internalVars.BatchMode.isBatchMode
         disp(' ')
         fprintf(['- Provide a list of .CSV filename to process ' ...
             '(e.g. {''raw_data/data_Tamar/*.csv'', ''disp_001.csv''}) :  \n'])
-        CSVFileList=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+        CSVFileList=eval(char(misc.internalVars.BatchMode.Answers{...
+            misc.internalVars.BatchMode.AnswerIndex}));
         disp(CSVFileList)
         %     else
         %         CSVFileList=input('     list of filenames >> ');
@@ -165,8 +166,6 @@ if misc.internalVars.BatchMode.isBatchMode
                         [dat,label] = readSingleCSVFile(PathFile, 'isQuiet', false);
                         
                         if isempty(dat) && isempty(label)
-                            %                 disp(' ')
-                            %                 fprintf('WARNING: Skip file. \n')
                         else
                             % Store in structure array
                             dataOrig.timestamps{inc} = dat(:,1);
@@ -221,8 +220,7 @@ else
             [dat,label] = readSingleCSVFile(PathFile, 'isQuiet', false);
             
             if isempty(dat) && isempty(label)
-                %                 disp(' ')
-                %                 fprintf('WARNING: Skip file. \n')
+
             else
                 % Store in structure array
                 dataOrig.timestamps{inc} = dat(:,1);
