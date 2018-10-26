@@ -113,6 +113,9 @@ elapsed_points=0;
 anomaly_counter=0;
 ongoing_anomaly=false;
 
+%% Initialize the seed
+rng(12345)
+
 %% Simulate data
 
 % Get index for LTc and/or LAc

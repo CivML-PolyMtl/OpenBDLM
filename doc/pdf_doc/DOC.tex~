@@ -1,10 +1,21 @@
 \documentclass{book}
 
 
+% Amsmath package
+\RequirePackage{amsmath}
+\RequirePackage{amstext}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+\RequirePackage{latexsym}
+\RequirePackage{amscd}
+\RequirePackage{mathtools}
+\RequirePackage{bm}
+
+
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue}
 
-\title{OpenBDLM: An open-source Matlab software for Structural Health Monitoring using Bayesian dynamic linear models}
+\title{OpenBDLM: an open-source Matlab software for time-series analysis using Bayesian dynamic linear models}
 \author{Ianis Gaudot, Luong H. Nguyen, James-A. Goulet \\ Polytechnique Montreal}
 
 \begin{document}
@@ -13,14 +24,133 @@
 \tableofcontents
 
 \chapter{What OpenBDLM does ?}
+
+OpenBDLM is a Matlab open-source software designed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step of in the order of one hour or higher).
+OpenBDLM is capable to process simultaneously any time series data to interpret, monitor and predict their long-term behavior.
+OpenBDLM also includes an anomaly detection tool which allows to detect abnormal behavior in a fully probabilistic framework.
+
+\begin{itemize}
+  \item linear gaussian state-space models
+  \item time-series decomposition
+  \item anomaly detection
+  \item model identification
+  \item data visualization
+\end{itemize}
+
 \newpage
 
-\chapter{Install OpenBDLM}
-\newpage
+\chapter{Installing OpenBDLM}
+
+These instructions will get you a copy of the project up and running on your local machine for direct use, testing and development purposes.\\
+\section{Prerequisites}
+Matlab (version 2016a or higher) installed on Mac OSX or Windows\\
+
+\section{Installing}
+
+1. Remove from your Matlab path all previously OpenBDLM versions\\
+2. Extract the ZIP file (or clone the git repository) somewhere you can easily reach it.\\
+3. Add ``OpenBDLM-master/'' folder and all the sub folders to your path in Matlab : e.g.\\
+    - using the ``Set Path'' dialog box in Matlab, or \\
+    - by running ``addpath'' function from the Matlab command window\\
+
+\section{Getting started}
+
+Enter in the folder OpenBDLM-master, and type ``OpenBDLM\_main();'' in the Matlab command line. The OpenBDLM main menu should appear on the Matlab command window.
+
+% here OpenBDLM menu
+
+\section{Demo}
+
+In the Matlab command line, type ``run\_DEMO.m'' to run a little demo. You should see some messages on the Matlab command window showing that the programs runs properly:\\
+
+     Starting OpenBDLM\_V???...\\
+     Starting a new project...\\
+     Building model...\\
+     Simulating data...\\
+     Plotting data...\\
+     Saving database (binary format) ...\\
+     Saving database (csv format) ...\\
+     Saving project...\\
+     Printing configuration file...\\
+     Saving database (binary format) ...\\
+     Saving project...\\
+     See you soon !\\
+     
+If you do not see anything except Matlab errors verify your Matlab version, and your Matlab path. Be sure that you run the program from the top-level of OpenBDLM-master folder, not from another folder.\\
+
+\chapter{Bayesian dynamic linear models}
+
+Bayesian dynamic linear models (hereafter referred to as BDLMs) are a class of linear gaussian state-space models which can be described from the transition and the observation equations. % (\cite{West1999book}).
+\section{Transition equation} 
+The transition equation describes the dynamics of the system, and is formulated as
+\begin{equation}
+  \mathbf{x}_{t}=\mathbf{A}_{t}\mathbf{x}_{t-1}+\mathbf{w}_{t},\quad\left\{
+  \begin{array}{l}
+\mathbf{x}_{t}\sim \mathcal{N}(\bm{\mu}_{t},\bm{\Sigma}_{t})\\[4pt]
+\mathbf{w}_{t}\sim \mathcal{N}(\mathbf{0},
+\mathbf{Q}_{t}),
+\end{array}\right.
+\label{EQ:SSM_Transition}
+\end{equation}
+where, for each each time $t=1, \dots ,T$, the variables $\mathbf{x}_{t}$ follow a Gaussian distribution with mean $\bm{\mu}_{t}$ and covariance matrix $\bm{\Sigma}_{t}$, $\mathbf{A}_{t}$ is the transition matrix, and $\mathbf{w}_{t}$ represents Gaussian model errors with zero mean and covariance matrix $\mathbf{Q}_{t}$.
+The variables $\mathbf{x}_{t}$ are usually referred to as hidden states because they are not directly observed.
+\section{Observation equation}
+The relationship between the observations $\mathbf{y}_{t}$ and the hidden states $\mathbf{x}_{t}$ is given by the observation equation, such as
+\begin{equation}
+\mathbf{y}_{t}=\mathbf{C}_{t}\mathbf{x}_{t}+\mathbf{v}_{t},\quad\left\{\begin{array}{l}
+\mathbf{v}_{t}\sim \mathcal{N}(\mathbf{0},\mathbf{R}_{t}),
+\end{array}\right.
+\label{EQ:SSM_Observation}
+\end{equation}
+where $\mathbf{C}_{t}$ is the observation matrix, and $\mathbf{v}_{t}$ is the Gaussian measurement error with zero mean and covariance matrix $\mathbf{R}_{t}$.
+BDLMs are capable to analyze multiple time series simultaneously.
+In case of dependencies between the time series, regression coefficients are added in $\mathbf{C}_{t}$. % (\cite{Goulet2017}).
+One particularity of BDLMs is their capacity to update the current predicted state with the current observations using the Kalman filter equations.
+The Kalman filter equations are computationnally efficient, as they are solved fully analytically.
+BDLMs are capable to process non-stationnary time series without retraining the model. %, which is well suited to perform online inference.
 
 \chapter{Data processing}
 \section{Purpose}
+
+As mentionned earlier, BDLMs are capable to analyze simultaneously multiple time-series.
+Multiple time-series analysis is particularly useful to incorporate information from observed environmental effects by creating dependencies between time-series.
+However, in most cases, the set of available time-series is heterogeneous, in the sense that each time-series do not originate from the same system of acquisition.
+Therefore, the raw data do not usually share the same timestamps.
+This is an issue because BDLM techniques are not capable to analyze asynchronous time-series.
+The data pre- processing in OpenBDLM is thus dedicated to synchronize the time-series between each others.
+%By default, the time synchronization is done by replacing the corresponding missing values in the time series with missing data.
+%Custom pre-processing is also possible to control the final amount of miss- ing data in the dataset, or to perform resampling by data averaging over time-windows of fixed length.
+%Moreover, the data pre-processing in OpenBDLM is also used to choose the time-series to process, and to select the period of analysis.
+%The time synchronization is updated automatically as time-series are added to (or removed from) the dataset.
+The preprocessing in OpenBDLM is minimalist and focuses on time synchronization.
+Neither outlier removal nor normalization is done to preserve the genuine information from the data.
+
 \section{Input data format}
+
+OpenBDLM accept two types of data formatting depending whether the time-series are already synchronized, or not.
+
+\subsection{CSV files}
+
+Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
+The user should provide one CSV files for each time series.
+The file is a two columns file that should be organized as follow:\\
+
+      L1    'name'            ,   '2000-01-01-22-00-00'\\
+      L2    737422            ,   0.405720714733635\\
+      L3    737423            ,   0.211094693486129\\
+      L4    737424            ,   0.54834914800378\\
+      
+The first line of the file (L1) is the header.
+In the header, the first field should contain the label of the time-series given as a quoted delimited string, as 'name'.
+The second field should is the date of the first timestamp given as a quoted delimited string, as 'YYYY-DD-MM-HH-MM-SS'.  
+Note that the two fields in the header are not the label of each column.
+The others line (L2 and higher) have two fields.
+The first field is the date given as a serial date number.
+The second field is the magnitude of the physical quantity measured (the measurement), given as a real number.
+
+\subsection{.MAT files}
+
+
 \section{Output data format}
 \section{Merging timestamps vector}
 \section{Data processing functions}
@@ -40,9 +170,7 @@
 \subsection{Local level compatible acceleration}
 \subsection{Local trend compatible acceleration}
 \subsection{Periodic}
-\subsection{Dynamic regression}
-\subsection{Static kernel regression}
-\subsection{Dynamic kernel regression}
+\subsection{Kernel regression}
 \subsection{Residual - first order autoregressive}
 \section{Model building functions}
 \newpage
@@ -76,14 +204,14 @@
 \section{Data simulation functions}
 \newpage
 
-\chapter{Model validation}
-\section{Purpose}
-\section{Prediction capacity}
-\section{Posterior model parameters covariance matrix analysis}
-\section{Posterior state covariance matrix analysis}
-\section{Residual component analysis}
-\section{Model validation functions}
-\newpage
+%\chapter{Model validation}
+%\section{Purpose}
+%\section{Prediction capacity}
+%\section{Posterior model parameters covariance matrix analysis}
+%\section{Posterior state covariance matrix analysis}
+%\section{Residual component analysis}
+%\section{Model validation functions}
+%\newpage
 
 \chapter{Visualization tools}
 \section{Purpose}
@@ -99,6 +227,55 @@
 \section{Version control functions}
 \newpage
 
+\chapter{OpenBLDM options}
+
+%     isMAP            - logical (optional)
+%                         if isMAP = true, Newton-Raphson algorithm is used to 
+%                         maximizing the log-posterior (log-prior+log-likelihood)
+%                         otherwise, Newton-Raphson algorithm is used to maximize the 
+%                         log-likelihood (MLE)
+%                         default = true
+%
+%     isPredCap        - logical (optional)
+%                         if isPredCap = true, the training set is splitted
+%                         into a training and testing dataset.
+%                         The log-likelihood computed over the testing
+%                         dataset is the Prediction Capacity (PredCap).
+%                         if isPredCap = true, the Prediction Capacity is
+%                         used to drive the optimization process, otherwise
+%                         the log-likelihood over the full dataset is used.
+%                         default = false
+%
+%     isLaplaceApprox  -  logical (optional)
+%                         if isLaplaceApprox = true, compute the full Laplace
+%                         approximation around the optimized model parameters
+%                         values to provide confidence interval
+%                         default: false
+%     maxIteration     - integer (optional)
+%                         maximum number of Newton-Rapshon iterations
+%                         default = 200
+%
+%     maxTime          - integer (optional)
+%                         maximum time in minutes to spend in running the
+%                         Newton-Rapshon algorithm
+%                         default = 60 
+%
+%     isParallel       - logical (optional)
+%                         if isParallel = true, performs parallel
+%                         computations
+%                         default: true
+%
+%     isMute           - logical (optional)
+%                         if isMute = false, throw information on screen
+%                         default: false
+%
+%     isLaplaceApprox  -  logical (optional)
+%                         if isLaplaceApprox = true, compute the full Laplace
+%                         approximation around the optimized model parameters
+%                         values to provide confidence interval
+%                         default: false
+
+
 \chapter{Examples}
 \section{Example 1}
 Simulated data with: one time series, one model class, \{[12 31 41]\}.
@@ -110,7 +287,7 @@ Simulated data with: two time series with dependencies, one model class, \{[11 4
 Simulated data with one time series, two model classes, \{[21 31 41]\} and \{[12 31 41]\}.
 
 \section{Example 4}
-Real data with one time series, one model class, \{[12 52 41]\}.
+Real data with one time series, one model class, \{[12 51 41]\}.
 
 \newpage
 
@@ -122,43 +299,6 @@ Real data with one time series, one model class, \{[12 52 41]\}.
 \newpage
 
 \chapter{Last changes}
-
-This new version now includes the data loader and the data simulation tools.
-It also includes additionnal tools to export the figures in several format (.tex, .png, .pdf).
-This version also supports batch processing (loop over input files, see the script demo\_1.m). \\
-
-The model parameters and hidden state estimation functions are (almost) identical compared to the previous GitHub version.\\
-
-WARNING: the 'data' structure completely changed (cell array instead of simple array) then previous configuration file are NOT readable with this version. You have to initialize a new project using the interactive tool, and then copy/paste manually your previously learned initial hidden states and/or model parameters values.\\
-
-Note that the sofware will only work properly if you run it from the same folder that contains the file BDLM.m.
-As usual, always put all the folders in your Matlab path before running the program.
-
-\section{Data loading}
-Data loader is accessible via interactive tool (option '0').
-See the DataLoader.m function to change data loading option (handle quantity of allowed missing data, handle tolerance between timestamp, etc...).
-
-\section{Data simulation}
-Once a project has been created, data simulation is now possible through option '16'.
-A new project is created.
-
-\section{Create a configuration file}
-Option '0' builds a configuration file by default.
-At any time, option '17' export current model in configuration file format.
-
-\section{Export figures}
-The program can now save figures in tex, png and pdf format.
-See the plotEstimation.m function to change export options.
-When pdf export is done, the program builds a single pdf file containing all the figures.
-
-\section{Batch processing}
-
-Batch processing allows you to plan a succession of tasks in advance, and let them run during the night (or whenever you want).
-All the planned command have to be written in ASCII input files.\\
-
-See demo\_1.m for an example of batch processing. demo\_1.m sequentially creates 3 simulated dataset.\\
-
-WARNING: the beta version of this tool uses global variables (named 'isAnswersFromFile' 'AnswersFromFile' 'AnswersIndex'), so always clean your workspace by typing 'clear -global isAnswersFromFile AnswersFromFile AnswersIndex' before and after using batch processing.
 
 \newpage
 

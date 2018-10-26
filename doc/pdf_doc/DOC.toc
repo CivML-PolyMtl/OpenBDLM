@@ -1,58 +1,60 @@
 \contentsline {chapter}{\numberline {1}What OpenBDLM does ?}{7}{chapter.1}
-\contentsline {chapter}{\numberline {2}Install OpenBDLM}{9}{chapter.2}
-\contentsline {chapter}{\numberline {3}Data processing}{11}{chapter.3}
-\contentsline {section}{\numberline {3.1}Purpose}{11}{section.3.1}
-\contentsline {section}{\numberline {3.2}Input data format}{11}{section.3.2}
-\contentsline {section}{\numberline {3.3}Output data format}{11}{section.3.3}
-\contentsline {section}{\numberline {3.4}Merging timestamps vector}{11}{section.3.4}
-\contentsline {section}{\numberline {3.5}Data processing functions}{11}{section.3.5}
-\contentsline {chapter}{\numberline {4}Model building}{13}{chapter.4}
+\contentsline {chapter}{\numberline {2}Installing OpenBDLM}{9}{chapter.2}
+\contentsline {section}{\numberline {2.1}Prerequisites}{9}{section.2.1}
+\contentsline {section}{\numberline {2.2}Installing}{9}{section.2.2}
+\contentsline {section}{\numberline {2.3}Getting started}{9}{section.2.3}
+\contentsline {section}{\numberline {2.4}Demo}{10}{section.2.4}
+\contentsline {chapter}{\numberline {3}Bayesian dynamic linear models}{11}{chapter.3}
+\contentsline {section}{\numberline {3.1}Transition equation}{11}{section.3.1}
+\contentsline {section}{\numberline {3.2}Observation equation}{11}{section.3.2}
+\contentsline {chapter}{\numberline {4}Data processing}{13}{chapter.4}
 \contentsline {section}{\numberline {4.1}Purpose}{13}{section.4.1}
-\contentsline {section}{\numberline {4.2}Model class}{13}{section.4.2}
-\contentsline {section}{\numberline {4.3}Dependencies}{13}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Observed covariate}{13}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Hidden covariate}{13}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Model components}{13}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Local level}{13}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Local trend}{13}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Local acceleration}{13}{subsection.4.4.3}
-\contentsline {subsection}{\numberline {4.4.4}Local level compatible trend}{13}{subsection.4.4.4}
-\contentsline {subsection}{\numberline {4.4.5}Local level compatible acceleration}{13}{subsection.4.4.5}
-\contentsline {subsection}{\numberline {4.4.6}Local trend compatible acceleration}{13}{subsection.4.4.6}
-\contentsline {subsection}{\numberline {4.4.7}Periodic}{13}{subsection.4.4.7}
-\contentsline {subsection}{\numberline {4.4.8}Kernel regression}{13}{subsection.4.4.8}
-\contentsline {subsection}{\numberline {4.4.9}Residual - first order autoregressive}{13}{subsection.4.4.9}
-\contentsline {section}{\numberline {4.5}Model building functions}{13}{section.4.5}
-\contentsline {chapter}{\numberline {5}Model parameters learning}{15}{chapter.5}
+\contentsline {section}{\numberline {4.2}Input data format}{13}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}CSV files}{13}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}.MAT files}{14}{subsection.4.2.2}
+\contentsline {section}{\numberline {4.3}Output data format}{14}{section.4.3}
+\contentsline {section}{\numberline {4.4}Merging timestamps vector}{14}{section.4.4}
+\contentsline {section}{\numberline {4.5}Data processing functions}{14}{section.4.5}
+\contentsline {chapter}{\numberline {5}Model building}{15}{chapter.5}
 \contentsline {section}{\numberline {5.1}Purpose}{15}{section.5.1}
-\contentsline {section}{\numberline {5.2}Posterior}{15}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Prior}{15}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Likelihood}{15}{subsection.5.2.2}
-\contentsline {section}{\numberline {5.3}Model parameters bounds and transformed spaces}{15}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Logarithmic transformation}{15}{subsection.5.3.1}
-\contentsline {subsection}{\numberline {5.3.2}Sigmoid transformation}{15}{subsection.5.3.2}
-\contentsline {section}{\numberline {5.4}Gradient-based optimization techniques}{15}{section.5.4}
-\contentsline {subsection}{\numberline {5.4.1}Newton-Raphson approach}{15}{subsection.5.4.1}
-\contentsline {subsection}{\numberline {5.4.2}Stochastic Gradient Ascent approach}{15}{subsection.5.4.2}
-\contentsline {section}{\numberline {5.5}Constrain model parameters between each others}{15}{section.5.5}
-\contentsline {section}{\numberline {5.6}Model parameters learning functions}{15}{section.5.6}
-\contentsline {chapter}{\numberline {6}Hidden states estimation}{17}{chapter.6}
+\contentsline {section}{\numberline {5.2}Model class}{15}{section.5.2}
+\contentsline {section}{\numberline {5.3}Dependencies}{15}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Observed covariate}{15}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Hidden covariate}{15}{subsection.5.3.2}
+\contentsline {section}{\numberline {5.4}Model components}{15}{section.5.4}
+\contentsline {subsection}{\numberline {5.4.1}Local level}{15}{subsection.5.4.1}
+\contentsline {subsection}{\numberline {5.4.2}Local trend}{15}{subsection.5.4.2}
+\contentsline {subsection}{\numberline {5.4.3}Local acceleration}{15}{subsection.5.4.3}
+\contentsline {subsection}{\numberline {5.4.4}Local level compatible trend}{15}{subsection.5.4.4}
+\contentsline {subsection}{\numberline {5.4.5}Local level compatible acceleration}{15}{subsection.5.4.5}
+\contentsline {subsection}{\numberline {5.4.6}Local trend compatible acceleration}{15}{subsection.5.4.6}
+\contentsline {subsection}{\numberline {5.4.7}Periodic}{15}{subsection.5.4.7}
+\contentsline {subsection}{\numberline {5.4.8}Kernel regression}{15}{subsection.5.4.8}
+\contentsline {subsection}{\numberline {5.4.9}Residual - first order autoregressive}{15}{subsection.5.4.9}
+\contentsline {section}{\numberline {5.5}Model building functions}{15}{section.5.5}
+\contentsline {chapter}{\numberline {6}Model parameters learning}{17}{chapter.6}
 \contentsline {section}{\numberline {6.1}Purpose}{17}{section.6.1}
-\contentsline {section}{\numberline {6.2}Kalman equations}{17}{section.6.2}
-\contentsline {section}{\numberline {6.3}UD computations}{17}{section.6.3}
-\contentsline {section}{\numberline {6.4}Filtering}{17}{section.6.4}
-\contentsline {section}{\numberline {6.5}Smoothing}{17}{section.6.5}
-\contentsline {section}{\numberline {6.6}Hidden states estimation functions}{17}{section.6.6}
-\contentsline {chapter}{\numberline {7}Data simulation}{19}{chapter.7}
+\contentsline {section}{\numberline {6.2}Posterior}{17}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Prior}{17}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Likelihood}{17}{subsection.6.2.2}
+\contentsline {section}{\numberline {6.3}Model parameters bounds and transformed spaces}{17}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Logarithmic transformation}{17}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}Sigmoid transformation}{17}{subsection.6.3.2}
+\contentsline {section}{\numberline {6.4}Gradient-based optimization techniques}{17}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}Newton-Raphson approach}{17}{subsection.6.4.1}
+\contentsline {subsection}{\numberline {6.4.2}Stochastic Gradient Ascent approach}{17}{subsection.6.4.2}
+\contentsline {section}{\numberline {6.5}Constrain model parameters between each others}{17}{section.6.5}
+\contentsline {section}{\numberline {6.6}Model parameters learning functions}{17}{section.6.6}
+\contentsline {chapter}{\numberline {7}Hidden states estimation}{19}{chapter.7}
 \contentsline {section}{\numberline {7.1}Purpose}{19}{section.7.1}
-\contentsline {section}{\numberline {7.2}Data simulation functions}{19}{section.7.2}
-\contentsline {chapter}{\numberline {8}Model validation}{21}{chapter.8}
+\contentsline {section}{\numberline {7.2}Kalman equations}{19}{section.7.2}
+\contentsline {section}{\numberline {7.3}UD computations}{19}{section.7.3}
+\contentsline {section}{\numberline {7.4}Filtering}{19}{section.7.4}
+\contentsline {section}{\numberline {7.5}Smoothing}{19}{section.7.5}
+\contentsline {section}{\numberline {7.6}Hidden states estimation functions}{19}{section.7.6}
+\contentsline {chapter}{\numberline {8}Data simulation}{21}{chapter.8}
 \contentsline {section}{\numberline {8.1}Purpose}{21}{section.8.1}
-\contentsline {section}{\numberline {8.2}Prediction capacity}{21}{section.8.2}
-\contentsline {section}{\numberline {8.3}Posterior model parameters covariance matrix analysis}{21}{section.8.3}
-\contentsline {section}{\numberline {8.4}Posterior state covariance matrix analysis}{21}{section.8.4}
-\contentsline {section}{\numberline {8.5}Residual component analysis}{21}{section.8.5}
-\contentsline {section}{\numberline {8.6}Model validation functions}{21}{section.8.6}
+\contentsline {section}{\numberline {8.2}Data simulation functions}{21}{section.8.2}
 \contentsline {chapter}{\numberline {9}Visualization tools}{23}{chapter.9}
 \contentsline {section}{\numberline {9.1}Purpose}{23}{section.9.1}
 \contentsline {section}{\numberline {9.2}Data availability plots}{23}{section.9.2}
@@ -62,11 +64,12 @@
 \contentsline {chapter}{\numberline {10}Version control}{25}{chapter.10}
 \contentsline {section}{\numberline {10.1}Purpose}{25}{section.10.1}
 \contentsline {section}{\numberline {10.2}Version control functions}{25}{section.10.2}
-\contentsline {chapter}{\numberline {11}Examples}{27}{chapter.11}
-\contentsline {section}{\numberline {11.1}Example 1}{27}{section.11.1}
-\contentsline {section}{\numberline {11.2}Example 2}{27}{section.11.2}
-\contentsline {section}{\numberline {11.3}Example 3}{27}{section.11.3}
-\contentsline {section}{\numberline {11.4}Example 4}{27}{section.11.4}
-\contentsline {chapter}{\numberline {12}List of functions}{29}{chapter.12}
-\contentsline {chapter}{\numberline {13}Older versions}{31}{chapter.13}
-\contentsline {chapter}{\numberline {14}Last changes}{33}{chapter.14}
+\contentsline {chapter}{\numberline {11}OpenBLDM options}{27}{chapter.11}
+\contentsline {chapter}{\numberline {12}Examples}{29}{chapter.12}
+\contentsline {section}{\numberline {12.1}Example 1}{29}{section.12.1}
+\contentsline {section}{\numberline {12.2}Example 2}{29}{section.12.2}
+\contentsline {section}{\numberline {12.3}Example 3}{29}{section.12.3}
+\contentsline {section}{\numberline {12.4}Example 4}{29}{section.12.4}
+\contentsline {chapter}{\numberline {13}List of functions}{31}{chapter.13}
+\contentsline {chapter}{\numberline {14}Older versions}{33}{chapter.14}
+\contentsline {chapter}{\numberline {15}Last changes}{35}{chapter.15}

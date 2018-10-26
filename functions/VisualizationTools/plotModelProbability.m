@@ -164,16 +164,16 @@ timestamps=data.timestamps;
 plot_time_1=1:Subsample:length(timestamps);
 
 % Define timestamp vector for secondary plot plot
-if  isSecondaryPlot  
+if  isSecondaryPlot
     
     ZoomDuration = 14; % zoom duration in days
     
     if ZoomDuration/referenceTimestep >= 1
-    % Define timestamp vector for secondary plot plot
-    time_fraction=0.641;
-    plot_time_2=round(time_fraction*length(timestamps)): ...
-        round(time_fraction*length(timestamps))+ ...
-        (ZoomDuration/referenceTimestep);
+        % Define timestamp vector for secondary plot plot
+        time_fraction=0.641;
+        plot_time_2=round(time_fraction*length(timestamps)): ...
+            round(time_fraction*length(timestamps))+ ...
+            (ZoomDuration/referenceTimestep);
     else
         isSecondaryPlot = false;
     end
@@ -205,12 +205,14 @@ if isfield(estimation,'x')
         'color',[1 0.0 0],'Linewidth',Linewidth*2)
     hold on
     if isfield(estimation,'ref')
+        
         % Plot true values
         plot(timestamps(plot_time_1), ...
             1-dataset_x_ref(plot_time_1, end),'--r')
     end
     
 else
+    
     % Plot true values
     plot(timestamps(plot_time_1),1-dataset_x_ref(plot_time_1, end), ...
         'Color', BlueColor, 'LineWidth', Linewidth)
@@ -256,7 +258,7 @@ if isSecondaryPlot
     
     set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
         timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-        ndivy),...
+        3),...
         'YTick', [], ...
         'box', 'off', 'Fontsize', 16);
     datetick('x','mm-dd','keepticks')
@@ -264,11 +266,11 @@ if isSecondaryPlot
     xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
     hold off
     ylim([0,1])
-
+    
 end
 
 
-%% Export plots
+%% Export plots in specified formats
 if isExportPDF || isExportPNG || isExportTEX
     
     % Define the name of the figure
@@ -283,11 +285,9 @@ if isExportPDF || isExportPNG || isExportTEX
         'isExportPNG', isExportPNG, ...
         'isExportTEX', isExportTEX);
 else
-   FigureNames{1} = []; 
+    FigureNames{1} = [];
 end
 
 
 end
-
-
 %--------------------END CODE ------------------------

@@ -1,10 +1,28 @@
 \documentclass{book}
 
+% Matlab code package
+\usepackage{listings}
+\usepackage[numbered,framed]{matlab-prettifier}
+\definecolor{light-gray}{gray}{0.95}
+
+\usepackage{upquote}
+
+% Amsmath package
+\RequirePackage{amsmath}
+\RequirePackage{amstext}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+\RequirePackage{latexsym}
+\RequirePackage{amscd}
+\RequirePackage{mathtools}
+\RequirePackage{bm}
+
+\usepackage{xcolor}
 
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue}
 
-\title{OpenBDLM: An open-source Matlab software for Structural Health Monitoring using Bayesian dynamic linear models}
+\title{OpenBDLM: an open-source Matlab software for time-series analysis using Bayesian dynamic linear models}
 \author{Ianis Gaudot, Luong H. Nguyen, James-A. Goulet \\ Polytechnique Montreal}
 
 \begin{document}
@@ -13,14 +31,155 @@
 \tableofcontents
 
 \chapter{What OpenBDLM does ?}
+
+OpenBDLM is a Matlab open-source software designed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step of in the order of one hour or higher).
+OpenBDLM is capable to process simultaneously any time series data to interpret, monitor and predict their long-term behavior.
+OpenBDLM also includes an anomaly detection tool which allows to detect abnormal behavior in a fully probabilistic framework.
+
+\begin{itemize}
+  \item linear gaussian state-space models
+  \item time-series decomposition
+  \item anomaly detection
+  \item model identification
+  \item data visualization
+\end{itemize}
+
 \newpage
 
-\chapter{Install OpenBDLM}
-\newpage
+\chapter{Installing OpenBDLM}
+
+These instructions will get you a copy of the project up and running on your local machine for direct use, testing and development purposes.\\
+\section{Prerequisites}
+Matlab (version 2016a or higher) installed on Mac OSX or Windows\\
+
+\section{Installing}
+
+1. Remove from your Matlab path all previously OpenBDLM versions\\
+2. Extract the ZIP file (or clone the git repository) somewhere you can easily reach it.\\
+3. Add \textbf{OpenBDLM-master/} folder and all the sub folders to your path in Matlab :\\
+    - using the ``Set Path'' dialog box in Matlab, or \\
+    - by running \colorbox{light-gray}{addpath} function from the Matlab command window\\
+
+\section{Getting started}
+
+Enter in the folder \textbf{OpenBDLM-master}, and type \colorbox{light-gray}{OpenBDLM\_main();} in the Matlab command line.
+The OpenBDLM starting menu should appear on the Matlab command window (\ref{LST:OpenBDLMmainMenu}).
+
+\begin{lstlisting}[backgroundcolor = \color{light-gray}, , caption = OpenBDLM starting menu, label = LST:OpenBDLMmainMenu ]
+
+----------------------------------------------------------------------------------------------
+     Starting OpenBDLM_V???...
+----------------------------------------------------------------------------------------------
+
+            Structural Health Monitoring using Bayesian Dynamic Linear Models
+
+----------------------------------------------------------------------------------------------
+
+- Start a new project: 
+
+     *      Enter a configuration filename 
+     0   -> Interactive tool 
+
+- Type D to Delete project(s), V for Version control, Q to Quit.
+
+     choice >>
+\end{lstlisting}
+
+
+\section{Demo}
+
+In the Matlab command line, type  \colorbox{light-gray}{run\_DEMO.m} to run a little demo. You should see some messages on the Matlab command window showing that the programs runs properly:\\
+%\begin{lstlisting}[style=Matlab-editor]
+\begin{lstlisting}[backgroundcolor = \color{light-gray}, , caption = Output on Matlab command window when running  \colorbox{light-gray}{run\_DEMO.m} script]
+     Starting OpenBDLM_V???...
+     Starting a new project...
+     Building model...
+     Simulating data...
+     Plotting data...
+     Saving database (binary format) ...
+     Saving database (csv format) ...
+     Saving project...
+     Printing configuration file...
+     Saving database (binary format) ...
+     Saving project...
+     See you soon !
+\end{lstlisting}
+
+If you do not see anything except Matlab errors verify your Matlab version, and your Matlab path. Be sure that you run the program from the top-level of OpenBDLM-master folder, not from another folder.\\
+
+\chapter{Bayesian dynamic linear models}
+
+Bayesian dynamic linear models (hereafter referred to as BDLMs) are a class of linear gaussian state-space models which can be described from the transition and the observation equations. % (\cite{West1999book}).
+\section{Transition equation} 
+The transition equation describes the dynamics of the system, and is formulated as
+\begin{equation}
+  \mathbf{x}_{t}=\mathbf{A}_{t}\mathbf{x}_{t-1}+\mathbf{w}_{t},\quad\left\{
+  \begin{array}{l}
+\mathbf{x}_{t}\sim \mathcal{N}(\bm{\mu}_{t},\bm{\Sigma}_{t})\\[4pt]
+\mathbf{w}_{t}\sim \mathcal{N}(\mathbf{0},
+\mathbf{Q}_{t}),
+\end{array}\right.
+\label{EQ:SSM_Transition}
+\end{equation}
+where, for each each time $t=1, \dots ,T$, the variables $\mathbf{x}_{t}$ follow a Gaussian distribution with mean $\bm{\mu}_{t}$ and covariance matrix $\bm{\Sigma}_{t}$, $\mathbf{A}_{t}$ is the transition matrix, and $\mathbf{w}_{t}$ represents Gaussian model errors with zero mean and covariance matrix $\mathbf{Q}_{t}$.
+The variables $\mathbf{x}_{t}$ are usually referred to as hidden states because they are not directly observed.
+\section{Observation equation}
+The relationship between the observations $\mathbf{y}_{t}$ and the hidden states $\mathbf{x}_{t}$ is given by the observation equation, such as
+\begin{equation}
+\mathbf{y}_{t}=\mathbf{C}_{t}\mathbf{x}_{t}+\mathbf{v}_{t},\quad\left\{\begin{array}{l}
+\mathbf{v}_{t}\sim \mathcal{N}(\mathbf{0},\mathbf{R}_{t}),
+\end{array}\right.
+\label{EQ:SSM_Observation}
+\end{equation}
+where $\mathbf{C}_{t}$ is the observation matrix, and $\mathbf{v}_{t}$ is the Gaussian measurement error with zero mean and covariance matrix $\mathbf{R}_{t}$.
+BDLMs are capable to analyze multiple time series simultaneously.
+In case of dependencies between the time series, regression coefficients are added in $\mathbf{C}_{t}$. % (\cite{Goulet2017}).
+One particularity of BDLMs is their capacity to update the current predicted state with the current observations using the Kalman filter equations.
+The Kalman filter equations are computationnally efficient, as they are solved fully analytically.
+BDLMs are capable to process non-stationnary time series without retraining the model. %, which is well suited to perform online inference.
 
 \chapter{Data processing}
 \section{Purpose}
+
+As mentionned earlier, BDLMs are capable to analyze simultaneously multiple time-series.
+Multiple time-series analysis is particularly useful to incorporate information from observed environmental effects by creating dependencies between time-series.
+However, in most cases, the set of available time-series is heterogeneous, in the sense that each time-series do not originate from the same system of acquisition.
+Therefore, the raw data do not usually share the same timestamps.
+This is an issue because BDLM techniques are not capable to analyze asynchronous time-series.
+The data pre- processing in OpenBDLM is thus dedicated to synchronize the time-series between each others.
+%By default, the time synchronization is done by replacing the corresponding missing values in the time series with missing data.
+%Custom pre-processing is also possible to control the final amount of miss- ing data in the dataset, or to perform resampling by data averaging over time-windows of fixed length.
+%Moreover, the data pre-processing in OpenBDLM is also used to choose the time-series to process, and to select the period of analysis.
+%The time synchronization is updated automatically as time-series are added to (or removed from) the dataset.
+The preprocessing in OpenBDLM is minimalist and focuses on time synchronization.
+Neither outlier removal nor normalization is done to preserve the genuine information from the data.
+
 \section{Input data format}
+
+OpenBDLM accept two types of data formatting depending whether the time-series are already synchronized, or not.
+
+\subsection{CSV files}
+
+Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
+The user should provide one CSV files for each time series.
+The file is a two columns file that should be organized as follow:\\
+\begin{lstlisting}[backgroundcolor = \color{light-gray}, caption = CSV file example]
+'name'            ,   '2000-01-01-22-00-00'
+737422            ,   0.40
+737423            ,   0.21
+737424            ,   0.548
+\end{lstlisting}    
+The first line of the file is the header.
+In the header, the first field should contain the label of the time-series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
+The second field should is the date of the first timestamp given as a quoted delimited string, as \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle.  
+Note that the two fields in the header are not the label of each column.
+The others line have two fields.
+The first field is the date given as a serial date number.
+The second field is the magnitude of the physical quantity measured (the measurement), given as a real number.
+
+\subsection{.MAT files}
+
+
 \section{Output data format}
 \section{Merging timestamps vector}
 \section{Data processing functions}
@@ -74,14 +233,14 @@
 \section{Data simulation functions}
 \newpage
 
-\chapter{Model validation}
-\section{Purpose}
-\section{Prediction capacity}
-\section{Posterior model parameters covariance matrix analysis}
-\section{Posterior state covariance matrix analysis}
-\section{Residual component analysis}
-\section{Model validation functions}
-\newpage
+%\chapter{Model validation}
+%\section{Purpose}
+%\section{Prediction capacity}
+%\section{Posterior model parameters covariance matrix analysis}
+%\section{Posterior state covariance matrix analysis}
+%\section{Residual component analysis}
+%\section{Model validation functions}
+%\newpage
 
 \chapter{Visualization tools}
 \section{Purpose}

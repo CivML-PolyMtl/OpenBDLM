@@ -1,5 +1,5 @@
 function plotEstimations(data, model, estimation, misc, varargin)
-%PLOTESTIMATIONS Plot hidden states results
+%PLOTESTIMATIONS Plot hidden states, predicted data, and model probability
 %
 %   SYNOPSIS:
 %     PLOTESTIMATIONS(data, model, estimation, misc, varargin)
@@ -76,7 +76,7 @@ function plotEstimations(data, model, estimation, misc, varargin)
 %       May 24, 2018
 %
 %   DATE LAST UPDATE:
-%       August 9, 2018
+%       October 26, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -153,7 +153,8 @@ if isExportPNG || isExportPDF || isExportTEX
             choice = input('     (y/n) >> ','s');
             if isempty(choice)
                 fprintf(fileID,'\n');
-                fprintf(fileID,'     wrong input --> please make a choice\n');
+                fprintf(fileID,['     wrong input --> please ', ...
+                    ' make a choice\n']);
                 fprintf(fileID,'\n');
             elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
                 
@@ -161,7 +162,8 @@ if isExportPNG || isExportPDF || isExportTEX
                 
             elseif strcmpi(choice,'n') || strcmpi(choice,'no')
                 
-                [name] = incrementFilename([misc.ProjectName, '_new'], FilePath);
+                [name] = incrementFilename([misc.ProjectName, '_new'], ...
+                    FilePath);
                 fullname=fullfile(FilePath, name);
                 
                 % Create new directory
@@ -200,102 +202,39 @@ if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
 end
 
 % Initialize a cell array that records the names of all the figures
-FigureNames_full = {};
-
 %% Plot predicted data
 
-[FigureNames] = ...
-    plotPredictedData(data, model, estimation, misc, ...
+[~] = plotPredictedData(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
     'isExportTEX', isExportTEX);
-
-FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
 
 %% Plot hidden state estimations
-[FigureNames] = plotHiddenStates(data, model, estimation, misc, ...
+[~] = plotHiddenStates(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
     'isExportTEX', isExportTEX);
-
-FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
 
 %% Plot model probability
-[FigureNames] = plotModelProbability(data, model, estimation, misc, ...
+[~] = plotModelProbability(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
     'isExportTEX', isExportTEX);
-
-FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
 
 %% Waterfall plot for kernel regression
-[FigureNames] = plotWaterfallKRegression(data, model, estimation, misc, ...
+[~] = plotWaterfallKRegression(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
     'isExportTEX', isExportTEX);
 
-FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
-
-%% Concatenate all pdfs in a single pdf file
-if isExportPDF
-    
-    % Remove empty cells
-    FigureNames_full(cellfun('isempty',FigureNames_full)) = [];
-    
-    % Get number of time series
-    numberOfTimeSeries = length(data.labels);
-    
-    for i=1:numberOfTimeSeries
-        
-        if i == 1
-            FigureNames_sort = {};
-        end
-        
-        pattern = data.labels{i};
-        
-        Test = strfind(FigureNames_full(:), pattern);
-        Index = not(cellfun('isempty', Test ));
-        
-        FigureNames_sub =  ...
-            FigureNames_full(Index);
-        
-        FigureNames_sort = [ FigureNames_sort FigureNames_sub];
-        
-    end
-    
-    if model.nb_class>1
-        Test = strfind(FigureNames_full(:), 'ModelProbability');
-        Index = not(cellfun('isempty', Test ));
-        FigureNames_sub =  ...
-            FigureNames_full(Index);
-        
-        FigureNames_sort = [FigureNames_sort FigureNames_sub];
-    end
-      
-    pdfFileName = ['ESTIMATIONS_', misc.ProjectName,'.pdf'];
-    fullPdfFileName = fullfile (fullname, pdfFileName);
-    
-    [isFileExist] = testFileExistence(fullPdfFileName, 'file');
-    
-    if isFileExist
-        delete(fullPdfFileName)
-    end
-    
-    FigureNames_sort = strcat(fullfile(fullname, FigureNames_sort),'.pdf');
-        
-    % Merge all pdfs for creating one single one in specified location
-    append_pdfs(fullPdfFileName, FigureNames_sort{:})
-        
-    %open(fullPdfFileName)
-    
-end
 if isExportPNG || isExportPDF || isExportTEX
     fprintf(fileID,'\n');
     fprintf(fileID,'     Figures saved in %s.\n', fullname);
     fprintf(fileID,'\n');
 end
+
 end
