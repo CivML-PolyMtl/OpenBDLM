@@ -111,6 +111,9 @@ for j=1:M
     x = zeros(ss,T);
 end
 
+%% Initialize the seed 
+rng(12345)
+
 %% Simulate data
 for t=1:T
     

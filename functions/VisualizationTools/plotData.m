@@ -110,8 +110,6 @@ ndivx = misc.options.ndivx;
 ndivy = misc.options.ndivy;
 Subsample = misc.options.Subsample;
 
-
-
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FigurePath, 'dir');
 if ~isFileExist
@@ -130,9 +128,9 @@ if isExportPNG || isExportPDF || isExportTEX
     
     if ~isFileExist
         mkdir(fullPath)
-        addpath(fullPath)       
+        addpath(fullPath)
     end
-        
+    
 end
 
 %% Get amplitude values to plot
@@ -155,16 +153,16 @@ timestamps=data.timestamps;
 % Define timestamp vector for main plot
 plot_time_1=1:Subsample:length(timestamps);
 
-if  isSecondaryPlot  
+if  isSecondaryPlot
     
     ZoomDuration = 14; % zoom duration in days
     
     if ZoomDuration/referenceTimestep >= 1
-    % Define timestamp vector for secondary plot plot
-    time_fraction=0.641;
-    plot_time_2=round(time_fraction*length(timestamps)): ...
-        round(time_fraction*length(timestamps))+ ...
-        (ZoomDuration/referenceTimestep);
+        % Define timestamp vector for secondary plot plot
+        time_fraction=0.641;
+        plot_time_2=round(time_fraction*length(timestamps)): ...
+            round(time_fraction*length(timestamps))+ ...
+            (ZoomDuration/referenceTimestep);
     else
         isSecondaryPlot = false;
     end
@@ -186,7 +184,6 @@ else
     FigureNames=cell(numberOfTimeSeries,1);
 end
 
-
 %% Plot data amplitude
 for i=1:numberOfTimeSeries
     FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
@@ -200,10 +197,11 @@ for i=1:numberOfTimeSeries
         'Linewidth',Linewidth, 'Color', [1 0 0])
     
     miny=min(DataValues(plot_time_1,i));
-    maxy=max(DataValues(plot_time_1,i));
-    
+    maxy=max(DataValues(plot_time_1,i));    
+    ylim([miny, maxy ])   
     set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
         timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
+        'YTick', linspace(miny, maxy, ndivy), ...
         'box','off', 'FontSize', 16);
     if miny~=maxy
         set(gca,'Ylim',[miny,maxy])
@@ -224,7 +222,7 @@ for i=1:numberOfTimeSeries
         
         set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
             timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-            ndivy), 'YTick', [], 'box','off', 'FontSize', 16);
+            3), 'YTick', [], 'box','off', 'FontSize', 16);
         datetick('x','mm-dd','keepticks')
         year=datevec(timestamps(plot_time_2(1)));
         xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
@@ -264,7 +262,9 @@ if isPlotTimestep
             'Marker', 'o', 'LineStyle', 'none', 'Markersize', 2, ...
             'Color', [0 0 0])
         
-        set(gca,'XTick',linspace(timestamps(1),timestamps(end),5));
+        set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
+            timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
+            'box','off', 'FontSize', 16);
         set(gca,'FontSize',16)
         YTicks=([ 1 10 100 1000]);
         set(gca, 'YTick', YTicks)
@@ -286,7 +286,7 @@ if isPlotTimestep
             
             set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
                 timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-                ndivy), 'YTick', [], 'box','off', 'FontSize', 16);
+                3), 'YTick', [], 'box','off', 'FontSize', 16);
             datetick('x','mm-dd','keepticks')
             year=datevec(timestamps(plot_time_2(1)));
             xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
@@ -317,45 +317,5 @@ if isPlotTimestep
     
     
 end
-
-if isExportPDF
-    %% Merge pdf
-        
-    for i=1:numberOfTimeSeries
-        
-        if i == 1
-            FigureNames_sort = {};
-        end
-        
-        pattern = data.labels{i};
-        
-        Test = strfind(FigureNames(:), pattern);
-        Index = not(cellfun('isempty', Test ));
-        
-        FigureNames_sub =  ...
-            FigureNames(Index);
-        
-        FigureNames_sort = [ FigureNames_sort ; FigureNames_sub];
-        
-    end
-    
-    pdfFileName = ['DATA_', misc.ProjectName,'.pdf'];
-    fullPdfFileName = fullfile (fullPath, pdfFileName);
-    
-    [isFileExist] = testFileExistence(fullPdfFileName, 'file');
-    
-    if isFileExist
-        delete(fullPdfFileName)
-    end
-    
-    FigureNames_sort = strcat(fullfile(fullPath, FigureNames_sort),'.pdf');
-    
-    % Merge all pdfs for creating one single one in specified location
-    append_pdfs(fullPdfFileName, FigureNames_sort{:})
-    
-    %open(fullPdfFileName)
-    
-end
-
 %--------------------END CODE ------------------------
 end

@@ -151,16 +151,16 @@ timestamps=data.timestamps;
 plot_time_1=1:Subsample:length(timestamps);
 
 % Define timestamp vector for secondary plot plot
-if  isSecondaryPlot  
+if  isSecondaryPlot
     
     ZoomDuration = 14; % zoom duration in days
     
     if ZoomDuration/referenceTimestep >= 1
-    % Define timestamp vector for secondary plot plot
-    time_fraction=0.641;
-    plot_time_2=round(time_fraction*length(timestamps)): ...
-        round(time_fraction*length(timestamps))+ ...
-        (ZoomDuration/referenceTimestep);
+        % Define timestamp vector for secondary plot plot
+        time_fraction=0.641;
+        plot_time_2=round(time_fraction*length(timestamps)): ...
+            round(time_fraction*length(timestamps))+ ...
+            (ZoomDuration/referenceTimestep);
     else
         isSecondaryPlot = false;
     end
@@ -185,9 +185,9 @@ BlueColor = [0, 0.4, 0.8];
 loop=0;
 for idx=1:numberOfHiddenStates
     if and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{KR',5),...
-             ~strcmp(model.hidden_states_names{1}(idx,1),'x^{KR1}')) && ...
-         and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{KR',5),...
-             ~strcmp(model.hidden_states_names{1}(idx,1),'x^{KR0}'))           
+            ~strcmp(model.hidden_states_names{1}(idx,1),'x^{KR1}')) && ...
+            and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{KR',5),...
+            ~strcmp(model.hidden_states_names{1}(idx,1),'x^{KR0}'))
         
     else
         
@@ -216,7 +216,7 @@ for idx=1:numberOfHiddenStates
             
             miny=mean_xpl-mult_factor*(std_xpl+mean_spl);
             maxy=mean_xpl+mult_factor*(std_xpl+mean_spl);
-
+            
             px=[timestamps(plot_time_1);
                 flipud(timestamps(plot_time_1))]';
             py=[xpl-sqrt(spl) fliplr(xpl+sqrt(spl))];
@@ -228,7 +228,6 @@ for idx=1:numberOfHiddenStates
             plot(timestamps(plot_time_1),xpl,'k','Linewidth',Linewidth)
             
             if isfield(estimation,'ref')
-                % Plot true values
                 plot(timestamps(plot_time_1), ...
                     dataset_x_ref(plot_time_1,idx), '--r')
             end
@@ -266,6 +265,7 @@ for idx=1:numberOfHiddenStates
                 plot(timestamps(plot_time_1), ...
                     dataset_x_ref(plot_time_1,idx), 'Color', BlueColor,  ...
                     'LineWidth', Linewidth)
+                
             end
             
         end
@@ -273,12 +273,18 @@ for idx=1:numberOfHiddenStates
         ylabel(['$' model.hidden_states_names{1}{idx,1} '$ [' '$' ...
             data.labels{str2double(model.hidden_states_names{1}{idx,3})} ...
             ']$' ],'Interpreter','Latex')
-
-        datetick('x','yy-mm','keepticks')
-        set(gca, 'Fontsize', 16)
+        
         if miny~=maxy
             set(gca,'Ylim',[miny,maxy])
         end
+        
+        set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
+            timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
+            'YTick', linspace(miny, maxy, ndivy),...
+            'box','off',  ...
+            'FontSize', 16);
+        
+        datetick('x','yy-mm','keepticks')
         xlabel('Time [YY-MM]')
         xlim([timestamps(1)-Xaxis_lag,timestamps(end)])
         hold off
@@ -315,7 +321,7 @@ for idx=1:numberOfHiddenStates
             
             set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
                 timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-                ndivy),...
+                3),...
                 'YTick', [], ...
                 'box', 'off', ...
                 'Fontsize', 16);

@@ -57,7 +57,7 @@ function [model, misc]=defineModel(data, misc)
 %       April 20, 2018
 %
 %   DATE LAST UPDATE:
-%       August 9, 2018
+%       October 19, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -331,7 +331,7 @@ for j=1:nb_models
                 fprintf(fileID,'\n');
                 continue
             elseif j == 2 && nb_models>1 && comp{1}{i}(1) == 21 && ...
-                    comp{j}{i}(1) ~= 12
+                    comp{j}{i}(1) ~= 12 && comp{j}{i}(1) ~= 21
                 fprintf(fileID,'\n');
                 fprintf(fileID,['     wrong input -> the ', ...
                     'level component' ...
@@ -339,7 +339,7 @@ for j=1:nb_models
                 fprintf(fileID,'\n');
                 continue
             elseif j == 2 && nb_models>1 && comp{1}{i}(1) == 22 && ...
-                    comp{j}{i}(1) ~= 13
+                    comp{j}{i}(1) ~= 13 && comp{j}{i}(1) ~= 22
                 fprintf(fileID,'\n');
                 fprintf(fileID,['     wrong input -> the level' ...
                     ' component for the two model classes are not' ...
@@ -347,7 +347,7 @@ for j=1:nb_models
                 fprintf(fileID,'\n');
                 continue
             elseif j == 2 && nb_models>1 && comp{1}{i}(1) == 23 && ...
-                    comp{j}{i}(1) ~= 13
+                    comp{j}{i}(1) ~= 13 && comp{j}{i}(1) ~= 23
                 fprintf(fileID,'\n');
                 fprintf(fileID,['     wrong input -> the ', ...
                     'level component ' ...

@@ -51,7 +51,7 @@ function pilotePlot(data, model, estimation, misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       August 22, 2018
+%       October 26, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -75,7 +75,6 @@ isExportPDF=misc.options.isExportPDF;
 isExportTEX=misc.options.isExportTEX;
 
 FigurePath=misc.internalVars.FigurePath ;
-ProjectName=misc.ProjectName;
 
 % Set fileID for logfile
 if misc.internalVars.isQuiet
@@ -129,9 +128,9 @@ while ~isCorrectAnswer
         
     elseif round(str2double(user_inputs.inp_2)) == 1
         
-        [isValid] = verificationDataStructure(data);
+        [isMerged]=verificationMergedDataset(data);
         
-        if isValid
+        if isMerged
             plotData(data, misc, ...
                 'isPlotTimestep', true, ...
                 'isExportTEX', isExportTEX, ...
@@ -149,9 +148,7 @@ while ~isCorrectAnswer
         
     elseif round(str2double(user_inputs.inp_2)) == 2
         
-        plotDataSummary(data, misc, ...
-            'FilePath', FigurePath, ...
-            'isPdf', isExportPDF)
+        plotDataSummary(data, misc, 'FilePath', FigurePath)
         
         isCorrectAnswer =  true;
         
@@ -162,58 +159,6 @@ while ~isCorrectAnswer
             'isExportTEX', isExportTEX, ...
             'isExportPNG', isExportPNG, ...
             'isExportPDF', isExportPDF);
-        
-        pdfEstimation = ['ESTIMATIONS_',ProjectName,'.pdf'];
-        fullPath = fullfile(FigurePath, ProjectName);
-        fullpdfEstimation = fullfile (fullPath, pdfEstimation);
-        
-        if isExportPDF
-            
-            [isFileExist] = testFileExistence(fullpdfEstimation, 'file');
-            
-            if isFileExist
-                
-                % Create data availability plot in pdf
-                plotDataAvailability(data, misc, 'FilePath', fullPath, ...
-                    'isSaveFigures', true)
-                
-                % Create data amplitude plot in pdf
-                plotData(data, misc, ...
-                    'isPlotTimestep', false, ...
-                    'isExportTEX', false, ...
-                    'isExportPNG', false, ...
-                    'isExportPDF', true);
-                
-                plotDataTimestep(data, misc, ...
-                    'isExportTEX', false, ...
-                    'isExportPNG', false, ...
-                    'isExportPDF', true);
-                
-                pdfFileName = [ProjectName,'.pdf'];
-                fullPdfFileName = fullfile (fullPath, pdfFileName);
-                
-                [isFileExist] = testFileExistence(fullPdfFileName, 'file');
-                
-                if isFileExist ; delete(fullPdfFileName) ; end
-                
-                % Create list of files to merge
-                FigureNames_sort = {...
-                    ['AVAILABILITY_',ProjectName,'.pdf'], ...
-                    ['DATA_',ProjectName,'.pdf'], ...
-                    ['TIMESTEP_',ProjectName,'.pdf'], ...
-                    pdfEstimation};
-                
-                FigureNames_sort = ...
-                    strcat(fullfile(fullPath, FigureNames_sort));
-                
-                % Merge all pdfs
-                append_pdfs(fullPdfFileName, FigureNames_sort{:})
-                
-                open(fullPdfFileName)
-                
-            end
-            
-        end
         
         isCorrectAnswer =  true;
     else
