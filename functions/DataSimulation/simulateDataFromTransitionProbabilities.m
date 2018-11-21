@@ -98,9 +98,6 @@ idx_pref= size(model.param_properties,2);
 parameter= arrayOut(:,1);
 p_ref = arrayOut(:,2);
 
-%% Initialization
-rng(12345)
-
 y_obs= zeros(numberOfTimeSeries,T);
 y_pred= zeros(numberOfTimeSeries,T);
 
@@ -112,7 +109,7 @@ for j=1:M
 end
 
 %% Initialize the seed 
-rng(12345)
+%rng(12345)
 
 %% Simulate data
 for t=1:T

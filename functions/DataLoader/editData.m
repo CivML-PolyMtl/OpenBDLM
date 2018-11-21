@@ -160,8 +160,7 @@ while(1)
     
     % Plot current data
     close all
-    plotDataSummary(data, misc, 'FilePath', 'figures', ...
-        'isPdf', false,'isSaveFigure', false)
+    plotDataSummary(data, misc, 'FilePath', 'figures')
     
     fprintf(fileID,'\n');
     fprintf(fileID,'- Choose from\n');
@@ -209,6 +208,10 @@ while(1)
             [data, misc] = mergeTimeStampVectors(data, misc, ...
                 'NaNThreshold', NaNThreshold, 'tolerance', tolerance);
         end
+                
+        % Plot data summary
+        close all
+        plotDataSummary(data, misc, 'FilePath', 'figures')
         
         % Save data
         [misc, dataFilename] = saveDataBinary(data,misc, ...

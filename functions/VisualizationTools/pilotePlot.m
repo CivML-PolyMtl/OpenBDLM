@@ -1,8 +1,8 @@
-function pilotePlot(data, model, estimation, misc)
+function [misc] = pilotePlot(data, model, estimation, misc)
 %PILOTEPLOT Pilote function to plot data and estimations
 %
 %   SYNOPSIS:
-%     PILOTEPLOT(data, model, estimation, misc)
+%     [misc] = PILOTEPLOT(data, model, estimation, misc)
 %
 %   INPUT:
 %      data                - structure
@@ -21,22 +21,25 @@ function pilotePlot(data, model, estimation, misc)
 %                            see documentation for details about the fields
 %                            in structure "misc"
 %   OUTPUT:
-%      N/A
+%      misc               - structure
+%                            see documentation for details about the fields
+%                            in structure "misc"
+%
 %      Figures on screen and/or figures saved
 %
 %   DESCRIPTION:
-%      PILOTEPLOT Pilote function to plot data and estimations
+%     PILOTEPLOT Pilote function to plot data and estimations
 %
 %   EXAMPLES:
-%      PILOTEPLOT(data, model, estimation, misc)
+%      [misc] = PILOTEPLOT(data, model, estimation, misc)
 %
 %   EXTERNAL FUNCTIONS CALLED:
-%     plotEstimations, verificationDataStructure
+%     plotEstimations, verificationMergedDataset
 %
 %   SUBFUNCTIONS:
 %      N/A
 %
-%   See also PLOTESTIMATIONS, VERIFICATIONDATASTRUCTURE
+%   See also PLOTESTIMATIONS, VERIFICATIONMERGEDDATASET
 
 %   AUTHORS:
 %       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
@@ -51,7 +54,7 @@ function pilotePlot(data, model, estimation, misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       October 26, 2018
+%       October 30, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -106,10 +109,10 @@ while ~isCorrectAnswer
         user_inputs.inp_2=eval(char(misc.internalVars.BatchMode.Answers ...
             {misc.internalVars.BatchMode.AnswerIndex}));
         user_inputs.inp_2 = num2str(user_inputs.inp_2);
-        if ischar(user_inputs)
-            fprintf(fileID, '     %s  \n', user_inputs);
+        if ischar(user_inputs.inp_2)
+            fprintf(fileID, '     %s  \n', user_inputs.inp_2);
         else
-            fprintf(fileID, '     %s  \n', num2str(user_inputs));
+            fprintf(fileID, '     %s  \n', num2str(user_inputs.inp_2));
         end
         
     else
@@ -169,7 +172,8 @@ while ~isCorrectAnswer
     
 end
 
-misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = ...
+    misc.internalVars.BatchMode.AnswerIndex+1;
 
 %--------------------END CODE ------------------------
 end

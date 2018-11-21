@@ -41,7 +41,7 @@ function [ProjectName]=incrementProjectName(misc, ReferenceName, FilePath)
 %       April 25, 2018
 %
 %   DATE LAST UPDATE:
-%       September 17, 2018
+%       November 21, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -61,32 +61,61 @@ misc=p.Results.misc;
 ReferenceName=p.Results.ReferenceName;
 FilePath=p.Results.FilePath;
 
+% Format
+NumberOfZeros=3;
+fmt=['%0',num2str(NumberOfZeros),'d'];
+
+MaxIncrementalName=10^(NumberOfZeros)-1;
 
 %% Gather already existing project name from saved projects
 % Load file that contains info about already saved projects
 
 ProjectsInfoFilename = misc.internalVars.ProjectInfoFilename;
 
-% Load file 
+% Load file
 FileContent = load(fullfile(pwd, FilePath, ProjectsInfoFilename));
 ProjectInfo = FileContent.ProjectInfo;
 
-if ~isempty(ProjectInfo)   
+if ~isempty(ProjectInfo)
     Index_Name = strfind(upper(ProjectInfo(:,1)),upper(ReferenceName) );
     Test_Name = find(not(cellfun('isempty', Index_Name)));
     ProjectInfo = ProjectInfo(Test_Name,1);
 end
 
-%ProjectInfo = ProjectInfo(Test_Name,1);
-
 if ~isempty(ProjectInfo)
-    res_1=strsplit(ProjectInfo{end}, '_');
-    num=str2double(res_1{end});
-    num=num+1; % increment filename    
-    ProjectName=[ ReferenceName,'_' , num2str(num,'%03d')];
+    num=0;
+    for i=1:length(ProjectInfo)
+        
+        file  = ProjectInfo{i};
+        if  length(file) == (length(ReferenceName)+1+NumberOfZeros) && ...
+                strcmp(file(1:length(ReferenceName)), ReferenceName)
+            
+            numc= str2double(file(length(ReferenceName)+2: ...
+                length(ReferenceName)+1+NumberOfZeros));
+            
+            if numc > num
+                num = numc;
+            end
+            
+        end
+        
+    end
+        
+    num=num+1; % increment filename
+    
+    if num > MaxIncrementalName
+        disp(' ')
+        disp('     Warning: Impossible to increment filename.')
+        disp(' ')
+        num=num-1;
+    end
+    
+    ProjectName=[ ReferenceName, '_' , num2str(num,fmt)];
+    
 else
     num = 1;
-    ProjectName=[ ReferenceName, '_' , num2str(num,'%03d')];
+    ProjectName=[ ReferenceName, '_' , num2str(num,fmt)];
+    
 end
 %--------------------END CODE ------------------------
 end

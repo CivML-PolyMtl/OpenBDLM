@@ -113,6 +113,7 @@ Linewidth=misc.options.Linewidth;
 ndivx = misc.options.ndivx;
 ndivy = misc.options.ndivy;
 Subsample=misc.options.Subsample;
+Xaxis_lag=misc.options.Xaxis_lag;
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -174,9 +175,6 @@ if ~isSecondaryPlot
 else
     idx_supp_plot=0;
 end
-
-% Define X-axis lag
-Xaxis_lag=50;
 
 % Define blue color for plots
 BlueColor = [0, 0.4, 0.8];
@@ -283,7 +281,7 @@ for idx=1:numberOfHiddenStates
             'YTick', linspace(miny, maxy, ndivy),...
             'box','off',  ...
             'FontSize', 16);
-        
+        ytickformat('%.1f')
         datetick('x','yy-mm','keepticks')
         xlabel('Time [YY-MM]')
         xlim([timestamps(1)-Xaxis_lag,timestamps(end)])
@@ -325,7 +323,7 @@ for idx=1:numberOfHiddenStates
                 'YTick', [], ...
                 'box', 'off', ...
                 'Fontsize', 16);
-            
+            ytickformat('%.1f')
             datetick('x','mm-dd','keepticks')
             year=datevec(timestamps(plot_time_2(1)));
             xlabel(['Time [' num2str(year(1)) '--MM-DD]'])

@@ -211,7 +211,9 @@ for t=1:T
     log_S_marginal = zeros(M,M);
     lik_merge=0;
     for j=1:M       % transition model
+        
         if (t==1 | (timesteps(t)~=timesteps(1:t-1)))
+            
             A{j,t} = model.A{j}(parameter(...
                 p_ref),data.timestamps(t),timesteps(t));
             C{j,t} = model.C{j}(parameter(...
@@ -223,7 +225,8 @@ for t=1:T
             B=model.B{j}(parameter(...
                 p_ref),data.timestamps(t),timesteps(t))';
             WB=model.W{j}(parameter(...
-                p_ref),data.timestamps(t),timesteps(t));
+                p_ref),data.timestamps(t),timesteps(t)); 
+            
         else
             idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
 %             if any([model.components.block{:}{:}]==51)
@@ -252,7 +255,7 @@ for t=1:T
         for i=1:M   % starting model
             if (t==1 | (timesteps(t)~=timesteps(1:t-1)))
                 Q{j,i,t} = model.Q{j}{i}(parameter(p_ref), ...
-                    data.timestamps(t),timesteps(t));
+                    data.timestamps(t),timesteps(t));                
             else
                 idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
                 Q{j,i,t}=Q{j,i,idx};
@@ -298,7 +301,8 @@ for t=1:T
                 prevX = x{i}(:,t-1);
                 prevV = V{i}(:,:,t-1);
                 prevS = S(t-1,i);
-            end
+            end            
+            
             if strcmp(MethodStateEstimation,'UD')
                 %% UD filter
                 [x_ij{j}(:,i), V_ij{j}(:,:,i), VV_ij{j}(:,:,i), ...

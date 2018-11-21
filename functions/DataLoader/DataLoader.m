@@ -2,7 +2,7 @@ function [data, misc, dataFilename]=DataLoader(misc)
 %DATALOADER Create a data file
 %
 %   SYNOPSIS:
-%     [dataOrig, misc, dataFilename]=DATALOADER(misc, varargin)
+%     [data, misc, dataFilename]=DATALOADER(misc, varargin)
 %
 %   INPUT:
 %      misc                 - structure
@@ -151,6 +151,8 @@ else
     % Select the data
     [data]=load(fullfile( FilePath, 'mat', FileInfo{chosen_db}));
     
+    % Reshape data
+    
     % Duplicate data binary MAT file with a new name based on current
     % project    
     % Save data in binary format
@@ -161,6 +163,9 @@ else
         
     % Display available data on screen
     displayData(data, misc)
+    
+    % Plot data summary
+    plotDataSummary(data, misc, 'FilePath', 'figures')
     
     % Give the possibility to edit the dataset    
     incTest=0;
@@ -196,6 +201,8 @@ else
             isYesNoCorrect =  true;
             
         elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+            
+            %plotDataSummary(data, misc, 'FilePath', 'figures')
             
             % no, use the data as such
             misc.internalVars.isDataSimulation = false;

@@ -199,7 +199,7 @@ end
 % Figure setting
 color = [0, 0.4, 0.8];
 color_black = [0 0 0];
-
+color_red = [1 0 0];
 
 %% Create one single figure for data amplitude
 
@@ -224,9 +224,9 @@ for i=1:numberOfTimeSeries
     pos_isnan=find(isnan(values));
     nb_steps=length(timestamps);
     percent_missing=(length(pos_isnan)/nb_steps)*100;
-    plot(timestamps, values, 'Color', color_black, 'LineWidth', Linewidth, ...
-        'Marker', '.', 'MarkerSize',0.5, 'MarkerEdgeColor', color_black, ...
-        'MarkerFacecolor', color_black)
+    plot(timestamps, values, 'Color', color_red, 'LineWidth', Linewidth, ...
+        'Marker', '.', 'MarkerSize',0.5, 'MarkerEdgeColor', color_red, ...
+        'MarkerFacecolor', color_red)
     
     hold on
     text(0.075, 0.15, label, 'FontSize', 12, ...
@@ -247,8 +247,9 @@ for i=1:numberOfTimeSeries
     
     set(gca,'XTick',linspace(begg_min,endd_max,ndivx), ...
         'YTick', linspace(miny, maxy, ndivy))
-        
+    ylabel('Amplitude')    
     set(gca,'FontSize',16)
+    ytickformat('%.1f')     
     datetick('x','yy-mm','keepticks')
     
     if i == numberOfTimeSeries
@@ -291,9 +292,9 @@ for i=1:numberOfTimeSeries
     [ReferenceTimestep]=defineReferenceTimeStep(timestamps);
     
     semilogy(timestamps,timesteps*24 , ...
-        'Color', color, ...
-        'Marker', 'o', 'LineStyle', 'none', 'Markersize', 2, ...
-        'MarkerFaceColor', color )
+        'Color', color_black, ...
+        'Marker', 'o', 'LineStyle', 'none', 'Markersize', 6, ...
+        'MarkerFaceColor', color_black )
     
     hold on
     text(0.075, 0.15, label, 'FontSize', 12, ...
@@ -317,6 +318,7 @@ for i=1:numberOfTimeSeries
     set(gca,'YMinorTick','off')
     datetick('x','yy-mm','keepticks')
     ylim([0.01 1000])
+    ylabel('Timestep [hrs]')
     if i == numberOfTimeSeries
         xlabel('Time [YY-MM]')
     else

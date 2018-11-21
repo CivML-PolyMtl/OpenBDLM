@@ -109,6 +109,7 @@ Linewidth=misc.options.Linewidth;
 ndivx = misc.options.ndivx;
 ndivy = misc.options.ndivy;
 Subsample = misc.options.Subsample;
+Xaxis_lag=misc.options.Xaxis_lag;
 
 %% Read model parameter properties
 idx_pvalues=size(model.param_properties,2)-1;
@@ -156,24 +157,22 @@ timestamps=data.timestamps;
 % Define timestamp vector for main plot
 plot_time_1=1:Subsample:length(timestamps);
 
-if  isSecondaryPlot  
+if  isSecondaryPlot
     
     ZoomDuration = 14; % zoom duration in days
     
     if ZoomDuration/referenceTimestep >= 1
-    % Define timestamp vector for secondary plot plot
-    time_fraction=0.641;
-    plot_time_2=round(time_fraction*length(timestamps)): ...
-        round(time_fraction*length(timestamps))+ ...
-        (ZoomDuration/referenceTimestep);
+        % Define timestamp vector for secondary plot plot
+        time_fraction=0.641;
+        plot_time_2=round(time_fraction*length(timestamps)): ...
+            round(time_fraction*length(timestamps))+ ...
+            (ZoomDuration/referenceTimestep);
     else
         isSecondaryPlot = false;
     end
 end
 
 %% Define paramater for plot appeareance
-% Define X-axis lag
-Xaxis_lag=50;
 
 if ~isSecondaryPlot
     idx_supp_plot=1;
@@ -259,6 +258,7 @@ for i=1:numberOfTimeSeries
         'YTick', linspace(miny, maxy, ndivy),...
         'box','off',  ...
         'FontSize', 16);
+    ytickformat('%.1f')
     
     if miny~=maxy
         set(gca,'Ylim',[miny,maxy])
@@ -312,6 +312,7 @@ for i=1:numberOfTimeSeries
             'YTick', [], ...
             'box','off', ...
             'FontSize', 16);
+        ytickformat('%.1f')
         datetick('x','mm-dd','keepticks')
         year=datevec(timestamps(plot_time_2(1)));
         xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
