@@ -113,9 +113,8 @@ timestamps = data.timestamps;
 %misc.dt_ref = dt_ref;
 
 %% Get training dataset from timestamp vector
-[trainingPeriod] = defineTrainingPeriod (timestamps);
-
-misc.options.trainingPeriod = trainingPeriod;
+% [trainingPeriod] = defineTrainingPeriod (timestamps);
+% misc.options.trainingPeriod = trainingPeriod;
 
 %% Define model
 [model, misc] = defineModel(data, misc);

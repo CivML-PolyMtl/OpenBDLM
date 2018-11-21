@@ -101,7 +101,7 @@ timestamps = data.timestamps;
 MaxFailAttempts=4;
 
 %% Get current training period
-if isfield(misc, 'trainingPeriod')
+if isfield(misc.options, 'trainingPeriod')
     fprintf(fileID,'\n');
     fprintf(fileID,['     Current training period: from ' ...
         num2str(misc.options.trainingPeriod(1)) ' to ' ...
@@ -169,7 +169,9 @@ while ~isCorrectAnswer
             fprintf(fileID,'     Start training [days]:\n');
             
             if misc.internalVars.BatchMode.isBatchMode
-                startTraining=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+                startTraining=eval(char(...
+                    misc.internalVars.BatchMode.Answers{...
+                    misc.internalVars.BatchMode.AnswerIndex}));
                 fprintf(fileID,'     %s\n', startTraining);
             else
                 startTraining=input('     choice >> ');
@@ -190,7 +192,8 @@ while ~isCorrectAnswer
                     fprintf(fileID,'\n');
                     continue
                 else
-                    misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+                    misc.internalVars.BatchMode.AnswerIndex= ...
+                        misc.internalVars.BatchMode.AnswerIndex+1;
                     isCorrect = true;
                 end
             end
@@ -209,7 +212,9 @@ while ~isCorrectAnswer
             fprintf(fileID,'     End training [days]: \n');
             
             if misc.internalVars.BatchMode.isBatchMode
-                endTraining = eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+                endTraining = ...
+                    eval(char(misc.internalVars.BatchMode.Answers{...
+                    misc.internalVars.BatchMode.AnswerIndex}));
                 fprintf(fileID,'     %s\n', num2str(endTraining));
             else
                 endTraining=input('     choice >> ');
@@ -237,7 +242,8 @@ while ~isCorrectAnswer
                     fprintf(fileID,'\n');
                     continue
                 else
-                    misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+                    misc.internalVars.BatchMode.AnswerIndex= ...
+                        misc.internalVars.BatchMode.AnswerIndex+1;
                     isCorrect = true;
                 end
             end
@@ -247,7 +253,8 @@ while ~isCorrectAnswer
         
     elseif ischar(user_inputs.inp_1) && strcmpi(user_inputs.inp_1, 'R') ...
             && length(user_inputs.inp_1) ==1
-        misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex= ...
+            misc.internalVars.BatchMode.AnswerIndex+1;
         return
         
     else

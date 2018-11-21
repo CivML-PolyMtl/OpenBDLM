@@ -37,7 +37,7 @@ function [misc] = saveDataCSV(data, misc, varargin)
 %   DESCRIPTION:
 %      SAVEDATACSV saves each time series in data in separate *.csv files
 %      CSV files are saved in FilePath/DirName/ location
-%      SAVEDATACSV request user input to define 'DirName'
+%      'DirName' given from the name of the project
 %
 %   EXAMPLES:
 %      SAVEDATACSV(data)

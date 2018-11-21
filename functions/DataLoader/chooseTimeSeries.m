@@ -1,5 +1,5 @@
 function [data, misc]=chooseTimeSeries(data, misc)
-%CHOOSETIMESERIES Request the user to select a time series subset
+%CHOOSETIMESERIES Request the user to select some time series
 %
 %   SYNOPSIS:
 %     [data, misc]=CHOOSETIMESERIES(data, misc)

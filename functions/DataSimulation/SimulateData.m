@@ -96,8 +96,7 @@ else
 end
 
 if isPlot
-    plotDataSummary(data, misc, 'isPdf', false, ...
-        'FilePath', FigurePath ,'isSaveFigures', false);
+    plotDataSummary(data, misc, 'FilePath', FigurePath )
 end
 
 %--------------------END CODE ------------------------

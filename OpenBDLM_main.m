@@ -99,7 +99,7 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %       June 27, 2018
 %
 %   DATE LAST UPDATE:
-%       September 17, 2018
+%       October 30, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -377,7 +377,7 @@ while(1)
             incTest=0;
         elseif  user_inputs==14
             %% Plot tools
-            pilotePlot(data, model, estimation, misc)
+            [misc] = pilotePlot(data, model, estimation, misc);
             incTest=0;
         elseif  user_inputs==15
             %% Display model matrices

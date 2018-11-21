@@ -161,7 +161,7 @@ LT.pW0=[];
 
 %#13 Local acceleration
 model.components.idx{13}='LA';
-LA.A=@(p,t,dt)[1 dt dt^2;0 1 dt;0 0 1];
+LA.A=@(p,t,dt)[1 dt 0.5*dt^2;0 1 dt;0 0 1];
 LA.pA=[];
 LA.pA0=[];
 LA.C=@(p,t,dt)[1 0 0];
@@ -315,7 +315,7 @@ PD.pW0=[];
 
 %#41 Autoregressive component
 model.components.idx{41}='AR';
-AR.A=@(p,t,dt) p(1)^(dt/dt_ref);
+AR.A=@(p,t,dt)  p(1)^(dt/dt_ref);
 AR.pA={'\phi','AR',[],[],[0,1], PriorType, PriorMean, PriorSdev};
 AR.pA0={'0.75'};
 AR.C=@(p,t,dt) 1;

@@ -1,5 +1,11 @@
 \documentclass{book}
 
+% Matlab code package
+\usepackage{listings}
+\usepackage[numbered,framed]{matlab-prettifier}
+\definecolor{light-gray}{gray}{0.95}
+
+\usepackage{upquote}
 
 % Amsmath package
 \RequirePackage{amsmath}
@@ -11,6 +17,7 @@
 \RequirePackage{mathtools}
 \RequirePackage{bm}
 
+\usepackage{xcolor}
 
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue}
@@ -49,33 +56,55 @@ Matlab (version 2016a or higher) installed on Mac OSX or Windows\\
 
 1. Remove from your Matlab path all previously OpenBDLM versions\\
 2. Extract the ZIP file (or clone the git repository) somewhere you can easily reach it.\\
-3. Add ``OpenBDLM-master/'' folder and all the sub folders to your path in Matlab : e.g.\\
+3. Add \textbf{OpenBDLM-master/} folder and all the sub folders to your path in Matlab :\\
     - using the ``Set Path'' dialog box in Matlab, or \\
-    - by running ``addpath'' function from the Matlab command window\\
+    - by running \colorbox{light-gray}{addpath} function from the Matlab command window\\
 
 \section{Getting started}
 
-Enter in the folder OpenBDLM-master, and type ``OpenBDLM\_main();'' in the Matlab command line. The OpenBDLM main menu should appear on the Matlab command window.
+Enter in the folder \textbf{OpenBDLM-master}, and type \colorbox{light-gray}{OpenBDLM\_main();} in the Matlab command line.
+The OpenBDLM starting menu should appear on the Matlab command window (\ref{LST:OpenBDLMmainMenu}).
 
-% here OpenBDLM menu
+\begin{lstlisting}[backgroundcolor = \color{light-gray}, , caption = OpenBDLM starting menu, label = LST:OpenBDLMmainMenu ]
+
+----------------------------------------------------------------------------------------------
+     Starting OpenBDLM_V???...
+----------------------------------------------------------------------------------------------
+
+            Structural Health Monitoring using Bayesian Dynamic Linear Models
+
+----------------------------------------------------------------------------------------------
+
+- Start a new project: 
+
+     *      Enter a configuration filename 
+     0   -> Interactive tool 
+
+- Type D to Delete project(s), V for Version control, Q to Quit.
+
+     choice >>
+\end{lstlisting}
+
 
 \section{Demo}
 
-In the Matlab command line, type ``run\_DEMO.m'' to run a little demo. You should see some messages on the Matlab command window showing that the programs runs properly:\\
+In the Matlab command line, type  \colorbox{light-gray}{run\_DEMO.m} to run a little demo. You should see some messages on the Matlab command window showing that the programs runs properly:\\
+%\begin{lstlisting}[style=Matlab-editor]
+\begin{lstlisting}[backgroundcolor = \color{light-gray}, , caption = Output on Matlab command window when running  \colorbox{light-gray}{run\_DEMO.m} script]
+     Starting OpenBDLM_V???...
+     Starting a new project...
+     Building model...
+     Simulating data...
+     Plotting data...
+     Saving database (binary format) ...
+     Saving database (csv format) ...
+     Saving project...
+     Printing configuration file...
+     Saving database (binary format) ...
+     Saving project...
+     See you soon !
+\end{lstlisting}
 
-     Starting OpenBDLM\_V???...\\
-     Starting a new project...\\
-     Building model...\\
-     Simulating data...\\
-     Plotting data...\\
-     Saving database (binary format) ...\\
-     Saving database (csv format) ...\\
-     Saving project...\\
-     Printing configuration file...\\
-     Saving database (binary format) ...\\
-     Saving project...\\
-     See you soon !\\
-     
 If you do not see anything except Matlab errors verify your Matlab version, and your Matlab path. Be sure that you run the program from the top-level of OpenBDLM-master folder, not from another folder.\\
 
 \chapter{Bayesian dynamic linear models}
@@ -134,17 +163,17 @@ OpenBDLM accept two types of data formatting depending whether the time-series a
 Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
 The user should provide one CSV files for each time series.
 The file is a two columns file that should be organized as follow:\\
-
-      L1    'name'            ,   '2000-01-01-22-00-00'\\
-      L2    737422            ,   0.405720714733635\\
-      L3    737423            ,   0.211094693486129\\
-      L4    737424            ,   0.54834914800378\\
-      
-The first line of the file (L1) is the header.
-In the header, the first field should contain the label of the time-series given as a quoted delimited string, as 'name'.
-The second field should is the date of the first timestamp given as a quoted delimited string, as 'YYYY-DD-MM-HH-MM-SS'.  
+\begin{lstlisting}[backgroundcolor = \color{light-gray}, caption = CSV file example]
+'name'            ,   '2000-01-01-22-00-00'
+737422            ,   0.40
+737423            ,   0.21
+737424            ,   0.548
+\end{lstlisting}    
+The first line of the file is the header.
+In the header, the first field should contain the label of the time-series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
+The second field should is the date of the first timestamp given as a quoted delimited string, as \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle.  
 Note that the two fields in the header are not the label of each column.
-The others line (L2 and higher) have two fields.
+The others line have two fields.
 The first field is the date given as a serial date number.
 The second field is the magnitude of the physical quantity measured (the measurement), given as a real number.
 

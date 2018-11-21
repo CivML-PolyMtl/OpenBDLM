@@ -59,9 +59,9 @@ misc.options.NaNThreshold = 100;
 misc.options.Tolerance = 10^(-6);
 
 % Optimization options
-misc.options.trainingPeriod = [1,Inf];
-misc.options.isParallel = true;
-misc.options.maxIterations = 100;
+misc.options.trainingPeriod = [1 30];
+misc.options.isParallel = false;
+misc.options.maxIterations = 3;
 misc.options.maxTime = 60; 
 misc.options.isMAP = false;
 misc.options.isPredCap = false;
@@ -74,11 +74,12 @@ misc.options.MethodStateEstimation = 'kalman';
 
 % Plot options
 misc.options.FigurePosition = [100, 100, 1300, 270];
-misc.options.isSecondaryPlot = true;
+misc.options.isSecondaryPlot = false;
 misc.options.Subsample = 1;
 misc.options.Linewidth = 1;
-misc.options.ndivx = 5;
+misc.options.ndivx = 4;
 misc.options.ndivy = 3;
+misc.options.Xaxis_lag = 0;
 misc.options.isExportTEX = false;
 misc.options.isExportPNG = false;
 misc.options.isExportPDF = false;

@@ -36,7 +36,7 @@ function [x, V, VV, S, ...
 %
 %      VV               - 1×M cell array
 %                         Each element in the array is a NxNxT real array,
-%                         which the smoothed posterior covariance between hidden states 
+%                         which the smoothed posterior covariance between hidden states
 %                         at time t and time t+1 for each time t (t=1,...,T)
 %
 %      S                - TxM real valued array
@@ -51,11 +51,11 @@ function [x, V, VV, S, ...
 %      V_prior_smoothed - 1×M cell array
 %                         Each element in the array is a NxN real array,
 %                         which is the smoothed posterior hidden state
-%                         covariance matrix for time t=0 for one model class                        
+%                         covariance matrix for time t=0 for one model class
 %
 %      VV_prior_smoothed- 1×M cell array
 %                         Each element in the array is a NxN real array,
-%                         which is the smoothed posterior covariance between hidden states 
+%                         which is the smoothed posterior covariance between hidden states
 %                         at time t and time t+1 for time t=0 for one model class
 %
 %      S_prior_smoothed - 1×M real valued array
@@ -66,7 +66,7 @@ function [x, V, VV, S, ...
 %      RTS_SWITCHINGKALMANSMOOTHER performs Rauch-Tung-Striebel Switching
 %      Kalman smoother
 %      RTS_SWITCHINGKALMANSMOOTHER perform the smoothing operation
-%      It estimates x(t|T) and V(t|T), for each time t (t=1,...,T) 
+%      It estimates x(t|T) and V(t|T), for each time t (t=1,...,T)
 %      where x and V refers to mean and
 %      variance values, respectively and T the time of the last observation
 %      RTS_SWITCHINGKALMANSMOOTHER should be called after Switching Kalman
@@ -230,7 +230,7 @@ for t=T-1:-1:0
                 Vfilt, ...
                 estimation.V_M{k}(:,:,t+1), ...
                 estimation.VV_M{k}(:,:,t+1), ...
-                A_k, Q_k,'B',B_,'W',WB_);
+                A_k, Q_k, M, 'B',B_,'W',WB_);
             
             U(j,k)=Sfilt*Z_k(j,k);
         end
@@ -268,7 +268,7 @@ for t=T-1:-1:0
                 V_prior_smoothed{j} = V_prior_smoothed{j} + W(k,j)*(V_jk{j}(:,:,k) + m*m');
                 VV_prior_smoothed{j} = VV_prior_smoothed{j} + W(k,j)*(VV_jk{j}(:,:,k) + m*m');
             end
-                       
+            
         else
             
             x{j}(:,t) = x_jk{j}(:,:) * W(:,j);
@@ -280,14 +280,14 @@ for t=T-1:-1:0
             
         end
     end
-       
+    
 end
 %--------------------END CODE ------------------------
 end
 
 function [xsmooth, Vsmooth, VVsmooth_future] = ...
     smooth_update_SKF(xsmooth_future, Vsmooth_future, xfilt, Vfilt, ...
-    Vfilt_future, VVfilt_future, A, Q,varargin)
+    Vfilt_future, VVfilt_future, A, Q, M, varargin)
 
 % One step of the backwards RTS smoothing equations.
 % function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update(xsmooth_future, Vsmooth_future, ...
@@ -302,6 +302,7 @@ function [xsmooth, Vsmooth, VVsmooth_future] = ...
 % VVfilt_future = Cov[X_t+1,X_t|t+1]
 % A = system matrix for time t+1
 % Q = system covariance for time t+1
+% M =  number of model class
 
 %
 % OUTPUTS:
@@ -325,7 +326,11 @@ Vfilt=(Vfilt + Vfilt')/2;
 
 xpred = A*xfilt+B;
 Vpred = A*Vfilt*A'+ Q+W; % Vpred = Cov[X(t+1) | t]
-J = Vfilt * A'*pinv(Vpred,1E-3); % smoother gain matrix
+if M > 1
+    J = Vfilt * A'*pinv(Vpred,1E-3); % smoother gain matrix when switching 
+else
+    J = Vfilt * A'*pinv(Vpred); % smoother gain matrix when no switching
+end
 xsmooth = xfilt + J*(xsmooth_future - xpred);
 Vsmooth = Vfilt + J*(Vsmooth_future - Vpred)*J';
 VVsmooth_future = VVfilt_future + ...

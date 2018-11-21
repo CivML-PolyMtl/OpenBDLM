@@ -109,6 +109,7 @@ Linewidth=misc.options.Linewidth;
 ndivx = misc.options.ndivx;
 ndivy = misc.options.ndivy;
 Subsample = misc.options.Subsample;
+Xaxis_lag=misc.options.Xaxis_lag;
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FigurePath, 'dir');
@@ -170,7 +171,7 @@ end
 
 %% Define paramater for plot appeareance
 % Define X-axis lag
-Xaxis_lag=50;
+% Xaxis_lag=50;
 
 if ~isSecondaryPlot
     idx_supp_plot=1;
@@ -197,8 +198,8 @@ for i=1:numberOfTimeSeries
         'Linewidth',Linewidth, 'Color', [1 0 0])
     
     miny=min(DataValues(plot_time_1,i));
-    maxy=max(DataValues(plot_time_1,i));    
-    ylim([miny, maxy ])   
+    maxy=max(DataValues(plot_time_1,i));
+    ylim([miny, maxy ])
     set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
         timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
         'YTick', linspace(miny, maxy, ndivy), ...
@@ -206,6 +207,7 @@ for i=1:numberOfTimeSeries
     if miny~=maxy
         set(gca,'Ylim',[miny,maxy])
     end
+    ytickformat('%.1f')
     datetick('x','yy-mm','keepticks')
     xlabel('Time [YY-MM]')
     ylabel(data.labels{i})
@@ -223,6 +225,7 @@ for i=1:numberOfTimeSeries
         set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
             timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
             3), 'YTick', [], 'box','off', 'FontSize', 16);
+        ytickformat('%.1f')
         datetick('x','mm-dd','keepticks')
         year=datevec(timestamps(plot_time_2(1)));
         xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
@@ -259,8 +262,8 @@ if isPlotTimestep
         
         %% Main plot
         semilogy(timestamps,timesteps*24 , ...
-            'Marker', 'o', 'LineStyle', 'none', 'Markersize', 2, ...
-            'Color', [0 0 0])
+            'Marker', 'o', 'LineStyle', 'none', 'Markersize', 6, ...
+            'Color', [0 0 0], 'MarkerFaceColor',[0 0 0])
         
         set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
             timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
@@ -281,8 +284,8 @@ if isPlotTimestep
             subplot(1,3,3,'align')
             
             semilogy(timestamps(plot_time_2),timesteps(plot_time_2)*24 , ...
-                'Marker', 'o', 'LineStyle', 'none', 'Markersize', 2, ...
-                'Color', [0 0 0])
+                'Marker', 'o', 'LineStyle', 'none', 'Markersize', 6, ...
+                'Color', [0 0 0], 'MarkerFaceColor',[0 0 0])
             
             set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
                 timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...

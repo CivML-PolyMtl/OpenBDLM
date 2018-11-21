@@ -1,11 +1,13 @@
-\documentclass{book}
+\documentclass{article}
 
-% Matlab code package
+% MATLAB code package
 \usepackage{listings}
-\usepackage[numbered,framed]{matlab-prettifier}
+\usepackage[framed]{matlab-prettifier}
+\usepackage[T1]{fontenc}
 \definecolor{light-gray}{gray}{0.95}
 
 \usepackage{upquote}
+\usepackage{xspace}
 
 % Amsmath package
 \RequirePackage{amsmath}
@@ -17,64 +19,72 @@
 \RequirePackage{mathtools}
 \RequirePackage{bm}
 
-\usepackage{xcolor}
-
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue}
 
-\title{OpenBDLM: an open-source Matlab software for time-series analysis using Bayesian dynamic linear models}
+\title{OpenBDLM: an open-source \MATLAB{} software for time-series analysis using Bayesian dynamic linear models}
 \author{Ianis Gaudot, Luong H. Nguyen, James-A. Goulet \\ Polytechnique Montreal}
 
 \begin{document}
+
+\newcommand{\MATLAB}{\textsc{Matlab}}
+
+
 \maketitle
 
 \tableofcontents
 
-\chapter{What OpenBDLM does ?}
+\newpage
+\section{What is OpenBDLM ?}
 
-OpenBDLM is a Matlab open-source software designed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step of in the order of one hour or higher).
+OpenBDLM is a \MATLAB{} open-source software designed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step in the order of one hour or higher).
 OpenBDLM is capable to process simultaneously any time series data to interpret, monitor and predict their long-term behavior.
 OpenBDLM also includes an anomaly detection tool which allows to detect abnormal behavior in a fully probabilistic framework.
+OpenBDLM is available for download from GitHub.\\ % at https://github.com/CivML-PolyMtl/OpenBDLM\\
 
-\begin{itemize}
-  \item linear gaussian state-space models
-  \item time-series decomposition
-  \item anomaly detection
-  \item model identification
-  \item data visualization
-\end{itemize}
+\textbf{Keywords}: time series analysis and forecasting, linear gaussian state-space models, time-series decomposition, anomaly detection, filtering, smoothing, Bayes, gaussian conditionnals
 
 \newpage
 
-\chapter{Installing OpenBDLM}
+\section{Installing OpenBDLM}
 
 These instructions will get you a copy of the project up and running on your local machine for direct use, testing and development purposes.\\
-\section{Prerequisites}
-Matlab (version 2016a or higher) installed on Mac OSX or Windows\\
+\subsection{Prerequisites}
+\MATLAB{} (version 2016a or higher) installed on Mac OSX or Windows\\
 
-\section{Installing}
-
-1. Remove from your Matlab path all previously OpenBDLM versions\\
-2. Extract the ZIP file (or clone the git repository) somewhere you can easily reach it.\\
-3. Add \textbf{OpenBDLM-master/} folder and all the sub folders to your path in Matlab :\\
-    - using the ``Set Path'' dialog box in Matlab, or \\
-    - by running \colorbox{light-gray}{addpath} function from the Matlab command window\\
+\subsection{Installing}
+\begin{enumerate}
+\item Remove from your \MATLAB{} path all previously OpenBDLM versions
+\item Extract the ZIP file (or clone the git repository) somewhere you can easily reach it.
+\item Add ``OpenBDLM-master'' folder and all the subfolders to your path in \MATLAB :
+\begin{itemize}
+    \item using the ``Set Path'' dialog box in \MATLAB{}, or 
+    \item by running  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!addpath! function from the \MATLAB{} command window
+    \end{itemize}
+\end{enumerate}
 
 \section{Getting started}
 
-Enter in the folder \textbf{OpenBDLM-master}, and type \colorbox{light-gray}{OpenBDLM\_main();} in the Matlab command line.
-The OpenBDLM starting menu should appear on the Matlab command window (\ref{LST:OpenBDLMmainMenu}).
+\subsection{Call OpenBDLM}
+\begin{itemize}
+\item enter in the folder ``OpenBDLM-master''
+%\begin{center}
+\item type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![data, model, estimation, misc] = OpenBDLM_main();! }
+%\end{center}
+in the \MATLAB{} command line.
+\end{itemize}
+The OpenBDLM starting menu should appear on the \MATLAB{} command window (see Listing~\ref{LST:OpenBDLMmainMenu}).
+%\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, linewidth=\linewidth] %, caption = OpenBDLM call ]%, label = LST:OpenBDLMmain, captionpos=b]
+%[data, model, estimation, misc] = OpenBDLM_main();
+%\end{lstlisting}
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, caption = {OpenBDLM starting menu on  \MATLAB{} command window when calling \lstinline!\[data, model, estimation, misc\] = OpenBDLM\_main();!}, label = LST:OpenBDLMmainMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
 
-\begin{lstlisting}[backgroundcolor = \color{light-gray}, , caption = OpenBDLM starting menu, label = LST:OpenBDLMmainMenu ]
-
-----------------------------------------------------------------------------------------------
-     Starting OpenBDLM_V???...
-----------------------------------------------------------------------------------------------
-
-            Structural Health Monitoring using Bayesian Dynamic Linear Models
-
-----------------------------------------------------------------------------------------------
-
+------------------------------------------------
+     Starting OpenBDLM
+------------------------------------------------
+            Structural Health Monitoring using 
+            Bayesian Dynamic Linear Models
+------------------------------------------------
 - Start a new project: 
 
      *      Enter a configuration filename 
@@ -86,11 +96,20 @@ The OpenBDLM starting menu should appear on the Matlab command window (\ref{LST:
 \end{lstlisting}
 
 
-\section{Demo}
+\subsection{Demo}
 
-In the Matlab command line, type  \colorbox{light-gray}{run\_DEMO.m} to run a little demo. You should see some messages on the Matlab command window showing that the programs runs properly:\\
-%\begin{lstlisting}[style=Matlab-editor]
-\begin{lstlisting}[backgroundcolor = \color{light-gray}, , caption = Output on Matlab command window when running  \colorbox{light-gray}{run\_DEMO.m} script]
+In the \MATLAB{} command line, type  
+%\begin{lstlisting}[frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, caption = Run the OpenBDLM demo, label = LST:OpenBDLMdemo, captionpos=b, linewidth=\linewidth]
+%run_DEMO.m
+%\end{lstlisting}
+%\begin{center}
+\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO;! }
+%\end{center}
+ to run a demo. 
+%\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO.m! to run a little demo. 
+Some messages on the \MATLAB{} command window showing that the programs runs properly  should appear on the \MATLAB{} command window (see Listing~\ref{LST:MessageDemo}).
+
+\begin{lstlisting}[frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, caption = {Output on \MATLAB{} command window when running \lstinline!run_DEMO.m!}, linewidth=\linewidth, label=LST:MessageDemo, ,captionpos=b, float = h] 
      Starting OpenBDLM_V???...
      Starting a new project...
      Building model...
@@ -105,158 +124,309 @@ In the Matlab command line, type  \colorbox{light-gray}{run\_DEMO.m} to run a li
      See you soon !
 \end{lstlisting}
 
-If you do not see anything except Matlab errors verify your Matlab version, and your Matlab path. Be sure that you run the program from the top-level of OpenBDLM-master folder, not from another folder.\\
+\section{OpenBDLM inputs and outputs}
 
-\chapter{Bayesian dynamic linear models}
+\subsection{Inputs}
 
-Bayesian dynamic linear models (hereafter referred to as BDLMs) are a class of linear gaussian state-space models which can be described from the transition and the observation equations. % (\cite{West1999book}).
-\section{Transition equation} 
-The transition equation describes the dynamics of the system, and is formulated as
-\begin{equation}
-  \mathbf{x}_{t}=\mathbf{A}_{t}\mathbf{x}_{t-1}+\mathbf{w}_{t},\quad\left\{
-  \begin{array}{l}
-\mathbf{x}_{t}\sim \mathcal{N}(\bm{\mu}_{t},\bm{\Sigma}_{t})\\[4pt]
-\mathbf{w}_{t}\sim \mathcal{N}(\mathbf{0},
-\mathbf{Q}_{t}),
-\end{array}\right.
-\label{EQ:SSM_Transition}
-\end{equation}
-where, for each each time $t=1, \dots ,T$, the variables $\mathbf{x}_{t}$ follow a Gaussian distribution with mean $\bm{\mu}_{t}$ and covariance matrix $\bm{\Sigma}_{t}$, $\mathbf{A}_{t}$ is the transition matrix, and $\mathbf{w}_{t}$ represents Gaussian model errors with zero mean and covariance matrix $\mathbf{Q}_{t}$.
-The variables $\mathbf{x}_{t}$ are usually referred to as hidden states because they are not directly observed.
-\section{Observation equation}
-The relationship between the observations $\mathbf{y}_{t}$ and the hidden states $\mathbf{x}_{t}$ is given by the observation equation, such as
-\begin{equation}
-\mathbf{y}_{t}=\mathbf{C}_{t}\mathbf{x}_{t}+\mathbf{v}_{t},\quad\left\{\begin{array}{l}
-\mathbf{v}_{t}\sim \mathcal{N}(\mathbf{0},\mathbf{R}_{t}),
-\end{array}\right.
-\label{EQ:SSM_Observation}
-\end{equation}
-where $\mathbf{C}_{t}$ is the observation matrix, and $\mathbf{v}_{t}$ is the Gaussian measurement error with zero mean and covariance matrix $\mathbf{R}_{t}$.
-BDLMs are capable to analyze multiple time series simultaneously.
-In case of dependencies between the time series, regression coefficients are added in $\mathbf{C}_{t}$. % (\cite{Goulet2017}).
-One particularity of BDLMs is their capacity to update the current predicted state with the current observations using the Kalman filter equations.
-The Kalman filter equations are computationnally efficient, as they are solved fully analytically.
-BDLMs are capable to process non-stationnary time series without retraining the model. %, which is well suited to perform online inference.
+OpenBDLM\_main accepts three types of input
+\begin{itemize}
+  \item no input \lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main();! The program then runs in interactive mode, in which online user's interactions from the command line is required to perform the analysis.
+    \item  a configuration file as input, \lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main('CFG_DEMO.m');!. The configuration file is used to initialize the project, and the program then runs in interactive mode. Configuration file must follow a specific format 
+   \item a cell array as input \lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main({'''CFG_DEMO.m''','3','1','''Q'''});!. The program runs in batch mode, in which pre-loaded commands stored in the input cell-array are sequentially read by the program to perform the analysis.
+\end{itemize}
 
-\chapter{Data processing}
-\section{Purpose}
+\subsection{Outputs}
 
-As mentionned earlier, BDLMs are capable to analyze simultaneously multiple time-series.
-Multiple time-series analysis is particularly useful to incorporate information from observed environmental effects by creating dependencies between time-series.
-However, in most cases, the set of available time-series is heterogeneous, in the sense that each time-series do not originate from the same system of acquisition.
-Therefore, the raw data do not usually share the same timestamps.
-This is an issue because BDLM techniques are not capable to analyze asynchronous time-series.
-The data pre- processing in OpenBDLM is thus dedicated to synchronize the time-series between each others.
+\subsubsection{data, model, estimation, misc}
+OpenBDLM\_main returns four variables:
+\begin{itemize}
+ \item   \lstinline[basicstyle = \mlttfamily \small]!data! stores the time series data used for the analysis.
+ \item  \lstinline[basicstyle = \mlttfamily \small]!model!   stores all the information about the model used for the analysis (current model structure and model parameters values)
+ \item   \lstinline[basicstyle = \mlttfamily \small]!estimation!  stores the computed hidden states estimation using the current data and model.
+ \item  \lstinline[basicstyle = \mlttfamily \small]!misc! stores internal variables
+\end{itemize}
+
+\subsubsection{DATA, CFG, PROJ and LOG files}
+OpenBDLM\_main reads and/or create four types of files:
+
+\begin{itemize}
+    \item Data file DATA\_*.mat: MAT binary file that store the time series data. These files are located in the ``data/mat'' subfolder.
+    \item Configuration file CFG\_*.m : Matlab script used to initialize and export a project in human readable format. These files are located in the ``config\_files'' subfolder.
+    \item Project file PROJ\_*.mat : MAT binary file that stores a full project for further analysis (basically a project file stores the structure data, model, estimation, and misc ). These files are located in the ``saved\_projects'' subfolder.
+    \item Log file LOG\_*.txt : Text file that records information about the analysis. These files are located in the ``log\_files'' subfolder.
+\end{itemize}
+
+%If you do not see anything except \MATLAB{} errors verify your \MATLAB{} version, and your \MATLAB{} path. Be sure that you run the program from the top-level of \textbf{OpenBDLM-master} folder, not from another folder.\\
+
+%\section{Bayesian dynamic linear models}
+%
+%Bayesian dynamic linear models (hereafter referred to as BDLMs) are a class of linear gaussian state-space models which can be described from the transition and the observation equations. % (\cite{West1999book}).
+%\subsection{Transition equation} 
+%The transition equation describes the dynamics of the system, and is formulated as
+%\begin{equation}
+%  \mathbf{x}_{t}=\mathbf{A}_{t}\mathbf{x}_{t-1}+\mathbf{w}_{t},\quad\left\{
+%  \begin{array}{l}
+%\mathbf{x}_{t}\sim \mathcal{N}(\bm{\mu}_{t},\bm{\Sigma}_{t})\\[4pt]
+%\mathbf{w}_{t}\sim \mathcal{N}(\mathbf{0},
+%\mathbf{Q}_{t}),
+%\end{array}\right.
+%\label{EQ:SSM_Transition}
+%\end{equation}
+%where, for each each time $t=1, \dots ,T$, the variables $\mathbf{x}_{t}$ follow a Gaussian distribution with mean $\bm{\mu}_{t}$ and covariance matrix $\bm{\Sigma}_{t}$, $\mathbf{A}_{t}$ is the transition matrix, and $\mathbf{w}_{t}$ represents Gaussian model errors with zero mean and covariance matrix $\mathbf{Q}_{t}$.
+%The variables $\mathbf{x}_{t}$ are usually referred to as hidden states because they are not directly observed.
+%\subsection{Observation equation}
+%The relationship between the observations $\mathbf{y}_{t}$ and the hidden states $\mathbf{x}_{t}$ is given by the observation equation, such as
+%\begin{equation}
+%\mathbf{y}_{t}=\mathbf{C}_{t}\mathbf{x}_{t}+\mathbf{v}_{t},\quad\left\{\begin{array}{l}
+%\mathbf{v}_{t}\sim \mathcal{N}(\mathbf{0},\mathbf{R}_{t}),
+%\end{array}\right.
+%\label{EQ:SSM_Observation}
+%\end{equation}
+%where $\mathbf{C}_{t}$ is the observation matrix, and $\mathbf{v}_{t}$ is the Gaussian measurement error with zero mean and covariance matrix $\mathbf{R}_{t}$.
+%BDLMs are capable to analyze multiple time series simultaneously.
+%In case of dependencies between the time series, regression coefficients are added in $\mathbf{C}_{t}$. % (\cite{Goulet2017}).
+%One particularity of BDLMs is their capacity to update the current predicted state with the current observations using the Kalman filter equations.
+%The Kalman filter equations are computationnally efficient, as they are solved fully analytically.
+%BDLMs are capable to process non-stationnary time series without retraining the model. %, which is well suited to perform online inference.
+
+\section{Data loading}
+
+\subsection{Input data format}
+
+OpenBDLM supports two types of input data format depending whether the time-series are synchronized, or not.
+The time-series are synchronous if they all share the same timestamps. % and have the same number of data points.
+Conversely, time-series are asynchronous if they do not all share the same timestamps.
+
+
+\subsubsection{Input data formatting for asynchronous time series}
+
+\paragraph{Comma Separated Values files}
+\label{PAR:CSVasync}
+
+%Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
+%If the data have already been synchronized, it is preferable to use properly formatted .MAT \MATLAB{} files (see Section~\ref{SS:MatFiles})
+One Comma Separated Values (CSV) file should be provided for each time series.
+The file is a two columns file that should be organized as shown in Listing~\ref{LST:CSV_Formatting}
+\begin{lstlisting}[ frame = single, linewidth = \linewidth, caption = CSV file example,  label = LST:CSV_Formatting, float = ht, ,captionpos=b]
+'name'            ,   '2000-01-01-22-00-00'
+737422            ,   0.40
+737423.5          ,   0.21
+737424            ,   0.548
+7374245.25        ,   NaN
+7374246           ,   0.57
+\end{lstlisting}    
+The first line of the file is the header.
+In the header, the first field should contain the label of the time-series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
+The second field is the date of the first timestamp given as a quoted delimited string, formatted as \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle.  
+%Note that the two fields in the header are not the label of each column.
+For the remaining lines, the first field is the date given as a serial date number in number of days, given as a real number, and the second field is the magnitude of the physical quantity measured, given as a real number.
+The missing data should be indicated as NaN number.
+CSV files must be stored in the ``OpenBDLM-master/data/csv'' subfolder.
+
+\subsubsection{Input data formatting for synchronous time series}
+\paragraph{\MATLAB{} .MAT files}
+\label{PAR:MATfile}
+
+%\MATLAB{} binary .MAT data files can be used only if the time-series have already been synchronized.
+The \MATLAB{} binary .MAT file must contain three \MATLAB{} variables called \lstinline[basicstyle = \mlttfamily \small]!labels!, \lstinline[basicstyle = \mlttfamily \small]!timestamps!, and \lstinline[basicstyle = \mlttfamily \small]!values!.
+%, as shown in Listing~\ref{LST:LoadData}.
+\begin{itemize}
+\item \lstinline[basicstyle = \mlttfamily \small]!labels! is $1\times M$ cell array containing the reference name associated with each time-series, where $M$ is the number of time series.
+\item \lstinline[basicstyle = \mlttfamily \small]!timestamps! is $N\times 1$ array containing the timestamps given as serial date number from January 0, 0000, where $N$ is the number of data samples.
+\item \lstinline[basicstyle = \mlttfamily \small]!values! is $N\times M$ array containing the data amplitude values.
+\end{itemize}
+ \MATLAB{} binary .MAT files must be stored in the ``OpenBDLM-master/data/mat'' subfolder.
+
+%\begin{lstlisting}[style = MATLAB-editor, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, caption = {Output on MATLAB command window when running \lstinline!data=load('DATA_DEMO.mat')!}, linewidth=\linewidth, label=LST:LoadData, ,captionpos=b] 
+%data = 
+%
+%  struct with fields:
+%
+%        labels: {'TS01'  'TS02'}
+%    timestamps: [1828x1 double]
+%        values: [1828x2 double]
+%
+%\end{lstlisting}
+
+\paragraph{Comma Separated Values files}
+
+See Paragraph~\ref{PAR:CSVasync} for CSV files formatting.
+
+
+
+\subsection{Output data format}
+
+Output data formatting is \MATLAB{} binary .MAT file (see Paragraph~\ref{PAR:MATfile}) and CSV files (see Paragraph~\ref{PAR:CSVasync}).
+
+
+\subsection{Data loading functions}
+\begin{itemize}
+\item \lstinline![data, misc, dataFilename]=DataLoader(misc)! Create a data file
+\item \lstinline![dataOrig, misc]=readMultipleCSVFiles(misc)!  Read data from multiple CSV files
+\item \lstinline![dat,label]=readSingleCSVFile(FileToRead, varargin)! Read a single CSV file
+\item \lstinline![misc, dataFilename] = saveDataBinary(data, misc, varargin)! Save data in a binary Matlab .mat file
+\item \lstinline![misc] = saveDataCSV(data, misc, varargin)! Save time series data in separate CSV files
+\end{itemize}
+
+\section{Data editing and pre-processing}
+
+Data editing prepares the data for analysis.
+Data editing includes time series selection, data analysis time period selection, missing data removal, and data  resampling.
+The time synchronization is performed automatically through the data editing process, when multiple time series are processed simultaneously.
+%Data pre-processing is required to synchronize multiple asynchronous time-series.
+%Besides, OpenBDLM gives the possibility to edit the dataset, such as time series selection, data analysis time period selection, missing data removal, and data  resampling. 
+
+%\subsection{Purpose}
+%OpenBDLM is capable to analyze simultaneously multiple time-series.
+%Multiple time-series analysis is particularly useful to incorporate information from observed environmental effects by creating dependencies between time-series.
+%However, in most cases, the set of available time-series is asynchronous, in the sense that the time-series do not share the same timestamps and do not have the same number of data points.
+%heterogeneous, in the sense that each time-series do not originate from the same system of acquisition.
+%Therefore, the raw data do not usually share the same timestamps.
+%The BDLMs formulation is not suited to analyze asynchronous time-series.
+%The data pre-processing in OpenBDLM is dedicated to synchronize the time-series between each others.
 %By default, the time synchronization is done by replacing the corresponding missing values in the time series with missing data.
 %Custom pre-processing is also possible to control the final amount of miss- ing data in the dataset, or to perform resampling by data averaging over time-windows of fixed length.
 %Moreover, the data pre-processing in OpenBDLM is also used to choose the time-series to process, and to select the period of analysis.
 %The time synchronization is updated automatically as time-series are added to (or removed from) the dataset.
-The preprocessing in OpenBDLM is minimalist and focuses on time synchronization.
-Neither outlier removal nor normalization is done to preserve the genuine information from the data.
+%The preprocessing in OpenBDLM is minimalist and focuses on time synchronization.
+%Neither outlier removal nor normalization is done to preserve the genuine information from the data.
 
-\section{Input data format}
 
-OpenBDLM accept two types of data formatting depending whether the time-series are already synchronized, or not.
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small,  linewidth = \linewidth, caption = OpenBDLM data editing menu,  label = LST:Editing_menu, float = hb, ,captionpos=b]
+- Choose from
 
-\subsection{CSV files}
+     1  ->  Select time series
+     2  ->  Select data analysis time period 
+     3  ->  Remove missing data
+     4  ->  Resample
+     5  ->  Change synchronization options
 
-Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
-The user should provide one CSV files for each time series.
-The file is a two columns file that should be organized as follow:\\
-\begin{lstlisting}[backgroundcolor = \color{light-gray}, caption = CSV file example]
-'name'            ,   '2000-01-01-22-00-00'
-737422            ,   0.40
-737423            ,   0.21
-737424            ,   0.548
+     6  ->  Reset changes
+     7  ->  Save changes and continue analysis
+
+     choice >> 
 \end{lstlisting}    
-The first line of the file is the header.
-In the header, the first field should contain the label of the time-series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
-The second field should is the date of the first timestamp given as a quoted delimited string, as \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle.  
-Note that the two fields in the header are not the label of each column.
-The others line have two fields.
-The first field is the date given as a serial date number.
-The second field is the magnitude of the physical quantity measured (the measurement), given as a real number.
 
-\subsection{.MAT files}
+\subsection{Selection of time-series}
+\label{SS:SelectionTimeSeries}
+
+The selection of time-series allows to select only a subset of the time series in memory.
+The time series are automatically synchronized as time-series are added to (or removed from) the dataset.
+
+\subsection{Selection data analysis time period}
+\label{SS:SelectionPeriodAnalysis}
+
+The selection of the period of analysis allows to select only the data between two dates, given as \textquotesingle YYYY-DD-MM\textquotesingle {} format.
+If the second requested date exceeds the date corresponding to the last timestamp of the original dataset, padding with NaN values are performed. 
+The timestep for the NaN padding should be user's provided.
+
+\subsection{Removing missing data}
+\label{SS:MissingDataRemoval}
+
+It is possible to control the maximum amount of NaN missing data allowed at each time slice. 
+By default, the maximum amount of missing data is $100$\%, given with respect to the total number of time-series.
+
+\subsection{Data resampling}
+\label{SS:DataResampling}
+Data resampling changes the sampling rate of the time-series according to a given timestep provided by the user. 
+If the requested timestep is higher than the original data timestep, NaN values are added.
+Conversely, if the requested timestep is lower than the original  data timestep, OpenBDLM averages the data amplitude values within non-overlapping fixed time windows, each having the duration of the requested timestep.
+The first time window starts at the first timestamp, and the new timestamps are assigned at the times corresponding to the middle of each time window.
+
+\subsection{Time synchronization options}
+\label{SS:synchronization}
+By default, the time synchronization in OpenBDLM is done by adding NaN values.
+The time synchronization is controlled by the \lstinline!NaNThreshold! and \lstinline!tolerance! variables.
+\lstinline!NaNThreshold!  is given in percent with respect to the total number of time-series.
+The variable \lstinline!tolerance! gives the duration (in number of days) after which two timestamps are not considered equal.
+The default values for \lstinline!NaNThreshold!  and \lstinline!tolerance! are  $100$\% and $10^{-6}$ days, respectively. 
+
+\subsection{Data editing functions}
+
+\begin{itemize}
+\item \lstinline![data, misc]=chooseTimeSeries(data, misc)! Request the user to select some time series
+\item \lstinline![timesteps]=computeTimeSteps(timestamps)! Compute timestep vector from timestamps vector
+\item \lstinline!displayData(data, misc)! Display on screen the content of the data in memory
+\item \lstinline![FileInfo] = displayDataBinary(misc, varargin)! Display the list of DATA\_*.mat files
+\item \lstinline![data, misc, dataFilename]=editData(data, misc, varargin)!  Control script to edit dataset (selection, resampling, etc..)
+\item \lstinline![data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)!  Create a single time vector from a set of time series
+\item \lstinline![data_resample, misc]=resampleData(data, misc, varargin)! Resample dataset according to a given timestep.
+\item \lstinline![data, misc]=selectTimePeriod(data, misc)! Select data between two dates
+\end{itemize}
 
 
-\section{Output data format}
-\section{Merging timestamps vector}
-\section{Data processing functions}
+\section{Model building}
+\subsection{Purpose}
+\subsection{Model class}
+\subsection{Dependencies}
+\subsubsection{Observed covariate}
+\subsubsection{Hidden covariate}
+\subsection{Model components}
+\subsubsection{Local level}
+\subsubsection{Local trend}
+\subsubsection{Local acceleration}
+\subsubsection{Local level compatible trend}
+\subsubsection{Local level compatible acceleration}
+\subsubsection{Local trend compatible acceleration}
+\subsubsection{Periodic}
+\subsubsection{Kernel regression}
+\subsubsection{Residual - first order autoregressive}
+\subsection{Model building functions}
 \newpage
 
-\chapter{Model building}
-\section{Purpose}
-\section{Model class}
-\section{Dependencies}
-\subsection{Observed covariate}
-\subsection{Hidden covariate}
-\section{Model components}
-\subsection{Local level}
-\subsection{Local trend}
-\subsection{Local acceleration}
-\subsection{Local level compatible trend}
-\subsection{Local level compatible acceleration}
-\subsection{Local trend compatible acceleration}
-\subsection{Periodic}
-\subsection{Kernel regression}
-\subsection{Residual - first order autoregressive}
-\section{Model building functions}
+\section{Model parameters learning}
+\subsection{Purpose}
+\subsection{Posterior}
+\subsubsection{Prior}
+\subsubsection{Likelihood}
+\subsection{Model parameters bounds and transformed spaces}
+\subsubsection{Logarithmic transformation}
+\subsubsection{Sigmoid transformation}
+\subsection{Gradient-based optimization techniques}
+\subsubsection{Newton-Raphson approach}
+\subsubsection{Stochastic Gradient Ascent approach}
+\subsection{Constrain model parameters between each others}
+\subsection{Model parameters learning functions}
 \newpage
 
-\chapter{Model parameters learning}
-\section{Purpose}
-\section{Posterior}
-\subsection{Prior}
-\subsection{Likelihood}
-\section{Model parameters bounds and transformed spaces}
-\subsection{Logarithmic transformation}
-\subsection{Sigmoid transformation}
-\section{Gradient-based optimization techniques}
-\subsection{Newton-Raphson approach}
-\subsection{Stochastic Gradient Ascent approach}
-\section{Constrain model parameters between each others}
-\section{Model parameters learning functions}
+\section{Hidden states estimation}
+\subsection{Purpose}
+\subsection{Kalman equations}
+\subsection{UD computations}
+\subsection{Filtering}
+\subsection{Smoothing}
+\subsection{Hidden states estimation functions}
 \newpage
 
-\chapter{Hidden states estimation}
-\section{Purpose}
-\section{Kalman equations}
-\section{UD computations}
-\section{Filtering}
-\section{Smoothing}
-\section{Hidden states estimation functions}
+\section{Data simulation}
+\subsection{Purpose}
+\subsection{Data simulation functions}
 \newpage
 
-\chapter{Data simulation}
-\section{Purpose}
-\section{Data simulation functions}
-\newpage
-
-%\chapter{Model validation}
-%\section{Purpose}
-%\section{Prediction capacity}
-%\section{Posterior model parameters covariance matrix analysis}
-%\section{Posterior state covariance matrix analysis}
-%\section{Residual component analysis}
-%\section{Model validation functions}
+%\section{Model validation}
+%\subsection{Purpose}
+%\subsection{Prediction capacity}
+%\subsection{Posterior model parameters covariance matrix analysis}
+%\subsection{Posterior state covariance matrix analysis}
+%\subsection{Residual component analysis}
+%\subsection{Model validation functions}
 %\newpage
 
-\chapter{Visualization tools}
-\section{Purpose}
-\section{Data availability plots}
-\section{Hidden states plots}
-\section{Export figures options}
-\section{Visualization tools functions}
+\section{Visualization tools}
+\subsection{Purpose}
+\subsection{Data availability plots}
+\subsection{Hidden states plots}
+\subsection{Export figures options}
+\subsection{Visualization tools functions}
 \newpage
 
 
-\chapter{Version control}
-\section{Purpose}
-\section{Version control functions}
+\section{Version control}
+\subsection{Purpose}
+\subsection{Version control functions}
 \newpage
 
-\chapter{OpenBLDM options}
+\section{OpenBLDM options}
 
 %     isMAP            - logical (optional)
 %                         if isMAP = true, Newton-Raphson algorithm is used to 
@@ -305,29 +475,35 @@ The second field is the magnitude of the physical quantity measured (the measure
 %                         default: false
 
 
-\chapter{Examples}
-\section{Example 1}
+\section{Examples}
+\subsection{Example 1}
 Simulated data with: one time series, one model class, \{[12 31 41]\}.
 
-\section{Example 2}
+\subsection{Example 2}
 Simulated data with: two time series with dependencies, one model class, \{[11 41], [11 31 41]\}.
 
-\section{Example 3}
+\subsection{Example 3}
 Simulated data with one time series, two model classes, \{[21 31 41]\} and \{[12 31 41]\}.
 
-\section{Example 4}
+\subsection{Example 4}
 Real data with one time series, one model class, \{[12 51 41]\}.
 
 \newpage
 
-\chapter{List of functions}
+\section{List of functions}
 \newpage
 
 
-\chapter{Older versions}
+\section{Older versions}
 \newpage
 
-\chapter{Last changes}
+\section{Last changes}
+
+%\begin{lstlisting}[style=MATLAB-editor]
+%  for i=1:M
+%  disp(i)
+%  end
+%\end{lstlisting}
 
 \newpage
 
