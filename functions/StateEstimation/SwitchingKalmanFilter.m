@@ -81,8 +81,11 @@ function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)
 %   See also STATESTIMATION, KALMANFILTER, UDFILTER
  
 %   AUTHORS: 
-%       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet
+%      Luong Ha Nguyen, Ianis Gaudot, James-A Goulet
 % 
+%      Inspired from the initial codes of John Quinn, Kevin P. Murphy, 
+%      Brian Moore,
+%
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
 % 

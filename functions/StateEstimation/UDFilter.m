@@ -66,7 +66,7 @@ function [xnew, Vnew, VVnew, U_post, D_post, loglik]=UDFilter(A, C, Q, R, y, x, 
 %   AUTHORS: 
 %       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet
 %
-%       Initial program developed by Brian Moore
+%       Inspired from the initial code of Brian Moore
 % 
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>

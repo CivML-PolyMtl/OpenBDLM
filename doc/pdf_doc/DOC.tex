@@ -5,6 +5,7 @@
 \usepackage[framed]{matlab-prettifier}
 \usepackage[T1]{fontenc}
 \definecolor{light-gray}{gray}{0.95}
+\definecolor{matlab-yellow}{RGB}{252,251,220}
 
 \usepackage{upquote}
 \usepackage{xspace}
@@ -19,10 +20,13 @@
 \RequirePackage{mathtools}
 \RequirePackage{bm}
 
+\usepackage{mathabx}
+
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue}
 
-\title{OpenBDLM: an open-source \MATLAB{} software for time-series analysis using Bayesian dynamic linear models}
+%\title{OpenBDLM: an open-source \MATLAB{} software for time-series analysis using Bayesian dynamic linear models}
+\title{OpenBDLM reference manual}
 \author{Ianis Gaudot, Luong H. Nguyen, James-A. Goulet \\ Polytechnique Montreal}
 
 \begin{document}
@@ -37,26 +41,27 @@
 \newpage
 \section{What is OpenBDLM ?}
 
-OpenBDLM is a \MATLAB{} open-source software designed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step in the order of one hour or higher).
+OpenBDLM is a \MATLAB{} open-source software developed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step in the order of one hour or higher).
 OpenBDLM is capable to process simultaneously any time series data to interpret, monitor and predict their long-term behavior.
 OpenBDLM also includes an anomaly detection tool which allows to detect abnormal behavior in a fully probabilistic framework.
-OpenBDLM is available for download from GitHub.\\ % at https://github.com/CivML-PolyMtl/OpenBDLM\\
+OpenBDLM is available for download from GitHub at \url{https://github.com/CivML-PolyMtl/OpenBDLM}.\\
 
-\textbf{Keywords}: time series analysis and forecasting, linear gaussian state-space models, time-series decomposition, anomaly detection, filtering, smoothing, Bayes, gaussian conditionnals
-
-\newpage
+\noindent \textbf{Keywords}: time series analysis and forecasting, linear gaussian state-space models, time-series decomposition, anomaly detection, filtering, smoothing, Bayes, gaussian conditionnals
 
 \section{Installing OpenBDLM}
 
-These instructions will get you a copy of the project up and running on your local machine for direct use, testing and development purposes.\\
+These instructions will get you a copy of the project up and running on your local machine for direct use, testing and development purposes.
 \subsection{Prerequisites}
-\MATLAB{} (version 2016a or higher) installed on Mac OSX or Windows\\
+\MATLAB{} (version 2016a or higher) installed on Mac OSX or Windows.\\
+
+\noindent
+The \MATLAB{}  'Statistics and Machine Learning Toolbox' is required.
 
 \subsection{Installing}
 \begin{enumerate}
 \item Remove from your \MATLAB{} path all previously OpenBDLM versions
-\item Extract the ZIP file (or clone the git repository) somewhere you can easily reach it.
-\item Add ``OpenBDLM-master'' folder and all the subfolders to your path in \MATLAB :
+\item Extract the ZIP file from \url{https://github.com/CivML-PolyMtl/OpenBDLM} (or clone the git repository) somewhere you can easily reach it.
+\item Add ``OpenBDLM-master'' folder and all the subfolders to your \MATLAB{}  path:
 \begin{itemize}
     \item using the ``Set Path'' dialog box in \MATLAB{}, or 
     \item by running  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!addpath! function from the \MATLAB{} command window
@@ -69,15 +74,16 @@ These instructions will get you a copy of the project up and running on your loc
 \begin{itemize}
 \item enter in the folder ``OpenBDLM-master''
 %\begin{center}
-\item type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![data, model, estimation, misc] = OpenBDLM_main();! }
+\item type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![data, model, estimation, misc] = OpenBDLM_main();! }, and type $\dlsh$.
 %\end{center}
 in the \MATLAB{} command line.
 \end{itemize}
 The OpenBDLM starting menu should appear on the \MATLAB{} command window (see Listing~\ref{LST:OpenBDLMmainMenu}).
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!} in the command line, and type $\dlsh$ to quit the program.
 %\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, linewidth=\linewidth] %, caption = OpenBDLM call ]%, label = LST:OpenBDLMmain, captionpos=b]
 %[data, model, estimation, misc] = OpenBDLM_main();
 %\end{lstlisting}
-\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, caption = {OpenBDLM starting menu on  \MATLAB{} command window when calling \lstinline!\[data, model, estimation, misc\] = OpenBDLM\_main();!}, label = LST:OpenBDLMmainMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM starting menu on  \MATLAB{} command window when calling \lstinline!\[data, model, estimation, misc\] = OpenBDLM\_main();!}, label = LST:OpenBDLMmainMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
 
 ------------------------------------------------
      Starting OpenBDLM
@@ -105,11 +111,11 @@ In the \MATLAB{} command line, type
 %\begin{center}
 \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO;! }
 %\end{center}
- to run a demo. 
+ followed by $\dlsh$ to run a demo. 
 %\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO.m! to run a little demo. 
-Some messages on the \MATLAB{} command window showing that the programs runs properly  should appear on the \MATLAB{} command window (see Listing~\ref{LST:MessageDemo}).
+Some messages on the \MATLAB{} command window show that the programs runs properly (see Listing~\ref{LST:MessageDemo}).
 
-\begin{lstlisting}[frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, caption = {Output on \MATLAB{} command window when running \lstinline!run_DEMO.m!}, linewidth=\linewidth, label=LST:MessageDemo, ,captionpos=b, float = h] 
+\begin{lstlisting}[frame = single, basicstyle = \mlttfamily \small, caption = {Output on \MATLAB{} command window when running \lstinline!run_DEMO.m!}, linewidth=\linewidth, label=LST:MessageDemo, ,captionpos=b, float = h] 
      Starting OpenBDLM_V???...
      Starting a new project...
      Building model...
@@ -127,33 +133,43 @@ Some messages on the \MATLAB{} command window showing that the programs runs pro
 \section{OpenBDLM inputs and outputs}
 
 \subsection{Inputs}
-
+\label{SS:OpenBDLMinput}
 OpenBDLM\_main accepts three types of input
 \begin{itemize}
-  \item no input \lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main();! The program then runs in interactive mode, in which online user's interactions from the command line is required to perform the analysis.
-    \item  a configuration file as input, \lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main('CFG_DEMO.m');!. The configuration file is used to initialize the project, and the program then runs in interactive mode. Configuration file must follow a specific format 
-   \item a cell array as input \lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main({'''CFG_DEMO.m''','3','1','''Q'''});!. The program runs in batch mode, in which pre-loaded commands stored in the input cell-array are sequentially read by the program to perform the analysis.
+  \item \textbf{no input} \\ 
+  
+  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]![data, model, estimation, misc]=OpenBDLM_main();!} \\  
+  %the program requests user's inputs from the command line. 
+  \item  \textbf{the name of configuration file given as a character vector}\\ 
+  
+    \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]![data, model, estimation, misc]=OpenBDLM_main('CFG_DEMO.m');!} \\ 
+      
+    %a configuration file (see Section~\ref{S:CFGFile}) is used to initialize the project
+  \item \textbf{a cell array of character vectors} \\
+  
+\raggedright{\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]![data, model, estimation, misc]=OpenBDLM_main(\{'''CFG_DEMO.m''','''Q'''\});!}} \\
+ %the program reads pre-loaded commands stored in an input cell-array of character vectors.
 \end{itemize}
 
 \subsection{Outputs}
 
 \subsubsection{data, model, estimation, misc}
-OpenBDLM\_main returns four variables:
+OpenBDLM\_main returns four variables as \MATLAB{}  structures:
 \begin{itemize}
- \item   \lstinline[basicstyle = \mlttfamily \small]!data! stores the time series data used for the analysis.
- \item  \lstinline[basicstyle = \mlttfamily \small]!model!   stores all the information about the model used for the analysis (current model structure and model parameters values)
- \item   \lstinline[basicstyle = \mlttfamily \small]!estimation!  stores the computed hidden states estimation using the current data and model.
- \item  \lstinline[basicstyle = \mlttfamily \small]!misc! stores internal variables
+ \item   \lstinline[basicstyle = \mlttfamily \small \bf]!data!, which stores the time series used for the analysis.
+ \item  \lstinline[basicstyle = \mlttfamily \small \bf]!model!, which stores all the information about the model used for the analysis
+ \item   \lstinline[basicstyle = \mlttfamily \small \bf]!estimation!, which  stores the hidden states estimation computed using the current data and model.
+ \item  \lstinline[basicstyle = \mlttfamily \small \bf]!misc!, which stores internal variables
 \end{itemize}
 
-\subsubsection{DATA, CFG, PROJ and LOG files}
-OpenBDLM\_main reads and/or create four types of files:
+\subsubsection{DATA\_, CFG\_, PROJ\_ and LOG\_ files}
+OpenBDLM reads and/or create four types of files:
 
 \begin{itemize}
-    \item Data file DATA\_*.mat: MAT binary file that store the time series data. These files are located in the ``data/mat'' subfolder.
-    \item Configuration file CFG\_*.m : Matlab script used to initialize and export a project in human readable format. These files are located in the ``config\_files'' subfolder.
-    \item Project file PROJ\_*.mat : MAT binary file that stores a full project for further analysis (basically a project file stores the structure data, model, estimation, and misc ). These files are located in the ``saved\_projects'' subfolder.
-    \item Log file LOG\_*.txt : Text file that records information about the analysis. These files are located in the ``log\_files'' subfolder.
+    \item \textbf{data file} named with a prefix \textbf{DATA\_} are MAT binary files that store the time series data (see Section~\ref{SS:InputDataformattingSynchronous}). These files are located in the ``data/mat'' subfolder.
+    \item \textbf{configuration file} named with the prefix \textbf{CFG\_} are  \MATLAB{} scripts used to initialize and export a project (see Section~\ref{S:CFGFile}). These files are located in the ``config\_files'' subfolder.
+    \item \textbf{project file} named with the prefix \textbf{PROJ\_} are MAT binary files that stores a full project for further analysis. These files are located in the ``saved\_projects'' subfolder.
+    \item \textbf{log file} named with the prefix \textbf{LOG\_} are plain TEXT files that record events occurring during the program run. These files are located in the ``log\_files'' subfolder.
 \end{itemize}
 
 %If you do not see anything except \MATLAB{} errors verify your \MATLAB{} version, and your \MATLAB{} path. Be sure that you run the program from the top-level of \textbf{OpenBDLM-master} folder, not from another folder.\\
@@ -189,11 +205,257 @@ OpenBDLM\_main reads and/or create four types of files:
 %The Kalman filter equations are computationnally efficient, as they are solved fully analytically.
 %BDLMs are capable to process non-stationnary time series without retraining the model. %, which is well suited to perform online inference.
 
+\section{OpenBDLM running modes}
+\subsection{Interactive mode}
+
+In the interactive mode, OpenBDLM requests and reads input from the user.
+The input must be provided from the keyboard and be typed in the Matlab command line.
+Each input is validated after typing $\dlsh$.
+
+\subsection{Batch mode}
+
+In the batch mode, the inputs must be provided in advance by the user and stored in a cell array of characters vector.
+OpenBDLM reads sequentially the provided input and it performs the analysis silently as requested from the inputs.
+The batch mode requires a good previous knowledge of the interactive mode because the set of input must be provided prior analysis.
+
+\section{Configuration file}
+\label{S:CFGFile}
+\subsection{Purpose}
+
+The configuration files are \MATLAB{} scripts that are used to initialize a project.
+The name of a configuration file can be given as a input to the function \hfill \break
+OpenBDLM\_main.m, as mentionned in Section~\ref{SS:OpenBDLMinput}.
+The configuration file must follow a specific organization.
+It must be divided into 6 sections: Project name, Data, Model structure, Model parameters, Initial states values and Options.
+The first three sections Project name, Data, Model structure are required.
+The last three sections Model parameters, Initial states values and Options are optional.
+
+\subsubsection{Project name}
+This section of the configuration file aims at giving the name of the project as a vector of characters stored in the field \textbf{ProjectName}  of the \MATLAB{} structure \textbf{misc}.
+
+\subsubsection{Data}
+
+This section of the configuration file aims at loading the data from a DATA\_ file located in ``/data/mat'' subfolder.
+The file must follow the format described in Section~\ref{SS:InputDataformattingSynchronous}.
+The timestamps values, the amplitude values and the labels values must be stored in the fields \lstinline[basicstyle = \mlttfamily \small \bf]!timestamps!, \lstinline[basicstyle = \mlttfamily \small \bf]!values!, and \lstinline[basicstyle = \mlttfamily \small \bf]!labels! of the \MATLAB{} structure named \lstinline[basicstyle = \mlttfamily \small \bf]!data!.
+
+\subsubsection{Model structure}
+
+This part of the configuration file aims at defining the model in a \MATLAB{} structure named \lstinline[basicstyle = \mlttfamily \small \bf]!model.component!.
+The structure \lstinline[basicstyle = \mlttfamily \small \bf]!model.component! must have three fields, named \lstinline[basicstyle = \mlttfamily \small \bf]!model.component.block!, \lstinline[basicstyle = \mlttfamily \small \bf]!model.component.ic!, and \lstinline[basicstyle = \mlttfamily \small \bf]!model.component.const!.
+
+\begin{itemize}
+
+\item \textbf{model.component.block} aims at defining the block components associated with each time-series.\\
+
+The field \textbf{block} stores a $1\times \mathtt{C}$ cell array, where $\mathtt{C} = \{1,2 \}$ is the number of model classes.
+Each cell array is a $1\times \mathtt{M}$ cell array of array, where $\mathtt{M}$ is the number of time series.
+Each block component is associated with a reference number:
+\begin{itemize}
+\item 11: Local level 
+\item 12: Local level plus local trend
+\item 13: Local level plus local trend plus local acceleration
+\item 21: Local level compatible with local trend
+\item 22: Local level compatible with local acceleration
+\item 23: Local trend compatible with local acceleration
+\item 31: Periodic
+\item 41: First-order autoregressive
+\item 51: Kernel regression
+\end{itemize}
+
+\item  \textbf{model.component.const} aims at constraining model parameters between block components of different model classes.\\
+
+The field \textbf{const} stores a $1\times \mathtt{C}$ cell array, where $\mathtt{C} = \{1, 2 \}$ is the total number of model classes.
+It is defined only if $\mathtt{C} = 2$.
+The first cell is empty, and the second cell is a $1\times \mathtt{M}$ cell array of array, where $\mathtt{M}$ is the number of time series.
+The array contains $0$ and $1$ to indicate which block components of the second model class has the same model parameters than the corresponding component of the first model class. 
+A value of $1$ indicates that the model parameters are constrained between the block components of the two model classes, $0$ otherwise.
+
+\item  \textbf{model.component.ic} aims at defining the dependencies between the time-series.\\
+
+The field \textbf{ic} stores a $1\times \mathtt{M}$ cell array of $1\times \mathtt{M}-1$ array, where $\mathtt{M}$ is the number of time series.
+Each time-series depend on the time-series corresponding to the indexes given in the $\mathtt{M}$ arrays.
+If the array is empty, the time-series is independent.
+
+\end{itemize}
+
+
+\subsubsection{Model parameters}
+
+This part of the configuration file aims at defining the model parameters properties.
+The model parameters properties are stored in the field named \lstinline[basicstyle = \mlttfamily \small \bf]!model.param_properties! of the \MATLAB{} structure \textbf{model}.
+The field \lstinline[basicstyle = \mlttfamily \small \bf]!model.param_properties! stores $\mathtt{K} \times 10$ cell array, where $\mathtt{K}$ is the total number of model parameters.
+\begin{itemize}
+\item the column 1 must be a character vector that gives the name of the model parameters (e.g. \textquotesingle sigma\_w\textquotesingle). 
+\item the column 2 must be a character vector that gives the reference name of the block associated with the parameter (e.g \textquotesingle LL\textquotesingle ).
+\item the column 3 must be a character vector that gives the index corresponding to the model class associated with the parameter (e.g  either \textquotesingle 1\textquotesingle or \textquotesingle 2\textquotesingle).
+\item the column 4 must be a character vector that gives the index corresponding to the observation associated with the parameter (e.g  either \textquotesingle 3\textquotesingle).
+\item the column 5 must be a $1\times2$ array that gives the bound of the parameter(e.g  [NaN, NaN],  [0, Inf], [0, 1]). 
+The bounds are used to transform bounded model parameters from bounded to unbounded space during the optimization process.
+\item the column 6 must be character vector that gives the type of the prior used during the optimization process (e.g  either \textquotesingle N/A\textquotesingle{} or \textquotesingle{} normal\textquotesingle{}). 
+\textquotesingle N/A\textquotesingle{} indicates that no prior is used.
+\item the column 7 must be a real number that gives the mean of the prior when a prior of type \textquotesingle normal\textquotesingle{} is used, otherwise it must be set to NaN
+\item the column 8 must be a real number that gives the mean of the prior when a prior of type \textquotesingle normal\textquotesingle{} is used, otherwise it must be set to NaN
+\item the column 9 must be a real number that gives the value of the model parameters
+\item the column 10 must be an integer that gives the reference number of the model parameters. The model parameters with the same reference number are constrained to each other.
+\end{itemize}
+
+\subsubsection{Initial states values}
+This part of the configuration file aims at defining the initial (at time $t=0$) states values.
+The mean and covariance initial hidden states values are stored in the \textbf{model.initX} and \textbf{model.initV} fields.
+The initial probability for the model class is stored in the field \textbf{model.initS}.
+
+\begin{itemize}
+\item \textbf{model.initX}  is a $1\times \mathtt{C}$ cell array of array, where $\mathtt{C} = \{1, 2 \}$ is the total number of model classes.
+Each array is a $\mathtt{L}\times1$ array of real number that stores the initial mean values associated with each hidden states components, where $\mathtt{L}$ is the total number of hidden states components associated with the model.
+\item \textbf{model.initV} a $1\times \mathtt{C}$ cell array of array, where $\mathtt{C} = \{1, 2 \}$ is the total number of model classes.
+Each array is a $\mathtt{L}\times\mathtt{L}$ array of real number that stores the initial variance and covariances values associated with each hidden states components.
+\item \textbf{model.initS} a $1\times \mathtt{C}$ cell array of array, where $\mathtt{C} = \{1, 2 \}$ is the total number of model classes. 
+Each array is a  $1\times1$ array of real number that gives the initial probability for the model class.
+
+\end{itemize}
+
+\subsubsection{Options}
+This part of the configuration file aims at defining the options that control different aspect of the software regarding the data pre-processing, the optimization, the state estimation, and the aspect of the graphical output.
+The options are stored in the field named \text{options} of the \MATLAB{} structure \textbf{misc}.
+\begin{itemize}
+
+\item options for the data pre-processing
+
+\begin{itemize}
+\item \textbf{misc.options.NaNThreshold}  real number that gives, in percent, the amount of missing data allowed at each time slice. Default: 100.
+\item \textbf{misc.options.Tolerance} real number that gives the gives the duration (in number of days) after which two timestamps are not considered equal. Default: $10^{-6}$.
+
+\end{itemize}
+
+
+\item options for the optimization
+
+\begin{itemize}
+\item \textbf{misc.options.trainingPeriod}  $1\times2$ array of real number that defines the training period, given in number of days since the first timestamp. Default: [1 Inf]. 
+\item \textbf{misc.options.isParallel} logical that triggers or not the parallel computation for approximating the gradient in the optimization procedure. Note that parallel computation require the \MATLAB{} Parallel Computing Toolbox. Default: true.
+\item \textbf{misc.options.maxIterations} integer that gives the maximum number of iterations for the optimization procedure. Default: 100.
+\item \textbf{misc.options.maxTime} real number that gives, in minutes, the maximum amount of  time to spend for the optimization procedure. Default: 60.
+\item \textbf{misc.options.isMAP} logical that triggers or not the Maximum A Posteriori (MAP) estimation of the model parameters during the optimization procedure. MAP estimation includes prior information about the model parameters. Default: false.
+\item \textbf{misc.options.isPredCap} logical.  if isPredCap = true, the Prediction Capacity (i.e. the log-likelihood over a test dataset) is used to drive the optimization process, otherwise the log-likelihood over the full dataset is used. Default: false.
+\item \textbf{misc.options.isLaplaceApprox} logical. if isLaplaceApprox = true the full Laplace approximation around the optimized model parameters values is computed. Default: false.
+\item \textbf{misc.options.isMute} logical. is isMute = true, no message are output during the optimization procedure. Default: false.
+
+\end{itemize}
+
+\item options for the estimation
+
+\begin{itemize}
+\item \textbf{misc.options.MaxSizeEstimation} real number that gives the maximum size, in Mb, for which the hidden states estimations are saved in the PROJ\_ file at the end of the analysis. Default: 100.
+\item \textbf{misc.options.MethodStateEstimation} vector of character. It must be either \textquotesingle kalman \textquotesingle{} or \textquotesingle UD \textquotesingle{}. it gives the method used for the estimation of the hidden states. Default: \textquotesingle kalman \textquotesingle{}
+\end{itemize}
+
+\item options for the graphical outputs
+
+\begin{itemize}
+\item \textbf{misc.options.FigurePosition} $1\times4$ array of real number that gives the location and size of the drawable area, specified as a vector of the form [left bottom width height] in the current units of \MATLAB{}. Default: $[100 100 1300 270]$
+\item \textbf{misc.options.isSecondaryPlot} logical. if isSecondaryPlot= true, a closeup over two weeks is plotted at the right of each figure. Default: false.
+\item \textbf{misc.options.Subsample} integer that controls the number of points to plot in the figure. The number of points to plot is divided by a factor given by the values of Subsample. Default: 1.
+\item \textbf{misc.options.Linewidth} real number that controls the width of the line plotted in the figure. Default: 1.
+\item \textbf{misc.options.ndivx} integer that controls the number of labels for abscissa x-axis in each figure. Default: 4.
+\item \textbf{misc.options.ndivy} integer that controls the number of labels for ordinate y-axis in each figure. Default: 3.
+\item \textbf{misc.options.Xaxis\_lag} real number that gives in number of days the amount of time the x-axis is shifted on each figure. Default: 0. 
+\item \textbf{misc.options.isExportTEX} logical. if isExportTEX=true, the figure are exported in \LaTeX{} format. Default: false.
+\item \textbf{misc.options.isExportPNG} logical. if isExportPNG=true, the figure are exported in PNG format. Default: false.
+\item \textbf{misc.options.isExportPDF} logical. if isExportPDF=true, the figure are exported in PDF format. Default: false.
+\end{itemize}
+
+
+\end{itemize}
+
+
+%\begin{lstlisting}[linewidth=\linewidth, style=Matlab-editor,  basicstyle = \mlttfamily \scriptsize, backgroundcolor = \color{matlab-yellow}, caption = {Example of a configuration file}, label=LST:CFGFile, ,captionpos=b]
+%%
+%%                    OpenBDLM configuration file                          
+%%          Autogenerated by OpenBDLM on 22-Nov-2018 17:18:09              
+%%
+%%% A - Project name
+%misc.ProjectName='TEST';
+%
+%%% B - Data
+%dat=load('DATA_TEST.mat'); 
+%data.values=dat.values;
+%data.timestamps=dat.timestamps;
+%data.labels={'TS01'};
+%
+%%% C - Model structure 
+%% Components reference numbers
+%% 11: Local level
+%% 12: Local trend
+%% 13: Local acceleration
+%% 21: Local level compatible with local trend
+%% 22: Local level compatible with local acceleration
+%% 23: Local trend compatible with local acceleration
+%% 31: Periodic
+%% 41: Autoregressive
+%% 51: Kernel regression
+%% 61: Level Intervention
+%
+%% Model components
+%% Model 1
+%model.components.block{1}={[11 ] };
+%
+%% Model component constrains | Take the same  parameter as model class #1
+% 
+%% Model inter-components dependence | {[components form dataset_i depends on components from  dataset_j]_i,[...]}
+%model.components.ic={[ ] };
+%
+%
+%%% D - Model parameters 
+%model.param_properties={
+%%    #1           #2     #3     #4   #5            #6     #7   #8     #9     #10
+%%    Param name   Block  Model  Obs  Bound         Prior  Mean Std    Values  Ref
+%     '\sigma_w',   'LL',  '1',   '1', [NaN  NaN  ],  'N/A', NaN, NaN,   0   ,   1      %#1   
+%     '\sigma_v',     '',  '1',   '1', [0  Inf    ],  'N/A', NaN, NaN,   0.01,   2      %#2   
+%};
+%
+%%% E - Initial states values 
+%% Initial hidden states mean for model 1:
+%model.initX{ 1 }=[	10    ]';
+%
+%% Initial hidden states variance for model 1: 
+%model.initV{ 1 }=diag([ 	0.01   ]);
+%
+%% Initial probability for model 1
+%model.initS{1}=[1     ];
+%
+%%% F - Options 
+%misc.options.NaNThreshold=100;
+%misc.options.Tolerance=1e-06;
+%misc.options.trainingPeriod=[1  1096];
+%misc.options.isParallel=false;
+%misc.options.maxIterations=3;
+%misc.options.maxTime=60;
+%misc.options.isMAP=false;
+%misc.options.isPredCap=false;
+%misc.options.isLaplaceApprox=false;
+%misc.options.isMute=false;
+%misc.options.MaxSizeEstimation=100;
+%misc.options.MethodStateEstimation='kalman';
+%misc.options.FigurePosition=[100   100  1300   270];
+%misc.options.isSecondaryPlot=false;
+%misc.options.Subsample=1;
+%misc.options.Linewidth=1;
+%misc.options.ndivx=4;
+%misc.options.ndivy=3;
+%misc.options.Xaxis_lag=0;
+%misc.options.isExportTEX=false;
+%misc.options.isExportPNG=false;
+%misc.options.isExportPDF=false;
+%\end{lstlisting}
+
+
+
 \section{Data loading}
 
 \subsection{Input data format}
 
-OpenBDLM supports two types of input data format depending whether the time-series are synchronized, or not.
+OpenBDLM supports two types of input data format depending whether the time-series are synchronous, or not.
 The time-series are synchronous if they all share the same timestamps. % and have the same number of data points.
 Conversely, time-series are asynchronous if they do not all share the same timestamps.
 
@@ -205,8 +467,8 @@ Conversely, time-series are asynchronous if they do not all share the same times
 
 %Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
 %If the data have already been synchronized, it is preferable to use properly formatted .MAT \MATLAB{} files (see Section~\ref{SS:MatFiles})
-One Comma Separated Values (CSV) file should be provided for each time series.
-The file is a two columns file that should be organized as shown in Listing~\ref{LST:CSV_Formatting}
+One Comma Separated Values (.csv) file must be provided for each time series.
+The file is a two columns file that must be organized as shown in Listing~\ref{LST:CSV_Formatting}
 \begin{lstlisting}[ frame = single, linewidth = \linewidth, caption = CSV file example,  label = LST:CSV_Formatting, float = ht, ,captionpos=b]
 'name'            ,   '2000-01-01-22-00-00'
 737422            ,   0.40
@@ -216,14 +478,14 @@ The file is a two columns file that should be organized as shown in Listing~\ref
 7374246           ,   0.57
 \end{lstlisting}    
 The first line of the file is the header.
-In the header, the first field should contain the label of the time-series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
+In the header, the first field must contain the label of the time-series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
 The second field is the date of the first timestamp given as a quoted delimited string, formatted as \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle.  
-%Note that the two fields in the header are not the label of each column.
 For the remaining lines, the first field is the date given as a serial date number in number of days, given as a real number, and the second field is the magnitude of the physical quantity measured, given as a real number.
-The missing data should be indicated as NaN number.
-CSV files must be stored in the ``OpenBDLM-master/data/csv'' subfolder.
+The missing data must be indicated as NaN number.
+The .csv files must be stored in the ``OpenBDLM-master/data/csv'' subfolder.
 
 \subsubsection{Input data formatting for synchronous time series}
+\label{SS:InputDataformattingSynchronous}
 \paragraph{\MATLAB{} .MAT files}
 \label{PAR:MATfile}
 
@@ -231,35 +493,23 @@ CSV files must be stored in the ``OpenBDLM-master/data/csv'' subfolder.
 The \MATLAB{} binary .MAT file must contain three \MATLAB{} variables called \lstinline[basicstyle = \mlttfamily \small]!labels!, \lstinline[basicstyle = \mlttfamily \small]!timestamps!, and \lstinline[basicstyle = \mlttfamily \small]!values!.
 %, as shown in Listing~\ref{LST:LoadData}.
 \begin{itemize}
-\item \lstinline[basicstyle = \mlttfamily \small]!labels! is $1\times M$ cell array containing the reference name associated with each time-series, where $M$ is the number of time series.
-\item \lstinline[basicstyle = \mlttfamily \small]!timestamps! is $N\times 1$ array containing the timestamps given as serial date number from January 0, 0000, where $N$ is the number of data samples.
-\item \lstinline[basicstyle = \mlttfamily \small]!values! is $N\times M$ array containing the data amplitude values.
+\item \lstinline[basicstyle = \mlttfamily \small \bf]!labels! is $1\times M$ cell array containing the reference name associated with each time-series, where $M$ is the number of time series.
+\item \lstinline[basicstyle = \mlttfamily \small \bf]!timestamps! is $N\times 1$ array containing the timestamps given as serial date number from January 0, 0000, where $N$ is the number of data samples.
+\item \lstinline[basicstyle = \mlttfamily \small \bf]!values! is $N\times M$ array containing the data amplitude values.
 \end{itemize}
- \MATLAB{} binary .MAT files must be stored in the ``OpenBDLM-master/data/mat'' subfolder.
-
-%\begin{lstlisting}[style = MATLAB-editor, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, caption = {Output on MATLAB command window when running \lstinline!data=load('DATA_DEMO.mat')!}, linewidth=\linewidth, label=LST:LoadData, ,captionpos=b] 
-%data = 
-%
-%  struct with fields:
-%
-%        labels: {'TS01'  'TS02'}
-%    timestamps: [1828x1 double]
-%        values: [1828x2 double]
-%
-%\end{lstlisting}
+ \MATLAB{} binary .mat files must be stored in the ``OpenBDLM-master/data/mat'' subfolder.
 
 \paragraph{Comma Separated Values files}
 
-See Paragraph~\ref{PAR:CSVasync} for CSV files formatting.
-
-
+See Paragraph~\ref{PAR:CSVasync} for .csv files formatting.
 
 \subsection{Output data format}
 
 Output data formatting is \MATLAB{} binary .MAT file (see Paragraph~\ref{PAR:MATfile}) and CSV files (see Paragraph~\ref{PAR:CSVasync}).
 
-
 \subsection{Data loading functions}
+
+\subsubsection{List of functions}
 \begin{itemize}
 \item \lstinline![data, misc, dataFilename]=DataLoader(misc)! Create a data file
 \item \lstinline![dataOrig, misc]=readMultipleCSVFiles(misc)!  Read data from multiple CSV files
@@ -268,29 +518,13 @@ Output data formatting is \MATLAB{} binary .MAT file (see Paragraph~\ref{PAR:MAT
 \item \lstinline![misc] = saveDataCSV(data, misc, varargin)! Save time series data in separate CSV files
 \end{itemize}
 
+\subsubsection{Dependency graph}
+
 \section{Data editing and pre-processing}
 
 Data editing prepares the data for analysis.
 Data editing includes time series selection, data analysis time period selection, missing data removal, and data  resampling.
 The time synchronization is performed automatically through the data editing process, when multiple time series are processed simultaneously.
-%Data pre-processing is required to synchronize multiple asynchronous time-series.
-%Besides, OpenBDLM gives the possibility to edit the dataset, such as time series selection, data analysis time period selection, missing data removal, and data  resampling. 
-
-%\subsection{Purpose}
-%OpenBDLM is capable to analyze simultaneously multiple time-series.
-%Multiple time-series analysis is particularly useful to incorporate information from observed environmental effects by creating dependencies between time-series.
-%However, in most cases, the set of available time-series is asynchronous, in the sense that the time-series do not share the same timestamps and do not have the same number of data points.
-%heterogeneous, in the sense that each time-series do not originate from the same system of acquisition.
-%Therefore, the raw data do not usually share the same timestamps.
-%The BDLMs formulation is not suited to analyze asynchronous time-series.
-%The data pre-processing in OpenBDLM is dedicated to synchronize the time-series between each others.
-%By default, the time synchronization is done by replacing the corresponding missing values in the time series with missing data.
-%Custom pre-processing is also possible to control the final amount of miss- ing data in the dataset, or to perform resampling by data averaging over time-windows of fixed length.
-%Moreover, the data pre-processing in OpenBDLM is also used to choose the time-series to process, and to select the period of analysis.
-%The time synchronization is updated automatically as time-series are added to (or removed from) the dataset.
-%The preprocessing in OpenBDLM is minimalist and focuses on time synchronization.
-%Neither outlier removal nor normalization is done to preserve the genuine information from the data.
-
 
 \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small,  linewidth = \linewidth, caption = OpenBDLM data editing menu,  label = LST:Editing_menu, float = hb, ,captionpos=b]
 - Choose from
@@ -318,13 +552,14 @@ The time series are automatically synchronized as time-series are added to (or r
 
 The selection of the period of analysis allows to select only the data between two dates, given as \textquotesingle YYYY-DD-MM\textquotesingle {} format.
 If the second requested date exceeds the date corresponding to the last timestamp of the original dataset, padding with NaN values are performed. 
-The timestep for the NaN padding should be user's provided.
+The timestep for the NaN padding must be provided by the user.
 
 \subsection{Removing missing data}
 \label{SS:MissingDataRemoval}
 
 It is possible to control the maximum amount of NaN missing data allowed at each time slice. 
-By default, the maximum amount of missing data is $100$\%, given with respect to the total number of time-series.
+The maximum amount of NaN allowed at each time slice is given in percent with respect to the total number of time-series.
+By default, the maximum amount of missing data is given by the value in misc.options.NaNThreshold.
 
 \subsection{Data resampling}
 \label{SS:DataResampling}
@@ -339,9 +574,11 @@ By default, the time synchronization in OpenBDLM is done by adding NaN values.
 The time synchronization is controlled by the \lstinline!NaNThreshold! and \lstinline!tolerance! variables.
 \lstinline!NaNThreshold!  is given in percent with respect to the total number of time-series.
 The variable \lstinline!tolerance! gives the duration (in number of days) after which two timestamps are not considered equal.
-The default values for \lstinline!NaNThreshold!  and \lstinline!tolerance! are  $100$\% and $10^{-6}$ days, respectively. 
+The default values for \lstinline!NaNThreshold!  and \lstinline!tolerance! are given by misc.options.NaNThreshold and misc.options.tolerance. % $100$\% and $10^{-6}$ days, respectively. 
 
 \subsection{Data editing functions}
+
+\subsubsection{List of functions}
 
 \begin{itemize}
 \item \lstinline![data, misc]=chooseTimeSeries(data, misc)! Request the user to select some time series
@@ -354,79 +591,112 @@ The default values for \lstinline!NaNThreshold!  and \lstinline!tolerance! are  
 \item \lstinline![data, misc]=selectTimePeriod(data, misc)! Select data between two dates
 \end{itemize}
 
+\subsubsection{Dependency graph}
 
-\section{Model building}
-\subsection{Purpose}
-\subsection{Model class}
-\subsection{Dependencies}
-\subsubsection{Observed covariate}
-\subsubsection{Hidden covariate}
-\subsection{Model components}
-\subsubsection{Local level}
-\subsubsection{Local trend}
-\subsubsection{Local acceleration}
-\subsubsection{Local level compatible trend}
-\subsubsection{Local level compatible acceleration}
-\subsubsection{Local trend compatible acceleration}
-\subsubsection{Periodic}
-\subsubsection{Kernel regression}
-\subsubsection{Residual - first order autoregressive}
-\subsection{Model building functions}
-\newpage
+\section{Model configuration}
 
-\section{Model parameters learning}
-\subsection{Purpose}
-\subsection{Posterior}
-\subsubsection{Prior}
-\subsubsection{Likelihood}
-\subsection{Model parameters bounds and transformed spaces}
-\subsubsection{Logarithmic transformation}
-\subsubsection{Sigmoid transformation}
-\subsection{Gradient-based optimization techniques}
-\subsubsection{Newton-Raphson approach}
-\subsubsection{Stochastic Gradient Ascent approach}
-\subsection{Constrain model parameters between each others}
-\subsection{Model parameters learning functions}
-\newpage
+After loading and pre-processing the data, the next step of the analysis is the model configuration.
+The model configuration includes, (i) defining the number of model class, (ii) defining the dependencies between the time series in case of multiple time-series analysis, (iii) defining the block components which are assigned to each time series and model class, (iv) defining possible constrain between model parameters.
+%The dependencies between time-series as well as constrains between model parameters of different model class are also handled during the configuration of the model.
+The \MATLAB{} structure named \lstinline[basicstyle = \mlttfamily \bf]!model.component! stores all the information about the model configuration.
+The structure \lstinline[basicstyle = \mlttfamily \bf]!model.component! has three fields named  \lstinline[basicstyle = \mlttfamily \bf]!model.component.ic!, \lstinline[basicstyle = \mlttfamily \bf]!model.component.block!, and \lstinline[basicstyle = \mlttfamily \bf]!model.component.const!.
 
-\section{Hidden states estimation}
-\subsection{Purpose}
-\subsection{Kalman equations}
-\subsection{UD computations}
-\subsection{Filtering}
-\subsection{Smoothing}
-\subsection{Hidden states estimation functions}
-\newpage
+\subsection{Dependencies between time-series}
 
-\section{Data simulation}
-\subsection{Purpose}
-\subsection{Data simulation functions}
-\newpage
+The field \lstinline[basicstyle = \mlttfamily \bf]!model.component.ic! stores the information between time-series dependencies.
+\textbf{model.component.ic} stores a $1\times \mathtt{M}$ cell array of $1\times \mathtt{M}-1$ array, where $\mathtt{M}$ is the number of time series.
+Each time-series depend on the time-series corresponding to the indexes given in the $\mathtt{M}$ arrays.
+If the array is empty, the time-series is independent.
 
-%\section{Model validation}
+\subsection{Block components}
+
+OpenBDLM supports four types of block components: (1) baseline, (2) periodic, (4) periodic kernel regression, and (3) autoregressive 
+(1) The baseline component models the local mean of the time series. 
+There are three types of baseline proposed in the software: (i) level only model, (ii) trend model, (iii) acceleration model. 
+(2) The periodic component models harmonic periodic phenomena. %, which are most often related to external effects.
+(3) The periodic kernel regression models non-harmonic periodic pattern.
+(4) The autoregressive component models the time dependent model error.
+The field \textbf{block} stores a $1\times \mathtt{C}$ cell array, where $\mathtt{C} = \{1,2 \}$ is the number of model classes.
+Each cell array is a $1\times \mathtt{M}$ cell array of array, where $\mathtt{M}$ is the number of time series.
+Each block component is associated with a reference number:
+\begin{itemize}
+\item 11: Local level 
+\item 12: Local level plus local trend
+\item 13: Local level plus local trend plus local acceleration
+\item 21: Local level compatible with local trend
+\item 22: Local level compatible with local acceleration
+\item 23: Local trend compatible with local acceleration
+\item 31: Periodic
+\item 41: First-order autoregressive
+\item 51: Kernel regression
+\end{itemize}
+The number of hidden states associated with each block component may can be different. 
+Each block component can be replicated, each having its own set of model parameters. 
+For instance, two periodic components with periods of 365 days and 1 day can be used to model seasonal and daily variations, respectively.
+
+\subsection{Parameter constrains}
+
+The field \textbf{ic} stores a $1\times \mathtt{M}$ cell array of $1\times \mathtt{M}-1$ array, where $\mathtt{M}$ is the number of time series.
+Each time-series depend on the time-series corresponding to the indexes given in the $\mathtt{M}$ arrays.
+If the array is empty, the time-series is independent.
+
+\subsection{Number of model class}
+
+OpenBDLM aims at detecting changes of behavior due to changes in dynamics in the baseline of the time-series. 
+Therefore, the software handles model switching between the three types of baseline dynamics, that is, local level, local trend, and local acceleration models. 
+OpenBDLM supports a maximum of two model dynamics, the software supports six types of model switch: (1) from local level model to local trend model (and reverse), (2) from local level model to acceleration model (and reverse), (3) from local trend to acceleration model (and reverse).
+
+
+%\subsubsection{Local level}
+%\subsubsection{Local trend}
+%\subsubsection{Local acceleration}
+%\subsubsection{Local level compatible trend}
+%\subsubsection{Local level compatible acceleration}
+%\subsubsection{Local trend compatible acceleration}
+%\subsubsection{Periodic}
+%\subsubsection{Kernel regression}
+%\subsubsection{Residual - first order autoregressive}
+%\subsection{Model building functions}
+%
+%\section{Model parameters learning}
 %\subsection{Purpose}
-%\subsection{Prediction capacity}
-%\subsection{Posterior model parameters covariance matrix analysis}
-%\subsection{Posterior state covariance matrix analysis}
-%\subsection{Residual component analysis}
-%\subsection{Model validation functions}
-%\newpage
-
-\section{Visualization tools}
-\subsection{Purpose}
-\subsection{Data availability plots}
-\subsection{Hidden states plots}
-\subsection{Export figures options}
-\subsection{Visualization tools functions}
-\newpage
+%\subsection{Posterior}
+%\subsubsection{Prior}
+%\subsubsection{Likelihood}
+%\subsection{Model parameters bounds and transformed spaces}
+%\subsubsection{Logarithmic transformation}
+%\subsubsection{Sigmoid transformation}
+%\subsection{Gradient-based optimization techniques}
+%\subsubsection{Newton-Raphson approach}
+%\subsubsection{Stochastic Gradient Ascent approach}
+%\subsection{Constrain model parameters between each others}
+%\subsection{Model parameters learning functions}
 
 
-\section{Version control}
-\subsection{Purpose}
-\subsection{Version control functions}
-\newpage
+%\section{Hidden states estimation}
+%\subsection{Purpose}
+%\subsection{Kalman equations}
+%\subsection{UD computations}
+%\subsection{Filtering}
+%\subsection{Smoothing}
+%\subsection{Hidden states estimation functions}
+%
+%\section{Data simulation}
+%\subsection{Purpose}
+%\subsection{Data simulation functions}
+%
+%\section{Visualization tools}
+%\subsection{Purpose}
+%\subsection{Data availability plots}
+%\subsection{Hidden states plots}
+%\subsection{Export figures options}
+%\subsection{Visualization tools functions}
 
-\section{OpenBLDM options}
+%\section{Version control}
+%\subsection{Purpose}
+%\subsection{Version control functions}
+
+%\section{OpenBLDM options}
 
 %     isMAP            - logical (optional)
 %                         if isMAP = true, Newton-Raphson algorithm is used to 
@@ -477,35 +747,24 @@ The default values for \lstinline!NaNThreshold!  and \lstinline!tolerance! are  
 
 \section{Examples}
 \subsection{Example 1}
-Simulated data with: one time series, one model class, \{[12 31 41]\}.
+%Simulated data with: one time series, one model class, \{[12 31 41]\}.
 
 \subsection{Example 2}
-Simulated data with: two time series with dependencies, one model class, \{[11 41], [11 31 41]\}.
+%Simulated data with: two time series with dependencies, one model class, \{[11 41], [11 31 41]\}.
 
 \subsection{Example 3}
-Simulated data with one time series, two model classes, \{[21 31 41]\} and \{[12 31 41]\}.
+%Simulated data with one time series, two model classes, \{[21 31 41]\} and \{[12 31 41]\}.
 
 \subsection{Example 4}
-Real data with one time series, one model class, \{[12 51 41]\}.
+%Real data with one time series, one model class, \{[12 51 41]\}.
 
-\newpage
-
-\section{List of functions}
-\newpage
-
-
-\section{Older versions}
-\newpage
-
-\section{Last changes}
+\section{Troubleshooting}
 
 %\begin{lstlisting}[style=MATLAB-editor]
 %  for i=1:M
 %  disp(i)
 %  end
 %\end{lstlisting}
-
-\newpage
 
 
 \end{document}
