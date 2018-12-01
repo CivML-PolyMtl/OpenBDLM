@@ -156,6 +156,7 @@ This project is licensed under the MIT license - see the [LICENSE.txt](LICENSE.t
 
 ## Acknowledgments
 
-* Brian Moore (UD filter implementation)
-* Kevin Murphy (initial SKF code)
+* Brian Moore (Square Root Kalman Filters, see [Kalman Filter Package](https://www.mathworks.com/matlabcentral/fileexchange/38302-kalman-filter-package))
+* Kevin Murphy (Kalman filter, see [Kalman filter toolbox for Matlab](https://www.cs.ubc.ca/~murphyk/Software/Kalman/kalman.html#other))
+* John Quinn (Switching Kalman filter, see [John Quinn softwares](http://air.ug/~jquinn/downloads/))
 

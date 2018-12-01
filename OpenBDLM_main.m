@@ -115,11 +115,7 @@ isFileExist  = (exist(fullfile(currentFolder, mfilename), 'file') == 2);
 
 if ~isFileExist
     disp(' ');
-    disp(['     ERROR: ', mfilename, ...
-        ' is called from the wrong directory.'])
-    disp(' ');
-    data=struct;model=struct;estimation=struct;misc=struct;
-    return
+    error('%s is called from the wrong directory.', mfilename)
 end
 
 %% Read arguments and set internal variables
@@ -131,10 +127,7 @@ end
     
 if isempty(misc)
     disp(' ');
-    disp('     ERROR: Unrecognized input argument.')
-    disp(' ');
-    data=struct;model=struct;estimation=struct;misc=struct;
-    return
+    error('Unrecognized input argument.')
 end
 
 %% Create log file to record messages during program run
