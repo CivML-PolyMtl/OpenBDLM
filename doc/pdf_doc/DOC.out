@@ -9,75 +9,43 @@
 \BOOKMARK [2][-]{subsection.4.1}{Inputs}{section.4}% 9
 \BOOKMARK [2][-]{subsection.4.2}{Outputs}{section.4}% 10
 \BOOKMARK [3][-]{subsubsection.4.2.1}{data, model, estimation, misc}{subsection.4.2}% 11
-\BOOKMARK [3][-]{subsubsection.4.2.2}{DATA, CFG, PROJ and LOG files}{subsection.4.2}% 12
-\BOOKMARK [1][-]{section.5}{Data loading}{}% 13
-\BOOKMARK [2][-]{subsection.5.1}{Input data format}{section.5}% 14
-\BOOKMARK [3][-]{subsubsection.5.1.1}{Input data formatting for asynchronous time series}{subsection.5.1}% 15
-\BOOKMARK [3][-]{subsubsection.5.1.2}{Input data formatting for synchronous time series}{subsection.5.1}% 16
-\BOOKMARK [2][-]{subsection.5.2}{Output data format}{section.5}% 17
-\BOOKMARK [2][-]{subsection.5.3}{Data loading functions}{section.5}% 18
-\BOOKMARK [1][-]{section.6}{Data editing and pre-processing}{}% 19
-\BOOKMARK [2][-]{subsection.6.1}{Selection of time-series}{section.6}% 20
-\BOOKMARK [2][-]{subsection.6.2}{Selection data analysis time period}{section.6}% 21
-\BOOKMARK [2][-]{subsection.6.3}{Removing missing data}{section.6}% 22
-\BOOKMARK [2][-]{subsection.6.4}{Data resampling}{section.6}% 23
-\BOOKMARK [2][-]{subsection.6.5}{Time synchronization options}{section.6}% 24
-\BOOKMARK [2][-]{subsection.6.6}{Data editing functions}{section.6}% 25
-\BOOKMARK [1][-]{section.7}{Model building}{}% 26
-\BOOKMARK [2][-]{subsection.7.1}{Purpose}{section.7}% 27
-\BOOKMARK [2][-]{subsection.7.2}{Model class}{section.7}% 28
-\BOOKMARK [2][-]{subsection.7.3}{Dependencies}{section.7}% 29
-\BOOKMARK [3][-]{subsubsection.7.3.1}{Observed covariate}{subsection.7.3}% 30
-\BOOKMARK [3][-]{subsubsection.7.3.2}{Hidden covariate}{subsection.7.3}% 31
-\BOOKMARK [2][-]{subsection.7.4}{Model components}{section.7}% 32
-\BOOKMARK [3][-]{subsubsection.7.4.1}{Local level}{subsection.7.4}% 33
-\BOOKMARK [3][-]{subsubsection.7.4.2}{Local trend}{subsection.7.4}% 34
-\BOOKMARK [3][-]{subsubsection.7.4.3}{Local acceleration}{subsection.7.4}% 35
-\BOOKMARK [3][-]{subsubsection.7.4.4}{Local level compatible trend}{subsection.7.4}% 36
-\BOOKMARK [3][-]{subsubsection.7.4.5}{Local level compatible acceleration}{subsection.7.4}% 37
-\BOOKMARK [3][-]{subsubsection.7.4.6}{Local trend compatible acceleration}{subsection.7.4}% 38
-\BOOKMARK [3][-]{subsubsection.7.4.7}{Periodic}{subsection.7.4}% 39
-\BOOKMARK [3][-]{subsubsection.7.4.8}{Kernel regression}{subsection.7.4}% 40
-\BOOKMARK [3][-]{subsubsection.7.4.9}{Residual - first order autoregressive}{subsection.7.4}% 41
-\BOOKMARK [2][-]{subsection.7.5}{Model building functions}{section.7}% 42
-\BOOKMARK [1][-]{section.8}{Model parameters learning}{}% 43
-\BOOKMARK [2][-]{subsection.8.1}{Purpose}{section.8}% 44
-\BOOKMARK [2][-]{subsection.8.2}{Posterior}{section.8}% 45
-\BOOKMARK [3][-]{subsubsection.8.2.1}{Prior}{subsection.8.2}% 46
-\BOOKMARK [3][-]{subsubsection.8.2.2}{Likelihood}{subsection.8.2}% 47
-\BOOKMARK [2][-]{subsection.8.3}{Model parameters bounds and transformed spaces}{section.8}% 48
-\BOOKMARK [3][-]{subsubsection.8.3.1}{Logarithmic transformation}{subsection.8.3}% 49
-\BOOKMARK [3][-]{subsubsection.8.3.2}{Sigmoid transformation}{subsection.8.3}% 50
-\BOOKMARK [2][-]{subsection.8.4}{Gradient-based optimization techniques}{section.8}% 51
-\BOOKMARK [3][-]{subsubsection.8.4.1}{Newton-Raphson approach}{subsection.8.4}% 52
-\BOOKMARK [3][-]{subsubsection.8.4.2}{Stochastic Gradient Ascent approach}{subsection.8.4}% 53
-\BOOKMARK [2][-]{subsection.8.5}{Constrain model parameters between each others}{section.8}% 54
-\BOOKMARK [2][-]{subsection.8.6}{Model parameters learning functions}{section.8}% 55
-\BOOKMARK [1][-]{section.9}{Hidden states estimation}{}% 56
-\BOOKMARK [2][-]{subsection.9.1}{Purpose}{section.9}% 57
-\BOOKMARK [2][-]{subsection.9.2}{Kalman equations}{section.9}% 58
-\BOOKMARK [2][-]{subsection.9.3}{UD computations}{section.9}% 59
-\BOOKMARK [2][-]{subsection.9.4}{Filtering}{section.9}% 60
-\BOOKMARK [2][-]{subsection.9.5}{Smoothing}{section.9}% 61
-\BOOKMARK [2][-]{subsection.9.6}{Hidden states estimation functions}{section.9}% 62
-\BOOKMARK [1][-]{section.10}{Data simulation}{}% 63
-\BOOKMARK [2][-]{subsection.10.1}{Purpose}{section.10}% 64
-\BOOKMARK [2][-]{subsection.10.2}{Data simulation functions}{section.10}% 65
-\BOOKMARK [1][-]{section.11}{Visualization tools}{}% 66
-\BOOKMARK [2][-]{subsection.11.1}{Purpose}{section.11}% 67
-\BOOKMARK [2][-]{subsection.11.2}{Data availability plots}{section.11}% 68
-\BOOKMARK [2][-]{subsection.11.3}{Hidden states plots}{section.11}% 69
-\BOOKMARK [2][-]{subsection.11.4}{Export figures options}{section.11}% 70
-\BOOKMARK [2][-]{subsection.11.5}{Visualization tools functions}{section.11}% 71
-\BOOKMARK [1][-]{section.12}{Version control}{}% 72
-\BOOKMARK [2][-]{subsection.12.1}{Purpose}{section.12}% 73
-\BOOKMARK [2][-]{subsection.12.2}{Version control functions}{section.12}% 74
-\BOOKMARK [1][-]{section.13}{OpenBLDM options}{}% 75
-\BOOKMARK [1][-]{section.14}{Examples}{}% 76
-\BOOKMARK [2][-]{subsection.14.1}{Example 1}{section.14}% 77
-\BOOKMARK [2][-]{subsection.14.2}{Example 2}{section.14}% 78
-\BOOKMARK [2][-]{subsection.14.3}{Example 3}{section.14}% 79
-\BOOKMARK [2][-]{subsection.14.4}{Example 4}{section.14}% 80
-\BOOKMARK [1][-]{section.15}{List of functions}{}% 81
-\BOOKMARK [1][-]{section.16}{Older versions}{}% 82
-\BOOKMARK [1][-]{section.17}{Last changes}{}% 83
+\BOOKMARK [3][-]{subsubsection.4.2.2}{DATA\137, CFG\137, PROJ\137 and LOG\137 files}{subsection.4.2}% 12
+\BOOKMARK [1][-]{section.5}{OpenBDLM running modes}{}% 13
+\BOOKMARK [2][-]{subsection.5.1}{Interactive mode}{section.5}% 14
+\BOOKMARK [2][-]{subsection.5.2}{Batch mode}{section.5}% 15
+\BOOKMARK [1][-]{section.6}{Configuration file}{}% 16
+\BOOKMARK [2][-]{subsection.6.1}{Purpose}{section.6}% 17
+\BOOKMARK [3][-]{subsubsection.6.1.1}{Project name}{subsection.6.1}% 18
+\BOOKMARK [3][-]{subsubsection.6.1.2}{Data}{subsection.6.1}% 19
+\BOOKMARK [3][-]{subsubsection.6.1.3}{Model structure}{subsection.6.1}% 20
+\BOOKMARK [3][-]{subsubsection.6.1.4}{Model parameters}{subsection.6.1}% 21
+\BOOKMARK [3][-]{subsubsection.6.1.5}{Initial states values}{subsection.6.1}% 22
+\BOOKMARK [3][-]{subsubsection.6.1.6}{Options}{subsection.6.1}% 23
+\BOOKMARK [1][-]{section.7}{Data loading}{}% 24
+\BOOKMARK [2][-]{subsection.7.1}{Input data format}{section.7}% 25
+\BOOKMARK [3][-]{subsubsection.7.1.1}{Input data formatting for asynchronous time series}{subsection.7.1}% 26
+\BOOKMARK [3][-]{subsubsection.7.1.2}{Input data formatting for synchronous time series}{subsection.7.1}% 27
+\BOOKMARK [2][-]{subsection.7.2}{Output data format}{section.7}% 28
+\BOOKMARK [2][-]{subsection.7.3}{Data loading functions}{section.7}% 29
+\BOOKMARK [3][-]{subsubsection.7.3.1}{List of functions}{subsection.7.3}% 30
+\BOOKMARK [3][-]{subsubsection.7.3.2}{Dependency graph}{subsection.7.3}% 31
+\BOOKMARK [1][-]{section.8}{Data editing and pre-processing}{}% 32
+\BOOKMARK [2][-]{subsection.8.1}{Selection of time-series}{section.8}% 33
+\BOOKMARK [2][-]{subsection.8.2}{Selection data analysis time period}{section.8}% 34
+\BOOKMARK [2][-]{subsection.8.3}{Removing missing data}{section.8}% 35
+\BOOKMARK [2][-]{subsection.8.4}{Data resampling}{section.8}% 36
+\BOOKMARK [2][-]{subsection.8.5}{Time synchronization options}{section.8}% 37
+\BOOKMARK [2][-]{subsection.8.6}{Data editing functions}{section.8}% 38
+\BOOKMARK [3][-]{subsubsection.8.6.1}{List of functions}{subsection.8.6}% 39
+\BOOKMARK [3][-]{subsubsection.8.6.2}{Dependency graph}{subsection.8.6}% 40
+\BOOKMARK [1][-]{section.9}{Model configuration}{}% 41
+\BOOKMARK [2][-]{subsection.9.1}{Dependencies between time-series}{section.9}% 42
+\BOOKMARK [2][-]{subsection.9.2}{Block components}{section.9}% 43
+\BOOKMARK [2][-]{subsection.9.3}{Parameter constrains}{section.9}% 44
+\BOOKMARK [2][-]{subsection.9.4}{Number of model class}{section.9}% 45
+\BOOKMARK [1][-]{section.10}{Examples}{}% 46
+\BOOKMARK [2][-]{subsection.10.1}{Example 1}{section.10}% 47
+\BOOKMARK [2][-]{subsection.10.2}{Example 2}{section.10}% 48
+\BOOKMARK [2][-]{subsection.10.3}{Example 3}{section.10}% 49
+\BOOKMARK [2][-]{subsection.10.4}{Example 4}{section.10}% 50
+\BOOKMARK [1][-]{section.11}{Troubleshooting}{}% 51

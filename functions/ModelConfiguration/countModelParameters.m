@@ -131,7 +131,7 @@ for i=1:numberOfTimeSeries
         
         
         
-    elseif nb_models == 1
+    if nb_models == 1
         
         % Count number of paramaters for baseline
         v_baseline = ismember(model.components.block{1}{i}, components(1:3));

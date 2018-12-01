@@ -1,86 +1,54 @@
-\contentsline {section}{\numberline {1}What is OpenBDLM ?}{4}{section.1}
-\contentsline {section}{\numberline {2}Installing OpenBDLM}{5}{section.2}
-\contentsline {subsection}{\numberline {2.1}Prerequisites}{5}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Installing}{5}{subsection.2.2}
-\contentsline {section}{\numberline {3}Getting started}{5}{section.3}
-\contentsline {subsection}{\numberline {3.1}Call OpenBDLM}{5}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Demo}{5}{subsection.3.2}
+\contentsline {section}{\numberline {1}What is OpenBDLM ?}{3}{section.1}
+\contentsline {section}{\numberline {2}Installing OpenBDLM}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Prerequisites}{3}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Installing}{3}{subsection.2.2}
+\contentsline {section}{\numberline {3}Getting started}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Call OpenBDLM}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Demo}{4}{subsection.3.2}
 \contentsline {section}{\numberline {4}OpenBDLM inputs and outputs}{5}{section.4}
 \contentsline {subsection}{\numberline {4.1}Inputs}{5}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Outputs}{6}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}data, model, estimation, misc}{6}{subsubsection.4.2.1}
-\contentsline {subsubsection}{\numberline {4.2.2}DATA, CFG, PROJ and LOG files}{7}{subsubsection.4.2.2}
-\contentsline {section}{\numberline {5}Data loading}{7}{section.5}
-\contentsline {subsection}{\numberline {5.1}Input data format}{7}{subsection.5.1}
-\contentsline {subsubsection}{\numberline {5.1.1}Input data formatting for asynchronous time series}{7}{subsubsection.5.1.1}
-\contentsline {paragraph}{Comma Separated Values files}{7}{section*.2}
-\contentsline {subsubsection}{\numberline {5.1.2}Input data formatting for synchronous time series}{8}{subsubsection.5.1.2}
-\contentsline {paragraph}{\textsc {Matlab}{} .MAT files}{8}{section*.3}
-\contentsline {paragraph}{Comma Separated Values files}{8}{section*.4}
-\contentsline {subsection}{\numberline {5.2}Output data format}{8}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Data loading functions}{8}{subsection.5.3}
-\contentsline {section}{\numberline {6}Data editing and pre-processing}{9}{section.6}
-\contentsline {subsection}{\numberline {6.1}Selection of time-series}{9}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Selection data analysis time period}{9}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Removing missing data}{10}{subsection.6.3}
-\contentsline {subsection}{\numberline {6.4}Data resampling}{10}{subsection.6.4}
-\contentsline {subsection}{\numberline {6.5}Time synchronization options}{10}{subsection.6.5}
-\contentsline {subsection}{\numberline {6.6}Data editing functions}{10}{subsection.6.6}
-\contentsline {section}{\numberline {7}Model building}{11}{section.7}
-\contentsline {subsection}{\numberline {7.1}Purpose}{11}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Model class}{11}{subsection.7.2}
-\contentsline {subsection}{\numberline {7.3}Dependencies}{11}{subsection.7.3}
-\contentsline {subsubsection}{\numberline {7.3.1}Observed covariate}{11}{subsubsection.7.3.1}
-\contentsline {subsubsection}{\numberline {7.3.2}Hidden covariate}{11}{subsubsection.7.3.2}
-\contentsline {subsection}{\numberline {7.4}Model components}{11}{subsection.7.4}
-\contentsline {subsubsection}{\numberline {7.4.1}Local level}{11}{subsubsection.7.4.1}
-\contentsline {subsubsection}{\numberline {7.4.2}Local trend}{11}{subsubsection.7.4.2}
-\contentsline {subsubsection}{\numberline {7.4.3}Local acceleration}{11}{subsubsection.7.4.3}
-\contentsline {subsubsection}{\numberline {7.4.4}Local level compatible trend}{11}{subsubsection.7.4.4}
-\contentsline {subsubsection}{\numberline {7.4.5}Local level compatible acceleration}{11}{subsubsection.7.4.5}
-\contentsline {subsubsection}{\numberline {7.4.6}Local trend compatible acceleration}{11}{subsubsection.7.4.6}
-\contentsline {subsubsection}{\numberline {7.4.7}Periodic}{11}{subsubsection.7.4.7}
-\contentsline {subsubsection}{\numberline {7.4.8}Kernel regression}{11}{subsubsection.7.4.8}
-\contentsline {subsubsection}{\numberline {7.4.9}Residual - first order autoregressive}{11}{subsubsection.7.4.9}
-\contentsline {subsection}{\numberline {7.5}Model building functions}{11}{subsection.7.5}
-\contentsline {section}{\numberline {8}Model parameters learning}{12}{section.8}
-\contentsline {subsection}{\numberline {8.1}Purpose}{12}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}Posterior}{12}{subsection.8.2}
-\contentsline {subsubsection}{\numberline {8.2.1}Prior}{12}{subsubsection.8.2.1}
-\contentsline {subsubsection}{\numberline {8.2.2}Likelihood}{12}{subsubsection.8.2.2}
-\contentsline {subsection}{\numberline {8.3}Model parameters bounds and transformed spaces}{12}{subsection.8.3}
-\contentsline {subsubsection}{\numberline {8.3.1}Logarithmic transformation}{12}{subsubsection.8.3.1}
-\contentsline {subsubsection}{\numberline {8.3.2}Sigmoid transformation}{12}{subsubsection.8.3.2}
-\contentsline {subsection}{\numberline {8.4}Gradient-based optimization techniques}{12}{subsection.8.4}
-\contentsline {subsubsection}{\numberline {8.4.1}Newton-Raphson approach}{12}{subsubsection.8.4.1}
-\contentsline {subsubsection}{\numberline {8.4.2}Stochastic Gradient Ascent approach}{12}{subsubsection.8.4.2}
-\contentsline {subsection}{\numberline {8.5}Constrain model parameters between each others}{12}{subsection.8.5}
-\contentsline {subsection}{\numberline {8.6}Model parameters learning functions}{12}{subsection.8.6}
-\contentsline {section}{\numberline {9}Hidden states estimation}{13}{section.9}
-\contentsline {subsection}{\numberline {9.1}Purpose}{13}{subsection.9.1}
-\contentsline {subsection}{\numberline {9.2}Kalman equations}{13}{subsection.9.2}
-\contentsline {subsection}{\numberline {9.3}UD computations}{13}{subsection.9.3}
-\contentsline {subsection}{\numberline {9.4}Filtering}{13}{subsection.9.4}
-\contentsline {subsection}{\numberline {9.5}Smoothing}{13}{subsection.9.5}
-\contentsline {subsection}{\numberline {9.6}Hidden states estimation functions}{13}{subsection.9.6}
-\contentsline {section}{\numberline {10}Data simulation}{14}{section.10}
-\contentsline {subsection}{\numberline {10.1}Purpose}{14}{subsection.10.1}
-\contentsline {subsection}{\numberline {10.2}Data simulation functions}{14}{subsection.10.2}
-\contentsline {section}{\numberline {11}Visualization tools}{15}{section.11}
-\contentsline {subsection}{\numberline {11.1}Purpose}{15}{subsection.11.1}
-\contentsline {subsection}{\numberline {11.2}Data availability plots}{15}{subsection.11.2}
-\contentsline {subsection}{\numberline {11.3}Hidden states plots}{15}{subsection.11.3}
-\contentsline {subsection}{\numberline {11.4}Export figures options}{15}{subsection.11.4}
-\contentsline {subsection}{\numberline {11.5}Visualization tools functions}{15}{subsection.11.5}
-\contentsline {section}{\numberline {12}Version control}{16}{section.12}
-\contentsline {subsection}{\numberline {12.1}Purpose}{16}{subsection.12.1}
-\contentsline {subsection}{\numberline {12.2}Version control functions}{16}{subsection.12.2}
-\contentsline {section}{\numberline {13}OpenBLDM options}{17}{section.13}
-\contentsline {section}{\numberline {14}Examples}{17}{section.14}
-\contentsline {subsection}{\numberline {14.1}Example 1}{17}{subsection.14.1}
-\contentsline {subsection}{\numberline {14.2}Example 2}{17}{subsection.14.2}
-\contentsline {subsection}{\numberline {14.3}Example 3}{17}{subsection.14.3}
-\contentsline {subsection}{\numberline {14.4}Example 4}{17}{subsection.14.4}
-\contentsline {section}{\numberline {15}List of functions}{18}{section.15}
-\contentsline {section}{\numberline {16}Older versions}{19}{section.16}
-\contentsline {section}{\numberline {17}Last changes}{20}{section.17}
+\contentsline {subsection}{\numberline {4.2}Outputs}{5}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}data, model, estimation, misc}{5}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}DATA\_, CFG\_, PROJ\_ and LOG\_ files}{5}{subsubsection.4.2.2}
+\contentsline {section}{\numberline {5}OpenBDLM running modes}{6}{section.5}
+\contentsline {subsection}{\numberline {5.1}Interactive mode}{6}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Batch mode}{6}{subsection.5.2}
+\contentsline {section}{\numberline {6}Configuration file}{6}{section.6}
+\contentsline {subsection}{\numberline {6.1}Purpose}{6}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}Project name}{6}{subsubsection.6.1.1}
+\contentsline {subsubsection}{\numberline {6.1.2}Data}{7}{subsubsection.6.1.2}
+\contentsline {subsubsection}{\numberline {6.1.3}Model structure}{7}{subsubsection.6.1.3}
+\contentsline {subsubsection}{\numberline {6.1.4}Model parameters}{8}{subsubsection.6.1.4}
+\contentsline {subsubsection}{\numberline {6.1.5}Initial states values}{9}{subsubsection.6.1.5}
+\contentsline {subsubsection}{\numberline {6.1.6}Options}{9}{subsubsection.6.1.6}
+\contentsline {section}{\numberline {7}Data loading}{11}{section.7}
+\contentsline {subsection}{\numberline {7.1}Input data format}{11}{subsection.7.1}
+\contentsline {subsubsection}{\numberline {7.1.1}Input data formatting for asynchronous time series}{11}{subsubsection.7.1.1}
+\contentsline {paragraph}{Comma Separated Values files}{11}{section*.2}
+\contentsline {subsubsection}{\numberline {7.1.2}Input data formatting for synchronous time series}{11}{subsubsection.7.1.2}
+\contentsline {paragraph}{\textsc {Matlab}{} .MAT files}{12}{section*.3}
+\contentsline {paragraph}{Comma Separated Values files}{12}{section*.4}
+\contentsline {subsection}{\numberline {7.2}Output data format}{12}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Data loading functions}{12}{subsection.7.3}
+\contentsline {subsubsection}{\numberline {7.3.1}List of functions}{12}{subsubsection.7.3.1}
+\contentsline {subsubsection}{\numberline {7.3.2}Dependency graph}{12}{subsubsection.7.3.2}
+\contentsline {section}{\numberline {8}Data editing and pre-processing}{12}{section.8}
+\contentsline {subsection}{\numberline {8.1}Selection of time-series}{13}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Selection data analysis time period}{13}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Removing missing data}{13}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.4}Data resampling}{13}{subsection.8.4}
+\contentsline {subsection}{\numberline {8.5}Time synchronization options}{14}{subsection.8.5}
+\contentsline {subsection}{\numberline {8.6}Data editing functions}{14}{subsection.8.6}
+\contentsline {subsubsection}{\numberline {8.6.1}List of functions}{14}{subsubsection.8.6.1}
+\contentsline {subsubsection}{\numberline {8.6.2}Dependency graph}{14}{subsubsection.8.6.2}
+\contentsline {section}{\numberline {9}Model configuration}{14}{section.9}
+\contentsline {subsection}{\numberline {9.1}Dependencies between time-series}{15}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.2}Block components}{15}{subsection.9.2}
+\contentsline {subsection}{\numberline {9.3}Parameter constrains}{15}{subsection.9.3}
+\contentsline {subsection}{\numberline {9.4}Number of model class}{16}{subsection.9.4}
+\contentsline {section}{\numberline {10}Examples}{16}{section.10}
+\contentsline {subsection}{\numberline {10.1}Example 1}{16}{subsection.10.1}
+\contentsline {subsection}{\numberline {10.2}Example 2}{16}{subsection.10.2}
+\contentsline {subsection}{\numberline {10.3}Example 3}{16}{subsection.10.3}
+\contentsline {subsection}{\numberline {10.4}Example 4}{16}{subsection.10.4}
+\contentsline {section}{\numberline {11}Troubleshooting}{16}{section.11}

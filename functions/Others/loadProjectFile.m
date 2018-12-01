@@ -111,9 +111,9 @@ if isempty(ProjectIdx)
     fprintf(fileID, '\n');
     fprintf(fileID, '     wrong input\n');
     
-    data=struct;
-    model=struct;
-    estimation=struct;
+    data=[];
+    model=[];
+    estimation=[];
     
     return
 else
