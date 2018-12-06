@@ -39,7 +39,7 @@ function OpenBDLM_HeaderTemplate(name)
 %       March 20, 2018
 %
 %   DATE LAST UPDATE:
-%       July 2, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -52,9 +52,9 @@ name=[name_split{1} , '.m'];
 % Test existence of the file
 if exist(name, 'file') == 2
     disp(' ')
-    fprintf('Warning: %s already exists. ', name)
+    fprintf('     %s already exists. ', name)
     while 1
-        prompt = 'Do you want to overwrite? Y/N: ';
+        prompt = '     Do you want to overwrite? Y/N: ';
         user_choice = input(prompt, 's');
         switch user_choice
             case {'Y' 'YES' 'yes' 'y' 'Yes'}

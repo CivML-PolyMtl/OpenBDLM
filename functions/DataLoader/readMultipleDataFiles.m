@@ -1,11 +1,10 @@
-function [dataOrig, misc]=readMultipleCSVFiles(misc)
-%READMULTIPLECSVFILES Read data from .csv files
+function [dataOrig, misc]=readMultipleDataFiles(misc)
+%READMULTIPLEDATAFILES Read multiple CSV and MAT OpenBDLM data files
 %
 %   SYNOPSIS:
-%     [data, misc]=READMULTIPLECSVFILES(misc)
+%     [dataOrig, misc]=READMULTIPLEDATAFILES(misc)
 %
 %   INPUT:
-%
 %      misc          - structure
 %                      see the documentation for details about the
 %                      field in misc
@@ -31,38 +30,42 @@ function [dataOrig, misc]=readMultipleCSVFiles(misc)
 %                     field in misc
 %
 %   DESCRIPTION:
-%      READMULTIPLECSVFILES reads data from multiple .csv files and put
-%      the data in the structure data
-%      path of the csv file are requested from user input during program
+%      READMULTIPLEDATAFILES reads data from multiple data files in CSV and
+%      MAT format and put the data in the structure dataOrig
+%      path of the files are requested from user input during program
 %      execution
-%      data contains three fields timestamps, values, labels
+%      The structure dataOrig contains three fields timestamps, values, labels
 %
 %   EXAMPLES:
-%      [data, misc]=READMULTIPLECSVFILES(misc)
+%      [dataOrig, misc]=READMULTIPLEDATAFILES(misc)
 %
 %   EXTERNAL FUNCTIONS CALLED:
-%      readSingleCSVFile, plotData, plotDataAvailability,
+%      readSingleCSVFile, readSingleMATFile, plotData, plotDataAvailability,
 %      saveDataBinary
 %
-%   See also READSINGLECSVFILE, PLOTDATA,
-%             PLOTDATAAVAILABILITY, SAVEDATABINARY
+%   SUBFUNCTIONS:
+%      N/A
+%
+%   See also READSINGLECSVFILE, READSINGLEMATFILE, PLOTDATA,
+%        PLOTDATAAVAILABILITY, SAVEDATABINARY
 
 %   AUTHORS:
-%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
+%        Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
 %
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
 %
 %   MATLAB VERSION:
-%      Tested on 9.1.0.441655 (R2016b)
+%      Tested on 9.4.0.813654 (R2018a)
 %
 %   DATE CREATED:
-%      April 10, 2018
+%       December 5, 2018
 %
 %   DATE LAST UPDATE:
-%      December 3, 2018
+%       December 5, 2018
 
 %--------------------BEGIN CODE ----------------------
+
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 addRequired(p, 'misc', @isstruct);
@@ -71,7 +74,7 @@ misc=p.Results.misc;
 
 MaxFailAttempts=4;
 
-%% Request CSVFileList from user
+%% Request FileList from user
 if misc.internalVars.BatchMode.isBatchMode
     incTest=0;
     while(1)
@@ -81,23 +84,20 @@ if misc.internalVars.BatchMode.isBatchMode
                 'attempts (', num2str(MaxFailAttempts)  ').']) ; end
         
         disp(' ')
-        fprintf(['- Provide a list of .CSV filename to process ' ...
+        fprintf(['- Provide a list of CSV and/or MAT filename to process ' ...
             '(e.g. {''raw_data/data_Tamar/*.csv'', ' ...
-            '''disp_001.csv''}) :\n'])
-        CSVFileList=eval(char(misc.internalVars.BatchMode.Answers{...
+            '''DATA_DAT001.mat''}) :\n'])
+        FileList=eval(char(misc.internalVars.BatchMode.Answers{...
             misc.internalVars.BatchMode.AnswerIndex}));
-        disp(CSVFileList)
-        %     else
-        %         CSVFileList=input('     list of filenames >> ');
-        %     end
+        disp(FileList)
         
-        if ~iscellstr(CSVFileList)
+        if ~iscellstr(FileList)
             disp(' ')
             disp(['     wrong input -> ', ...
                 'should be a cell array of character vectors. '])
             disp(' ')
             continue
-        elseif isempty(CSVFileList)
+        elseif isempty(FileList)
             disp(' ')
             disp(['     wrong input -> ', ...
                 'should be a cell array of character vectors. '])
@@ -105,13 +105,13 @@ if misc.internalVars.BatchMode.isBatchMode
             continue
             
         else
-                        
-            %% Clean the list of CSV files
+            
+            %% Clean the list of files
             
             % Remove empty fields
-            CSVFileList=CSVFileList(~cellfun(@isempty, CSVFileList));
+            FileList=FileList(~cellfun(@isempty, FileList));
             
-            if isempty(CSVFileList)
+            if isempty(FileList)
                 disp(' ')
                 warning('File list is empty.')
                 disp(' ')
@@ -122,48 +122,68 @@ if misc.internalVars.BatchMode.isBatchMode
             end
             
             %Remove redundant fields
-            CSVFileList=unique(CSVFileList);
+            FileList=unique(FileList);
             
-            %% Loop over single CSV file and read data
+            %% Loop over single file and read data
             inc=0;
             % loop over list of csv files
-            for i=1:length(CSVFileList)
+            for i=1:length(FileList)
                 
                 %  get the path and all info about each file
-                InfoFile=dir(CSVFileList{i});
+                InfoFile=dir(FileList{i});
                 
                 % remove '.' and '..' and '.DS_Store' files from the list of files
-                InfoFile= InfoFile(~ismember({InfoFile.name}, ...
+                InfoFile=InfoFile(~ismember({InfoFile.name}, ...
                     {'.','..', '.DS_Store'}));
                 
                 % test the existence of the group of files identified by the search
                 % pattern
                 if isempty(InfoFile)  % the file does not exist
                     disp(' ')
-                    fprintf('     %s is not found.', CSVFileList{i})
+                    warning('%s is not found.', FileList{i})
                     disp(' ')
                     continue
                 else % the file exists
                     
                     for j=1:length(InfoFile)
-                        
-                        inc=inc+1;
-                        
+                                                
                         % Get path of the file
                         filename=InfoFile(j).name;
                         PathFile=which(filename);
                         
-                        % Read the file
+                        if isempty(PathFile)
+                            PathFile=filename;
+                        end
+                        
+                        % Try to read the file as a CSV
                         [dat,label] = ...
                             readSingleCSVFile(PathFile, 'isQuiet', false);
                         
                         if isempty(dat) && isempty(label)
-                        else
-                            % Store in structure array
-                            dataOrig.timestamps{inc} = dat(:,1);
-                            dataOrig.values{inc} = dat(:,2);
-                            dataOrig.labels{inc} = label;
+                            % Try to read the file as MAT
+                            [dat,label] = ...
+                                readSingleMATFile(PathFile, ...
+                                'isQuiet', false);
                         end
+                        
+                        if ~isempty(dat) && ~isempty(label)
+                            
+                            pos=0;
+                            for k = 2:size(dat,2)
+                                pos=pos+1;
+                                inc=inc+1;
+                                % Store in structure array
+                                dataOrig.timestamps{inc} = dat(:,1);
+                                dataOrig.values{inc} = dat(:,k);
+                                dataOrig.labels{inc} = label{pos};
+                            end
+                            
+                        else
+                            warning(['Unable to read %s. ', ...
+                                'Check formatting.\n'],  PathFile)
+                            disp(' ')
+                        end
+                        
                     end
                     
                 end
@@ -189,7 +209,7 @@ else
     while(1)
         % Open GUI to select multiple .*CSV files
         Info = uipickfiles('Prompt', 'Choose .csv raw data files', ...
-            'Filter', '*.csv');
+            'REFilter', '\.csv$|\.mat$');
         
         if iscell(Info)
             IndexC = strfind(Info, '.DS_Store');
@@ -209,18 +229,31 @@ else
             %inc=inc+1;
             PathFile = Info{j};
             
-            % Read the file
+            % Try to read the file as a CSV
             [dat,label] = readSingleCSVFile(PathFile, 'isQuiet', false);
             
-            %if isempty(dat) && isempty(label)
-
-            %else
+            if isempty(dat) && isempty(label)
+                % Try to read the file as MAT
+                [dat,label] = readSingleMATFile(PathFile, 'isQuiet', ...
+                    false);
+            end
+            
             if ~isempty(dat) && ~isempty(label)
-                inc=inc+1;
-                % Store in structure array
-                dataOrig.timestamps{inc} = dat(:,1);
-                dataOrig.values{inc} = dat(:,2);
-                dataOrig.labels{inc} = label;
+                
+                pos=0;
+                for k = 2:size(dat,2)
+                    pos=pos+1;
+                    inc=inc+1;
+                    % Store in structure array
+                    dataOrig.timestamps{inc} = dat(:,1);
+                    dataOrig.values{inc} = dat(:,k);
+                    dataOrig.labels{inc} = label{pos};
+                end
+                
+            else
+                warning(['Unable to read %s. ', ...
+                    'Check formatting.\n'],  PathFile)
+                disp(' ')
             end
             
         end
@@ -234,6 +267,7 @@ else
     end
     
 end
+
+
 %--------------------END CODE ------------------------
 end
-

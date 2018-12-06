@@ -57,7 +57,7 @@ function [model, misc]=defineModel(data, misc)
 %       April 20, 2018
 %
 %   DATE LAST UPDATE:
-%       October 19, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -85,12 +85,8 @@ if ~misc.internalVars.isDataSimulation
     % Validation of structure data
     isValid = verificationDataStructure(data);
     if ~isValid
-        fprintf(fileID,'\n');
-        fprintf(fileID,['     ERROR: Unable to read ', ...
-            'the data from the structure.\n']);
-        fprintf(fileID,'\n');
-        model = [];
-        return
+        disp (' ')
+        error('Unable to read the data from the structure.\n');
     end
 end
 
@@ -179,7 +175,8 @@ if numberOfTimeSeries > 1
                 isCorrect=true;
             end
         end
-        misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex = ...
+            misc.internalVars.BatchMode.AnswerIndex+1;
     end
 else
     comp_ic={[]};
@@ -226,7 +223,8 @@ while ~isCorrect
         isCorrect = true;
     end
 end
-misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = ...
+    misc.internalVars.BatchMode.AnswerIndex+1;
 fprintf(fileID,'\n');
 %% Identify model components for each model class and time series
 fprintf(fileID,'\n');
@@ -362,7 +360,8 @@ for j=1:nb_models
                 continue
             else
                 isCorrect=true;
-                misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+                misc.internalVars.BatchMode.AnswerIndex = ...
+                    misc.internalVars.BatchMode.AnswerIndex+1;
             end
         end
     end

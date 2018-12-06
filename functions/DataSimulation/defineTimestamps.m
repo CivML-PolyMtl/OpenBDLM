@@ -34,7 +34,7 @@ function [data, misc]=defineTimestamps(data, misc)
 %       April 24, 2018
 %
 %   DATE LAST UPDATE:
-%       August 9, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -61,14 +61,12 @@ end
 %% Verify presence of field "labels" in structure data
 
 if ~isfield(data, 'labels')
-    fprintf(fileID,['     ERROR: Structure data should contain ' ...
+    error(['data structure should contain ' ...
         'a non-empty field named labels \n']);
-    return
 else
     if isempty(data.labels)
-        fprintf(fileID,['    ERROR: Structure data should contain ' ...
+        error(['data structure should contain ' ...
             'a non-empty field named labels \n']);
-        return
     end
 end
 
@@ -89,7 +87,8 @@ while ~isCorrect
     
     fprintf(fileID, '  Start date (%s): \n',fmt);
     if misc.internalVars.BatchMode.isBatchMode
-        tts=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+        tts=eval(char(misc.internalVars.BatchMode.Answers{ ...
+            misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s', tts);
     else
         tts = input('     choice >> ','s');
@@ -107,7 +106,8 @@ while ~isCorrect
             datenum(tts,fmt);
         catch
             fprintf(fileID,'\n');
-            fprintf(fileID,'     wrong format. Format should be %s \n',fmt);
+            fprintf(fileID,['     wrong format. ', ...
+                ' Format should be %s \n'],fmt);
             fprintf(fileID,'\n');
             continue
         end
@@ -123,7 +123,8 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = ...
+    misc.internalVars.BatchMode.AnswerIndex + 1;
 fprintf(fileID,'\n');
 
 %% Request user's input to specify end date
@@ -136,7 +137,8 @@ while ~isCorrect
     
     fprintf(fileID, '  End date (%s): \n',fmt);
     if misc.internalVars.BatchMode.isBatchMode
-        tte=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+        tte=eval(char(misc.internalVars.BatchMode.Answers{ ...
+            misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s', tte);
     else
         tte = input('     choice >> ','s');
@@ -154,7 +156,8 @@ while ~isCorrect
             datenum(tte,fmt);
         catch
             fprintf(fileID,'\n');
-            fprintf(fileID,'     wrong format. Format should be %s \n',fmt);
+            fprintf(fileID,['     wrong format. ', ...
+                'Format should be %s \n'],fmt);
             fprintf(fileID,'\n');
             continue
         end
@@ -178,7 +181,8 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = ...
+    misc.internalVars.BatchMode.AnswerIndex + 1;
 fprintf(fileID,'\n');
 fprintf(fileID,'\n');
 incTest=0;
@@ -190,7 +194,9 @@ while ~isCorrect
     
     fprintf(fileID,'  Time step (in day): \n');
     if misc.internalVars.BatchMode.isBatchMode
-        dt=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+        dt= ...
+            eval(char(misc.internalVars.BatchMode.Answers{ ...
+            misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s', num2str(dt));
     else
         dt=input('     choice >> ');
@@ -206,7 +212,8 @@ while ~isCorrect
             continue
         elseif length(dt) > 1
             fprintf(fileID,'\n');
-            fprintf(fileID,'     wrong input -> should be single value\n');
+            fprintf(fileID,['     wrong input -> ', ...
+                'should be single value\n']);
             fprintf(fileID,'\n');
             continue
         else
@@ -215,7 +222,8 @@ while ~isCorrect
     end
 end
 % Increment global variable to read next answer when required
-misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = ...
+    misc.internalVars.BatchMode.AnswerIndex + 1;
 
 % Generate timestamp vector
 data.timestamps=(datenum(tts):dt:datenum(tte))';

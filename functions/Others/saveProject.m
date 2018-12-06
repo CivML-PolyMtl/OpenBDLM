@@ -52,7 +52,7 @@ function saveProject(model, estimation, misc, varargin)
 %       April 18, 2018
 %
 %   DATE LAST UPDATE:
-%       September 6, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -100,11 +100,8 @@ end
 if isfield(misc, 'ProjectName')
     project_name = misc.ProjectName;
 else
-    fprintf(fileID,'\n');
-    fprintf(fileID,['     ERROR: Unable to read project ', ...
-        'name from the structure.\n']);
-    fprintf(fileID,'\n');
-    return
+    disp(' ')
+    error('Unable to read project name from the structure.');
 end
 
 if ischar(project_name)
@@ -115,11 +112,8 @@ if ischar(project_name)
 end
 
 if isempty(project_name)
-    fprintf(fileID,'\n');
-    fprintf(fileID,['     ERROR: Unable to read project', ...
-        ' name from the structure.\n']);
-    fprintf(fileID,'\n');
-    return
+    disp(' ')
+    error('Unable to read project name from the structure.');
 else
     name_projectfile=['PROJ_', project_name, '.mat'];
     fullname=fullfile(FilePath, name_projectfile);
@@ -146,8 +140,7 @@ dat.misc=misc;
 %% Save project binary file in specified location
 disp('     Saving project...')
 if ~isSaveEstimation
-    % Warning the user
-    fprintf(1, ['     Warning: estimations not saved ', ...
+    warning(['Estimations are not saved ', ...
         'because size (%s Mb) > threshold (%s Mb) set in ', ...
         'misc.options.MaxSizeEstimation \n'], num2str(EstimationSize), ...
         num2str(MaxSizeEstimation));   

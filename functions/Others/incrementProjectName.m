@@ -41,7 +41,7 @@ function [ProjectName]=incrementProjectName(misc, ReferenceName, FilePath)
 %       April 25, 2018
 %
 %   DATE LAST UPDATE:
-%       November 21, 2018
+%       December 8, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -105,7 +105,7 @@ if ~isempty(ProjectInfo)
     
     if num > MaxIncrementalName
         disp(' ')
-        disp('     Warning: Impossible to increment filename.')
+        warning('Impossible to increment filename.')
         disp(' ')
         num=num-1;
     end

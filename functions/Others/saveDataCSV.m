@@ -63,7 +63,7 @@ function [misc] = saveDataCSV(data, misc, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       July 25, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -97,10 +97,8 @@ end
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
-    fprintf(fileID,'\n');
-    fprintf(fileID,'ERROR: Unable to read the data from the structure.\n');
-    fprintf(fileID,'\n');
-    return
+    disp(' ')
+    error('Unable to read the data from the structure.');
 end
 
 %% Create specified path if not existing
@@ -177,7 +175,8 @@ for i=1:numberOfTimeSeries
     
     % define the filename based on time series reference name
     sensor_name=data.labels{i};
-    file_name = fullfile(fullname , [name_datadir, '_' sensor_name, '.csv' ]);
+    file_name = fullfile(fullname , ...
+        [name_datadir, '_' sensor_name, '.csv' ]);
     
     %create/open csv file
     fid = fopen(file_name, 'w');

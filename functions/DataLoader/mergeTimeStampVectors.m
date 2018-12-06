@@ -99,7 +99,7 @@ function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)
 %       April 13, 2018
 %
 %   DATE LAST UPDATE:
-%       July 24, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -164,7 +164,8 @@ fullOuterJoin(:,1) = keys; % union of dates
 %% Build full outerjoin
 for i=1:numberOfTimeSeries    
     % stores values
-    fullOuterJoin(indice(1:AllTimeSeriesLength(i),i),i+1) = dataOrig.values{i};
+    fullOuterJoin(indice(1:AllTimeSeriesLength(i),i),i+1) = ...
+        dataOrig.values{i};
 end
 
 %% Remove time samples to try to reach NaNThreshold condition
@@ -193,7 +194,7 @@ end
 
 if NaNThresholdTested ~= NaNThreshold
     disp(' ')
-    fprintf(['     WARNING: NaNThreshold has been increased from ' ...
+    warning(['NaNThreshold has been increased from ' ...
         '%6.2f %% to %6.2f %% to avoid removing all the data'], ...
         NaNThreshold, NaNThresholdTested )
     disp(' ')
@@ -215,7 +216,7 @@ for i=1:numberOfTimeSeries
         
         data.labels{i} = dataOrig.labels{i};
     else
-        fprintf(['     WARNING: %s has been removed because ' ...
+        warning(['%s has been removed because ' ...
             'it is full of missing data (NaN)'], dataOrig.labels{i})
         disp(' ')
         

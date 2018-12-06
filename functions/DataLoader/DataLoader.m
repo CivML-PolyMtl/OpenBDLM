@@ -59,7 +59,7 @@ function [data, misc, dataFilename]=DataLoader(misc)
 %       April 19, 2018
 %
 %   DATE LAST UPDATE:
-%       October 16, 2018
+%       December 5, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -88,7 +88,7 @@ fprintf(fileID, '\n');
 fprintf(fileID, '- Choose a database\n');
 fprintf(fileID, '\n');
 fprintf(fileID,'     %-3s -> %-25s\t\n', num2str(0), ...
-    'Build a new database from .csv files');
+    'Build a new database');
 fprintf(fileID, '\n');
 [FileInfo] = displayDataBinary(misc, 'FilePath', FilePath);
 
@@ -116,7 +116,8 @@ while(1)
         continue
     elseif length(chosen_db)>1
         fprintf(fileID, '\n');
-        fprintf(fileID, '     wrong input -> should be only one integer\n');
+        fprintf(fileID, ['     wrong input -> ', ...
+            'should be only one integer\n']);
         fprintf(fileID, '\n');
         continue
     elseif isempty(chosen_db)
@@ -182,7 +183,8 @@ else
         fprintf(fileID, '- Do you want to edit the database ? (y/n) \n');
         % read from user input file (use of global variable )?
         if misc.internalVars.BatchMode.isBatchMode
-            choice=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+            choice=eval(char(misc.internalVars.BatchMode.Answers{ ...
+                misc.internalVars.BatchMode.AnswerIndex}));
             fprintf(fileID, '     %s\n', choice);
         else
             choice = input('     choice >> ','s');
@@ -192,7 +194,8 @@ else
         elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
             
             % Increment global variable to read next answer when required
-            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
             
             % yes, edit the dataset
             [data, misc, dataFilename ] = ...
@@ -208,7 +211,8 @@ else
             misc.internalVars.isDataSimulation = false;
             
             % Increment global variable to read next answer when required
-            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
             
             isYesNoCorrect =  true;
             

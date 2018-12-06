@@ -54,7 +54,7 @@ function [misc] = pilotePlot(data, model, estimation, misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       October 30, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -143,10 +143,7 @@ while ~isCorrectAnswer
             isCorrectAnswer =  true;
         else
             disp(' ')
-            disp(['     ERROR: Unable to ', ...
-                'read the data from the structure.']);
-            disp(' ')
-            continue
+            error('Unable to read the data from the structure.');
         end
         
     elseif round(str2double(user_inputs.inp_2)) == 2
