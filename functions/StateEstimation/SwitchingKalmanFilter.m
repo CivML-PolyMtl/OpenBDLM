@@ -96,7 +96,7 @@ function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)
 %       June 29, 2018
 % 
 %   DATE LAST UPDATE:
-%       August 21, 2018
+%       December 3, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -291,10 +291,10 @@ for t=1:T
                                     error_myUD=0;
                                 end
                             catch 
-                                disp(['warning:  UD decomposition failed ', ...
-                                    ' at time step: ' num2str(t) '| SKF.m'])
-                                disp([' -> Retry without covariance ', ...
-                                    'terms in''prevV'''])
+                                warning(['UD decomposition failed ', ...
+                                    ' at time step ' num2str(t) , ...
+                                    '. Retry without covariance ', ...
+                                    'terms in ''prevV''.'])
                                 prevV=diag(diag(prevV));
                             end
                         end

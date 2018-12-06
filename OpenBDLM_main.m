@@ -104,7 +104,7 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %--------------------BEGIN CODE ----------------------
 
 %% Version of the program
-OpenBDLMversion = '1.12';
+OpenBDLMversion = '1.13';
 
 %% Warning if multiple conflictous installations
 findDuplicateInstallation

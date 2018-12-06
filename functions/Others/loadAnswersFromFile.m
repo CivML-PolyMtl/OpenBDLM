@@ -34,7 +34,7 @@ function [Answers]=loadAnswersFromFile(filename)
 %       April 18, 2018
 %
 %   DATE LAST UPDATE:
-%       July 23, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -49,9 +49,7 @@ filename=p.Results.filename;
 % Validation of filename
 if ~ischar(filename) || isempty(filename(~isspace(filename)))
     disp(' ')
-    disp('ERROR: Filename should be a non-empty character array.')
-    disp(' ')
-    return
+    error('Filename should be a non-empty character array.')
 end
 
 %% Open and read the file
@@ -59,9 +57,9 @@ fid = fopen(filename,'r');
 
 if fid == -1
     disp(' ')
-    fprintf('WARNING: Impossible to open %s. \n', filename)
-    disp(' ')
-    Answers = [];
+    error('Impossible to open %s. \n', filename)
+%     disp(' ')
+%     Answers = [];
 else
     AnswersFromFile=textscan(fid, '%s', 'Delimiter', '\n');
     Answers = AnswersFromFile{1};

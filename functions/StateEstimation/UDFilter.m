@@ -78,7 +78,7 @@ function [xnew, Vnew, VVnew, U_post, D_post, loglik]=UDFilter(A, C, Q, R, y, x, 
 %       June 28, 2018
 % 
 %   DATE LAST UPDATE:
-%       June 28, 2018
+%       December 3, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -116,7 +116,7 @@ Vpred=Vpred+Q;
 
 try [Uq,Dq] = myUD(Q, 'isError', false);
 catch
-    disp('warning UD decomposition failed error | UDFilter.m')
+    warning('UD decomposition failed error.')
 end
 [x_prior,U_prior,D_prior] = thornton(x,U_post,D_post,Uq,Dq,A);
 

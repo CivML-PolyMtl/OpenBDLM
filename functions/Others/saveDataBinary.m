@@ -67,7 +67,7 @@ function [misc, dataFilename] = saveDataBinary(data, misc, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       August 15, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -106,10 +106,8 @@ end
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
-    fprintf(fileID,'\n');
-    fprintf(fileID,'ERROR: Unable to read the data from the structure.\n');
-    fprintf(fileID,'\n');
-    return
+    disp(' ')
+    error('Unable to read the data from the structure.');
 end
 
 %% Create specified path if not existing

@@ -69,7 +69,7 @@ FoldersList=FoldersList(~cellfun(@isempty, FoldersList));
 
 if isempty(FoldersList)
     disp(' ')
-    disp('WARNING: Folder list is empty.')
+    warning('Folder list is empty.')
     disp(' ')
     return
 end
@@ -118,8 +118,9 @@ for i=1:length(FoldersList)
     
     if ~isDir
         disp(' ')
-        fprintf('WARNING: %s does not exist.\n',  ...
-            char(FoldersList{i}))
+%         fprintf('WARNING: %s does not exist.\n',  ...
+%             char(FoldersList{i}))
+        warning('%s does not exist.\n', char(FoldersList{i}))
         disp(' ')
         continue
     else

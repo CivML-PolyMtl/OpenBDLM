@@ -36,9 +36,9 @@ function [dataOrig, misc]=loadData(misc)
 %      [dataOrig, misc] = LOADDATA(misc)
 %
 %   EXTERNAL FUNCTIONS CALLED:
-%      readMultipleCSVFiles.m
+%      readMultipleDataFiles.m
 %
-%   See also READMULTIPLECSVFILES
+%   See also READMULTIPLEDATAFILES
 
 %   AUTHORS:
 %      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
@@ -53,7 +53,7 @@ function [dataOrig, misc]=loadData(misc)
 %       April 18, 2018
 %
 %   DATE LAST UPDATE:
-%       October 16, 2018
+%       December 5, 2018
 %
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -66,7 +66,7 @@ parse(p, misc);
 misc=p.Results.misc;
 
 %% Read .csv files
-[dataOrig, misc] = readMultipleCSVFiles(misc);
+[dataOrig, misc] = readMultipleDataFiles(misc);
         
 %--------------------END CODE ------------------------
 end

@@ -1,5 +1,5 @@
 function [dat,label]=readSingleCSVFile(FileToRead, varargin)
-%READSINGLECSVFILE Read a single .csv file
+%READSINGLECSVFILE Read a single OpenBDLM CSV data file
 %
 %   SYNOPSIS:
 %     [dat, label]=READSINGLECSVFILE(FileToRead, varargin)
@@ -8,7 +8,7 @@ function [dat,label]=readSingleCSVFile(FileToRead, varargin)
 %      FileToRead - string of character (required)
 %                   name of the file to read
 %
-%      isQuiet    - logical, optional
+%      isQuiet    - logical (optional)
 %                   if true, throw detailed warning/error
 %                   default: false
 %
@@ -20,8 +20,8 @@ function [dat,label]=readSingleCSVFile(FileToRead, varargin)
 %                   Timestamp are serial date numbers following Matlab
 %                   convention
 %
-%      label      - string of character
-%                   label helpcontains the reference name of the time series
+%      label      - 1x1 cell array
+%                   label contains the reference name of the time-series
 %
 %   DESCRIPTION:
 %      READSINGLECSVFILE reads "comma separated value" (csv) file.
@@ -56,7 +56,7 @@ function [dat,label]=readSingleCSVFile(FileToRead, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       November 30, 2018
+%       December 5, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -74,26 +74,25 @@ parse(p,FileToRead, varargin{:});
 FileToRead=p.Results.FileToRead;
 isQuiet=p.Results.isQuiet;
 
-% Get filename
+% Test the existence of the file
+[isFileExist] = testFileExistence(FileToRead, 'file');
+
+% Get filename only
 [~,FileName,Extension] = fileparts(FileToRead);
 FileNameExt = [FileName,Extension];
 
-% Create file path if not existing
-[isFileExist] = testFileExistence(FileToRead, 'file');
-
-% Test the existence of the file
 if ~isFileExist || isempty(FileToRead)
     
-    if ~isQuiet && ~isempty(FileToRead)
-        warning(['Unable to read %s. ', ...
-            'Check formatting.\n'],  FileNameExt)
-        disp(' ')
-    elseif ~isQuiet && isempty(FileToRead)
-        warning('Filename is empty.')
-        disp(' ')
-    end
+%     if ~isQuiet && ~isempty(FileToRead)
+%         warning(['Unable to read %s. ', ...
+%             'Check formatting.\n'],  FileNameExt)
+%         disp(' ')
+%     elseif ~isQuiet && isempty(FileToRead)
+%         warning('Filename is empty.')
+%         disp(' ')
+%     end
     dat=[];
-    label=[];
+    label={};
     return
 end
 
@@ -102,14 +101,14 @@ fileID=fopen(FileToRead, 'r');
 try
     header = textscan(fileID,'%s',1,'Delimiter','\n'); % get header
 catch
-    disp(' ')
-    if ~isQuiet
-        warning(['Unable to read %s. ', ...
-            'Check formatting.\n'], FileNameExt)
-        disp(' ')
-    end
+%     disp(' ')
+%     if ~isQuiet
+%         warning(['Unable to read %s. ', ...
+%             'Check formatting.\n'], FileNameExt)
+%         disp(' ')
+%     end
     dat=[];
-    label=[];
+    label={};
     return
 end
 
@@ -118,13 +117,13 @@ try
         'TreatAsEmpty',{'NaN', ''}, 'EmptyValue', NaN , ...
         'ReturnOnError' , false); % get values
 catch
-    if ~isQuiet
-        warning(['Unable to read %s. ', ...
-            'Check formatting. \n'], FileNameExt)
-        disp(' ')
-    end
+%     if ~isQuiet
+%         warning(['Unable to read %s. ', ...
+%             'Check formatting. \n'], FileNameExt)
+%         disp(' ')
+%     end
     dat=[];
-    label=[];
+    label={};
     return
 end
 
@@ -135,7 +134,7 @@ if any(isnan(ts_val{1,1}(:)))
         disp(' ')
     end
     dat=[];
-    label=[];
+    label={};
     return
 end
 
@@ -154,7 +153,7 @@ if isempty(reference_name)
         disp(' ')
     end
     dat=[];
-    label=[];
+    label={};
     return
 end
 
@@ -186,17 +185,17 @@ else
             disp(' ')
         end
         dat=[];
-        label=[];
+        label={};
         return
     end
     
     if ~strcmp(datestr(string_date_first_sample, fmt), ...
-            string_date_first_sample)
+            string_date_first_sample) && ~isQuiet
         warning(['Unable to read %s. ', ...
             'Unknown date format in header. \n'], FileNameExt)
         disp(' ')
         dat=[];
-        label=[];
+        label={};
         return
     end
       
@@ -222,7 +221,7 @@ ts_val{:,2} = ts_val{:,2}(ia,:) ;
 
 %% Store timestamps and amplitude value
 dat=cell2mat(ts_val);
-label=reference_name;
+label={reference_name};
 
 % Close file
 fclose(fileID);

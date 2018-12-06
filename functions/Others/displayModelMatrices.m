@@ -54,7 +54,7 @@ function displayModelMatrices(data, model, estimation, misc, TimestampIndex)
 %       April 24, 2018
 %
 %   DATE LAST UPDATE:
-%       July 25, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -81,7 +81,8 @@ idx_pvalues=size(model.param_properties,2)-1;
 idx_pref= size(model.param_properties,2);
 
 [arrayOut]=...
-    readParameterProperties(model.param_properties, [idx_pvalues, idx_pref]);
+    readParameterProperties(model.param_properties, ...
+    [idx_pvalues, idx_pref]);
 
 parameter= arrayOut(:,1);
 p_ref = arrayOut(:,2);
@@ -92,9 +93,7 @@ p_ref = arrayOut(:,2);
 isValid = verificationDataStructure(data);
 if ~isValid
     disp(' ')
-    disp('ERROR: Unable to read the data from the structure.')
-    disp(' ')
-    return
+    error('Unable to read the data from the structure.')
 end
 
 %% Get timestamps
@@ -111,11 +110,14 @@ for m=1:model.nb_class
     disp(' ')
     name1=[];
     for i=1:size(model.hidden_states_names{1},1)
-        name1=[name1,{model.hidden_states_names{m}{i,2},model.hidden_states_names{m}{i,3}(1)}];
+        name1= ...
+            [name1,{model.hidden_states_names{m}{i,2}, ...
+            model.hidden_states_names{m}{i,3}(1)}];
     end
     disp(['       ' sprintf('M%s|%s      ',name1{:})])
     disp(['   ' sprintf('%10s',model.hidden_states_names{1}{:,1})])
-    M=model.A{m}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+    M=model.A{m}(parameter(p_ref), ...
+        timestamps(TimestampIndex),timesteps(TimestampIndex));
     
     %% Display transition matrix A
     for i=1:size(M,1)
@@ -129,7 +131,8 @@ for m=1:model.nb_class
         end
     end
     disp(' ')
-    M=model.C{m}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+    M=model.C{m}(parameter(p_ref), ...
+        timestamps(TimestampIndex),timesteps(TimestampIndex));
     %% Display observation matrix C
     for i=1:size(M,1)
         if i==1 && size(M,1) ~= 1
@@ -143,11 +146,13 @@ for m=1:model.nb_class
         end
     end
     disp(' ')
-    M=model.Q{m}{m}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+    M=model.Q{m}{m}(parameter(p_ref), ...
+        timestamps(TimestampIndex),timesteps(TimestampIndex));
      %% Display process noise covariance matrix Q
     for i=1:size(M,1)
         if i==1
-            disp([' Q_' num2str(m) num2str(m) '=[' sprintf('%-10.2G',M(i,:))]);
+            disp([' Q_' num2str(m) ...
+                num2str(m) '=[' sprintf('%-10.2G',M(i,:))]);
         elseif i==size(M,1)
             disp(['       ' sprintf('%-10.2G',M(i,:)) '];']);
             
@@ -158,12 +163,15 @@ for m=1:model.nb_class
     if model.nb_class>1
         for j=setdiff(1:model.nb_class,m)
             disp(' ')
-            M=model.Q{m}{j}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+            M=model.Q{m}{j}(parameter(p_ref), ...
+                timestamps(TimestampIndex),timesteps(TimestampIndex));
             for i=1:size(M,1)
                 if i==1 && size(M,1) ~= 1
-                    disp([' Q_' num2str(m) num2str(j) '=[' sprintf('%-10.2G',M(i,:))]);                    
+                    disp([' Q_' num2str(m) num2str(j) ...
+                        '=[' sprintf('%-10.2G',M(i,:))]);                    
                 elseif i==1 && size(M,1) == 1
-                    disp([' Q_' num2str(m) num2str(j) '=[' sprintf('%-10.2G',M(i,:)) '];' ] ); 
+                    disp([' Q_' num2str(m) num2str(j) ...
+                        '=[' sprintf('%-10.2G',M(i,:)) '];' ] ); 
                 elseif i==size(M,1) && size(M,1) ~= 1
                     disp(['       ' sprintf('%-10.2G',M(i,:)) '];']);
                 else
@@ -175,7 +183,8 @@ for m=1:model.nb_class
 end
 disp(' ')
 disp([' ' sprintf('%-s  ',data.labels{:})])
-M=model.R{m}(parameter(p_ref),timestamps(TimestampIndex),timesteps(TimestampIndex));
+M=model.R{m}(parameter(p_ref), ...
+    timestamps(TimestampIndex),timesteps(TimestampIndex));
  %% Display measurements noise covariance matrix R
 for i=1:size(M,1)
     if i==1 && size(M,1) ~= 1

@@ -47,7 +47,7 @@ function [dataDecimate]=decimateSingleTimeSeries(data, dt_ref)
 %       August 28, 2018
 %
 %   DATE LAST UPDATE:
-%       August 28, 2018
+%       December 3, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -55,8 +55,7 @@ function [dataDecimate]=decimateSingleTimeSeries(data, dt_ref)
 numberOfTimeSeries =size(data.values, 2);
 
 if numberOfTimeSeries > 1
-    disp('ERROR: More than one time series.')
-    return
+    error('More than one time series.')
 end
 
 

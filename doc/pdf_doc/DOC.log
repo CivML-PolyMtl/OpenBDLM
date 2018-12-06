@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  30 NOV 2018 19:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  5 DEC 2018 19:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -845,12 +845,12 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
 
 [1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}])
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+[2])
 \tf@toc=\write4
 \openout4 = `DOC.toc'.
 
-
-[2]
+ [3]
 LaTeX Font Info:    Try loading font information for T1+cmtt on input line 47.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
@@ -893,165 +893,185 @@ File: ts1fvm.fd 2004/09/07 scalable font definitions for TS1/fvm.
 )
 LaTeX Font Info:    Font shape `TS1/fvm/m/n' will be
 (Font)              scaled to size 7.65005pt on input line 96.
- [3] [4]
-Underfull \hbox (badness 10000) in paragraph at lines 139--140
+ [4] [5] [6]
+Missing character: There is no â in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no ’ in font cmr10!
+
+[7] [8]
+Overfull \hbox (15.36743pt too wide) in paragraph at lines 305--305
+[] 
+ []
+
+[9] [10]
+Underfull \hbox (badness 10000) in paragraph at lines 348--349
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--143
+Underfull \hbox (badness 10000) in paragraph at lines 350--352
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--144
+Underfull \hbox (badness 10000) in paragraph at lines 352--353
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--146
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--149
+Underfull \hbox (badness 10000) in paragraph at lines 357--358
 
  []
 
 
-Overfull \hbox (26.79456pt too wide) in paragraph at lines 150--150
+Overfull \hbox (26.79456pt too wide) in paragraph at lines 359--359
 [][][][][][][]  
  []
 
-[5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 249--250
+[11] [12]
+Underfull \hbox (badness 10000) in paragraph at lines 458--459
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 266--267
+Underfull \hbox (badness 10000) in paragraph at lines 475--476
+
+ []
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 483--484
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 274--275
-
- []
-
-[7]
-Overfull \hbox (60.7167pt too wide) in paragraph at lines 285--288
+Overfull \hbox (60.7167pt too wide) in paragraph at lines 494--497
 \T1/cmr/m/n/10 ties. The model pa-ram-e-ters prop-er-ties are stored in the fie
 ld named [][][][][]
  []
 
-[8]
-Overfull \hbox (0.65349pt too wide) in paragraph at lines 336--337
+[14] [15]
+Overfull \hbox (0.65349pt too wide) in paragraph at lines 545--546
 []\T1/cmr/bx/n/10 misc.options.isParallel \T1/cmr/m/n/10 log-i-cal that trig-ge
 rs or not the par-al-lel com-
  []
 
-[9]
-Overfull \hbox (2.38918pt too wide) in paragraph at lines 349--350
+
+Overfull \hbox (2.38918pt too wide) in paragraph at lines 558--559
 []\T1/cmr/bx/n/10 misc.options.MaxSizeEstimation \T1/cmr/m/n/10 real num-ber th
 at gives the max-
  []
 
 
-Overfull \hbox (0.591pt too wide) in paragraph at lines 358--359
+Overfull \hbox (0.591pt too wide) in paragraph at lines 567--568
 []\T1/cmr/bx/n/10 misc.options.Subsample \T1/cmr/m/n/10 in-te-ger that con-trol
 s the num-ber of points
  []
 
-[10] [11] [12]
-Overfull \hbox (2.49847pt too wide) in paragraph at lines 560--563
+[16] [17] [18]
+Overfull \hbox (2.49847pt too wide) in paragraph at lines 769--772
 \T1/cmr/m/n/10 mum amount of miss-ing data is given by the value in misc.option
 s.NaNThreshold. 
  []
 
-[13]
-Overfull \hbox (5.11487pt too wide) in paragraph at lines 584--585
+[19]
+Overfull \hbox (5.11487pt too wide) in paragraph at lines 793--794
 [][][][][][][][][][][][][][][][] \T1/cmr/m/n/10 Re-quest the user to se-lect so
 me
  []
 
 
-Overfull \hbox (10.64148pt too wide) in paragraph at lines 585--586
+Overfull \hbox (10.64148pt too wide) in paragraph at lines 794--795
 [][][][][][][][][][] \T1/cmr/m/n/10 Com-pute timestep vec-tor from
  []
 
 
-Overfull \hbox (31.38611pt too wide) in paragraph at lines 587--588
+Overfull \hbox (31.38611pt too wide) in paragraph at lines 796--797
 [][][][][][][][][][][][][][][][] \T1/cmr/m/n/10 Dis-play the list of DATA_*.mat
 
  []
 
 
-Overfull \hbox (3.36511pt too wide) in paragraph at lines 588--589
+Overfull \hbox (3.36511pt too wide) in paragraph at lines 797--798
 [][][][][][][][][][][][][][][][][][][][][][] \T1/cmr/m/n/10 Con-trol script
  []
 
 
-Overfull \hbox (3.69855pt too wide) in paragraph at lines 589--590
+Overfull \hbox (3.69855pt too wide) in paragraph at lines 798--799
 [][][][][][][][][][][][][][][][][][][] \T1/cmr/m/n/10 Cre-ate a
  []
 
 
-Overfull \hbox (19.02832pt too wide) in paragraph at lines 590--591
+Overfull \hbox (19.02832pt too wide) in paragraph at lines 799--800
 [][][][][][][][][][][][][][][][][][][] \T1/cmr/m/n/10 Re-sam-ple dataset
  []
 
 
-Overfull \hbox (7.05292pt too wide) in paragraph at lines 598--603
+Overfull \hbox (7.05292pt too wide) in paragraph at lines 807--812
 \T1/cmr/m/n/10 The struc-ture [][][][][] has three fields named [][][][][][][],
 
  []
 
-[14] [15]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 770.
- [16]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 770.
+[20] [21]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 981.
+ [22]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 981.
  (./DOC.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 770.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 770.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 981.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 981.
 Package rerunfilecheck Info: File `DOC.out' has not changed.
-(rerunfilecheck)             Checksum: D1138C29863941BE93C86B1F24BC4FCC;3468.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 770.
+(rerunfilecheck)             Checksum: BC424A145C997338F67A16AD1EF5976C;4970.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 981.
  ) 
 Here is how much of TeX's memory you used:
- 9738 strings out of 493014
- 140139 string characters out of 6133351
- 244368 words of memory out of 5000000
- 12958 multiletter control sequences out of 15000+600000
- 38038 words of font info for 120 fonts, out of 8000000 for 9000
+ 9815 strings out of 493014
+ 141238 string characters out of 6133351
+ 245120 words of memory out of 5000000
+ 12993 multiletter control sequences out of 15000+600000
+ 38804 words of font info for 121 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,11n,37p,401b,1283s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,17n,37p,401b,1283s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/tex
 live/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/bera/fvmr8a.pfb></usr/local/texlive/2016/texmf-
-dist/fonts/type1/public/mathabx-type1/matha10.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/mathabx-type1/matha7.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/mathabx-type1/matha9.pfb></usr/local/texlive/2016/te
-xmf-dist/fonts/type1/public/mathabx-type1/mathb10.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2016/te
-xmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2016/texmf-
-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2016/texmf-dist
-/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2016/texmf-dist/f
-onts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2016/texmf-dist/fon
-ts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2016/texmf-dist/fonts
-/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
-ype1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
-e1/public/cm-super/sfxc1000.pfb>
-Output written on DOC.pdf (16 pages, 267417 bytes).
+ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/
+2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/20
+16/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/
+2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/bera/fvmr8a.pfb></usr/local/texlive/2016/texmf-dist
+/fonts/type1/public/mathabx-type1/matha10.pfb></usr/local/texlive/2016/texmf-di
+st/fonts/type1/public/mathabx-type1/matha5.pfb></usr/local/texlive/2016/texmf-d
+ist/fonts/type1/public/mathabx-type1/matha7.pfb></usr/local/texlive/2016/texmf-
+dist/fonts/type1/public/mathabx-type1/matha9.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/public/mathabx-type1/mathb10.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/mathabx-type1/mathx10.pfb></usr/local/texlive/2016/t
+exmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2016/texmf-d
+ist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2016/texmf-dis
+t/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2016/texmf-dist/
+fonts/type1/public/cm-super/sfrm0500.pfb></usr/local/texlive/2016/texmf-dist/fo
+nts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2016/texmf-dist/font
+s/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2016/texmf-dist/fonts/
+type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
+pe1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
+1/public/cm-super/sftt1000.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/
+public/cm-super/sfxc1000.pfb>
+Output written on DOC.pdf (22 pages, 392312 bytes).
 PDF statistics:
- 514 PDF objects out of 1000 (max. 8388607)
- 471 compressed objects within 5 object streams
- 124 named destinations out of 1000 (max. 500000)
- 409 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 707 PDF objects out of 1000 (max. 8388607)
+ 646 compressed objects within 7 object streams
+ 165 named destinations out of 1000 (max. 500000)
+ 569 words of extra memory for PDF output out of 10000 (max. 10000000)
 
