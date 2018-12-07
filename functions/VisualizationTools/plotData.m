@@ -84,6 +84,7 @@ defaultisPlotTimestep =  false;
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
+defaultisVisible = true;
 
 addRequired(p,'data', @isstruct );
 addRequired(p,'misc', @isstruct );
@@ -91,6 +92,7 @@ addParameter(p,'isPlotTimestep', defaultisPlotTimestep, @islogical );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
+addParameter(p,'isVisible', defaultisVisible,  @islogical);
 parse(p,data, misc, varargin{:});
 
 data=p.Results.data;
@@ -98,9 +100,25 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
+isVisible = p.Results.isVisible;
 isPlotTimestep = p.Results.isPlotTimestep;
 
 FigurePath=misc.internalVars.FigurePath;
+
+% Set fileID for logfile
+if misc.internalVars.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.internalVars.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+if isVisible
+    VisibleOption = 'on';
+else
+    VisibleOption = 'off';
+end
 
 %% Get options from misc
 FigurePosition=misc.options.FigurePosition;
@@ -122,17 +140,58 @@ end
 
 %% Create subdirectory where to save the figures
 
+disp('     Creating figures for data ...')
+
 if isExportPNG || isExportPDF || isExportTEX
     
     fullPath = fullfile(FigurePath, misc.ProjectName);
     [isFileExist] = testFileExistence(fullPath, 'dir');
     
-    if ~isFileExist
+    if isFileExist
+        disp(['     Directory ', fullPath,' already ', ...
+            'exists. Overwrite ?'] );
+        
+        isYesNoCorrect = false;
+        while ~isYesNoCorrect
+            choice = input('     (y/n) >> ','s');
+            if isempty(choice)
+                fprintf(fileID,'\n');
+                fprintf(fileID,['     wrong input --> please ', ...
+                    ' make a choice\n']);
+                fprintf(fileID,'\n');
+            elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
+                
+                isYesNoCorrect =  true;
+                
+            elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+                
+                [name] = incrementFilename([misc.ProjectName, '_new'], ...
+                    FilePath);
+                fullPath=fullfile(FilePath, name);
+                
+                % Create new directory
+                mkdir(fullPath)
+                addpath(fullPath)
+                
+                isYesNoCorrect =  true;
+                
+            else
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     wrong input\n');
+                fprintf(fileID,'\n');
+            end
+            
+        end
+    else
+        
+        % Create new directory
         mkdir(fullPath)
         addpath(fullPath)
+        
     end
     
 end
+
 
 %% Get amplitude values to plot
 
@@ -189,6 +248,7 @@ end
 for i=1:numberOfTimeSeries
     FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
     set(FigHandle, 'Position', FigurePosition)
+    set(FigHandle, 'Visible', VisibleOption)
     subplot(1,3,1:2+idx_supp_plot,'align')
     
     %% Main plot
@@ -236,7 +296,7 @@ for i=1:numberOfTimeSeries
     %% Export plots
     if isExportPDF || isExportPNG || isExportTEX
         % Define the name of the figure
-        NameFigure = [data.labels{i}, '_AMP' ];
+        NameFigure = [data.labels{i}, '_Amplitude' ];
         
         % Record Figure Name
         FigureNames{i} = NameFigure;
@@ -250,7 +310,14 @@ for i=1:numberOfTimeSeries
         FigureNames{1} = [];
     end
     
+    if ~isVisible
+        close(FigHandle)
+    end
+    
+    
 end
+
+
 
 if isPlotTimestep
     %% Plot data timestep
@@ -258,6 +325,7 @@ if isPlotTimestep
     for i=1:numberOfTimeSeries
         FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
         set(FigHandle, 'Position', FigurePosition)
+        set(FigHandle, 'Visible', VisibleOption)
         subplot(1,3,1:2+idx_supp_plot,'align')
         
         %% Main plot
@@ -301,7 +369,7 @@ if isPlotTimestep
         %% Export plots
         if isExportPDF || isExportPNG || isExportTEX
             % Define the name of the figure
-            NameFigure = [data.labels{i}, '_TIMESTEP' ];
+            NameFigure = [data.labels{i}, '_Timesteps' ];
             
             % Record Figure Name
             FigureNames{i+numberOfTimeSeries} = NameFigure;
@@ -316,9 +384,19 @@ if isPlotTimestep
         end
         
         
+        if ~isVisible
+            close(FigHandle)
+        end
+        
     end
     
-    
 end
+
+if isExportPNG || isExportPDF || isExportTEX
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     Figures saved in %s.\n', fullPath);
+    fprintf(fileID,'\n');
+end
+
 %--------------------END CODE ------------------------
 end

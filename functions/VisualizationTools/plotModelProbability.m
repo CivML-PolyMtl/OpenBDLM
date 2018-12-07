@@ -33,7 +33,10 @@ function [FigureNames] = plotModelProbability(data, model, estimation, misc, var
 %                         if isExportTEX, export the figure in TEX format
 %                         default: false
 %
-
+%      isVisible        - logical (optional)
+%                         if isVisible = true , show the figure on screen
+%                         default: true
+%
 %      FilePath         - character (optional)
 %                         directory where to save the file
 %                         default: '.'  (current folder)
@@ -74,7 +77,7 @@ function [FigureNames] = plotModelProbability(data, model, estimation, misc, var
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       August 22, 2018
+%       December 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -85,6 +88,7 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
+defaultisVisible = true;
 
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
@@ -96,6 +100,7 @@ addRequired(p,'misc', @isstruct );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
+addParameter(p,'isVisible', defaultisVisible,  @islogical);
 addParameter(p, 'FilePath', defaultFilePath, validationFonction)
 parse(p,data, model, estimation, misc, varargin{:});
 
@@ -106,15 +111,24 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
+isVisible = p.Results.isVisible;
 FilePath=p.Results.FilePath;
+
+if isVisible
+    VisibleOption = 'on';
+else
+    VisibleOption = 'off';
+end
+
 
 %% Get options from misc
 FigurePosition=misc.options.FigurePosition;
 isSecondaryPlot=misc.options.isSecondaryPlot;
 Linewidth=misc.options.Linewidth;
 ndivx = misc.options.ndivx;
-ndivy = misc.options.ndivy;
+%ndivy = misc.options.ndivy;
 Subsample=misc.options.Subsample;
+Xaxis_lag=misc.options.Xaxis_lag;
 
 %% Remove space in filename
 %FilePath = FilePath(~isspace(FilePath));
@@ -187,16 +201,13 @@ else
     idx_supp_plot=0;
 end
 
-% Define X-axis lag
-Xaxis_lag=50;
-
-
 %% Plot model probability
 
 %% Main plot
 
 FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
 set(FigHandle, 'Position', FigurePosition)
+set(FigHandle, 'Visible', VisibleOption)
 subplot(1,3,1:2+idx_supp_plot,'align')
 
 if isfield(estimation,'x')
@@ -208,7 +219,9 @@ if isfield(estimation,'x')
         
         % Plot true values
         plot(timestamps(plot_time_1), ...
-            1-dataset_x_ref(plot_time_1, end),'--r')
+            1-dataset_x_ref(plot_time_1, end), ...
+            'Color', [1 0 0], ...
+            'Linewidth', Linewidth, 'LineStyle', '--')
     end
     
 else
@@ -245,7 +258,9 @@ if isSecondaryPlot
         if isfield(estimation,'ref')
             % Plot true values
             plot(timestamps(plot_time_2), ...
-                1-dataset_x_ref(plot_time_2,end), '--r')
+                1-dataset_x_ref(plot_time_2,end), ...
+                'Color', [1 0 0], ...
+                'Linewidth', Linewidth, 'LineStyle', '--')
         end
         
         
@@ -288,6 +303,9 @@ else
     FigureNames{1} = [];
 end
 
+if ~isVisible
+    close(FigHandle)
+end
 
 end
 %--------------------END CODE ------------------------

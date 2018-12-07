@@ -79,6 +79,7 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
+defaultisVisible = true;
 
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
@@ -91,6 +92,7 @@ addParameter(p, 'FilePath', defaultFilePath, validationFonction)
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
+addParameter(p,'isVisible', defaultisVisible,  @islogical);
 parse(p,data, model, estimation, misc, varargin{:});
 
 data=p.Results.data;
@@ -100,6 +102,7 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
+isVisible = p.Results.isVisible;
 FilePath=p.Results.FilePath;
 
 %% Get options from misc
@@ -110,6 +113,13 @@ ndivx = misc.options.ndivx;
 ndivy = misc.options.ndivy;
 Subsample = misc.options.Subsample;
 Xaxis_lag=misc.options.Xaxis_lag;
+
+
+if isVisible
+    VisibleOption = 'on';
+else
+    VisibleOption = 'off';
+end
 
 %% Read model parameter properties
 idx_pvalues=size(model.param_properties,2)-1;
@@ -187,6 +197,7 @@ BlueColor = [0, 0.4, 0.8];
 for i=1:numberOfTimeSeries
     FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
     set(FigHandle, 'Position', FigurePosition)
+    set(FigHandle, 'Visible', VisibleOption)
     subplot(1,3,1:2+idx_supp_plot,'align')
     
     % Observations
@@ -335,6 +346,10 @@ for i=1:numberOfTimeSeries
             'isExportTEX', isExportTEX);
     else
         FigureNames{1} = [];
+    end
+    
+    if ~isVisible
+        close(FigHandle)
     end
     
 end

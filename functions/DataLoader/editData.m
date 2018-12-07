@@ -166,7 +166,7 @@ while(1)
     fprintf(fileID,'- Choose from\n');
     fprintf(fileID,'\n');
     fprintf(fileID,'     1  ->  Select time series\n');
-    fprintf(fileID,'     2  ->  Select data analysis time period \n');
+    fprintf(fileID,'     2  ->  Select data analysis time period\n');
     fprintf(fileID,'     3  ->  Remove missing data\n');
     fprintf(fileID,'     4  ->  Resample\n');
     fprintf(fileID,'     5  ->  Change synchronization options\n');
@@ -208,7 +208,7 @@ while(1)
             [data, misc] = mergeTimeStampVectors(data, misc, ...
                 'NaNThreshold', NaNThreshold, 'tolerance', tolerance);
         end
-                
+        
         % Plot data summary
         close all
         plotDataSummary(data, misc, 'FilePath', 'figures')
@@ -378,7 +378,7 @@ while(1)
                 if misc.internalVars.BatchMode.isBatchMode
                     NaNThreshold=eval(char(misc.internalVars.BatchMode.Answers...
                         {misc.internalVars.BatchMode.AnswerIndex}));
-                    fprintf(fileID, '     %s\n', num2str(choice));
+                    fprintf(fileID, '     %s\n', num2str(NaNThreshold));
                 else
                     NaNThreshold = input('     choice >> ');
                 end
@@ -395,6 +395,9 @@ while(1)
                 
             end
             
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
+            
             % Change the tolerance
             % timestamps +/- tolerance are considered equal
             
@@ -410,11 +413,11 @@ while(1)
                 if misc.internalVars.BatchMode.isBatchMode
                     tolerance=eval(char(misc.internalVars.BatchMode.Answers...
                         {misc.internalVars.BatchMode.AnswerIndex}));
-                    fprintf(fileID, '     %s\n', num2str(choice));
+                    fprintf(fileID, '     %s\n', num2str(tolerance));
                 else
                     tolerance = input('     choice >> ');
                 end
-                    
+                
                 if  isnumeric(tolerance) && length(tolerance) ==1 && ...
                         tolerance >= 0
                     
@@ -427,6 +430,9 @@ while(1)
                 end
                 
             end
+            
+            misc.internalVars.BatchMode.AnswerIndex = ...
+                misc.internalVars.BatchMode.AnswerIndex+1;
             
         elseif user_inputs.inp_1 == 6
             

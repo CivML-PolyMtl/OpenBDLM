@@ -36,6 +36,10 @@ function plotEstimations(data, model, estimation, misc, varargin)
 %                         format
 %                         default: false
 %
+%      isVisible        - logical (optional)
+%                         if isVisible = true , show the figure on screen
+%                         default: true
+%
 %      FilePath         - character (optional)
 %                         directory where to save the file
 %                         default: '.'  (current folder)
@@ -87,6 +91,7 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
+defaultisVisible = true;
 
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
@@ -98,6 +103,7 @@ addRequired(p,'misc', @isstruct );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
+addParameter(p,'isVisible', defaultisVisible,  @islogical);
 addParameter(p, 'FilePath', defaultFilePath, validationFonction)
 parse(p,data, model, estimation, misc, varargin{:});
 
@@ -108,6 +114,7 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
+isVisible = p.Results.isVisible;
 FilePath=p.Results.FilePath;
 
 % Set fileID for logfile
@@ -119,11 +126,12 @@ else
     fileID=1;
 end
 
+disp('     Creating figures for hidden states ...')
+
 %% Verification if there are data to plot, or not
 if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
-    fprintf(fileID,'\n');
-    fprintf(fileID,'     No plot to create.\n');
-    fprintf(fileID,'\n');
+        fprintf(fileID,'     No plot to create.\n');
+        fprintf(fileID,'\n');
     return
 end
 
@@ -193,14 +201,6 @@ else
     
 end
 
-disp('     Plotting hidden states estimations ...')
-
-%% Verification if there are data to plot, or not
-if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
-    fprintf(fileID,'No plot to create.\n');
-    return
-end
-
 % Initialize a cell array that records the names of all the figures
 %% Plot predicted data
 
@@ -208,28 +208,32 @@ end
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
-    'isExportTEX', isExportTEX);
+    'isExportTEX', isExportTEX, ...
+    'isVisible',   isVisible);
 
 %% Plot hidden state estimations
 [~] = plotHiddenStates(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
-    'isExportTEX', isExportTEX);
+    'isExportTEX', isExportTEX, ...
+    'isVisible'  , isVisible);
 
 %% Plot model probability
 [~] = plotModelProbability(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
-    'isExportTEX', isExportTEX);
+    'isExportTEX', isExportTEX, ...
+    'isVisible'  , isVisible);
 
 %% Waterfall plot for kernel regression
 [~] = plotWaterfallKRegression(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
-    'isExportTEX', isExportTEX);
+    'isExportTEX', isExportTEX, ...
+    'isVisible'  , isVisible);
 
 if isExportPNG || isExportPDF || isExportTEX
     fprintf(fileID,'\n');

@@ -33,6 +33,10 @@ function [FigureNames] = plotHiddenStates(data, model, estimation, misc, varargi
 %                         if isExportTEX, export the figure in TEX format
 %                         default: false
 %
+%      isVisible        - logical (optional)
+%                         if isVisible = true , show the figure on screen
+%                         default: true
+%
 %      FilePath         - character (optional)
 %                         directory where to save the file
 %                         default: '.'  (current folder)
@@ -72,7 +76,7 @@ function [FigureNames] = plotHiddenStates(data, model, estimation, misc, varargi
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       August 22, 2018
+%       December 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -83,6 +87,7 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
+defaultisVisible = true;
 
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
@@ -94,6 +99,7 @@ addRequired(p,'misc', @isstruct );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
+addParameter(p,'isVisible', defaultisVisible,  @islogical);
 addParameter(p, 'FilePath', defaultFilePath, validationFonction)
 parse(p,data, model, estimation, misc, varargin{:});
 
@@ -104,7 +110,14 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
+isVisible =  p.Results.isVisible;
 FilePath=p.Results.FilePath;
+
+if isVisible
+    VisibleOption = 'on';
+else
+    VisibleOption = 'off';
+end
 
 %% Get options from misc
 FigurePosition=misc.options.FigurePosition;
@@ -199,6 +212,7 @@ for idx=1:numberOfHiddenStates
         %FigHandle = figure;
         FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
         set(FigHandle, 'Position', FigurePosition)
+        set(FigHandle, 'Visible', VisibleOption )
         subplot(1,3,1:2+idx_supp_plot,'align')
         
         %% Main plot
@@ -227,7 +241,9 @@ for idx=1:numberOfHiddenStates
             
             if isfield(estimation,'ref')
                 plot(timestamps(plot_time_1), ...
-                    dataset_x_ref(plot_time_1,idx), '--r')
+                    dataset_x_ref(plot_time_1,idx), ...
+                    'Color', [1 0 0], ...
+                    'Linewidth', Linewidth, 'LineStyle', '--')
             end
             
             if loop==1
@@ -281,7 +297,10 @@ for idx=1:numberOfHiddenStates
             'YTick', linspace(miny, maxy, ndivy),...
             'box','off',  ...
             'FontSize', 16);
-        ytickformat('%.1f')
+        set(gca, 'YTickMode','manual')
+        set(gca, 'YTickLabel', num2str(get(gca,'YTick')'))
+        %ytickformat('%.1f')
+        %ytickformat('%.4e')
         datetick('x','yy-mm','keepticks')
         xlabel('Time [YY-MM]')
         xlim([timestamps(1)-Xaxis_lag,timestamps(end)])
@@ -308,7 +327,9 @@ for idx=1:numberOfHiddenStates
                 if isfield(estimation,'ref')
                     % Plot true values
                     plot(timestamps(plot_time_2), ...
-                        dataset_x_ref(plot_time_2,idx), '--r')
+                        dataset_x_ref(plot_time_2,idx), ...
+                        'Color', [1 0 0], ...
+                        'LineWidth', Linewidth, 'LineStyle', '--' )
                 end
                 
             else
@@ -339,8 +360,8 @@ for idx=1:numberOfHiddenStates
             match = [string('^'),string('{'),string('}'), string('x')];
             NameFigure = [ data.labels{ ...
                 str2double(model.hidden_states_names{1}{idx,3})}, '_', ...
-                erase(model.hidden_states_names{1}{idx,1}, match), ...
-                '_', num2str(loop)];
+                erase(model.hidden_states_names{1}{idx,1}, match), '_', ...
+                num2str(loop)];
             
             % Record Figure Name
             FigureNames{idx} = NameFigure;
@@ -355,6 +376,11 @@ for idx=1:numberOfHiddenStates
             
         end
     end
+    
+    if ~isVisible
+        close all
+    end
+    
 end
 
 %--------------------END CODE ------------------------

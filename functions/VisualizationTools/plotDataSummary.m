@@ -39,6 +39,18 @@ function plotDataSummary(data, misc, varargin)
 %                         see documentation for details about the fields of
 %                         misc
 %
+%      isExportPDF      - logical (optional)
+%                         if isExportPDF, export the figure in PDF format
+%                         default: false
+%
+%      isExportPNG      - logical (optional)
+%                         if isExportPNG, export the figure in PNG format
+%                         default: false
+%
+%      isExportTEX      - logical (optional)
+%                         if isExportTEX, export the figure in TEX format
+%                         default: false
+%
 %      FilePath         - character (optional)
 %                         directory where to save the plot
 %                         defaut: '.'  (current folder)
@@ -52,7 +64,7 @@ function plotDataSummary(data, misc, varargin)
 %      Figures saved in specified "FilePath" directory.
 %
 %   EXAMPLES:
-%      PLOTDATASUMMARY(data, misc)
+%      PLOTDATASUMMARY(data, misc, 'isExportTEX', true, 'isExportPNG', false)
 %      PLOTDATASUMMARY(data, misc, 'Filepath', './figures/')
 %
 %   EXTERNAL FUNCTIONS CALLED:
@@ -74,7 +86,7 @@ function plotDataSummary(data, misc, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       October 26, 2018
+%       December 7, 2018
 %
 %--------------------BEGIN CODE ----------------------
 
@@ -82,19 +94,27 @@ function plotDataSummary(data, misc, varargin)
 p = inputParser;
 
 defaultFilePath = '.';
+defaultisExportPDF = false;
+defaultisExportPNG = false;
+defaultisExportTEX = false;
 
 validationFct_FilePath = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
 addRequired(p,'data', @isstruct );
 addRequired(p,'misc', @isstruct );
+addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
+addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
+addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
 addParameter(p,'FilePath', defaultFilePath, validationFct_FilePath);
 parse(p,data, misc, varargin{:});
 
 data=p.Results.data;
 misc=p.Results.misc;
 FilePath=p.Results.FilePath;
-
+isExportPDF = p.Results.isExportPDF;
+isExportPNG = p.Results.isExportPNG;
+isExportTEX = p.Results.isExportTEX;
 ProjectName=misc.ProjectName;
 
 %% Get options from misc
@@ -102,9 +122,6 @@ FigurePosition=misc.options.FigurePosition;
 Linewidth=misc.options.Linewidth;
 ndivx=misc.options.ndivx;
 ndivy=misc.options.ndivy;
-isExportPDF = misc.options.isExportPDF;
-isExportPNG = misc.options.isExportPNG;
-isExportTEX = misc.options.isExportTEX;
 
 % If data given in format (2), translate it to format (1)
 if ~iscell(data.timestamps) && ~iscell(data.values)

@@ -54,7 +54,7 @@ function exportPlot(FigureName, varargin)
 %       June 5, 2018
 %
 %   DATE LAST UPDATE:
-%       June 5, 2018
+%       December 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -136,7 +136,8 @@ end
 % Export figure in png using export_fig
 if isExportPNG
     warning off;
-    export_fig([ fullfile(FilePath, FigureName),  '.png'], '-nocrop', '-r300')
+    export_fig([ fullfile(FilePath, FigureName),  '.png'],  ...
+        '-nocrop', '-r300')
     warning on;
 end
 %--------------------END CODE ------------------------

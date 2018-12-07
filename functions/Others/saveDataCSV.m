@@ -18,12 +18,12 @@ function [misc] = saveDataCSV(data, misc, varargin)
 %                         N: number of time series
 %                         M: number of samples
 %
-%      misc       - structure
+%      misc       - structure (required)
 %                   see the documentation for details about the
 %                   field in misc
 %
 %      FilePath   - character (optional)
-%                   directory where to save the csv files
+%                   directory where to save the CSV files
 %                   default: '.'  (current folder)
 %
 %   OUTPUT:
@@ -111,7 +111,7 @@ if ~isFileExist
     addpath(FilePath_full)
 end
 
-disp('     Saving database (csv format) ...')
+disp('     Saving database in CSV files ...')
 
 %% Get saving directory name from external input
 name_datadir=misc.ProjectName;

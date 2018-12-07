@@ -54,7 +54,7 @@ function [misc] = pilotePlot(data, model, estimation, misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       December 3, 2018
+%       December 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -79,6 +79,8 @@ isExportTEX=misc.options.isExportTEX;
 
 FigurePath=misc.internalVars.FigurePath ;
 
+MaxFailAttempts = 4;
+
 % Set fileID for logfile
 if misc.internalVars.isQuiet
     % output message in logfile
@@ -94,9 +96,15 @@ fprintf(fileID,['-----------------------------------------', ...
 fprintf(fileID,'/    Plot\n');
 fprintf(fileID,['-----------------------------------------', ...
     '-----------------------------------------------------\n']);
-
+incTest = 0;
 isCorrectAnswer =  false;
 while ~isCorrectAnswer
+    
+    incTest=incTest+1;
+    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
+            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
+    
+    
     fprintf(fileID,'\n');
     fprintf(fileID,'     1 ->  Plot data \n');
     fprintf(fileID,'     2 ->  Plot data summary \n');
@@ -148,10 +156,12 @@ while ~isCorrectAnswer
         
     elseif round(str2double(user_inputs.inp_2)) == 2
         
-        plotDataSummary(data, misc, 'FilePath', FigurePath)
+        plotDataSummary(data, misc, 'FilePath', FigurePath, ...
+            'isExportTEX', isExportTEX, ...
+            'isExportPNG', isExportPNG, ...
+            'isExportPDF', isExportPDF);
         
-        isCorrectAnswer =  true;
-        
+        isCorrectAnswer =  true;       
     elseif round(str2double(user_inputs.inp_2)) == 3
         
         plotEstimations(data, model, estimation, misc, ...
