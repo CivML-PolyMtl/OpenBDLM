@@ -314,6 +314,9 @@ while(1)
             fprintf(fileID, '\n');
             saveProject(model, estimation, misc, ...
                 'FilePath', misc.internalVars.ProjectPath)
+            [misc]=saveResultsMAT(data, model, estimation, ...
+                misc, 'FilePath', misc.internalVars.ResultsPath, ...
+                'isForceOverwrite', true);
             fprintf(fileID, '\n');
             disp('     See you soon !');
             if misc.internalVars.isQuiet
@@ -382,8 +385,8 @@ while(1)
                 piloteSimulateData(data, model, estimation, misc);
             incTest=0;
         elseif  user_inputs==17
-            %% Export project in a configuration file
-            pilotePrintConfigurationFile(data, model, estimation, misc)
+            %% Export 
+            [misc] = piloteExport(data, model, estimation, misc);
             incTest=0;
         elseif  user_inputs==18
             %% Export current options in a configuration file format

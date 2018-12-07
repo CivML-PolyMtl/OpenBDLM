@@ -32,6 +32,10 @@ function [FigureNames] = plotWaterfallKRegression(data, model, estimation, misc,
 %                         if isExportTEX, export the figure in TEX format
 %                         default: false
 %
+%      isVisible        - logical (optional)
+%                         if isVisible = true , show the figure on screen
+%                         default: true
+%
 %      FilePath         - character (optional)
 %                         directory where to save the file
 %                         default: '.'  (current folder)
@@ -72,7 +76,7 @@ function [FigureNames] = plotWaterfallKRegression(data, model, estimation, misc,
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       July 25, 2018
+%       December 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -84,6 +88,7 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
+defaultisVisible = true;
 
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
@@ -95,6 +100,7 @@ addRequired(p,'misc', @isstruct );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
+addParameter(p,'isVisible', defaultisVisible,  @islogical);
 addParameter(p, 'FilePath', defaultFilePath, validationFonction)
 parse(p,data, model, estimation, misc, varargin{:});
 
@@ -105,7 +111,18 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
+isVisible   = p.Results.isVisible;
 FilePath=p.Results.FilePath;
+
+if isVisible
+   VisibleOption = 'on'; 
+else
+   VisibleOption = 'off';   
+end
+
+
+%% Get options from misc
+FigurePosition=misc.options.FigurePosition;
 
 %% Read model parameter properties
 % Current model parameters
@@ -249,7 +266,8 @@ for obs=1:numberOfTimeSeries
         
         
         FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
-        set(FigHandle, 'Position', [100, 100, 1300, 270])
+        set(FigHandle, 'Position', FigurePosition)
+        set(FigHandle, 'Visible', VisibleOption)
         set(gca, 'Fontsize', 16)
         
         if isfield(estimation, 'x')
@@ -313,5 +331,10 @@ for obs=1:numberOfTimeSeries
     end
     
 end
+
+    if ~isVisible
+        close all
+    end
+
 %--------------------END CODE ------------------------
 end
