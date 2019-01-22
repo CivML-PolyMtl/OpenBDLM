@@ -1,5 +1,5 @@
 function [data, model, estimation, misc]=simulateDataFromTransitionProbabilities(data, model, misc)
-%SIMULATEDATAFROMTRANSITIONPROBABILITIES Perform stochastic data simulation
+%SIMULATEDATAFROMTRANSITIONPROBABILITIES Create synth. data from trans. prob.
 %
 %   SYNOPSIS:
 %     [data, model, estimation, misc]=SIMULATEDATAFROMTRANSITIONPROBABILITIES(data, model, misc)
@@ -61,7 +61,7 @@ function [data, model, estimation, misc]=simulateDataFromTransitionProbabilities
 %       April 25, 2018
 %
 %   DATE LAST UPDATE:
-%       April 25, 2018
+%       January 18, 2019
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -76,6 +76,26 @@ parse(p,data, model,  misc);
 data=p.Results.data;
 model=p.Results.model;
 misc=p.Results.misc;
+
+%% Get seed
+seed=misc.options.Seed;
+
+%% Initialize the seed
+if isempty(seed)
+    % Initialize seed from current time
+    rng('shuffle')
+else
+    
+    if isinf(seed) && floor(seed) == seed && seed > 0 && ...
+            length(seed) == 1
+    % Initialize seed from seed
+    rng(seed)
+    else
+        seed = 12345;
+        rng(seed);
+    end
+end
+
 
 %% Get timestamps
 timestamps = data.timestamps;
@@ -107,9 +127,6 @@ for j=1:M
     ss=size(model.hidden_states_names{1},1);
     x = zeros(ss,T);
 end
-
-%% Initialize the seed 
-%rng(12345)
 
 %% Simulate data
 for t=1:T

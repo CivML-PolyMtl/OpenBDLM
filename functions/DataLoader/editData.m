@@ -160,10 +160,10 @@ while(1)
     
     % Plot current data
     close all
-    plotDataSummary(data, misc, 'FilePath', 'figures')
+    plotDataSummary(data, misc, 'FilePath', 'figures');
     
     fprintf(fileID,'\n');
-    fprintf(fileID,'- Choose from\n');
+    fprintf(fileID,'- Data editing and preprocessing. Choose from: \n');
     fprintf(fileID,'\n');
     fprintf(fileID,'     1  ->  Select time series\n');
     fprintf(fileID,'     2  ->  Select data analysis time period\n');
@@ -172,7 +172,7 @@ while(1)
     fprintf(fileID,'     5  ->  Change synchronization options\n');
     fprintf(fileID,'\n');
     fprintf(fileID,'     6  ->  Reset changes\n');
-    fprintf(fileID,'     7  ->  Save changes and continue analysis\n');
+    fprintf(fileID,'     7  ->  Save and continue analysis\n');
     fprintf(fileID,'\n');
     
     if misc.internalVars.BatchMode.isBatchMode

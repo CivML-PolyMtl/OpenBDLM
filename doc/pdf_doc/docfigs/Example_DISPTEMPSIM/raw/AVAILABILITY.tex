@@ -1,0 +1,99 @@
+% This file was created by matlab2tikz.
+%
+\documentclass[tikz]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pgfplots}
+\usepackage{grffile}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{patchplots}
+\usepackage{amsmath}
+\RequirePackage{luatex85}
+\def\pgfsysdriver{pgfsys-pdftex.def}
+
+\begin{document}
+\definecolor{mycolor1}{rgb}{0.17000,0.88000,0.30000}%
+%
+\begin{tikzpicture}[font=\LARGE]
+
+\begin{axis}[%
+width=1.8\textwidth,
+height=0.374\textwidth,
+at={(0\textwidth,0\textwidth)},
+scale only axis,
+xmin=735447,
+xmax=736258,
+xtick={735447,735717.33,735987.67,736258},
+xticklabels={{13-08},{14-04},{15-01},{15-10}},
+xlabel style={font=\color{white!15!black}},
+xlabel={Time [YY-MM]},
+ymin=0,
+ymax=3,
+ytick={1,2,3},
+yticklabels={{2},{1},{}},
+ylabel style={font=\color{white!15!black}},
+ylabel={time series \#},
+axis background/.style={fill=white},
+legend style={legend cell align=left, align=left, draw=white!15!black},
+scaled y ticks = false,scaled x ticks = false,y tick label style={/pgf/number format/.cd, fixed, fixed zerofill,precision=2},x tick label style={/pgf/number format/.cd, fixed, fixed zerofill,precision=2},x label style={font=\LARGE},y label style={font=\LARGE},
+]
+\addplot [color=red, draw=none, mark size=4pt, mark=asterisk, mark options={solid, fill=red, red}]
+  table[row sep=crcr]{%
+735460.12	0.85\\
+735460.58	0.85\\
+735460.62	0.85\\
+735460.71	0.85\\
+735460.79	0.85\\
+735460.83	0.85\\
+735460.92	0.85\\
+735465.75	0.85\\
+735466	0.85\\
+735466.08	0.85\\
+735466.17	0.85\\
+735468	0.85\\
+735468.04	0.85\\
+735468.12	0.85\\
+735570.42	0.85\\
+735570.46	0.85\\
+735570.5	0.85\\
+735570.58	0.85\\
+735580.88	0.85\\
+735623.21	0.85\\
+735623.29	0.85\\
+735661.5	0.85\\
+735661.54	0.85\\
+735711.08	0.85\\
+735711.12	0.85\\
+735731.54	0.85\\
+735731.62	0.85\\
+735731.67	0.85\\
+};
+%\addlegendentry{data1}
+
+\addplot [color=mycolor1, line width=10.0pt]
+  table[row sep=crcr]{%
+735447	1\\
+736258	1\\
+};
+%\addlegendentry{data2}
+
+\node[right, align=left]
+at (axis cs:735447,1) {TEMP};
+\addplot [color=mycolor1, line width=10.0pt]
+  table[row sep=crcr]{%
+735447	2\\
+736258	2\\
+};
+%\addlegendentry{data3}
+
+\node[right, align=left]
+at (axis cs:735447,2) {DISP};
+\node[align=center]
+at (axis cs:736149.867,2.6) {missing data};
+\node[align=center, font=\color{red}]
+at (axis cs:736116.957-40,2.55) {\Large*};
+\end{axis}
+\end{tikzpicture}%
+\end{document}

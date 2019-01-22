@@ -290,6 +290,8 @@ for idx=1:numberOfHiddenStates
         
         if miny~=maxy
             set(gca,'Ylim',[miny,maxy])
+        else
+           ndivy=1;
         end
         
         set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...

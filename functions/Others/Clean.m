@@ -41,7 +41,7 @@ function Clean(varargin)
 %       April 17, 2018
 %
 %   DATE LAST UPDATE:
-%       August 21, 2018
+%       December 10, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -69,9 +69,7 @@ FoldersList=FoldersList(~cellfun(@isempty, FoldersList));
 
 if isempty(FoldersList)
     disp(' ')
-    warning('Folder list is empty.')
-    disp(' ')
-    return
+    error('Folder list is empty.')
 end
 
 % Remove redundant fields
@@ -111,17 +109,77 @@ if ~isForceDelete
 end
 
 %% Deletion
-%disp('     Cleaning folder tree...')
+%disp('     Cleaning and building folder tree...')
 for i=1:length(FoldersList)
     
     isDir = testFileExistence(FoldersList{i}, 'dir');
     
     if ~isDir
-        disp(' ')
-%         fprintf('WARNING: %s does not exist.\n',  ...
-%             char(FoldersList{i}))
-        warning('%s does not exist.\n', char(FoldersList{i}))
-        disp(' ')
+
+        % Create the folder        
+        mkdir(FoldersList{i});
+        addpath(FoldersList{i});
+        
+        % Add file .keep to allow the directory to be push in Git
+        % repos
+        phantomFilename='.keep';
+        
+        fileID=fopen(fullfile(FoldersList{i}, ...
+            phantomFilename), 'w');
+        fclose(fileID);
+        
+        
+        % re-build tree directory for data folder
+        if strcmp(FoldersList{i}, 'data')
+            mkdir(fullfile('data', 'mat'));
+            mkdir(fullfile('data', 'csv'));
+            addpath(fullfile('data', 'mat'));
+            addpath(fullfile('data', 'csv'));
+            
+            fileID=fopen(fullfile(FoldersList{i}, ...
+                'mat', phantomFilename), 'w');
+            fclose(fileID);
+            
+            fileID=fopen(fullfile(FoldersList{i}, ...
+                'csv', phantomFilename), 'w');
+            fclose(fileID);
+            
+        end
+        
+        % re-build tree directory for results folder
+        if strcmp(FoldersList{i}, 'results')
+            mkdir(fullfile('results', 'mat'));
+            mkdir(fullfile('results', 'csv'));
+            addpath(fullfile('results', 'mat'));
+            addpath(fullfile('results', 'csv'));
+            
+            fileID=fopen(fullfile(FoldersList{i}, ...
+                'mat', phantomFilename), 'w');
+            fclose(fileID);
+            
+            fileID=fopen(fullfile(FoldersList{i}, ...
+                'csv', phantomFilename), 'w');
+            fclose(fileID);
+            
+        end
+        
+        
+        % Add .gitignore file
+        gitignorefilename='.gitignore';
+        fileID=fopen(fullfile(FoldersList{i}, ...
+            gitignorefilename), 'w');
+        
+        fprintf(fileID, 'LOG_*\n');
+        fprintf(fileID, 'DATA_*\n');
+        fprintf(fileID, 'PROJ_*\n');
+        fprintf(fileID, 'CFG_*\n');
+        fprintf(fileID, 'RES_*\n');
+        fprintf(fileID, 'ProjectsInfo.mat\n');
+        fprintf(fileID, '*/*/*.csv\n');
+        fprintf(fileID, '*/*.fig\n');
+        fprintf(fileID, '*/*.pdf\n');
+        fprintf(fileID, '*/*.png\n');
+
         continue
     else
         
@@ -161,7 +219,7 @@ for i=1:length(FoldersList)
                 'csv', phantomFilename), 'w');
             fclose(fileID);
             
-        end        
+        end
         
         % re-build tree directory for results folder
         if strcmp(FoldersList{i}, 'results')
@@ -179,7 +237,8 @@ for i=1:length(FoldersList)
             fclose(fileID);
             
         end
-               
+        
+        
         % Add .gitignore file
         gitignorefilename='.gitignore';
         fileID=fopen(fullfile(FoldersList{i}, ...
@@ -195,9 +254,7 @@ for i=1:length(FoldersList)
         fprintf(fileID, '*/*.fig\n');
         fprintf(fileID, '*/*.pdf\n');
         fprintf(fileID, '*/*.png\n');
-        
-        
-        
+            
     end
     
 end

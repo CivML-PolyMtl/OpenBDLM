@@ -44,7 +44,7 @@ function welcomeOpenBDLM(misc, varargin)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       July 27, 2018
+%       January 2, 2019
 
 %--------------------BEGIN CODE ----------------------
 
@@ -77,7 +77,7 @@ disp(['     Starting OpenBDLM_V', version, '...' ])
 fprintf(fileID,['-----------------------------------------', ...
     '-----------------------------------------------------\n']);
 fprintf(fileID,'\n');
-fprintf(fileID,['            Structural Health Monitoring ',...
+fprintf(fileID,['            Time series analysis ',...
     'using Bayesian Dynamic Linear Models\n']);
 fprintf(fileID, '\n');
 fprintf(fileID, ['-----------------------------------------', ...

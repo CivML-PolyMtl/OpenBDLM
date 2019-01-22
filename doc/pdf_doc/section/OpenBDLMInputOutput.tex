@@ -1,0 +1,93 @@
+\section{OpenBDLM inputs and outputs}
+\label{S:OpenBDLMINPUTOUTPUT}
+
+\subsection{Inputs}
+\label{SS:OpenBDLMinput}
+OpenBDLM\_main accepts three types of input
+\begin{itemize}
+  \item no input \\ 
+  
+  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main;!} \\  
+  %the program requests user's inputs from the command line. 
+  \item the name of configuration file given as a character vector\\ 
+  
+    \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main('CFG_DEMO.m');!} \\ 
+      
+    %a configuration file (see Section~\ref{S:CFGFile}) is used to initialize the project
+  \item a cell array of character vectors\\
+  
+\raggedright{\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main(\{'''CFG_DEMO.m''','''Q'''\});!}} \\
+ %the program reads pre-loaded commands stored in an input cell-array of character vectors.
+\end{itemize}
+
+\subsection{Outputs}
+
+ \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM\_main.m!} has the possibility to return four output \MATLAB{} structures containing the information about the internal variables \lstinline[basicstyle = \mlttfamily \small ]!data!, \lstinline[basicstyle = \mlttfamily \small ]!model!,\lstinline[basicstyle = \mlttfamily \small ]!estimation!, \lstinline[basicstyle = \mlttfamily \small ]!misc!.\\
+ 
+ \raggedright{\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]![data, model, estimation, misc]=OpenBDLM_main;!}} \\
+
+\subsubsection{data} 
+
+The \lstinline[basicstyle = \mlttfamily \small]!data! structure stores the time series used for the analysis. The timestamps values, the amplitude values and the labels values are stored in the fields \lstinline[basicstyle = \mlttfamily \small ]!timestamps!, \lstinline[basicstyle = \mlttfamily \small ]!values!, and \lstinline[basicstyle = \mlttfamily \small ]!labels!, respectively.
+\begin{itemize}
+\item \lstinline[basicstyle = \mlttfamily \small ]!labels!  See Section~\ref{SS:MATInput} for details.
+\item \lstinline[basicstyle = \mlttfamily \small ]!timestamps!  See Section~\ref{SS:MATInput} for details.
+\item \lstinline[basicstyle = \mlttfamily \small ]!values!  See Section~\ref{SS:MATInput} for details.
+\end{itemize}
+
+\subsubsection{model}
+The \lstinline[basicstyle = \mlttfamily \small]!model! structure stores all the information about the model used for the analysis. This variables has 14 fields, amongst them \lstinline[basicstyle = \mlttfamily \small ]!hidden_states_names!, \lstinline[basicstyle = \mlttfamily \small ]!A!, \lstinline[basicstyle = \mlttfamily \small ]!C!, \lstinline[basicstyle = \mlttfamily \small ]!Q!, \lstinline[basicstyle = \mlttfamily \small ]!R!, \lstinline[basicstyle = \mlttfamily \small ]!Z!, \lstinline[basicstyle = \mlttfamily \small ]!components!, \lstinline[basicstyle = \mlttfamily \small ]!parameter_properties!, \lstinline[basicstyle = \mlttfamily \small ]!initX!, \lstinline[basicstyle = \mlttfamily \small ]!initV!, \lstinline[basicstyle = \mlttfamily \small ]!initS!.
+
+
+\begin{itemize}
+\item \lstinline[basicstyle = \mlttfamily \small ]!hidden_states_names!:  this field stores a $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1,2 \}$ is the number of model classes.
+Each cell array is a $ \mathtt{L} \times 3$ cell array, where $\mathtt{L}$ is the number of hidden states. The first column of the cell array stores the reference name of the hidden state, the second column indicate the index of the model class to which the hidden state belongs and the third column indicates the index of the time series to which the hidden states belongs.
+\item \lstinline[basicstyle = \mlttfamily \small ]!A!:  this field stores a $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1,2 \}$ is the number of model classes. The cell array contains function handles used to build the full transition matrix.
+\item \lstinline[basicstyle = \mlttfamily \small ]!C!:  this field stores a $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1,2 \}$ is the number of model classes. The cell array contains function handles used to build the full observation matrix.
+\item \lstinline[basicstyle = \mlttfamily \small ]!Q!: this field stores a $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1,2 \}$ is the number of model classes. The cell array contains function handles used to build the full process noise covariance matrix.
+\item \lstinline[basicstyle = \mlttfamily \small ]!R!:  this field stores a $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1,2 \}$ is the number of model classes. The cell array contains function handles used to build the full observation noise covariance matrix.
+\item \lstinline[basicstyle = \mlttfamily \small ]!Z!:  this field stores a function handle used to build the transition probabilities matrix.
+\item \lstinline[basicstyle = \mlttfamily \small ]!components!:   See Section~\ref{SS:ModelComponents} for details.
+\item \lstinline[basicstyle = \mlttfamily \small ]!parameter_properties!: See Section~\ref{SS:ModelParamProperties} for details.
+\item \lstinline[basicstyle = \mlttfamily \small ]!initX!: See Section~\ref{SS:InitialHS} for details.
+\item \lstinline[basicstyle = \mlttfamily \small ]!initV!: See Section~\ref{SS:InitialHS} for details.
+\item \lstinline[basicstyle = \mlttfamily \small ]!initS!: See Section~\ref{SS:InitialHS} for details.
+\end{itemize}
+
+
+\subsubsection{estimation} 
+The \lstinline[basicstyle = \mlttfamily \small ]!estimation! structure stores the filtered or smoothed hidden states results.
+This variables has 11 fields, amongst them \lstinline[basicstyle = \mlttfamily \small ]!x!, \lstinline[basicstyle = \mlttfamily \small ]!V!, \lstinline[basicstyle = \mlttfamily \small ]!y!, \lstinline[basicstyle = \mlttfamily \small ]!Vy!,  \lstinline[basicstyle = \mlttfamily \small ]!S!, \lstinline[basicstyle = \mlttfamily \small ]!LL!, \lstinline[basicstyle = \mlttfamily \small ]!x_M!, \lstinline[basicstyle = \mlttfamily \small ]!V_M!, \lstinline[basicstyle = \mlttfamily \small ]!VV_M!.
+
+\begin{itemize}
+\item \lstinline[basicstyle = \mlttfamily \small ]!x!: this field stores the mean of the estimated hidden states. \lstinline[basicstyle = \mlttfamily \small ]!x! stores a $\mathtt{L} \times \mathtt{T}$ array, where $\mathtt{L}$ and $\mathtt{T}$ are the number of hidden states and the length of time vector, respectively. 
+\item \lstinline[basicstyle = \mlttfamily \small ]!V!: this field stores the variance of the estimated hidden states. \lstinline[basicstyle = \mlttfamily \small ]!V! stores a $\mathtt{L} \times \mathtt{T}$ array, where $\mathtt{L}$ and $\mathtt{T}$ are the number of hidden states and the length of time vector, respectively. 
+\item \lstinline[basicstyle = \mlttfamily \small ]!y!: this field stores the mean of the estimated system responses. \lstinline[basicstyle = \mlttfamily \small ]!y! stores a $\mathtt{D} \times \mathtt{T}$ array, where $\mathtt{D}$ and $\mathtt{T}$ are the number of time-series and the length of time vector, respectively. 
+\item \lstinline[basicstyle = \mlttfamily \small ]!Vy!: this field stores the variance of the estimated system responses. \lstinline[basicstyle = \mlttfamily \small ]!Vy! stores a $\mathtt{D} \times \mathtt{T}$ array, where $\mathtt{D}$ and $\mathtt{T}$ are the number of time-series and the length of time vector, respectively. 
+\item \lstinline[basicstyle = \mlttfamily \small ]!S!: this field stores the probability of each model class. \lstinline[basicstyle = \mlttfamily \small ]!S! stores a $\mathtt{T} \times \mathtt{S}$ array, where $\mathtt{D}$ and $\mathtt{S}$ are the number of time-series and the number of model classes, respectively. 
+\item \lstinline[basicstyle = \mlttfamily \small ]!LL!: this field stores the value of the log-likelihood.
+\item \lstinline[basicstyle = \mlttfamily \small ]!x_M!: this field stores the mean of the estimated hidden states for each model class before the merging step. \lstinline[basicstyle = \mlttfamily \small ]!x_M! stores a $1 \times \mathtt{S}$ cell array, where  where $\mathtt{S} = \{1,2 \}$ is the number of model classes. Each cell array stores a $\mathtt{L} \times \mathtt{T}$ array, where $\mathtt{L}$ and $\mathtt{T}$ are the number of hidden states and the length of time vector, respectively.
+\item \lstinline[basicstyle = \mlttfamily \small ]!V_M!: this field stores the variance and covariance of the estimated hidden states for each model class before the merging step. \lstinline[basicstyle = \mlttfamily \small ]!V_M! stores a $1 \times \mathtt{S}$ cell array, where  where $\mathtt{S} = \{1,2 \}$ is the number of model classes. Each cell array stores a $\mathtt{L} \times  \mathtt{L} \times \mathtt{T}$ array, where $\mathtt{L}$ and $\mathtt{T}$ are the number of hidden states and the length of time vector, respectively.
+\end{itemize}
+
+\subsubsection{misc}
+The \lstinline[basicstyle = \mlttfamily \small ]!misc! structure stores the options and internal variables needed for running the software.
+This variables has 3 fields, amongst them \lstinline[basicstyle = \mlttfamily \small ]!ProjectName!, \lstinline[basicstyle = \mlttfamily \small ]!internalVars!, \lstinline[basicstyle = \mlttfamily \small ]!options!.
+
+\begin{itemize}
+\item \lstinline[basicstyle = \mlttfamily \small ]!ProjectName!: this field stores the name of the project as a character array.
+\item \lstinline[basicstyle = \mlttfamily \small ]!internalVars!: this field stores internal variables which are needed for running the software.
+\item \lstinline[basicstyle = \mlttfamily \small ]!options!: this field stores the options that control different aspects of the software. The list of options is given in Section~\ref{SS:options}.
+\end{itemize}
+
+
+\subsection{OpenBDLM files types}
+OpenBDLM reads and/or creates five types of files: \lstinline[basicstyle = \mlttfamily \small]!DATA_!, \lstinline[basicstyle = \mlttfamily \small ]!CFG_!, \lstinline[basicstyle = \mlttfamily \small ]!PROJ_!, \lstinline[basicstyle = \mlttfamily \small ]!RES_! and \lstinline[basicstyle = \mlttfamily \small ]!LOG_!.
+\begin{itemize}
+    \item \lstinline[basicstyle = \mlttfamily \small ]!DATA_! files: the files named with the prefix \lstinline[basicstyle = \mlttfamily \small ]!DATA_! are \MATLAB{} MAT binary files that store the time series data (see Section~\ref{SS:MATInput}). These files are located in the ``data/mat'' subfolder.
+    \item  \lstinline[basicstyle = \mlttfamily \small ]!CFG_! files: the files named with the prefix \lstinline[basicstyle = \mlttfamily \small ]!CFG_! are  \MATLAB{} scripts used to initialize and export a project (see Section~\ref{S:CFGFile}). These files are located in the ``config\_files'' subfolder.
+    \item  \lstinline[basicstyle = \mlttfamily \small ]!PROJ_! files: the files named with the prefix \lstinline[basicstyle = \mlttfamily \small ]!PROJ_! are \MATLAB{} MAT binary files that stores a full project for further analysis. These files are located in the ``saved\_projects'' subfolder.
+    \item \lstinline[basicstyle = \mlttfamily \small ]!RES_!  files: the files named with the prefix \lstinline[basicstyle = \mlttfamily \small ]!RES_! are \MATLAB{} MAT binary files that stores the estimation results. These files are located in the ``results/mat'' subfolder.
+    \item \lstinline[basicstyle = \mlttfamily \small ]!LOG_! files: the files named with the prefix \lstinline[basicstyle = \mlttfamily \small ]!LOG_! are plain TEXT files that record events occurring during the program run. These files are located in the ``log\_files'' subfolder.
+\end{itemize}
+

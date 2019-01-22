@@ -104,7 +104,7 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %--------------------BEGIN CODE ----------------------
 
 %% Version of the program
-OpenBDLMversion = '1.13';
+OpenBDLMversion = '1.0';
 
 %% Warning if multiple conflictous installations
 findDuplicateInstallation
@@ -223,7 +223,7 @@ if misc.internalVars.InteractiveMode.isInteractiveMode || ...
             elseif strcmpi('Q', UserChoice) && length(UserChoice) == 1
                 
                 %% Quit the program
-                disp('     See you soon !');
+                disp('     Done ! See you soon !');
                 if misc.internalVars.isQuiet
                     fclose(fileID);
                 else
@@ -318,7 +318,7 @@ while(1)
                 misc, 'FilePath', misc.internalVars.ResultsPath, ...
                 'isForceOverwrite', true);
             fprintf(fileID, '\n');
-            disp('     See you soon !');
+            disp('     Done ! See you soon !');
             if misc.internalVars.isQuiet
                 fclose(fileID);
             else
@@ -380,7 +380,7 @@ while(1)
             piloteDisplayModelMatrices(data, model, estimation, misc)
             incTest=0;
         elseif  user_inputs==16
-            %% Simulate data
+            %% Create synthetic data
             [data, model, estimation, misc]= ...
                 piloteSimulateData(data, model, estimation, misc);
             incTest=0;

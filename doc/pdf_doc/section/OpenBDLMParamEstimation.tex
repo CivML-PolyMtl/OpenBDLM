@@ -1,0 +1,273 @@
+\section{Model parameters estimation}
+\label{S:PARAMESTIMATION}
+
+OpenBDLM provides default values of the parameters from heuristic knowledge or from statistics on the data.
+Those values are usually poor guesses which have to be refined using an optimization algorithm that estimates the model parameters from the data.\\
+
+From the main OpenBLDM menu, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to access the model parameter estimation menu (see Listing~\ref{LST:ModelParametersEstimationMenu}).
+The optimization algorithm is either the Newton-Raphson (choice \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}) or the Stochastic Gradient Descent  (choice \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}) algorithms (see Section~\ref{SS:THModelParameterEstimation}).
+
+By default, OpenBDLM uses all the data as the training set (\lstinline[basicstyle = \mlttfamily \small ]!misc.options.Trainingperiod=[1 Inf]!.
+Moreover, OpenBDLM transform the model parameters to perform the optimization in an unbounded model parameter space (see Section~\ref{SS:THSpaceTransformation}).
+Undefined bounds (\lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!)  for a parameter means that the parameter is assumed to be known and it does not require to be learned from the data.
+By default, OpenBLDM assumes that all parameters are unknown, except for the period of the periodic component and the process noise standard deviation associated with the baseline and the periodic component.
+Those model parameters have values fixed to 0.\\
+
+The model parameter can be learned by maximizing either the likelihood (Maximum Likelihood Estimation, MLE), or the posterior function (Maximum A Posteriori estimation, MAP) (see Section~\ref{SS:THModelParameterEstimation}). 
+OpenBDLM supports gaussian prior only.
+Note that MAP requires a valid prior for each unknown model parameters.
+The default option is MLE (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMAP=false!).
+
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM model parameter estimation menu}, label = LST:ModelParametersEstimationMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
+-------------------------------------------
+/ Learn model parameters
+-------------------------------------------
+
+     1 ->  Newton-Raphson
+     2 ->  Stochastic Gradient Ascent
+
+     Type R to return to the previous menu
+
+     choice >> 
+\end{lstlisting}
+Model parameter estimation computes point estimate of the model parameters. 
+It may also provide confidence intervals around the point estimate using the Laplace approximation (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isLaplaceApproximation = true!).
+Note that computing the Laplace approximation can significantly increase the computation time when the number of model parameters is large.\\
+
+Note also that Newton-Raphson and Stochastic Gradient Descent techniques are sensitive to the initial model parameters values. 
+The algorithm can reach a local maximum, instead of the global maximum.
+It is advised to run the optimizations several times with different starting model parameters values in order to check that the proposed solution is stable.\\
+
+If \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMute = false!, some messages output on the \MATLAB{} command line window allow to monitor the optimization process (see Listing~\ref{LST:OpenBLDMModelParameterLearning}).
+At each iteration, the quantity displayed are: the current value of the target function, the name as well as the current value of the unknown model parameter(s) being optimized, the change in model parameters, the change in the target function, and the convergence status ( \lstinline[basicstyle = \mlttfamily \small ]!1! if the model parameter converged according to the convergence criteria, \lstinline[basicstyle = \mlttfamily \small ]!0! otherwise).\\
+
+The optimization stops when all the parameters converged, or if the maximum number of iterations (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxIterations!) or the maximum time (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxTime!) is reached.
+The values of the parameters are saved in the \lstinline[basicstyle = \mlttfamily \small ]!model! \MATLAB{} structure.
+ 
+ \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBLDM output on \MATLAB{} command window when running Newton-Raphson algorithm.}, label = LST:OpenBLDMModelParameterLearning,  float =h!, linewidth=\linewidth, captionpos=b]
+    \Start Newton-Raphson max. algorithm (finite difference method)
+
+      Training period:                             1-Inf [days]
+      Maximal number of iteration:                 100
+      Total time limit for calibration :           60 [min]
+      Convergence criterion:                       1e-07*LL
+      Nb. of search levels for \lambda:            4*2
+
+           Initial LL: 36626.8381
+                       AR|M1|1         AR|M1|1         |M1|1            
+      parameter names: \phi            \sigma_w        \sigma_v         
+       initial values: +7.50e-01       +1.74e-02       +8.70e-03       
+--------------------------
+    Loop #1 : |M1|1 | \sigma_v 
+       delta_param: -0.0040755 
+    log-likelihood : 36994.6374
+    param change   : 0.0087002 -> 0.0046247
+
+                    AR|M1|1         AR|M1|1         |M1|1           
+   parameter names: \phi            \sigma_w        \sigma_v        
+    current values: +7.50e-01       +1.74e-02       +4.62e-03      
+  current f.o. std: +0.00e+00       +0.00e+00       +1.93e-04      
+      previous dLL: +1.00e+06       +1.00e+06       +3.68e+02      
+         converged: +0.00e+00       +0.00e+00       +0.00e+00      
+--------------------------
+    Loop #2 : AR|M1|1 | \sigma_w 
+       delta_param: 0.0046034 
+    log-likelihood : 40998.3934
+    param change   : 0.0174 -> 0.022003
+
+                    AR|M1|1         AR|M1|1         |M1|1           
+   parameter names: \phi            \sigma_w        \sigma_v        
+    current values: +7.50e-01       +2.20e-02       +4.62e-03      
+  current f.o. std: +0.00e+00       +5.26e-05       +1.93e-04      
+      previous dLL: +1.00e+06       +4.00e+03       +3.68e+02      
+         converged: +0.00e+00       +0.00e+00       +0.00e+00      
+--------------------------
+\end{lstlisting}
+
+
+
+\subsection{Model parameter estimation functions}
+
+\begin{description}[style=unboxed]
+\item[Pilote function for optimization] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[data,model,estimation,misc]=piloteOptimization(data,model,estimation,misc)
+  \end{lstlisting}
+
+\item[Estimates model parameter using Newton-Raphson algorithm] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[optim,model]=NewtonRaphson(data,model,misc)
+  \end{lstlisting}
+  
+ \item[Estimates model parameter using Stochastic Gradient Descent algorithm] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[optim,model] = SGD(data,model,misc,varargin)
+  \end{lstlisting} 
+
+ \item[Reads model parameter properties ] \leavevmode
+ \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[arrayOut]=readParameterProperties(cellIn,Position)
+  \end{lstlisting} 
+
+ \item[Writes model parameter properties ] \leavevmode
+ \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[cellOut]=writeParameterProperties(cellIn,arrayIn,Position)
+  \end{lstlisting} 
+
+ \item[Approximates the target function, as well as the first and second derivative of the logarithm of the target function with respect to parameter values ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[logpdf,Glogpdf,Hlogpdf, delta_grad] = logPosteriorPE(data,model,misc,varargin)
+  \end{lstlisting} 
+
+ \item[Computes the gradient and hessian of the gaussian prior distribution of each model parameter ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[logprior,Glogprior,Hlogprior]= logPriorDistr(P,Mu,Sigma,varargin)
+  \end{lstlisting} 
+
+ \item[Computes numerical hessian H of a function ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+H=numerical_hessian(x,fX,varargin)
+  \end{lstlisting} 
+
+ \item[Defines transformation functions and their derivatives according to provided bounds for the model parameters ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[fct_TR,fct_inv_TR,grad_TR2OR,hessian_TR2OR]=parameter_transformation_fct(model,param_idx_loop)
+  \end{lstlisting} 
+
+ \item[Performs Switching Kalman filter on time series ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[x,V,VV,S,loglik,U,D]=SwitchingKalmanFilter(data,model,misc)
+  \end{lstlisting} 
+
+ \item[Computes the first and second derivative of the logarithm of the likelihood function with respect to parameter values] \leavevmode
+ \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[grad,hessian,fail_gradHess,delta_grad] = gradHess(data, model,misc,pTR,pOR,log_lik_0,grad_TR2OR,delta_grad,param_idx_loop)
+ \end{lstlisting} 
+
+ \item[Computes the optimal parameter step size for the approximation of the numerical derivative of the likelihood and compute the terms required to approximate the numerical derivative using finite differene method] \leavevmode
+ \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[delta_grad,fail_delta_grad,log_lik_1,log_lik_2] = StepSizeOptimization(model,data,misc,pOR,log_lik_0,delta_grad,param_idx_loop)
+ \end{lstlisting} 
+
+ \item[Splits the full dataset into train and test dataset (for Stochastic Gradient Descent only) ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[data_train,data_valid] = dataSplit(data,idxTrain,alpha_split,varargin)
+  \end{lstlisting} 
+
+ \item[Computes the metric function (for Stochastic Gradient Descent only) ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[metricVL,idxMaxM,logpdf_test,logpdf_train] = metricFct(data_train,data_test,model,misc,parameterSearch,parameterSearchTR)
+  \end{lstlisting} 
+
+ \item[paramGrid (for Stochastic Gradient Descent only) ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[xM,momentumM,RMSpropM,gradM,learningRateM, mmtHessM, hessM]= paramGrid(x,momentum,RMSprop,grad,learningRate,mmtHess,hess)
+  \end{lstlisting} 
+  
+  \item[ADAM optimizer (for Stochastic Gradient Descent only)] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[xsearch,xsearchTR,momentumTR,RMSpropTR] = ADAM(xsearchTRprev,momentumTRprev,RMSpropTRprev,grad,step,beta_1,beta_2,epsilon,Niter,fctInvTR)  
+  \end{lstlisting} 
+    
+\item[MMT optimizer (for Stochastic Gradient Descent only)] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[xsearch,xsearchTR,momentumTR] = MMT(xsearchTRprev,momentumTRprev,grad,step,beta,fctInvTR)
+\end{lstlisting} 
+    
+  
+\end{description}
+
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+\scalebox{0.8}{
+\begin{tikzpicture}
+
+\node[parababyblueeyes](inputOptimization){ \begin{tabular}{c} \lstinline[ basicstyle = \mlttfamily \small]!data! \\ \phantom{}  \lstinline[ basicstyle = \mlttfamily \small]!model.param_properties! \phantom{} \end{tabular}};
+\node[esbabyblueeyes](piloteOptimization)[below of = inputOptimization, yshift = -1cm]{\phantom{} piloteOptimization.m \phantom{}};
+\node[testbabyblueeyes](testNRSGD)[below of = piloteOptimization, yshift = -1.5cm]{\begin{tabular}{c} NR or  \\ SGD ?  \end{tabular}};
+\node[esbabyblueeyes](SeeNewtonRaphson)[below of = testNRSGD, yshift = -1cm, xshift = -3.5cm]{\phantom{} see Figure~\ref{FIG:NewtonRaphsonWorkflow} \phantom{}};
+\node[esbabyblueeyes](SeeSGD)[below of = testNRSGD, yshift = -1cm, xshift = 3.5cm]{\phantom{} see Figure~\ref{FIG:SGDWorkflow} \phantom{}};
+\node[parababyblueeyes](outputOptimization)[below of = inputOptimization, yshift = -8cm]{\phantom{}  \lstinline[ basicstyle = \mlttfamily \small]!model.param_properties! \phantom{}};
+
+\path[->, draw, thick] (inputOptimization)edge(piloteOptimization);
+\path[->, draw, thick] (piloteOptimization)edge(testNRSGD);
+\path[->, draw, thick] (testNRSGD.east) -| (1.5cm,-4.5cm) -| node[pos=0.25, above]{ SGD} (SeeSGD.north);
+\path[->, draw, thick] (testNRSGD.west) -| (-1.5cm,-4.5cm) -| node[pos=0.25, above]{NR} (SeeNewtonRaphson.north);
+\path[->, draw, thick] (SeeNewtonRaphson.south) |- (0cm,-8cm) -|  (outputOptimization.north);
+\path[->, draw, thick] (SeeSGD.south) |- (0cm,-8cm) -|  (outputOptimization.north);
+\end{tikzpicture} } 
+\caption{Model parameter estimation workflow} \label{FIG:ModelParameterEstimationWorkflow}
+\end{figure}
+
+
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+\scalebox{0.8}{
+\begin{tikzpicture}
+
+\node[esbabyblueeyes](NewtonRaphson){\phantom{} NewtonRapshon.m \phantom{}};
+\node[esbabyblueeyes](readParameterEstimation)[below of = NewtonRaphson, yshift = -1cm]{\phantom{} readParameterEstimation.m \phantom{}};
+\node[esbabyblueeyes](paramtransform)[below of = readParameterEstimation , yshift = -1cm]{\phantom{}  parameter\_transformation\_fct.m \phantom{}};
+\node[esbabyblueeyes](logposterior)[below of = paramtransform  , yshift = -1cm]{\phantom{}  logPosteriorPE.m \phantom{}};
+\node[esbabyblueeyes](logPrior)[right of = logposterior , xshift=4cm, yshift = 0.75cm]{\phantom{}  logPriorDistr.m \phantom{}};
+\node[esbabyblueeyes](gradHess)[right of = logposterior , xshift=3.75cm, yshift = -0.75cm]{\phantom{}  gradHess.m \phantom{}};
+\node[esbabyblueeyes](SSO)[right of = gradHess , xshift=3cm, yshift = 0cm]{\phantom{}  stepSizeOptimization.m \phantom{}};
+\node[esbabyblueeyes](SKF)[below of = SSO , xshift=0cm, yshift = -1cm]{\phantom{}  SwitchingKalmanFilter.m \phantom{}};
+\node[esbabyblueeyes](writeParameterEstimation)[below of = logposterior, yshift = -4cm]{\phantom{} writeParameterEstimation.m \phantom{}};
+
+
+\path[->, draw, thick] (NewtonRaphson)edge(readParameterEstimation);
+\path[->, draw, thick] (readParameterEstimation)edge(paramtransform);
+\path[->, draw, thick] (paramtransform)edge(logposterior);
+\path[->, draw, thick] (logposterior.east) -| (3cm,-5.25cm) --  (logPrior.west);
+\path[->, draw, thick] (logposterior.east) -| (3cm,-6.75cm) --  (gradHess.west);
+\path[->, draw, thick] (gradHess)edge(SSO);
+\path[->, draw, thick] (SSO)edge(SKF);
+\path[->, draw, thick] (logposterior)edge(writeParameterEstimation);
+
+\end{tikzpicture} } 
+\caption{Model parameter estimation Newton-Raphson workflow} \label{FIG:NewtonRaphsonWorkflow}
+\end{figure}
+
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+\scalebox{0.8}{
+\begin{tikzpicture}
+
+\node[esbabyblueeyes](SGD){\phantom{} SGD.m \phantom{}};
+\node[esbabyblueeyes](readParameterEstimation)[below of = SGD, yshift = -1cm]{\phantom{} readParamaterEstimation.m \phantom{}};
+\node[esbabyblueeyes](paramtransform)[below of = readParameterEstimation , yshift = -1cm]{\phantom{}  parameter\_transformation\_fct.m \phantom{}};
+\node[esbabyblueeyes](metric1)[below of = paramtransform , yshift = -1cm]{\phantom{}  metricFct.m \phantom{}};
+\node[esbabyblueeyes](split)[below of =metric1 , yshift = -1cm]{\phantom{}  dataSplit.m \phantom{}};
+\node[esbabyblueeyes](logposterior)[below of = split  , yshift = -1cm]{\phantom{}  logPosteriorPE.m \phantom{}};
+\node[esbabyblueeyes](logPrior)[right of = logposterior , xshift=4cm, yshift = 0.75cm]{\phantom{}  logPriorDistr.m \phantom{}};
+\node[esbabyblueeyes](gradHess)[right of = logposterior , xshift=3.75cm, yshift = -0.75cm]{\phantom{}  gradHess.m \phantom{}};
+\node[esbabyblueeyes](SSO)[right of = gradHess , xshift=3cm, yshift = 0cm]{\phantom{}  stepSizeOptimization.m \phantom{}};
+\node[esbabyblueeyes](SKF)[below of = SSO , xshift=0cm, yshift = -1cm]{\phantom{}  SwitchingKalmanFilter.m \phantom{}};
+\node[esbabyblueeyes](grid)[below of = logposterior, yshift = -3.5cm]{\phantom{} paramGrid.m \phantom{}};
+\node[esbabyblueeyes](adam)[below of = grid, yshift = -1cm]{\phantom{} \begin{tabular}{c} ADAM.m  \\ MMT.m  \end{tabular}};
+\node[esbabyblueeyes](metric2)[below of = adam , yshift = -1cm]{\phantom{}  metricFct.m \phantom{}};
+\node[esbabyblueeyes](writeParameterEstimation)[below of = metric2, yshift = -1cm]{\phantom{} writeParameterEstimation.m \phantom{}};
+
+
+\path[->, draw, thick] (NewtonRaphson)edge(readParameterEstimation);
+\path[->, draw, thick] (readParameterEstimation)edge(paramtransform);
+\path[->, draw, thick] (paramtransform)edge(metric1);
+\path[->, draw, thick] (metric1)edge(split);
+\path[->, draw, thick] (split)edge(logposterior);
+\path[->, draw, thick] (logposterior.east) -| (3cm,-9.25cm) --  (logPrior.west);
+\path[->, draw, thick] (logposterior.east) -| (3cm,-10.75cm) --  (gradHess.west);
+\path[->, draw, thick] (gradHess)edge(SSO);
+\path[->, draw, thick] (SSO)edge(SKF);
+\path[->, draw, thick] (logposterior)edge(grid);
+\path[->, draw, thick] (grid)edge(adam);
+\path[->, draw, thick] (adam)edge(metric2);
+\path[->, draw, thick] (metric2)edge(writeParameterEstimation);
+
+\end{tikzpicture} } 
+\caption{Model parameter estimation Stochastic gradient descent workflow} \label{FIG:SGDWorkflow}
+\end{figure}

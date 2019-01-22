@@ -1,0 +1,53 @@
+% This file was created by matlab2tikz.
+%
+\documentclass[tikz]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pgfplots}
+\usepackage{grffile}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{patchplots}
+\usepackage{amsmath}
+\RequirePackage{luatex85}
+\def\pgfsysdriver{pgfsys-pdftex.def}
+
+\begin{document}
+\definecolor{mycolor1}{rgb}{0.17000,0.88000,0.30000}%
+%
+\begin{tikzpicture}[font = \LARGE]
+
+\begin{axis}[%
+width=1.8\textwidth,
+height=0.374\textwidth,
+at={(0\textwidth,0\textwidth)},
+scale only axis,
+xmin=735447,
+xmax=736258,
+xtick={735447,735717.33,735987.67,736258},
+xticklabels={{13-08},{14-04},{15-01},{15-10}},
+xlabel style={font=\color{white!15!black}},
+xlabel={Time [YY-MM]},
+ymin=0,
+ymax=2,
+ytick={1,2},
+yticklabels={{1},{}},
+ylabel style={font=\color{white!15!black}},
+ylabel={time series \#},
+axis background/.style={fill=white},
+legend style={legend cell align=left, align=left, draw=white!15!black},
+scaled y ticks = false,scaled x ticks = false,y tick label style={/pgf/number format/.cd, fixed, fixed zerofill,precision=2},x tick label style={/pgf/number format/.cd, fixed, fixed zerofill,precision=2},x label style={font=\LARGE},y label style={font=\LARGE},
+]
+\addplot [color=mycolor1, line width=10.0pt]
+  table[row sep=crcr]{%
+735447	1\\
+736258	1\\
+};
+%\addlegendentry{data1}
+
+\node[right, align=left]
+at (axis cs:735447,1) {DISP};
+\end{axis}
+\end{tikzpicture}%
+\end{document}

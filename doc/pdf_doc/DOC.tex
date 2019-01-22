@@ -1,4 +1,7 @@
-\documentclass{article}
+\documentclass[11pt,twoside]{article}
+
+% bibliography
+\usepackage[numbers]{natbib}
 
 % MATLAB code package
 \usepackage{listings}
@@ -9,10 +12,13 @@
 
 \usepackage{upquote}
 \usepackage{xspace}
+\usepackage{graphicx}
 
-% Amsmath package
+\usepackage{todonotes}
+\usepackage{microtype}
+
+% For math symbol, equations, etc...
 \RequirePackage{amsmath}
-\RequirePackage{amstext}
 \RequirePackage{amsfonts}
 \RequirePackage{amssymb}
 \RequirePackage{latexsym}
@@ -25,958 +31,157 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue}
 
-%\title{OpenBDLM: an open-source \MATLAB{} software for time-series analysis using Bayesian dynamic linear models}
-\title{OpenBDLM reference manual}
+\usepackage{subcaption} 
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% For table
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\newcommand{\xbar}[1]{\overline{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}} 
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}} 
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}m{#1}} 
+\newcolumntype{N}{@{}m{0pt}@{}}
+
+% For description
+\usepackage{enumitem}
+\setlist[description]{%
+  topsep=30pt,               % space before start / after end of list
+  itemsep=5pt,               % space between items
+  font={\normalfont\textbullet\space}, % set the label font
+}
+
+% For rotating figures, tables, etc.  including their captions
+\usepackage[figureleft]{rotating}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TIKZ PACKAGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{calc,patterns,decorations.pathmorphing,decorations.markings,decorations.pathreplacing}
+\usetikzlibrary{shapes,fit}
+\usetikzlibrary{positioning}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.text}
+%\usetikzlibrary{decorations.markings}
+\usetikzlibrary{shapes.geometric,arrows,positioning}
+\usetikzlibrary{positioning,arrows.meta,bending}
+%Rectangle
+\tikzstyle{rect}=[rectangle, minimum width=2.2cm,minimum height=1.2cm,draw=black!100, thick]
+\tikzstyle{wrect}=[rectangle, minimum width=2.2cm,minimum height=1.2cm,draw=white!100, thick]
+\tikzstyle{smallrect}=[rectangle, minimum width=1cm,minimum height=0.5cm,draw=black!100, thick]
+\tikzstyle{smallrectm}=[rectangle, minimum width=1.5cm,minimum height=0.5cm,draw=black!100, thick]
+\tikzstyle{PCA}=[rectangle, minimum width=2.2cm,minimum height=1.2cm,draw=red!100, very thick,rounded corners]
+\tikzstyle{user}=[circle,draw, inner sep = 1.5pt]
+\tikzstyle{eslightgray}=[rectangle, draw=black!100, thick,fill opacity=0.5, text opacity=1, fill=lightgray, minimum height = 1cm, inner sep=0pt]
+\tikzstyle{esaliceblue}=[rectangle, draw=black!100, thick, fill=aliceblue, minimum height = 1cm, inner sep=0pt]
+\tikzstyle{esbabyblueeyes}=[rectangle, draw=black!100, thick, fill=babyblueeyes, minimum height = 1cm, inner sep=0pt]
+\tikzstyle{esbabyblueeyestransp}=[rectangle, draw=black!100, thick fill=babyblueeyes, fill opacity=0.2, text opacity=1,  minimum height = 1cm, inner sep=0pt]
+\tikzstyle{esbisque}=[rectangle, draw=black!100, thick, fill=bisque, minimum height = 1cm, inner sep=0pt, fill opacity=0.5, text opacity=1]
+\tikzstyle{esbisquetransp}=[rectangle, draw=black!100, thick, fill=bisque, fill opacity=0.5, text opacity=1, minimum height = 1cm, inner sep=0pt]
+\tikzstyle{esceladon}=[rectangle, draw=black!100, thick, fill=celadon, minimum height = 1cm, inner sep=0pt]
+\tikzstyle{eswhite}=[rectangle, draw=black!100, thick, fill=white, minimum height = 1cm, inner sep=0pt, draw=black!100, thick]
+\tikzstyle{esamber}=[rectangle, draw=black!100, thick, fill=amber, minimum height = 1cm, inner sep=0pt, draw=black!100,  thick]
+\tikzstyle{esbrightlavender}=[rectangle, draw=black!100, thick, fill=brightlavender, minimum height = 1cm, inner sep=0pt, draw=black!100,  thick]
+\tikzstyle{para}=[trapezium ,minimum height=0.8 cm, draw=black!100, thick, trapezium left angle=-120, trapezium right angle=-60,trapezium stretches, inner sep = 0pt]
+\tikzstyle{paraamber}=[trapezium , fill=amber, minimum height=0.8 cm, draw=black!100, thick, trapezium left angle=-120, trapezium right angle=-60,trapezium stretches, inner sep = 0pt]
+\tikzstyle{parababyblueeyes}=[trapezium , fill=babyblueeyes, minimum height=0.8 cm, draw=black!100, thick, trapezium left angle=-120, trapezium right angle=-60,trapezium stretches, inner sep = 0pt]
+\tikzstyle{paraambertransp}=[trapezium , fill=amber, minimum height=0.8 cm, draw=black!100, thick, fill opacity=0.2, text opacity=1, trapezium left angle=-120, trapezium right angle=-60,trapezium stretches, inner sep = 0pt]
+\tikzstyle{paraceladon}=[trapezium , fill=celadon, minimum height=0.8 cm, draw=black!100, thick, trapezium left angle=-120, trapezium right angle=-60,trapezium stretches, inner sep = 0pt]
+\tikzstyle{parabisque}=[trapezium , fill=bisque, minimum height=0.8 cm, draw=black!100, thick,  fill opacity=0.5, text opacity=1, trapezium left angle=-120, trapezium right angle=-60,trapezium stretches, inner sep = 0pt]
+\tikzstyle{paralightgray}=[trapezium , fill=lightgray, minimum height=0.8 cm, draw=black!100, thick,  fill opacity=0.5, text opacity=1, trapezium left angle=-120, trapezium right angle=-60,trapezium stretches, inner sep = 0pt]
+\tikzstyle{parawhite}=[trapezium , fill=white, minimum height=0.8 cm, draw=black!100, thick,  fill opacity=0.5, text opacity=1, trapezium left angle=-120, trapezium right angle=-60,trapezium stretches, inner sep = 0pt]
+
+% Parallelogram
+\tikzstyle{para}=[trapezium, minimum width=3cm,minimum height=1.2cm, draw=black!100,  thick, trapezium left angle=-150, trapezium right angle=-30,trapezium stretches]
+%Hexagone in text
+\tikzstyle{hexa}=[signal, signal to=left and right, minimum width=4cm,minimum height=1.2cm, draw=black!100, thick]
+
+ \tikzstyle{user}=[circle,draw, inner sep = 1.5pt]
+ \tikzstyle{test}=[diamond, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, draw=black!100, thick,  inner sep=-1pt]
+ \tikzstyle{testamber}=[diamond, fill=amber, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, draw=black!100, thick,  inner sep=-1pt]
+ \tikzstyle{testbabyblueeyes}=[diamond, fill=babyblueeyes, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, draw=black!100, thick,  inner sep=-1pt]
+ \tikzstyle{testbisque}=[diamond, fill=bisque, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, draw=black!100, thick,  inner sep=-1pt, fill opacity=0.5, text opacity=1]
+ \tikzstyle{testceladon}=[diamond, fill=celadon, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, draw=black!100, thick,  inner sep=-1pt]
+ \tikzstyle{testlightgray}=[diamond, fill=lightgray, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, fill opacity=0.5, text opacity=1, draw=black!100, thick,  inner sep=-1pt]
+ 
+%Connecting link
+\tikzstyle{connect}=[-latex, thick,>=latex]
+\tikzstyle{shaded}=[draw=black!20,fill=black!20]
+\tikzstyle{line} = [draw, -latex,thick,>=latex]
+
+\definecolor{egg}{RGB}{250,250,235}
+\definecolor{aliceblue}{rgb}{0.94, 0.97, 1.0}
+\definecolor{babyblueeyes}{rgb}{0.63, 0.79, 0.95}
+\definecolor{bisque}{rgb}{0.91, 0.45, 0.32}
+\definecolor{celadon}{rgb}{0.67, 0.88, 0.69}
+\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{brightlavender}{rgb}{0.75, 0.58, 0.89}
+
+\graphicspath{{./docfigs/}}
+
+
+\title{\includegraphics[width=100mm]{OpenBDLM_logo.pdf}\\[20pt]
+ OpenBDLM V1.0 reference manual}
 \author{Ianis Gaudot, Luong H. Nguyen, James-A. Goulet \\ Polytechnique Montreal}
 
 \begin{document}
 
 \newcommand{\MATLAB}{\textsc{Matlab}}
 
-
 \maketitle
 
 \tableofcontents
-
 \newpage
-\section{What is OpenBDLM ?}
 
-OpenBDLM is a \MATLAB{} open-source software developed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step in the order of one hour or higher).
-OpenBDLM is capable to process simultaneously any time series data to interpret, monitor and predict their long-term behavior.
-OpenBDLM also includes an anomaly detection tool which allows to detect abnormal behavior in a fully probabilistic framework.
-OpenBDLM is available for download from GitHub at \url{https://github.com/CivML-PolyMtl/OpenBDLM}.\\
+\input{section/OpenBDLMWhatIs}
 
-\noindent \textbf{Keywords}: time series analysis and forecasting, linear gaussian state-space models, time-series decomposition, anomaly detection, filtering, smoothing, Bayes, gaussian conditionnals
+\input{section/OpenBDLMInstalling}
 
-\section{Installing OpenBDLM}
+\input{section/OpenBDLMGettingStarted}
 
-These instructions will get you a copy of the project up and running on your local machine for direct use, testing and development purposes.
-\subsection{Prerequisites}
-\MATLAB{} (version 2016a or higher) installed on Mac OSX or Windows.\\
+\input{section/OpenBDLMInputOutput}
 
-\noindent
-The \MATLAB{}  'Statistics and Machine Learning Toolbox' is required.
+\input{section/OpenBDLMRunningModes}
 
-\subsection{Installing}
-\begin{enumerate}
-\item Remove from your \MATLAB{} path all previously OpenBDLM versions
-\item Extract the ZIP file from \url{https://github.com/CivML-PolyMtl/OpenBDLM} (or clone the git repository) somewhere you can easily reach it.
-\item Add ``OpenBDLM-master'' folder and all the subfolders to your \MATLAB{}  path:
-\begin{itemize}
-    \item using the ``Set Path'' dialog box in \MATLAB{}, or 
-    \item by running  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!addpath! function from the \MATLAB{} command window
-    \end{itemize}
-\end{enumerate}
+\input{section/OpenBDLMConfigurationFile}
 
-\section{Getting started}
+\input{section/OpenBDLMMainMenu}
 
-\subsection{Call OpenBDLM}
-\begin{itemize}
-\item enter in the folder ``OpenBDLM-master''
-%\begin{center}
-\item type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![data, model, estimation, misc] = OpenBDLM_main();! }, and type $\dlsh$.
-%\end{center}
-in the \MATLAB{} command line.
-\end{itemize}
-The OpenBDLM starting menu should appear on the \MATLAB{} command window (see Listing~\ref{LST:OpenBDLMmainMenu}).
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!} in the command line, and type $\dlsh$ to quit the program.
-%\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, linewidth=\linewidth] %, caption = OpenBDLM call ]%, label = LST:OpenBDLMmain, captionpos=b]
-%[data, model, estimation, misc] = OpenBDLM_main();
-%\end{lstlisting}
-\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM starting menu on  \MATLAB{} command window when calling \lstinline!\[data, model, estimation, misc\] = OpenBDLM\_main();!}, label = LST:OpenBDLMmainMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
+\input{section/OpenBDLMMainWorkflow}
 
-------------------------------------------------
-     Starting OpenBDLM
-------------------------------------------------
-            Structural Health Monitoring using 
-            Bayesian Dynamic Linear Models
-------------------------------------------------
-- Start a new project: 
+\input{section/OpenBDLMDataLoading}
 
-     *      Enter a configuration filename 
-     0   -> Interactive tool 
+\input{section/OpenBDLMDataEditingPreProcessing}
 
-- Type D to Delete project(s), V for Version control, Q to Quit.
+\input{section/OpenBDLMModelConfiguration}
 
-     choice >>
-\end{lstlisting}
+\input{section/OpenBDLMModelConstruction}
 
+\input{section/OpenBDLMParamEstimation}
 
-\subsection{Demo}
+\input{section/OpenBDLMHiddenStatesEstimation}
 
-In the \MATLAB{} command line, type  
-%\begin{lstlisting}[frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, caption = Run the OpenBDLM demo, label = LST:OpenBDLMdemo, captionpos=b, linewidth=\linewidth]
-%run_DEMO.m
-%\end{lstlisting}
-%\begin{center}
-\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO;! }
-%\end{center}
- followed by $\dlsh$ to run a demo. 
-%\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO.m! to run a little demo. 
-Some messages on the \MATLAB{} command window show that the programs runs properly (see Listing~\ref{LST:MessageDemo}).
+\input{section/OpenBDLMCreatingSyntheticData}
 
-\begin{lstlisting}[frame = single, basicstyle = \mlttfamily \small, caption = {Output on \MATLAB{} command window when running \lstinline!run_DEMO.m!}, linewidth=\linewidth, label=LST:MessageDemo, ,captionpos=b, float = h] 
-     Starting OpenBDLM_V???...
-     Starting a new project...
-     Building model...
-     Simulating data...
-     Plotting data...
-     Saving database (binary format) ...
-     Saving database (csv format) ...
-     Saving project...
-     Printing configuration file...
-     Saving database (binary format) ...
-     Saving project...
-     See you soon !
-\end{lstlisting}
+\input{section/OpenBDLMVisualizationTools}
 
-\section{Theory}
-\subsection{Linear gaussian state-space model}
+\input{section/OpenBDLMVersionControl}
 
-Bayesian dynamic linear models are a class of linear gaussian state-space models which can be described from the transition and the observation equations.
-The transition equation describes the dynamics of the system, and is formulated as
-\begin{equation}
-  \mathbf{x}_{t}=\mathbf{A}_{t}\mathbf{x}_{t-1}+\mathbf{w}_{t},\quad\left\{
-  \begin{array}{l}
-\mathbf{x}_{t}\sim \mathcal{N}(\bm{\mu}_{t},\bm{\Sigma}_{t})\\[4pt]
-\mathbf{w}_{t}\sim \mathcal{N}(\mathbf{0},
-\mathbf{Q}_{t}),
-\end{array}\right.
-\label{EQ:SSM_Transition}
-\end{equation}
-where, for each each time $t=1, \dots ,\mathtt{\text{T}}$, the variables $\mathbf{x}_{t}$ follow a Gaussian distribution with mean $\bm{\mu}_{t}$ and covariance matrix $\bm{\Sigma}_{t}$, $\mathbf{A}_{t}$ is the transition matrix, and $\mathbf{w}_{t}$ represents Gaussian model errors with zero mean and covariance matrix $\mathbf{Q}_{t}$.
-The variables $\mathbf{x}_{t}$ are usually referred to as hidden states because they are not directly observed.
-The relationship between the observations $\mathbf{y}_{t}$ and the hidden states $\mathbf{x}_{t}$ is given by the observation equation, such as
-\begin{equation}
-\mathbf{y}_{t}=\mathbf{C}_{t}\mathbf{x}_{t}+\mathbf{v}_{t},\quad\left\{\begin{array}{l}
-\mathbf{v}_{t}\sim \mathcal{N}(\mathbf{0},\mathbf{R}_{t}),
-\end{array}\right.
-\label{EQ:SSM_Observation}
-\end{equation}
-where $\mathbf{C}_{t}$ is the observation matrix, and $\mathbf{v}_{t}$ is the Gaussian measurement error with zero mean and covariance matrix $\mathbf{R}_{t}$.
-BDLMs are capable of analyzing multiple time series simultaneously.
-In case of dependencies between the time series, regression coefficients are added in $\mathbf{C}_{t}$.
-One particularity of BDLMs is their capacity to update the current estimated state with the current observations, thus allowing to perform online state inference of non-stationary time series.
+\input{section/OpenBDLMExampleSingleTimeSeries}
 
-\subsection{Kalman filter}
+\input{section/OpenBDLMExampleDependenceModel}
 
-The analytical solutions for the prediction, observation and update step are available through the Kalman filter (KF), which can be expressed in its short form as:
-\begin{equation}
-    \begin{split}
-      (\bm{\mu}_{t|t},\bm{\Sigma}_{t|t}, \mathcal{L}_{t}) = \text{Filter}(\bm{\mu}_{t-1|t-1},\bm{\Sigma}_{t-1|t-1},\mathbf{y}_{t}, \mathbf{A}_{t},  \mathbf{Q}_{t},   \mathbf{C}_{t},  \mathbf{R}_{t})
-      \end{split}
-\label{EQ:KF}
-\end{equation}
-where $\mathcal{L}_{t}$ is the marginal likelihood describing the probability of observing observations $\mathbf{y}_{t}$ at time $t$ given all the observations up to time $t-1$.
-The standard Kalman filter expressed in Eq.~\ref{EQ:KF} can process stationary, trend stationary, and acceleration stationary time series, but it is not capable of handling non-stationary time-series, which is a major limitation when it comes to anomaly detection.
-The generalization of the Kalman Filter for non-stationary time-series is found in the Switching Kalman filter (SKF) equations.
+\input{section/OpenBDLMExampleAnomaly}
 
-\subsection{Switching Kalman filter}
+\input{section/OpenBDLMExampleCreatingSyntheticData}
 
-We may be interested in anomaly detection, that is, modelling and detecting the changes of behavior due to changes in the dynamics of the baseline response of the time-series.
-One way to model changing dynamics is to run in parallel a collection of ${\mathtt{\text{S}}}$ linear models, each having their own system dynamics $\mathbf{A}_{t}$ and $ \mathbf{Q}_{t}$.
-%In the Switching Kalman filter (SKF) approach \citep{Murphy1998}, a collection of $S$ linear models are run in parallel.
-%Each linear model has its own system dynamics (i.e their own $\mathbf{A}_{t}$ and $ \mathbf{Q}_{t}$ matrices).
-In such approach, a discrete markovian switching variable $s_{t}= 1, ..,j,.. ,\mathtt{\text{S}}$ with a transition probabilities matrix $\mathbf{Z}_{t}$ and probabilities $\bm{\pi}_{t}$ is introduced to indicate which dynamics is used at time $t$.
-The problem of incorporating switching dynamics into the model is that the state vector grows in a way that the dimension of the state vector at time $t$ is $\mathtt{\text{S}}^{t}$.
-Therefore, the estimation quickly becomes intractable.
-One solution is to merge at each time $t$ the states sharing the same dynamics using gaussian mixture.
-This technique, known as the Switching Kalman filter, allows to keep the dimension of the state vector equal to $S$ at each time $t$.
-The SKF algorithm can be divided into two successive steps, (i) the ``Filter'' and, (ii) the ``Collapse'' step.
-Following the notation used in Eq.~\ref{EQ:KF} the first step can be expressed in its short form as:
-\begin{equation}
-  \begin{split}
-  (\bm{\mu}_{t|t}^{i(j)},\bm{\Sigma}_{t|t}^{i(j)}, \mathcal{L}_{t}^{i(j)}) = \text{Filter}(\bm{\mu}_{t-1|t-1}^{i},\bm{\Sigma}_{t-1|t-1}^{i}, \mathbf{y}_{t}, \mathbf{A}_{t}^{j},  \mathbf{Q}_{t}^{i(j)},   \mathbf{C}^{j}_{t},  \mathbf{R}^{j}_{t})
-    \end{split}
-\label{EQ:SKF1}
-\end{equation}
-where the superscripts $i(j)$ indicates that the current state at time $t$ is $s_{t}=j$ given the state at time $t-1$ is $s_{t-1}=i$, and
-$ \mathcal{L}_{t}^{i(j)}$  the marginal likelihood that describes the probability of observing observations $\mathbf{y}_{t}$ at time $t$ given all the observations up to time $t-1$, and given the state at time $t−1$ was $s_{t-1} = i$ and that it switches to $s_{t} = j$ at time $t$.
-The state probability $\mathbf{\pi}_{t|t}^{j}$ at each time $t$ is computed from the previous state probabilities $\bm{\pi}_{t-1|t-1}$, the likelihood $\mathcal{L}_{t}^{i(j)}$, and the transition probability $Z_{t}^{i(j)}$, such as
-\begin{equation}
-\pi_{t|t}^{j} = \sum_{i=1}^{\mathtt{\text{S}}} \frac{\mathcal{L}_{t}^{i(j)} \pi_{t-1|t-1}^{i} Z^{i(j)}_{t} }{c},
-\label{EQ:StateProbability}
-\end{equation}
-where $c$ is a normalization constant ensuring that $ \sum_{j=1}^{\mathtt{\text{S}}} \pi_{t|t}^{j} = 1 $.
-Moreover, the state switching probability is defined as
-\begin{equation}
-W_{t-1|t}^{i(j)} = \frac{\mathcal{L}_{t}^{i(j)} \pi_{t-1|t-1}^{i} Z^{i(j)}_{t} }{c\pi_{t|t}^{j}}.
-\label{EQ:StateSwitchingProbability}
-\end{equation}
-$W_{t|t-1}^{i(j)}$ are required to perform the ``Collapse'' step, which can be expressed in its short form as:
-\begin{equation}
-  \begin{split}
-  (\bm{\mu}_{t|t}^{j},\bm{\Sigma}_{t|t}^{j}) = \text{Collapse}(\bm{\mu}_{t|t}^{i(j)},\bm{\Sigma}_{t|t}^{i(j)}, W_{t-1|t}^{i(j)} );
-    \end{split}
-\label{EQ:SKF2}
-\end{equation}
-where state switching probabilities $W_{t|t-1}^{i(j)}$ are used as weighting factors for the gaussian mixture.
-From Eq.~\ref{EQ:SKF2}, it is clear that the SKF algorithm provides a set a $\mathtt{\text{S}}$ state vectors at each time $t$.
-However, for the ease of interpretation, it is generally more convenient to have a single state vector at each time $t$.
-Therefore, we hereafter introduce the ``Merge'' step.
-Similarly to the ``Collapse'' step of the SKF algorithm, the ``Merge'' step uses the gaussian mixture technique, and it can be expressed in its short form as:
-\begin{equation}
-  \begin{split}
-  (\bm{\mu}_{t|t},\bm{\Sigma}_{t|t}) = \text{Merge}(\bm{\mu}_{t|t}^{j},\bm{\Sigma}_{t|t}^{j},  \pi_{t|t}^{j} );
-    \end{split}
-\label{EQ:SKFCollapse}
-\end{equation}
-where the state probabilities $\pi_{t|t}^{j}$ is used as weighting factors for the gaussian mixture.
+\input{section/OpenBDLMFAQ}
 
-\subsection{Model identification}
-The matrices $\mathbf{A}_{t}$,  $\mathbf{Q}_{t}$,   $\mathbf{C}_{t}$ and  $\mathbf{R}_{t}$ depend on a set of model parameters $\bm{\theta}$.
-In most cases, $\bm{\theta}$ are unknown, and they can be learned from a training dataset $\mathbf{y}_{1:\mathtt{Tr}}$.
-The procedure of learning the model parameters is hereafter referred to as model parameters learning, or model identification.
-\subsubsection{Maximum log A Posteriori (MAP)}
+\input{section/OpenBDLMReferenceTheory}
 
-The log a posteriori probability density function (PDF) is defined as
-\begin{equation}
-%\begin{array}{rcl}
-\ln p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}})  \propto \, \ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta) + \ln p(\bm\theta),
-%\end{array}
-\label{EQ:BT}
-\end{equation} 
-where $p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)$ is the likelihood PDF,  $p(\bm\theta)$ is the prior PDF.
-The likelihood PDF is the joint prior probability of observations, that is, plausibility of the available observations $\mathbf{y}_{1:\mathtt{Tr}}$ given the parameter vector $\bm\theta$.  
-Assuming that the observations are independent from each other, the joint log-likelihood function is defined as the sum of the marginal log-likelihoods, such as 
-\begin{equation}
-\ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)  = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln p(\mathbf{y}_{t}|\mathbf{y}_{1:t-1},\bm \theta) = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln \left[ \sum_{j=1}^{\mathtt{\text{S}}} \sum_{i=1}^{\mathtt{\text{S}}} \mathcal{L}_{t}^{i(j)} \pi_{t-1|t-1}^{i} Z_{t}^{i(j)} \right] \text{,}
-\label{EQ:LP}
-\end{equation}
-where $\mathcal{L}_{t}^{i(j)}$ and  $\pi_{t-1|t-1}^{i}$ are computed at each time $t$ from the Switching Kalman Filter; $\mathtt{S}$ is the total number of model class, and the values of $Z_{t}^{i(j)}$ are known from the current set of model parameters.
-The maximum log a posteriori procedure consists in identifying the point estimates by maximizing the log A Posteriori PDF, such as
-\begin{equation*}
-\bm\theta^{*} = \underset{\bm\theta}{\text{arg}\max}\left[\ln p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}}) \right] \text{,}
-\end{equation*}
-where $\bm\theta^{*}$ are the optimized model parameters values.
-
-\subsubsection{Maximum log Likelihood Estimation (MLE)}
-
-The Maximum log Likelihood Estimation (MLE) is a special case of the MAP where the prior PDF $p(\bm\theta)$ is assumed to be uniform.
-Therefore, the Maximum log Likelihood procedure consists in identifying the point estimates by maximizing the log likelihood PDF, such as
-\begin{equation*}
-\bm\theta^{*} = \underset{\bm\theta}{\text{arg}\max}\left[\ln  p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta) \right] \text{,}
-\end{equation*}
-where $\bm\theta^{*}$ are the optimized model parameters values.
-
-
-\subsubsection{Laplace Approximation}
-
-The MAP and MLE are point estimation methods which do not take into account the uncertainty in the parameter estimates. 
-The estimation of the uncertainties in the model parameters estimates can be addressed using the Laplace approximation.
-\begin{gather}
-\begin{aligned}
-p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}}) & \approx  \mathcal{N}\left(\bm\theta;\bm\theta^{*},-\mathcal{H}(\bm\theta^{*})^{-1}\right) \text{for the MAP} \\
-p(\mathbf{y}_{1:\mathtt{Tr}} | \bm\theta) & \approx  \mathcal{N}\left(\bm\theta;\bm\theta^{*},-\mathcal{H}(\bm\theta^{*})^{-1}\right) \text{for the MLE},
-\label{EQ: LaA}
-\end{aligned}
-\end{gather}
-where $\mathcal{H}(\bm\theta^{*})$ is the second derivative of the log a posteriori or log likelihood PDF evaluated at the optimal parameter values $\bm\theta^{*}$. 
-
-\subsubsection{Parameter-wise Newton-Raphson}
-
-The parameter-wise Newton-Raphson algorithm is an iterative approach which can be used to find the model parameters that correspond to the maximum of a target PDF, hereafter noted $\mathcal{L}_{1:\mathtt{Tr}}(\bm{\theta})$.
-The function $\mathcal{L}_{1:\mathtt{Tr}}(\bm{\theta})$  is either the log a posteriori or the log likelihood PDF.
-One iteration of the Newton-Raphson algorithm is
-\begin{equation}
-\bm{\theta}_{\text{new}}  = \bm{\theta}_{\text{old}} - \lambda \frac{\nabla \mathcal{L}_{1:\mathtt{Tr}}(\bm{\theta}_{\text{old}}^{i}) }{  \nabla^{2} \mathcal{L}_{1:\mathtt{Tr}}(\bm{\theta}_{\text{old}}^{i})},
-\label{EQ:NR}
-\end{equation}
-where $i$ is the index of the parameter being learned, $\lambda$ is the learning rate, $\nabla$ the first derivative, $\nabla^{2}$ the second derivative.
-$\bm{\theta}_{\text{old}}$ and $\bm{\theta}_{\text{new}}$ are the previous and updated vector of model parameters. 
-One parameter is updated at each iteration.
-The convergence of each model parameters is reached when
-\begin{equation}
-\left\{\begin{array}{ccc}
-\mathcal{L}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{old}}) &<&\mathcal{L}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{new}})\\[4pt]
-\left|\mathcal{L}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{new}}) -  \mathcal{L}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{old}})\right| &\leq& \tau \cdot \left|\mathcal{L}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{old}})\right|
-\end{array}\right.,
-\label{EQ:STC}
-\end{equation}
-where $\tau$ is a termination tolerance.
-The Newton-Raphson algorithm stops when each model parameters has reached the convergence.
-In most cases. the derivatives of $\mathcal{L}_{1:\mathtt{Tr}}(\bm{\theta})$ can not be computed analytically, and the derivatives are approximated numerically using the central differentiation scheme, such as
-\begin{gather}
-\begin{aligned}
- \nabla \mathcal{L}_{1:\mathtt{Tr}}(\bm\theta^{i}) & = \frac{\partial \mathcal{L}_{1:\mathtt{Tr}} (\bm\theta) }{\partial \theta^{i}} \approx \frac{\mathcal{L}_{1:\mathtt{Tr}} (\bm\theta + \Pi(i)\Delta \theta^{i} )  -  \mathcal{L}_{1:\mathtt{Tr}} (\bm\theta - \Pi(i)\Delta \theta^{i} ) }{2\Delta \theta^{i}}  \\
- \nabla^{2} \mathcal{L}_{1:\mathtt{Tr}}(\bm\theta^{i}) & = \frac{\partial^{2} \mathcal{L}_{1:\mathtt{Tr}} (\bm\theta) }{\partial^{2} \theta^{i}} \approx \frac{\mathcal{L}_{1:\mathtt{Tr}} (\bm\theta + \Pi(i)\Delta \theta^{i} )  -  2 \mathcal{L}_{1:\mathtt{Tr}} (\bm\theta) +  \mathcal{L}_{1:\mathtt{Tr}} (\bm\theta - \Pi(i)\Delta \theta^{i} ) }{(\Delta \theta^{i})^{2}},
-\label{EQ:numericaldiff}
-\end{aligned}
-\end{gather}
-where $\Delta \theta^{i}$ is a small perturbation to the value of the $i^{\text{th}}$ model parameters and $\Pi(i)$ is an indicator vector for which all values are equal to $0$, except the $i^{\text{th}}$ value which is equal to one.
-
-\subsubsection{Model parameter space transformation}
-
-There are some model parameters which are defined in a bounded interval.
-%The standard deviation model parameters are real numbers that lie in the $[0, +\text{Inf}]$ interval.
-%The autoregression coefficient model parameters are real numbers that lie in the $[0, 1]$ interval.
-During the learning procedure, it may happen that new model parameters $\bm\theta_{\text{new}}$ are proposed outside their valid interval.
-Those parameters must be rejected, which strongly hinders the computational efficiency of the learning algorithm.
-One possibility is to transform the bounded parameters space into an unbounded parameters space, where the parameters lie in the $[ -\text{Inf}, +\text{Inf} ]$ interval, and to perform the learning procedure in the transformed, unbounded, space.
-The transformation is done using a function $g(.)$ so that, 
-\begin{equation}
-\theta^{i, \text{tr}} = g(\theta^{i}) \text{, }\quad \theta^{i, \text{tr}} \in [-\text{Inf}, +\text{Inf} ] \text{.}
-\end{equation}
-The choice of the function $g(.)$ depends on the bound of $\theta$. 
-Three cases generally occur:
-\begin{itemize}
-\item $ \theta \in [-\text{Inf}, +\text{Inf} ]$ , $g(\theta) = 1$, so that $\theta^{\text{tr}} = \theta$ and $\theta = \theta^{\text{tr}} $
-\item $ \theta \in [0, +\text{Inf} ]$, $g(\theta) = \ln(\theta)$, so that $\theta^{\text{tr}} = \ln(\theta) $ and $\theta = e^{\theta^{\text{tr}}} $
-\item $ \theta \in [\text{a}, \text{b}]$, $g(\theta) = \text{sigmoid}(\theta)$, so that $\theta^{\text{tr}} = -\ln \left( \frac{b-a}{\theta-a} - 1\right) $, and $\theta = \left( \frac{b-a}{1+e^{-\theta^{\text{tr}}}} + a \right)$
-\end{itemize}
-For instance, the standard deviation model parameters are real numbers that lie in the $[0, +\text{Inf}]$ interval and the logarithme transformation is used.
-Moroever, the autoregression coefficient model parameters are real numbers that lie in the $[0, 1]$ interval, and the sigmoid transformation is used.
-
-\section{Block component}
-\subsection{Local Level}
-\subsection{Local Trend}
-\subsection{Local Acceleration}
-\subsection{Local Level Trend compatible}
-\subsection{Local Level Acceleration compatible}
-\subsection{Local Trend Acceleration compatible}
-\subsection{Periodic}
-\subsection{First order Autoregressive}
-
-\section{Dependencies}
-
-\section{OpenBDLM inputs and outputs}
-
-\subsection{Inputs}
-\label{SS:OpenBDLMinput}
-OpenBDLM\_main accepts three types of input
-\begin{itemize}
-  \item \textbf{no input} \\ 
-  
-  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]![data, model, estimation, misc]=OpenBDLM_main();!} \\  
-  %the program requests user's inputs from the command line. 
-  \item  \textbf{the name of configuration file given as a character vector}\\ 
-  
-    \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]![data, model, estimation, misc]=OpenBDLM_main('CFG_DEMO.m');!} \\ 
-      
-    %a configuration file (see Section~\ref{S:CFGFile}) is used to initialize the project
-  \item \textbf{a cell array of character vectors} \\
-  
-\raggedright{\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]![data, model, estimation, misc]=OpenBDLM_main(\{'''CFG_DEMO.m''','''Q'''\});!}} \\
- %the program reads pre-loaded commands stored in an input cell-array of character vectors.
-\end{itemize}
-
-\subsection{Outputs}
-
-\subsubsection{data, model, estimation, misc}
-OpenBDLM\_main returns four variables as \MATLAB{}  structures:
-\begin{itemize}
- \item   \lstinline[basicstyle = \mlttfamily \small \bf]!data!, which stores the time series used for the analysis.
- \item  \lstinline[basicstyle = \mlttfamily \small \bf]!model!, which stores all the information about the model used for the analysis
- \item   \lstinline[basicstyle = \mlttfamily \small \bf]!estimation!, which  stores the hidden states estimation computed using the current data and model.
- \item  \lstinline[basicstyle = \mlttfamily \small \bf]!misc!, which stores internal variables
-\end{itemize}
-
-\subsubsection{DATA\_, CFG\_, PROJ\_ and LOG\_ files}
-OpenBDLM reads and/or create four types of files:
-
-\begin{itemize}
-    \item \textbf{data file} named with a prefix \textbf{DATA\_} are MAT binary files that store the time series data (see Section~\ref{SS:InputDataformattingSynchronous}). These files are located in the ``data/mat'' subfolder.
-    \item \textbf{configuration file} named with the prefix \textbf{CFG\_} are  \MATLAB{} scripts used to initialize and export a project (see Section~\ref{S:CFGFile}). These files are located in the ``config\_files'' subfolder.
-    \item \textbf{project file} named with the prefix \textbf{PROJ\_} are MAT binary files that stores a full project for further analysis. These files are located in the ``saved\_projects'' subfolder.
-    \item \textbf{log file} named with the prefix \textbf{LOG\_} are plain TEXT files that record events occurring during the program run. These files are located in the ``log\_files'' subfolder.
-\end{itemize}
-
-%If you do not see anything except \MATLAB{} errors verify your \MATLAB{} version, and your \MATLAB{} path. Be sure that you run the program from the top-level of \textbf{OpenBDLM-master} folder, not from another folder.\\
-
-%\section{Bayesian dynamic linear models}
-%
-%Bayesian dynamic linear models (hereafter referred to as BDLMs) are a class of linear gaussian state-space models which can be described from the transition and the observation equations. % (\cite{West1999book}).
-%\subsection{Transition equation} 
-%The transition equation describes the dynamics of the system, and is formulated as
-%\begin{equation}
-%  \mathbf{x}_{t}=\mathbf{A}_{t}\mathbf{x}_{t-1}+\mathbf{w}_{t},\quad\left\{
-%  \begin{array}{l}
-%\mathbf{x}_{t}\sim \mathcal{N}(\bm{\mu}_{t},\bm{\Sigma}_{t})\\[4pt]
-%\mathbf{w}_{t}\sim \mathcal{N}(\mathbf{0},
-%\mathbf{Q}_{t}),
-%\end{array}\right.
-%\label{EQ:SSM_Transition}
-%\end{equation}
-%where, for each each time $t=1, \dots ,T$, the variables $\mathbf{x}_{t}$ follow a Gaussian distribution with mean $\bm{\mu}_{t}$ and covariance matrix $\bm{\Sigma}_{t}$, $\mathbf{A}_{t}$ is the transition matrix, and $\mathbf{w}_{t}$ represents Gaussian model errors with zero mean and covariance matrix $\mathbf{Q}_{t}$.
-%The variables $\mathbf{x}_{t}$ are usually referred to as hidden states because they are not directly observed.
-%\subsection{Observation equation}
-%The relationship between the observations $\mathbf{y}_{t}$ and the hidden states $\mathbf{x}_{t}$ is given by the observation equation, such as
-%\begin{equation}
-%\mathbf{y}_{t}=\mathbf{C}_{t}\mathbf{x}_{t}+\mathbf{v}_{t},\quad\left\{\begin{array}{l}
-%\mathbf{v}_{t}\sim \mathcal{N}(\mathbf{0},\mathbf{R}_{t}),
-%\end{array}\right.
-%\label{EQ:SSM_Observation}
-%\end{equation}
-%where $\mathbf{C}_{t}$ is the observation matrix, and $\mathbf{v}_{t}$ is the Gaussian measurement error with zero mean and covariance matrix $\mathbf{R}_{t}$.
-%BDLMs are capable to analyze multiple time series simultaneously.
-%In case of dependencies between the time series, regression coefficients are added in $\mathbf{C}_{t}$. % (\cite{Goulet2017}).
-%One particularity of BDLMs is their capacity to update the current predicted state with the current observations using the Kalman filter equations.
-%The Kalman filter equations are computationnally efficient, as they are solved fully analytically.
-%BDLMs are capable to process non-stationnary time series without retraining the model. %, which is well suited to perform online inference.
-
-\section{OpenBDLM running modes}
-\subsection{Interactive mode}
-
-In the interactive mode, OpenBDLM requests and reads input from the user.
-The input must be provided from the keyboard and be typed in the Matlab command line.
-Each input is validated after typing $\dlsh$.
-
-\subsection{Batch mode}
-
-In the batch mode, the inputs must be provided in advance by the user and stored in a cell array of characters vector.
-OpenBDLM reads sequentially the provided input and it performs the analysis silently as requested from the inputs.
-The batch mode requires a good previous knowledge of the interactive mode because the set of input must be provided prior analysis.
-
-\section{Configuration file}
-\label{S:CFGFile}
-\subsection{Purpose}
-
-The configuration files are \MATLAB{} scripts that are used to initialize a project.
-The name of a configuration file can be given as a input to the function \hfill \break
-OpenBDLM\_main.m, as mentionned in Section~\ref{SS:OpenBDLMinput}.
-The configuration file must follow a specific organization.
-It must be divided into 6 sections: Project name, Data, Model structure, Model parameters, Initial states values and Options.
-The first three sections Project name, Data, Model structure are required.
-The last three sections Model parameters, Initial states values and Options are optional.
-
-\subsubsection{Project name}
-This section of the configuration file aims at giving the name of the project as a vector of characters stored in the field \textbf{ProjectName}  of the \MATLAB{} structure \textbf{misc}.
-
-\subsubsection{Data}
-
-This section of the configuration file aims at loading the data from a DATA\_ file located in ``/data/mat'' subfolder.
-The file must follow the format described in Section~\ref{SS:InputDataformattingSynchronous}.
-The timestamps values, the amplitude values and the labels values must be stored in the fields \lstinline[basicstyle = \mlttfamily \small \bf]!timestamps!, \lstinline[basicstyle = \mlttfamily \small \bf]!values!, and \lstinline[basicstyle = \mlttfamily \small \bf]!labels! of the \MATLAB{} structure named \lstinline[basicstyle = \mlttfamily \small \bf]!data!.
-
-\subsubsection{Model structure}
-
-This part of the configuration file aims at defining the model in a \MATLAB{} structure named \lstinline[basicstyle = \mlttfamily \small \bf]!model.component!.
-The structure \lstinline[basicstyle = \mlttfamily \small \bf]!model.component! must have three fields, named \lstinline[basicstyle = \mlttfamily \small \bf]!model.component.block!, \lstinline[basicstyle = \mlttfamily \small \bf]!model.component.ic!, and \lstinline[basicstyle = \mlttfamily \small \bf]!model.component.const!.
-
-\begin{itemize}
-
-\item \textbf{model.component.block} aims at defining the block components associated with each time-series.\\
-
-The field \textbf{block} stores a $1\times \mathtt{C}$ cell array, where $\mathtt{C} = \{1,2 \}$ is the number of model classes.
-Each cell array is a $1\times \mathtt{M}$ cell array of array, where $\mathtt{M}$ is the number of time series.
-Each block component is associated with a reference number:
-\begin{itemize}
-\item 11: Local level 
-\item 12: Local level plus local trend
-\item 13: Local level plus local trend plus local acceleration
-\item 21: Local level compatible with local trend
-\item 22: Local level compatible with local acceleration
-\item 23: Local trend compatible with local acceleration
-\item 31: Periodic
-\item 41: First-order autoregressive
-\item 51: Kernel regression
-\end{itemize}
-
-\item  \textbf{model.component.const} aims at constraining model parameters between block components of different model classes.\\
-
-The field \textbf{const} stores a $1\times \mathtt{C}$ cell array, where $\mathtt{C} = \{1, 2 \}$ is the total number of model classes.
-It is defined only if $\mathtt{C} = 2$.
-The first cell is empty, and the second cell is a $1\times \mathtt{M}$ cell array of array, where $\mathtt{M}$ is the number of time series.
-The array contains $0$ and $1$ to indicate which block components of the second model class has the same model parameters than the corresponding component of the first model class. 
-A value of $1$ indicates that the model parameters are constrained between the block components of the two model classes, $0$ otherwise.
-
-\item  \textbf{model.component.ic} aims at defining the dependencies between the time-series.\\
-
-The field \textbf{ic} stores a $1\times \mathtt{M}$ cell array of $1\times \mathtt{M}-1$ array, where $\mathtt{M}$ is the number of time series.
-Each time-series depend on the time-series corresponding to the indexes given in the $\mathtt{M}$ arrays.
-If the array is empty, the time-series is independent.
-
-\end{itemize}
-
-
-\subsubsection{Model parameters}
-
-This part of the configuration file aims at defining the model parameters properties.
-The model parameters properties are stored in the field named \lstinline[basicstyle = \mlttfamily \small \bf]!model.param_properties! of the \MATLAB{} structure \textbf{model}.
-The field \lstinline[basicstyle = \mlttfamily \small \bf]!model.param_properties! stores $\mathtt{K} \times 10$ cell array, where $\mathtt{K}$ is the total number of model parameters.
-\begin{itemize}
-\item the column 1 must be a character vector that gives the name of the model parameters (e.g. \textquotesingle sigma\_w\textquotesingle). 
-\item the column 2 must be a character vector that gives the reference name of the block associated with the parameter (e.g \textquotesingle LL\textquotesingle ).
-\item the column 3 must be a character vector that gives the index corresponding to the model class associated with the parameter (e.g  either \textquotesingle 1\textquotesingle or \textquotesingle 2\textquotesingle).
-\item the column 4 must be a character vector that gives the index corresponding to the observation associated with the parameter (e.g  either \textquotesingle 3\textquotesingle).
-\item the column 5 must be a $1\times2$ array that gives the bound of the parameter(e.g  [NaN, NaN],  [0, Inf], [0, 1]). 
-The bounds are used to transform bounded model parameters from bounded to unbounded space during the optimization process.
-\item the column 6 must be character vector that gives the type of the prior used during the optimization process (e.g  either \textquotesingle N/A\textquotesingle{} or \textquotesingle{} normal\textquotesingle{}). 
-\textquotesingle N/A\textquotesingle{} indicates that no prior is used.
-\item the column 7 must be a real number that gives the mean of the prior when a prior of type \textquotesingle normal\textquotesingle{} is used, otherwise it must be set to NaN
-\item the column 8 must be a real number that gives the mean of the prior when a prior of type \textquotesingle normal\textquotesingle{} is used, otherwise it must be set to NaN
-\item the column 9 must be a real number that gives the value of the model parameters
-\item the column 10 must be an integer that gives the reference number of the model parameters. The model parameters with the same reference number are constrained to each other.
-\end{itemize}
-
-\subsubsection{Initial states values}
-This part of the configuration file aims at defining the initial (at time $t=0$) states values.
-The mean and covariance initial hidden states values are stored in the \textbf{model.initX} and \textbf{model.initV} fields.
-The initial probability for the model class is stored in the field \textbf{model.initS}.
-
-\begin{itemize}
-\item \textbf{model.initX}  is a $1\times \mathtt{C}$ cell array of array, where $\mathtt{C} = \{1, 2 \}$ is the total number of model classes.
-Each array is a $\mathtt{L}\times1$ array of real number that stores the initial mean values associated with each hidden states components, where $\mathtt{L}$ is the total number of hidden states components associated with the model.
-\item \textbf{model.initV} a $1\times \mathtt{C}$ cell array of array, where $\mathtt{C} = \{1, 2 \}$ is the total number of model classes.
-Each array is a $\mathtt{L}\times\mathtt{L}$ array of real number that stores the initial variance and covariances values associated with each hidden states components.
-\item \textbf{model.initS} a $1\times \mathtt{C}$ cell array of array, where $\mathtt{C} = \{1, 2 \}$ is the total number of model classes. 
-Each array is a  $1\times1$ array of real number that gives the initial probability for the model class.
-
-\end{itemize}
-
-\subsubsection{Options}
-This part of the configuration file aims at defining the options that control different aspect of the software regarding the data pre-processing, the optimization, the state estimation, and the aspect of the graphical output.
-The options are stored in the field named \text{options} of the \MATLAB{} structure \textbf{misc}.
-\begin{itemize}
-
-\item options for the data pre-processing
-
-\begin{itemize}
-\item \textbf{misc.options.NaNThreshold}  real number that gives, in percent, the amount of missing data allowed at each time slice. Default: 100.
-\item \textbf{misc.options.Tolerance} real number that gives the gives the duration (in number of days) after which two timestamps are not considered equal. Default: $10^{-6}$.
-
-\end{itemize}
-
-
-\item options for the optimization
-
-\begin{itemize}
-\item \textbf{misc.options.trainingPeriod}  $1\times2$ array of real number that defines the training period, given in number of days since the first timestamp. Default: [1 Inf]. 
-\item \textbf{misc.options.isParallel} logical that triggers or not the parallel computation for approximating the gradient in the optimization procedure. Note that parallel computation require the \MATLAB{} Parallel Computing Toolbox. Default: true.
-\item \textbf{misc.options.maxIterations} integer that gives the maximum number of iterations for the optimization procedure. Default: 100.
-\item \textbf{misc.options.maxTime} real number that gives, in minutes, the maximum amount of  time to spend for the optimization procedure. Default: 60.
-\item \textbf{misc.options.isMAP} logical that triggers or not the Maximum A Posteriori (MAP) estimation of the model parameters during the optimization procedure. MAP estimation includes prior information about the model parameters. Default: false.
-\item \textbf{misc.options.isPredCap} logical.  if isPredCap = true, the Prediction Capacity (i.e. the log-likelihood over a test dataset) is used to drive the optimization process, otherwise the log-likelihood over the full dataset is used. Default: false.
-\item \textbf{misc.options.isLaplaceApprox} logical. if isLaplaceApprox = true the full Laplace approximation around the optimized model parameters values is computed. Default: false.
-\item \textbf{misc.options.isMute} logical. is isMute = true, no message are output during the optimization procedure. Default: false.
-
-\end{itemize}
-
-\item options for the estimation
-
-\begin{itemize}
-\item \textbf{misc.options.MaxSizeEstimation} real number that gives the maximum size, in Mb, for which the hidden states estimations are saved in the PROJ\_ file at the end of the analysis. Default: 100.
-\item \textbf{misc.options.MethodStateEstimation} vector of character. It must be either \textquotesingle kalman \textquotesingle{} or \textquotesingle UD \textquotesingle{}. it gives the method used for the estimation of the hidden states. Default: \textquotesingle kalman \textquotesingle{}
-\end{itemize}
-
-\item options for the graphical outputs
-
-\begin{itemize}
-\item \textbf{misc.options.FigurePosition} $1\times4$ array of real number that gives the location and size of the drawable area, specified as a vector of the form [left bottom width height] in the current units of \MATLAB{}. Default: $[100 100 1300 270]$
-\item \textbf{misc.options.isSecondaryPlot} logical. if isSecondaryPlot= true, a closeup over two weeks is plotted at the right of each figure. Default: false.
-\item \textbf{misc.options.Subsample} integer that controls the number of points to plot in the figure. The number of points to plot is divided by a factor given by the values of Subsample. Default: 1.
-\item \textbf{misc.options.Linewidth} real number that controls the width of the line plotted in the figure. Default: 1.
-\item \textbf{misc.options.ndivx} integer that controls the number of labels for abscissa x-axis in each figure. Default: 4.
-\item \textbf{misc.options.ndivy} integer that controls the number of labels for ordinate y-axis in each figure. Default: 3.
-\item \textbf{misc.options.Xaxis\_lag} real number that gives in number of days the amount of time the x-axis is shifted on each figure. Default: 0. 
-\item \textbf{misc.options.isExportTEX} logical. if isExportTEX=true, the figure are exported in \LaTeX{} format. Default: false.
-\item \textbf{misc.options.isExportPNG} logical. if isExportPNG=true, the figure are exported in PNG format. Default: false.
-\item \textbf{misc.options.isExportPDF} logical. if isExportPDF=true, the figure are exported in PDF format. Default: false.
-\end{itemize}
-
-
-\end{itemize}
-
-
-%\begin{lstlisting}[linewidth=\linewidth, style=Matlab-editor,  basicstyle = \mlttfamily \scriptsize, backgroundcolor = \color{matlab-yellow}, caption = {Example of a configuration file}, label=LST:CFGFile, ,captionpos=b]
-%%
-%%                    OpenBDLM configuration file                          
-%%          Autogenerated by OpenBDLM on 22-Nov-2018 17:18:09              
-%%
-%%% A - Project name
-%misc.ProjectName='TEST';
-%
-%%% B - Data
-%dat=load('DATA_TEST.mat'); 
-%data.values=dat.values;
-%data.timestamps=dat.timestamps;
-%data.labels={'TS01'};
-%
-%%% C - Model structure 
-%% Components reference numbers
-%% 11: Local level
-%% 12: Local trend
-%% 13: Local acceleration
-%% 21: Local level compatible with local trend
-%% 22: Local level compatible with local acceleration
-%% 23: Local trend compatible with local acceleration
-%% 31: Periodic
-%% 41: Autoregressive
-%% 51: Kernel regression
-%% 61: Level Intervention
-%
-%% Model components
-%% Model 1
-%model.components.block{1}={[11 ] };
-%
-%% Model component constrains | Take the same  parameter as model class #1
-% 
-%% Model inter-components dependence | {[components form dataset_i depends on components from  dataset_j]_i,[...]}
-%model.components.ic={[ ] };
-%
-%
-%%% D - Model parameters 
-%model.param_properties={
-%%    #1           #2     #3     #4   #5            #6     #7   #8     #9     #10
-%%    Param name   Block  Model  Obs  Bound         Prior  Mean Std    Values  Ref
-%     '\sigma_w',   'LL',  '1',   '1', [NaN  NaN  ],  'N/A', NaN, NaN,   0   ,   1      %#1   
-%     '\sigma_v',     '',  '1',   '1', [0  Inf    ],  'N/A', NaN, NaN,   0.01,   2      %#2   
-%};
-%
-%%% E - Initial states values 
-%% Initial hidden states mean for model 1:
-%model.initX{ 1 }=[	10    ]';
-%
-%% Initial hidden states variance for model 1: 
-%model.initV{ 1 }=diag([ 	0.01   ]);
-%
-%% Initial probability for model 1
-%model.initS{1}=[1     ];
-%
-%%% F - Options 
-%misc.options.NaNThreshold=100;
-%misc.options.Tolerance=1e-06;
-%misc.options.trainingPeriod=[1  1096];
-%misc.options.isParallel=false;
-%misc.options.maxIterations=3;
-%misc.options.maxTime=60;
-%misc.options.isMAP=false;
-%misc.options.isPredCap=false;
-%misc.options.isLaplaceApprox=false;
-%misc.options.isMute=false;
-%misc.options.MaxSizeEstimation=100;
-%misc.options.MethodStateEstimation='kalman';
-%misc.options.FigurePosition=[100   100  1300   270];
-%misc.options.isSecondaryPlot=false;
-%misc.options.Subsample=1;
-%misc.options.Linewidth=1;
-%misc.options.ndivx=4;
-%misc.options.ndivy=3;
-%misc.options.Xaxis_lag=0;
-%misc.options.isExportTEX=false;
-%misc.options.isExportPNG=false;
-%misc.options.isExportPDF=false;
-%\end{lstlisting}
-
-
-
-\section{Data loading}
-
-\subsection{Input data format}
-
-OpenBDLM supports two types of input data format depending whether the time-series are synchronous, or not.
-The time-series are synchronous if they all share the same timestamps. % and have the same number of data points.
-Conversely, time-series are asynchronous if they do not all share the same timestamps.
-
-
-\subsubsection{Input data formatting for asynchronous time series}
-
-\paragraph{Comma Separated Values files}
-\label{PAR:CSVasync}
-
-%Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
-%If the data have already been synchronized, it is preferable to use properly formatted .MAT \MATLAB{} files (see Section~\ref{SS:MatFiles})
-One Comma Separated Values (.csv) file must be provided for each time series.
-The file is a two columns file that must be organized as shown in Listing~\ref{LST:CSV_Formatting}
-\begin{lstlisting}[ frame = single, linewidth = \linewidth, caption = CSV file example,  label = LST:CSV_Formatting, float = ht, ,captionpos=b]
-'name'            ,   '2000-01-01-22-00-00'
-737422            ,   0.40
-737423.5          ,   0.21
-737424            ,   0.548
-7374245.25        ,   NaN
-7374246           ,   0.57
-\end{lstlisting}    
-The first line of the file is the header.
-In the header, the first field must contain the label of the time-series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
-The second field is the date of the first timestamp given as a quoted delimited string, formatted as \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle.  
-For the remaining lines, the first field is the date given as a serial date number in number of days, given as a real number, and the second field is the magnitude of the physical quantity measured, given as a real number.
-The missing data must be indicated as NaN number.
-The .csv files must be stored in the ``OpenBDLM-master/data/csv'' subfolder.
-
-\subsubsection{Input data formatting for synchronous time series}
-\label{SS:InputDataformattingSynchronous}
-\paragraph{\MATLAB{} .MAT files}
-\label{PAR:MATfile}
-
-%\MATLAB{} binary .MAT data files can be used only if the time-series have already been synchronized.
-The \MATLAB{} binary .MAT file must contain three \MATLAB{} variables called \lstinline[basicstyle = \mlttfamily \bf \small]!labels!, \lstinline[basicstyle = \mlttfamily \small \bf]!timestamps!, and \lstinline[basicstyle = \mlttfamily \small \bf]!values!.
-%, as shown in Listing~\ref{LST:LoadData}.
-\begin{itemize}
-\item \lstinline[basicstyle = \mlttfamily \small \bf]!labels! is $1\times M$ cell array containing the reference name associated with each time-series, where $M$ is the number of time series.
-\item \lstinline[basicstyle = \mlttfamily \small \bf]!timestamps! is $N\times 1$ array containing the timestamps given as serial date number from January 0, 0000, where $N$ is the number of data samples.
-\item \lstinline[basicstyle = \mlttfamily \small \bf]!values! is $N\times M$ array containing the data amplitude values.
-\end{itemize}
- \MATLAB{} binary .mat files must be stored in the ``OpenBDLM-master/data/mat'' subfolder.
-
-\paragraph{Comma Separated Values files}
-
-See Paragraph~\ref{PAR:CSVasync} for .csv files formatting.
-
-\subsection{Output data format}
-
-Output data formatting is \MATLAB{} binary .MAT file (see Paragraph~\ref{PAR:MATfile}) and CSV files (see Paragraph~\ref{PAR:CSVasync}).
-
-\subsection{Data loading functions}
-
-\subsubsection{List of functions}
-\begin{itemize}
-\item \lstinline![data, misc, dataFilename]=DataLoader(misc)! Create a data file
-\item \lstinline![dataOrig, misc]=readMultipleCSVFiles(misc)!  Read data from multiple CSV files
-\item \lstinline![dat,label]=readSingleCSVFile(FileToRead, varargin)! Read a single CSV file
-\item \lstinline![misc, dataFilename] = saveDataBinary(data, misc, varargin)! Save data in a binary Matlab .mat file
-\item \lstinline![misc] = saveDataCSV(data, misc, varargin)! Save time series data in separate CSV files
-\end{itemize}
-
-\subsubsection{Dependency graph}
-
-\section{Data editing and pre-processing}
-
-Data editing prepares the data for analysis.
-Data editing includes time series selection, data analysis time period selection, missing data removal, and data  resampling.
-The time synchronization is performed automatically through the data editing process, when multiple time series are processed simultaneously.
-
-\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small,  linewidth = \linewidth, caption = OpenBDLM data editing menu,  label = LST:Editing_menu, float = hb, ,captionpos=b]
-- Choose from
-
-     1  ->  Select time series
-     2  ->  Select data analysis time period 
-     3  ->  Remove missing data
-     4  ->  Resample
-     5  ->  Change synchronization options
-
-     6  ->  Reset changes
-     7  ->  Save changes and continue analysis
-
-     choice >> 
-\end{lstlisting}    
-
-\subsection{Selection of time-series}
-\label{SS:SelectionTimeSeries}
-
-The selection of time-series allows to select only a subset of the time series in memory.
-The time series are automatically synchronized as time-series are added to (or removed from) the dataset.
-
-\subsection{Selection data analysis time period}
-\label{SS:SelectionPeriodAnalysis}
-
-The selection of the period of analysis allows to select only the data between two dates, given as \textquotesingle YYYY-DD-MM\textquotesingle {} format.
-If the second requested date exceeds the date corresponding to the last timestamp of the original dataset, padding with NaN values are performed. 
-The timestep for the NaN padding must be provided by the user.
-
-\subsection{Removing missing data}
-\label{SS:MissingDataRemoval}
-
-It is possible to control the maximum amount of NaN missing data allowed at each time slice. 
-The maximum amount of NaN allowed at each time slice is given in percent with respect to the total number of time-series.
-By default, the maximum amount of missing data is given by the value in misc.options.NaNThreshold.
-
-\subsection{Data resampling}
-\label{SS:DataResampling}
-Data resampling changes the sampling rate of the time-series according to a given timestep provided by the user. 
-If the requested timestep is higher than the original data timestep, NaN values are added.
-Conversely, if the requested timestep is lower than the original  data timestep, OpenBDLM averages the data amplitude values within non-overlapping fixed time windows, each having the duration of the requested timestep.
-The first time window starts at the first timestamp, and the new timestamps are assigned at the times corresponding to the middle of each time window.
-
-\subsection{Time synchronization options}
-\label{SS:synchronization}
-By default, the time synchronization in OpenBDLM is done by adding NaN values.
-The time synchronization is controlled by the \lstinline!NaNThreshold! and \lstinline!tolerance! variables.
-\lstinline!NaNThreshold!  is given in percent with respect to the total number of time-series.
-The variable \lstinline!tolerance! gives the duration (in number of days) after which two timestamps are not considered equal.
-The default values for \lstinline!NaNThreshold!  and \lstinline!tolerance! are given by misc.options.NaNThreshold and misc.options.tolerance. % $100$\% and $10^{-6}$ days, respectively. 
-
-\subsection{Data editing functions}
-
-\subsubsection{List of functions}
-
-\begin{itemize}
-\item \lstinline![data, misc]=chooseTimeSeries(data, misc)! Request the user to select some time series
-\item \lstinline![timesteps]=computeTimeSteps(timestamps)! Compute timestep vector from timestamps vector
-\item \lstinline!displayData(data, misc)! Display on screen the content of the data in memory
-\item \lstinline![FileInfo] = displayDataBinary(misc, varargin)! Display the list of DATA\_*.mat files
-\item \lstinline![data, misc, dataFilename]=editData(data, misc, varargin)!  Control script to edit dataset (selection, resampling, etc..)
-\item \lstinline![data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)!  Create a single time vector from a set of time series
-\item \lstinline![data_resample, misc]=resampleData(data, misc, varargin)! Resample dataset according to a given timestep.
-\item \lstinline![data, misc]=selectTimePeriod(data, misc)! Select data between two dates
-\end{itemize}
-
-\subsubsection{Dependency graph}
-
-\section{Model configuration}
-
-After loading and pre-processing the data, the next step of the analysis is the model configuration.
-The model configuration includes, (i) defining the number of model class, (ii) defining the dependencies between the time series in case of multiple time-series analysis, (iii) defining the block components which are assigned to each time series and model class, (iv) defining possible constrain between model parameters.
-%The dependencies between time-series as well as constrains between model parameters of different model class are also handled during the configuration of the model.
-The \MATLAB{} structure named \lstinline[basicstyle = \mlttfamily \bf]!model.component! stores all the information about the model configuration.
-The structure \lstinline[basicstyle = \mlttfamily \bf]!model.component! has three fields named  \lstinline[basicstyle = \mlttfamily \bf]!model.component.ic!, \lstinline[basicstyle = \mlttfamily \bf]!model.component.block!, and \lstinline[basicstyle = \mlttfamily \bf]!model.component.const!.
-
-\subsection{Dependencies between time-series}
-
-The field \lstinline[basicstyle = \mlttfamily \bf]!model.component.ic! stores the information between time-series dependencies.
-\textbf{model.component.ic} stores a $1\times \mathtt{M}$ cell array of $1\times \mathtt{M}-1$ array, where $\mathtt{M}$ is the number of time series.
-Each time-series depend on the time-series corresponding to the indexes given in the $\mathtt{M}$ arrays.
-If the array is empty, the time-series is independent.
-
-\subsection{Block components}
-
-OpenBDLM supports four types of block components: (1) baseline, (2) periodic, (4) periodic kernel regression, and (3) autoregressive 
-(1) The baseline component models the local mean of the time series. 
-There are three types of baseline proposed in the software: (i) level only model, (ii) trend model, (iii) acceleration model. 
-(2) The periodic component models harmonic periodic phenomena. %, which are most often related to external effects.
-(3) The periodic kernel regression models non-harmonic periodic pattern.
-(4) The autoregressive component models the time dependent model error.
-The field \textbf{block} stores a $1\times \mathtt{C}$ cell array, where $\mathtt{C} = \{1,2 \}$ is the number of model classes.
-Each cell array is a $1\times \mathtt{M}$ cell array of array, where $\mathtt{M}$ is the number of time series.
-Each block component is associated with a reference number:
-\begin{itemize}
-\item 11: Local level 
-\item 12: Local level plus local trend
-\item 13: Local level plus local trend plus local acceleration
-\item 21: Local level compatible with local trend
-\item 22: Local level compatible with local acceleration
-\item 23: Local trend compatible with local acceleration
-\item 31: Periodic
-\item 41: First-order autoregressive
-\item 51: Kernel regression
-\end{itemize}
-The number of hidden states associated with each block component may can be different. 
-Each block component can be replicated, each having its own set of model parameters. 
-For instance, two periodic components with periods of 365 days and 1 day can be used to model seasonal and daily variations, respectively.
-
-\subsection{Parameter constrains}
-
-The field \lstinline[basicstyle = \mlttfamily \bf]!model.component.const! stores a $1\times \mathtt{C}$ cell array, where $\mathtt{C} = \{1, 2 \}$ is the total number of model classes.
-It is defined only if $\mathtt{C} = 2$.
-The first cell is empty, and the second cell is a $1\times \mathtt{M}$ cell array of array, where $\mathtt{M}$ is the number of time series.
-The array contains $0$ and $1$ to indicate which block components of the second model class has the same model parameters than the corresponding component of the first model class. 
-A value of $1$ indicates that the model parameters are constrained between the block components of the two model classes, $0$ otherwise.
-
-\subsection{Number of model class}
-
-OpenBDLM aims at detecting changes of behavior due to changes in dynamics in the baseline of the time-series. 
-Therefore, the software handles model switching between the three types of baseline dynamics, that is, local level, local trend, and local acceleration models. 
-OpenBDLM supports a maximum of two model dynamics, the software supports six types of model switch: (1) from local level model to local trend model (and reverse), (2) from local level model to acceleration model (and reverse), (3) from local trend to acceleration model (and reverse).
-
-
-%\subsubsection{Local level}
-%\subsubsection{Local trend}
-%\subsubsection{Local acceleration}
-%\subsubsection{Local level compatible trend}
-%\subsubsection{Local level compatible acceleration}
-%\subsubsection{Local trend compatible acceleration}
-%\subsubsection{Periodic}
-%\subsubsection{Kernel regression}
-%\subsubsection{Residual - first order autoregressive}
-%\subsection{Model building functions}
-%
-%\section{Model parameters learning}
-%\subsection{Purpose}
-%\subsection{Posterior}
-%\subsubsection{Prior}
-%\subsubsection{Likelihood}
-%\subsection{Model parameters bounds and transformed spaces}
-%\subsubsection{Logarithmic transformation}
-%\subsubsection{Sigmoid transformation}
-%\subsection{Gradient-based optimization techniques}
-%\subsubsection{Newton-Raphson approach}
-%\subsubsection{Stochastic Gradient Ascent approach}
-%\subsection{Constrain model parameters between each others}
-%\subsection{Model parameters learning functions}
-
-
-%\section{Hidden states estimation}
-%\subsection{Purpose}
-%\subsection{Kalman equations}
-%\subsection{UD computations}
-%\subsection{Filtering}
-%\subsection{Smoothing}
-%\subsection{Hidden states estimation functions}
-%
-%\section{Data simulation}
-%\subsection{Purpose}
-%\subsection{Data simulation functions}
-%
-%\section{Visualization tools}
-%\subsection{Purpose}
-%\subsection{Data availability plots}
-%\subsection{Hidden states plots}
-%\subsection{Export figures options}
-%\subsection{Visualization tools functions}
-
-%\section{Version control}
-%\subsection{Purpose}
-%\subsection{Version control functions}
-
-%\section{OpenBLDM options}
-
-%     isMAP            - logical (optional)
-%                         if isMAP = true, Newton-Raphson algorithm is used to 
-%                         maximizing the log-posterior (log-prior+log-likelihood)
-%                         otherwise, Newton-Raphson algorithm is used to maximize the 
-%                         log-likelihood (MLE)
-%                         default = true
-%
-%     isPredCap        - logical (optional)
-%                         if isPredCap = true, the training set is splitted
-%                         into a training and testing dataset.
-%                         The log-likelihood computed over the testing
-%                         dataset is the Prediction Capacity (PredCap).
-%                         if isPredCap = true, the Prediction Capacity is
-%                         used to drive the optimization process, otherwise
-%                         the log-likelihood over the full dataset is used.
-%                         default = false
-%
-%     isLaplaceApprox  -  logical (optional)
-%                         if isLaplaceApprox = true, compute the full Laplace
-%                         approximation around the optimized model parameters
-%                         values to provide confidence interval
-%                         default: false
-%     maxIteration     - integer (optional)
-%                         maximum number of Newton-Rapshon iterations
-%                         default = 200
-%
-%     maxTime          - integer (optional)
-%                         maximum time in minutes to spend in running the
-%                         Newton-Rapshon algorithm
-%                         default = 60 
-%
-%     isParallel       - logical (optional)
-%                         if isParallel = true, performs parallel
-%                         computations
-%                         default: true
-%
-%     isMute           - logical (optional)
-%                         if isMute = false, throw information on screen
-%                         default: false
-%
-%     isLaplaceApprox  -  logical (optional)
-%                         if isLaplaceApprox = true, compute the full Laplace
-%                         approximation around the optimized model parameters
-%                         values to provide confidence interval
-%                         default: false
-
-
-\section{Examples}
-\subsection{Example 1}
-%Simulated data with: one time series, one model class, \{[12 31 41]\}.
-
-\subsection{Example 2}
-%Simulated data with: two time series with dependencies, one model class, \{[11 41], [11 31 41]\}.
-
-\subsection{Example 3}
-%Simulated data with one time series, two model classes, \{[21 31 41]\} and \{[12 31 41]\}.
-
-\subsection{Example 4}
-%Real data with one time series, one model class, \{[12 51 41]\}.
-
-\section{Troubleshooting}
-
-%\begin{lstlisting}[style=MATLAB-editor]
-%  for i=1:M
-%  disp(i)
-%  end
-%\end{lstlisting}
-
-
+\bibliography{OpenBDLMBib}
+\bibliographystyle{unsrt}
 \end{document}
 

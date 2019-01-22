@@ -59,18 +59,24 @@ misc.options.NaNThreshold = 100;
 misc.options.Tolerance = 10^(-6);
 
 % Optimization options
-misc.options.trainingPeriod = [1 30];
+misc.options.trainingPeriod = [1 Inf];
 misc.options.isParallel = false;
-misc.options.maxIterations = 3;
+misc.options.maxIterations = 100;
 misc.options.maxTime = 60; 
 misc.options.isMAP = false;
 misc.options.isPredCap = false;
 misc.options.isLaplaceApprox = false;
 misc.options.isMute = false;
-misc.options.MaxSizeEstimation = 100;
+misc.options.NRLevelsLambdaRef = 4;
+misc.options.NRTerminationTolerance = 10^(-7);
 
 % Hidden states estimation options
 misc.options.MethodStateEstimation = 'kalman'; 
+misc.options.MaxSizeEstimation = 100;
+misc.options.DataPercent = 100;
+
+% Data simulation option
+misc.options.Seed = 12345;
 
 % Plot options
 misc.options.FigurePosition = [100, 100, 1300, 270];

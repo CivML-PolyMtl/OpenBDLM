@@ -70,7 +70,9 @@ while ~isCorrect
     
     fprintf(fileID,'- Give the number of time series to simulate:\n');
     if misc.internalVars.BatchMode.isBatchMode
-        user_choice=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+        user_choice= ...
+            eval(char(misc.internalVars.BatchMode.Answers{ ...
+            misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID,'     %s\n', num2str(user_choice));
     else
         user_choice=input('     choice >> ');
@@ -97,6 +99,7 @@ for i=1:nts
 end
 
 % Increment AnswerIndex to read next answer when required
-misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex =  ...
+    misc.internalVars.BatchMode.AnswerIndex + 1;
 %--------------------END CODE ------------------------
 end
