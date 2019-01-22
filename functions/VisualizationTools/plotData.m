@@ -37,9 +37,18 @@ function [FigureNames] = plotData(data, misc, varargin)
 %      isExportTEX      - logical (optional)
 %                         if isExportTEX, export the figure in TEX format
 %                         default: false
-
+%
+%      isVisible        - logical (optional)
+%                         if isVisible = true, show figure on screen
+%                         default: true
+%
+%      isForceOverwrite - logical (optional)
+%                         if isForceOverwrite = true, save figure and
+%                         overwrite previous files of same name without notice
+%                         default = false
+%
 %   OUTPUT:
-
+%
 %     FigureNames       - cell array of character
 %                        record name of the saved figures
 %
@@ -73,7 +82,7 @@ function [FigureNames] = plotData(data, misc, varargin)
 %       August 23, 2018
 %
 %   DATE LAST UPDATE:
-%       August 23, 2018
+%       January 4, 2019
 
 %--------------------BEGIN CODE ----------------------
 
@@ -85,6 +94,7 @@ defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
 defaultisVisible = true;
+defaultisForceOverwrite = false;
 
 addRequired(p,'data', @isstruct );
 addRequired(p,'misc', @isstruct );
@@ -93,6 +103,7 @@ addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
 addParameter(p,'isVisible', defaultisVisible,  @islogical);
+addParameter(p,'isForceOverwrite', defaultisForceOverwrite, @islogical);
 parse(p,data, misc, varargin{:});
 
 data=p.Results.data;
@@ -101,6 +112,7 @@ isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 isVisible = p.Results.isVisible;
+isForceOverwrite = p.Results.isForceOverwrite;
 isPlotTimestep = p.Results.isPlotTimestep;
 
 FigurePath=misc.internalVars.FigurePath;
@@ -129,56 +141,61 @@ ndivy = misc.options.ndivy;
 Subsample = misc.options.Subsample;
 Xaxis_lag=misc.options.Xaxis_lag;
 
-%% Create specified path if not existing
-[isFileExist] = testFileExistence(FigurePath, 'dir');
-if ~isFileExist
-    % create directory
-    mkdir(FilePath)
-    % set directory on path
-    addpath(FilePath)
-end
+
 
 %% Create subdirectory where to save the figures
-
-disp('     Creating figures for data ...')
-
 if isExportPNG || isExportPDF || isExportTEX
+    
+    disp('     Creating figures for data ...')
+    
+    % Create specified path if not existing
+    [isFileExist] = testFileExistence(FigurePath, 'dir');
+    if ~isFileExist
+        % create directory
+        mkdir(FigurePath)
+        % set directory on path
+        addpath(FigurePath)
+    end
     
     fullPath = fullfile(FigurePath, misc.ProjectName);
     [isFileExist] = testFileExistence(fullPath, 'dir');
     
     if isFileExist
-        disp(['     Directory ', fullPath,' already ', ...
-            'exists. Overwrite ?'] );
         
-        isYesNoCorrect = false;
-        while ~isYesNoCorrect
-            choice = input('     (y/n) >> ','s');
-            if isempty(choice)
-                fprintf(fileID,'\n');
-                fprintf(fileID,['     wrong input --> please ', ...
-                    ' make a choice\n']);
-                fprintf(fileID,'\n');
-            elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
+        if ~isForceOverwrite
+            disp(['     Directory ', fullPath,' already ', ...
+                'exists. Merge and overwrite existing files ?'] );
+            
+            isYesNoCorrect = false;
+            while ~isYesNoCorrect
+                choice = input('     (y/n) >> ','s');
+                if isempty(choice)
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,['     wrong input --> please ', ...
+                        ' make a choice\n']);
+                    fprintf(fileID,'\n');
+                elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
+                    
+                    isYesNoCorrect =  true;
+                    
+                elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+                    
+                    [name] = incrementFilename([misc.ProjectName, '_new'], ...
+                        FigurePath);
+                    fullPath=fullfile(FigurePath, name);
+                    
+                    % Create new directory
+                    mkdir(fullPath)
+                    addpath(fullPath)
+                    
+                    isYesNoCorrect =  true;
+                    
+                else
+                    fprintf(fileID,'\n');
+                    fprintf(fileID,'     wrong input\n');
+                    fprintf(fileID,'\n');
+                end
                 
-                isYesNoCorrect =  true;
-                
-            elseif strcmpi(choice,'n') || strcmpi(choice,'no')
-                
-                [name] = incrementFilename([misc.ProjectName, '_new'], ...
-                    FilePath);
-                fullPath=fullfile(FilePath, name);
-                
-                % Create new directory
-                mkdir(fullPath)
-                addpath(fullPath)
-                
-                isYesNoCorrect =  true;
-                
-            else
-                fprintf(fileID,'\n');
-                fprintf(fileID,'     wrong input\n');
-                fprintf(fileID,'\n');
             end
             
         end
@@ -229,8 +246,6 @@ if  isSecondaryPlot
 end
 
 %% Define paramater for plot appeareance
-% Define X-axis lag
-% Xaxis_lag=50;
 
 if ~isSecondaryPlot
     idx_supp_plot=1;

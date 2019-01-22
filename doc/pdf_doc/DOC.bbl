@@ -1,0 +1,60 @@
+\begin{thebibliography}{10}
+
+\bibitem{Nguyen2019KRBDLM}
+Luong~Ha Nguyen, Ianis Gaudot, and James-A. Khazaeli, Shervin~Goulet.
+\newblock A kernel-based method for modeling non-harmonic periodic phenomena in
+  bayesian dynamic linear models.
+\newblock {\em Frontiers in Built Environment}, 0(0), 2019.
+
+\bibitem{Nguyen2018UncertaintyBDLM}
+Luong~Ha Nguyen, Ianis Gaudot, and James-A. Goulet.
+\newblock Uncertainty quantification for model parameters and hidden state
+  variables in bayesian dynamic linear models.
+\newblock {\em Structural Control and Health Monitoring}, 0(0):e2309, 2018.
+\newblock e2309 stc.2309.
+
+\bibitem{Nguyen2018}
+L.~H. Nguyen and J.-A. Goulet.
+\newblock Anomaly detection with the switching kalman filter for structural
+  health monitoring.
+\newblock {\em Structural Control and Health Monitoring}, pages e2136--n/a,
+  2018.
+
+\bibitem{Nguyen2018187}
+L.H. Nguyen and J-A. Goulet.
+\newblock Structural health monitoring with dependence on non-harmonic periodic
+  hidden covariates.
+\newblock {\em Engineering Structures}, 166:187 -- 194, 2018.
+
+\bibitem{Goulet2017BDLMEmprical}
+James-A. Goulet and Ki~Koo.
+\newblock Empirical validation of bayesian dynamic linear models in the context
+  of structural health monitoring.
+\newblock {\em Journal of Bridge Engineering}, 23(2):05017017, 2018.
+
+\bibitem{STC:STC2035}
+J.-A. Goulet.
+\newblock Bayesian dynamic linear models for structural health monitoring.
+\newblock {\em Structural Control and Health Monitoring}, 24:e2035--n/a, 2017.
+
+\bibitem{west1999bayesian}
+M.~West and J.~Harrison.
+\newblock {\em Bayesian Forecasting and Dynamic Models}.
+\newblock Springer Series in Statistics. Springer New York, 1999.
+
+\bibitem{sarkka2013bayesian}
+Simo S{\"a}rkk{\"a}.
+\newblock {\em Bayesian filtering and smoothing}, volume~3.
+\newblock Cambridge University Press, 2013.
+
+\bibitem{murphy2012machine}
+K.~P. Murphy.
+\newblock {\em Machine learning: a probabilistic perspective}.
+\newblock The MIT Press, 2012.
+
+\bibitem{gelman2014bayesian}
+A.~Gelman, J.~B. Carlin, H.~S. Stern, and D.~B. Rubin.
+\newblock {\em Bayesian data analysis}.
+\newblock CRC Press, 3 edition, 2014.
+
+\end{thebibliography}

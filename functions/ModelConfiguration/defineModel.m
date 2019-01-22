@@ -34,7 +34,7 @@ function [model, misc]=defineModel(data, misc)
 %                            in structure "misc"
 %
 %   DESCRIPTION:
-%      DEFINEMODEL requests user'S input to define model
+%      DEFINEMODEL requests user's input to define model
 %
 %   EXAMPLES:
 %      [model, misc]=DEFINEMODEL(data, misc)
@@ -42,7 +42,8 @@ function [model, misc]=defineModel(data, misc)
 %   EXTERNAL FUNCTIONS CALLED:
 %      N/A
 %
-%   See also
+%   See also MODELCONFIGURATION, CONFIGUREMODELFORDATAREAL, 
+%            CONFIGUREMODELFORDATASIMULATION
 
 %   AUTHORS:
 %      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
@@ -269,7 +270,7 @@ for j=1:nb_models
             if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             fprintf(fileID,'\n');
-            fprintf(fileID,['     Identify components for ' ...
+            fprintf(fileID,['- Identify components for ' ...
                 'time series #%s; e.g. [11 31 41]\n'], num2str(i));
             if misc.internalVars.BatchMode.isBatchMode
                 comp{j}{i}=eval(char(misc.internalVars.BatchMode.Answers{...

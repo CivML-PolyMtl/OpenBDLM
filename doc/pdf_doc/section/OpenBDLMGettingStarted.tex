@@ -1,0 +1,61 @@
+\section{Getting started}
+\label{S:OPENBDLMGETTINGSTARTED}
+\subsection{Call OpenBDLM}
+\begin{itemize}
+\item Set the current working directory to the folder ``OpenBDLM-master''
+%\begin{center}
+\item Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}, and type $\dlsh$.
+%\end{center}
+in the \MATLAB{} command line.
+\end{itemize}
+The OpenBDLM starting menu should appear on the \MATLAB{} command window (see Listing~\ref{LST:OpenBDLMStartingMenu}).
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!} in the command line, and type $\dlsh$ to quit the program.
+%\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, linewidth=\linewidth] %, caption = OpenBDLM call ]%, label = LST:OpenBDLMmain, captionpos=b]
+%[data, model, estimation, misc] = OpenBDLM_main();
+%\end{lstlisting}
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM starting menu on  \MATLAB{} command window when calling \lstinline!OpenBDLM\_main;!}, label = LST:OpenBDLMStartingMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
+
+------------------------------------------------
+     Starting OpenBDLM_V1.0
+------------------------------------------------
+            Time series analysis using 
+            Bayesian Dynamic Linear Models
+------------------------------------------------
+- Start a new project: 
+
+     *      Enter a configuration filename 
+     0   -> Interactive tool 
+
+- Type D to Delete project(s), V for Version control, Q to Quit.
+
+     choice >>
+\end{lstlisting}
+
+
+\subsection{Demo}
+
+In the \MATLAB{} command line, type  
+%\begin{lstlisting}[frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, caption = Run the OpenBDLM demo, label = LST:OpenBDLMdemo, captionpos=b, linewidth=\linewidth]
+%run_DEMO.m
+%\end{lstlisting}
+%\begin{center}
+\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO;! }
+%\end{center}
+ followed by $\dlsh$ to run a demo. 
+%\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO.m! to run a little demo. 
+Some messages on the \MATLAB{} command window show that the program runs properly (see Listing~\ref{LST:MessageDemo}).
+
+\begin{lstlisting}[frame = single, basicstyle = \mlttfamily \small, caption = {Output on \MATLAB{} command window when running \lstinline!run_DEMO.m!}, linewidth=\linewidth, label=LST:MessageDemo, ,captionpos=b, float = h] 
+     Starting OpenBDLM_V1.0...
+     Starting a new project...
+     Building model...
+     Simulating data...
+     Plotting data...
+     Saving database (binary format) ...
+     Saving database (csv format) ...
+     Saving project...
+     Printing configuration file...
+     Saving database (binary format) ...
+     Saving project...
+     Done ! See you soon !
+\end{lstlisting}

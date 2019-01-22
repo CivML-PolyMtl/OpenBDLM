@@ -1,6 +1,6 @@
 function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, misc, varargin)
 % INPUTS:
-% getlogpdf            -  Only log-poseterior is evaluated (1), otherwise
+% getlogpdf            -  Only log-posterior is evaluated (1), otherwise
 %                         (0). Defaut is 0.
 % loglik_contribution  -  Gradient & hessian of log-likelihood are required
 %                         for each evaluation. True = 1 and false = 0.

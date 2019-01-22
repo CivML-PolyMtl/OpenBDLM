@@ -1,0 +1,127 @@
+\section{Data editing and pre-processing}
+\label{S:DATAEDITINGPREPROCESSING}
+
+Data editing prepares the data for analysis.
+In most cases, the set of available time-series is heterogeneous, in the sense that each time-series does not originate from the same system of acquisition.
+Therefore, the raw data do not usually share the same time vectors.
+This is an issue because BDLM techniques are not capable to analyze asynchronous time-series.
+Therefore, when multiple time series are processed simultaneously, the main objective of data pre-processing is to synchronize the time-series. 
+Data editing includes time series selection, data analysis time period selection, missing data removal, and data  resampling.
+The time synchronization is performed automatically through the data editing process.
+
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small,  linewidth = \linewidth, caption = OpenBDLM data editing menu,  label = LST:Editing_menu, float = h!, ,captionpos=b]
+- Data editing and preprocessing. Choose from:
+
+     1  ->  Select time series
+     2  ->  Select data analysis time period 
+     3  ->  Remove missing data
+     4  ->  Resample
+     5  ->  Change synchronization options
+
+     6  ->  Reset changes
+     7  ->  Save changes and continue analysis
+
+     choice >> 
+\end{lstlisting}    
+
+\subsection{Selection of time-series}
+\label{SS:SelectionTimeSeries}
+
+The selection of time-series allows selecting only a subset of the time series in memory.
+The time series are automatically synchronized as time-series are added to (or removed from) the dataset.
+
+\subsection{Selection of data analysis time period}
+\label{SS:SelectionPeriodAnalysis}
+
+The selection of the period of analysis allows selecting only the data between two dates, given as \textquotesingle YYYY-DD-MM\textquotesingle {} format.
+If the second requested date exceeds the date corresponding to the last timestamp of the original dataset, padding with \lstinline[basicstyle = \mlttfamily \small ]!NaN! values are performed. 
+The timestep for the \lstinline[basicstyle = \mlttfamily \small ]!NaN! padding must be provided by the user.
+
+\subsection{Removing missing data}
+\label{SS:MissingDataRemoval}
+
+It is possible to control the maximum amount of \lstinline[basicstyle = \mlttfamily \small ]!NaN! missing data allowed at each time slice. 
+The maximum amount of \lstinline[basicstyle = \mlttfamily \small ]!NaN! allowed at each time slice is given in percent with respect to the total number of time-series.
+By default, the maximum amount of missing data is given by the value in \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NaNThreshold!.
+
+\subsection{Data resampling}
+\label{SS:DataResampling}
+Data resampling changes the sampling rate of the time-series according to a given timestep provided by the user. 
+If the requested timestep is higher than the original data timestep, \lstinline[basicstyle = \mlttfamily \small ]!NaN! values are added.
+Conversely, if the requested timestep is lower than the original  data timestep, OpenBDLM averages the data amplitude values within non-overlapping fixed time windows, each having the duration of the requested timestep.
+The first time window starts at the first timestamp, and the new timestamps are assigned at the times corresponding to the middle of each time window.
+
+\subsection{Time synchronization options}
+\label{SS:synchronization}
+By default, the time synchronization in OpenBDLM is done by adding \lstinline[basicstyle = \mlttfamily \small ]!NaN! values.
+The time synchronization is controlled by the \lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold! and \lstinline[basicstyle = \mlttfamily \small ]!tolerance! variables.
+\lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold!  is given in percent with respect to the total number of time-series.
+The variable \lstinline[basicstyle = \mlttfamily \small ]!tolerance! gives the duration (in number of days) after which two timestamps are not considered equal.
+The default values for \lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold!  and \lstinline[basicstyle = \mlttfamily \small ]!tolerance! are given by \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NaNThreshold! and \lstinline[basicstyle = \mlttfamily \small ]!misc.options.tolerance!. % $100$\% and $10^{-6}$ days, respectively. 
+
+\subsection{Data editing functions}
+
+The data editing workflow is presented Figure~\ref{FIG:DataEditingWorkflow}. The list of OpenBDLM functions used for data editing is:
+
+\begin{description}[style=unboxed]
+\item[Control script to edit dataset (selection, resampling, etc..)] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[data,misc,dataFilename]=editData(data,misc,varargin)
+ \end{lstlisting}
+
+\item[Requests the user to select some time series] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[data,misc]=chooseTimeSeries(data,misc)
+ \end{lstlisting} 
+ 
+\item[Creates a single time vector from a set of time series] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[data,misc]=mergeTimeStampVectors(dataOrig,misc,varargin)
+ \end{lstlisting} 
+ 
+\item[Resamples dataset according to a given timestep] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[data_resample,misc]=resampleData(data,misc,varargin)
+ \end{lstlisting} 
+ 
+ \item[Selects data between two dates] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[data,misc]=selectTimePeriod(data,misc)
+ \end{lstlisting} 
+ 
+  \item[Computes timestep vector from timestamps vector] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[timesteps]=computeTimeSteps(timestamps)
+ \end{lstlisting} 
+ 
+   \item[Display on screen the content of the data in memory] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+displayData(data,misc)
+ \end{lstlisting} 
+ 
+    \item[ Display the list of DATA\_*.mat files ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[FileInfo]= displayDataBinary(misc,varargin)
+ \end{lstlisting} 
+ 
+\end{description}
+
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+\scalebox{0.8}{
+\begin{tikzpicture}
+
+\node[paraamber](inputDataEditor){\lstinline[basicstyle = \mlttfamily \small ]!data!};
+\node[esamber](editData)[below of = inputDataEditor,  yshift=-0.65cm, xshift = 0cm ]{ \phantom{} editData.m \phantom{} } ;
+\node[esamber](editFunctions)[below of = editData, yshift = -1.25cm]{\begin{tabular}{c} chooseTimeSeries.m \\ selectTimePeriod.m \\ mergeTimeStampVectors.m \\ resampleData.m \end{tabular}};
+\node[paraamber](DataMATFile)[below of =editFunctions, yshift=-1.75cm, xshift = 0cm]{\begin{tabular}{c} \lstinline[basicstyle = \mlttfamily \small ]!data.timestamps! \\ \lstinline[basicstyle = \mlttfamily \small ]!data.values! \\ \lstinline[basicstyle = \mlttfamily \small ]!data.labels! \\ \lstinline[basicstyle = \mlttfamily \small ]!DATA_*.MAT!  \end{tabular}};
+
+\path[->, thick] (inputDataEditor)edge(editData);
+\path[->, thick] (editData)edge(editFunctions);
+\path[->, thick] (editFunctions)edge(DataMATFile);
+
+\end{tikzpicture} } 
+\caption{Data editing and pre-processing workflow} \label{FIG:DataEditingWorkflow}
+\end{figure}
+

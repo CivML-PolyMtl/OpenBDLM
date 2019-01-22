@@ -1,0 +1,41 @@
+\section{Model construction}
+\label{S:MODELCONSTRUCTION}
+
+Once the model has been configured, the next step is to build the model.
+The aim of the model building, or model construction, is to build the full model matrices $A$, $C$, $Q$, $R$ by assembling the sub-matrices associated with each block component and each time-series.
+The corresponding values for the model parameters must also be considered. 
+Because the model matrices are often time-dependent, OpenBDLM creates a function for each matrix, that depends on the time $t$, and model parameters $\bm\theta$.
+
+\subsection{Model construction functions}
+
+The model construction workflow is presented Figure~\ref{FIG:ModelConstructionWorkflow}. The OpenBDLM function used for model construction is:
+
+\begin{description}[style=unboxed]
+\item[Builds the model ] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+  [model, misc]=buildModel(data, model, misc)
+ \end{lstlisting}
+\end{description}
+
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+\scalebox{0.8}{
+\begin{tikzpicture}
+
+
+\node[parabisque](inputModelConstruct){\begin{tabular}{c} \lstinline[basicstyle = \mlttfamily \small ]!model.components.block! \\ \lstinline[basicstyle = \mlttfamily \small ]!model.components.ic! \\  \lstinline[basicstyle = \mlttfamily \small ]!model.components.const!  \\ \lstinline[basicstyle = \mlttfamily \small ]!data!  \end{tabular}};
+\node[esbisque](ModelConfiguration)[below of = inputModelConstruct, yshift = -1.5cm]{\phantom{} ModelConfiguration.m \phantom{}};
+\node[esbisque](defineModel)[below of = ModelConfiguration, yshift = -1cm]{\phantom{} defineModel.m \phantom{}};
+\node[esbisque](buildModel)[below of = defineModel , yshift=-1cm, xshift = 0cm]{\phantom{} buildModel.m \phantom{}};
+
+\node[parabisque](outputModelConstruct)[below of = defineModel, yshift = -3.5cm]{\begin{tabular}{c}  \lstinline[basicstyle = \mlttfamily \small ]!model.A,C,Q,R,Z!  \\ \lstinline[basicstyle = \mlttfamily \small ]!model.param_properties! \\ \lstinline[basicstyle = \mlttfamily \small ]!model.initX! \\  \lstinline[basicstyle = \mlttfamily \small ]!model.initV!  \\ \lstinline[basicstyle = \mlttfamily \small ]!model.initS!  \end{tabular}};
+
+\path[->, thick] (inputModelConstruct)edge(ModelConfiguration);
+\path[->, thick] (ModelConfiguration)edge(defineModel);
+\path[->, thick] (defineModel)edge (buildModel);
+\path[->, thick] (buildModel)edge (outputModelConstruct);
+
+\end{tikzpicture} } 
+\caption{Model construction workflow} \label{FIG:ModelConstructionWorkflow}
+\end{figure}

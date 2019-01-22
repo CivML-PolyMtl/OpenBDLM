@@ -1,5 +1,5 @@
 function [optim, model]=NewtonRaphson(data, model, misc)
-%NEWTONRAPHSON Learn BDLM models parameters using the Newton-Raphson technique
+%NEWTONRAPHSON Learn models parameters using the Newton-Raphson technique
 %
 %   SYNOPSIS:
 %     [optim]=NEWTONRAPHSON(data, model, misc)
@@ -55,8 +55,7 @@ function [optim, model]=NewtonRaphson(data, model, misc)
 %
 %      WARNING: Newton-Raphson technique is sensitive to the initial model
 %      parameters values. Newton-Raphson can reach a local maximum, instead
-%      of the global maximum of that function, which is the solution
-%      (if a global maximum exists).
+%      of the global maximum of the target function.
 %      Always re-run the optimizations several times, with different
 %      starting model parameters values, in order to
 %      check that the proposed solution is stable.
@@ -110,6 +109,9 @@ trainingPeriod=misc.options.trainingPeriod;
 isLaplaceApprox = misc.options.isLaplaceApprox;
 maxIterations = misc.options.maxIterations;
 maxTime = misc.options.maxTime;
+nb_levels_lambda_ref = misc.options.NRLevelsLambdaRef;
+convergence_tolerance = misc.options.NRTerminationTolerance;
+
 %isParallel=misc.options.isParallel;
 isMute=misc.options.isMute;
 
@@ -193,10 +195,6 @@ for i = 1 : nb_param
 end
 % parameterTR_ref = parameter_TR;
 model.parameterTR   = parameter_TR;
-
-%% Analysis parameters
-nb_levels_lambda_ref    = 4;
-convergence_tolerance   = 1E-7;
 
 disp('     Learning model parameters (Newton-Raphson) ...')
 

@@ -1,0 +1,74 @@
+\section{OpenBDLM workflow}
+\label{S:WORKFLOW}
+
+%\begin{figure}[!h]
+\begin{sidewaysfigure}
+  \centering
+  \captionsetup{justification=centering}
+\scalebox{0.8}{
+\begin{tikzpicture}
+
+% Node position
+\node[paraamber](rawdata){\begin{tabular}{c}  .MAT \\ and \\ .CSV data files \end{tabular}};
+\node[esamber, below of=rawdata, yshift=-1.3cm] (preprocess) {\begin{tabular}{c}  pre- \\   processing \end{tabular} };
+\node[test, below of=preprocess,  yshift=-1.3cm] (testpreprocess) {? };
+\node[esbisque, right of=testpreprocess, xshift = 1.75cm ] (configmodel) {  \begin{tabular}{c}  model \\  configuration \end{tabular} };
+\node[esbisque, right of=configmodel, xshift = 1.75cm ] (buildmodel) {   \phantom{} build model \phantom{} };
+\node[esbabyblueeyes, right of=buildmodel, xshift=1.75cm] (paramlearning){\begin{tabular}{c}   parameters \\  learning \end{tabular}};
+\node[parawhite, below of=paramlearning, xshift=0cm, yshift = -1.5cm] (inputcfg){\begin{tabular}{c}  CFG\_*.m \\  DATA\_*.mat \end{tabular}};
+\node[test, right of=paramlearning, xshift = 1.5cm] (testparamlearning) {?};
+\node[esceladon, right of=testparamlearning, xshift = 1.5cm] (stateestimation) {\begin{tabular}{c}   states \\   estimation \end{tabular}};
+\node[test, right of=stateestimation, xshift = 1.5cm] (teststateestimation) {?};
+\node[parawhite, right of=teststateestimation, xshift = 2.25cm] (results) {\begin{tabular}{c}  CFG\_*.m  \\  DATA\_*.mat \\ RES\_*.mat \\ PROJ\_*.mat \\  LOG\_*.txt  \end{tabular}};
+\node[user, below of=testpreprocess, yshift=-2.5cm] (user1) { \includegraphics[height=0.45cm]{./docfigs/user_logo.png}};
+\node[user, below of=configmodel, yshift=-2.5cm] (user2) { \includegraphics[height=0.45cm]{./docfigs/user_logo.png}};
+\node[user, below of=testparamlearning, yshift=-2.5cm] (user3) { \includegraphics[height=0.45cm]{./docfigs/user_logo.png}};
+\node[user, below of=teststateestimation, yshift=-2.5cm] (user4) { \includegraphics[height=0.45cm]{./docfigs/user_logo.png}};
+\node[eslightgray, above of=paramlearning, yshift=4cm, xshift=0cm](syntheticdatacreation) {\phantom{} synthetic data creation \phantom{}};
+
+ % Define path
+\path[->, thick]  (rawdata)edge(preprocess);
+\path[-, thick]  (preprocess)edge(testpreprocess);
+\path[<->, thick]  (testpreprocess)edge(user1);
+\path[-, thick]  (configmodel)edge(buildmodel);
+\path[<->, thick]  (configmodel)edge(user2);
+\path[-, thick]  (buildmodel)edge(paramlearning);
+\path[-, thick]  (paramlearning)edge(testparamlearning);
+\path[<->, thick]  (testparamlearning)edge(user3);
+\path[-, thick]  (testparamlearning)edge(stateestimation);
+\path[-, thick] (stateestimation) edge (teststateestimation);
+\path[<->, thick]  (teststateestimation)edge(user4);
+\path[-, thick] (testpreprocess) edge node[anchor=center, above] { yes}  (configmodel);
+\path[->, draw, thick] (testpreprocess.west) -| (-1.25cm,-3cm) |- node[anchor=center, above, rotate=90, fill=none]{ no} (preprocess.west);
+\path[->, thick] (teststateestimation) edge node[anchor=center, above] { yes}  (results);
+\path[->, draw, thick] (testparamlearning.north) |- (9cm,-2.5cm) -| node[anchor=center, above, rotate=0, fill=none]{ no} (paramlearning.north);
+\path[-, draw, thick] (testparamlearning)  edge node[anchor=center, above] { yes}  (stateestimation);
+\path[->, draw, thick] (teststateestimation.north) |- (6cm,-2cm) -| node[anchor=center, above, rotate=0, fill=none]{ no} (buildmodel.north);
+\path[->, draw, thick] (inputcfg) edge (paramlearning);
+
+\path[->, draw, thick, dashed] (buildmodel.east) -| (6.75cm, -0.75cm) -| (syntheticdatacreation.south);
+\path[->, draw, thick, dashed] (paramlearning.east) -| (9.75cm, -0.75cm) -| (syntheticdatacreation.south);
+\path[->, draw, thick, dashed] (stateestimation.east) -| (14.5cm, -0.75cm) -| (syntheticdatacreation.south);
+\path[->, draw, thick, dashed] (syntheticdatacreation.north) |- (9cm, 2cm) -| (rawdata.north);
+\path[->, draw, thick, dashed] (syntheticdatacreation.north) |- (18cm, 2cm) -| (results.north);
+
+ % Rectangle
+\draw [draw=amber, line width=0.5mm, dashed ] (-3cm, -3cm) rectangle ++(5cm , 4cm );
+\draw [draw=bisque, line width=0.5mm, dashed ] (0.95cm,-5.55cm) rectangle ++(5.85cm , 2cm );
+\draw [draw=babyblueeyes, line width=0.5mm, dashed ] (7cm,-5.55cm) rectangle ++(2.5cm , 2cm );
+\draw [draw=celadon, line width=0.5mm, dashed ] (11.85cm,-5.55cm) rectangle ++(2.75cm , 2cm );
+\draw [draw=lightgray, line width=0.5mm, dashed ] (6cm,-0.5cm) rectangle ++(4.5cm , 1.75cm );
+ 
+ % Text
+\node[ above of = rawdata, xshift = -0.5cm, yshift = 0.325 cm, fill=white] { Section~\ref{S:DATALOADING} and~\ref{S:DATAEDITINGPREPROCESSING}};
+\node[ above of = buildmodel, xshift = -1cm, yshift = 0.325 cm, fill=white] { Section~\ref{S:MODELCONFIGURATION} and~\ref{S:MODELCONSTRUCTION}};
+\node[above of = paramlearning, xshift = 0cm, yshift = 0.325 cm,  fill=white] { Section~\ref{S:PARAMESTIMATION} };
+\node[above of = stateestimation, xshift = 0cm, yshift = 0.325 cm,  fill=white] { Section~\ref{S:HIDDENSTATESESTIMATION} };
+\node[above of = syntheticdatacreation, xshift = 0cm, yshift = 0.325 cm,  fill=white] { Section~\ref{S:SYNTHETIC}};
+
+
+
+\end{tikzpicture} }
+\caption{OpenBDLM workflow} \label{FIG:OpenBDLMworkflow}
+%\end{figure}
+\end{sidewaysfigure}

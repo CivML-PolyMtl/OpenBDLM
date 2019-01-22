@@ -1,5 +1,5 @@
 function plotDataSummary(data, misc, varargin)
-%PLOTDATASUMMARY Plot amplitude and time step of time series data
+%PLOTDATASUMMARY Plot amplitude, time step, and availability of time series data
 %
 %   SYNOPSIS:
 %     PLOTDATASUMMARY(data, misc, varargin)
@@ -55,6 +55,15 @@ function plotDataSummary(data, misc, varargin)
 %                         directory where to save the plot
 %                         defaut: '.'  (current folder)
 %
+%      isVisible        - logical (optional)
+%                         if isVisible = true, show figure on screen
+%                         default: true
+%
+%      isForceOverwrite - logical (optional)
+%                         if isForceOverwrite = true, save figure and
+%                         overwrite previous files of same name without notice
+%                         default = false
+%
 %   OUTPUT:
 %      One figure for each time series.
 %
@@ -86,7 +95,7 @@ function plotDataSummary(data, misc, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       December 7, 2018
+%       January 4, 2019
 %
 %--------------------BEGIN CODE ----------------------
 
@@ -97,15 +106,19 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = false;
 defaultisExportTEX = false;
+defaultisVisible = true;
+defaultisForceOverwrite = false;
 
 validationFct_FilePath = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
 addRequired(p,'data', @isstruct );
 addRequired(p,'misc', @isstruct );
-addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
-addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
-addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
+addParameter(p,'isExportPDF', defaultisExportPDF, @islogical);
+addParameter(p,'isExportPNG', defaultisExportPNG, @islogical);
+addParameter(p,'isExportTEX', defaultisExportTEX, @islogical);
+addParameter(p,'isVisible', defaultisVisible, @islogical);
+addParameter(p,'isForceOverwrite', defaultisForceOverwrite, @islogical);
 addParameter(p,'FilePath', defaultFilePath, validationFct_FilePath);
 parse(p,data, misc, varargin{:});
 
@@ -115,6 +128,9 @@ FilePath=p.Results.FilePath;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
+isVisible = p.Results.isVisible;
+isForceOverwrite = p.Results.isForceOverwrite;
+
 ProjectName=misc.ProjectName;
 
 %% Get options from misc
@@ -128,9 +144,27 @@ if ~iscell(data.timestamps) && ~iscell(data.values)
     [data]=convertMat2Cell(data);
 end
 
+
+% Set fileID for logfile
+if misc.internalVars.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.internalVars.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
+
+if isVisible
+    VisibleOption = 'on';
+else
+    VisibleOption = 'off';
+end
+
 if isExportPNG || isExportPDF || isExportTEX
     
-    %% Create specified path if not existing
+    disp('     Creating figures for data summary ...')
+    
+    % Create specified path if not existing
     [isFileExist] = testFileExistence(FilePath, 'dir');
     if ~isFileExist
         % create directory
@@ -138,40 +172,45 @@ if isExportPNG || isExportPDF || isExportTEX
         % set directory on path
         addpath(FilePath)
     end
-    
+        
     fullname=fullfile(FilePath, ProjectName);
     
     [isFileExist] = testFileExistence(fullname, 'dir');
     if isFileExist
-        disp( ['     Directory ', fullname ,' already exists. ', ...
-            'Overwrite ? (y/n)']);
-        isYesNoCorrect = false;
-        while ~isYesNoCorrect
-            choice = input('     choice >> ','s');
-            if isempty(choice)
-                disp(' ')
-                disp('     wrong input')
-                disp(' ')
-            elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
+        
+        if ~isForceOverwrite
+            
+            disp( ['     Directory ', fullname ,' already exists. ', ...
+                'Overwrite ? (y/n)']);
+            isYesNoCorrect = false;
+            while ~isYesNoCorrect
+                choice = input('     choice >> ','s');
+                if isempty(choice)
+                    disp(' ')
+                    disp('     wrong input')
+                    disp(' ')
+                elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
+                    
+                    isYesNoCorrect =  true;
+                    
+                elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+                    
+                    [name] = incrementFilename([ProjectName, '_new'], ...
+                        FilePath);
+                    fullname=fullfile(FilePath, name);
+                    
+                    % Create new directory
+                    mkdir(fullname)
+                    addpath(fullname)
+                    
+                    isYesNoCorrect =  true;
+                    
+                else
+                    disp(' ')
+                    disp('     wrong input')
+                    disp(' ')
+                end
                 
-                isYesNoCorrect =  true;
-                
-            elseif strcmpi(choice,'n') || strcmpi(choice,'no')
-                
-                [name] = incrementFilename([ProjectName, '_new'], ...
-                    FilePath);
-                fullname=fullfile(FilePath, name);
-                
-                % Create new directory
-                mkdir(fullname)
-                addpath(fullname)
-                
-                isYesNoCorrect =  true;
-                
-            else
-                disp(' ')
-                disp('     wrong input')
-                disp(' ')
             end
             
         end
@@ -182,9 +221,9 @@ if isExportPNG || isExportPDF || isExportTEX
         addpath(fullname)
         
     end
+    
 end
 
-disp('     Plotting data...')
 % Get begg min and end max over all time series
 % Get number of time series
 numberOfTimeSeries = length(data.values);
@@ -223,6 +262,7 @@ color_red = [1 0 0];
 FigHandle = figure('Name','Data amplitude','NumberTitle','off', ...
     'DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
 set(FigHandle, 'Position', FigurePosition)
+set(FigHandle, 'Visible', VisibleOption)
 set(gcf,'color','w');
 inc=0;
 
@@ -241,8 +281,10 @@ for i=1:numberOfTimeSeries
     pos_isnan=find(isnan(values));
     nb_steps=length(timestamps);
     percent_missing=(length(pos_isnan)/nb_steps)*100;
-    plot(timestamps, values, 'Color', color_red, 'LineWidth', Linewidth, ...
-        'Marker', '.', 'MarkerSize',0.5, 'MarkerEdgeColor', color_red, ...
+    plot(timestamps, values, 'Color', color_red, ...
+        'LineWidth', Linewidth, ...
+        'Marker', '.', 'MarkerSize',0.5, ...
+        'MarkerEdgeColor', color_red, ...
         'MarkerFacecolor', color_red)
     
     hold on
@@ -259,14 +301,14 @@ for i=1:numberOfTimeSeries
     
     miny=min(full_val);
     maxy=max(full_val);
-    
-    ylim([miny, maxy ])
-    
+    if miny ~= maxy
+        ylim([miny, maxy ])
+    end
     set(gca,'XTick',linspace(begg_min,endd_max,ndivx), ...
         'YTick', linspace(miny, maxy, ndivy))
-    ylabel('Amplitude')    
+    ylabel('Amplitude')
     set(gca,'FontSize',16)
-    ytickformat('%.1f')     
+    ytickformat('%.1f')
     datetick('x','yy-mm','keepticks')
     
     if i == numberOfTimeSeries
@@ -285,10 +327,14 @@ for i=1:numberOfTimeSeries
     end
 end
 
+if ~isVisible
+    close(FigHandle)
+end
+
 %% Create one single figure for data timestep
 FigHandle = figure('Name','Data timestep','NumberTitle','off', ...
     'DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
-
+set(FigHandle, 'Visible', VisibleOption)
 set(FigHandle, 'Position', FigurePosition)
 set(gcf,'color','w');
 inc=0;
@@ -319,7 +365,8 @@ for i=1:numberOfTimeSeries
         'BackgroundColor',[1. 1. 1.])
     
     text(0.92, 0.15, ...
-        ['Reference timestep: ', num2str(ReferenceTimestep*24), ' hours'], ...
+        ['Reference timestep: ', ...
+        num2str(ReferenceTimestep*24), ' hours'], ...
         'FontSize', 12, 'HorizontalAlignment','center', ...
         'Units', 'normalized', 'BackgroundColor',[1. 1. 1.])
     
@@ -353,13 +400,17 @@ for i=1:numberOfTimeSeries
     
 end
 
+if ~isVisible
+    close(FigHandle)
+end
+
 %% Create one single figure for data availability
 
 % Data availability plot
 FigHandle = figure('Name','Data availability','NumberTitle','off', ...
     'DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
 set(FigHandle, 'Position', FigurePosition)
-%figure('Visible', 'on')
+set(FigHandle, 'Visible', VisibleOption)
 set(gcf,'color','w');
 
 nan_detect=[];
@@ -396,7 +447,8 @@ for i=numberOfTimeSeries:-1:1
     
     % Indicate missing data (NaN) in the plot
     if ~isempty(nan_pos)
-        plot( timestamps(nan_pos), (inc-0.15)*ones(length(nan_pos),1),  ...
+        plot( timestamps(nan_pos), ...
+            (inc-0.15)*ones(length(nan_pos),1),  ...
             'Color', [1 0 0], 'Marker', '*', 'LineStyle', 'none', ...
             'Markersize', 2.5, 'MarkerFaceColor',[1 0 0] )
         hold on
@@ -443,5 +495,16 @@ if isExportPDF || isExportPNG || isExportTEX
         'isExportPNG', isExportPNG, ...
         'isExportTEX', isExportTEX);
 end
+
+if ~isVisible
+    close(FigHandle)
+end
+
+if isExportPNG || isExportPDF || isExportTEX
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     Figures saved in %s.\n', fullname);
+    fprintf(fileID,'\n');
+end
+
 %--------------------END CODE ------------------------
 end

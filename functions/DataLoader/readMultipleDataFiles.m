@@ -208,7 +208,7 @@ else
     
     while(1)
         % Open GUI to select multiple .*CSV files
-        Info = uipickfiles('Prompt', 'Choose .csv raw data files', ...
+        Info = uipickfiles('Prompt', 'Choose data files', ...
             'REFilter', '\.csv$|\.mat$');
         
         if iscell(Info)

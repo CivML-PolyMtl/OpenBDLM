@@ -140,7 +140,7 @@ LT.pQ={'\sigma_w','LT',[],[],[0,inf], PriorType, PriorMean, PriorSdev };
 LT.x={'x^{LL}',[],[];'x^{LT}',[],[]};
 if misc.internalVars.isDataSimulation
     LT.pQ0={'1E-7'};
-    LT.init={'[10 -0.1]','[0.1^2 0.1^2]'};
+    LT.init={'[10 -0.001]','[0.1^2 0.1^2]'};
 else
     LT.pQ0={'1E-7*nanstd(data.values(:,obs))'};
     %LT.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2]'};
@@ -175,7 +175,7 @@ LA.pQ={'\sigma_w','LA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 LA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LA}',[],[]};
 if misc.internalVars.isDataSimulation
     LA.pQ0={'1E-8'};
-    LA.init={'[10 0 0]','[0.1^2 0.1^2 0.1^2]'};
+    LA.init={'[10 -0.001 -0.00001]','[0.1^2 0.1^2 0.1^2]'};
 else
     LA.pQ0={'1E-8*nanstd(data.values(:,obs))'};
     %LA.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-4*nanstd(data.values(:,obs)))^2 (1E-8*nanstd(data.values(:,obs)))^2]'};

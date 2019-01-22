@@ -1,0 +1,122 @@
+\section{Data loading}
+\label{S:DATALOADING}
+\subsection{Input data format}
+
+OpenBDLM supports two types of input data format.
+
+% depending whether the time-series are synchronous, or not.
+%The time-series are synchronous if they all share the same time vector. % and have the same number of data points.
+%Conversely, time-series are asynchronous if they do not all share the same time vector.
+%\subsubsection{Input data formatting for asynchronous time series}
+
+\subsubsection{Comma Separated Values files}
+\label{SS:CSVInput}
+
+%Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
+%If the data have already been synchronized, it is preferable to use properly formatted .MAT \MATLAB{} files (see Section~\ref{SS:MatFiles})
+One Comma Separated Values (.csv) data file must be provided for each time series.
+The file must contain two columns that are organized as shown in Listing~\ref{LST:CSV_Formatting}.
+\begin{lstlisting}[ frame = single, linewidth = \linewidth, caption = CSV data file example,  label = LST:CSV_Formatting, float = ht, ,captionpos=b]
+'name'            ,   '2000-01-01-22-00-00'
+737422            ,   0.40
+737423.5          ,   0.21
+737424            ,   0.548
+7374245.25        ,   NaN
+7374246           ,   0.57
+\end{lstlisting}    
+The first line of the file is the header.
+In the header, the first field must contain the label of the time-series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
+The second field is the date of the first timestamp given as a quoted delimited string, formatted as \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle.  
+For the remaining lines, the first field is the date given as a serial date number in number of days, given as a real number, and the second field is the magnitude of the physical quantity measured, given as a real number.
+The missing data must be indicated as \lstinline[basicstyle = \mlttfamily \small ]!NaN! number.
+The .csv files must be stored in the ``OpenBDLM-master/data/csv'' subfolder.
+
+\subsubsection{\MATLAB{} .MAT files}
+\label{SS:MATInput}
+
+The \MATLAB{} binary .MAT file must contain three \MATLAB{} variables called \lstinline[basicstyle = \mlttfamily \small]!labels!, \lstinline[basicstyle = \mlttfamily \small]!timestamps!, and \lstinline[basicstyle = \mlttfamily \small]!values!.
+%, as shown in Listing~\ref{LST:LoadData}.
+\begin{itemize}
+\item \lstinline[basicstyle = \mlttfamily \small]!labels!: $1\times M$ cell array containing the reference name associated with each time-series, where $M$ is the number of time series.
+\item \lstinline[basicstyle = \mlttfamily \small]!timestamps!: $N\times 1$ array containing the timestamps given as serial date number from January 0, 0000, where $N$ is the number of data samples.
+\item \lstinline[basicstyle = \mlttfamily \small]!values!: $N\times M$ array containing the data amplitude values.
+\end{itemize}
+ \MATLAB{} binary .mat files must be stored in the ``OpenBDLM-master/data/mat'' subfolder.
+Note that \MATLAB{} binary .MAT files can be used to load at once several time-series which share the same timestep vector (i.e. synchronous time-series, see Section~\ref{S:DATAEDITINGPREPROCESSING}  for details.)
+
+
+\subsection{Data loading functions}
+
+The data loading workflow is presented Figure~\ref{FIG:DataLoadingWorkflow}. The list of OpenBDLM functions used for data loading is:
+
+\begin{description}[style=unboxed]
+\item[Control script to load data] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[data,misc,dataFilename]=DataLoader(misc)
+ \end{lstlisting}
+
+\item[Loads data] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[dataOrig,misc]=loadData(misc)
+ \end{lstlisting}
+
+\item[Reads data from multiple data files]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[dataOrig,misc]=readMultipleDataFiles(misc)
+ \end{lstlisting}
+
+ \item[Reads a single CSV file]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[dat,label]=readSingleCSVFile(FileToRead,varargin)
+ \end{lstlisting}
+ 
+  \item[Reads a single MAT file]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[dat,label]=readSingleMATFile(FileToRead,varargin)
+ \end{lstlisting}
+ 
+   \item[Saves data in a DATA\_  \MATLAB{} MAT file]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[misc,dataFilename]= saveDataBinary(data,misc,varargin)
+ \end{lstlisting}
+ 
+    \item[Saves data in separate CSV files]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[misc]= saveDataCSV(data,misc,varargin)
+ \end{lstlisting}
+ 
+\end{description}
+
+
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+\scalebox{0.8}{
+\begin{tikzpicture}
+
+
+%\node[paraamber](inputDataLoader){\lstinline[basicstyle = \mlttfamily \small ]!data!};
+\node[esamber](DataLoader){ \phantom{} DataLoader.m \phantom{} };
+\node[testamber](testExistDatabase)[below of = DataLoader, yshift = -1.5cm]{\begin{tabular}{c} existing \\ database  ? \end{tabular}};
+\node[esamber](loadData)[below of = testExistDatabase, yshift=-1.85cm, xshift = 0cm]{ \phantom{} loadData.m \phantom{} };
+\node[esamber](readMultipleDataFiles)[below of = loadData, xshift = 0cm, yshift=-0.8cm, ]{ \phantom{} readMultipleDataFiles.m \phantom{} };
+\node[esamber](readSingleFile)[below of = readMultipleDataFiles, yshift= -0.8cm]{\begin{tabular}{c} readSingleCSVFile.m \\ readSingleMATFile.m  \end{tabular}};
+\node[esamber](editData)[below of = readSingleFile, yshift= -0.8cm]{\begin{tabular}{c}  see Figure~\ref{FIG:DataEditingWorkflow} \end{tabular}};
+
+\node[testamber](testEditData)[right of = editData, yshift= 0cm, xshift=3cm ]{\begin{tabular}{c} edit \\ data ?  \end{tabular}};
+
+\node[paraamber](DataMATFile)[below of =editData, yshift=-1.2cm, xshift = 0cm]{\begin{tabular}{c} \lstinline[basicstyle = \mlttfamily \small ]!data.timestamps! \\ \lstinline[basicstyle = \mlttfamily \small ]!data.values! \\ \lstinline[basicstyle = \mlttfamily \small ]!data.labels! \\ \lstinline[basicstyle = \mlttfamily \small ]!DATA_*.MAT!  \end{tabular}};
+%\path[->, thick] (inputDataLoader)edge(DataLoader);
+\path[->, thick] (DataLoader)edge(testExistDatabase);
+\path[->, thick] (testExistDatabase)edge node[anchor=center, above, rotate=0, rotate=90]{ no}  (loadData);
+\path[->, thick] (loadData)edge(readMultipleDataFiles);
+\path[->, thick] (readMultipleDataFiles)edge(readSingleFile);
+\path[->, thick] (readSingleFile)edge (editData);
+\path[->, thick] (editData)edge (DataMATFile);
+\path[<-, thick] (editData)edge node[anchor=center, above, rotate=0]{ yes}  (testEditData);
+\path[-, draw, thick] (testExistDatabase.east) -| (3cm,-2.5cm) -| node[anchor=center, above, rotate=0]{ yes} (testEditData.north);
+\path[->, draw,  thick] (testEditData.south) |- (4cm, -12.95cm) -- node[anchor=center, above, rotate=0]{no} (DataMATFile.east);
+
+\end{tikzpicture} } 
+\caption{Data loading workflow} \label{FIG:DataLoadingWorkflow}
+\end{figure}
