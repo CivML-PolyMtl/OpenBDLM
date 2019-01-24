@@ -5,10 +5,10 @@
 \contentsline {section}{\numberline {3}Getting started}{7}{section.3}
 \contentsline {subsection}{\numberline {3.1}Call OpenBDLM}{7}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Demo}{7}{subsection.3.2}
-\contentsline {section}{\numberline {4}OpenBDLM inputs and outputs}{7}{section.4}
-\contentsline {subsection}{\numberline {4.1}Inputs}{7}{subsection.4.1}
+\contentsline {section}{\numberline {4}OpenBDLM inputs and outputs}{8}{section.4}
+\contentsline {subsection}{\numberline {4.1}Inputs}{8}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Outputs}{8}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}data}{8}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.1}data}{9}{subsubsection.4.2.1}
 \contentsline {subsubsection}{\numberline {4.2.2}model}{9}{subsubsection.4.2.2}
 \contentsline {subsubsection}{\numberline {4.2.3}estimation}{10}{subsubsection.4.2.3}
 \contentsline {subsubsection}{\numberline {4.2.4}misc}{11}{subsubsection.4.2.4}
@@ -24,97 +24,105 @@
 \contentsline {subsection}{\numberline {6.5}Initial states values}{15}{subsection.6.5}
 \contentsline {subsection}{\numberline {6.6}Options}{15}{subsection.6.6}
 \contentsline {section}{\numberline {7}OpenBDLM main menu}{18}{section.7}
-\contentsline {section}{\numberline {8}OpenBDLM workflow}{20}{section.8}
-\contentsline {section}{\numberline {9}Data loading}{20}{section.9}
-\contentsline {subsection}{\numberline {9.1}Input data format}{20}{subsection.9.1}
-\contentsline {subsubsection}{\numberline {9.1.1}Comma Separated Values files}{20}{subsubsection.9.1.1}
+\contentsline {section}{\numberline {8}OpenBDLM workflow}{19}{section.8}
+\contentsline {section}{\numberline {9}Data loading}{21}{section.9}
+\contentsline {subsection}{\numberline {9.1}Input data format}{21}{subsection.9.1}
+\contentsline {subsubsection}{\numberline {9.1.1}Comma Separated Values files}{21}{subsubsection.9.1.1}
 \contentsline {subsubsection}{\numberline {9.1.2}\textsc {Matlab}{} .MAT files}{21}{subsubsection.9.1.2}
-\contentsline {subsection}{\numberline {9.2}Data loading functions}{21}{subsection.9.2}
-\contentsline {section}{\numberline {10}Data editing and pre-processing}{22}{section.10}
-\contentsline {subsection}{\numberline {10.1}Selection of time-series}{22}{subsection.10.1}
-\contentsline {subsection}{\numberline {10.2}Selection of data analysis time period}{23}{subsection.10.2}
-\contentsline {subsection}{\numberline {10.3}Removing missing data}{23}{subsection.10.3}
+\contentsline {subsection}{\numberline {9.2}Data loading functions}{22}{subsection.9.2}
+\contentsline {section}{\numberline {10}Data editing and pre-processing}{23}{section.10}
+\contentsline {subsection}{\numberline {10.1}Selection of time-series}{24}{subsection.10.1}
+\contentsline {subsection}{\numberline {10.2}Selection of data analysis time period}{24}{subsection.10.2}
+\contentsline {subsection}{\numberline {10.3}Removing missing data}{24}{subsection.10.3}
 \contentsline {subsection}{\numberline {10.4}Data resampling}{24}{subsection.10.4}
-\contentsline {subsection}{\numberline {10.5}Time synchronization options}{24}{subsection.10.5}
+\contentsline {subsection}{\numberline {10.5}Time synchronization options}{25}{subsection.10.5}
 \contentsline {subsection}{\numberline {10.6}Data editing functions}{25}{subsection.10.6}
 \contentsline {section}{\numberline {11}Model configuration}{26}{section.11}
-\contentsline {subsection}{\numberline {11.1}Dependencies between time-series}{26}{subsection.11.1}
+\contentsline {subsection}{\numberline {11.1}Dependencies between time-series}{27}{subsection.11.1}
 \contentsline {subsection}{\numberline {11.2}Block components}{27}{subsection.11.2}
-\contentsline {subsection}{\numberline {11.3}Parameter constrains}{27}{subsection.11.3}
+\contentsline {subsection}{\numberline {11.3}Parameter constrains}{28}{subsection.11.3}
 \contentsline {subsection}{\numberline {11.4}Number of model class}{28}{subsection.11.4}
 \contentsline {subsection}{\numberline {11.5}Model configuration functions}{28}{subsection.11.5}
 \contentsline {section}{\numberline {12}Model construction}{30}{section.12}
-\contentsline {subsection}{\numberline {12.1}Model construction functions}{30}{subsection.12.1}
-\contentsline {section}{\numberline {13}Model parameters estimation}{30}{section.13}
-\contentsline {subsection}{\numberline {13.1}Model parameter estimation functions}{32}{subsection.13.1}
-\contentsline {section}{\numberline {14}Hidden states estimation}{35}{section.14}
-\contentsline {subsection}{\numberline {14.1}Hidden state estimation functions}{36}{subsection.14.1}
-\contentsline {subsection}{\numberline {14.2}Estimation of the initial hidden states}{37}{subsection.14.2}
-\contentsline {section}{\numberline {15}Creating synthetic data}{39}{section.15}
-\contentsline {subsection}{\numberline {15.1}Synthetic data creation using the interactive tool}{39}{subsection.15.1}
-\contentsline {subsection}{\numberline {15.2}Synthetic data creation from an existing project}{41}{subsection.15.2}
-\contentsline {subsection}{\numberline {15.3}Synthetic data creation functions}{41}{subsection.15.3}
-\contentsline {section}{\numberline {16}Visualization tools}{42}{section.16}
-\contentsline {section}{\numberline {17}Version control}{42}{section.17}
-\contentsline {section}{\numberline {18}Step-by-step example: single time-series analysis}{42}{section.18}
-\contentsline {subsection}{\numberline {18.1}Step 1: start a project}{42}{subsection.18.1}
-\contentsline {subsection}{\numberline {18.2}Step 2: load the data}{43}{subsection.18.2}
-\contentsline {subsection}{\numberline {18.3}Step 3: edit and pre-process the data}{44}{subsection.18.3}
-\contentsline {subsection}{\numberline {18.4}Step 4: configure the model}{44}{subsection.18.4}
-\contentsline {subsection}{\numberline {18.5}Step 5: open the configuration file}{45}{subsection.18.5}
-\contentsline {subsection}{\numberline {18.6}Step 6: estimate the hidden states}{46}{subsection.18.6}
-\contentsline {subsection}{\numberline {18.7}Step 7: estimate the model parameters from the data}{46}{subsection.18.7}
-\contentsline {subsection}{\numberline {18.8}Step 8: estimate the hidden states using the optimized model parameters values}{47}{subsection.18.8}
-\contentsline {subsection}{\numberline {18.9}Step 9: estimate the initial hidden states}{47}{subsection.18.9}
-\contentsline {section}{\numberline {19}Step-by-step example: dependence model between two time-series}{47}{section.19}
-\contentsline {subsection}{\numberline {19.1}Step 1: start a project}{47}{subsection.19.1}
-\contentsline {subsection}{\numberline {19.2}Step 2: load the data}{48}{subsection.19.2}
-\contentsline {subsection}{\numberline {19.3}Step 3: edit and pre-process the data}{48}{subsection.19.3}
-\contentsline {subsection}{\numberline {19.4}Step 4: configure the model}{49}{subsection.19.4}
-\contentsline {subsection}{\numberline {19.5}Step 5: open the configuration file}{49}{subsection.19.5}
-\contentsline {subsection}{\numberline {19.6}Step 6: estimate the hidden states}{50}{subsection.19.6}
-\contentsline {subsection}{\numberline {19.7}Step 7: estimate the model parameters from the data}{50}{subsection.19.7}
-\contentsline {subsection}{\numberline {19.8}Step 8: estimate the hidden states using the optimized model parameters. values}{51}{subsection.19.8}
-\contentsline {subsection}{\numberline {19.9}Step 9: estimate the initial hidden states}{51}{subsection.19.9}
-\contentsline {section}{\numberline {20}Step-by-step example: time-series with anomaly}{51}{section.20}
-\contentsline {subsection}{\numberline {20.1}Step 1: start a project}{51}{subsection.20.1}
-\contentsline {subsection}{\numberline {20.2}Step 2: load the data}{52}{subsection.20.2}
-\contentsline {subsection}{\numberline {20.3}Step 4: configure the model}{52}{subsection.20.3}
-\contentsline {subsection}{\numberline {20.4}Step 5: open the configuration file}{53}{subsection.20.4}
-\contentsline {subsection}{\numberline {20.5}Step 6: estimate the hidden states}{53}{subsection.20.5}
-\contentsline {subsection}{\numberline {20.6}Step 7: estimate the model parameters from the data}{54}{subsection.20.6}
-\contentsline {subsection}{\numberline {20.7}Step 8: estimate the hidden states using the optimized model parameters values}{54}{subsection.20.7}
-\contentsline {subsection}{\numberline {20.8}Step 9: estimate the initial hidden states}{54}{subsection.20.8}
-\contentsline {section}{\numberline {21}Step-by-step example: create and anlalyze synthetic data }{55}{section.21}
-\contentsline {subsection}{\numberline {21.1}Step 1: start a project}{55}{subsection.21.1}
-\contentsline {subsection}{\numberline {21.2}Step 2: define the time step vector}{55}{subsection.21.2}
-\contentsline {subsection}{\numberline {21.3}Step 3: configure the model}{55}{subsection.21.3}
-\contentsline {subsection}{\numberline {21.4}Step 4: explore the model}{56}{subsection.21.4}
-\contentsline {subsection}{\numberline {21.5}Step 5: estimate the hidden states}{56}{subsection.21.5}
-\contentsline {subsection}{\numberline {21.6}Step 6: estimate the initial hidden states}{57}{subsection.21.6}
-\contentsline {section}{\numberline {22}FAQ Troubleshooting}{57}{section.22}
-\contentsline {section}{\numberline {23}Reference Theory}{57}{section.23}
-\contentsline {subsection}{\numberline {23.1}Linear gaussian state-space model}{58}{subsection.23.1}
-\contentsline {subsection}{\numberline {23.2}Kalman filter \& UD filters}{59}{subsection.23.2}
-\contentsline {subsection}{\numberline {23.3}Switching Kalman filter}{59}{subsection.23.3}
-\contentsline {subsection}{\numberline {23.4}Model parameter estimation}{60}{subsection.23.4}
-\contentsline {subsubsection}{\numberline {23.4.1}Maximum log A Posteriori (MAP)}{61}{subsubsection.23.4.1}
-\contentsline {subsubsection}{\numberline {23.4.2}Maximum log Likelihood Estimation (MLE)}{61}{subsubsection.23.4.2}
-\contentsline {subsubsection}{\numberline {23.4.3}Laplace Approximation}{61}{subsubsection.23.4.3}
-\contentsline {subsubsection}{\numberline {23.4.4}Parameter-wise Newton-Raphson}{62}{subsubsection.23.4.4}
-\contentsline {subsubsection}{\numberline {23.4.5}Stochastic gradient descent}{63}{subsubsection.23.4.5}
-\contentsline {subsubsection}{\numberline {23.4.6}Model parameter space transformation}{63}{subsubsection.23.4.6}
-\contentsline {subsection}{\numberline {23.5}Block components}{63}{subsection.23.5}
-\contentsline {subsubsection}{\numberline {23.5.1}Local level (baseline)}{64}{subsubsection.23.5.1}
-\contentsline {subsubsection}{\numberline {23.5.2}Local trend (baseline)}{64}{subsubsection.23.5.2}
-\contentsline {subsubsection}{\numberline {23.5.3}Local acceleration (baseline)}{64}{subsubsection.23.5.3}
-\contentsline {subsubsection}{\numberline {23.5.4}Local level trend compatible (baseline)}{65}{subsubsection.23.5.4}
-\contentsline {subsubsection}{\numberline {23.5.5}Local level acceleration compatible (baseline)}{65}{subsubsection.23.5.5}
-\contentsline {subsubsection}{\numberline {23.5.6}Local trend acceleration compatible (baseline)}{66}{subsubsection.23.5.6}
-\contentsline {subsubsection}{\numberline {23.5.7}Periodic (Fourier form)}{66}{subsubsection.23.5.7}
-\contentsline {subsubsection}{\numberline {23.5.8}Periodic (Kernel regression form)}{67}{subsubsection.23.5.8}
-\contentsline {subsubsection}{\numberline {23.5.9}First order autoregressive}{67}{subsubsection.23.5.9}
-\contentsline {subsection}{\numberline {23.6}Handling non-uniform time vector and missing data}{68}{subsection.23.6}
-\contentsline {subsubsection}{\numberline {23.6.1}Non-uniform time vector}{68}{subsubsection.23.6.1}
-\contentsline {subsubsection}{\numberline {23.6.2}Missing data (NaN)}{69}{subsubsection.23.6.2}
-\contentsline {subsection}{\numberline {23.7}Dependencies between time-series}{69}{subsection.23.7}
+\contentsline {subsection}{\numberline {12.1}Model construction functions}{31}{subsection.12.1}
+\contentsline {section}{\numberline {13}Model parameters estimation}{31}{section.13}
+\contentsline {subsection}{\numberline {13.1}Model parameter estimation functions}{33}{subsection.13.1}
+\contentsline {section}{\numberline {14}Hidden states estimation}{39}{section.14}
+\contentsline {subsection}{\numberline {14.1}Hidden state estimation functions}{39}{subsection.14.1}
+\contentsline {subsection}{\numberline {14.2}Estimation of the initial hidden states}{40}{subsection.14.2}
+\contentsline {section}{\numberline {15}Creating synthetic data}{42}{section.15}
+\contentsline {subsection}{\numberline {15.1}Synthetic data creation using the interactive tool}{42}{subsection.15.1}
+\contentsline {subsection}{\numberline {15.2}Synthetic data creation from an existing project}{43}{subsection.15.2}
+\contentsline {subsection}{\numberline {15.3}Synthetic data creation functions}{44}{subsection.15.3}
+\contentsline {section}{\numberline {16}Visualizing results}{46}{section.16}
+\contentsline {paragraph}{Generating figures at any time}{47}{section*.22}
+\contentsline {paragraph}{Saving figures}{47}{section*.23}
+\contentsline {section}{\numberline {17}Exploring results}{49}{section.17}
+\contentsline {subsection}{\numberline {17.1}RES\_*.mat result file}{50}{subsection.17.1}
+\contentsline {subsection}{\numberline {17.2}PROJ\_*.mat project file}{50}{subsection.17.2}
+\contentsline {subsection}{\numberline {17.3}DATA\_*.mat data file}{50}{subsection.17.3}
+\contentsline {subsection}{\numberline {17.4}Export the results}{51}{subsection.17.4}
+\contentsline {section}{\numberline {18}Version control}{53}{section.18}
+\contentsline {paragraph}{How does version control work?}{53}{section*.28}
+\contentsline {section}{\numberline {19}Step-by-step example: single time-series analysis}{54}{section.19}
+\contentsline {subsection}{\numberline {19.1}Step 1: start a project}{54}{subsection.19.1}
+\contentsline {subsection}{\numberline {19.2}Step 2: load the data}{56}{subsection.19.2}
+\contentsline {subsection}{\numberline {19.3}Step 3: edit and pre-process the data}{57}{subsection.19.3}
+\contentsline {subsection}{\numberline {19.4}Step 4: configure the model}{58}{subsection.19.4}
+\contentsline {subsection}{\numberline {19.5}Step 5: open the configuration file}{58}{subsection.19.5}
+\contentsline {subsection}{\numberline {19.6}Step 6: estimate the hidden states}{59}{subsection.19.6}
+\contentsline {subsection}{\numberline {19.7}Step 7: estimate the model parameters from the data}{59}{subsection.19.7}
+\contentsline {subsection}{\numberline {19.8}Step 8: estimate the hidden states using the optimized model parameters values}{59}{subsection.19.8}
+\contentsline {subsection}{\numberline {19.9}Step 9: estimate the initial hidden states}{60}{subsection.19.9}
+\contentsline {section}{\numberline {20}Step-by-step example: dependence model between two time-series}{66}{section.20}
+\contentsline {subsection}{\numberline {20.1}Step 1: start a project}{66}{subsection.20.1}
+\contentsline {subsection}{\numberline {20.2}Step 2: load the data}{66}{subsection.20.2}
+\contentsline {subsection}{\numberline {20.3}Step 3: edit and pre-process the data}{66}{subsection.20.3}
+\contentsline {subsection}{\numberline {20.4}Step 4: configure the model}{68}{subsection.20.4}
+\contentsline {subsection}{\numberline {20.5}Step 5: open the configuration file}{69}{subsection.20.5}
+\contentsline {subsection}{\numberline {20.6}Step 6: estimate the hidden states}{71}{subsection.20.6}
+\contentsline {subsection}{\numberline {20.7}Step 7: estimate the model parameters from the data}{71}{subsection.20.7}
+\contentsline {subsection}{\numberline {20.8}Step 8: estimate the hidden states using the optimized model parameters. values}{72}{subsection.20.8}
+\contentsline {subsection}{\numberline {20.9}Step 9: estimate the initial hidden states}{72}{subsection.20.9}
+\contentsline {section}{\numberline {21}Step-by-step example: time-series with anomaly}{79}{section.21}
+\contentsline {subsection}{\numberline {21.1}Step 1: start a project}{79}{subsection.21.1}
+\contentsline {subsection}{\numberline {21.2}Step 2: load the data}{79}{subsection.21.2}
+\contentsline {subsection}{\numberline {21.3}Step 4: configure the model}{79}{subsection.21.3}
+\contentsline {subsection}{\numberline {21.4}Step 5: open the configuration file}{81}{subsection.21.4}
+\contentsline {subsection}{\numberline {21.5}Step 6: estimate the hidden states}{82}{subsection.21.5}
+\contentsline {subsection}{\numberline {21.6}Step 7: estimate the model parameters from the data}{82}{subsection.21.6}
+\contentsline {subsection}{\numberline {21.7}Step 8: estimate the hidden states using the optimized model parameters values}{82}{subsection.21.7}
+\contentsline {subsection}{\numberline {21.8}Step 9: estimate the initial hidden states}{84}{subsection.21.8}
+\contentsline {section}{\numberline {22}Step-by-step example: generate and analyze synthetic data }{90}{section.22}
+\contentsline {subsection}{\numberline {22.1}Step 1: start a project}{90}{subsection.22.1}
+\contentsline {subsection}{\numberline {22.2}Step 2: define the time step vector}{90}{subsection.22.2}
+\contentsline {subsection}{\numberline {22.3}Step 3: configure the model}{90}{subsection.22.3}
+\contentsline {subsection}{\numberline {22.4}Step 4: explore the model}{90}{subsection.22.4}
+\contentsline {subsection}{\numberline {22.5}Step 5: estimate the hidden states}{91}{subsection.22.5}
+\contentsline {subsection}{\numberline {22.6}Step 6: estimate the initial hidden states}{91}{subsection.22.6}
+\contentsline {section}{\numberline {23}FAQ Troubleshooting}{97}{section.23}
+\contentsline {section}{\numberline {24}Reference Theory}{97}{section.24}
+\contentsline {subsection}{\numberline {24.1}Linear gaussian state-space model}{98}{subsection.24.1}
+\contentsline {subsection}{\numberline {24.2}Kalman filter \& UD filters}{98}{subsection.24.2}
+\contentsline {subsection}{\numberline {24.3}Switching Kalman filter}{99}{subsection.24.3}
+\contentsline {subsection}{\numberline {24.4}Model parameter estimation}{100}{subsection.24.4}
+\contentsline {subsubsection}{\numberline {24.4.1}Maximum log A Posteriori (MAP)}{100}{subsubsection.24.4.1}
+\contentsline {subsubsection}{\numberline {24.4.2}Maximum log Likelihood Estimation (MLE)}{101}{subsubsection.24.4.2}
+\contentsline {subsubsection}{\numberline {24.4.3}Laplace Approximation}{101}{subsubsection.24.4.3}
+\contentsline {subsubsection}{\numberline {24.4.4}Parameter-wise Newton-Raphson}{102}{subsubsection.24.4.4}
+\contentsline {subsubsection}{\numberline {24.4.5}Stochastic gradient descent}{102}{subsubsection.24.4.5}
+\contentsline {subsubsection}{\numberline {24.4.6}Model parameter space transformation}{103}{subsubsection.24.4.6}
+\contentsline {subsection}{\numberline {24.5}Block components}{103}{subsection.24.5}
+\contentsline {subsubsection}{\numberline {24.5.1}Local level (baseline)}{104}{subsubsection.24.5.1}
+\contentsline {subsubsection}{\numberline {24.5.2}Local trend (baseline)}{104}{subsubsection.24.5.2}
+\contentsline {subsubsection}{\numberline {24.5.3}Local acceleration (baseline)}{104}{subsubsection.24.5.3}
+\contentsline {subsubsection}{\numberline {24.5.4}Local level trend compatible (baseline)}{105}{subsubsection.24.5.4}
+\contentsline {subsubsection}{\numberline {24.5.5}Local level acceleration compatible (baseline)}{105}{subsubsection.24.5.5}
+\contentsline {subsubsection}{\numberline {24.5.6}Local trend acceleration compatible (baseline)}{106}{subsubsection.24.5.6}
+\contentsline {subsubsection}{\numberline {24.5.7}Periodic (Fourier form)}{106}{subsubsection.24.5.7}
+\contentsline {subsubsection}{\numberline {24.5.8}Periodic (Kernel regression form)}{107}{subsubsection.24.5.8}
+\contentsline {subsubsection}{\numberline {24.5.9}First order autoregressive}{107}{subsubsection.24.5.9}
+\contentsline {subsection}{\numberline {24.6}Handling non-uniform time vector and missing data}{108}{subsection.24.6}
+\contentsline {subsubsection}{\numberline {24.6.1}Non-uniform time vector}{108}{subsubsection.24.6.1}
+\contentsline {subsubsection}{\numberline {24.6.2}Missing data (NaN)}{108}{subsubsection.24.6.2}
+\contentsline {subsection}{\numberline {24.7}Dependencies between time-series}{109}{subsection.24.7}

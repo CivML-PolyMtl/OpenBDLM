@@ -1,5 +1,5 @@
 function [configFilename] = printConfigurationFile(data, model, estimation, misc, varargin)
-%PRINTCONFIGURATIONFILE Create and print a configuration file
+%PRINTCONFIGURATIONFILE Create and print a configuration file from project
 %
 %   SYNOPSIS:
 %     [configconfigFilename] = PRINTCONFIGURATIONFILE(data, model, estimation, misc, varargin)

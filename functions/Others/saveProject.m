@@ -1,5 +1,5 @@
 function saveProject(model, estimation, misc, varargin)
-%SAVEPROJECT Save the structure variables model, estimation, misc in project file
+%SAVEPROJECT Save the variables model, estimation, misc in a .mat file
 %
 %   SYNOPSIS:
 %      saveProject(model, estimation, misc, varargin)

@@ -1,5 +1,8 @@
 \documentclass[11pt,twoside]{article}
 
+
+\usepackage[section]{placeins}
+
 % bibliography
 \usepackage[numbers]{natbib}
 
@@ -16,6 +19,7 @@
 
 \usepackage{todonotes}
 \usepackage{microtype}
+
 
 % For math symbol, equations, etc...
 \RequirePackage{amsmath}
@@ -105,6 +109,7 @@
  \tikzstyle{testbisque}=[diamond, fill=bisque, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, draw=black!100, thick,  inner sep=-1pt, fill opacity=0.5, text opacity=1]
  \tikzstyle{testceladon}=[diamond, fill=celadon, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, draw=black!100, thick,  inner sep=-1pt]
  \tikzstyle{testlightgray}=[diamond, fill=lightgray, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, fill opacity=0.5, text opacity=1, draw=black!100, thick,  inner sep=-1pt]
+  \tikzstyle{testwhite}=[diamond, fill=white, aspect=1, minimum width=1.5cm, minimum height = 1.5cm, draw=black!100, thick,  inner sep=-1pt]
  
 %Connecting link
 \tikzstyle{connect}=[-latex, thick,>=latex]
@@ -116,7 +121,7 @@
 \definecolor{babyblueeyes}{rgb}{0.63, 0.79, 0.95}
 \definecolor{bisque}{rgb}{0.91, 0.45, 0.32}
 \definecolor{celadon}{rgb}{0.67, 0.88, 0.69}
-\definecolor{amber}{rgb}{1.0, 0.75, 0.0}
+\definecolor{amber}{rgb}{1.0, 0.99, 0.82}%{1.0, 0.75, 0.0}
 \definecolor{brightlavender}{rgb}{0.75, 0.58, 0.89}
 
 \graphicspath{{./docfigs/}}
@@ -165,7 +170,9 @@
 
 \input{section/OpenBDLMCreatingSyntheticData}
 
-\input{section/OpenBDLMVisualizationTools}
+\input{section/OpenBDLMVisualizingResults}
+
+\input{section/OpenBDLMExploringResults}
 
 \input{section/OpenBDLMVersionControl}
 

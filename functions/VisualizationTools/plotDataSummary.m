@@ -1,5 +1,5 @@
 function plotDataSummary(data, misc, varargin)
-%PLOTDATASUMMARY Plot amplitude, time step, and availability of time series data
+%PLOTDATASUMMARY Plot data amplitude, data time step, and data availability 
 %
 %   SYNOPSIS:
 %     PLOTDATASUMMARY(data, misc, varargin)
@@ -253,7 +253,6 @@ for i=1:numberOfTimeSeries
 end
 
 % Figure setting
-color = [0, 0.4, 0.8];
 color_black = [0 0 0];
 color_red = [1 0 0];
 

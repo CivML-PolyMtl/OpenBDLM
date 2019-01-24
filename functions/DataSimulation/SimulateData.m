@@ -84,7 +84,7 @@ isPlot=p.Results.isPlot;
 FigurePath = misc.internalVars.FigurePath;
 
 
-disp('     Simulating data...')
+disp('     Creating synthetic data...')
 
 if isfield(misc, 'custom_anomalies') && ~isempty(misc.custom_anomalies)
     [data, model, estimation, misc]= ...

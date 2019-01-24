@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 JAN 2019 18:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  23 JAN 2019 19:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -23,6 +23,9 @@ File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/placeins/placeins.sty
+Package: placeins 2005/04/18  v 2.2
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
@@ -1068,7 +1071,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip56
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 32.
+Package hyperref Info: Option `colorlinks' set `true' on input line 36.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2016/02/20 v1.1-142 Sub-captions (AR)
@@ -1332,28 +1335,28 @@ File: pgflibrarycurvilinear.code.tex 2015/05/14 v3.0.1a (rcs-revision 1.4)
 )) (./DOC.aux)
 \openout1 = `DOC.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for U/mathx/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 129.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 129.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 134.
+LaTeX Font Info:    ... okay on input line 134.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 134.
+LaTeX Font Info:    ... okay on input line 134.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 134.
+LaTeX Font Info:    ... okay on input line 134.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 134.
+LaTeX Font Info:    ... okay on input line 134.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 134.
+LaTeX Font Info:    ... okay on input line 134.
+LaTeX Font Info:    Checking defaults for U/mathx/m/n on input line 134.
+LaTeX Font Info:    ... okay on input line 134.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 134.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 134.
 
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
+LaTeX Font Info:    ... okay on input line 134.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 134.
+LaTeX Font Info:    ... okay on input line 134.
 \c@lstlisting=\count163
 
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -1385,7 +1388,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
-LaTeX Info: Redefining \microtypecontext on input line 129.
+LaTeX Info: Redefining \microtypecontext on input line 134.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1401,7 +1404,7 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 (RS)
 )
 \AtBeginShipoutBox=\box67
-Package hyperref Info: Link coloring ON on input line 129.
+Package hyperref Info: Link coloring ON on input line 134.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1411,9 +1414,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count170
 )
-LaTeX Info: Redefining \ref on input line 129.
-LaTeX Info: Redefining \pageref on input line 129.
-LaTeX Info: Redefining \nameref on input line 129.
+LaTeX Info: Redefining \ref on input line 134.
+LaTeX Info: Redefining \pageref on input line 134.
+LaTeX Info: Redefining \nameref on input line 134.
 
 (./DOC.out) (./DOC.out)
 \@outlinefile=\write4
@@ -1423,13 +1426,13 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
 
-<./docfigs/OpenBDLM_logo.pdf, id=489, 279.5765pt x 80.73552pt>
+<./docfigs/OpenBDLM_logo.pdf, id=509, 279.5765pt x 80.73552pt>
 File: ./docfigs/OpenBDLM_logo.pdf Graphic file (type pdf)
 
 <use ./docfigs/OpenBDLM_logo.pdf>
-Package pdftex.def Info: ./docfigs/OpenBDLM_logo.pdf used on input line 134.
+Package pdftex.def Info: ./docfigs/OpenBDLM_logo.pdf used on input line 139.
 (pdftex.def)             Requested size: 284.52756pt x 82.16803pt.
-LaTeX Font Info:    Try loading font information for U+msa on input line 134.
+LaTeX Font Info:    Try loading font information for U+msa on input line 139.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1437,7 +1440,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 134.
+LaTeX Font Info:    Try loading font information for U+msb on input line 139.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1445,15 +1448,15 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 134.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 139.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 134.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 139.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 134.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 139.
  (./DOC.toc
 [1
 
@@ -1517,16 +1520,18 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             `fvm' (encoding: TS1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <9> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 47.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./section/OpenBDLMInputOutput.tex
+) (./section/OpenBDLMInputOutput.tex [7]
 Underfull \hbox (badness 10000) in paragraph at lines 8--9
 
  []
 
-[7]
+
 Underfull \hbox (badness 10000) in paragraph at lines 10--12
 
  []
@@ -1556,14 +1561,10 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [9] [10]) (./section/OpenBDLMRunningModes.tex [11])
+ [9] [10] [11]) (./section/OpenBDLMRunningModes.tex)
 (./section/OpenBDLMConfigurationFile.tex [12] [13] [14] [15] [16] [17])
-(./section/OpenBDLMMainMenu.tex
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-) (./section/OpenBDLMMainWorkflow.tex
-<./docfigs/user_logo.png, id=806, 411.136pt x 411.136pt>
+(./section/OpenBDLMMainMenu.tex [18]) (./section/OpenBDLMMainWorkflow.tex
+<./docfigs/user_logo.png, id=846, 411.136pt x 411.136pt>
 File: ./docfigs/user_logo.png Graphic file (type png)
 
 <use ./docfigs/user_logo.png>
@@ -1587,49 +1588,45 @@ Overfull \hbox (28.7013pt too wide) in paragraph at lines 71--72
  [][] 
  []
 
-) (./section/OpenBDLMDataLoading.tex [18] [19 <./docfigs/user_logo.png>]
-[20] [21]
+) (./section/OpenBDLMDataLoading.tex [19] [20 <./docfigs/user_logo.png>]
+[21]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) (./section/OpenBDLMDataEditingPreProcessing.tex
+) (./section/OpenBDLMDataEditingPreProcessing.tex [22]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[22] [23]
-Underfull \vbox (badness 1701) has occurred while \output is active []
 
- [24]
+Underfull \vbox (badness 2418) has occurred while \output is active []
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-) (./section/OpenBDLMModelConfiguration.tex [25]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [26]
-[27] [28]) (./section/OpenBDLMModelConstruction.tex [29]
+ [23]
+[24] [25]) (./section/OpenBDLMModelConfiguration.tex [26] [27] [28]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) (./section/OpenBDLMParamEstimation.tex [30] [31]
+) (./section/OpenBDLMModelConstruction.tex [29]
+Underfull \vbox (badness 2469) has occurred while \output is active []
+
+ [30])
+(./section/OpenBDLMParamEstimation.tex [31] [32]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[32]
-Underfull \vbox (badness 2310) has occurred while \output is active []
+[33]
+Underfull \vbox (badness 5050) has occurred while \output is active []
 
- [33]
-[34]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
+ [34]
+[35]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./section/OpenBDLMHiddenStatesEstimation.tex [35] [36]
+) (./section/OpenBDLMHiddenStatesEstimation.tex [36] [37] [38] [39
+
+]
 Overfull \hbox (81.18451pt too wide) in paragraph at lines 101--102
  [][] 
  []
@@ -1637,39 +1634,60 @@ Overfull \hbox (81.18451pt too wide) in paragraph at lines 101--102
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[37]
+[40] [41]) (./section/OpenBDLMCreatingSyntheticData.tex [42]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./section/OpenBDLMCreatingSyntheticData.tex [38] [39]
-Underfull \vbox (badness 3118) has occurred while \output is active []
-
- [40]
-[41]
+[43] [44]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./section/OpenBDLMVisualizationTools.tex
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 3.
-)
-(./section/OpenBDLMVersionControl.tex)
+) (./section/OpenBDLMVisualizingResults.tex [45]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Warning: Marginpar on page 42 moved.
+ [46]
+[47]
 
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) (./section/OpenBDLMExploringResults.tex [48]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [49]
+[50]
+Underfull \hbox (badness 3407) in paragraph at lines 60--60
+[][][]\T1/cmr/m/n/9 (+20) Yair Alt-man, 2011, ex-port_fig, [][]$\T1/cmtt/m/n/9 
+https : / / www . mathworks . com / matlabcentral /
+ []
+
+
+Underfull \hbox (badness 1845) in paragraph at lines 60--60
+[][][]\T1/cmr/m/n/9 (+20) Nico Schlömer,2013, mat-lab2tikz, [][]$\T1/cmtt/m/n/9
+ https : / / www . mathworks . com / matlabcentral /
+ []
+
+[51]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) (./section/OpenBDLMVersionControl.tex [52]
+Underfull \vbox (badness 5288) has occurred while \output is active []
+
+ [53])
 (./section/OpenBDLMExampleSingleTimeSeries.tex
-Underfull \hbox (badness 6526) in paragraph at lines 46--46
-[]\T1/cmr/m/n/10.95 (+20) Listing 9: |OpenBDLM com-mand line in-ter-ac-tion whe
-n call-ing
+Underfull \hbox (badness 4846) in paragraph at lines 46--46
+[]\T1/cmr/m/n/10.95 (+20) Listing 12: |OpenBDLM com-mand line in-ter-ac-tion wh
+en call-ing
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-LaTeX Font Info:    Font shape `U/lasy/b/n' in size <9> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 55.
-[42] [43]
-<./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png, id=1240
+[54]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [55]
+<./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png, id=1425
 , 1093.08376pt x 682.55pt>
 File: ./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png Gra
 phic file (type png)
@@ -1683,7 +1701,7 @@ les_annoted.png used on input line 68.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-<./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf, id=1241, 708.65958pt x 179.9
+<./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf, id=1426, 708.65958pt x 179.9
 6436pt>
 File: ./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf>
@@ -1691,7 +1709,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf used
 on input line 87.
 (pdftex.def)             Requested size: 323.9978pt x 82.27933pt.
 
-<./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf, id=1242, 696.85344pt x 181.47
+<./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf, id=1427, 696.85344pt x 181.47
 198pt>
 File: ./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf>
@@ -1699,7 +1717,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf used o
 n input line 91.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf, id=1243, 680.3769pt x 174.3885
+<./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf, id=1428, 680.3769pt x 174.3885
 2pt>
 File: ./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf>
@@ -1710,202 +1728,218 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf used on
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[44] [45]
+
+Underfull \vbox (badness 3792) has occurred while \output is active []
+
+ [56 <./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png>] [
+57 <./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_DISPSI
+M/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
-(Font)              scaled to size 6.80005pt on input line 185.
+(Font)              scaled to size 6.80005pt on input line 177.
 LaTeX Font Info:    Font shape `T1/fvm/bx/n' in size <8> not available
-(Font)              Font shape `T1/fvm/b/n' tried instead on input line 189.
+(Font)              Font shape `T1/fvm/b/n' tried instead on input line 181.
 LaTeX Font Info:    Font shape `T1/fvm/b/n' will be
-(Font)              scaled to size 6.80005pt on input line 189.
+(Font)              scaled to size 6.80005pt on input line 181.
 LaTeX Font Info:    Font shape `TS1/fvm/m/n' will be
-(Font)              scaled to size 6.80005pt on input line 190.
+(Font)              scaled to size 6.80005pt on input line 182.
 
-
-LaTeX Warning: Float too large for page by 43.5789pt on input line 244.
+LaTeX Warning: Float too large for page by 34.07892pt on input line 235.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-<./docfigs/Example_DISPSIM/default/DISP_ObservedPredicted.pdf, id=1300, 705.299
+[58]
+<./docfigs/Example_DISPSIM/default/DISP_ObservedPredicted.pdf, id=1495, 705.299
 pt x 179.95831pt>
 File: ./docfigs/Example_DISPSIM/default/DISP_ObservedPredicted.pdf Graphic file
  (type pdf)
 
 <use ./docfigs/Example_DISPSIM/default/DISP_ObservedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/default/DISP_ObservedPredict
-ed.pdf used on input line 255.
+ed.pdf used on input line 246.
 (pdftex.def)             Requested size: 323.9978pt x 82.66924pt.
 
-<./docfigs/Example_DISPSIM/default/DISP_LL_1.pdf, id=1301, 712.75287pt x 179.92
+<./docfigs/Example_DISPSIM/default/DISP_LL_1.pdf, id=1496, 712.75287pt x 179.92
 117pt>
 File: ./docfigs/Example_DISPSIM/default/DISP_LL_1.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/default/DISP_LL_1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/default/DISP_LL_1.pdf used o
-n input line 259.
+n input line 250.
 (pdftex.def)             Requested size: 323.9978pt x 81.78464pt.
 
-<./docfigs/Example_DISPSIM/default/DISP_S1_2.pdf, id=1302, 715.45491pt x 179.92
+<./docfigs/Example_DISPSIM/default/DISP_S1_2.pdf, id=1497, 715.45491pt x 179.92
 32pt>
 File: ./docfigs/Example_DISPSIM/default/DISP_S1_2.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/default/DISP_S1_2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/default/DISP_S1_2.pdf used o
-n input line 263.
+n input line 254.
 (pdftex.def)             Requested size: 323.9978pt x 81.48082pt.
 
-<./docfigs/Example_DISPSIM/default/DISP_S1_4.pdf, id=1303, 715.45491pt x 175.42
+<./docfigs/Example_DISPSIM/default/DISP_S1_4.pdf, id=1498, 715.45491pt x 175.42
 839pt>
 File: ./docfigs/Example_DISPSIM/default/DISP_S1_4.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/default/DISP_S1_4.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/default/DISP_S1_4.pdf used o
-n input line 267.
+n input line 258.
 (pdftex.def)             Requested size: 323.9978pt x 79.44528pt.
 
-<./docfigs/Example_DISPSIM/default/DISP_AR_6.pdf, id=1304, 715.45491pt x 179.91
+<./docfigs/Example_DISPSIM/default/DISP_AR_6.pdf, id=1499, 715.45491pt x 179.91
 716pt>
 File: ./docfigs/Example_DISPSIM/default/DISP_AR_6.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/default/DISP_AR_6.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/default/DISP_AR_6.pdf used o
-n input line 271.
+n input line 262.
 (pdftex.def)             Requested size: 323.9978pt x 81.47809pt.
 
 
-LaTeX Warning: Float too large for page by 33.8578pt on input line 276.
+LaTeX Warning: Float too large for page by 33.8578pt on input line 267.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[46]
+
 <./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_Observed
-Predicted.pdf, id=1318, 705.299pt x 179.95934pt>
+Predicted.pdf, id=1505, 705.299pt x 179.95934pt>
 File: ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_Obs
 ervedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_Obse
 rvedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_default_initialh
-iddenstate/DISP_ObservedPredicted.pdf used on input line 302.
+iddenstate/DISP_ObservedPredicted.pdf used on input line 295.
 (pdftex.def)             Requested size: 323.9978pt x 82.6697pt.
 
 <./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_LL_1.pdf
-, id=1319, 712.75287pt x 179.9252pt>
+, id=1506, 712.75287pt x 179.9252pt>
 File: ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_LL_
 1.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_LL_1
 .pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_default_initialh
-iddenstate/DISP_LL_1.pdf used on input line 306.
+iddenstate/DISP_LL_1.pdf used on input line 299.
 (pdftex.def)             Requested size: 323.9978pt x 81.78647pt.
 
 <./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_S1_2.pdf
-, id=1320, 715.45491pt x 179.92117pt>
+, id=1507, 715.45491pt x 179.92117pt>
 File: ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_S1_
 2.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_S1_2
 .pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_default_initialh
-iddenstate/DISP_S1_2.pdf used on input line 310.
+iddenstate/DISP_S1_2.pdf used on input line 303.
 (pdftex.def)             Requested size: 323.9978pt x 81.4799pt.
 
 <./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_S1_4.pdf
-, id=1321, 715.45491pt x 179.91917pt>
+, id=1508, 715.45491pt x 179.91917pt>
 File: ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_S1_
 4.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_S1_4
 .pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_default_initialh
-iddenstate/DISP_S1_4.pdf used on input line 314.
+iddenstate/DISP_S1_4.pdf used on input line 307.
 (pdftex.def)             Requested size: 323.9978pt x 81.47899pt.
 
 <./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_AR_6.pdf
-, id=1322, 715.45491pt x 179.91917pt>
+, id=1509, 715.45491pt x 179.91917pt>
 File: ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_AR_
 6.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_default_initialhiddenstate/DISP_AR_6
 .pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_default_initialh
-iddenstate/DISP_AR_6.pdf used on input line 318.
+iddenstate/DISP_AR_6.pdf used on input line 311.
 (pdftex.def)             Requested size: 323.9978pt x 81.47899pt.
 
 
-LaTeX Warning: Float too large for page by 37.89381pt on input line 324.
+LaTeX Warning: Float too large for page by 37.89381pt on input line 317.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-Overfull \hbox (35.5798pt too wide) in paragraph at lines 334--334
-[]  
- []
-
-
+[59]
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_ObservedPr
-edicted.pdf, id=1326, 705.299pt x 179.95934pt>
+edicted.pdf, id=1520, 705.299pt x 179.95934pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_Obser
 vedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_Observ
 edPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_optim_initialhid
-denstate/DISP_ObservedPredicted.pdf used on input line 344.
+denstate/DISP_ObservedPredicted.pdf used on input line 338.
 (pdftex.def)             Requested size: 323.9978pt x 82.6697pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf, 
-id=1327, 712.75287pt x 179.92018pt>
+id=1521, 712.75287pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.
 pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.p
 df>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_optim_initialhid
-denstate/DISP_LL_1.pdf used on input line 348.
+denstate/DISP_LL_1.pdf used on input line 342.
 (pdftex.def)             Requested size: 323.9978pt x 81.78418pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.pdf, 
-id=1328, 715.45491pt x 179.91817pt>
+id=1522, 715.45491pt x 179.91817pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.
 pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.p
 df>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_optim_initialhid
-denstate/DISP_S1_2.pdf used on input line 352.
+denstate/DISP_S1_2.pdf used on input line 346.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.pdf, 
-id=1329, 739.80792pt x 179.92018pt>
+id=1523, 739.80792pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.
 pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.p
 df>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_optim_initialhid
-denstate/DISP_S1_4.pdf used on input line 356.
+denstate/DISP_S1_4.pdf used on input line 350.
 (pdftex.def)             Requested size: 323.9978pt x 78.79723pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.pdf, 
-id=1330, 715.45491pt x 179.92218pt>
+id=1524, 715.45491pt x 179.92218pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.
 pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.p
 df>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/optim_param_optim_initialhid
-denstate/DISP_AR_6.pdf used on input line 360.
+denstate/DISP_AR_6.pdf used on input line 354.
 (pdftex.def)             Requested size: 323.9978pt x 81.48036pt.
 
 
-LaTeX Warning: Float too large for page by 35.20978pt on input line 366.
+LaTeX Warning: Float too large for page by 35.20978pt on input line 360.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) (./section/OpenBDLMExampleDependenceModel.tex
-<./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf, id=1333, 722.09973pt x 1
+) (./section/OpenBDLMExampleDependenceModel.tex [60] [61] [62] [63 <./docfigs/E
+xample_DISPSIM/default/DISP_ObservedPredicted.pdf> <./docfigs/Example_DISPSIM/d
+efault/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM/default/DISP_S1_2.pdf> <./docf
+igs/Example_DISPSIM/default/DISP_S1_4.pdf> <./docfigs/Example_DISPSIM/default/D
+ISP_AR_6.pdf>] [64 <./docfigs/Example_DISPSIM/optim_param_default_initialhidden
+state/DISP_ObservedPredicted.pdf> <./docfigs/Example_DISPSIM/optim_param_defaul
+t_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM/optim_param_defa
+ult_initialhiddenstate/DISP_S1_2.pdf> <./docfigs/Example_DISPSIM/optim_param_de
+fault_initialhiddenstate/DISP_S1_4.pdf> <./docfigs/Example_DISPSIM/optim_param_
+default_initialhiddenstate/DISP_AR_6.pdf>] [65 <./docfigs/Example_DISPSIM/optim
+_param_optim_initialhiddenstate/DISP_ObservedPredicted.pdf> <./docfigs/Example_
+DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_
+DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.pdf> <./docfigs/Example_
+DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.pdf> <./docfigs/Example_
+DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.pdf>]
+<./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf, id=1843, 722.09973pt x 1
 84.79037pt>
 File: ./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf Graphic file (type p
 df)
@@ -1914,7 +1948,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf u
 sed on input line 19.
 (pdftex.def)             Requested size: 323.9978pt x 82.9124pt.
 
-<./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf, id=1334, 696.85344pt x 19
+<./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf, id=1844, 696.85344pt x 19
 8.18341pt>
 File: ./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf Graphic file (type pd
 f)
@@ -1923,7 +1957,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf us
 ed on input line 23.
 (pdftex.def)             Requested size: 323.9978pt x 92.14223pt.
 
-<./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf, id=1335, 680.3769pt x 174.
+<./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf, id=1845, 680.3769pt x 174.
 38852pt>
 File: ./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf Graphic file (type pdf
 )
@@ -1935,7 +1969,7 @@ d on input line 27.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[47]
+
 Overfull \hbox (7.20593pt too wide) in paragraph at lines 52--53
 [][][][][] 
  []
@@ -1948,7 +1982,11 @@ Overfull \hbox (7.20593pt too wide) in paragraph at lines 55--56
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[66
 
+] [67 <./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example
+_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPTEMPSIM/raw/AVAILABI
+LITY.pdf>]
 Overfull \hbox (7.20593pt too wide) in paragraph at lines 75--76
 [][][][][] 
  []
@@ -1959,10 +1997,7 @@ Overfull \hbox (7.20593pt too wide) in paragraph at lines 78--79
  []
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf, id=1355
+<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf, id=1908
 , 722.09973pt x 184.79037pt>
 File: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf Gra
 phic file (type pdf)
@@ -1972,7 +2007,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL
 _AMPLITUDES.pdf used on input line 85.
 (pdftex.def)             Requested size: 323.9978pt x 82.9124pt.
 
-<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf, id=1356,
+<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf, id=1909,
  696.85344pt x 198.18341pt>
 File: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf Grap
 hic file (type pdf)
@@ -1982,7 +2017,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL
 _TIMESTEPS.pdf used on input line 89.
 (pdftex.def)             Requested size: 323.9978pt x 92.14223pt.
 
-<./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf, id=1357, 
+<./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf, id=1910, 
 680.3769pt x 174.38852pt>
 File: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf Graph
 ic file (type pdf)
@@ -1995,139 +2030,133 @@ ILABILITY.pdf used on input line 93.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [48]
+[68]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-Underfull \vbox (badness 4120) has occurred while \output is active []
-
- [49]
-[50]
-Overfull \hbox (48.75673pt too wide) in paragraph at lines 229--229
-[]  
- []
+[69 <./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf> <./
+docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf> <./docfigs/
+Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf>]
+Overfull \vbox (28.065pt too high) has occurred while \output is active []
 
 
-<./docfigs/Example_DISPTEMPSIM/default/DISP_ObservedPredicted.pdf, id=1386, 705
+[70] [71]
+<./docfigs/Example_DISPTEMPSIM/default/DISP_ObservedPredicted.pdf, id=2014, 705
 .299pt x 179.96335pt>
 File: ./docfigs/Example_DISPTEMPSIM/default/DISP_ObservedPredicted.pdf Graphic 
 file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/default/DISP_ObservedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/default/DISP_ObservedPre
-dicted.pdf used on input line 239.
+dicted.pdf used on input line 242.
 (pdftex.def)             Requested size: 323.9978pt x 82.67154pt.
 
-<./docfigs/Example_DISPTEMPSIM/default/DISP_LL_1.pdf, id=1387, 712.75287pt x 17
+<./docfigs/Example_DISPTEMPSIM/default/DISP_LL_1.pdf, id=2015, 712.75287pt x 17
 9.92018pt>
 File: ./docfigs/Example_DISPTEMPSIM/default/DISP_LL_1.pdf Graphic file (type pd
 f)
  <use ./docfigs/Example_DISPTEMPSIM/default/DISP_LL_1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/default/DISP_LL_1.pdf us
-ed on input line 243.
+ed on input line 246.
 (pdftex.def)             Requested size: 323.9978pt x 81.78418pt.
 
-<./docfigs/Example_DISPTEMPSIM/default/DISP_AR_2.pdf, id=1388, 715.45491pt x 17
+<./docfigs/Example_DISPTEMPSIM/default/DISP_AR_2.pdf, id=2016, 715.45491pt x 17
 9.9262pt>
 File: ./docfigs/Example_DISPTEMPSIM/default/DISP_AR_2.pdf Graphic file (type pd
 f)
  <use ./docfigs/Example_DISPTEMPSIM/default/DISP_AR_2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/default/DISP_AR_2.pdf us
-ed on input line 247.
+ed on input line 250.
 (pdftex.def)             Requested size: 323.9978pt x 81.48218pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-<./docfigs/Example_DISPTEMPSIM/default/TEMP_ObservedPredicted.pdf, id=1389, 710
+<./docfigs/Example_DISPTEMPSIM/default/TEMP_ObservedPredicted.pdf, id=2017, 710
 .81459pt x 179.95934pt>
 File: ./docfigs/Example_DISPTEMPSIM/default/TEMP_ObservedPredicted.pdf Graphic 
 file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/default/TEMP_ObservedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/default/TEMP_ObservedPre
-dicted.pdf used on input line 254.
+dicted.pdf used on input line 257.
 (pdftex.def)             Requested size: 323.9978pt x 82.02715pt.
 
-<./docfigs/Example_DISPTEMPSIM/default/TEMP_LL_1.pdf, id=1390, 718.16302pt x 17
+<./docfigs/Example_DISPTEMPSIM/default/TEMP_LL_1.pdf, id=2018, 718.16302pt x 17
 9.91917pt>
 File: ./docfigs/Example_DISPTEMPSIM/default/TEMP_LL_1.pdf Graphic file (type pd
 f)
  <use ./docfigs/Example_DISPTEMPSIM/default/TEMP_LL_1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/default/TEMP_LL_1.pdf us
-ed on input line 258.
+ed on input line 261.
 (pdftex.def)             Requested size: 323.9978pt x 81.16876pt.
 
-<./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_2.pdf, id=1391, 715.45491pt x 17
+<./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_2.pdf, id=2019, 715.45491pt x 17
 9.91917pt>
 File: ./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_2.pdf Graphic file (type pd
 f)
  <use ./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_2.pdf us
-ed on input line 262.
+ed on input line 265.
 (pdftex.def)             Requested size: 323.9978pt x 81.47899pt.
 
-<./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_4.pdf, id=1392, 715.45491pt x 17
+<./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_4.pdf, id=2020, 715.45491pt x 17
 9.91617pt>
 File: ./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_4.pdf Graphic file (type pd
 f)
  <use ./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_4.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_4.pdf us
-ed on input line 266.
+ed on input line 269.
 (pdftex.def)             Requested size: 323.9978pt x 81.47763pt.
 
-<./docfigs/Example_DISPTEMPSIM/default/TEMP_AR_6.pdf, id=1393, 715.45491pt x 17
+<./docfigs/Example_DISPTEMPSIM/default/TEMP_AR_6.pdf, id=2021, 715.45491pt x 17
 9.91917pt>
 File: ./docfigs/Example_DISPTEMPSIM/default/TEMP_AR_6.pdf Graphic file (type pd
 f)
  <use ./docfigs/Example_DISPTEMPSIM/default/TEMP_AR_6.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/default/TEMP_AR_6.pdf us
-ed on input line 270.
+ed on input line 273.
 (pdftex.def)             Requested size: 323.9978pt x 81.47899pt.
 
 
-LaTeX Warning: Float too large for page by 24.63129pt on input line 275.
+LaTeX Warning: Float too large for page by 24.63129pt on input line 278.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP_Obse
-rvedPredicted.pdf, id=1396, 705.299pt x 179.96033pt>
+rvedPredicted.pdf, id=2024, 705.299pt x 179.96033pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP
 _ObservedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP_
 ObservedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_default_init
-ialhiddenstate/DISP_ObservedPredicted.pdf used on input line 280.
+ialhiddenstate/DISP_ObservedPredicted.pdf used on input line 283.
 (pdftex.def)             Requested size: 323.9978pt x 82.67015pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP_LL_1
-.pdf, id=1397, 712.75287pt x 179.9232pt>
+.pdf, id=2025, 712.75287pt x 179.9232pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP
 _LL_1.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP_
 LL_1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_default_init
-ialhiddenstate/DISP_LL_1.pdf used on input line 284.
+ialhiddenstate/DISP_LL_1.pdf used on input line 287.
 (pdftex.def)             Requested size: 323.9978pt x 81.78555pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP_AR_2
-.pdf, id=1398, 715.45491pt x 179.92218pt>
+.pdf, id=2026, 715.45491pt x 179.92218pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP
 _AR_2.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP_
 AR_2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_default_init
-ialhiddenstate/DISP_AR_2.pdf used on input line 288.
+ialhiddenstate/DISP_AR_2.pdf used on input line 291.
 (pdftex.def)             Requested size: 323.9978pt x 81.48036pt.
 
 
@@ -2135,98 +2164,98 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_Obse
-rvedPredicted.pdf, id=1399, 718.73921pt x 179.96535pt>
+rvedPredicted.pdf, id=2027, 718.73921pt x 179.96535pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP
 _ObservedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_
 ObservedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_default_init
-ialhiddenstate/TEMP_ObservedPredicted.pdf used on input line 295.
+ialhiddenstate/TEMP_ObservedPredicted.pdf used on input line 298.
 (pdftex.def)             Requested size: 323.9978pt x 81.12643pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_LL_1
-.pdf, id=1400, 720.87016pt x 179.9282pt>
+.pdf, id=2028, 720.87016pt x 179.9282pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP
 _LL_1.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_
 LL_1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_default_init
-ialhiddenstate/TEMP_LL_1.pdf used on input line 299.
+ialhiddenstate/TEMP_LL_1.pdf used on input line 302.
 (pdftex.def)             Requested size: 323.9978pt x 80.87083pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_S1_2
-.pdf, id=1401, 718.16302pt x 179.91716pt>
+.pdf, id=2029, 718.16302pt x 179.91716pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP
 _S1_2.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_
 S1_2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_default_init
-ialhiddenstate/TEMP_S1_2.pdf used on input line 303.
+ialhiddenstate/TEMP_S1_2.pdf used on input line 306.
 (pdftex.def)             Requested size: 323.9978pt x 81.16786pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_S1_4
-.pdf, id=1402, 715.45491pt x 179.92018pt>
+.pdf, id=2030, 715.45491pt x 179.92018pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP
 _S1_4.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_
 S1_4.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_default_init
-ialhiddenstate/TEMP_S1_4.pdf used on input line 307.
+ialhiddenstate/TEMP_S1_4.pdf used on input line 310.
 (pdftex.def)             Requested size: 323.9978pt x 81.47945pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_AR_6
-.pdf, id=1403, 723.57228pt x 179.92018pt>
+.pdf, id=2031, 723.57228pt x 179.92018pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP
 _AR_6.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_
 AR_6.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_default_init
-ialhiddenstate/TEMP_AR_6.pdf used on input line 311.
+ialhiddenstate/TEMP_AR_6.pdf used on input line 314.
 (pdftex.def)             Requested size: 323.9978pt x 80.5625pt.
 
 
-LaTeX Warning: Float too large for page by 22.20685pt on input line 316.
+LaTeX Warning: Float too large for page by 22.20685pt on input line 319.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_Observ
-edPredicted.pdf, id=1406, 705.299pt x 179.96033pt>
+edPredicted.pdf, id=2034, 705.299pt x 179.96033pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_O
 bservedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_Ob
 servedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/DISP_ObservedPredicted.pdf used on input line 321.
+lhiddenstate/DISP_ObservedPredicted.pdf used on input line 324.
 (pdftex.def)             Requested size: 323.9978pt x 82.67015pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.p
-df, id=1407, 712.75287pt x 179.91817pt>
+df, id=2035, 712.75287pt x 179.91817pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_L
 L_1.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_LL
 _1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/DISP_LL_1.pdf used on input line 325.
+lhiddenstate/DISP_LL_1.pdf used on input line 328.
 (pdftex.def)             Requested size: 323.9978pt x 81.78328pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_AR_2.p
-df, id=1408, 715.45491pt x 179.92018pt>
+df, id=2036, 715.45491pt x 179.92018pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_A
 R_2.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_AR
 _2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/DISP_AR_2.pdf used on input line 329.
+lhiddenstate/DISP_AR_2.pdf used on input line 332.
 (pdftex.def)             Requested size: 323.9978pt x 81.47945pt.
 
 
@@ -2234,68 +2263,92 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_Observ
-edPredicted.pdf, id=1409, 718.73921pt x 179.96535pt>
+edPredicted.pdf, id=2037, 718.73921pt x 179.96535pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_O
 bservedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_Ob
 servedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_ObservedPredicted.pdf used on input line 336.
+lhiddenstate/TEMP_ObservedPredicted.pdf used on input line 339.
 (pdftex.def)             Requested size: 323.9978pt x 81.12643pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_LL_1.p
-df, id=1410, 686.27289pt x 172.95816pt>
+df, id=2038, 686.27289pt x 172.95816pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_L
 L_1.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_LL
 _1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_LL_1.pdf used on input line 340.
+lhiddenstate/TEMP_LL_1.pdf used on input line 343.
 (pdftex.def)             Requested size: 323.9978pt x 81.65718pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_2.p
-df, id=1411, 718.16302pt x 179.92117pt>
+df, id=2039, 718.16302pt x 179.92117pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S
 1_2.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1
 _2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_S1_2.pdf used on input line 344.
+lhiddenstate/TEMP_S1_2.pdf used on input line 347.
 (pdftex.def)             Requested size: 323.9978pt x 81.16968pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_4.p
-df, id=1412, 715.45491pt x 179.92218pt>
+df, id=2040, 715.45491pt x 179.92218pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S
 1_4.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1
 _4.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_S1_4.pdf used on input line 348.
+lhiddenstate/TEMP_S1_4.pdf used on input line 351.
 (pdftex.def)             Requested size: 323.9978pt x 81.48036pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_AR_6.p
-df, id=1413, 723.57228pt x 179.92018pt>
+df, id=2041, 723.57228pt x 179.92018pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_A
 R_6.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_AR
 _6.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_AR_6.pdf used on input line 352.
+lhiddenstate/TEMP_AR_6.pdf used on input line 355.
 (pdftex.def)             Requested size: 323.9978pt x 80.5625pt.
 
 
-LaTeX Warning: Float too large for page by 22.99593pt on input line 357.
+LaTeX Warning: Float too large for page by 22.99593pt on input line 360.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) (./section/OpenBDLMExampleAnomaly.tex
-<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf, id=1416, 722.09973pt
+) (./section/OpenBDLMExampleAnomaly.tex [72] [73 <./docfigs/Example_DISPTEMPSIM
+/default/DISP_ObservedPredicted.pdf> <./docfigs/Example_DISPTEMPSIM/default/DIS
+P_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/default/DISP_AR_2.pdf>] [74 <./docfi
+gs/Example_DISPTEMPSIM/default/TEMP_ObservedPredicted.pdf> <./docfigs/Example_D
+ISPTEMPSIM/default/TEMP_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/default/TEMP_S
+1_2.pdf> <./docfigs/Example_DISPTEMPSIM/default/TEMP_S1_4.pdf> <./docfigs/Examp
+le_DISPTEMPSIM/default/TEMP_AR_6.pdf>] [75 <./docfigs/Example_DISPTEMPSIM/optim
+_param_default_initialhiddenstate/DISP_ObservedPredicted.pdf> <./docfigs/Exampl
+e_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/
+Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP_AR_2.pdf>]
+[76 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_
+ObservedPredicted.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_default_initi
+alhiddenstate/TEMP_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_default
+_initialhiddenstate/TEMP_S1_2.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_d
+efault_initialhiddenstate/TEMP_S1_4.pdf> <./docfigs/Example_DISPTEMPSIM/optim_p
+aram_default_initialhiddenstate/TEMP_AR_6.pdf>] [77 <./docfigs/Example_DISPTEMP
+SIM/optim_param_optim_initialhiddenstate/DISP_ObservedPredicted.pdf> <./docfigs
+/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf> <./doc
+figs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_AR_2.pdf>]
+[78 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_Ob
+servedPredicted.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhi
+ddenstate/TEMP_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initi
+alhiddenstate/TEMP_S1_2.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_i
+nitialhiddenstate/TEMP_S1_4.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_opt
+im_initialhiddenstate/TEMP_AR_6.pdf>]
+<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf, id=2413, 722.09973pt
  x 180.677pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf Graphic file (ty
 pe pdf)
@@ -2304,7 +2357,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.p
 df used on input line 22.
 (pdftex.def)             Requested size: 323.9978pt x 81.0668pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf, id=1417, 696.85442pt 
+<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf, id=2414, 696.85442pt 
 x 181.47198pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf Graphic file (typ
 e pdf)
@@ -2313,7 +2366,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pd
 f used on input line 26.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf, id=1418, 680.37788pt x
+<./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf, id=2415, 680.37788pt x
  174.38852pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf Graphic file (type
  pdf)
@@ -2322,21 +2375,27 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf
  used on input line 30.
 (pdftex.def)             Requested size: 323.9978pt x 83.04295pt.
 
-[51]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[52]
+[79
+
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [80 <./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf> <./docfigs/Exam
+ple_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPSIM_ANOMALY/r
+aw/AVAILABILITY.pdf>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (19.6066pt too wide) in paragraph at lines 128--128
+Overfull \hbox (29.94608pt too wide) in paragraph at lines 128--128
 []  
  []
 
-
-<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_ObservedPredicted.pdf, id=1440,
+[81]
+<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_ObservedPredicted.pdf, id=2465,
  718.73921pt x 180.68102pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_ObservedPredicted.pdf Grap
 hic file (type pdf)
@@ -2346,7 +2405,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_Observe
 dPredicted.pdf used on input line 157.
 (pdftex.def)             Requested size: 323.9978pt x 81.44907pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/default/ModelProbability.pdf, id=1441, 702.7
+<./docfigs/Example_DISPSIM_ANOMALY/default/ModelProbability.pdf, id=2466, 702.7
 2437pt x 179.95934pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/default/ModelProbability.pdf Graphic fi
 le (type pdf)
@@ -2356,7 +2415,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/default/ModelProbabi
 lity.pdf used on input line 161.
 (pdftex.def)             Requested size: 323.9978pt x 82.97176pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LL_1.pdf, id=1442, 718.16302pt 
+<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LL_1.pdf, id=2467, 718.16302pt 
 x 179.91417pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LL_1.pdf Graphic file (typ
 e pdf)
@@ -2365,7 +2424,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LL_1.pd
 f used on input line 165.
 (pdftex.def)             Requested size: 323.9978pt x 81.16652pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LT_2.pdf, id=1443, 715.45596pt 
+<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LT_2.pdf, id=2468, 715.45596pt 
 x 179.92018pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LT_2.pdf Graphic file (typ
 e pdf)
@@ -2374,7 +2433,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LT_2.pd
 f used on input line 169.
 (pdftex.def)             Requested size: 323.9978pt x 81.47945pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LAc_3.pdf, id=1444, 738.90556pt
+<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LAc_3.pdf, id=2469, 738.90556pt
  x 179.92218pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LAc_3.pdf Graphic file (ty
 pe pdf)
@@ -2387,7 +2446,7 @@ df used on input line 173.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_S1_4.pdf, id=1445, 715.45596pt 
+<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_S1_4.pdf, id=2470, 715.45596pt 
 x 179.92117pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_S1_4.pdf Graphic file (typ
 e pdf)
@@ -2396,7 +2455,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_S1_4.pd
 f used on input line 180.
 (pdftex.def)             Requested size: 323.9978pt x 81.4799pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_AR_6.pdf, id=1446, 715.45596pt 
+<./docfigs/Example_DISPSIM_ANOMALY/default/DISP_AR_6.pdf, id=2471, 715.45596pt 
 x 179.91817pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/default/DISP_AR_6.pdf Graphic file (typ
 e pdf)
@@ -2408,60 +2467,60 @@ f used on input line 184.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[53]
+
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_
-ObservedPredicted.pdf, id=1457, 718.73921pt x 180.68002pt>
+ObservedPredicted.pdf, id=2477, 718.73921pt x 180.68002pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/
 DISP_ObservedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/D
 ISP_ObservedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_
-initialhiddenstate/DISP_ObservedPredicted.pdf used on input line 218.
+initialhiddenstate/DISP_ObservedPredicted.pdf used on input line 219.
 (pdftex.def)             Requested size: 323.9978pt x 81.44861pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/Model
-Probability.pdf, id=1458, 702.72437pt x 179.95934pt>
+Probability.pdf, id=2478, 702.72437pt x 179.95934pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/
 ModelProbability.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/M
 odelProbability.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_
-initialhiddenstate/ModelProbability.pdf used on input line 222.
+initialhiddenstate/ModelProbability.pdf used on input line 223.
 (pdftex.def)             Requested size: 323.9978pt x 82.97176pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_
-LL_1.pdf, id=1459, 718.16302pt x 179.91817pt>
+LL_1.pdf, id=2479, 718.16302pt x 179.91817pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/
 DISP_LL_1.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/D
 ISP_LL_1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_
-initialhiddenstate/DISP_LL_1.pdf used on input line 226.
+initialhiddenstate/DISP_LL_1.pdf used on input line 227.
 (pdftex.def)             Requested size: 323.9978pt x 81.16832pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_
-LT_2.pdf, id=1460, 715.45596pt x 179.91817pt>
+LT_2.pdf, id=2480, 715.45596pt x 179.91817pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/
 DISP_LT_2.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/D
 ISP_LT_2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_
-initialhiddenstate/DISP_LT_2.pdf used on input line 230.
+initialhiddenstate/DISP_LT_2.pdf used on input line 231.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_
-LAc_3.pdf, id=1461, 738.90556pt x 179.92018pt>
+LAc_3.pdf, id=2481, 738.90556pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/
 DISP_LAc_3.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/D
 ISP_LAc_3.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_
-initialhiddenstate/DISP_LAc_3.pdf used on input line 234.
+initialhiddenstate/DISP_LAc_3.pdf used on input line 235.
 (pdftex.def)             Requested size: 323.9978pt x 78.89333pt.
 
 
@@ -2469,122 +2528,146 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_
-S1_4.pdf, id=1462, 715.45596pt x 179.91516pt>
+S1_4.pdf, id=2482, 715.45596pt x 179.91516pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/
 DISP_S1_4.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/D
 ISP_S1_4.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_
-initialhiddenstate/DISP_S1_4.pdf used on input line 241.
+initialhiddenstate/DISP_S1_4.pdf used on input line 242.
 (pdftex.def)             Requested size: 323.9978pt x 81.47717pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_
-AR_6.pdf, id=1463, 715.45596pt x 179.91817pt>
+AR_6.pdf, id=2483, 715.45596pt x 179.91817pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/
 DISP_AR_6.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/D
 ISP_AR_6.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_
-initialhiddenstate/DISP_AR_6.pdf used on input line 245.
+initialhiddenstate/DISP_AR_6.pdf used on input line 246.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[82]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Overfull \hbox (1.20049pt too wide) in paragraph at lines 263--263
-[]  
- []
-
-[54]
+ [83 <./docfigs/Example_DISPSIM_ANOMALY/default/DISP_ObservedPredicted.pdf> <./
+docfigs/Example_DISPSIM_ANOMALY/default/ModelProbability.pdf> <./docfigs/Exampl
+e_DISPSIM_ANOMALY/default/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM_ANOMALY/def
+ault/DISP_LT_2.pdf> <./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LAc_3.pdf>]
+ [84 <./docfigs/Example_DISPSIM_ANOMALY/default/DISP_S1_4.pdf> <./docfigs/Examp
+le_DISPSIM_ANOMALY/default/DISP_AR_6.pdf>]
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_Ob
-servedPredicted.pdf, id=1473, 718.73921pt x 180.67902pt>
+servedPredicted.pdf, id=2586, 718.73921pt x 180.67902pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_ObservedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
 P_ObservedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_in
-itialhiddenstate/DISP_ObservedPredicted.pdf used on input line 281.
+itialhiddenstate/DISP_ObservedPredicted.pdf used on input line 282.
 (pdftex.def)             Requested size: 323.9978pt x 81.44815pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/ModelPr
-obability.pdf, id=1474, 702.72437pt x 179.95934pt>
+obability.pdf, id=2587, 702.72437pt x 179.95934pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/Mo
 delProbability.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/Mod
 elProbability.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_in
-itialhiddenstate/ModelProbability.pdf used on input line 285.
+itialhiddenstate/ModelProbability.pdf used on input line 286.
 (pdftex.def)             Requested size: 323.9978pt x 82.97176pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LL
-_1.pdf, id=1475, 718.16302pt x 179.92018pt>
+_1.pdf, id=2588, 718.16302pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_LL_1.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
 P_LL_1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_in
-itialhiddenstate/DISP_LL_1.pdf used on input line 289.
+itialhiddenstate/DISP_LL_1.pdf used on input line 290.
 (pdftex.def)             Requested size: 323.9978pt x 81.16922pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LT
-_2.pdf, id=1476, 715.45596pt x 179.91817pt>
+_2.pdf, id=2589, 715.45596pt x 179.91817pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_LT_2.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
 P_LT_2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_in
-itialhiddenstate/DISP_LT_2.pdf used on input line 293.
+itialhiddenstate/DISP_LT_2.pdf used on input line 294.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LA
-c_3.pdf, id=1477, 738.90556pt x 179.92117pt>
+c_3.pdf, id=2590, 738.90556pt x 179.92117pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_LAc_3.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
 P_LAc_3.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_in
-itialhiddenstate/DISP_LAc_3.pdf used on input line 297.
+itialhiddenstate/DISP_LAc_3.pdf used on input line 298.
 (pdftex.def)             Requested size: 323.9978pt x 78.89377pt.
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [85 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/
+DISP_ObservedPredicted.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_defa
+ult_initialhiddenstate/ModelProbability.pdf> <./docfigs/Example_DISPSIM_ANOMALY
+/optim_param_default_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_DISPS
+IM_ANOMALY/optim_param_default_initialhiddenstate/DISP_LT_2.pdf> <./docfigs/Exa
+mple_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_LAc_3.pdf>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_S1
-_4.pdf, id=1478, 715.45596pt x 179.91617pt>
+_4.pdf, id=2656, 715.45596pt x 179.91617pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_S1_4.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
 P_S1_4.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_in
-itialhiddenstate/DISP_S1_4.pdf used on input line 304.
+itialhiddenstate/DISP_S1_4.pdf used on input line 305.
 (pdftex.def)             Requested size: 323.9978pt x 81.47763pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_AR
-_6.pdf, id=1479, 692.93878pt x 172.95517pt>
+_6.pdf, id=2657, 692.93878pt x 172.95517pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_AR_6.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
 P_AR_6.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_in
-itialhiddenstate/DISP_AR_6.pdf used on input line 308.
+itialhiddenstate/DISP_AR_6.pdf used on input line 309.
 (pdftex.def)             Requested size: 323.9978pt x 80.87195pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) (./section/OpenBDLMExampleCreatingSyntheticData.tex [55]
-<./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf, id=1492, 722.10176pt x 179
+) (./section/OpenBDLMExampleCreatingSyntheticData.tex [86 <./docfigs/Example_DI
+SPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_S1_4.pdf> <./docfigs/
+Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_AR_6.pdf>]
+[87 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
+P_ObservedPredicted.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_i
+nitialhiddenstate/ModelProbability.pdf> <./docfigs/Example_DISPSIM_ANOMALY/opti
+m_param_optim_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM_ANOM
+ALY/optim_param_optim_initialhiddenstate/DISP_LT_2.pdf> <./docfigs/Example_DISP
+SIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LAc_3.pdf>] [88] [89 <./d
+ocfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_S1_4.p
+df> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
+P_AR_6.pdf>] [90
+
+]
+<./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf, id=2836, 722.10176pt x 179
 .95831pt>
 File: ./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf Graphic file (type pdf
 )
@@ -2593,7 +2676,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf use
 d on input line 58.
 (pdftex.def)             Requested size: 323.9978pt x 80.74434pt.
 
-<./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf, id=1493, 696.85645pt x 181.
+<./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf, id=2837, 696.85645pt x 181.
 47198pt>
 File: ./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf Graphic file (type pdf)
 
@@ -2602,7 +2685,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf used
  on input line 62.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf, id=1494, 680.37886pt x 174.3
+<./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf, id=2838, 680.37886pt x 174.3
 8852pt>
 File: ./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf Graphic file (type pdf)
  <use ./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf>
@@ -2614,7 +2697,7 @@ on input line 66.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-<./docfigs/Example_SYNTHETIC/default/TS01_ObservedPredicted.pdf, id=1498, 718.7
+<./docfigs/Example_SYNTHETIC/default/TS01_ObservedPredicted.pdf, id=2842, 718.7
 4124pt x 179.95934pt>
 File: ./docfigs/Example_SYNTHETIC/default/TS01_ObservedPredicted.pdf Graphic fi
 le (type pdf)
@@ -2624,7 +2707,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/default/TS01_ObservedPredi
 cted.pdf used on input line 83.
 (pdftex.def)             Requested size: 323.9978pt x 81.12373pt.
 
-<./docfigs/Example_SYNTHETIC/default/TS01_LL_1.pdf, id=1499, 718.16505pt x 179.
+<./docfigs/Example_SYNTHETIC/default/TS01_LL_1.pdf, id=2843, 718.16505pt x 179.
 91817pt>
 File: ./docfigs/Example_SYNTHETIC/default/TS01_LL_1.pdf Graphic file (type pdf)
 
@@ -2633,7 +2716,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/default/TS01_LL_1.pdf used
  on input line 87.
 (pdftex.def)             Requested size: 323.9978pt x 81.16832pt.
 
-<./docfigs/Example_SYNTHETIC/default/TS01_LT_2.pdf, id=1500, 715.45694pt x 179.
+<./docfigs/Example_SYNTHETIC/default/TS01_LT_2.pdf, id=2844, 715.45694pt x 179.
 91917pt>
 File: ./docfigs/Example_SYNTHETIC/default/TS01_LT_2.pdf Graphic file (type pdf)
 
@@ -2642,7 +2725,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/default/TS01_LT_2.pdf used
  on input line 91.
 (pdftex.def)             Requested size: 323.9978pt x 81.47899pt.
 
-<./docfigs/Example_SYNTHETIC/default/TS01_LA_3.pdf, id=1501, 738.90654pt x 179.
+<./docfigs/Example_SYNTHETIC/default/TS01_LA_3.pdf, id=2845, 738.90654pt x 179.
 92117pt>
 File: ./docfigs/Example_SYNTHETIC/default/TS01_LA_3.pdf Graphic file (type pdf)
 
@@ -2655,7 +2738,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/default/TS01_LA_3.pdf used
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-<./docfigs/Example_SYNTHETIC/default/TS01_S1_4.pdf, id=1502, 723.57423pt x 179.
+<./docfigs/Example_SYNTHETIC/default/TS01_S1_4.pdf, id=2846, 723.57423pt x 179.
 91617pt>
 File: ./docfigs/Example_SYNTHETIC/default/TS01_S1_4.pdf Graphic file (type pdf)
 
@@ -2664,7 +2747,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/default/TS01_S1_4.pdf used
  on input line 102.
 (pdftex.def)             Requested size: 323.9978pt x 80.5607pt.
 
-<./docfigs/Example_SYNTHETIC/default/TS01_AR_6.pdf, id=1503, 715.45694pt x 179.
+<./docfigs/Example_SYNTHETIC/default/TS01_AR_6.pdf, id=2847, 715.45694pt x 179.
 9242pt>
 File: ./docfigs/Example_SYNTHETIC/default/TS01_AR_6.pdf Graphic file (type pdf)
 
@@ -2681,9 +2764,9 @@ Overfull \hbox (42.87154pt too wide) in paragraph at lines 120--120
 []  
  []
 
-[56]
+
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_Observed
-Predicted.pdf, id=1513, 718.74124pt x 179.95934pt>
+Predicted.pdf, id=2851, 718.74124pt x 179.95934pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_Obs
 ervedPredicted.pdf Graphic file (type pdf)
 
@@ -2694,7 +2777,7 @@ iddenstate/TS01_ObservedPredicted.pdf used on input line 130.
 (pdftex.def)             Requested size: 323.9978pt x 81.12373pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_1.pdf
-, id=1514, 718.16505pt x 179.92117pt>
+, id=2852, 718.16505pt x 179.92117pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_
 1.pdf Graphic file (type pdf)
 
@@ -2705,7 +2788,7 @@ iddenstate/TS01_LL_1.pdf used on input line 134.
 (pdftex.def)             Requested size: 323.9978pt x 81.16968pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_2.pdf
-, id=1515, 715.45694pt x 179.91817pt>
+, id=2853, 715.45694pt x 179.91817pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_
 2.pdf Graphic file (type pdf)
 
@@ -2716,7 +2799,7 @@ iddenstate/TS01_LT_2.pdf used on input line 138.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA_3.pdf
-, id=1516, 744.31677pt x 179.92018pt>
+, id=2854, 744.31677pt x 179.92018pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA_
 3.pdf Graphic file (type pdf)
 
@@ -2731,7 +2814,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_S1_4.pdf
-, id=1517, 718.16505pt x 179.92117pt>
+, id=2855, 718.16505pt x 179.92117pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_S1_
 4.pdf Graphic file (type pdf)
 
@@ -2742,7 +2825,7 @@ iddenstate/TS01_S1_4.pdf used on input line 149.
 (pdftex.def)             Requested size: 323.9978pt x 81.16968pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR_6.pdf
-, id=1518, 715.45694pt x 179.91617pt>
+, id=2856, 715.45694pt x 179.91617pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR_
 6.pdf Graphic file (type pdf)
 
@@ -2755,114 +2838,48 @@ iddenstate/TS01_AR_6.pdf used on input line 153.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) (./section/OpenBDLMFAQ.tex) (./section/OpenBDLMReferenceTheory.tex [57]
-[58] [59] [60] [61]
+) (./section/OpenBDLMFAQ.tex [91] [92 <./docfigs/Example_SYNTHETIC/raw/ALL_AMPL
+ITUDES.pdf> <./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf> <./docfigs/Exam
+ple_SYNTHETIC/raw/AVAILABILITY.pdf>] [93 <./docfigs/Example_SYNTHETIC/default/T
+S01_ObservedPredicted.pdf> <./docfigs/Example_SYNTHETIC/default/TS01_LL_1.pdf> 
+<./docfigs/Example_SYNTHETIC/default/TS01_LT_2.pdf> <./docfigs/Example_SYNTHETI
+C/default/TS01_LA_3.pdf>] [94 <./docfigs/Example_SYNTHETIC/default/TS01_S1_4.pd
+f> <./docfigs/Example_SYNTHETIC/default/TS01_AR_6.pdf>] [95 <./docfigs/Example_
+SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_ObservedPredicted.pdf> <./d
+ocfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_1.pdf> <.
+/docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_2.pdf> 
+<./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA_3.pdf
+>] [96 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_S
+1_4.pdf> <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01
+_AR_6.pdf>]
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
+ine 2.
+) (./section/OpenBDLMReferenceTheory.tex [97
+
+] [98] [99] [100]
+[101]
 Overfull \hbox (25.50293pt too wide) in paragraph at lines 207--207
 []  
  []
 
-[62] [63] [64] [65] [66] [67] [68]) (./DOC.bbl [69]) [70]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 186.
- [71] [72] [73]
-[74 <./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png>]
-[75 <./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_DISPS
-IM/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf>]
-[76] [77 <./docfigs/Example_DISPSIM/default/DISP_ObservedPredicted.pdf> <./docf
-igs/Example_DISPSIM/default/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM/default/D
-ISP_S1_2.pdf> <./docfigs/Example_DISPSIM/default/DISP_S1_4.pdf> <./docfigs/Exam
-ple_DISPSIM/default/DISP_AR_6.pdf>] [78 <./docfigs/Example_DISPSIM/optim_param_
-default_initialhiddenstate/DISP_ObservedPredicted.pdf> <./docfigs/Example_DISPS
-IM/optim_param_default_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_DIS
-PSIM/optim_param_default_initialhiddenstate/DISP_S1_2.pdf> <./docfigs/Example_D
-ISPSIM/optim_param_default_initialhiddenstate/DISP_S1_4.pdf> <./docfigs/Example
-_DISPSIM/optim_param_default_initialhiddenstate/DISP_AR_6.pdf>] [79 <./docfigs/
-Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_ObservedPredicted.pdf
-> <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf
-> <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.pdf
-> <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.pdf
-> <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.pdf
->] [80 <./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf> <./docfigs/Exampl
-e_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPTEMPSIM/raw/AVAILAB
-ILITY.pdf>] [81 <./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITU
-DES.pdf> <./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf>
- <./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf>]
-[82] [83 <./docfigs/Example_DISPTEMPSIM/default/DISP_ObservedPredicted.pdf> <./
-docfigs/Example_DISPTEMPSIM/default/DISP_LL_1.pdf> <./docfigs/Example_DISPTEMPS
-IM/default/DISP_AR_2.pdf>] [84 <./docfigs/Example_DISPTEMPSIM/default/TEMP_Obse
-rvedPredicted.pdf> <./docfigs/Example_DISPTEMPSIM/default/TEMP_LL_1.pdf> <./doc
-figs/Example_DISPTEMPSIM/default/TEMP_S1_2.pdf> <./docfigs/Example_DISPTEMPSIM/
-default/TEMP_S1_4.pdf> <./docfigs/Example_DISPTEMPSIM/default/TEMP_AR_6.pdf>]
-[85 <./docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/DISP_
-ObservedPredicted.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_default_initi
-alhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_default
-_initialhiddenstate/DISP_AR_2.pdf>] [86 <./docfigs/Example_DISPTEMPSIM/optim_pa
-ram_default_initialhiddenstate/TEMP_ObservedPredicted.pdf> <./docfigs/Example_D
-ISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_LL_1.pdf> <./docfigs/Exa
-mple_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_S1_2.pdf> <./docfi
-gs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_S1_4.pdf> <.
-/docfigs/Example_DISPTEMPSIM/optim_param_default_initialhiddenstate/TEMP_AR_6.p
-df>] [87 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DI
-SP_ObservedPredicted.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_init
-ialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_
-initialhiddenstate/DISP_AR_2.pdf>] [88 <./docfigs/Example_DISPTEMPSIM/optim_par
-am_optim_initialhiddenstate/TEMP_ObservedPredicted.pdf> <./docfigs/Example_DISP
-TEMPSIM/optim_param_optim_initialhiddenstate/TEMP_LL_1.pdf> <./docfigs/Example_
-DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_2.pdf> <./docfigs/Exam
-ple_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_4.pdf> <./docfigs/
-Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_AR_6.pdf>]
-[89 <./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf> <./docfigs/Examp
-le_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPSIM_ANOMALY/ra
-w/AVAILABILITY.pdf>] [90] [91 <./docfigs/Example_DISPSIM_ANOMALY/default/DISP_O
-bservedPredicted.pdf> <./docfigs/Example_DISPSIM_ANOMALY/default/ModelProbabili
-ty.pdf> <./docfigs/Example_DISPSIM_ANOMALY/default/DISP_LL_1.pdf> <./docfigs/Ex
-ample_DISPSIM_ANOMALY/default/DISP_LT_2.pdf> <./docfigs/Example_DISPSIM_ANOMALY
-/default/DISP_LAc_3.pdf>] [92 <./docfigs/Example_DISPSIM_ANOMALY/default/DISP_S
-1_4.pdf> <./docfigs/Example_DISPSIM_ANOMALY/default/DISP_AR_6.pdf>] [93 <./docf
-igs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_Observe
-dPredicted.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialh
-iddenstate/ModelProbability.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param
-_default_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM_ANOMALY/o
-ptim_param_default_initialhiddenstate/DISP_LT_2.pdf> <./docfigs/Example_DISPSIM
-_ANOMALY/optim_param_default_initialhiddenstate/DISP_LAc_3.pdf>] [94 <./docfigs
-/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_S1_4.pdf> 
-<./docfigs/Example_DISPSIM_ANOMALY/optim_param_default_initialhiddenstate/DISP_
-AR_6.pdf>] [95 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhidd
-enstate/DISP_ObservedPredicted.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_pa
-ram_optim_initialhiddenstate/ModelProbability.pdf> <./docfigs/Example_DISPSIM_A
-NOMALY/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_D
-ISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LT_2.pdf> <./docfigs/E
-xample_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LAc_3.pdf>]
-[96 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
-P_S1_4.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddens
-tate/DISP_AR_6.pdf>] [97 <./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf> <
-./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_SYNTHETIC
-/raw/AVAILABILITY.pdf>] [98 <./docfigs/Example_SYNTHETIC/default/TS01_ObservedP
-redicted.pdf> <./docfigs/Example_SYNTHETIC/default/TS01_LL_1.pdf> <./docfigs/Ex
-ample_SYNTHETIC/default/TS01_LT_2.pdf> <./docfigs/Example_SYNTHETIC/default/TS0
-1_LA_3.pdf>] [99 <./docfigs/Example_SYNTHETIC/default/TS01_S1_4.pdf> <./docfigs
-/Example_SYNTHETIC/default/TS01_AR_6.pdf>] [100 <./docfigs/Example_SYNTHETIC/op
-tim_param_optim_initialhiddenstate/TS01_ObservedPredicted.pdf> <./docfigs/Examp
-le_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_1.pdf> <./docfigs/Exa
-mple_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_2.pdf> <./docfigs/E
-xample_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA_3.pdf>] [101 <./d
-ocfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_S1_4.pdf> <.
-/docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR_6.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 186.
-(./DOC.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 186.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 186.
+[102] [103] [104] [105] [106] [107] [108]) (./DOC.bbl [109]) [110]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 193.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 193.
+ (./DOC.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 193.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 193.
 Package rerunfilecheck Info: File `DOC.out' has not changed.
-(rerunfilecheck)             Checksum: A15BC662479FDB6C23FC04B6DA5DFA0A;9420.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 186.
+(rerunfilecheck)             Checksum: 19699D1DAE834E82F019A44BF362117F;9779.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 193.
  ) 
 Here is how much of TeX's memory you used:
- 31040 strings out of 493014
- 639322 string characters out of 6133351
- 1401954 words of memory out of 5000000
- 32941 multiletter control sequences out of 15000+600000
- 50588 words of font info for 217 fonts, out of 8000000 for 9000
+ 31310 strings out of 493014
+ 644430 string characters out of 6133351
+ 1070602 words of memory out of 5000000
+ 33098 multiletter control sequences out of 15000+600000
+ 50810 words of font info for 221 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,20n,120p,847b,1881s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,20n,120p,847b,1885s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
 exlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/tex
 live/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texl
@@ -2907,10 +2924,10 @@ i1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sftt0
 900.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sftt109
 5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfxc1095.
 pfb>
-Output written on DOC.pdf (101 pages, 35654905 bytes).
+Output written on DOC.pdf (110 pages, 35687842 bytes).
 PDF statistics:
- 3306 PDF objects out of 3580 (max. 8388607)
- 2997 compressed objects within 30 object streams
- 780 named destinations out of 1000 (max. 500000)
- 40335 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 3501 PDF objects out of 3580 (max. 8388607)
+ 3181 compressed objects within 32 object streams
+ 878 named destinations out of 1000 (max. 500000)
+ 40375 words of extra memory for PDF output out of 42996 (max. 10000000)
 

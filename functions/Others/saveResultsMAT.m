@@ -1,5 +1,5 @@
 function [misc]=saveResultsMAT(data, model, estimation, misc, varargin)
-%SAVERESULTSMAT Save results in Matlab MAT binary files
+%SAVERESULTSMAT Save results in a .mat file
 %
 %   SYNOPSIS:
 %     [misc]=SAVERESULTSMAT(data, model, estimation, misc, varargin)
