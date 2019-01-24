@@ -1,15 +1,15 @@
 \section{Step-by-step example: single time-series analysis}
-\label{S:ExampleDisp}
+\label{S:Example_DISP}
 
-This example uses a single synthetic time series data that mimics displacement data measured on a bridge. 
+This example uses a single time series data that mimics displacement data measured on a bridge (synthetic data). 
 
 \subsection{Step 1: start a project}
 
-In the \MATLAB{} command window, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;! }, and type $\dlsh$.
+In the \MATLAB{} command window, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;! }, and press the key ``enter'' $\dlsh$.
 The \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main! starting menu appears.
 The user has to provide an input from the command line each time a \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!choice >>! appears.
-The provided input is validated by typing $\dlsh$.
- \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM command line interaction when calling \lstinline!OpenBDLM\_main();!} from \MATLAB{} command line, label = LST:OpenBDLMStartingMenuExample1 ,  float =h!, linewidth=\linewidth, captionpos=b]
+%The provided input is validated by pressing $\dlsh$.
+ \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM command line interaction when calling \lstinline!OpenBDLM\_main;!} from \MATLAB{} command line, label = LST:OpenBDLMStartingMenuExample1 ,  float =h!, linewidth=\linewidth, captionpos=b]
 
 ------------------------------------------------
      Starting OpenBDLM_V1.0
@@ -31,7 +31,7 @@ The provided input is validated by typing $\dlsh$.
 ----------------------------------------
 
 - Enter a project name (max 25 characters):
-     choice >> DISP
+     choice >> Example_DISP
      
 - Does this project aim to create synthetic data ? (y/n) 
      choice >> no
@@ -46,14 +46,14 @@ The provided input is validated by typing $\dlsh$.
 \end{lstlisting}
 
 First, choose the interactive tool by typing \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
-Secondly, provide a project name (e.i \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!DISP!).
+Secondly, provide a project name (e.i \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Example_DISP!).
 Then, answer \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!no!} to indicate that you are not concerned with creating synthetic data.
 The next step is to type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!} to indicate that you aim to load new data.
 
 \subsection{Step 2: load the data}
 
 At this stage, a graphical user interface \footnote{Douglas M. Schwarz, 2007, uipickfiles \url{https://www.mathworks.com/matlabcentral/fileexchange/10867-uipickfiles-uigetfile-on-steroids}} should appear on screen. 
-Browse the ``data/csv'' folder to select the csv file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!DISP_DISP.csv!.
+Browse the ``examples/Example\_DISP'' folder to select the csv file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Example_DISP_DISP.csv!.
 Then, click on the Add button, and then the Done button, as highlighted in Figure~\ref{fig:DataLoadingUIPickFileExample1}.
 You will notice that some basic information regarding the loaded time-series, such as the time series index, the reference name and the number of data points are now displayed in the \MATLAB{} command window, as depicted in Listing~\ref{LST:OpenBDLMDataAvailabilityExample1}.
 At this time, three \MATLAB{} figures as those represented in Figure~\ref{fig:DataSummary1} should popup on screen.
@@ -71,7 +71,7 @@ There is no missing data (see Figure~\ref{fig:DataSummary1}c).
 \end{center}
 \end{figure*}
 
- \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = { \MATLAB{} command window output after selected data files.} from \MATLAB{} command line, label = LST:OpenBDLMDataAvailabilityExample1,  float =h!, linewidth=\linewidth, captionpos=b]
+ \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = { \MATLAB{} command window output after the loading of a data file.}, label = LST:OpenBDLMDataAvailabilityExample1,  float =h!, linewidth=\linewidth, captionpos=b]
 - Data available: 
  
      Time series number #      Reference name            Size                     	
@@ -95,27 +95,26 @@ There is no missing data (see Figure~\ref{fig:DataSummary1}c).
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf}
 \caption{Availbility}
 \end{subfigure}
-\caption{Data used in Section~\ref{S:ExampleDisp}}.
+\caption{Data used in the example presented Section~\ref{S:Example_DISP}.}
 \label{fig:DataSummary1}
 \end{figure*}
 
 \subsection{Step 3: edit and pre-process the data}
 
-The next step of the analysis consists in editing or preprocessing the data.
 The data editing and preprocessing menu as depicted in Listing~\ref{LST:Editing_menu} appear.
-In this example, the objective is to use the data as such, so no editing or preprocessing is done.
+In this example, the objective is to use the data as such.
+Therefore, no editing or preprocessing is done.
 Therefore, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!} to save the data as such, and continue analysis.
 
 \subsection{Step 4: configure the model}
 
-The next step is to configure the model.
 First, the program requests the number of model class.
-In this exemple, the time series data looks stationary and we are not interested in anomaly detection, so type type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
+In this example, the time series data looks stationary and we are not interested in anomaly detection, so type type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
 Secondly, OpenBDLM asks for the type of block component. 
 Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![11 31 31 41]!} to define a model with a local level, a yearly periodic component, a daily periodic component and an autoregressive component.
 The  output on \MATLAB{} command window during interactive model configuration is presented in Listing~\ref{LST:OpenBDLMModelConfigureExample1}.
-Type $\dlsh$ to valid.
-The model is then built, a {\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!DATA_DISP.mat!} binary data file, a {\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_DISP.m!} configuration file, as well as a {\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!PROJ_DISP.mat!} project file are created.
+%Press the enter key $\dlsh$ to valid.
+The model is then built, a {\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!DATA_Example_DISP.mat!} binary data file, a {\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_Example_DISP.m!} configuration file, as well as a {\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!PROJ_Example_DISP.mat!} project file are created.
 The OpenBLDM main menu must appear on the \MATLAB{} command window (see Listing~\ref{LST:OpenBDLMMainMenu}).
 Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!} to save and quit.
 
@@ -143,20 +142,20 @@ Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroun
 
      Building model...
      Saving project...
-     Project saved in saved_projects/PROJ_DISP.mat. 
+     Project saved in saved_projects/PROJ_Example_DISP.mat. 
      Printing configuration file...
      Saving data...
 
-     Database saved in data/mat/DATA_DISP.mat 
-     Configuration file saved in config_files/CFG_DISP.m. 
+     Database saved in data/mat/DATA_Example_DISP.mat 
+     Configuration file saved in config_files/CFG_Example_DISP.m. 
 
 \end{lstlisting}
 
 
 \subsection{Step 5: open the configuration file}
 
-After the data loading and the model configuration, a configuration file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_DISP.csv! is automatically created and saved in ``config\_files'' folder.
-Open the configuration file from \MATLAB{} command line by typing  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!edit CFG_DISP.m!}.
+After the data loading and the model configuration, a configuration file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_Example_DISP.csv! is automatically created and saved in ``config\_files'' folder.
+Open the configuration file from \MATLAB{} command line by typing  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!edit CFG_Example_DISP.m!}.
 The first part of this configuration file as it should appear on the \MATLAB{} editor is shown in Listing~\ref{LST:CFGFileExample1}.
 The Model parameters section of the configuration file shows that the model totalizes 8 model parameters, that is 
 \begin{gather*}
@@ -175,25 +174,18 @@ The default  hidden states mean  and covariance values are
  \end{align*}
  respectively.
 
-%\subsection{Step 6: results using defaults model parameters and default initial hidden states}
-
-%Note that, by default, OpenBDLM considers that the parameters $\sigma_{w}^{LL}$, $P1$, $\sigma_{w}^{P1}$ , $P2$, $\sigma_{w}^{P2}$ are known.
-
-
-% \lstinline[basicstyle = \mlttfamily \small ]!model.param_properties! 
-
 \begin{lstlisting}[linewidth=\linewidth, style=Matlab-editor,  basicstyle = \mlttfamily \scriptsize, backgroundcolor = \color{matlab-yellow}, caption = {Example of a configuration file}, label=LST:CFGFileExample1, ,captionpos=b, float=h!]
 %                    OpenBDLM configuration file                          
 %          Autogenerated by OpenBDLM on 22-Nov-2018 17:18:09              
 %
 %% A - Project name
-misc.ProjectName='DISP';
+misc.ProjectName='Example_DISP';
 
 %% B - Data
-dat=load('DATA_DISP.mat'); 
+dat=load('DATA_Example_DISP.mat'); 
 data.values=dat.values;
 data.timestamps=dat.timestamps;
-data.labels={'DISP'};
+data.labels={'Example_DISP'};
 
 %% C - Model structure 
 % Components reference numbers
@@ -206,7 +198,6 @@ data.labels={'DISP'};
 % 31: Periodic
 % 41: Autoregressive
 % 51: Kernel regression
-% 61: Level Intervention
 
 % Model components
 % Model 1
@@ -245,9 +236,9 @@ model.initS{1}=[1     ];
 
 \subsection{Step 6: estimate the hidden states}
 
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_DISP.m');!} in the \MATLAB{} command line.
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISP.m');!} in the \MATLAB{} command line.
 Once, the main menu appears, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}, then \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to estimate the filtered hidden states using the default model parameters and default initial hidden states values.
-The value of the log-likelihood is $38627$, and the estimated hidden states are presented in Figure~\ref{fig:DISPSIMDefaultDefaultExample1}.
+The value of the log-likelihood is $36626$, and the estimated hidden states are presented in Figure~\ref{fig:Example_DISPSIMDefaultDefaultExample1}.
 
 \begin{figure*}[h!]
 \centering
@@ -272,29 +263,31 @@ The value of the log-likelihood is $38627$, and the estimated hidden states are 
 \caption{Estimated displacement autoregressive component}
 \end{subfigure}
 \caption{Estimated results using OpenBDLM defaults model parameters and default initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummary1}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively.}
-\label{fig:DISPSIMDefaultDefaultExample1}
+\label{fig:Example_DISPSIMDefaultDefaultExample1}
 \end{figure*}
 
 \subsection{Step 7: estimate the model parameters from the data}
 
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_DISP.m');!} in the \MATLAB{} command line.
-Once, the main menu appears, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}, then \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to estimate the model parameters using Newton-Raphson (type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to use the Stochastic Gradient instead).
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISP.m');!} in the \MATLAB{} command line.
+Once, the main menu appears, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}, then \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to estimate the model parameters using Newton-Raphson (type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!} to use the Stochastic Gradient Descent instead).
 The model parameters learning procedure starts, and messages are printed on \MATLAB{} command window to monitor the convergence through iterations (see Listing~\ref{LST:OpenBLDMModelParameterLearning}).
-Note that, by default, OpenBDLM considers that the parameters $\sigma_{w}^{LL}$, $PD1$, $\sigma_{w}^{PD1}$ , $PD2$, $\sigma_{w}^{PD2}$ are known.
+Note that, by default, OpenBDLM considers that the parameters $\sigma_{w}^{LL}$, $p^{\text{PD1}}$, $\sigma_{w}^{\text{PD1}}$ , $p^{\text{PD2}}$, $\sigma_{w}^{\text{PD2}}$ are known.
 Therefore, there are three model parameters to be learned from the data in this example.
 The estimation of the model parameters may take several hours.
-Once the algorithm converged, the optimized model parameters values should be close to \footnote{Note that it is possible to get slightly different value of parameters with the same performance.}
+Therefore, press combinations \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Ctrl!} + \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!c!} to abort the process.
+Once the algorithm is converged, the optimized model parameters values should be close to \footnote{Note that it is possible to get slightly different value of parameters with the same performance.}
 \begin{gather*}
 \bm\theta^{\text{*}}=\{0, 365.2422, 0, 1, 0, 0.97, 0.0192, 7.4258\times10^{-7} \}.
 \end{gather*}
 
 \subsection{Step 8: estimate the hidden states using the optimized model parameters values}
 
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_DISP_optim.m');!} in the \MATLAB{} command line to load the configuration file  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_DISP_optim.m'!.
- \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_DISP_optim.m'! contains optimized model parameters previously estimated using the Newton-Raphson algorithm.
+In the ``examples/Example\_DISP'' folder, there is a configuration file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_Example_DISP_optim.m'! that contains optimized model parameters estimated using the Newton-Raphson algorithm.
+Copy and paste \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_Example_DISP_optim.m'! from  the ``examples/Example\_DISP'' subfolder  to the ``config\_files'' folder.
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISP_optim.m');!} in the \MATLAB{} command line to load the configuration file  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_Example_DISP_optim.m!.
 Once the main menu appears, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}, then \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to estimate the filtered hidden states using the optimized model parameters and default initial hidden states values.
 The value of the log-likelihood is now $48819$.
-The estimated hidden states are presented in Figure~\ref{fig:DISPSIMOptimizedDefaultExample1}.
+The estimated hidden states are presented in Figure~\ref{fig:Example_DISPSIMOptimizedDefaultExample1}.
 
 \begin{figure*}[h!]
 \begin{center}
@@ -319,23 +312,24 @@ The estimated hidden states are presented in Figure~\ref{fig:DISPSIMOptimizedDef
 \caption{Estimated displacement autoregressive component}
 \end{subfigure}
 \caption{Estimated results using OpenBDLM optimized model parameters and default initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummary1}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively.}
-\label{fig:DISPSIMOptimizedDefaultExample1}
+\label{fig:Example_DISPSIMOptimizedDefaultExample1}
 \end{center}
 \end{figure*}
 
 \subsection{Step 9: estimate the initial hidden states}
 
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_DISP_optim.m');!} in the \MATLAB{} command line.
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISP_optim.m');!} in the \MATLAB{} command line.
 Then, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}, to optimize the initial hidden states value.
 The estimated initial hidden states mean and covariance values are 
 \begin{align*}
 \bm \mu^{*}_{0} & = [	25.9  ,	-0.204,	-0.00288 ,	0.0341,	0.0521	, -0.0436  ]^{\intercal}, \text{and} \\
- \text{diag}(\bm\Sigma^{*}_{0}) & = [	3.74\times10^{-5} ,	6.87\times10^{-5}	, 7\times10^{-5} ,	5.73\times10^{-7} ,	5.73\times10^{-7} ,	0.000493    ], 
+ \text{diag}(\bm\Sigma^{*}_{0}) & = [	3.74\times10^{-5} ,	6.87\times10^{-5}	, 7\times10^{-5} , 5.73\times10^{-7} ,	5.73\times10^{-7} , \\
+ & 	0.000493    ], 
  \end{align*}
  respectively.
-Once it is done, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}, and then  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to compute the filtered hidden states using the optimized model parameters and optimized initial hidden states.
+Once it is done, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}, and then  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to compute the filtered hidden states using the optimized model parameters and optimized initial hidden states.
 The value of the log-likelihood is $49056$.
-The estimated hidden states are presented in Figure~\ref{fig:DISPSIMOptimizedOptimizedExample1}.
+The estimated hidden states are presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
 
 
 \begin{figure*}[h!]
@@ -361,6 +355,6 @@ The estimated hidden states are presented in Figure~\ref{fig:DISPSIMOptimizedOpt
 \caption{Estimated displacement autoregressive component}
 \end{subfigure}
 \caption{Estimated results using OpenBDLM optimized model parameters and optimized initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummary1}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively.}
-\label{fig:DISPSIMOptimizedOptimizedExample1}
+\label{fig:Example_DISPSIMOptimizedOptimizedExample1}
 \end{center}
 \end{figure*}

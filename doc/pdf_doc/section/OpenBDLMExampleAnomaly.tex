@@ -1,7 +1,7 @@
 \section{Step-by-step example: time-series with anomaly}
 \label{S:ExampleDispAnomaly}
 
-This example uses a single synthetic time series data that mimics displacement data measured on a bridge. 
+This example uses a time series data that mimics displacement data measured on a bridge (synthetic data). 
 The baseline switches between a trend stationary to acceleration stationary dynamics during a specific time window to mimic a fictitious anomaly.
 The anomalous time windows is of 26 days duration, starting on June 25, 2010.
 
@@ -9,7 +9,7 @@ The anomalous time windows is of 26 days duration, starting on June 25, 2010.
 \subsection{Step 1: start a project}
 
 First, choose the interactive tool by typing \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
-Secondly, provide a project name (i.e. \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!DISP_ANOMALY!).
+Secondly, provide a project name (i.e. \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Example_DISP_ANOMALY!).
 Then, answer \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!no!} to indicate that you are not concerned with creating synthetic data.
 The next step is to type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!} to indicate that you aim to load new data.
 
@@ -36,7 +36,7 @@ The next step is to type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfami
 
 
 At this stage, a graphical user interface should appear on screen. 
-Browse the ``data/csv'' folder to select the csv file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!DISP_ANOMALY_DISP.csv!.
+Browse the ``data/csv'' folder to select the csv file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Example_DISP_ANOMALY_DISP.csv!.
 Then, click on the Add button, and then the Done button, as highlighted in Figure~\ref{fig:DataLoadingUIPickFileExample1}.
 You will notice that some basic information regarding the loaded time-series, such as the time series index, the reference name and the number of data points are now displayed in the \MATLAB{} command window.
 At this time, three \MATLAB{} figures as those represented in Figure~\ref{fig:DataSummaryRaw3} should popup on screen.
@@ -61,7 +61,7 @@ Here, it is reasonable to consider that the two model classes only differs in th
 Therefore, we type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![0 1 1]!} to indicate that the two model classes share the same model parameter, except for the baseline component.
 The  output on \MATLAB{} command window during interactive model configuration is presented in Listing~\ref{LST:OpenBDLMModelConfigureExample3}.
 Type $\dlsh$ to valid.
-The model is then built, a \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!DATA_DISP_ANOMALY.mat! binary data file, a \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_DISP_ANOMALY.m! configuration file, as well as a \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!PROJ_DISP_ANOMALY.mat! project file are created.
+The model is then built, a \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!DATA_Example_DISP_ANOMALY.mat! binary data file, a \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_DISP_ANOMALY.m! configuration file, as well as a \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!PROJ_Example_DISP_ANOMALY.mat! project file are created.
 The OpenBLDM main menu must appear on the \MATLAB{} command window (see Listing~\ref{LST:OpenBDLMMainMenu}).
 Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!} to save and quit.
 
@@ -101,20 +101,20 @@ Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroun
 
      Building model...
      Saving project...
-     Project saved in saved_projects/PROJ_DISP_ANOMALY.mat. 
+     Project saved in saved_projects/PROJ_Example_DISP_ANOMALY.mat. 
      Printing configuration file...
      Saving data...
 
-     Database saved in data/mat/DATA_DISP_ANOMALY.mat 
-     Configuration file saved in config_files/CFG_DISP_ANOMALY.m. 
+     Database saved in data/mat/DATA_Example_DISP_ANOMALY.mat 
+     Configuration file saved in config_files/CFG_Example_DISP_ANOMALY.m. 
 \end{lstlisting}
 
 
 
 \subsection{Step 5: open the configuration file}
 
-After the data loading and the model configuration, a configuration file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_DISP_ANOMALY.m! configuration file is automatically created and saved in ``config\_files'' folder.
-Open the configuration file from \MATLAB{} command line by typing  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!edit CFG_DISP_ANOMALY.m!}.
+After the data loading and the model configuration, a configuration file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_Example_DISP_ANOMALY.m! configuration file is automatically created and saved in ``config\_files'' folder.
+Open the configuration file from \MATLAB{} command line by typing  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!edit CFG_Example_DISP_ANOMALY.m!}.
 The Model parameters section of the configuration file shows that the model totalizes 12 model parameters, that is 
 \begin{gather*}
 \bm\theta=\{\sigma_{w, \text{D}}^{TcA,1}, p^{\text{PD1}}_{\text{D}}, \sigma_{w,\text{D}}^{\text{PD1}}, \phi^{AR}_{\text{D}}, \sigma_{w,\text{D}}^{AR}, \\
@@ -124,20 +124,20 @@ The Model parameters section of the configuration file shows that the model tota
 The default model parameters values are 
 \begin{gather*}
 \bm\theta^{\text{default}}=\{1.5018\times10^{-8}, 365.24, 0, 0.75, 0.075092, \\
-1.5018.10^{-8}, 1.5018\times10^{-8}, 1.5018\times10^{-5}, 0.075092, 0.075092, 0.99986, 0.99986\}.
+1.5018\times10^{-8}, 1.5018\times10^{-8}, 1.5018\times10^{-5}, 0.075092, 0.075092, 0.99986, 0.99986\}.
 \end{gather*}
 %In the same manner, default value for the initial hidden states are assigned using heuristic knowledge or computed using statistics on the data.
 The default initial hidden states mean, covariance  and model probability values for model class 1 are 
 \begin{align*}
- \bm \mu^{1,\text{default}}_{0} & = [	-9.69, 	0,     	0,     	1,     	0,     	0        ]^{\intercal}, \text{and} \\
- \text{diag}(\bm\Sigma^{1,\text{default}}_{0})  & = [	18.2,  	4.56 , 	4.56  ,	18.2  ,	18.2  ,	4.56     ], \text{and} \\
+ \bm \mu^{1,\text{default}}_{0} & = [	-8.72 ,	0    , 	0     ,	5   ,  	0    , 	0       ]^{\intercal}, \text{and} \\
+ \text{diag}(\bm\Sigma^{1,\text{default}}_{0})  & = [	9.02  ,	2.26  	, 2.26  ,	9.02  	, 9.02  ,	2.26     ], \text{and} \\
  \pi_{0}^{1,\text{default}} & = 0.5.
 \end{align*}
 respectively.
 The default initial hidden states mean, covariance  and model probability values for model class 2 are 
 \begin{align*}
- \bm \mu^{2,\text{default}}_{0} & = [	-9.69, 	0,     	0,     	1,     	0,     	0        ]^{\intercal}, \text{and} \\
- \text{diag}(\bm\Sigma^{2,\text{default}}_{0})  & = [	18.2,  	4.56 , 	4.56  ,	18.2  ,	18.2  ,	4.56     ], \text{and} \\
+ \bm \mu^{2,\text{default}}_{0} & = [	-8.72 	, 0    , 	0  ,   	5   ,  	0   ,  	0       ]^{\intercal}, \text{and} \\
+ \text{diag}(\bm\Sigma^{2,\text{default}}_{0})  & = [	9.02  ,	2.26  	, 2.26  ,	9.02  	, 9.02  ,	2.26    ], \text{and} \\
  \pi_{0}^{2,\text{default}} & = 0.5.
 \end{align*}
 respectively.
@@ -146,7 +146,7 @@ respectively.
 
 \subsection{Step 6: estimate the hidden states}
 
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_DISP_ANOMALY.m');!} in the \MATLAB{} command line.
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISP_ANOMALY.m');!} in the \MATLAB{} command line.
 Once, the main menu appears, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}, then \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to estimate the filtered hidden states using the default model parameters and default initial hidden states values.
 The value of the log-likelihood is $-409$.
 The estimated hidden states are presented in Figure~\ref{fig:DISPSIMANOMALYDefaultDefaultExample3}.
@@ -190,27 +190,28 @@ The estimated hidden states are presented in Figure~\ref{fig:DISPSIMANOMALYDefau
 
 \subsection{Step 7: estimate the model parameters from the data}
 
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_DISP_ANOMALY.m');!} in the \MATLAB{} command line.
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISP_ANOMALY.m');!} in the \MATLAB{} command line.
 Once, the main menu appears, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}, then \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to estimate the model parameters using Newton-Raphson (type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to use the Stochastic Gradient instead).
 The model parameters learning procedure should start (see for example Listing~\ref{LST:OpenBLDMModelParameterLearning}).
-Note that, by default, OpenBDLM considers that the parameters $PD1$, $\sigma_{w}^{PD1}$ are known.
+Note that, by default, OpenBDLM considers that the parameters $P^{\text{PD1}}$, $\sigma_{w}^{\text{PD1}}$ are known.
 Therefore, there are ten model parameters to be learned from the data in this example.
 The estimation of the model parameters may take several hours.
-Once the algorithm converged, the optimized model parameters values should be close to  \footnote{Note that it is possible to get slightly different value of parameters with the same performance.}
+Therefore, press combinations \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Ctrl!} + \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!c!} to abort the process.
+Once the algorithm is converged, the optimized model parameters values should be close to  \footnote{Note that it is possible to get slightly different value of parameters with the same performance.}
 \begin{gather*}
 \bm\theta^{\text{*}}=\{0, 365.24, 0, 0.75, 0.213, \\
-0.001, 8.1224.10^{-6}, 1.5018\times10^{-5}, 0.10671, 0.10671, 0.99997, 0.99957\}.
+0.001, 8.1224\times10^{-6}, 1.5018\times10^{-5}, 0.10671, 0.10671, 0.99997, 0.99957\}.
 \end{gather*}
 
 
 \subsection{Step 8: estimate the hidden states using the optimized model parameters values}
 
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_DISP_ANOMALY_optim.m');!} in the \MATLAB{} command line to load the configuration file  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_DISP_ANOMALY_optim.m'!.
- \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_DISP_ANOMALY_optim.m'! contains optimized model parameters previously estimated using the Newton-Raphson algorithm.
+In the ``examples/Example\_DISP\_ANOMALY'' folder, there is a configuration file named \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_Example_DISP_ANOMALY_optim.m! that contains optimized model parameters estimated using the Newton-Raphson algorithm.
+Copy and paste \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_Example_DISP_ANOMALY_optim.m! from  the ``examples/Example\_DISP\_ANOMALY'' subfolder  to the ``config\_files'' folder.
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISP_ANOMALY_optim.m');!} in the \MATLAB{} command line to load the configuration file  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!CFG_Example_DISP_ANOMALY_optim.m!.
 Once the main menu appears, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}, then \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to estimate the filtered hidden states using the optimized model parameters and default initial hidden states values.
 The value of the log-likelihood is now $172$.
 The estimated hidden states are presented in Figure~\ref{fig:DISPSIMANOMALYOptimizedDefaultExample3}.
-
 
 \begin{figure*}[h!]
 \centering
@@ -253,23 +254,23 @@ The estimated hidden states are presented in Figure~\ref{fig:DISPSIMANOMALYOptim
 \subsection{Step 9: estimate the initial hidden states}
 
 
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_DISPANOMALY_optim.m');!} in the \MATLAB{} command line.
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISP_ANOMALY_optim.m');!} in the \MATLAB{} command line.
 Then, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}, to optimize the initial hidden states value.
 The optimized initial hidden states mean, covariance  and model probability values for model class 1 are 
 \begin{align*}
- \bm \mu^{1,\text{*}}_{0} & = [	-9.4,  	-0.0115,	-7.39\times10^{-9},	1.06  ,	-0.00572	, -0.57     ]^{\intercal}, \text{and} \\
- \text{diag}(\bm\Sigma^{1,\text{default}}_{0})  & = [	0.147 ,	0.00093,	4.56 , 	0.00172,	0.000963	0.346      ],  \text{and} \\
- \pi_{0}^{1,\text{default}} & = 0.997,
+ \bm \mu^{1,\text{*}}_{0} & = [	-9.43 ,	-0.0109	, -5.03\times 10^{-9}	, 1.08  ,	-0.00634	, -0.548    ]^{\intercal}, \text{and} \\
+ \text{diag}(\bm\Sigma^{1,\text{*}}_{0})  & = [	0.139 ,	0.000877,	2.26  	,0.00224	,0.00105,	0.32     ],  \text{and} \\
+ \pi_{0}^{1,\text{*}} & = 0.997,
 \end{align*}
 respectively.
-The default initial hidden states mean, covariance  and model probability values for model class 2 are 
+The optimized initial hidden states mean, covariance  and model probability values for model class 2 are 
 \begin{align*}
- \bm \mu^{2,\text{*}}_{0} & = [	9.54 	, 0.15  ,	-0.0966,	1.06  ,-0.00573, 	-0.486       ]^{\intercal}, \text{and} \\
- \text{diag}(\bm\Sigma^{2,\text{default}}_{0})  & = [	0.991 ,	0.722 ,	1.7  , 	0.00172	, 0.000963,	1.07     ], \text{and} \\
- \pi_{0}^{2,\text{default}} & = 0.00254,
+ \bm \mu^{2,\text{*}}_{0} & = [	-9.53 ,	0.102 ,	-0.0599	,  1.08  ,	-0.00636, 	-0.482     ]^{\intercal}, \text{and} \\
+ \text{diag}(\bm\Sigma^{2,\text{*}}_{0})  & = [	0.674 	,0.418 ,	0.803 ,	0.00224,	0.00105	, 0.759    ], \text{and} \\
+ \pi_{0}^{2,\text{*}} & = 0.00279,
 \end{align*}
 respectively.
-Once it is done, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}, and then  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to compute the filtered hidden states using the optimized model parameters and optimized initial hidden states.
+Once it is done, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}, and then  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to compute the filtered hidden states using the optimized model parameters and optimized initial hidden states.
 The value of the log-likelihood is $188$.
 The estimated hidden states are presented in Figure~\ref{fig:DISPSIMANOMALYOptimizedOptimizedExample3}.
 

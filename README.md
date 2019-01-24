@@ -6,7 +6,7 @@
 Bayesian Dynamic Linear Model for time-series analysis
 </p>
 
-OpenBDLM is a Matlab open-source software designed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step of one hour or higher). OpenBDLM is capable to process simultaneously any time series data to interpret, monitor and predict their long-term behavior. OpenBDLM also includes an anomaly detection tool which allows to detect abnormal behavior in a fully probabilistic framework.
+OpenBDLM is a Matlab open-source software developed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step in the order of one hour or higher). OpenBDLM is capable to process simultaneously several time series data to interpret, monitor and predict their long-term behavior. OpenBDLM includes an anomaly detection tool which allows to detect abnormal behavior in a fully probabilistic frame- work. OpenBDLM handles time series with missing data and non-uniform timestep vector.
 
 ## Installation
 
@@ -16,9 +16,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 Matlab (version 2016a or higher) installed on Mac OSX or Windows
 
+The Matlab Statistics and Machine Learning Toolbox is required.
+
 ### Installing
 
-1. Extract the ZIP file (or clone the git repository) somewhere you can easily reach it. 
+1. Extract the ZIP file (or clone the git repository) in a folder you will be working from. 
 2. Add the `OpenBDLM-master/` folder and all the sub folders to your path in Matlab : e.g. 
     - using the "Set Path" dialog in Matlab, or 
     - by running the `addpath` function from the Matlab command window
@@ -30,10 +32,10 @@ Enter in the folder OpenBDLM-master, and type `OpenBDLM_main();` in the Matlab c
 
 ```
 ----------------------------------------------------------------------------------------------
-     Starting OpenBDLM_V???...
+     Starting OpenBDLM_V1.0...
 ----------------------------------------------------------------------------------------------
 
-            Structural Health Monitoring using Bayesian Dynamic Linear Models
+            Time series analysis using Bayesian Dynamic Linear Models
 
 ----------------------------------------------------------------------------------------------
 
@@ -52,10 +54,10 @@ Type `Q` to Quit the program.
 Then, in the Matlab command line, type `run_DEMO` to run a little demo. You should see some messages on the Matlab command window showing that the programs runs properly:
 
 ```
-     Starting OpenBDLM_V1.7...
+     Starting OpenBDLM_V1.0...
      Starting a new project...
      Building model...
-     Simulating data...
+     Creating synthetic data...
      Plotting data...
      Saving database (binary format) ...
      Saving database (csv format) ...
@@ -77,35 +79,35 @@ If you do not see anything except Matlab errors verify your Matlab version, and 
 
 ## Output
 
-`OpenBDLM_main` returns four output:
+`OpenBDLM_main` has the possibility to return four output Matlab structures containing the information about the internal variables data, model,estimation, misc.
+Type  `[data, model, estimation, misc] = OpenBDLM_main();` to get `data`, `model`, `estimation`, and `misc` as variables in the Matlab worskpace.
 
-1. `data` structure which stores the time series data used for the analysis. 
-2. `model` 	structure which stores all the information about the model used for the analysis (current model structure and model parameters values)
-3. `estimation` structure which stores the computed hidden states estimation using the current data and model.
-4.  `misc` structure which stores all the internal variables used by the functions of the program
-
-Type  `[data, model, estimation, misc] = OpenBDLM_main();` to get `data`, `model`, `estimation`, and `misc` as a variable in the Matlab worskpace.
+1. `data`: structure which stores the time series data used for the analysis. 
+2. `model` :	structure which stores all the information about the model used for the analysis (current model structure and model parameters values)
+3. `estimation`: structure which stores the computed hidden states estimation using the current data and model.
+4.  `misc`: structure which stores all the internal variables used by the functions of the program
 
 Further details about `data`, `model`, `estimation`, and `misc` can be found in the OpenBDLM documentation.
 
 ## Files
 
-`OpenBDLM_main` reads and/or create four types of files:
+`OpenBDLM_main` reads and/or create five types of files:
 
 1. Data file **DATA_*.mat**:  MAT binary file that store the time series data. These files are located in the`data` folder.
-3. Configuration file **CFG_*.m** : Matlab script used to initialize and export a project in human readable format. These files are located in the`config_files` folder.
-4. Project file **PROJ_*.mat** : MAT binary file that stores a full project for further analysis (basically a project file stores the structure `data`, `model`, `estimation`, and `misc` ). These files are located in the`saved_projects` folder.
+2. Configuration file **CFG_*.m** : Matlab script used to initialize and export a project in human readable format. These files are located in the`config_files` folder.
+3. Project file **PROJ_*.mat** : MAT binary file that stores a full project for further analysis (basically a project file stores the structure `model`, `estimation`, and `misc` ). These files are located in the`saved_projects` folder.
+4. Result file **RES_*.mat** : MAT binary files that stores the results. These files are located in the `results/mat` folder. 
 5. Log file **LOG_*.txt** : Text file that records information about the analysis. These files are located in the`log_files` folder.
 
 
 ## Version control
 
-For the users, version control tests verifies that the program runs properly on your machine. For development purpose, version control tests verifies that changes you have made are still compatible with the previsous stable OpenBDLM version. To run version control, type `OpenBDLM_main();` in the Matlab command line, and then type `V`.  If program runs properly, you should get in the Matlab command window some messages as shown below:
+For the users, version control tests verifies that the program runs properly on your machine. For development purpose, version control tests verifies that changes you have made are still compatible with the previous stable OpenBDLM version. To run version control, type `OpenBDLM_main();` in the Matlab command line, and then type `V`.  If program runs properly, you should get in the Matlab command window some messages as shown below:
 
 ```
 - Version control test #1
  
-     Starting OpenBDLM_V1.7...
+     Starting OpenBDLM_V1.0...
      Loading configuration file...
      Building model...
      Computing hidden states ...
@@ -156,7 +158,10 @@ This project is licensed under the MIT license - see the [LICENSE.txt](LICENSE.t
 
 ## Acknowledgments
 
+Some part of the code greatly benefited from previous works:
+
 * Brian Moore (Square Root Kalman Filters, see [Kalman Filter Package](https://www.mathworks.com/matlabcentral/fileexchange/38302-kalman-filter-package))
 * Kevin Murphy (Kalman filter, see [Kalman filter toolbox for Matlab](https://www.cs.ubc.ca/~murphyk/Software/Kalman/kalman.html#other))
 * John Quinn (Switching Kalman filter, see [John Quinn softwares](http://air.ug/~jquinn/downloads/))
+
 

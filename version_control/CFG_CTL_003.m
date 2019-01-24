@@ -68,22 +68,22 @@ model.param_properties={
 %% E - Initial states values 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Initial hidden states mean for model 1:
-model.initX{ 1 }=[	-9.4  	-0.0115	-7.39E-09	1.06  	-0.00572	-0.57 ]';
+model.initX{ 1 }=[	-9.43 	-0.0109	-5.03E-09	1.08  	-0.00634	-0.548]';
 
 % Initial hidden states variance for model 1: 
-model.initV{ 1 }=diag([ 	0.147 	0.00093	4.56  	0.00172	0.000963	0.346  ]);
+model.initV{ 1 }=diag([ 	0.139 	0.000877	2.26  	0.00224	0.00105	0.32   ]);
 
 % Initial probability for model 1
 model.initS{1}=[0.997 ];
 
 % Initial hidden states mean for model 2:
-model.initX{ 2 }=[	-9.54 	0.15  	-0.0966	1.06  	-0.00573	-0.486]';
+model.initX{ 2 }=[	-9.53 	0.102 	-0.0599	1.08  	-0.00636	-0.482]';
 
 % Initial hidden states variance for model 2: 
-model.initV{ 2 }=diag([ 	0.991 	0.722 	1.7   	0.00172	0.000963	1.07   ]);
+model.initV{ 2 }=diag([ 	0.674 	0.418 	0.803 	0.00224	0.00105	0.759  ]);
 
 % Initial probability for model 2
-model.initS{2}=[0.00254];
+model.initS{2}=[0.00279];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% F - Options 

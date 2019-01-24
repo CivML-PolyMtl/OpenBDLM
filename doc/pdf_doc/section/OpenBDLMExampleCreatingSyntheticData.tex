@@ -1,15 +1,15 @@
-\section{Step-by-step example: create and anlalyze synthetic data }
+\section{Step-by-step example: generate and analyze synthetic data }
 \label{S:EXAMPLESYNTHETICDATA}
 
 
-This example shows how to create and analyze synthetic data using OpenBDLM.
+%This example shows how to generate and analyze synthetic data using OpenBDLM.
 The objective is to create synthetic time series data with an acceleration stationary baseline, and a yearly periodic pattern as well as a autoregressive process superimposed into it. 
-This example corresponds to the OpenBDLM demo presented in Section~\ref{S:OPENBDLMGETTINGSTARTED}
+This example corresponds to the OpenBDLM demo presented in Section~\ref{S:OPENBDLMGETTINGSTARTED}.
 
 \subsection{Step 1: start a project}
 
 First, choose the interactive tool by typing \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
-Secondly, provide a project name (i.e. \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!SYNTHETIC!).
+Secondly, provide a project name (i.e. \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Example_SYNTHETIC!).
 Then, answer \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!yes!} to indicate that you would like to create synthetic data.
 Finally, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to create one single synthetic time series. 
 
@@ -45,7 +45,7 @@ in agreement with the values indicated in Table~\ref{table:defaultsynthetic}.
 Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!R!} to return to the main menu.
 Then, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!12!} the see that the default initial hidden states mean, covariance  and model probability values are 
 \begin{align*}
- \bm \mu^{1,\text{default}}_{0} & = [	10  -1\times10^{-5}  ,	-0.001	,	10  ,  	10    ,	0         ]^{\intercal}, \text{and} \\
+ \bm \mu^{1,\text{default}}_{0} & = [	10  , -1\times10^{-5}  ,	-0.001	,	10  ,  	10    ,	0         ]^{\intercal}, \text{and} \\
  \text{diag}(\bm\Sigma^{1,\text{default}}_{0})  & = [	0.01  ,	0.01  ,	0.01  	,0.04  ,	0.04  ,	0.01     ], \text{and} \\
  \pi_{0}^{1,\text{default}} & = 1.
 \end{align*}
@@ -74,7 +74,7 @@ Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroun
 \subsection{Step 5: estimate the hidden states}
 
 From the main menu, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}, then \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to estimate the filtered hidden states using the default model parameters and default initial hidden states values.
-The value of the log-likelihood is $4973$, and the estimated hidden states are presented in Figure~\ref{fig:SYNTHETICDefaultDefaultExample4}.
+The value of the log-likelihood is $4976$, and the estimated hidden states are presented in Figure~\ref{fig:SYNTHETICDefaultDefaultExample4}.
 For each figure, the red dashed line represents the true known values of the hidden states.
 
 \begin{figure*}[h!]
@@ -120,7 +120,7 @@ The estimated initial hidden states mean and covariance values are
  \end{align*}
  respectively.
 Once it is done, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}, and then  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to compute the filtered hidden states using the optimized model parameters and optimized initial hidden states.
-The value of the log-likelihood is $5008$.
+The value of the log-likelihood is $5011$.
 The estimated hidden states are presented in Figure~\ref{fig:SYNTHETICOptimizedOptimizedExample4}.
 
 

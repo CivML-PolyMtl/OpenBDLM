@@ -1,5 +1,5 @@
 function [FigureNames] = plotData(data, misc, varargin)
-%PLOTDATA Plot OpenBDLM data
+%PLOTDATA Plot data amplitude values and data timestep
 %
 %   SYNOPSIS:
 %     PLOTDATA(data, misc, varargin)
@@ -141,7 +141,9 @@ ndivy = misc.options.ndivy;
 Subsample = misc.options.Subsample;
 Xaxis_lag=misc.options.Xaxis_lag;
 
-
+% Figure setting
+color_black = [0 0 0];
+color_red = [1 0 0];
 
 %% Create subdirectory where to save the figures
 if isExportPNG || isExportPDF || isExportTEX
@@ -269,8 +271,17 @@ for i=1:numberOfTimeSeries
     %% Main plot
     
     % Plot observation mean values
-    plot(timestamps(plot_time_1),DataValues(plot_time_1,i), ...
-        'Linewidth',Linewidth, 'Color', [1 0 0])
+    %plot(timestamps(plot_time_1),DataValues(plot_time_1,i), ...
+    %    'Linewidth',Linewidth, 'Color', [1 0 0])
+    
+    
+    plot(timestamps(plot_time_1), DataValues(plot_time_1,i), ...
+        'Color', color_red, ...
+        'LineWidth', Linewidth, ...
+        'Marker', '.', 'MarkerSize',0.5, ...
+        'MarkerEdgeColor', color_red, ...
+        'MarkerFacecolor', color_red)
+    
     
     miny=min(DataValues(plot_time_1,i));
     maxy=max(DataValues(plot_time_1,i));
@@ -294,8 +305,16 @@ for i=1:numberOfTimeSeries
         subplot(1,3,3,'align')
         
         % Plot observation mean values
-        plot(timestamps(plot_time_2),DataValues(plot_time_2,i), ...
-            'Linewidth',Linewidth, 'Color', [1 0 0] )
+        % plot(timestamps(plot_time_2),DataValues(plot_time_2,i), ...
+        %     'Linewidth',Linewidth, 'Color', [1 0 0] )
+               
+        plot(timestamps(plot_time_2), DataValues(plot_time_2,i), ...
+            'Color', color_red, ...
+            'LineWidth', Linewidth, ...
+            'Marker', '.', 'MarkerSize',0.5, ...
+            'MarkerEdgeColor', color_red, ...
+            'MarkerFacecolor', color_red)
+        
         
         set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
             timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
