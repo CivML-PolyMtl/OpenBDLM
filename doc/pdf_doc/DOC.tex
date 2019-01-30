@@ -1,5 +1,11 @@
 \documentclass[11pt,twoside]{article}
 
+\usepackage{pdfpages}
+
+%FAQ
+\usepackage{lipsum}
+\newcounter{question}
+\setcounter{question}{0}
 
 \usepackage[section]{placeins}
 
@@ -135,6 +141,19 @@
 
 \newcommand{\MATLAB}{\textsc{Matlab}}
 
+
+\newcommand\Que[1]{%
+   \leavevmode\par
+   \stepcounter{question}
+   \noindent
+   \thequestion. Q --- #1\par}
+
+\newcommand\Ans[2][]{%
+    \leavevmode\par\noindent
+   {\leftskip37pt
+    A --- \textbf{#1}#2\par}}
+
+
 \maketitle
 
 \tableofcontents
@@ -179,14 +198,16 @@
 \input{section/OpenBDLMExampleSingleTimeSeries}
 
 \input{section/OpenBDLMExampleDependenceModel}
-
+%
 \input{section/OpenBDLMExampleAnomaly}
-
-\input{section/OpenBDLMExampleCreatingSyntheticData}
+%
+%\input{section/OpenBDLMExampleCreatingSyntheticData}
 
 \input{section/OpenBDLMFAQ}
 
 \input{section/OpenBDLMReferenceTheory}
+
+\input{section/OpenBDLMAcknowledgements}
 
 \bibliography{OpenBDLMBib}
 \bibliographystyle{unsrt}

@@ -1,5 +1,12 @@
 \begin{thebibliography}{10}
 
+\bibitem{Gaudot2019OpenBDLM}
+Ianis Gaudot, Luong~Ha Nguyen, Shervin Khazaeli, and James-A. Goulet.
+\newblock Open{BDLM}, an open-source software for structural health monitoring
+  using bayesian dynamic linear models.
+\newblock {\em submitted to 13th International Conference on Applications of
+  Statistics and Probability in Civil Engineering}, 2019.
+
 \bibitem{Nguyen2019KRBDLM}
 Luong~Ha Nguyen, Ianis Gaudot, and James-A. Khazaeli, Shervin~Goulet.
 \newblock A kernel-based method for modeling non-harmonic periodic phenomena in
@@ -56,5 +63,11 @@ K.~P. Murphy.
 A.~Gelman, J.~B. Carlin, H.~S. Stern, and D.~B. Rubin.
 \newblock {\em Bayesian data analysis}.
 \newblock CRC Press, 3 edition, 2014.
+
+\bibitem{Goodfellow-et-al-2016}
+Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
+\newblock {\em Deep Learning}.
+\newblock MIT Press, 2016.
+\newblock \url{http://www.deeplearningbook.org}.
 
 \end{thebibliography}

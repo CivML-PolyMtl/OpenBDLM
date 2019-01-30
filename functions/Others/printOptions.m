@@ -83,16 +83,22 @@ for i=1:length(names)
         fprintf(fileID, 'misc.options.%s=%s;\n', ...
             names{i}, ['''', num2str(misc.options.(names{i})), '''']);
         
+        
+    elseif strcmp(names{i}, 'Optimizer')
+        
+        fprintf(fileID, 'misc.options.%s=%s;\n', ...
+            names{i}, ['''', num2str(misc.options.(names{i})), '''']);
+        
     elseif strcmp(names{i}(1:2), 'is')
         
         if misc.options.(names{i})
-        
-        fprintf(fileID, 'misc.options.%s=%s;\n', ...
-            names{i},  'true');
-        
+            
+            fprintf(fileID, 'misc.options.%s=%s;\n', ...
+                names{i},  'true');
+            
         else
-                 fprintf(fileID, 'misc.options.%s=%s;\n', ...
-            names{i},  'false');   
+            fprintf(fileID, 'misc.options.%s=%s;\n', ...
+                names{i},  'false');
         end
     else
         fprintf(fileID, 'misc.options.%s=%s;\n', ...

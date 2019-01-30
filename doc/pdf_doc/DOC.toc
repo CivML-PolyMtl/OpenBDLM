@@ -1,29 +1,29 @@
-\contentsline {section}{\numberline {1}What is OpenBDLM ?}{6}{section.1}
-\contentsline {section}{\numberline {2}Installing OpenBDLM}{6}{section.2}
-\contentsline {subsection}{\numberline {2.1}Prerequisites}{6}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Installing}{6}{subsection.2.2}
-\contentsline {section}{\numberline {3}Getting started}{7}{section.3}
-\contentsline {subsection}{\numberline {3.1}Call OpenBDLM}{7}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Demo}{7}{subsection.3.2}
-\contentsline {section}{\numberline {4}OpenBDLM inputs and outputs}{8}{section.4}
-\contentsline {subsection}{\numberline {4.1}Inputs}{8}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Outputs}{8}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}data}{9}{subsubsection.4.2.1}
-\contentsline {subsubsection}{\numberline {4.2.2}model}{9}{subsubsection.4.2.2}
-\contentsline {subsubsection}{\numberline {4.2.3}estimation}{10}{subsubsection.4.2.3}
-\contentsline {subsubsection}{\numberline {4.2.4}misc}{11}{subsubsection.4.2.4}
-\contentsline {subsection}{\numberline {4.3}OpenBDLM files types}{11}{subsection.4.3}
-\contentsline {section}{\numberline {5}OpenBDLM running modes}{12}{section.5}
-\contentsline {subsection}{\numberline {5.1}Interactive mode}{12}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Batch mode}{12}{subsection.5.2}
-\contentsline {section}{\numberline {6}Configuration file}{12}{section.6}
-\contentsline {subsection}{\numberline {6.1}Project name}{12}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Data}{12}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Model structure}{13}{subsection.6.3}
-\contentsline {subsection}{\numberline {6.4}Model parameters}{14}{subsection.6.4}
-\contentsline {subsection}{\numberline {6.5}Initial states values}{15}{subsection.6.5}
-\contentsline {subsection}{\numberline {6.6}Options}{15}{subsection.6.6}
-\contentsline {section}{\numberline {7}OpenBDLM main menu}{18}{section.7}
+\contentsline {section}{\numberline {1}What is OpenBDLM ?}{5}{section.1}
+\contentsline {section}{\numberline {2}Installing OpenBDLM}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Prerequisites}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Installing}{5}{subsection.2.2}
+\contentsline {section}{\numberline {3}Getting started}{6}{section.3}
+\contentsline {subsection}{\numberline {3.1}Call OpenBDLM}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Demo}{6}{subsection.3.2}
+\contentsline {section}{\numberline {4}OpenBDLM inputs and outputs}{7}{section.4}
+\contentsline {subsection}{\numberline {4.1}Inputs}{7}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Outputs}{7}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}data}{8}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}model}{8}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}estimation}{9}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}misc}{10}{subsubsection.4.2.4}
+\contentsline {subsection}{\numberline {4.3}OpenBDLM files types}{10}{subsection.4.3}
+\contentsline {section}{\numberline {5}OpenBDLM running modes}{11}{section.5}
+\contentsline {subsection}{\numberline {5.1}Interactive mode}{11}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Batch mode}{11}{subsection.5.2}
+\contentsline {section}{\numberline {6}Configuration file}{11}{section.6}
+\contentsline {subsection}{\numberline {6.1}Project name}{11}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Data}{11}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Model structure}{12}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Model parameters}{13}{subsection.6.4}
+\contentsline {subsection}{\numberline {6.5}Initial states values}{14}{subsection.6.5}
+\contentsline {subsection}{\numberline {6.6}Options}{14}{subsection.6.6}
+\contentsline {section}{\numberline {7}OpenBDLM main menu}{17}{section.7}
 \contentsline {section}{\numberline {8}OpenBDLM workflow}{19}{section.8}
 \contentsline {section}{\numberline {9}Data loading}{21}{section.9}
 \contentsline {subsection}{\numberline {9.1}Input data format}{21}{subsection.9.1}
@@ -63,66 +63,47 @@
 \contentsline {subsection}{\numberline {17.3}DATA\_*.mat data file}{50}{subsection.17.3}
 \contentsline {subsection}{\numberline {17.4}Export the results}{51}{subsection.17.4}
 \contentsline {section}{\numberline {18}Version control}{53}{section.18}
-\contentsline {paragraph}{How does version control work?}{53}{section*.28}
-\contentsline {section}{\numberline {19}Step-by-step example: single time-series analysis}{54}{section.19}
-\contentsline {subsection}{\numberline {19.1}Step 1: start a project}{54}{subsection.19.1}
-\contentsline {subsection}{\numberline {19.2}Step 2: load the data}{56}{subsection.19.2}
-\contentsline {subsection}{\numberline {19.3}Step 3: edit and pre-process the data}{57}{subsection.19.3}
-\contentsline {subsection}{\numberline {19.4}Step 4: configure the model}{58}{subsection.19.4}
-\contentsline {subsection}{\numberline {19.5}Step 5: open the configuration file}{58}{subsection.19.5}
-\contentsline {subsection}{\numberline {19.6}Step 6: estimate the hidden states}{59}{subsection.19.6}
-\contentsline {subsection}{\numberline {19.7}Step 7: estimate the model parameters from the data}{59}{subsection.19.7}
-\contentsline {subsection}{\numberline {19.8}Step 8: estimate the hidden states using the optimized model parameters values}{59}{subsection.19.8}
-\contentsline {subsection}{\numberline {19.9}Step 9: estimate the initial hidden states}{60}{subsection.19.9}
-\contentsline {section}{\numberline {20}Step-by-step example: dependence model between two time-series}{66}{section.20}
-\contentsline {subsection}{\numberline {20.1}Step 1: start a project}{66}{subsection.20.1}
-\contentsline {subsection}{\numberline {20.2}Step 2: load the data}{66}{subsection.20.2}
-\contentsline {subsection}{\numberline {20.3}Step 3: edit and pre-process the data}{66}{subsection.20.3}
-\contentsline {subsection}{\numberline {20.4}Step 4: configure the model}{68}{subsection.20.4}
-\contentsline {subsection}{\numberline {20.5}Step 5: open the configuration file}{69}{subsection.20.5}
-\contentsline {subsection}{\numberline {20.6}Step 6: estimate the hidden states}{71}{subsection.20.6}
-\contentsline {subsection}{\numberline {20.7}Step 7: estimate the model parameters from the data}{71}{subsection.20.7}
-\contentsline {subsection}{\numberline {20.8}Step 8: estimate the hidden states using the optimized model parameters. values}{72}{subsection.20.8}
-\contentsline {subsection}{\numberline {20.9}Step 9: estimate the initial hidden states}{72}{subsection.20.9}
-\contentsline {section}{\numberline {21}Step-by-step example: time-series with anomaly}{79}{section.21}
-\contentsline {subsection}{\numberline {21.1}Step 1: start a project}{79}{subsection.21.1}
-\contentsline {subsection}{\numberline {21.2}Step 2: load the data}{79}{subsection.21.2}
-\contentsline {subsection}{\numberline {21.3}Step 4: configure the model}{79}{subsection.21.3}
-\contentsline {subsection}{\numberline {21.4}Step 5: open the configuration file}{81}{subsection.21.4}
-\contentsline {subsection}{\numberline {21.5}Step 6: estimate the hidden states}{82}{subsection.21.5}
-\contentsline {subsection}{\numberline {21.6}Step 7: estimate the model parameters from the data}{82}{subsection.21.6}
-\contentsline {subsection}{\numberline {21.7}Step 8: estimate the hidden states using the optimized model parameters values}{82}{subsection.21.7}
-\contentsline {subsection}{\numberline {21.8}Step 9: estimate the initial hidden states}{84}{subsection.21.8}
-\contentsline {section}{\numberline {22}Step-by-step example: generate and analyze synthetic data }{90}{section.22}
-\contentsline {subsection}{\numberline {22.1}Step 1: start a project}{90}{subsection.22.1}
-\contentsline {subsection}{\numberline {22.2}Step 2: define the time step vector}{90}{subsection.22.2}
-\contentsline {subsection}{\numberline {22.3}Step 3: configure the model}{90}{subsection.22.3}
-\contentsline {subsection}{\numberline {22.4}Step 4: explore the model}{90}{subsection.22.4}
-\contentsline {subsection}{\numberline {22.5}Step 5: estimate the hidden states}{91}{subsection.22.5}
-\contentsline {subsection}{\numberline {22.6}Step 6: estimate the initial hidden states}{91}{subsection.22.6}
-\contentsline {section}{\numberline {23}FAQ Troubleshooting}{97}{section.23}
-\contentsline {section}{\numberline {24}Reference Theory}{97}{section.24}
-\contentsline {subsection}{\numberline {24.1}Linear gaussian state-space model}{98}{subsection.24.1}
-\contentsline {subsection}{\numberline {24.2}Kalman filter \& UD filters}{98}{subsection.24.2}
-\contentsline {subsection}{\numberline {24.3}Switching Kalman filter}{99}{subsection.24.3}
-\contentsline {subsection}{\numberline {24.4}Model parameter estimation}{100}{subsection.24.4}
-\contentsline {subsubsection}{\numberline {24.4.1}Maximum log A Posteriori (MAP)}{100}{subsubsection.24.4.1}
-\contentsline {subsubsection}{\numberline {24.4.2}Maximum log Likelihood Estimation (MLE)}{101}{subsubsection.24.4.2}
-\contentsline {subsubsection}{\numberline {24.4.3}Laplace Approximation}{101}{subsubsection.24.4.3}
-\contentsline {subsubsection}{\numberline {24.4.4}Parameter-wise Newton-Raphson}{102}{subsubsection.24.4.4}
-\contentsline {subsubsection}{\numberline {24.4.5}Stochastic gradient descent}{102}{subsubsection.24.4.5}
-\contentsline {subsubsection}{\numberline {24.4.6}Model parameter space transformation}{103}{subsubsection.24.4.6}
-\contentsline {subsection}{\numberline {24.5}Block components}{103}{subsection.24.5}
-\contentsline {subsubsection}{\numberline {24.5.1}Local level (baseline)}{104}{subsubsection.24.5.1}
-\contentsline {subsubsection}{\numberline {24.5.2}Local trend (baseline)}{104}{subsubsection.24.5.2}
-\contentsline {subsubsection}{\numberline {24.5.3}Local acceleration (baseline)}{104}{subsubsection.24.5.3}
-\contentsline {subsubsection}{\numberline {24.5.4}Local level trend compatible (baseline)}{105}{subsubsection.24.5.4}
-\contentsline {subsubsection}{\numberline {24.5.5}Local level acceleration compatible (baseline)}{105}{subsubsection.24.5.5}
-\contentsline {subsubsection}{\numberline {24.5.6}Local trend acceleration compatible (baseline)}{106}{subsubsection.24.5.6}
-\contentsline {subsubsection}{\numberline {24.5.7}Periodic (Fourier form)}{106}{subsubsection.24.5.7}
-\contentsline {subsubsection}{\numberline {24.5.8}Periodic (Kernel regression form)}{107}{subsubsection.24.5.8}
-\contentsline {subsubsection}{\numberline {24.5.9}First order autoregressive}{107}{subsubsection.24.5.9}
-\contentsline {subsection}{\numberline {24.6}Handling non-uniform time vector and missing data}{108}{subsection.24.6}
-\contentsline {subsubsection}{\numberline {24.6.1}Non-uniform time vector}{108}{subsubsection.24.6.1}
-\contentsline {subsubsection}{\numberline {24.6.2}Missing data (NaN)}{108}{subsubsection.24.6.2}
-\contentsline {subsection}{\numberline {24.7}Dependencies between time-series}{109}{subsection.24.7}
+\contentsline {paragraph}{How does version control work ?}{53}{section*.28}
+\contentsline {section}{\numberline {19}Example \#1: single time-series analysis}{54}{section.19}
+\contentsline {subsection}{\numberline {19.1}Data description}{54}{subsection.19.1}
+\contentsline {subsection}{\numberline {19.2}Model description}{55}{subsection.19.2}
+\contentsline {subsection}{\numberline {19.3}Run the example from pre-existing configuration file}{56}{subsection.19.3}
+\contentsline {subsection}{\numberline {19.4}Run the example from command line interaction}{56}{subsection.19.4}
+\contentsline {section}{\numberline {20}Example \#2: dependence model between two time-series}{61}{section.20}
+\contentsline {subsection}{\numberline {20.1}Data description}{61}{subsection.20.1}
+\contentsline {subsection}{\numberline {20.2}Model description}{61}{subsection.20.2}
+\contentsline {subsection}{\numberline {20.3}Run the example from pre-existing configuration file}{62}{subsection.20.3}
+\contentsline {subsection}{\numberline {20.4}Run the example from command line interaction}{64}{subsection.20.4}
+\contentsline {section}{\numberline {21}Example \#3: time-series with anomaly}{67}{section.21}
+\contentsline {subsection}{\numberline {21.1}Data description}{67}{subsection.21.1}
+\contentsline {subsection}{\numberline {21.2}Model description}{68}{subsection.21.2}
+\contentsline {subsection}{\numberline {21.3}Run the example from pre-existing configuration file}{70}{subsection.21.3}
+\contentsline {subsection}{\numberline {21.4}Run the example from command line interaction}{71}{subsection.21.4}
+\contentsline {section}{\numberline {22}FAQ Troubleshooting}{72}{section.22}
+\contentsline {section}{\numberline {23}Reference Theory}{72}{section.23}
+\contentsline {subsection}{\numberline {23.1}Linear gaussian state-space model}{73}{subsection.23.1}
+\contentsline {subsection}{\numberline {23.2}Kalman filter \& UD filters}{74}{subsection.23.2}
+\contentsline {subsection}{\numberline {23.3}Switching Kalman filter}{74}{subsection.23.3}
+\contentsline {subsection}{\numberline {23.4}Model parameter estimation}{76}{subsection.23.4}
+\contentsline {subsubsection}{\numberline {23.4.1}Maximum log A Posteriori (MAP)}{76}{subsubsection.23.4.1}
+\contentsline {subsubsection}{\numberline {23.4.2}Maximum log Likelihood Estimation (MLE)}{77}{subsubsection.23.4.2}
+\contentsline {subsubsection}{\numberline {23.4.3}Laplace Approximation}{77}{subsubsection.23.4.3}
+\contentsline {subsubsection}{\numberline {23.4.4}Gradient-based optimization}{77}{subsubsection.23.4.4}
+\contentsline {paragraph}{Parameter-wise Newton-Raphson}{77}{section*.42}
+\contentsline {paragraph}{Stochastic gradient}{78}{section*.43}
+\contentsline {paragraph}{Approximation of the derivatives}{78}{section*.44}
+\contentsline {subsubsection}{\numberline {23.4.5}Model parameter space transformation}{79}{subsubsection.23.4.5}
+\contentsline {subsection}{\numberline {23.5}Block components}{80}{subsection.23.5}
+\contentsline {subsubsection}{\numberline {23.5.1}Local level (baseline)}{80}{subsubsection.23.5.1}
+\contentsline {subsubsection}{\numberline {23.5.2}Local trend (baseline)}{81}{subsubsection.23.5.2}
+\contentsline {subsubsection}{\numberline {23.5.3}Local acceleration (baseline)}{81}{subsubsection.23.5.3}
+\contentsline {subsubsection}{\numberline {23.5.4}Local level compatible trend (baseline)}{82}{subsubsection.23.5.4}
+\contentsline {subsubsection}{\numberline {23.5.5}Local level compatible acceleration (baseline)}{83}{subsubsection.23.5.5}
+\contentsline {subsubsection}{\numberline {23.5.6}Local trend compatible acceleration (baseline)}{83}{subsubsection.23.5.6}
+\contentsline {subsubsection}{\numberline {23.5.7}Periodic (Fourier form)}{84}{subsubsection.23.5.7}
+\contentsline {subsubsection}{\numberline {23.5.8}Periodic (Kernel regression form)}{85}{subsubsection.23.5.8}
+\contentsline {subsubsection}{\numberline {23.5.9}First order autoregressive}{86}{subsubsection.23.5.9}
+\contentsline {subsection}{\numberline {23.6}Handling non-uniform time vector and missing data}{87}{subsection.23.6}
+\contentsline {subsubsection}{\numberline {23.6.1}Non-uniform time vector}{87}{subsubsection.23.6.1}
+\contentsline {subsubsection}{\numberline {23.6.2}Missing data (NaN)}{87}{subsubsection.23.6.2}
+\contentsline {subsection}{\numberline {23.7}Dependencies between time-series}{88}{subsection.23.7}

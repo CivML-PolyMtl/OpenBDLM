@@ -175,16 +175,31 @@ $$p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}})  \approx  \mathcal{N}\left(\bm\theta;\
 $$
 where $\mathbf{H}(\bm\theta^{*})$ is the second derivative of the log a posteriori or log likelihood PDF evaluated at the optimal parameter values $\bm\theta^{*}$. 
 
-\subsubsection{Parameter-wise Newton-Raphson}
+\subsubsection{Gradient-based optimization}
+
+The gradient-based optimizations techniques are iterative approaches which can be used to find the model parameters that correspond to the maximum of a target PDF, hereafter noted $\mathcal{T}(\bm{\theta})$.
+The function $\mathcal{T}(\bm{\theta})$  is either the log a posteriori or the log likelihood PDF computed from the data.
+One iteration of gradient based algorithm is
+
+\begin{equation}
+{\bm\theta}_{\text{new}}  = {\bm\theta}_{\text{old}} - \eta \nabla \mathcal{T}(\bm{\theta}_{\text{old}}),
+\label{EQ:GBA}
+\end{equation}
+
+where $\eta$ is the learning rate, and $\nabla$ the first derivative.
+
+\paragraph{Parameter-wise Newton-Raphson}
 
 The parameter-wise Newton-Raphson \cite{gelman2014bayesian} algorithm is an iterative approach which can be used to find the model parameters that correspond to the maximum of a target PDF, hereafter noted $\mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta})$.
-The function $\mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta})$  is either the log a posteriori or the log likelihood PDF.
-One iteration of the Newton-Raphson algorithm is
+The underscripts $1:\mathtt{Tr}$ indicate that the target function is evaluated using a \emph{training dataset} of length $\mathtt{Tr}$.
+%The function $\mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta})$  is either the log a posteriori or the log likelihood PDF.
+The Newton-Raphson algorithm adaptively sets the learning rate using the second derivative and a factor noted $\lambda$.
+One \emph{iteration} of the Newton-Raphson algorithm is
 \begin{equation}
 {\theta}_{\text{new}}^{i}  = {\theta}_{\text{old}}^{i} - \lambda \frac{\nabla \mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta}_{\text{old}}^{i}) }{  \nabla^{2} \mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta}_{\text{old}}^{i})},
 \label{EQ:NR}
 \end{equation}
-where $i$ is the index of the parameter being learned, $\lambda$ is the learning rate, $\nabla$ the first derivative, $\nabla^{2}$ the second derivative.
+where $i$ is the index of the parameter being learned, $\nabla$ the first derivative, $\nabla^{2}$ the second derivative.
 $\bm{\theta}_{\text{old}}$ and $\bm{\theta}_{\text{new}}$ are the previous and updated vector of model parameters. 
 One parameter is updated at each iteration.
 The convergence of each model parameters is reached when the following conditions are satisfied
@@ -197,19 +212,38 @@ The convergence of each model parameters is reached when the following condition
 \end{equation}
 where $\tau$ is a termination tolerance.
 The Newton-Raphson algorithm stops when each model parameters has reached the convergence.
-In most cases. the derivatives of $\mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta})$ can not be computed analytically, and the derivatives are approximated numerically using the central differentiation scheme, such as
+
+\paragraph{Stochastic gradient}
+
+In the stochastic gradient technique, the target function and its derivatives are approximated at each iteration using a \emph{mini-batch} of data of length $\mathtt{Tb} \ll \mathtt{Tr}$.
+Therefore, the target function is noted $\mathcal{T}_{1:\mathtt{Tb}}(\bm{\theta})$.
+At each iteration, the beginning of the mini-batch is selected randomly.
+One \emph{epoch} consists in one pass over the full training dataset (i.e. all the training data have been seen once).
+Therefore, one epoch is made of many iterations.
+Note that more than one model parameters is usually updated during one epoch.
+Several epochs are needed to reach convergence.
+%Classical implementation of stochastic gradient algorithm includes momentum approach (e.g MMT optimizer) or adaptive learning rate (e.g. Adam optimizer) to increase the performance \cite{Goodfellow-et-al-2016}.  
+The convergence is reached when the following condition between two successive epochs is satisfied 
+\begin{equation}
+\mathcal{T}^{\text{epoch}} (\bm\theta) > \tau  \cdot \mathcal{T}^{\text{epoch-1}} (\bm\theta)
+\label{EQ:SGT}
+\end{equation}
+where $0 \le \tau \le 1$ is a termination tolerance.
+Classical implementation of stochastic gradient algorithm includes momentum approach (e.g MMT optimizer) or adaptive learning rate (e.g. Adam optimizer) to increase the performance \cite{Goodfellow-et-al-2016}.  
+
+\paragraph{Approximation of the derivatives}
+
+In most cases. the derivatives of $\mathcal{T}(\bm{\theta})$ can not be computed analytically.
+Therefore, the derivatives are approximated numerically using the central differentiation scheme, such as
 \begin{gather}
 \begin{aligned}
- \nabla \mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}) & = \frac{\partial \mathcal{T}_{1:\mathtt{Tr}} (\bm\theta) }{\partial \theta^{i}} \approx \frac{\mathcal{T}_{1:\mathtt{Tr}} (\bm\theta + \Pi(i)\Delta \theta^{i} )  -  \mathcal{T}_{1:\mathtt{Tr}} (\bm\theta - \Pi(i)\Delta \theta^{i} ) }{2\Delta \theta^{i}}  \\
- \nabla^{2} \mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}) & = \frac{\partial^{2} \mathcal{T}_{1:\mathtt{Tr}} (\bm\theta) }{\partial^{2} \theta^{i}} \approx \frac{\mathcal{T}_{1:\mathtt{Tr}} (\bm\theta + \Pi(i)\Delta \theta^{i} )  -  2 \mathcal{T}_{1:\mathtt{Tr}} (\bm\theta) +  \mathcal{T}_{1:\mathtt{Tr}} (\bm\theta - \Pi(i)\Delta \theta^{i} ) }{(\Delta \theta^{i})^{2}},
+ \nabla \mathcal{T}(\bm\theta^{i}) & = \frac{\partial \mathcal{T} (\bm\theta) }{\partial \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \Pi(i)\Delta \theta^{i} )  -  \mathcal{T} (\bm\theta - \Pi(i)\Delta \theta^{i} ) }{2\Delta \theta^{i}}  \\
+ \nabla^{2} \mathcal{T}(\bm\theta^{i}) & = \frac{\partial^{2} \mathcal{T} (\bm\theta) }{\partial^{2} \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \Pi(i)\Delta \theta^{i} )  -  2 \mathcal{T} (\bm\theta) +  \mathcal{T} (\bm\theta - \Pi(i)\Delta \theta^{i} ) }{(\Delta \theta^{i})^{2}},
 \label{EQ:numericaldiff}
 \end{aligned}
 \end{gather}
 where $\Delta \theta^{i}$ is a small perturbation to the value of the $i^{\text{th}}$ model parameters and $\Pi(i)$ is an indicator vector for which all values are equal to $0$, except the $i^{\text{th}}$ value which is equal to one.
 
-\subsubsection{Stochastic gradient descent}
-
-\noindent \todo{To be completed}
 
 \subsubsection{Model parameter space transformation}
 \label{SS:THSpaceTransformation}
@@ -222,7 +256,7 @@ Those parameters must be rejected, which strongly hinders the computational effi
 The solution employed in OpenBDLM is to transform the bounded parameters space into an unbounded parameters space, where the parameters lie in the $[ -\infty, +\infty ]$ interval, and to perform the learning procedure in the transformed, unbounded, space.
 The transformation is done using a function $g(.)$ so that, 
 \begin{equation}
-\theta^{i, \text{tr}} = g(\theta^{i}) \text{, }\quad \theta^{i, \text{tr}} \in [-\infty, +\infty ] \text{.}
+\theta^{\text{tr}} = g(\theta) \text{, }\quad \theta^{\text{tr}} \in [-\infty, +\infty ] \text{.}
 \end{equation}
 The choice of the function $g(.)$ depends on the bound of $\theta$. 
 Three cases generally occur:
@@ -253,11 +287,27 @@ The local level describes irreversible changes.\\
 
 \noindent
 Number of hidden states: 1\\
-Hidden states vector: $ \mathbf{x}^{\mathtt{LL}} = [x^{\mathtt{LL}}]$\\
-Transition matrix: $\mathbf{A}^{\mathtt{LL}}=[1]$\\
-Observation matrix: $\mathbf{C}^{\mathtt{LL}}=[1]$\\
-Process noise covariance matrix: $\mathbf{Q}^{\mathtt{LL}}=[(\sigma_{w}^{\mathtt{LL}})^{2}]$\\
-Model parameters: $\bm\theta^{\mathtt{LL}}=[\sigma_{w}^{\mathtt{LL}} ]$\\
+
+Hidden states vector: 
+\begin{gather*}
+\mathbf{x}^{\mathtt{LL}} = [x^{\mathtt{LL}}]
+\end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{LL}}=[1]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{LL}}=[1]
+\end{gather*}
+Process noise covariance matrix: 
+\begin{gather*}
+\mathbf{Q}^{\mathtt{LL}}=[(\sigma_{w}^{\mathtt{LL}})^{2}]
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{LL}}=[\sigma_{w}^{\mathtt{LL}} ]
+\end{gather*}
 
 \noindent
 $\sigma_{w}^{\mathtt{LL}}$ is the process noise standard deviation which can be learned from the data.
@@ -269,11 +319,27 @@ The local level describes irreversible changes.\\
 
 \noindent
 Number of hidden states: 2\\
-Hidden states vector: $ \mathbf{x}^{\mathtt{LT}} = [x^{\mathtt{LL}}, x^{\mathtt{LT}}]^{\intercal}$\\
-Transition matrix: $\mathbf{A}^{\mathtt{LT}}= \left[\begin{array}{cc}1 &\Delta t\\0&1\end{array}\right]$\\
-Observation matrix: $\mathbf{C}^{\mathtt{LT}}=[1, 0]$\\
-Process noise covariance matrix: $\mathbf{Q}^{\mathtt{LT}}= (\sigma_{w}^{\mathtt{LT}})^{2}\left[\begin{array}{cc}\tfrac{\Delta t^{3}}{3} &\tfrac{\Delta t^{2}}{2}\\\tfrac{\Delta t^{2}}{2}&\Delta t\end{array}\right]$\\
-Model parameters: $\bm\theta^{\mathtt{LT}}=[\sigma_{w}^{\mathtt{LT}} ]$\\
+
+Hidden states vector: 
+\begin{gather*}
+ \mathbf{x}^{\mathtt{LT}} = [x^{\mathtt{LL}}, x^{\mathtt{LT}}]^{\intercal}
+ \end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{LT}}= \left[\begin{array}{cc}1 &\Delta t\\0&1\end{array}\right]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{LT}}=[1, 0]
+\end{gather*}
+Process noise covariance matrix: 
+\begin{gather*}
+\mathbf{Q}^{\mathtt{LT}}= (\sigma_{w}^{\mathtt{LT}})^{2}\left[\begin{array}{cc}\tfrac{\Delta t^{3}}{3} &\tfrac{\Delta t^{2}}{2}\\\tfrac{\Delta t^{2}}{2}&\Delta t\end{array}\right]
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{LT}}=[\sigma_{w}^{\mathtt{LT}} ]
+\end{gather*}
 
 \noindent
 $\sigma_{w}^{\mathtt{LT}}$ is the process noise standard deviation, which can be learned from the data, and $\Delta t$ is the local timestep computed from the data.
@@ -286,18 +352,34 @@ It describes irreversible changes.\\
 
 \noindent
 Number of hidden states: 3\\
-Hidden states vector: $ \mathbf{x}^{\mathtt{LA}} = [x^{\mathtt{LL}}, x^{\mathtt{LT}} ,  x^{\mathtt{LA}}]^{\intercal}$\\
-Transition matrix: $\mathbf{A}^{\mathtt{LA}}=  \left[\begin{array}{ccc}1 &\Delta t&\Delta t^{2}\\0&1&\Delta t\\0&0&1\end{array}\right]$\\
-Observation matrix: $\mathbf{C}^{\mathtt{LA}}=[1, 0, 0]$\\
-Process noise covariance matrix: $\mathbf{Q}^{\mathtt{LA}}=(\sigma_{w}^{\mathtt{LA}})^{2}\left[\begin{array}{ccc}\tfrac{\Delta t^{5}}{20} &\tfrac{\Delta t^{4}}{8} &\tfrac{\Delta t^{3}}{6}\\\tfrac{\Delta t^{4}}{8} &\tfrac{\Delta t^{3}}{3}&\tfrac{\Delta t^{2}}{2}\\\tfrac{\Delta t^{3}}{6}&\tfrac{\Delta t^{2}}{2}&\Delta t\end{array}\right]$\\
-Model parameters: $\bm\theta^{\mathtt{LA}}=[\sigma_{w}^{\mathtt{LA}} ]$\\
+
+Hidden states vector: 
+\begin{gather*}
+\mathbf{x}^{\mathtt{LA}} = [x^{\mathtt{LL}}, x^{\mathtt{LT}} ,  x^{\mathtt{LA}}]^{\intercal}
+\end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{LA}}=  \left[\begin{array}{ccc}1 &\Delta t&\Delta t^{2}\\0&1&\Delta t\\0&0&1\end{array}\right]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{LA}}=[1, 0, 0]
+\end{gather*}
+Process noise covariance matrix: 
+\begin{gather*}
+\mathbf{Q}^{\mathtt{LA}}=(\sigma_{w}^{\mathtt{LA}})^{2}\left[\begin{array}{ccc}\tfrac{\Delta t^{5}}{20} &\tfrac{\Delta t^{4}}{8} &\tfrac{\Delta t^{3}}{6}\\\tfrac{\Delta t^{4}}{8} &\tfrac{\Delta t^{3}}{3}&\tfrac{\Delta t^{2}}{2}\\\tfrac{\Delta t^{3}}{6}&\tfrac{\Delta t^{2}}{2}&\Delta t\end{array}\right]
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{LA}}=[\sigma_{w}^{\mathtt{LA}} ]
+\end{gather*}
 
 \noindent
 $\sigma_{w}^{\mathtt{LA}}$ is the process noise standard deviation, which can be learned from the data, and $\Delta t$ is the local timestep computed from the data.
 
 
 
-\subsubsection{Local level trend compatible (baseline)}
+\subsubsection{Local level compatible trend (baseline)}
 
 The local level trend compatible component must be used in case of model switching between a local level model and a local trend model \cite{Nguyen2018}.
 The local level trend compatible block component describes the local mean of a stationary time-series. 
@@ -305,16 +387,32 @@ It describes irreversible changes.\\
 
 \noindent
 Number of hidden states: 1\\
-Hidden states vector: $ \mathbf{x}^{\mathtt{LLTc}} = [x^{\mathtt{LL}}, 0]^{\intercal}$\\
-Transition matrix: $\mathbf{A}^{\mathtt{LLTc}}= \left[\begin{array}{cc}1 & 0\\0&0\end{array}\right]$\\
-Observation matrix: $\mathbf{C}^{\mathtt{LLTc}}=[1, 0]$\\
-Process noise covariance matrix: $\mathbf{Q}^{\mathtt{LLTc}}=(\sigma_{w}^{\mathtt{LLTc}})^{2}\left[\begin{array}{cc}1 &0\\0&0\end{array}\right]$\\
-Model parameters: $\bm\theta^{\mathtt{LLTc}}=[\sigma_{w}^{\mathtt{LLTc}} ]$\\
+
+Hidden states vector: 
+\begin{gather*}
+ \mathbf{x}^{\mathtt{LcT}} = [x^{\mathtt{LL}}, x^{\mathtt{LTc}}=0]^{\intercal}
+ \end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{LcT}}= \left[\begin{array}{cc}1 & 0\\0&0\end{array}\right]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{LcT}}=[1, 0]
+\end{gather*}
+Process noise covariance matrix: 
+\begin{gather*}
+\mathbf{Q}^{\mathtt{LcT}}=(\sigma_{w}^{\mathtt{LcT}})^{2}\left[\begin{array}{cc}1 &0\\0&0\end{array}\right]
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{LcT}}=[\sigma_{w}^{\mathtt{LcT}} ]
+\end{gather*}
 
 \noindent
-$\sigma_{w}^{\mathtt{LLTc}}$ is the process noise standard deviation, which can be learned from the data, and $\Delta t$ is the local timestep computed from the data.
+$\sigma_{w}^{\mathtt{LcT}}$ is the process noise standard deviation, which can be learned from the data, and $\Delta t$ is the local timestep computed from the data.
 
-\subsubsection{Local level acceleration compatible (baseline)}
+\subsubsection{Local level compatible acceleration (baseline)}
 
 The local level acceleration compatible component must be used in case of model switching between a local level model and a local acceleration model \cite{Nguyen2018}.
 The local level acceleration compatible block component describes the local mean of a stationary time-series.
@@ -322,30 +420,61 @@ It describes irreversible changes.\\
 
 \noindent
 Number of hidden states: 1\\
-Hidden states vector: $ \mathbf{x}^{\mathtt{LLAc}} = [x^{\mathtt{LL}}, 0, 0]^{\intercal}$\\
-Transition matrix: $\mathbf{A}^{\mathtt{LLAc}}= \left[\begin{array}{ccc}1&0&0\\0&0&0\\0&0&0\end{array}\right]$\\
-Observation matrix: $\mathbf{C}^{\mathtt{LLAc}}=[1, 0, 0]$\\
-Process noise covariance matrix: $\mathbf{Q}^{\mathtt{LLAc}}=(\sigma_{w}^{\mathtt{LLAc}})^{2}\left[\begin{array}{ccc}1&0&0\\0&0&0\\0&0&0\end{array}\right]$\\
-Model parameters: $\bm\theta^{\mathtt{LLAc}}=[\sigma_{w}^{\mathtt{LLAc}} ]$\\
+
+Hidden states vector:
+\begin{gather*}
+ \mathbf{x}^{\mathtt{LcA}} = [x^{\mathtt{LL}}, x^{\mathtt{LTc}}=0, x^{\mathtt{LAc}}=0]^{\intercal}
+ \end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{LcA}}= \left[\begin{array}{ccc}1&0&0\\0&0&0\\0&0&0\end{array}\right]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{LcA}}=[1, 0, 0]
+\end{gather*}
+Process noise covariance matrix: 
+\begin{gather*}
+\mathbf{Q}^{\mathtt{LcA}}=(\sigma_{w}^{\mathtt{LcA}})^{2}\left[\begin{array}{ccc}1&0&0\\0&0&0\\0&0&0\end{array}\right]
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{LcA}}=[\sigma_{w}^{\mathtt{LcA}} ]
+\end{gather*}
 
 \noindent
-$\sigma_{w}^{\mathtt{LLAc}}$ is the process noise standard deviation, which can be learned from the data, and $\Delta t$ is the local timestep computed from the data.
+$\sigma_{w}^{\mathtt{LcA}}$ is the process noise standard deviation, which can be learned from the data, and $\Delta t$ is the local timestep computed from the data.
 
-\subsubsection{Local trend acceleration compatible (baseline)}
+\subsubsection{Local trend compatible acceleration (baseline)}
 The local trend acceleration compatible component must be used in case of model switching between a local trend model and a local acceleration model \cite{Nguyen2018}.
 The local trend acceleration compatible block component describes the local mean of a trend-stationary time-series. 
 It describes irreversible changes.\\
 
 \noindent
 Number of hidden states: 2\\
-Hidden states vector: $ \mathbf{x}^{\mathtt{LTAc}} = [x^{\mathtt{LL}}, x^{\mathtt{LT}} , 0]^{\intercal}$\\
-Transition matrix: $\mathbf{A}^{\mathtt{LTAc}}= \left[\begin{array}{ccc}1&\Delta t&0\\0&1&0\\0&0&0\end{array}\right]$\\
-Observation matrix: $\mathbf{C}^{\mathtt{LTAc}}=[1, 0, 0]$\\
-Process noise covariance matrix: $\mathbf{Q}^{\mathtt{LTAc}}=(\sigma_{w}^{\mathtt{LTAc}})^{2}  \left[\begin{array}{ccc}\tfrac{\Delta t^{3}}{3} &\tfrac{\Delta t^{2}}{2}&0\\\tfrac{\Delta t^{2}}{2}&\Delta t&0\\0&0&0\end{array}\right] $\\
-Model parameters: $\bm\theta^{\mathtt{LTAc}}=[\sigma_{w}^{\mathtt{LTAc}} ]$\\
+Hidden states vector: 
+\begin{gather*}
+ \mathbf{x}^{\mathtt{TcA}} = [x^{\mathtt{LL}}, x^{\mathtt{LT}} , x^{\mathtt{LAc}}=0]^{\intercal}
+ \end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{TcA}}= \left[\begin{array}{ccc}1&\Delta t&0\\0&1&0\\0&0&0\end{array}\right]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{TcA}}=[1, 0, 0]
+\end{gather*}
+Process noise covariance matrix: 
+\begin{gather*}
+\mathbf{Q}^{\mathtt{TcA}}=(\sigma_{w}^{\mathtt{TcA}})^{2}  \left[\begin{array}{ccc}\tfrac{\Delta t^{3}}{3} &\tfrac{\Delta t^{2}}{2}&0\\\tfrac{\Delta t^{2}}{2}&\Delta t&0\\0&0&0\end{array}\right] 
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{TcA}}=[\sigma_{w}^{\mathtt{TcA}} ]
+\end{gather*}
 
 \noindent
-$\sigma_{w}^{\mathtt{LTAc}}$ is the process noise standard deviation, which can be learned from the data, and $\Delta t$ is the local timestep computed from the data.
+$\sigma_{w}^{\mathtt{TcA}}$ is the process noise standard deviation, which can be learned from the data, and $\Delta t$ is the local timestep computed from the data.
 
 
 
@@ -357,11 +486,27 @@ It describes reversible changes.\\
 
 \noindent
 Number of hidden states: 2\\
-Hidden states vector: $ \mathbf{x}^{\mathtt{P}} = [x^{\mathtt{P}_ {1}}, x^{\mathtt{P}_{2}}]^{\intercal}$\\
-Transition matrix: $\mathbf{A}^{\mathtt{P}}= \left[\begin{array}{cc}\cos \omega &\sin \omega\\-\sin \omega&\cos \omega\end{array}\right]$\\
-Observation matrix: $\mathbf{C}^{\mathtt{P}}=[1, 0]$\\
-Process noise covariance matrix: $\mathbf{Q}^{\mathtt{P}}=(\sigma_{w}^{\mathtt{P}})^{2}\left[\begin{array}{cc}1 &0\\0&1\end{array}\right]$\\
-Model parameters: $\bm\theta^{\mathtt{P}}=[\sigma_{w}^{\mathtt{P}}, p^{\mathtt{P}} ]$\\
+
+Hidden states vector: 
+\begin{gather*}
+\mathbf{x}^{\mathtt{P}} = [x^{\mathtt{P}_ {1}}, x^{\mathtt{P}_{2}}]^{\intercal}
+\end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{P}}= \left[\begin{array}{cc}\cos \omega &\sin \omega\\-\sin \omega&\cos \omega\end{array}\right]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{P}}=[1, 0]
+\end{gather*}
+Process noise covariance matrix:
+\begin{gather*}
+\mathbf{Q}^{\mathtt{P}}=(\sigma_{w}^{\mathtt{P}})^{2}\left[\begin{array}{cc}1 &0\\0&1\end{array}\right]
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{P}}=[\sigma_{w}^{\mathtt{P}}, p^{\mathtt{P}} ]
+\end{gather*}
 
 \noindent
 $\sigma_{w}^{\mathtt{P}}$ is the process noise standard deviation and $p$ the period in days, which can be learned from the data, and $\Delta t$ is the local timestep computed from the data.
@@ -378,13 +523,29 @@ The periodic kernel measures the similarity between pairs of covariates, and it 
 k(t_{i},t_{j})=\exp\left[-\frac{2}{\ell^2}\sin\left( \pi\frac{t_i-t_{j}}{p}\right)^{2}\right].
 \end{gather*}
 The kernel output $k(t_{i},t_{j})\in(0,1)$ measures the similarity between two timestamps $t_{i}$ and $t_{j}$ as a function of the distance between these, as well as a function of two parameters; the period and kernel length, $\bm{\theta}=\{p,\ell\}$.
-\noindent
-Number of hidden states: $\mathtt{L}^{\mathtt{KR}}+1$\\
-Hidden states vector: $ \mathbf{x}^{\mathtt{KR}} = [x^{\mathtt{KR}}_{0}, x^{\mathtt{KR}}_{1}, \dots, x^{\mathtt{KR}}_{\mathtt{L}^{\mathtt{KR}}}]^{\intercal}$\\
-Transition matrix: $\mathbf{A}^{\mathtt{KR}}= \left[\begin{array}{cc}0 &\tilde{\bm k}^{\mathtt{KR}}(t, \mathbf{t}^{\mathtt{KR}})\\\mathbf{0}&\mathbf{I}_{\mathtt{L}^{\mathtt{KR}}}\end{array}\right]$\\
-Process noise covariance matrix: $\mathbf{Q}_{t}^{\mathtt{KR}}=\left[\begin{array}{cc}(\sigma_{w,0}^{\mathtt{KR}})^{2} &\mathbf{0}\\\mathbf{0}&(\sigma_{w,1}^{\mathtt{KR}})^{2}\cdot\mathbf{I}_{\mathtt{L}^{\mathtt{KR}} }\end{array}\right],$\\
-Observation matrix: $\mathbf{C}^{\mathtt{KR}}=[1, 0, \dots, 0]$\\
-Model parameters: $\bm\theta^{\mathtt{KR}}=[ p^{\mathtt{KR}},\ell^{\mathtt{KR}},  \sigma_{w,0}^{\mathtt{KR}}, \sigma_{w,1}^{\mathtt{KR}}]$\\
+\noindent\\
+Number of hidden states:  $\mathtt{L}^{\mathtt{KR}}+1$\\
+
+Hidden states vector: 
+\begin{gather*}
+\mathbf{x}^{\mathtt{KR}} = [x^{\mathtt{KR}}_{0}, x^{\mathtt{KR}}_{1}, \dots, x^{\mathtt{KR}}_{\mathtt{L}^{\mathtt{KR}}}]^{\intercal}
+\end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{KR}}= \left[\begin{array}{cc}0 &\tilde{\bm k}^{\mathtt{KR}}(t, \mathbf{t}^{\mathtt{KR}})\\\mathbf{0}&\mathbf{I}_{\mathtt{L}^{\mathtt{KR}}}\end{array}\right]
+\end{gather*}
+Process noise covariance matrix:
+\begin{gather*}
+\mathbf{Q}^{\mathtt{KR}}=\left[\begin{array}{cc}(\sigma_{w,0}^{\mathtt{KR}})^{2} &\mathbf{0}\\\mathbf{0}&(\sigma_{w,1}^{\mathtt{KR}})^{2}\cdot\mathbf{I}_{\mathtt{L}^{\mathtt{KR}} }\end{array}\right]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{KR}}=[1, 0, \dots, 0]
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{KR}}=[ p^{\mathtt{KR}},\ell^{\mathtt{KR}},  \sigma_{w,0}^{\mathtt{KR}}, \sigma_{w,1}^{\mathtt{KR}}]
+\end{gather*}
 
 \noindent
 In the transition matrix, $\tilde{\bm k}^{\mathtt{KR}}(t,\mathbf{t}^{\mathtt{KR}})$ corresponds to the normalized kernel, $k(t,\mathbf{t}^{\mathtt{KR}})/\sum_{t} k(t,\mathbf{t}^{\mathtt{KR}})$. $\tilde{\bm k}^{\mathtt{KR}}(t,\mathbf{t}^{\mathtt{KR}})$ is parameterized by the kernel width $\ell^{\mathtt{KR}}$, its period $p^{\mathtt{KR}}$, and a vector of $\mathtt{L}^{\mathtt{KR}}$ timestamps $\mathbf{t}^{\mathtt{KR}}=[t_{1}^{\mathtt{KR}},\cdots,t_{\mathtt{L}^{\mathtt{KR}}}^{\mathtt{KR}}]$ where each timestamp $t_{i}^{\mathtt{KR}}$ is associated with a hidden control point value $x_{i}^{\mathtt{KR}}$. 
@@ -399,11 +560,27 @@ It describes reversible changes.\\
 
 \noindent
 Number of hidden states: 1\\
-Hidden states vector: $ \mathbf{x}^{\mathtt{AR}} = [x^{\mathtt{AR}}]$\\
-Transition matrix: $\mathbf{A}^{\mathtt{AR}}=  [\phi^{\mathtt{AR}}]$\\
-Observation matrix: $\mathbf{C}^{\mathtt{AR}}=[1]$\\
-Process noise covariance matrix: $\mathbf{Q}^{\mathtt{AR}}=[(\sigma_{w}^{\mathtt{AR}})]$\\
-Model parameters: $\bm\theta^{\mathtt{AR}}=[\sigma_{w}^{\mathtt{AR}}, \phi^{\mathtt{AR}} ]$\\
+
+Hidden states vector: 
+\begin{gather*}
+\mathbf{x}^{\mathtt{AR}} = [x^{\mathtt{AR}}]
+\end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{AR}}=  [\phi^{\mathtt{AR}}]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{AR}}=[1]
+\end{gather*}
+Process noise covariance matrix: 
+\begin{gather*}
+\mathbf{Q}^{\mathtt{AR}}=[(\sigma_{w}^{\mathtt{AR}})]
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{AR}}=[\sigma_{w}^{\mathtt{AR}}, \phi^{\mathtt{AR}} ]
+\end{gather*}
 
 \noindent
 $\sigma_{w}^{\mathtt{AR}}$ is the process noise standard deviation, and $\phi^{\mathtt{AR}}$ the autoregressive coefficient.
@@ -412,6 +589,7 @@ $\sigma_{w}^{\mathtt{AR}}$ is the process noise standard deviation, and $\phi^{\
 Label{SS:HandlingNonUniformMissingData}
 
 \subsubsection{Non-uniform time vector}
+\label{SS:NonUniform}
 
 Non uniform time vector occurs when the time between two successive data measurements (i.e. the timestep) varies with time.
 In order to accommodate non-uniform time vector, a reference time step $\Delta t^{\text{ref}} $ must be defined \cite{STC:STC2035}. 

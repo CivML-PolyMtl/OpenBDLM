@@ -128,6 +128,11 @@ ndivy = misc.options.ndivy;
 Subsample=misc.options.Subsample;
 Xaxis_lag=misc.options.Xaxis_lag;
 
+%% Get number of class
+
+nb_class=model.nb_class;
+
+
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
@@ -284,7 +289,7 @@ for idx=1:numberOfHiddenStates
             
         end
         
-        ylabel(['$' model.hidden_states_names{1}{idx,1} '$ [' '$' ...
+        ylabel(['$' model.hidden_states_names{nb_class}{idx,1} '$ [' '$' ...
             data.labels{str2double(model.hidden_states_names{1}{idx,3})} ...
             ']$' ],'Interpreter','Latex')
         
@@ -300,7 +305,7 @@ for idx=1:numberOfHiddenStates
             'box','off',  ...
             'FontSize', 16);
         set(gca, 'YTickMode','manual')
-        set(gca, 'YTickLabel', num2str(get(gca,'YTick')'))
+        set(gca, 'YTickLabel', num2str(get(gca,'YTick')', '%.2e'))
         %ytickformat('%.1f')
         %ytickformat('%.4e')
         datetick('x','yy-mm','keepticks')
@@ -362,7 +367,7 @@ for idx=1:numberOfHiddenStates
             match = [string('^'),string('{'),string('}'), string('x')];
             NameFigure = [ data.labels{ ...
                 str2double(model.hidden_states_names{1}{idx,3})}, '_', ...
-                erase(model.hidden_states_names{1}{idx,1}, match), '_', ...
+                erase(model.hidden_states_names{nb_class}{idx,1}, match), '_', ...
                 num2str(loop)];
             
             % Record Figure Name

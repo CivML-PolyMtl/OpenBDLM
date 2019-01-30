@@ -61,14 +61,23 @@ misc.options.Tolerance = 10^(-6);
 % Optimization options
 misc.options.trainingPeriod = [1 Inf];
 misc.options.isParallel = false;
-misc.options.maxIterations = 100;
-misc.options.maxTime = 60; 
-misc.options.isMAP = false;
-misc.options.isPredCap = false;
-misc.options.isLaplaceApprox = false;
 misc.options.isMute = false;
+misc.options.isMAP = false;
+misc.options.maxTime = 60; 
+
+% Newton-Raphson
+misc.options.maxIterations = 3;
+misc.options.isLaplaceApprox = false;
+misc.options.isPredCap = false;
 misc.options.NRLevelsLambdaRef = 4;
 misc.options.NRTerminationTolerance = 10^(-7);
+
+% Stochastic gradient
+misc.options.maxEpochs = 30;
+misc.options.SplitPercent = 30;
+misc.options.MiniBatchSizePercent = 20;
+misc.options.SGTerminationTolerance = 95;
+misc.options.Optimizer = 'MMT';
 
 % Hidden states estimation options
 misc.options.MethodStateEstimation = 'kalman'; 
