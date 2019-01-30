@@ -1,2 +1,44 @@
 \section{FAQ Troubleshooting}
+%
+%\begin{itemize}
+%\item How to cite OpenBDLM ?\\
+%
+%\noindent \emph{OpenBDLM, an Open-Source Software for Structural Health Monitoring using Bayesian Dynamic Linear Models}\\{\small
+%            Gaudot, I., Nguyen, L.H., Khazaeli S.and Goulet, J.-A.\\
+%            Submitted to 13th International Conference on Applications of Statistics and Probability in Civil Engineering, Vol. X, Issue X, 2019\\}
+%      [] [~]  [~] [] \cite{Gaudot2019OpenBDLM}\\[4pt]
+%
+%\end{itemize}
+
+%
+%\Que{Here first question would come}
+%\Ans{\lipsum[1]\lipsum[1]}
+%
+%\Que{Here second question would come}
+%\Ans{\lipsum[1]\lipsum[1]}
+
+
+\begin{description}[style=unboxed]
+
+\item[\textbf{How to cite OpenBDLM ?}] \leavevmode \\
+
+\noindent \emph{OpenBDLM, an Open-Source Software for Structural Health Monitoring using Bayesian Dynamic Linear Models}\\{\small
+            Gaudot, I., Nguyen, L.H., Khazaeli S.and Goulet, J.-A.\\
+            Submitted to 13th International Conference on Applications of Statistics and Probability in Civil Engineering, Vol. X, Issue X, 2019\\}
+      [~] [~]  [~] [~] \cite{Gaudot2019OpenBDLM}\\[4pt]
+
+
+\item[\textbf{How to choose the right model structure  for my data ?}] \leavevmode \\
+
+There is no magic: inspect the data to propose candidates of model.
+Comparing the log-likelihood values obtained using different model candidates is a good indicator.
+Moreover, the presence of a weird behavior in the autoregressive hidden states (trend, periodicity) may indicate that the model is incorrect or, at least, incomplete (but this may also due to model parameters values).
+Note that model structure selection is a large field of study and many methods are available in the literature.
+
+
+\end{description}
+
+
+
+
 \noindent \todo{To be completed}

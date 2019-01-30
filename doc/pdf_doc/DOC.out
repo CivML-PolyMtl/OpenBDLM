@@ -61,65 +61,43 @@
 \BOOKMARK [2][-]{subsection.17.3}{DATA\137*.mat data file}{section.17}% 61
 \BOOKMARK [2][-]{subsection.17.4}{Export the results}{section.17}% 62
 \BOOKMARK [1][-]{section.18}{Version control}{}% 63
-\BOOKMARK [1][-]{section.19}{Step-by-step example: single time-series analysis}{}% 64
-\BOOKMARK [2][-]{subsection.19.1}{Step 1: start a project}{section.19}% 65
-\BOOKMARK [2][-]{subsection.19.2}{Step 2: load the data}{section.19}% 66
-\BOOKMARK [2][-]{subsection.19.3}{Step 3: edit and pre-process the data}{section.19}% 67
-\BOOKMARK [2][-]{subsection.19.4}{Step 4: configure the model}{section.19}% 68
-\BOOKMARK [2][-]{subsection.19.5}{Step 5: open the configuration file}{section.19}% 69
-\BOOKMARK [2][-]{subsection.19.6}{Step 6: estimate the hidden states}{section.19}% 70
-\BOOKMARK [2][-]{subsection.19.7}{Step 7: estimate the model parameters from the data}{section.19}% 71
-\BOOKMARK [2][-]{subsection.19.8}{Step 8: estimate the hidden states using the optimized model parameters values}{section.19}% 72
-\BOOKMARK [2][-]{subsection.19.9}{Step 9: estimate the initial hidden states}{section.19}% 73
-\BOOKMARK [1][-]{section.20}{Step-by-step example: dependence model between two time-series}{}% 74
-\BOOKMARK [2][-]{subsection.20.1}{Step 1: start a project}{section.20}% 75
-\BOOKMARK [2][-]{subsection.20.2}{Step 2: load the data}{section.20}% 76
-\BOOKMARK [2][-]{subsection.20.3}{Step 3: edit and pre-process the data}{section.20}% 77
-\BOOKMARK [2][-]{subsection.20.4}{Step 4: configure the model}{section.20}% 78
-\BOOKMARK [2][-]{subsection.20.5}{Step 5: open the configuration file}{section.20}% 79
-\BOOKMARK [2][-]{subsection.20.6}{Step 6: estimate the hidden states}{section.20}% 80
-\BOOKMARK [2][-]{subsection.20.7}{Step 7: estimate the model parameters from the data}{section.20}% 81
-\BOOKMARK [2][-]{subsection.20.8}{Step 8: estimate the hidden states using the optimized model parameters. values}{section.20}% 82
-\BOOKMARK [2][-]{subsection.20.9}{Step 9: estimate the initial hidden states}{section.20}% 83
-\BOOKMARK [1][-]{section.21}{Step-by-step example: time-series with anomaly}{}% 84
-\BOOKMARK [2][-]{subsection.21.1}{Step 1: start a project}{section.21}% 85
-\BOOKMARK [2][-]{subsection.21.2}{Step 2: load the data}{section.21}% 86
-\BOOKMARK [2][-]{subsection.21.3}{Step 4: configure the model}{section.21}% 87
-\BOOKMARK [2][-]{subsection.21.4}{Step 5: open the configuration file}{section.21}% 88
-\BOOKMARK [2][-]{subsection.21.5}{Step 6: estimate the hidden states}{section.21}% 89
-\BOOKMARK [2][-]{subsection.21.6}{Step 7: estimate the model parameters from the data}{section.21}% 90
-\BOOKMARK [2][-]{subsection.21.7}{Step 8: estimate the hidden states using the optimized model parameters values}{section.21}% 91
-\BOOKMARK [2][-]{subsection.21.8}{Step 9: estimate the initial hidden states}{section.21}% 92
-\BOOKMARK [1][-]{section.22}{Step-by-step example: generate and analyze synthetic data }{}% 93
-\BOOKMARK [2][-]{subsection.22.1}{Step 1: start a project}{section.22}% 94
-\BOOKMARK [2][-]{subsection.22.2}{Step 2: define the time step vector}{section.22}% 95
-\BOOKMARK [2][-]{subsection.22.3}{Step 3: configure the model}{section.22}% 96
-\BOOKMARK [2][-]{subsection.22.4}{Step 4: explore the model}{section.22}% 97
-\BOOKMARK [2][-]{subsection.22.5}{Step 5: estimate the hidden states}{section.22}% 98
-\BOOKMARK [2][-]{subsection.22.6}{Step 6: estimate the initial hidden states}{section.22}% 99
-\BOOKMARK [1][-]{section.23}{FAQ Troubleshooting}{}% 100
-\BOOKMARK [1][-]{section.24}{Reference Theory}{}% 101
-\BOOKMARK [2][-]{subsection.24.1}{Linear gaussian state-space model}{section.24}% 102
-\BOOKMARK [2][-]{subsection.24.2}{Kalman filter \046 UD filters}{section.24}% 103
-\BOOKMARK [2][-]{subsection.24.3}{Switching Kalman filter}{section.24}% 104
-\BOOKMARK [2][-]{subsection.24.4}{Model parameter estimation}{section.24}% 105
-\BOOKMARK [3][-]{subsubsection.24.4.1}{Maximum log A Posteriori \(MAP\)}{subsection.24.4}% 106
-\BOOKMARK [3][-]{subsubsection.24.4.2}{Maximum log Likelihood Estimation \(MLE\)}{subsection.24.4}% 107
-\BOOKMARK [3][-]{subsubsection.24.4.3}{Laplace Approximation}{subsection.24.4}% 108
-\BOOKMARK [3][-]{subsubsection.24.4.4}{Parameter-wise Newton-Raphson}{subsection.24.4}% 109
-\BOOKMARK [3][-]{subsubsection.24.4.5}{Stochastic gradient descent}{subsection.24.4}% 110
-\BOOKMARK [3][-]{subsubsection.24.4.6}{Model parameter space transformation}{subsection.24.4}% 111
-\BOOKMARK [2][-]{subsection.24.5}{Block components}{section.24}% 112
-\BOOKMARK [3][-]{subsubsection.24.5.1}{Local level \(baseline\)}{subsection.24.5}% 113
-\BOOKMARK [3][-]{subsubsection.24.5.2}{Local trend \(baseline\)}{subsection.24.5}% 114
-\BOOKMARK [3][-]{subsubsection.24.5.3}{Local acceleration \(baseline\)}{subsection.24.5}% 115
-\BOOKMARK [3][-]{subsubsection.24.5.4}{Local level trend compatible \(baseline\)}{subsection.24.5}% 116
-\BOOKMARK [3][-]{subsubsection.24.5.5}{Local level acceleration compatible \(baseline\)}{subsection.24.5}% 117
-\BOOKMARK [3][-]{subsubsection.24.5.6}{Local trend acceleration compatible \(baseline\)}{subsection.24.5}% 118
-\BOOKMARK [3][-]{subsubsection.24.5.7}{Periodic \(Fourier form\)}{subsection.24.5}% 119
-\BOOKMARK [3][-]{subsubsection.24.5.8}{Periodic \(Kernel regression form\)}{subsection.24.5}% 120
-\BOOKMARK [3][-]{subsubsection.24.5.9}{First order autoregressive}{subsection.24.5}% 121
-\BOOKMARK [2][-]{subsection.24.6}{Handling non-uniform time vector and missing data}{section.24}% 122
-\BOOKMARK [3][-]{subsubsection.24.6.1}{Non-uniform time vector}{subsection.24.6}% 123
-\BOOKMARK [3][-]{subsubsection.24.6.2}{Missing data \(NaN\)}{subsection.24.6}% 124
-\BOOKMARK [2][-]{subsection.24.7}{Dependencies between time-series}{section.24}% 125
+\BOOKMARK [1][-]{section.19}{Example \0431: single time-series analysis}{}% 64
+\BOOKMARK [2][-]{subsection.19.1}{Data description}{section.19}% 65
+\BOOKMARK [2][-]{subsection.19.2}{Model description}{section.19}% 66
+\BOOKMARK [2][-]{subsection.19.3}{Run the example from pre-existing configuration file}{section.19}% 67
+\BOOKMARK [2][-]{subsection.19.4}{Run the example from command line interaction}{section.19}% 68
+\BOOKMARK [1][-]{section.20}{Example \0432: dependence model between two time-series}{}% 69
+\BOOKMARK [2][-]{subsection.20.1}{Data description}{section.20}% 70
+\BOOKMARK [2][-]{subsection.20.2}{Model description}{section.20}% 71
+\BOOKMARK [2][-]{subsection.20.3}{Run the example from pre-existing configuration file}{section.20}% 72
+\BOOKMARK [2][-]{subsection.20.4}{Run the example from command line interaction}{section.20}% 73
+\BOOKMARK [1][-]{section.21}{Example \0433: time-series with anomaly}{}% 74
+\BOOKMARK [2][-]{subsection.21.1}{Data description}{section.21}% 75
+\BOOKMARK [2][-]{subsection.21.2}{Model description}{section.21}% 76
+\BOOKMARK [2][-]{subsection.21.3}{Run the example from pre-existing configuration file}{section.21}% 77
+\BOOKMARK [2][-]{subsection.21.4}{Run the example from command line interaction}{section.21}% 78
+\BOOKMARK [1][-]{section.22}{FAQ Troubleshooting}{}% 79
+\BOOKMARK [1][-]{section.23}{Reference Theory}{}% 80
+\BOOKMARK [2][-]{subsection.23.1}{Linear gaussian state-space model}{section.23}% 81
+\BOOKMARK [2][-]{subsection.23.2}{Kalman filter \046 UD filters}{section.23}% 82
+\BOOKMARK [2][-]{subsection.23.3}{Switching Kalman filter}{section.23}% 83
+\BOOKMARK [2][-]{subsection.23.4}{Model parameter estimation}{section.23}% 84
+\BOOKMARK [3][-]{subsubsection.23.4.1}{Maximum log A Posteriori \(MAP\)}{subsection.23.4}% 85
+\BOOKMARK [3][-]{subsubsection.23.4.2}{Maximum log Likelihood Estimation \(MLE\)}{subsection.23.4}% 86
+\BOOKMARK [3][-]{subsubsection.23.4.3}{Laplace Approximation}{subsection.23.4}% 87
+\BOOKMARK [3][-]{subsubsection.23.4.4}{Gradient-based optimization}{subsection.23.4}% 88
+\BOOKMARK [3][-]{subsubsection.23.4.5}{Model parameter space transformation}{subsection.23.4}% 89
+\BOOKMARK [2][-]{subsection.23.5}{Block components}{section.23}% 90
+\BOOKMARK [3][-]{subsubsection.23.5.1}{Local level \(baseline\)}{subsection.23.5}% 91
+\BOOKMARK [3][-]{subsubsection.23.5.2}{Local trend \(baseline\)}{subsection.23.5}% 92
+\BOOKMARK [3][-]{subsubsection.23.5.3}{Local acceleration \(baseline\)}{subsection.23.5}% 93
+\BOOKMARK [3][-]{subsubsection.23.5.4}{Local level compatible trend \(baseline\)}{subsection.23.5}% 94
+\BOOKMARK [3][-]{subsubsection.23.5.5}{Local level compatible acceleration \(baseline\)}{subsection.23.5}% 95
+\BOOKMARK [3][-]{subsubsection.23.5.6}{Local trend compatible acceleration \(baseline\)}{subsection.23.5}% 96
+\BOOKMARK [3][-]{subsubsection.23.5.7}{Periodic \(Fourier form\)}{subsection.23.5}% 97
+\BOOKMARK [3][-]{subsubsection.23.5.8}{Periodic \(Kernel regression form\)}{subsection.23.5}% 98
+\BOOKMARK [3][-]{subsubsection.23.5.9}{First order autoregressive}{subsection.23.5}% 99
+\BOOKMARK [2][-]{subsection.23.6}{Handling non-uniform time vector and missing data}{section.23}% 100
+\BOOKMARK [3][-]{subsubsection.23.6.1}{Non-uniform time vector}{subsection.23.6}% 101
+\BOOKMARK [3][-]{subsubsection.23.6.2}{Missing data \(NaN\)}{subsection.23.6}% 102
+\BOOKMARK [2][-]{subsection.23.7}{Dependencies between time-series}{section.23}% 103

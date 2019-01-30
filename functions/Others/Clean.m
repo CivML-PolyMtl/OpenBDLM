@@ -14,6 +14,11 @@ function Clean(varargin)
 %                             if isForceDelete, delete without notice
 %                             default = false
 %
+%      Pattern              - character (optionnal)
+%                             files and folder containing pattern are not
+%                             deleted
+%                             default: 'Example'
+%
 %   OUTPUT:
 %      N/A
 %      All files and subdirectories in specified directories are permanently
@@ -25,8 +30,8 @@ function Clean(varargin)
 %      CLEAN also add specific hidden files for git file management
 %
 %   EXAMPLES:
-%      CLEAN({'raw_data', 'processed_data'})
-%      CLEAN({'figures'})
+%      CLEAN('FolderList', {'raw_data', 'processed_data'}, 'Pattern', '')
+%      CLEAN({'FolderList','figures'})
 
 %   AUTHORS:
 %      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
@@ -41,7 +46,7 @@ function Clean(varargin)
 %       April 17, 2018
 %
 %   DATE LAST UPDATE:
-%       December 10, 2018
+%       January 29, 2019
 
 %--------------------BEGIN CODE ----------------------
 
@@ -49,18 +54,22 @@ function Clean(varargin)
 
 p = inputParser;
 
-defaultFilderList = {'saved_projects', 'config_files', 'data', ...
+defaultFoldersList = {'saved_projects', 'config_files', 'data', ...
     'figures', 'log_files', 'results'};
 
 defaultisForceDelete = false;
 
-addParameter(p,'FoldersList', defaultFilderList, @iscell);
+defaultPattern = 'Example';
+
+addParameter(p,'FoldersList', defaultFoldersList, @iscell);
 addParameter(p, 'isForceDelete', defaultisForceDelete, @islogical)
+addParameter(p, 'Pattern', defaultPattern, @ischar)
 
 parse(p, varargin{:});
 
 FoldersList=p.Results.FoldersList;
 isForceDelete = p.Results.isForceDelete;
+pattern = p.Results.Pattern;
 
 %% Clean the list of CSV files
 
@@ -115,8 +124,8 @@ for i=1:length(FoldersList)
     isDir = testFileExistence(FoldersList{i}, 'dir');
     
     if ~isDir
-
-        % Create the folder        
+        
+        % Create the folder
         mkdir(FoldersList{i});
         addpath(FoldersList{i});
         
@@ -127,8 +136,7 @@ for i=1:length(FoldersList)
         fileID=fopen(fullfile(FoldersList{i}, ...
             phantomFilename), 'w');
         fclose(fileID);
-        
-        
+                
         % re-build tree directory for data folder
         if strcmp(FoldersList{i}, 'data')
             mkdir(fullfile('data', 'mat'));
@@ -162,8 +170,7 @@ for i=1:length(FoldersList)
             fclose(fileID);
             
         end
-        
-        
+                
         % Add .gitignore file
         gitignorefilename='.gitignore';
         fileID=fopen(fullfile(FoldersList{i}, ...
@@ -179,21 +186,129 @@ for i=1:length(FoldersList)
         fprintf(fileID, '*/*.fig\n');
         fprintf(fileID, '*/*.pdf\n');
         fprintf(fileID, '*/*.png\n');
-
+        
         continue
     else
         
-        warning off
-        % Delete folders
-        try rmdir(fullfile(FoldersList{i}, '*'), 's')
-        catch
+        if strcmp(FoldersList{i}, 'config_files')
+            
+            MyFolderInfoCFG=dir(FoldersList{i});
+            
+            % remove '.' and '..' files from the list of files
+            MyFolderInfoCFG=MyFolderInfoCFG(~ismember(...
+                {MyFolderInfoCFG.name},{'.','..'}));
+            
+            if ~isempty(MyFolderInfoCFG)
+                
+                for j=1:length(MyFolderInfoCFG)
+                    
+                    if isempty(strfind(MyFolderInfoCFG(j).name, pattern))
+                        
+                        warning off
+                        
+                        % Delete folders
+                        try rmdir(fullfile(FoldersList{i}, ...
+                                MyFolderInfoCFG(j).name), 's')
+                        catch
+                        end
+                        
+                        % Delete files
+                        try  delete(fullfile(FoldersList{i}, ...
+                                MyFolderInfoCFG(j).name))
+                        catch
+                        end
+                        warning on
+                        
+                    end
+                    
+                end
+                
+            end
+            
+        elseif strcmp(FoldersList{i}, 'data')
+            
+            % Handle data/csv files and folders
+            
+            MyFolderInfoCSV=dir(fullfile(FoldersList{i}, 'csv'));
+            
+            % remove '.' and '..' files from the list of files
+            MyFolderInfoCSV= MyFolderInfoCSV(~ismember( ...
+                {MyFolderInfoCSV.name},{'.','..'}));
+            
+            if ~isempty(MyFolderInfoCSV)
+                
+                for j=1:length(MyFolderInfoCSV)
+                    
+                    if isempty(strfind(MyFolderInfoCSV(j).name, pattern))
+                        
+                        warning off
+                        % Delete folders
+                        try rmdir(fullfile(FoldersList{i}, ...
+                                'csv', MyFolderInfoCSV(j).name), 's')
+                        catch
+                        end
+                        
+                        % Delete files
+                        try    delete(fullfile(FoldersList{i}, ...
+                                'csv', MyFolderInfoCSV(j).name))
+                        catch
+                        end
+                        warning on
+                    end
+                    
+                end
+                
+            end
+            
+            % Handle data/mat files and folders
+            
+            MyFolderInfoMAT=dir(fullfile(FoldersList{i}, 'mat'));
+            
+            % remove '.' and '..' files from the list of files
+            MyFolderInfoMAT=MyFolderInfoMAT(~ismember( ...
+                {MyFolderInfoMAT.name},{'.','..'}));
+            
+            if ~isempty(MyFolderInfoMAT)
+                
+                for j=1:length(MyFolderInfoMAT)
+                    
+                    if isempty(strfind(MyFolderInfoMAT(j).name, pattern))
+                                                
+                        warning off
+                        % Delete folders
+                        try rmdir(fullfile(FoldersList{i}, ...
+                                'mat', MyFolderInfoMAT(j).name), 's')
+                        catch
+                        end
+                        
+                        % Delete files
+                        try    delete(fullfile(FoldersList{i},...
+                                'mat', MyFolderInfoMAT(j).name))
+                        catch
+                        end
+                        warning on
+                        
+                    end
+                    
+                end
+                
+            end
+            
+        else
+            
+            warning off
+            % Delete folders
+            try rmdir(fullfile(FoldersList{i}, '*'), 's')
+            catch
+            end
+            
+            % Delete files
+            try delete(fullfile(FoldersList{i}, '*'))
+            catch
+            end
+            warning on
+            
         end
-        
-        % Delete files
-        try delete(fullfile(FoldersList{i}, '*'))
-        catch
-        end
-        warning on
         
         % Add file .keep to allow the directory to be push in Git
         % repos
@@ -202,15 +317,15 @@ for i=1:length(FoldersList)
         fileID=fopen(fullfile(FoldersList{i}, ...
             phantomFilename), 'w');
         fclose(fileID);
-        
-        
+                
         % re-build tree directory for data folder
         if strcmp(FoldersList{i}, 'data')
+            warning off
             mkdir(fullfile('data', 'mat'));
             mkdir(fullfile('data', 'csv'));
             addpath(fullfile('data', 'mat'));
             addpath(fullfile('data', 'csv'));
-            
+            warning on
             fileID=fopen(fullfile(FoldersList{i}, ...
                 'mat', phantomFilename), 'w');
             fclose(fileID);
@@ -223,10 +338,12 @@ for i=1:length(FoldersList)
         
         % re-build tree directory for results folder
         if strcmp(FoldersList{i}, 'results')
+            warning off
             mkdir(fullfile('results', 'mat'));
             mkdir(fullfile('results', 'csv'));
             addpath(fullfile('results', 'mat'));
             addpath(fullfile('results', 'csv'));
+            warning on
             
             fileID=fopen(fullfile(FoldersList{i}, ...
                 'mat', phantomFilename), 'w');
@@ -237,8 +354,7 @@ for i=1:length(FoldersList)
             fclose(fileID);
             
         end
-        
-        
+                
         % Add .gitignore file
         gitignorefilename='.gitignore';
         fileID=fopen(fullfile(FoldersList{i}, ...
@@ -254,7 +370,7 @@ for i=1:length(FoldersList)
         fprintf(fileID, '*/*.fig\n');
         fprintf(fileID, '*/*.pdf\n');
         fprintf(fileID, '*/*.png\n');
-            
+        
     end
     
 end

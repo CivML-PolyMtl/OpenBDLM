@@ -1,6 +1,6 @@
 function [optim, model] = SGD(data, model, misc, varargin)
 % INPUTS:
-% maxIterations                   - Maximal number of epochs. Defaut is 30.
+% maxEpoch             - Maximal number of epochs. Defaut is 30.
 % Ndata4miniBatch           - Size of mini batch. Defaut is 0.2 of the training
 %                             data.
 % alpha_split               - Portion of the validation data. Defaut is 0.3.
@@ -53,11 +53,14 @@ function [optim, model] = SGD(data, model, misc, varargin)
 trainingPeriod=misc.options.trainingPeriod;
 isMAP=misc.options.isMAP;
 isPredCap=misc.options.isPredCap;
-%isLaplaceApprox = misc.options.isLaplaceApprox;
-maxIterations = misc.options.maxIterations;
 maxTime = misc.options.maxTime;
-%isParallel=misc.options.isParallel;
 isMute=misc.options.isMute;
+
+maxEpochs = misc.options.maxEpochs;
+alpha_split= misc.options.SplitPercent/100;
+MiniBatchPercent = misc.options.MiniBatchSizePercent/100;
+optimizer = misc.options.Optimizer;
+termination_tolerance = misc.options.SGTerminationTolerance/100;
 
 if isMAP
     optim_mode='MAP';
@@ -74,15 +77,15 @@ end
 
 %% Defaut values
 %warning('SGD ALGORITHM IS RECOMMENDED TO RUN ON MULTI-PROCESSORS')
-alpha_split             = 0.3;
-optimizer               = 'MMT';
+%alpha_split             = 0.3;
+%optimizer               = 'MMT';
 learningRate_mode       = 'hessian';
 learningRateDefaut      = 5E-3;
 stdInit                 = 0.5;
 beta_1                  = 0.9;
 beta_2                  = 0.999;
 epsilon                 = 1E-8;
-termination_tolerance   = 0.95;
+%termination_tolerance   = 0.95;
 hessianDefaut           = 1000;
 
 % Set fileID for logfile
@@ -122,7 +125,7 @@ idxTrain                    = misc.training_start_idx:misc.training_end_idx;
 [data_train, data_valid]    = dataSplit(data, idxTrain, alpha_split);
 data.dt_ref                 = data_train.dt_ref;
 data.dt_steps(1)            = data.dt_ref;
-Ndata4miniBatch             = round(0.2*size(data_valid.values,1));
+Ndata4miniBatch             = round(MiniBatchPercent*size(data_valid.values,1));
 NminiBatch                  = ceil(length(data_train.values)/Ndata4miniBatch);
 if NminiBatch<2
     NminiBatch=1;
@@ -132,12 +135,7 @@ args    = varargin;
 nargs   = length(varargin);
 for n = 1:2:nargs
     switch args{n}
-        %case 'maxEpoch',            maxIterations             = args{n+1};
-        case 'Ndata4miniBatch',     Ndata4miniBatch     = args{n+1};
-        case 'validationSet',       alpha_split         = args{n+1};
-        %case 'optim_mode',          optim_mode          = args{n+1};
-        case 'optimizer',           optimizer           = args{n+1};
-        %case 'metric_mode',         metric_mode         = args{n+1};
+        %case 'validationSet',       alpha_split         = args{n+1};
         case 'learningRate_mode',   learningRate_mode   = args{n+1};
         case 'learningRate',        learningRateDefaut  = args{n+1};
         case 'beta_1',              beta_1              = args{n+1};
@@ -161,11 +159,11 @@ if ~isMute
     fprintf(fileID, '      Metric                                                  %s\n', metric_mode);
     fprintf(fileID, '      Learning Rate mode                                      %s\n', learningRate_mode);
     fprintf(fileID, '      Training period:                                        %s - %s [days]\n', num2str(trainingPeriod(1)), num2str(trainingPeriod(2)) );
-    fprintf(fileID, '      Validation set portion:                                 %s [%%]\n', num2str(alpha_split) );
+    fprintf(fileID, '      Validation set portion:                                 %s [%%]\n', num2str(alpha_split*100) );
     fprintf(fileID, '      Training set:                                           %s [data points]\n', num2str(size(data_train.values,1)));
     fprintf(fileID, '      Validation set:                                         %s [data points]\n', num2str(size(data_valid.values,1)-size(data_train.values,1)));
     fprintf(fileID, '      Mini batch:                                             %s [data points]\n', num2str(Ndata4miniBatch));
-    fprintf(fileID, '      Number of max epoch:                                    %s [epochs]\n', num2str(maxIterations));
+    fprintf(fileID, '      Number of max epoch:                                    %s+1 [epochs]\n', num2str(maxEpochs));
     fprintf(fileID, '      Total time limit for calibration:                       %s [min]\n', num2str(maxTime));
     fprintf(fileID, '\n');
 %     fprintf(fileID, '    ...in progress\n');
@@ -207,26 +205,26 @@ for i=parameter_search_idx'
 end
 
 %% Optimization process
-logpdf              = zeros(1, maxIterations);
-logpdfHist          = zeros(nb_param+1, maxIterations * NminiBatch);
-idxMax_loop         = zeros(1, maxIterations * NminiBatch);
-parameterSearch     = zeros(nb_param, maxIterations);
-parameterSearchTR   = zeros(nb_param, maxIterations);
-momentumTR          = zeros(nb_param, maxIterations);
-RMSpropTR           = zeros(nb_param, maxIterations);
-momentumTRhist      = zeros(nb_param, maxIterations * NminiBatch);
-RMSpropTRhist       = zeros(nb_param, maxIterations * NminiBatch);
-learningRate        = learningRateDefaut * ones(nb_param, maxIterations * NminiBatch);
-gradientTR          = zeros(nb_param, maxIterations * NminiBatch);
-hessianTR           = zeros(nb_param, maxIterations * NminiBatch);
+logpdf              = zeros(1, maxEpochs);
+logpdfHist          = zeros(nb_param+1, maxEpochs * NminiBatch);
+idxMax_loop         = zeros(1, maxEpochs * NminiBatch);
+parameterSearch     = zeros(nb_param, maxEpochs);
+parameterSearchTR   = zeros(nb_param, maxEpochs);
+momentumTR          = zeros(nb_param, maxEpochs);
+RMSpropTR           = zeros(nb_param, maxEpochs);
+momentumTRhist      = zeros(nb_param, maxEpochs * NminiBatch);
+RMSpropTRhist       = zeros(nb_param, maxEpochs * NminiBatch);
+learningRate        = learningRateDefaut * ones(nb_param, maxEpochs * NminiBatch);
+gradientTR          = zeros(nb_param, maxEpochs * NminiBatch);
+hessianTR           = zeros(nb_param, maxEpochs * NminiBatch);
 zeroGradCount       = zeros(nb_param,1);
 paramMoveCount      = ones(nb_param,1);
 paramReset          = zeros(nb_param,1);
-metricVL            = zeros(1, maxIterations);
-metricVLhist        = zeros(nb_param+1, maxIterations * NminiBatch);
-mmtHessianTR        = zeros(nb_param, maxIterations);
-mmtHessianTRhist    = zeros(nb_param, maxIterations * NminiBatch);
-paramChange         = zeros(nb_param, maxIterations);
+metricVL            = zeros(1, maxEpochs);
+metricVLhist        = zeros(nb_param+1, maxEpochs * NminiBatch);
+mmtHessianTR        = zeros(nb_param, maxEpochs);
+mmtHessianTRhist    = zeros(nb_param, maxEpochs * NminiBatch);
+paramChange         = zeros(nb_param, maxEpochs);
 
 [metricVL(1),~, ~, logpdf(1)] = metricFct(data_train, data_valid, model, misc, parameter(parameter_search_idx), parameterTR(parameter_search_idx));
 parameterSearch(:,1)    = parameterSearchInit;
@@ -241,14 +239,14 @@ time_loop   = 0;
 stop_loop = 0;
 if ~isMute
     fprintf(fileID, '\n');
-    fprintf(fileID, '               Nepoch # %s\n', num2str(Nepoch));
-    fprintf(fileID, '               Metric: %s\n', num2str(metricVL(1)));
-    fprintf(fileID, '                       %s\n', name_idx_2);
-    fprintf(fileID, '      parameter names: %s\n', name_idx_1);
-    fprintf(fileID, ['       initial values: ' repmat(['%#-+15.2e' ' '],[1,length(parameterRef)]) '%#-+15.2e\n'],parameterRef(parameter_search_idx));
+    fprintf(fileID, '    Epoch #%s\n', num2str(Nepoch));
+    fprintf(fileID, '             Metric: %s\n', num2str(metricVL(1)));
+    fprintf(fileID, '                    %s\n', name_idx_2);
+    fprintf(fileID, '   parameter names: %s\n', name_idx_1);
+    fprintf(fileID, ['    initial values: ' repmat(['%#-+15.2e' ' '],[1,length(parameterRef)]) '%#-+15.2e\n'],parameterRef(parameter_search_idx));
     fprintf(fileID, '\n');
 end
-while Nepoch <= maxIterations && time_loop < maxTime*60
+while Nepoch <= maxEpochs && time_loop < maxTime*60
     Nepoch                  = Nepoch + 1;
     parameterSearch_loop    = parameter(parameter_search_idx);
     parameterSearchTR_loop  = parameterTR(parameter_search_idx);
