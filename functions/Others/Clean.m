@@ -177,12 +177,12 @@ for i=1:length(FoldersList)
             gitignorefilename), 'w');
         
         fprintf(fileID, 'LOG_*\n');
-        fprintf(fileID, 'DATA_*\n');
+%        fprintf(fileID, 'DATA_*\n');
         fprintf(fileID, 'PROJ_*\n');
-        fprintf(fileID, 'CFG_*\n');
+%        fprintf(fileID, 'CFG_*\n');
         fprintf(fileID, 'RES_*\n');
         fprintf(fileID, 'ProjectsInfo.mat\n');
-        fprintf(fileID, '*/*/*.csv\n');
+%        fprintf(fileID, '*/*/*.csv\n');
         fprintf(fileID, '*/*.fig\n');
         fprintf(fileID, '*/*.pdf\n');
         fprintf(fileID, '*/*.png\n');
@@ -361,12 +361,12 @@ for i=1:length(FoldersList)
             gitignorefilename), 'w');
         
         fprintf(fileID, 'LOG_*\n');
-        fprintf(fileID, 'DATA_*\n');
+%        fprintf(fileID, 'DATA_*\n');
         fprintf(fileID, 'PROJ_*\n');
-        fprintf(fileID, 'CFG_*\n');
+%        fprintf(fileID, 'CFG_*\n');
         fprintf(fileID, 'RES_*\n');
         fprintf(fileID, 'ProjectsInfo.mat\n');
-        fprintf(fileID, '*/*/*.csv\n');
+%        fprintf(fileID, '*/*/*.csv\n');
         fprintf(fileID, '*/*.fig\n');
         fprintf(fileID, '*/*.pdf\n');
         fprintf(fileID, '*/*.png\n');
