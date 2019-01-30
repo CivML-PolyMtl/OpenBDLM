@@ -1,10 +1,7 @@
 LOG_*
-DATA_*
 PROJ_*
-CFG_*
 RES_*
 ProjectsInfo.mat
-*/*/*.csv
 */*.fig
 */*.pdf
 */*.png
