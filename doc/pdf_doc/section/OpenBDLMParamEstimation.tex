@@ -1,21 +1,22 @@
-\section{Model parameters estimation}
+\subsection{Model parameters estimation}
 \label{S:PARAMESTIMATION}
 
-OpenBDLM provides default values of the parameters from heuristic knowledge or from statistics on the data.
-Those values are usually poor guesses which have to be refined using an optimization algorithm that estimates the model parameters from the data.\\
+OpenBDLM provides default values of the parameters from engineering heuristic knowledge or from statistics on the data.
+Each value is only a guess which has to be refined using an optimization algorithm (see Section~\ref{SS:THModelParameterEstimation}). 
+The algorithm will estimate the model parameters values from the data.
+% that estimates the model parameters from the data.\\
 
-From the main OpenBLDM menu, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to access the model parameter estimation menu (see Listing~\ref{LST:ModelParametersEstimationMenu}).
+In order to access the model parameter estimation menu from OpenBDLM, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} (see Listing~\ref{LST:ModelParametersEstimationMenu}).
 The optimization algorithm is either the Newton-Raphson (choice \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}) or the Stochastic Gradient Descent  (choice \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}) algorithms (see Section~\ref{SS:THModelParameterEstimation}).
-
-By default, OpenBDLM uses all the data as the training set (\lstinline[basicstyle = \mlttfamily \small ]!misc.options.Trainingperiod=[1 Inf]!.
-Moreover, OpenBDLM transform the model parameters to perform the optimization in an unbounded model parameter space (see Section~\ref{SS:THSpaceTransformation}).
-Undefined bounds (\lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!)  for a parameter means that the parameter is assumed to be known and it does not require to be learned from the data.
+By default, OpenBDLM uses all the data as the training set (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Trainingperiod=[1 Inf]!).
+OpenBDLM transform the model parameters to perform the optimization in an unbounded model parameter space (see Section~\ref{SS:THSpaceTransformation}).
+Undefined bounds (\lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!)  for a parameter means that the parameter is assumed to be known and thus, it will be excluded from the parameter estimation process.
 By default, OpenBLDM assumes that all parameters are unknown, except for the period of the periodic component and the process noise standard deviation associated with the baseline and the periodic component.
 Those model parameters have values fixed to 0.\\
 
 The model parameter can be learned by maximizing either the likelihood (Maximum Likelihood Estimation, MLE), or the posterior function (Maximum A Posteriori estimation, MAP) (see Section~\ref{SS:THModelParameterEstimation}). 
-OpenBDLM supports gaussian prior only.
 Note that MAP requires a valid prior for each unknown model parameters.
+In the case of of MAP, OpenBDLM supports gaussian prior only.
 The default option is MLE (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMAP=false!).
 
 \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM model parameter estimation menu}, label = LST:ModelParametersEstimationMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
@@ -30,21 +31,20 @@ The default option is MLE (see \lstinline[basicstyle = \mlttfamily \small ]!misc
 
      choice >> 
 \end{lstlisting}
-Model parameter estimation computes point estimate of the model parameters. 
-It may also provide confidence intervals around the point estimate using the Laplace approximation (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isLaplaceApproximation = true!).
-Note that computing the Laplace approximation can significantly increase the computation time when the number of model parameters is large.\\
+The model parameter estimation framework computes point estimate of the model parameters. 
+However, it is also possible provide confidence intervals around the point estimate using the Laplace approximation (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isLaplaceApproximation = true!).
+Note that computing the Laplace approximation can significantly increase the computation time and it is not recommanded when the number of model parameters is large.\\
 
 Note also that Newton-Raphson and Stochastic Gradient Descent techniques are sensitive to the initial model parameters values. 
-The algorithm can reach a local maximum, instead of the global maximum.
-It is advised to run the optimizations several times with different starting model parameters values in order to check that the proposed solution is stable.\\
-
-If \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMute = false!, some messages output on the \MATLAB{} command line window allow to monitor the optimization process (see Listing~\ref{LST:OpenBLDMModelParameterLearning}).
+%The algorithm can reach a local maximum, instead of the global maximum.
+Therefore, it is advised to run the optimizations several times with different starting model parameters values in order to check if the proposed solution is the best attainable solution.
+If \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMute = false!, outputs on the \MATLAB{} command line window allow to monitor the optimization process (see Listing~\ref{LST:OpenBLDMModelParameterLearning}).
 At each iteration, the quantity displayed are: the current value of the target function, the name as well as the current value of the unknown model parameter(s) being optimized, the change in model parameters, the change in the target function, and the convergence status ( \lstinline[basicstyle = \mlttfamily \small ]!1! if the model parameter converged according to the convergence criteria, \lstinline[basicstyle = \mlttfamily \small ]!0! otherwise).\\
 
-The optimization stops when all the parameters converged, or if the maximum number of iterations (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxIterations!) or the maximum time (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxTime!) is reached.
-The values of the parameters are saved in the \lstinline[basicstyle = \mlttfamily \small ]!model! \MATLAB{} structure.
+The optimization stops when all the parameters converged, or if the maximum number of iterations (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxIterations!) / the maximum time (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxTime!) is reached.
+The values of the parameters are saved in the variable \lstinline[basicstyle = \mlttfamily \small ]!model! \MATLAB{}.
  
- \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBLDM output on \MATLAB{} command window when running Newton-Raphson algorithm.}, label = LST:OpenBLDMModelParameterLearning,  float =h!, linewidth=\linewidth, captionpos=b]
+ \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBLDM output example when running Newton-Raphson algorithm.}, label = LST:OpenBLDMModelParameterLearning,  float =h!, linewidth=\linewidth, captionpos=b]
     \Start Newton-Raphson max. algorithm (finite difference method)
 
       Training period:                             1-Inf [days]
@@ -86,7 +86,7 @@ The values of the parameters are saved in the \lstinline[basicstyle = \mlttfamil
 
 
 
-\subsection{Model parameter estimation functions}
+\subsubsection{Model parameter estimation functions}
 
 \begin{description}[style=unboxed]
 \item[Pilote function for optimization] \leavevmode

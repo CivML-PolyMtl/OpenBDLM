@@ -1,12 +1,12 @@
-\section{Example \#3: time-series with anomaly}
+\subsection{Example \#3: time-series with anomaly}
 \label{S:ExampleDispAnomaly}
 
 
-\subsection{Data description}
-This example uses a synthetic time series data that mimics displacement data measured on a bridge. 
+\subsubsection{Data description}
+This example uses a synthetic time series that mimics displacement data measured on a bridge. 
 The Figure~\ref{fig:DataSummaryRaw3}a shows that data points exist between May 2008 and April 2012.
 The timestep is non-uniform; it varies from 1 hour to 10 days (see Figure~\ref{fig:DataSummaryRaw3}b). 
-The most frequent (i.e referent) time step is 12 hour (see Section~\ref{S:NonUniform}).
+The most frequent (i.e referent) time step is 12 hour (see Section~\ref{SS:NonUniform}).
 There is no missing data on the displacement time-series.
 The baseline switches between a trend stationary to acceleration stationary dynamics during a specific time window to mimic a fictitious anomaly.
 The anomalous time window is of 26 days duration, starting on June 25, 2010.
@@ -32,7 +32,7 @@ The displacement also exhibits a yearly periodic and autoregressive patterns.
 
 
 
-\subsection{Model description}
+\subsubsection{Model description}
 \label{SS:ModelConstructionExample3}
 The model includes two model classes, and the block components are 
 \begin{gather*}
@@ -108,7 +108,9 @@ The hidden states computed using the estimated model parameters and initial hidd
 
 
 
-\subsection{Run the example from pre-existing configuration file}
+\subsubsection{Run the example from pre-existing configuration file}
+\label{SS:LoadConfigFileEx3}
+
 There is a configuration file CFG\_Example\_DISP\_ANOMALY\_optim.m which is located in the ``config\_files'' folder of the OpenBDLM package.
 CFG\_Example\_DISP\_ANOMALY\_optim.m contains the optimized model parameters and optimized initial hidden states values.
 There is also a data file DATA\_Example\_DISP\_ANOMALY\_optim.mat that is located in the ``data/mat'' subfolder.
@@ -121,25 +123,25 @@ Therefore, it is possible to run the example \#1 by following the following step
 \end{enumerate}
 
 
-\subsection{Run the example from command line interaction}
+\subsubsection{Run the example from command line interaction}
 
 The analysis of a new dataset usually requires to start from scratch.
 This section explains how to run the example \#1 from scratch, that is, how to load the data presented in Figure~\ref{fig:DataSummaryRaw3}, configure the model, estimate the model parameters and estimate the hidden states.
 This may be done by following the following steps from the \MATLAB{} command line:
 \begin{enumerate}
-\item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main();!}.
+\item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}.
 \item Choose the interactive tool. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
 \item Enter the project name. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Example_DISP_ANOMALY!}. 
 \item Disregard generating synthetic data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!no!}. 
 \item Load new data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
-\item Select the /data/csv/Example\_DISP\_ANOMALY/Example\_DISP\_ANOMALY\_DISP.csv data file from the graphical user interface.
-\item Save and continue without pre-processing. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}. 
+\item Select from the graphical user interface the data file Example\_DISP\_ANOMALY\_DISP.csv data file located in the folder `` /data/csv/Example\_DISP\_ANOMALY/''. The Figure~\ref{fig:DataSummaryRaw3} that represents the processed data should popup on screen.
+\item Save and continue without pre-processing. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}. The Figure~\ref{fig:DataSummaryRaw3} should popup again on screen.
 \item Select the number of model classes. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}. 
 \item Select the model block components for model class \#1. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![23 31 41]!}.
 \item Select the model block components for model class \#2. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![13 31 41]!}.
 \item Select the model parameter constrains. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![0 1 1]!}.
 \item Access model parameter estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-\item Start Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm is converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample3}. See also \footnote{Note that it is possible to get slightly different value of parameters with the same performance.}.
+\item Start Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm is converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample3}. Note that it is possible to get slightly different value of parameters with the same performance\footnote{Keep in mind that the optimization may take several minutes to several hours. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISP\_ANOMALY\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx3}.}.
 \item Estimate the initial hidden states values. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}.
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
 \item Estimate the hidden states using Kalman filter. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:DISPSIMANOMALYOptimizedOptimizedExample3}.

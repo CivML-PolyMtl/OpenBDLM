@@ -1,15 +1,50 @@
 \section{Getting started}
+
+\subsection{What is OpenBDLM ?}
+\label{S:OPENBDLMWHATIS}
+
+OpenBDLM is a \MATLAB{} open-source software developed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step in the order of one hour or higher).
+OpenBDLM is capable of processing simultaneously several time series, enabling interpretation, monitoring and prediction over time.
+OpenBDLM includes an anomaly detection tool which allows detecting abnormal behavior in a fully probabilistic framework.
+In addition, OpenBDLM handles time series with missing data and non-uniform timestep vector.
+OpenBDLM is available for download from GitHub at \url{https://github.com/CivML-PolyMtl/OpenBDLM}.\\
+
+\noindent \textbf{Keywords}: time series analysis and forecasting, linear gaussian state-space models, time-series decomposition, anomaly detection, filtering, smoothing, bayesian analysis.
+
+\subsection{Installing OpenBDLM}
+\label{S:OPENBDLMINSTALLING}
+
+The following instructions show how to download and setup OpenBDLM on your local machine for direct use, testing, and development purposes.
+\subsubsection{Prerequisites}
+\MATLAB{} (version 2016a or higher) installed on Mac OSX or Windows.\\
+
+\noindent
+The \MATLAB{}  \emph{Statistics and Machine Learning Toolbox} is required.
+
+\subsubsection{Installation}
+\begin{enumerate}
+\item If an older OpenBDLM version is already installed, it is recommanded to remove from your \MATLAB{} path any previous OpenBDLM versions.
+\item Download and extract the ZIP file from \url{https://github.com/CivML-PolyMtl/OpenBDLM} (or clone the git repository) in your working directory.
+\item Add ``OpenBDLM-master'' folder and all its subfolders to your \MATLAB{}  path through one of the following two options:
+\begin{itemize}
+    \item using the ``Set Path'' dialog box in \MATLAB{}, or 
+    \item by running  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!addpath! function from the \MATLAB{} command window
+    \end{itemize}
+\end{enumerate}
+
+
+\subsection{Starting OpenBDLM}
 \label{S:OPENBDLMGETTINGSTARTED}
-\subsection{Call OpenBDLM}
+
 \begin{itemize}
 \item Set the current working directory to the folder ``OpenBDLM-master''
 %\begin{center}
-\item Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}, and type $\dlsh$.
+\item Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}, and press the key enter $\dlsh$.
 %\end{center}
 in the \MATLAB{} command line.
 \end{itemize}
 The OpenBDLM starting menu should appear on the \MATLAB{} command window (see Listing~\ref{LST:OpenBDLMStartingMenu}).
-Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!} in the command line, and type $\dlsh$ to quit the program.
+Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!} in the command line, and press the key enter $\dlsh$ to quit the program.
 %\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}, linewidth=\linewidth] %, caption = OpenBDLM call ]%, label = LST:OpenBDLMmain, captionpos=b]
 %[data, model, estimation, misc] = OpenBDLM_main();
 %\end{lstlisting}
@@ -41,9 +76,9 @@ In the \MATLAB{} command line, type
 %\begin{center}
 \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO;! }
 %\end{center}
- followed by $\dlsh$ to run a demo. 
+ followed by pressing the key enter $\dlsh$ to run a demo. 
 %\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO.m! to run a little demo. 
-Some messages on the \MATLAB{} command window show that the program runs properly (see Listing~\ref{LST:MessageDemo}).
+Some messages on the \MATLAB{} command window show that the program has started (see Listing~\ref{LST:MessageDemo}).
 Some figures as shown in Figure~\ref{fig:DataSummaryRaw4}, and Figure~\ref{fig:SYNTHETICOptimizedOptimizedExample4} should popup on the screen \footnote{The demo runs in batch the example described in Section~\ref{S:EXAMPLESYNTHETICDATA}.}
 
 
@@ -61,3 +96,52 @@ Some figures as shown in Figure~\ref{fig:DataSummaryRaw4}, and Figure~\ref{fig:S
      Saving project...
      Done ! See you soon !
 \end{lstlisting}
+
+
+
+\subsection{OpenBDLM main menu}
+\label{S:OPENBDLMMAINMENU}
+
+Once a project is loaded, the OpenBDLM main menu displays the list of actions which can be done (see Listing~\ref{LST:OpenBDLMMainMenu}). 
+The OpenBDLM main menu appears each time a selected action is done; until the user types \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!Q!} to save the project and quit the program.
+
+%\begin{itemize}
+%    \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!1!}: estimates the model parameters
+%    \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!2!}: estimates the initial hidden states
+%    \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!3!}: estimate the hidden states
+%    \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!11!}: display the current model parameters values on the \MATLAB{} command line window and allows the user to modify the model parameters values
+%     \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!12!}: display the initial hidden states values on the \MATLAB{} command line window and allows the user to modify the initial hidden states values
+%     \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!13!}: display information about the current training period  on the \MATLAB{} command line window and allows the user to modify the training period
+%     \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!14!}: plot figures on the screen about the data in memory, the data availability, and the hidden states estimation results
+%     \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!15!}: display the content of the model matrices on the \MATLAB{} command line window at a specific time
+%     \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!16!}: create synthetic data from the current information in memory
+%     \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!17!}: export data and results as well as the figures in PNG, PDF and  \LaTeX{}   format
+%     \item option  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!18!}: display the current options 
+%    \end{itemize}
+
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = { OpenBLDM main menu}, label = LST:OpenBDLMMainMenu,  float =h!, linewidth=\linewidth, captionpos=b]
+---------------------------------------------
+/    OpenBDLM main menu. Choose from 
+--------------------------------------------- 
+
+     1  ->  Learn model parameters values 
+     2  ->  Estimate initial hidden states values 
+     3  ->  Estimate hidden states values 
+
+     11 ->  Display and modify current model parameter values 
+     12 ->  Display and modify current initial hidden states values 
+     13 ->  Display and modify current training period 
+     14 ->  Plots 
+     15 ->  Display model matrices 
+     16 ->  Create synthetic data 
+     17 ->  Export
+     18 ->  Display current options in configuration file format 
+
+     Type Q to Save and Quit 
+
+     choice >> 
+\end{lstlisting}
+
+
+
+

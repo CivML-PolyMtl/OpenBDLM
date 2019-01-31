@@ -61,7 +61,7 @@ function [misc]=saveResultsCSV(data, model, estimation, misc, varargin)
 %       December 6, 2018
 %
 %   DATE LAST UPDATE:
-%       December 7, 2018
+%       January 31, 2019
 
 %--------------------BEGIN CODE ----------------------
 
@@ -187,7 +187,7 @@ for idx=1:numberOfHiddenStates
         
         loop=loop+1;
         
-    
+        
         mu=dataset_x(idx,:)'; % posterior mean
         std=sqrt(dataset_V(idx,:)'); %posterior standard deviation
         
@@ -196,11 +196,15 @@ for idx=1:numberOfHiddenStates
         sensor_name = data.labels{ ...
             str2double(model.hidden_states_names{1}{idx,3})};
         
-        match = [string('^'),string('{'),string('}'), string('x')];
-        NameFile = [ sensor_name, '_', ...
-            erase(model.hidden_states_names{1}{idx,1}, match), ...
-            '_',num2str(loop),'.csv'];
+        HiddenStateName = model.hidden_states_names{1}{idx,1};
+        HiddenStateName = strrep(HiddenStateName, 'x', '');
+        HiddenStateName = strrep(HiddenStateName, '^', '');
+        HiddenStateName = strrep(HiddenStateName, '{', '');
+        HiddenStateName = strrep(HiddenStateName, '}', '');
         
+        NameFile = [ sensor_name, '_', ...
+            HiddenStateName,'_',num2str(loop),'.csv'];
+                
         file_name=fullfile(fullname, NameFile);
         
         first_timestamps=data.timestamps(1);

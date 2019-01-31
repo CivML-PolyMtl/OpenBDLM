@@ -67,7 +67,7 @@ function [misc]=saveResultsMAT(data, model, estimation, misc, varargin)
 %       December 6, 2018
 %
 %   DATE LAST UPDATE:
-%       December 7, 2018
+%       January 31, 2019
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -241,13 +241,16 @@ for i=1:length(idx_to_keep)+ numberOfTimeSeries + 1
         end
         
         loop=loop+1;
-               
-        match = [string('^'),string('{'),string('}'), string('x')];
-        full_Labels{i} = [ sensor_name, '_', ...
-            erase(model.hidden_states_names{1}{idx_to_keep(i),1}, match), ...
-            '_', num2str(loop)];
+                               
+        HiddenStateName = model.hidden_states_names{1}{idx_to_keep(i),1};
+        HiddenStateName = strrep(HiddenStateName, 'x', '');
+        HiddenStateName = strrep(HiddenStateName, '^', '');
+        HiddenStateName = strrep(HiddenStateName, '{', '');
+        HiddenStateName = strrep(HiddenStateName, '}', '');
         
- 
+        full_Labels{i} = [ sensor_name, '_', ...
+            HiddenStateName,'_', num2str(loop)];
+         
     elseif i >  length(idx_to_keep) && ...
             i <= length(idx_to_keep)+ numberOfTimeSeries
         

@@ -66,7 +66,7 @@ misc.options.isMAP = false;
 misc.options.maxTime = 60; 
 
 % Newton-Raphson
-misc.options.maxIterations = 3;
+misc.options.maxIterations = 100;
 misc.options.isLaplaceApprox = false;
 misc.options.isPredCap = false;
 misc.options.NRLevelsLambdaRef = 4;
@@ -91,7 +91,7 @@ misc.options.Seed = 12345;
 misc.options.FigurePosition = [100, 100, 1300, 270];
 misc.options.isSecondaryPlot = false;
 misc.options.Subsample = 1;
-misc.options.Linewidth = 3;
+misc.options.Linewidth = 1;
 misc.options.ndivx = 4;
 misc.options.ndivy = 3;
 misc.options.Xaxis_lag = 0;

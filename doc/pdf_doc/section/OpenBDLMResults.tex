@@ -1,0 +1,264 @@
+\section{Results}
+
+\subsection{Visualizing results}
+\label{S:VisualizingResults}
+
+The figures that popup on screen aim to represent the data, the data summary, and the hidden states results for each step of the analysis.
+Note that in contrast with the data plot, the data summary plot offers a way  to visualize the amplitude, the timesteps and the data availability in a compact way.
+By default, a solid line connects two successive real-valued measurement, whatever the timestep.
+Missing data (NaN) are not represented in the plot of the observed data, thus resulting in gap for large period  of time with missing data.
+The data availability in the data summary plot indicates each missing data with a red cross, thus making it useful to detect sparse missing data which are invisible in the data amplitude plots.
+The working period of the sensor is represented by a thick green line in the data availability plot.
+The plot appearance may be controlled from the dedicated \lstinline[basicstyle = \mlttfamily \small]!misc.options!.
+
+\subsubsection{Generating figures at any time}
+The option \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!14!} from the main menu allows generating the different type of figure at any time (see~\ref{LST:PlotMenu}).
+
+\subsubsection{Saving figures}
+It is not advised to save figures ``manually'' using the Matlab.
+It would most likely not save figures as seen on the screen.
+Instead, use the OpenBDLM export facilities described in the Section~\ref{SS:ExportResults}, or set the \lstinline[basicstyle = \mlttfamily \small]!misc.options.isExportTEX!, \lstinline[basicstyle = \mlttfamily \small]!misc.options.isExportPDF!, \lstinline[basicstyle = \mlttfamily \small]!misc.options.isExportPDF! to \lstinline[basicstyle = \mlttfamily \small]!true! to automatically save the figure in a specific format each time a figure is created \footnote{Automatic figure saving is not recommanded because it is computationally expensive.}.
+The workflow for visualization is shown in Figure~\ref{FIG:ResultsVisualizationsWorkflow}. 
+The functions used to visualize the data and results are:
+
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM plot menu}, label = LST:PlotMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
+----------------------------
+/    Plot
+----------------------------
+
+     1 ->  Plot data 
+     2 ->  Plot data summary 
+     3 ->  Plot hidden states 
+
+     Type R to return to the previous menu
+
+     choice >> 
+\end{lstlisting}
+
+
+
+\begin{description}[style=unboxed]
+\item[Pilote function to plot data and estimations] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+  [misc] = pilotePlot(data,model,estimation,misc)
+ \end{lstlisting}
+
+\item[Plot data amplitude values and data timestep] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[FigureNames] = plotData(data,misc,varargin)
+ \end{lstlisting}
+
+\item[Plot data amplitude, data time step, and data availability ]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+  plotDataSummary(data, misc, varargin)
+ \end{lstlisting}
+
+ \item[Plot hidden states, predicted data, and model probability]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+plotEstimations(data,model,estimation,misc,varargin)
+ \end{lstlisting}
+ 
+  \item[Plot true and estimated hidden states]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+  [FigureNames] = plotHiddenStates(data,model,estimation,misc,varargin)
+ \end{lstlisting}
+ 
+   \item[Plot observed and predicted data]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+  [FigureNames] = plotPredictedData(data,model,estimation,misc,varargin)
+ \end{lstlisting}
+ 
+    \item[Plot true and estimated model probability]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+  [FigureNames] = plotModelProbability(data,model,estimation,misc,varargin)
+ \end{lstlisting}
+ 
+     \item[Waterfall plot for kernel regression component]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[FigureNames] = plotWaterfallKRegression(data,model,estimation,misc,varargin)
+ \end{lstlisting}
+ 
+ \item[Export the current figure in TeX (tikz) file using matlab2tikz]  \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+ exportPlot(FigureName,varargin)
+ \end{lstlisting}
+ 
+\end{description}
+
+
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+\scalebox{0.8}{
+\begin{tikzpicture}
+
+\node[parawhite](inputResultsVisualization){\begin{tabular}{c} \lstinline[basicstyle = \mlttfamily \small ]!data!  \\ \lstinline[basicstyle = \mlttfamily \small ]!estimation! \\ \lstinline[basicstyle = \mlttfamily \small ]!misc!  \end{tabular}};
+\node[eswhite](pilote)[below of = inputResultsVisualization, yshift=-1cm, xshift = 0cm]{ \phantom{} pilotePlot.m \phantom{} };
+\node[eswhite](plotData)[below of = pilote, yshift=-1cm, xshift = 0cm]{ \phantom{} plotData.m \phantom{} };
+\node[eswhite](plotDataSummary)[below of = plotData, xshift = 0cm, yshift=-1cm, ]{ \phantom{} plotDataSummary.m \phantom{} };
+\node[eswhite](plotEstimations)[below of = plotDataSummary, yshift= -0.8cm]{\phantom{} plotEstimations.m \phantom{}};
+\node[eswhite](plotAll)[right of = plotEstimations, yshift= 0cm, xshift = 4cm]{\begin{tabular}{c} plotHiddenStates.m \\ plotPredictedData.m \\ plotModelProbability.m \\ plotWaterfallKRegression.m  \end{tabular}};
+\node[testwhite](testExport)[below of = plotEstimations, yshift= -1.5cm, xshift = 0cm]{\begin{tabular}{c} export \\ figures ?  \end{tabular}};
+\node[eswhite](Export)[right of = testExport , yshift=0cm, xshift = 2.5cm]{ \phantom{}  exportPlot.m \phantom{} };
+\node[parawhite](outputExport)[right of = Export , yshift=0cm, xshift = 2.5cm]{ \begin{tabular}{c} PNG, PDF, or \\ \LaTeX{} figures \end{tabular}};
+\node[parawhite](outputResultsVisualization1)[below of =testExport, yshift=-2cm, xshift = 0cm]{\begin{tabular}{c}  \MATLAB{} figure \\ on screen  \end{tabular}};
+
+\path[->, thick] (inputResultsVisualization)edge(pilote);
+\path[->, thick] (pilote)edge(plotData);
+\path[->, thick] (plotData)edge(plotDataSummary);
+\path[->, thick] (plotDataSummary)edge(plotEstimations);
+\path[->, thick] (plotEstimations)edge(plotAll);
+\path[->, thick] (plotEstimations)edge(testExport);
+\path[-, thick] (testExport)edge  node[anchor=center, above, rotate=0, rotate=0]{ yes}  (Export);
+\path[-, thick] (Export)edge(outputExport);
+\path[->, thick] (testExport)edge node[anchor=center, above, rotate=0, rotate=90]{ no}  (outputResultsVisualization1);
+\path[->, draw,  thick] (outputExport.east) -| (9cm, -12.95cm) |- (outputResultsVisualization1.east);
+
+\end{tikzpicture} } 
+\caption{Visualization results workflow} \label{FIG:ResultsVisualizationsWorkflow}
+\end{figure}
+
+
+\subsection{Exploring results}
+\label{S:ExploringResults}
+
+Exploring results (raw data and figures), is essential for interpretation, validation and reporting during and after the analysis.
+During the analysis, the \MATLAB{} binary RES\_*.mat, PROJ\_*.mat and DATA\_*.mat files are automatically created for this purpose.
+Moreover, OpenBDLM enables exporting results in user's specified format using the export menu (option \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!17!} from the main menu).
+For instance, the results can be exported in CSV format for direct use in a third party software.
+The figures can be exported in PDF, PNG, and \LaTeX{} (tikz) to create publication-quality figures.
+
+\subsubsection{RES\_*.mat result file}
+
+The \lstinline[basicstyle = \mlttfamily \small]!RES_*.mat! results file are located in the ``results/mat'' subfolder.
+The \MATLAB{} binary .MAT contain four \MATLAB{} variables called  \lstinline[basicstyle = \mlttfamily \small]!timestamps!, \lstinline[basicstyle = \mlttfamily \small]!Mean!, \lstinline[basicstyle = \mlttfamily \small]!StandardDeviation!, and  \lstinline[basicstyle = \mlttfamily \small]!labels!.
+\begin{itemize}
+\item \lstinline[basicstyle = \mlttfamily \small]!timestamps!: $\mathtt{N}\times 1$ array containing the time vector.
+\item \lstinline[basicstyle = \mlttfamily \small]!Mean!: $\mathtt{N}\times (\mathtt{L}+\mathtt{D}+1)$ array containing the filtered or smoothed posterior mean values of the hidden states, where $\mathtt{L}$ is the number of hidden states,  $\mathtt{D}$ is the number of time series.
+\item \lstinline[basicstyle = \mlttfamily \small]!StandardDeviation!: $\mathtt{N}\times (\mathtt{L}+\mathtt{D}+1)$ array containing the filtered or smoothed posterior standard deviation values of the hidden states.
+\item \lstinline[basicstyle = \mlttfamily \small]!labels!: $1\times (\mathtt{L}+\mathtt{D}+1)$ cell array containing the label of each column of the \lstinline[basicstyle = \mlttfamily \small]!Mean! and \lstinline[basicstyle = \mlttfamily \small]!StandardDeviation! arrays.
+\end{itemize}
+
+The function used to save the result is:
+
+\begin{description}[style=unboxed]
+\item[Save results in a .mat file] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[misc]=saveResultsMAT(data,model,estimation,misc,varargin)
+ \end{lstlisting}
+\end{description}
+
+\subsubsection{PROJ\_*.mat project file}
+
+The \lstinline[basicstyle = \mlttfamily \small]!PROJ_*.mat! project file are located in the ``saved\_projects/mat'' subfolder.
+This files  contains the internal variables \lstinline[basicstyle = \mlttfamily \small ]!model!,\lstinline[basicstyle = \mlttfamily \small ]!estimation!, \lstinline[basicstyle = \mlttfamily \small ]!misc!.
+The  content of those internal variables is described in Section~\ref{S:OpenBDLMINPUTOUTPUT}.
+The function used to save the project is:
+\begin{description}[style=unboxed]
+\item[Save the variables model, estimation, misc in a .mat project file] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+saveProject(model, estimation,misc,varargin)
+ \end{lstlisting}
+\end{description}
+
+\subsubsection{DATA\_*.mat data file}
+
+The \lstinline[basicstyle = \mlttfamily \small]!DATA_*.mat! data file are located in the ``data/mat'' subfolder.
+This file contains three variables called \lstinline[basicstyle = \mlttfamily \small]!labels!, \lstinline[basicstyle = \mlttfamily \small]!timestamps!, and \lstinline[basicstyle = \mlttfamily \small]!values! that fully describe the time series data.
+The content of those variables is described in Section~\ref{SS:MATInput}.
+The function used to save the data is:
+\begin{description}[style=unboxed]
+\item[Save data in a binary Matlab .mat file] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[misc, dataFilename] = saveDataBinary(data,misc,varargin)
+ \end{lstlisting}
+\end{description}
+
+\subsubsection{Exporting results}
+\label{SS:ExportResults}
+
+The option \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!17!} from the main menu offers a way to export the data, the results, the project and the figures in specific format (see~\ref{LST:ExportMenu}).
+It is possible to export the figures in PDF, PNG\footnote{Yair Altman, 2011, export\_fig, \url{https://www.mathworks.com/matlabcentral/fileexchange/23629-export\_fig}} and \LaTeX{}\footnote{Nico Schlömer,2013, matlab2tikz, \url{https://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz}},\footnote{All the time-series figures shown in this document have been created from \LaTeX{} (tikz) files output from OpenBDLM. Minor post-processing have been done on the \LaTeX{} file. Compilation using LuaLatex.}.
+It is possible to export the results and the data in .CSV files.
+OpenBDLM creates one three-columns CSV file for each posterior filtered or smoothed hidden states for each time series, as well as CSV files for the predicted data for each time series, and a CSV file for the model probability.
+The first column gives the timestamp, the second column the mean, and the third column the standard deviation.
+The first line of each file is the header, that gives the reference name of the time-series associated with the hidden states as well as the date of the first timestamp in the \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle{} format. 
+It is also possible to export the project in a configuration file that respects the format described in Section~\ref{S:CFGFile}.
+
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM export menu}, label = LST:ExportMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
+----------------------------------
+/    Export
+----------------------------------
+
+     1 ->  Export the project in a configuration file
+     2 ->  Export data in CSV format
+     3 ->  Export results in CSV format
+     4 ->  Create and export figures 
+
+     Type R to return to the previous menu
+
+     choice >> 
+\end{lstlisting}
+
+The export workflow is shown in Figure~\ref{FIG:ExportWorkflow}, and the functions used to export the results are:
+\begin{description}[style=unboxed]
+\item[Pilote function to export data, estimations and project] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[misc]=piloteExport(data,model,estimation,misc)
+ \end{lstlisting}
+
+\item[Create and print a configuration file from project] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+  [configFilename] = printConfigurationFile(data,model,estimation,misc,varargin)
+ \end{lstlisting}
+
+\item[ Save time series data in separate .csv files] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[misc] = saveDataCSV(data,misc,varargin)
+ \end{lstlisting}
+
+\item[ Save results in .CSV files] \leavevmode
+  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
+[misc]=saveResultsCSV(data, model, estimation, misc, varargin)
+ \end{lstlisting}
+
+\end{description}
+
+
+\begin{figure}[!h]
+  \centering
+  \captionsetup{justification=centering}
+\scalebox{0.8}{
+\begin{tikzpicture}
+
+\node[parawhite](inputExport){\begin{tabular}{c} \lstinline[basicstyle = \mlttfamily \small ]!data!  \\ \lstinline[basicstyle = \mlttfamily \small ]!estimation! \\ \lstinline[basicstyle = \mlttfamily \small ]!misc!  \end{tabular}};
+\node[eswhite](pilote)[below of = inputExport, yshift=-1cm, xshift = -0cm]{ \phantom{} piloteExport.m \phantom{} };
+\node[eswhite](CFG)[below of = pilote, yshift=-1cm, xshift = -5.5cm]{\begin{tabular}{c} printConfiguration \\ File.m \end{tabular}};
+\node[eswhite](DataCSV)[below of = pilote, yshift=-1cm, xshift = -1.75cm]{\begin{tabular}{c} saveData\\CSV.m   \end{tabular}};
+\node[eswhite](ResultsCSV)[below of = pilote, yshift=-1cm, xshift = 1.5cm]{\begin{tabular}{c} saveResults\\CSV.m  \end{tabular} };
+\node[eswhite](ExportFig)[below of = pilote, yshift=-1cm, xshift = 5.15cm]{ \phantom{} see Figure~\ref{FIG:ResultsVisualizationsWorkflow} \phantom{} };
+\node[parawhite](outputCFG)[below of = CFG , yshift=-1cm, xshift = 0cm]{\begin{tabular}{c}  CFG\_*.m \\ file \end{tabular}};
+\node[parawhite](outputDCSV)[below of = DataCSV , yshift=-1cm, xshift = 0cm]{\begin{tabular}{c} .CSV data \\ files \end{tabular}};
+\node[parawhite](outputRCSV)[below of = ResultsCSV , yshift=-1cm, xshift = 0cm]{ \begin{tabular}{c} .CSV results \\ files \end{tabular}};
+\node[parawhite](outputExport)[below of = ExportFig , yshift=-1cm, xshift = 0cm]{ \begin{tabular}{c} PNG, PDF, or \\ \LaTeX{} figures \end{tabular}};
+
+\path[->, thick] (inputExport)edge(pilote);
+\path[->, thick] (CFG)edge(outputCFG);
+\path[->, thick] (DataCSV)edge(outputDCSV);
+\path[->, thick] (ResultsCSV)edge(outputRCSV);
+\path[->, thick] (ExportFig)edge(outputExport);
+\path[->, draw,  thick] (pilote.south) |- (-4cm, -3cm) -| (CFG.north);
+\path[->, draw,  thick] (pilote.south) |- (-2cm, -3cm) -| (DataCSV.north);
+\path[->, draw,  thick] (pilote.south) |- (3cm, -3cm) -| (ResultsCSV.north);
+\path[->, draw,  thick] (pilote.south) |- (5cm, -3cm) -| (ExportFig.north);
+
+\end{tikzpicture} } 
+\caption{Export options workflow} \label{FIG:ExportWorkflow}
+\end{figure}
+
+
+
+
+
+
+
