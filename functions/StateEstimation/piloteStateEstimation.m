@@ -92,7 +92,6 @@ else
     fileID=1;
 end
 
-
 MaxFailAttempts=4;
 
 fprintf(fileID,'\n');
@@ -107,13 +106,30 @@ incTest=0;
 isCorrectAnswer =  false;
 while ~isCorrectAnswer
     
+    
+    MethodStateEstimation=misc.options.MethodStateEstimation;
+    if strcmp(MethodStateEstimation, 'kalman')
+        alternativeMethodStateEstimation='UD';
+    elseif strcmp(MethodStateEstimation, 'UD')
+        alternativeMethodStateEstimation='kalman';
+    else
+        error('State estimation method is unknown.')
+    end
+    
+    
     incTest=incTest+1;
     if incTest > MaxFailAttempts ; error(['Too many failed ', ...
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     
     fprintf(fileID,'\n');
+    fprintf(fileID,'     Current state estimation method: %s\n', ...
+        MethodStateEstimation);
+    fprintf(fileID,'\n');
     fprintf(fileID,'     1 ->  Filter \n');
     fprintf(fileID,'     2 ->  Smoother \n');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'     3 ->  Change estimation method to %s \n', ...
+        alternativeMethodStateEstimation);
     fprintf(fileID,'\n');
     fprintf(fileID,'     Type R to return to the previous menu \n');
     fprintf(fileID,'\n');
@@ -140,6 +156,9 @@ while ~isCorrectAnswer
         misc.internalVars.isSmoother = isSmoother;
         isCorrectAnswer =  true;
         
+    elseif round(str2double(choice)) == 3
+        misc.options.MethodStateEstimation=alternativeMethodStateEstimation;
+        %isCorrectAnswer =  true;
     elseif ischar(choice) && length(choice) == 1 && strcmpi(choice, 'r')
         return
     else

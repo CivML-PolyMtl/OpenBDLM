@@ -1,14 +1,14 @@
-\section{Model construction}
+\subsection{Model construction}
 \label{S:MODELCONSTRUCTION}
 
-Once the model has been configured, the next step is to build the model.
-The aim of the model building, or model construction, is to build the full model matrices $A$, $C$, $Q$, $R$ by assembling the sub-matrices associated with each block component and each time-series.
-The corresponding values for the model parameters must also be considered. 
-Because the model matrices are often time-dependent, OpenBDLM creates a function for each matrix, that depends on the time $t$, and model parameters $\bm\theta$.
+%Once the model has been configured, the next step is to build the model.
+Model construction builds the full model matrices $A$, $C$, $Q$, $R$ by assembling the sub-matrices associated with each block component and each time-series.
+The corresponding values for the model parameters are also considered during model construction.
+%Because the model matrices are often time-dependent, OpenBDLM creates a function for each matrix, that depends on the time $t$, and model parameters $\bm\theta$.
 
-\subsection{Model construction functions}
+\subsubsection{Model construction functions}
 
-The model construction workflow is presented Figure~\ref{FIG:ModelConstructionWorkflow}. The OpenBDLM function used for model construction is:
+The model construction workflow is presented in Figure~\ref{FIG:ModelConstructionWorkflow}. The function in OpenBDLM used for model construction is:
 
 \begin{description}[style=unboxed]
 \item[Builds the model ] \leavevmode

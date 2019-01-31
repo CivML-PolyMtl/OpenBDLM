@@ -1,103 +1,109 @@
-\BOOKMARK [1][-]{section.1}{What is OpenBDLM ?}{}% 1
-\BOOKMARK [1][-]{section.2}{Installing OpenBDLM}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Prerequisites}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Installing}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Getting started}{}% 5
-\BOOKMARK [2][-]{subsection.3.1}{Call OpenBDLM}{section.3}% 6
-\BOOKMARK [2][-]{subsection.3.2}{Demo}{section.3}% 7
-\BOOKMARK [1][-]{section.4}{OpenBDLM inputs and outputs}{}% 8
-\BOOKMARK [2][-]{subsection.4.1}{Inputs}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.2}{Outputs}{section.4}% 10
-\BOOKMARK [3][-]{subsubsection.4.2.1}{data}{subsection.4.2}% 11
-\BOOKMARK [3][-]{subsubsection.4.2.2}{model}{subsection.4.2}% 12
-\BOOKMARK [3][-]{subsubsection.4.2.3}{estimation}{subsection.4.2}% 13
-\BOOKMARK [3][-]{subsubsection.4.2.4}{misc}{subsection.4.2}% 14
-\BOOKMARK [2][-]{subsection.4.3}{OpenBDLM files types}{section.4}% 15
-\BOOKMARK [1][-]{section.5}{OpenBDLM running modes}{}% 16
-\BOOKMARK [2][-]{subsection.5.1}{Interactive mode}{section.5}% 17
-\BOOKMARK [2][-]{subsection.5.2}{Batch mode}{section.5}% 18
-\BOOKMARK [1][-]{section.6}{Configuration file}{}% 19
-\BOOKMARK [2][-]{subsection.6.1}{Project name}{section.6}% 20
-\BOOKMARK [2][-]{subsection.6.2}{Data}{section.6}% 21
-\BOOKMARK [2][-]{subsection.6.3}{Model structure}{section.6}% 22
-\BOOKMARK [2][-]{subsection.6.4}{Model parameters}{section.6}% 23
-\BOOKMARK [2][-]{subsection.6.5}{Initial states values}{section.6}% 24
-\BOOKMARK [2][-]{subsection.6.6}{Options}{section.6}% 25
-\BOOKMARK [1][-]{section.7}{OpenBDLM main menu}{}% 26
-\BOOKMARK [1][-]{section.8}{OpenBDLM workflow}{}% 27
-\BOOKMARK [1][-]{section.9}{Data loading}{}% 28
-\BOOKMARK [2][-]{subsection.9.1}{Input data format}{section.9}% 29
-\BOOKMARK [3][-]{subsubsection.9.1.1}{Comma Separated Values files}{subsection.9.1}% 30
-\BOOKMARK [3][-]{subsubsection.9.1.2}{Matlab .MAT files}{subsection.9.1}% 31
-\BOOKMARK [2][-]{subsection.9.2}{Data loading functions}{section.9}% 32
-\BOOKMARK [1][-]{section.10}{Data editing and pre-processing}{}% 33
-\BOOKMARK [2][-]{subsection.10.1}{Selection of time-series}{section.10}% 34
-\BOOKMARK [2][-]{subsection.10.2}{Selection of data analysis time period}{section.10}% 35
-\BOOKMARK [2][-]{subsection.10.3}{Removing missing data}{section.10}% 36
-\BOOKMARK [2][-]{subsection.10.4}{Data resampling}{section.10}% 37
-\BOOKMARK [2][-]{subsection.10.5}{Time synchronization options}{section.10}% 38
-\BOOKMARK [2][-]{subsection.10.6}{Data editing functions}{section.10}% 39
-\BOOKMARK [1][-]{section.11}{Model configuration}{}% 40
-\BOOKMARK [2][-]{subsection.11.1}{Dependencies between time-series}{section.11}% 41
-\BOOKMARK [2][-]{subsection.11.2}{Block components}{section.11}% 42
-\BOOKMARK [2][-]{subsection.11.3}{Parameter constrains}{section.11}% 43
-\BOOKMARK [2][-]{subsection.11.4}{Number of model class}{section.11}% 44
-\BOOKMARK [2][-]{subsection.11.5}{Model configuration functions}{section.11}% 45
-\BOOKMARK [1][-]{section.12}{Model construction}{}% 46
-\BOOKMARK [2][-]{subsection.12.1}{Model construction functions}{section.12}% 47
-\BOOKMARK [1][-]{section.13}{Model parameters estimation}{}% 48
-\BOOKMARK [2][-]{subsection.13.1}{Model parameter estimation functions}{section.13}% 49
-\BOOKMARK [1][-]{section.14}{Hidden states estimation}{}% 50
-\BOOKMARK [2][-]{subsection.14.1}{Hidden state estimation functions}{section.14}% 51
-\BOOKMARK [2][-]{subsection.14.2}{Estimation of the initial hidden states}{section.14}% 52
-\BOOKMARK [1][-]{section.15}{Creating synthetic data}{}% 53
-\BOOKMARK [2][-]{subsection.15.1}{Synthetic data creation using the interactive tool}{section.15}% 54
-\BOOKMARK [2][-]{subsection.15.2}{Synthetic data creation from an existing project}{section.15}% 55
-\BOOKMARK [2][-]{subsection.15.3}{Synthetic data creation functions}{section.15}% 56
-\BOOKMARK [1][-]{section.16}{Visualizing results}{}% 57
-\BOOKMARK [1][-]{section.17}{Exploring results}{}% 58
-\BOOKMARK [2][-]{subsection.17.1}{RES\137*.mat result file}{section.17}% 59
-\BOOKMARK [2][-]{subsection.17.2}{PROJ\137*.mat project file}{section.17}% 60
-\BOOKMARK [2][-]{subsection.17.3}{DATA\137*.mat data file}{section.17}% 61
-\BOOKMARK [2][-]{subsection.17.4}{Export the results}{section.17}% 62
-\BOOKMARK [1][-]{section.18}{Version control}{}% 63
-\BOOKMARK [1][-]{section.19}{Example \0431: single time-series analysis}{}% 64
-\BOOKMARK [2][-]{subsection.19.1}{Data description}{section.19}% 65
-\BOOKMARK [2][-]{subsection.19.2}{Model description}{section.19}% 66
-\BOOKMARK [2][-]{subsection.19.3}{Run the example from pre-existing configuration file}{section.19}% 67
-\BOOKMARK [2][-]{subsection.19.4}{Run the example from command line interaction}{section.19}% 68
-\BOOKMARK [1][-]{section.20}{Example \0432: dependence model between two time-series}{}% 69
-\BOOKMARK [2][-]{subsection.20.1}{Data description}{section.20}% 70
-\BOOKMARK [2][-]{subsection.20.2}{Model description}{section.20}% 71
-\BOOKMARK [2][-]{subsection.20.3}{Run the example from pre-existing configuration file}{section.20}% 72
-\BOOKMARK [2][-]{subsection.20.4}{Run the example from command line interaction}{section.20}% 73
-\BOOKMARK [1][-]{section.21}{Example \0433: time-series with anomaly}{}% 74
-\BOOKMARK [2][-]{subsection.21.1}{Data description}{section.21}% 75
-\BOOKMARK [2][-]{subsection.21.2}{Model description}{section.21}% 76
-\BOOKMARK [2][-]{subsection.21.3}{Run the example from pre-existing configuration file}{section.21}% 77
-\BOOKMARK [2][-]{subsection.21.4}{Run the example from command line interaction}{section.21}% 78
-\BOOKMARK [1][-]{section.22}{FAQ Troubleshooting}{}% 79
-\BOOKMARK [1][-]{section.23}{Reference Theory}{}% 80
-\BOOKMARK [2][-]{subsection.23.1}{Linear gaussian state-space model}{section.23}% 81
-\BOOKMARK [2][-]{subsection.23.2}{Kalman filter \046 UD filters}{section.23}% 82
-\BOOKMARK [2][-]{subsection.23.3}{Switching Kalman filter}{section.23}% 83
-\BOOKMARK [2][-]{subsection.23.4}{Model parameter estimation}{section.23}% 84
-\BOOKMARK [3][-]{subsubsection.23.4.1}{Maximum log A Posteriori \(MAP\)}{subsection.23.4}% 85
-\BOOKMARK [3][-]{subsubsection.23.4.2}{Maximum log Likelihood Estimation \(MLE\)}{subsection.23.4}% 86
-\BOOKMARK [3][-]{subsubsection.23.4.3}{Laplace Approximation}{subsection.23.4}% 87
-\BOOKMARK [3][-]{subsubsection.23.4.4}{Gradient-based optimization}{subsection.23.4}% 88
-\BOOKMARK [3][-]{subsubsection.23.4.5}{Model parameter space transformation}{subsection.23.4}% 89
-\BOOKMARK [2][-]{subsection.23.5}{Block components}{section.23}% 90
-\BOOKMARK [3][-]{subsubsection.23.5.1}{Local level \(baseline\)}{subsection.23.5}% 91
-\BOOKMARK [3][-]{subsubsection.23.5.2}{Local trend \(baseline\)}{subsection.23.5}% 92
-\BOOKMARK [3][-]{subsubsection.23.5.3}{Local acceleration \(baseline\)}{subsection.23.5}% 93
-\BOOKMARK [3][-]{subsubsection.23.5.4}{Local level compatible trend \(baseline\)}{subsection.23.5}% 94
-\BOOKMARK [3][-]{subsubsection.23.5.5}{Local level compatible acceleration \(baseline\)}{subsection.23.5}% 95
-\BOOKMARK [3][-]{subsubsection.23.5.6}{Local trend compatible acceleration \(baseline\)}{subsection.23.5}% 96
-\BOOKMARK [3][-]{subsubsection.23.5.7}{Periodic \(Fourier form\)}{subsection.23.5}% 97
-\BOOKMARK [3][-]{subsubsection.23.5.8}{Periodic \(Kernel regression form\)}{subsection.23.5}% 98
-\BOOKMARK [3][-]{subsubsection.23.5.9}{First order autoregressive}{subsection.23.5}% 99
-\BOOKMARK [2][-]{subsection.23.6}{Handling non-uniform time vector and missing data}{section.23}% 100
-\BOOKMARK [3][-]{subsubsection.23.6.1}{Non-uniform time vector}{subsection.23.6}% 101
-\BOOKMARK [3][-]{subsubsection.23.6.2}{Missing data \(NaN\)}{subsection.23.6}% 102
-\BOOKMARK [2][-]{subsection.23.7}{Dependencies between time-series}{section.23}% 103
+\BOOKMARK [1][-]{section.1}{Getting started}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{What is OpenBDLM ?}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Installing OpenBDLM}{section.1}% 3
+\BOOKMARK [3][-]{subsubsection.1.2.1}{Prerequisites}{subsection.1.2}% 4
+\BOOKMARK [3][-]{subsubsection.1.2.2}{Installation}{subsection.1.2}% 5
+\BOOKMARK [2][-]{subsection.1.3}{Starting OpenBDLM}{section.1}% 6
+\BOOKMARK [2][-]{subsection.1.4}{Demo}{section.1}% 7
+\BOOKMARK [2][-]{subsection.1.5}{OpenBDLM main menu}{section.1}% 8
+\BOOKMARK [1][-]{section.2}{OpenBDLM inputs and outputs}{}% 9
+\BOOKMARK [2][-]{subsection.2.1}{Inputs}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.2}{Outputs}{section.2}% 11
+\BOOKMARK [3][-]{subsubsection.2.2.1}{data}{subsection.2.2}% 12
+\BOOKMARK [3][-]{subsubsection.2.2.2}{model}{subsection.2.2}% 13
+\BOOKMARK [3][-]{subsubsection.2.2.3}{estimation}{subsection.2.2}% 14
+\BOOKMARK [3][-]{subsubsection.2.2.4}{misc}{subsection.2.2}% 15
+\BOOKMARK [2][-]{subsection.2.3}{OpenBDLM files types}{section.2}% 16
+\BOOKMARK [1][-]{section.3}{OpenBDLM modes}{}% 17
+\BOOKMARK [2][-]{subsection.3.1}{Interactive mode}{section.3}% 18
+\BOOKMARK [2][-]{subsection.3.2}{Batch mode}{section.3}% 19
+\BOOKMARK [1][-]{section.4}{Configuration file}{}% 20
+\BOOKMARK [2][-]{subsection.4.1}{Project name}{section.4}% 21
+\BOOKMARK [2][-]{subsection.4.2}{Data}{section.4}% 22
+\BOOKMARK [2][-]{subsection.4.3}{Model structure}{section.4}% 23
+\BOOKMARK [2][-]{subsection.4.4}{Model parameters}{section.4}% 24
+\BOOKMARK [2][-]{subsection.4.5}{Initial states values}{section.4}% 25
+\BOOKMARK [2][-]{subsection.4.6}{Options}{section.4}% 26
+\BOOKMARK [1][-]{section.5}{OpenBDLM workflow}{}% 27
+\BOOKMARK [2][-]{subsection.5.1}{Data loading}{section.5}% 28
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Input data format}{subsection.5.1}% 29
+\BOOKMARK [3][-]{subsubsection.5.1.2}{Data loading functions}{subsection.5.1}% 30
+\BOOKMARK [2][-]{subsection.5.2}{Data pre-processing}{section.5}% 31
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Selection of time-series}{subsection.5.2}% 32
+\BOOKMARK [3][-]{subsubsection.5.2.2}{Selection of data analysis time-window}{subsection.5.2}% 33
+\BOOKMARK [3][-]{subsubsection.5.2.3}{Removing missing data}{subsection.5.2}% 34
+\BOOKMARK [3][-]{subsubsection.5.2.4}{Data resampling}{subsection.5.2}% 35
+\BOOKMARK [3][-]{subsubsection.5.2.5}{Time synchronization options}{subsection.5.2}% 36
+\BOOKMARK [3][-]{subsubsection.5.2.6}{Data pre-processing functions}{subsection.5.2}% 37
+\BOOKMARK [2][-]{subsection.5.3}{Model configuration}{section.5}% 38
+\BOOKMARK [3][-]{subsubsection.5.3.1}{Dependencies between time-series}{subsection.5.3}% 39
+\BOOKMARK [3][-]{subsubsection.5.3.2}{Block components}{subsection.5.3}% 40
+\BOOKMARK [3][-]{subsubsection.5.3.3}{Parameter constrains}{subsection.5.3}% 41
+\BOOKMARK [3][-]{subsubsection.5.3.4}{Number of model class}{subsection.5.3}% 42
+\BOOKMARK [3][-]{subsubsection.5.3.5}{Model configuration functions}{subsection.5.3}% 43
+\BOOKMARK [2][-]{subsection.5.4}{Model construction}{section.5}% 44
+\BOOKMARK [3][-]{subsubsection.5.4.1}{Model construction functions}{subsection.5.4}% 45
+\BOOKMARK [2][-]{subsection.5.5}{Model parameters estimation}{section.5}% 46
+\BOOKMARK [3][-]{subsubsection.5.5.1}{Model parameter estimation functions}{subsection.5.5}% 47
+\BOOKMARK [2][-]{subsection.5.6}{Hidden states estimation}{section.5}% 48
+\BOOKMARK [3][-]{subsubsection.5.6.1}{Hidden state estimation functions}{subsection.5.6}% 49
+\BOOKMARK [3][-]{subsubsection.5.6.2}{Estimation of the initial hidden states}{subsection.5.6}% 50
+\BOOKMARK [1][-]{section.6}{Generate synthetic data}{}% 51
+\BOOKMARK [2][-]{subsection.6.1}{Generate synthetic data using the interactive tool}{section.6}% 52
+\BOOKMARK [2][-]{subsection.6.2}{Generate synthetic data from an existing project}{section.6}% 53
+\BOOKMARK [2][-]{subsection.6.3}{Synthetic data generation functions}{section.6}% 54
+\BOOKMARK [1][-]{section.7}{Results}{}% 55
+\BOOKMARK [2][-]{subsection.7.1}{Visualizing results}{section.7}% 56
+\BOOKMARK [3][-]{subsubsection.7.1.1}{Generating figures at any time}{subsection.7.1}% 57
+\BOOKMARK [3][-]{subsubsection.7.1.2}{Saving figures}{subsection.7.1}% 58
+\BOOKMARK [2][-]{subsection.7.2}{Exploring results}{section.7}% 59
+\BOOKMARK [3][-]{subsubsection.7.2.1}{RES\137*.mat result file}{subsection.7.2}% 60
+\BOOKMARK [3][-]{subsubsection.7.2.2}{PROJ\137*.mat project file}{subsection.7.2}% 61
+\BOOKMARK [3][-]{subsubsection.7.2.3}{DATA\137*.mat data file}{subsection.7.2}% 62
+\BOOKMARK [3][-]{subsubsection.7.2.4}{Exporting results}{subsection.7.2}% 63
+\BOOKMARK [1][-]{section.8}{Version control}{}% 64
+\BOOKMARK [1][-]{section.9}{Examples}{}% 65
+\BOOKMARK [2][-]{subsection.9.1}{Example \0431: single time-series analysis}{section.9}% 66
+\BOOKMARK [3][-]{subsubsection.9.1.1}{Data description}{subsection.9.1}% 67
+\BOOKMARK [3][-]{subsubsection.9.1.2}{Model description}{subsection.9.1}% 68
+\BOOKMARK [3][-]{subsubsection.9.1.3}{Run the example from pre-existing configuration file}{subsection.9.1}% 69
+\BOOKMARK [3][-]{subsubsection.9.1.4}{Run the example from command line interaction}{subsection.9.1}% 70
+\BOOKMARK [2][-]{subsection.9.2}{Example \0432: dependence model between two time-series}{section.9}% 71
+\BOOKMARK [3][-]{subsubsection.9.2.1}{Data description}{subsection.9.2}% 72
+\BOOKMARK [3][-]{subsubsection.9.2.2}{Model description}{subsection.9.2}% 73
+\BOOKMARK [3][-]{subsubsection.9.2.3}{Run the example from pre-existing configuration file}{subsection.9.2}% 74
+\BOOKMARK [3][-]{subsubsection.9.2.4}{Run the example from command line interaction}{subsection.9.2}% 75
+\BOOKMARK [2][-]{subsection.9.3}{Example \0433: time-series with anomaly}{section.9}% 76
+\BOOKMARK [3][-]{subsubsection.9.3.1}{Data description}{subsection.9.3}% 77
+\BOOKMARK [3][-]{subsubsection.9.3.2}{Model description}{subsection.9.3}% 78
+\BOOKMARK [3][-]{subsubsection.9.3.3}{Run the example from pre-existing configuration file}{subsection.9.3}% 79
+\BOOKMARK [3][-]{subsubsection.9.3.4}{Run the example from command line interaction}{subsection.9.3}% 80
+\BOOKMARK [2][-]{subsection.9.4}{Example \0434: generate and analyze synthetic data }{section.9}% 81
+\BOOKMARK [3][-]{subsubsection.9.4.1}{Purpose}{subsection.9.4}% 82
+\BOOKMARK [3][-]{subsubsection.9.4.2}{Model description}{subsection.9.4}% 83
+\BOOKMARK [3][-]{subsubsection.9.4.3}{Run the example from command line interaction}{subsection.9.4}% 84
+\BOOKMARK [1][-]{section.10}{FAQ Troubleshooting}{}% 85
+\BOOKMARK [1][-]{section.11}{Reference Theory}{}% 86
+\BOOKMARK [2][-]{subsection.11.1}{Linear gaussian state-space model}{section.11}% 87
+\BOOKMARK [2][-]{subsection.11.2}{Kalman filter \046 UD filters}{section.11}% 88
+\BOOKMARK [2][-]{subsection.11.3}{Switching Kalman filter}{section.11}% 89
+\BOOKMARK [2][-]{subsection.11.4}{Model parameter estimation}{section.11}% 90
+\BOOKMARK [3][-]{subsubsection.11.4.1}{Maximum log A Posteriori \(MAP\)}{subsection.11.4}% 91
+\BOOKMARK [3][-]{subsubsection.11.4.2}{Maximum log Likelihood Estimation \(MLE\)}{subsection.11.4}% 92
+\BOOKMARK [3][-]{subsubsection.11.4.3}{Laplace Approximation}{subsection.11.4}% 93
+\BOOKMARK [3][-]{subsubsection.11.4.4}{Gradient-based optimization}{subsection.11.4}% 94
+\BOOKMARK [3][-]{subsubsection.11.4.5}{Model parameter space transformation}{subsection.11.4}% 95
+\BOOKMARK [2][-]{subsection.11.5}{Block components}{section.11}% 96
+\BOOKMARK [3][-]{subsubsection.11.5.1}{Local level \(baseline\)}{subsection.11.5}% 97
+\BOOKMARK [3][-]{subsubsection.11.5.2}{Local trend \(baseline\)}{subsection.11.5}% 98
+\BOOKMARK [3][-]{subsubsection.11.5.3}{Local acceleration \(baseline\)}{subsection.11.5}% 99
+\BOOKMARK [3][-]{subsubsection.11.5.4}{Local level compatible trend \(baseline\)}{subsection.11.5}% 100
+\BOOKMARK [3][-]{subsubsection.11.5.5}{Local level compatible acceleration \(baseline\)}{subsection.11.5}% 101
+\BOOKMARK [3][-]{subsubsection.11.5.6}{Local trend compatible acceleration \(baseline\)}{subsection.11.5}% 102
+\BOOKMARK [3][-]{subsubsection.11.5.7}{Periodic \(Fourier form\)}{subsection.11.5}% 103
+\BOOKMARK [3][-]{subsubsection.11.5.8}{Periodic \(Kernel regression form\)}{subsection.11.5}% 104
+\BOOKMARK [3][-]{subsubsection.11.5.9}{First order autoregressive}{subsection.11.5}% 105
+\BOOKMARK [2][-]{subsection.11.6}{Handling non-uniform time vector and missing data}{section.11}% 106
+\BOOKMARK [3][-]{subsubsection.11.6.1}{Non-uniform time vector}{subsection.11.6}% 107
+\BOOKMARK [3][-]{subsubsection.11.6.2}{Missing data \(NaN\)}{subsection.11.6}% 108
+\BOOKMARK [2][-]{subsection.11.7}{Dependencies between time-series}{section.11}% 109

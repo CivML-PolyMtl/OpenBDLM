@@ -1,5 +1,5 @@
 function plotDataSummary(data, misc, varargin)
-%PLOTDATASUMMARY Plot data amplitude, data time step, and data availability 
+%PLOTDATASUMMARY Plot data amplitude, data time step, and data availability
 %
 %   SYNOPSIS:
 %     PLOTDATASUMMARY(data, misc, varargin)
@@ -172,7 +172,7 @@ if isExportPNG || isExportPDF || isExportTEX
         % set directory on path
         addpath(FilePath)
     end
-        
+    
     fullname=fullfile(FilePath, ProjectName);
     
     [isFileExist] = testFileExistence(fullname, 'dir');
@@ -307,7 +307,11 @@ for i=1:numberOfTimeSeries
         'YTick', linspace(miny, maxy, ndivy))
     ylabel('Amplitude')
     set(gca,'FontSize',16)
-    ytickformat('%.1f')
+    %ytickformat('%.1f')
+    %     ax=gca;
+    %     ax.YAxis.TickLabelFormat='%.1f';
+    set(gca, 'YTickMode','manual')
+    set(gca, 'YTickLabel', num2str(get(gca,'YTick')', '%.2e'))
     datetick('x','yy-mm','keepticks')
     
     if i == numberOfTimeSeries

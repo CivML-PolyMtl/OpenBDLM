@@ -1,6 +1,6 @@
-\section{Data loading}
+\subsection{Data loading}
 \label{S:DATALOADING}
-\subsection{Input data format}
+\subsubsection{Input data format}
 
 OpenBDLM supports two types of input data format.
 
@@ -9,12 +9,12 @@ OpenBDLM supports two types of input data format.
 %Conversely, time-series are asynchronous if they do not all share the same time vector.
 %\subsubsection{Input data formatting for asynchronous time series}
 
-\subsubsection{Comma Separated Values files}
+\paragraph{Comma Separated Values files (.CSV)}
 \label{SS:CSVInput}
 
 %Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
 %If the data have already been synchronized, it is preferable to use properly formatted .MAT \MATLAB{} files (see Section~\ref{SS:MatFiles})
-One Comma Separated Values (.csv) data file must be provided for each time series.
+One .CSV data file must be provided for each time series.
 The file must contain two columns that are organized as shown in Listing~\ref{LST:CSV_Formatting}.
 \begin{lstlisting}[ frame = single, linewidth = \linewidth, caption = CSV data file example,  label = LST:CSV_Formatting, float = ht, ,captionpos=b]
 'name'            ,   '2000-01-01-22-00-00'
@@ -31,7 +31,7 @@ For the remaining lines, the first field is the date given as a serial date numb
 The missing data must be indicated as \lstinline[basicstyle = \mlttfamily \small ]!NaN! number.
 The .csv files must be stored in the ``OpenBDLM-master/data/csv'' subfolder.
 
-\subsubsection{\MATLAB{} .MAT files}
+\paragraph{\MATLAB{} files (.MAT)}
 \label{SS:MATInput}
 
 The \MATLAB{} binary .MAT file must contain three \MATLAB{} variables called \lstinline[basicstyle = \mlttfamily \small]!labels!, \lstinline[basicstyle = \mlttfamily \small]!timestamps!, and \lstinline[basicstyle = \mlttfamily \small]!values!.
@@ -44,7 +44,7 @@ The \MATLAB{} binary .MAT file must contain three \MATLAB{} variables called \ls
 Note that \MATLAB{} binary .MAT files can be used to load at once several time-series which share the same timestep vector (i.e. synchronous time-series, see Section~\ref{S:DATAEDITINGPREPROCESSING}  for details.)
 
 
-\subsection{Data loading functions}
+\subsubsection{Data loading functions}
 
 The data loading workflow is presented Figure~\ref{FIG:DataLoadingWorkflow}. The list of OpenBDLM functions used for data loading is:
 

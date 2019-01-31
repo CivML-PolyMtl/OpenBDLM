@@ -2,14 +2,13 @@
 \label{S:CFGFile}
 
 
-The configuration files are \MATLAB{} scripts that are used to initialize a project.
-The name of a configuration file can be given as a input to the function   \lstinline[basicstyle = \mlttfamily \small ]!OpenBLDM_main.m!, as mentionned in Section~\ref{SS:OpenBDLMinput}.
-The configuration file must follow a specific organization, which includes 6 sections: Project name, Data, Model structure, Model parameters, Initial states values and Options.
-The first three sections Project name, Data, Model structure are required.
-The last three sections Model parameters, Initial states values and Options are optional.
+The configuration file is a \MATLAB{} script utilized for initializing the project.
+The name of a configuration file can be given as an input to the function   \lstinline[basicstyle = \mlttfamily \small ]!OpenBLDM_main.m!, as mentionned in Section~\ref{SS:OpenBDLMinput}.
+The configuration file must follow a specific structures, which includes 6 sections: Project name, Data, Model structure, Model parameters, Initial states values and Options.
+The first three sections are mandatory, while the last three sections are optional.
 
 \subsection{Project name}
-This section of the configuration file defines the name of the project as a vector of characters stored in the field \lstinline[basicstyle = \mlttfamily \small ]!ProjectName! of the \MATLAB{} structure \lstinline[basicstyle = \mlttfamily \small ]!misc!.
+This section of the configuration file defines the name of the project as a vector of characters stored in the field \lstinline[basicstyle = \mlttfamily \small ]!ProjectName! of the \MATLAB{} variable \lstinline[basicstyle = \mlttfamily \small ]!misc!.
 
 \subsection{Data}
 
@@ -25,13 +24,13 @@ The structure \lstinline[basicstyle = \mlttfamily \small]!model.component! must 
 \begin{itemize}
 
 \item \lstinline[basicstyle = \mlttfamily \small ]!model.component.block!: it defines the block components associated with each time-series.
-The field \lstinline[basicstyle = \mlttfamily \small ]!block! stores a $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1,2 \}$ is the number of model classes.
-Each cell array is a $1\times \mathtt{D}$ cell array of array, where $\mathtt{D}$ is the number of time series.
+The field \lstinline[basicstyle = \mlttfamily \small ]!block! stores $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1,2 \}$ is the number of model classes.
+Each cell array is a $1\times \mathtt{D}$ cell array of matrice, where $\mathtt{D}$ is the number of time series.
 Each block component is associated with a reference number:
 \begin{itemize}
 \item 11: Local level 
-\item 12: Local level plus local trend
-\item 13: Local level plus local trend plus local acceleration
+\item 12: Local level + local trend
+\item 13: Local level + local trend + local acceleration
 \item 21: Local level compatible with local trend
 \item 22: Local level compatible with local acceleration
 \item 23: Local trend compatible with local acceleration
@@ -47,10 +46,10 @@ The first cell is empty, and the second cell is a $1\times \mathtt{D}$ cell arra
 The array contains $0$ and $1$ to indicate which block components of the second model class has the same model parameters than the corresponding component of the first model class. 
 A value of $1$ indicates that the model parameters are constrained between the block components of the two model classes, $0$ otherwise.
 
-\item  \lstinline[basicstyle = \mlttfamily \small ]!model.component.ic!:  ifdefines the dependencies between the time-series.
+\item  \lstinline[basicstyle = \mlttfamily \small ]!model.component.ic!:  it defines the dependencies among the time-series.
 The field \lstinline[basicstyle = \mlttfamily \small ]!ic! stores a $1\times \mathtt{D}$ cell array of $1\times \mathtt{D}-1$ array, where $\mathtt{D}$ is the number of time series.
 Each time-series depend on the time-series corresponding to the indexes given in the $\mathtt{D}$ arrays.
-If the array is empty, the time-series are modelled as independent.
+If the array is empty, the time-series are considered independent by default.
 
 \end{itemize}
 
@@ -61,39 +60,39 @@ This part of the configuration file aims at defining the model parameters proper
 The model parameters properties are stored in the field named \lstinline[basicstyle = \mlttfamily \small ]!model.param_properties! of the \MATLAB{} structure \lstinline[basicstyle = \mlttfamily \small ]!model!.
 The field \lstinline[basicstyle = \mlttfamily \small ]!model.param_properties! stores $\mathtt{K} \times 10$ cell array, where $\mathtt{K}$ is the total number of model parameters.
 \begin{itemize}
-\item the column 1 must be a character vector that gives the name of the model parameters (e.g.  \lstinline[basicstyle = \mlttfamily \small ]!sigma_w!). 
-\item the column 2 must be a character vector that gives the reference name of the block associated with the parameter (e.g \lstinline[basicstyle = \mlttfamily \small ]!LL!, see Section~\ref{SS:BlockComponent}).
-\item the column 3 must be a character vector that gives the index corresponding to the model class associated with the parameter (e.g  either \lstinline[basicstyle = \mlttfamily \small ]!1! or \lstinline[basicstyle = \mlttfamily \small ]!2!) (see~\ref{SS:THSKF}).
-\item the column 4 must be a character vector that gives the index corresponding to the observation associated with the parameter (e.g \lstinline[basicstyle = \mlttfamily \small ]!3!).
-\item the column 5 must be a $1\times2$ array that gives the bound of the parameter(e.g \lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!,  \lstinline[basicstyle = \mlttfamily \small ]![0, Inf]!, \lstinline[basicstyle = \mlttfamily \small ]![0, 1]!). 
+\item column 1 must be a character vector that gives the name of the model parameters (e.g.  \lstinline[basicstyle = \mlttfamily \small ]!sigma_w!). 
+\item column 2 must be a character vector that gives the reference name of the block associated with the parameter (e.g \lstinline[basicstyle = \mlttfamily \small ]!LL!, see Section~\ref{SS:BlockComponent}).
+\item column 3 must be a character vector that gives the index corresponding to the model class associated with the parameter (e.g  either \lstinline[basicstyle = \mlttfamily \small ]!1! or \lstinline[basicstyle = \mlttfamily \small ]!2!) (see~\ref{SS:THSKF}).
+\item column 4 must be a character vector that gives the index corresponding to the observation associated with the parameter (e.g \lstinline[basicstyle = \mlttfamily \small ]!3!).
+\item column 5 must be a $1\times2$ array that gives the bound of the parameter(e.g \lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!,  \lstinline[basicstyle = \mlttfamily \small ]![0, Inf]!, \lstinline[basicstyle = \mlttfamily \small ]![0, 1]!). 
 The bounds are used to transform (if necessary) model parameters from a bounded to  an unbounded space during the optimization process (see Sections~\ref{S:PARAMESTIMATION} and~\ref{SS:THModelParameterEstimation}).
-\item the column 6 must be character vector that gives the type of the prior used during the optimization process (e.g  either \lstinline[basicstyle = \mlttfamily \small ]!N/A! or \lstinline[basicstyle = \mlttfamily \small ]!normal!). 
+\item column 6 must be character vector that gives the type of the prior used during the optimization process (e.g  either \lstinline[basicstyle = \mlttfamily \small ]!N/A! or \lstinline[basicstyle = \mlttfamily \small ]!normal!). 
 \lstinline[basicstyle = \mlttfamily \small ]!N/A! indicates that no prior is used (see Sections~\ref{S:PARAMESTIMATION} and~\ref{SS:THModelParameterEstimation}).
-\item the column 7 must be a real number that gives the mean of the prior when a prior of type \lstinline[basicstyle = \mlttfamily \small ]!normal! is used, otherwise it must be set to \lstinline[basicstyle = \mlttfamily \small ]!NaN! (see Sections~\ref{S:PARAMESTIMATION} and~\ref{SS:THModelParameterEstimation}).
-\item the column 8 must be a real number that gives the standard deviation of the prior when a prior of type \lstinline[basicstyle = \mlttfamily \small ]!normal! is used, otherwise it must be set to \lstinline[basicstyle = \mlttfamily \small ]!NaN! (see Sections~\ref{S:PARAMESTIMATION} and~\ref{SS:THModelParameterEstimation}).
-\item the column 9 must be a real number that gives the value of the model parameters.
-\item the column 10 must be an integer that gives the reference number of the model parameters. The model parameters sharing the same reference number are constrained to each other.
+\item column 7 must be a real number that gives the mean of the prior when a prior of type \lstinline[basicstyle = \mlttfamily \small ]!normal! is used, otherwise it must be set to \lstinline[basicstyle = \mlttfamily \small ]!NaN! (see Sections~\ref{S:PARAMESTIMATION} and~\ref{SS:THModelParameterEstimation}).
+\item column 8 must be a real number that gives the standard deviation of the prior when a prior of type \lstinline[basicstyle = \mlttfamily \small ]!normal! is used, otherwise it must be set to \lstinline[basicstyle = \mlttfamily \small ]!NaN! (see Sections~\ref{S:PARAMESTIMATION} and~\ref{SS:THModelParameterEstimation}).
+\item column 9 must be a real number that gives the value of the model parameters.
+\item column 10 must be an integer that gives the reference number of the model parameters. The model parameters which share the same reference number are constrained to each other.
 \end{itemize}
 
 \subsection{Initial states values}
 \label{SS:InitialHS}
-This part of the configuration file defines the initial (at time $t=0$) states values.
-The mean and covariance initial hidden states values are stored in the \lstinline[basicstyle = \mlttfamily \small ]!model.initX! and \lstinline[basicstyle = \mlttfamily \small ]!model.initV! fields.
+This part of the configuration file defines the initial states values (at time $t=0$).
+The initial mean and covariance hidden states values are stored in the \lstinline[basicstyle = \mlttfamily \small ]!model.initX! and \lstinline[basicstyle = \mlttfamily \small ]!model.initV! fields.
 The initial probability for the model class is stored in the field \lstinline[basicstyle = \mlttfamily \small ]!model.initS!.
 
 \begin{itemize}
 \item \lstinline[basicstyle = \mlttfamily \small ]!model.initX!: $1\times \mathtt{S}$ cell array of array, where $\mathtt{S} = \{1, 2 \}$ is the total number of model classes.
-Each array is a $\mathtt{L}\times1$ array of real number that stores the initial mean values associated with each hidden states components, where $\mathtt{L}$ is the total number of hidden states components associated with the model.
+Each array is $\mathtt{L}\times1$ array of real number that stores the initial mean values associated with each hidden states components, where $\mathtt{L}$ is the total number of hidden states components associated with the model.
 \item \lstinline[basicstyle = \mlttfamily \small ]!model.initV!: $1\times \mathtt{S}$ cell array of array, where $\mathtt{S} = \{1, 2 \}$ is the total number of model classes.
-Each array is a $\mathtt{L}\times\mathtt{L}$ array of real number that stores the initial variance and covariances values associated with each hidden states components.
+Each array is $\mathtt{L}\times\mathtt{L}$ array of real number that stores the initial variance and covariances values associated with each hidden states components.
 \item \lstinline[basicstyle = \mlttfamily \small ]!model.initS!: $1\times \mathtt{S}$ cell array of array, where $\mathtt{S} = \{1, 2 \}$ is the total number of model classes. 
-Each array is a  $1\times1$ array of real number that gives the initial probability for the model class.
+Each array is $1\times1$ array of real number that gives the initial probability for the model class.
 \end{itemize}
 
 \subsection{Options}
 \label{SS:options}
 This part of the configuration file defines the options that control different aspect of the software regarding the data pre-processing, the optimization, the state estimation, and the aspect of the graphical output.
-The options are stored in the field named \text{options} of the \MATLAB{} structure \lstinline[basicstyle = \mlttfamily \small ]!misc!.
+The options are stored in the field named \text{options} of the \MATLAB{} variable \lstinline[basicstyle = \mlttfamily \small ]!misc!.
 \begin{itemize}
 
 \item options for the data pre-processing

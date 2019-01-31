@@ -269,7 +269,11 @@ for i=1:numberOfTimeSeries
         'YTick', linspace(miny, maxy, ndivy),...
         'box','off',  ...
         'FontSize', 16);
-    ytickformat('%.1f')
+    %ytickformat('%.1f')
+    %ax=gca;
+    %ax.YAxis.TickLabelFormat='%.1f';
+    set(gca, 'YTickMode','manual')
+    set(gca, 'YTickLabel', num2str(get(gca,'YTick')', '%.2e'))
     
     if miny~=maxy
         set(gca,'Ylim',[miny,maxy])
@@ -323,7 +327,9 @@ for i=1:numberOfTimeSeries
             'YTick', [], ...
             'box','off', ...
             'FontSize', 16);
-        ytickformat('%.1f')
+        %ytickformat('%.1f')
+        %ax=gca;
+        %ax.YAxis.TickLabelFormat='%.1f';
         datetick('x','mm-dd','keepticks')
         year=datevec(timestamps(plot_time_2(1)));
         xlabel(['Time [' num2str(year(1)) '--MM-DD]'])

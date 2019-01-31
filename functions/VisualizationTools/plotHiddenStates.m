@@ -296,7 +296,7 @@ for idx=1:numberOfHiddenStates
         if miny~=maxy
             set(gca,'Ylim',[miny,maxy])
         else
-           ndivy=1;
+            ndivy=1;
         end
         
         set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
@@ -351,7 +351,9 @@ for idx=1:numberOfHiddenStates
                 'YTick', [], ...
                 'box', 'off', ...
                 'Fontsize', 16);
-            ytickformat('%.1f')
+            %ytickformat('%.1f')
+%             ax=gca;
+%             ax.YAxis.TickLabelFormat='%.1f';
             datetick('x','mm-dd','keepticks')
             year=datevec(timestamps(plot_time_2(1)));
             xlabel(['Time [' num2str(year(1)) '--MM-DD]'])

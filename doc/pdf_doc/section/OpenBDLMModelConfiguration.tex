@@ -1,23 +1,23 @@
-\section{Model configuration}
+\subsection{Model configuration}
 \label{S:MODELCONFIGURATION}
-After loading and pre-processing the data, the next step of the analysis is the model configuration.
-The model configuration includes, (i) defining the number of model class, (ii) defining the dependencies between the time series in case of multiple time-series analysis, (iii) defining the block components which are assigned to each time series and model class, (iv) defining possible constrain between model parameters.
+%After loading and pre-processing the data, the next step of the analysis is the model configuration.
+Model configuration includes, (i) defining the number of model class, (ii) defining the dependencies between the time series in case of multiple time-series analysis, (iii) defining the block components which are assigned to each time series and model class, (iv) defining possible constrain between model parameters.
 %The dependencies between time-series as well as constrains between model parameters of different model class are also handled during the configuration of the model.
 The \MATLAB{} structure named \lstinline[basicstyle = \mlttfamily]!model.component! stores all the information about the model configuration.
 The structure \lstinline[basicstyle = \mlttfamily]!model.component! has three fields named  \lstinline[basicstyle = \mlttfamily]!model.component.ic!, \lstinline[basicstyle = \mlttfamily]!model.component.block!, and \lstinline[basicstyle = \mlttfamily]!model.component.const!.
 
-\subsection{Dependencies between time-series}
+\subsubsection{Dependencies between time-series}
 
 The field \lstinline[basicstyle = \mlttfamily]!model.component.ic! stores the information between time-series dependencies.
 \lstinline[basicstyle = \mlttfamily \small ]!model.component.ic! stores a $1\times \mathtt{D}$ cell array of $1\times \mathtt{D}-1$ array, where $\mathtt{D}$ is the number of time series.
 Each time-series depend on the time-series corresponding to the indexes given in the $\mathtt{D}$ arrays.
 If the array is empty, the time-series is independent.
 
-\subsection{Block components}
+\subsubsection{Block components}
 
-OpenBDLM supports four types of block components: (1) baseline, (2) periodic, (4) periodic kernel regression, and (3) autoregressive 
+OpenBDLM supports 4 types of block components: (1) baseline, (2) periodic, (4) periodic kernel regression, and (3) autoregressive 
 (1) The baseline component models the local mean of the time series. 
-There are three types of baseline proposed in the software: (i) level only model, (ii) trend model, (iii) acceleration model. 
+There are three types of baseline proposed in OpenBDLM: (i) level model, (ii) trend model, (iii) acceleration model. 
 (2) The periodic component models harmonic periodic phenomena. %, which are most often related to external effects.
 (3) The periodic kernel regression models non-harmonic periodic pattern.
 (4) The autoregressive component models the time dependent model error.
@@ -35,26 +35,26 @@ Each block component is associated with a reference number:
 \item 41: First-order autoregressive
 \item 51: Kernel regression
 \end{itemize}
-The number of hidden states associated with each block component may can be different. 
+The number of hidden states associated with each block component can be different. 
 Each block component can be replicated, each having its own set of model parameters. 
 For instance, two periodic components with periods of 365 days and 1 day can be used to model seasonal and daily variations, respectively.
 
-\subsection{Parameter constrains}
+\subsubsection{Parameter constrains}
 
-The field \lstinline[basicstyle = \mlttfamily]!model.component.const! stores a $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1, 2 \}$ is the total number of model classes.
+The variable \lstinline[basicstyle = \mlttfamily]!model.component.const! stores a $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1, 2 \}$ is the total number of model classes.
 It is defined only if $\mathtt{S} = 2$.
 The first cell is empty, and the second cell is a $1\times \mathtt{D}$ cell array of array, where $\mathtt{D}$ is the number of time series.
 The array contains $0$ and $1$ to indicate which block components of the second model class has the same model parameters than the corresponding component of the first model class. 
 A value of $1$ indicates that the model parameters are constrained between the block components of the two model classes, $0$ otherwise.
 
-\subsection{Number of model class}
+\subsubsection{Number of model class}
 
 OpenBDLM is capable to detect changes of behavior due to changes in the dynamics in the baseline of the time-series. 
-Therefore, the software handles model switching between the three types of baseline dynamics, that is, local level, local trend, and local acceleration models. 
-OpenBDLM supports a maximum of two model dynamics, the software supports six types of model switch: (1) from local level model to local trend model (and reverse), (2) from local level model to acceleration model (and reverse), (3) from local trend to acceleration model (and reverse).
+Therefore, OpenBDLM handles model switching between the three types of baseline dynamics, that is, local level, local trend, and local acceleration models. 
+OpenBDLM supports a maximum of two model dynamics, which includes six types of model switch: (1) from local level model to local trend model (and reverse), (2) from local level model to acceleration model (and reverse), (3) from local trend to acceleration model (and reverse).
 
 
-\subsection{Model configuration functions}
+\subsubsection{Model configuration functions}
 
 The model configuration workflow is presented Figure~\ref{FIG:ModelConfigurationWorkflow}. The list of OpenBDLM functions used for model configuration is:
 
@@ -64,12 +64,12 @@ The model configuration workflow is presented Figure~\ref{FIG:ModelConfiguration
 [data,model,estimation,misc]=ModelConfiguration(data,model,estimation,misc)
  \end{lstlisting}
  
- \item[Models configuration for real data ] \leavevmode
+ \item[Model configuration for real data ] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [data,model,estimation,misc]=configureModelForDataReal(data,model,estimation,misc)
  \end{lstlisting}
  
-  \item[Models configuration for synthetic data (for synthetic data creation only)] \leavevmode
+  \item[Model configuration for synthetic data (for synthetic data creation only)] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [data,model,estimation,misc]=configureModelForDataSimulation(data,model,estimation,misc)
  \end{lstlisting}

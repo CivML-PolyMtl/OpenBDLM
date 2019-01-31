@@ -1,4 +1,4 @@
-\section{Hidden states estimation}
+\subsection{Hidden states estimation}
 \label{S:HIDDENSTATESESTIMATION}
 
 The estimation of the hidden states is the core of OpenBLDM.
@@ -22,7 +22,7 @@ Once a project is loaded, typing \colorbox{light-gray}{\lstinline[basicstyle = \
 Type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!1!} runs the Kalman or UD filter, and typing \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!2!} runs the Kalman or UD smoother.
 The Kalman is the default state estimation method (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.MethodStateEstimation!), but UD computations are more stable in particular in the case of missing data or in case of a sudden increase of the time step.
 
-\subsection{Hidden state estimation functions}
+\subsubsection{Hidden state estimation functions}
 
 The hidden state estimation workflow is presented Figure~\ref{FIG:HiddenStateEstimationWorkflow}.
 The OpenBLDM functions used for hidden state estimation are:
@@ -103,7 +103,7 @@ The OpenBLDM functions used for hidden state estimation are:
 \end{figure}
 
 
-\subsection{Estimation of the initial hidden states}
+\subsubsection{Estimation of the initial hidden states}
 
 OpenBDLM computes default values for the initial (at $t=0$) mean (\lstinline[ basicstyle = \mlttfamily \small]!model.initX!) and covariance (\lstinline[ basicstyle = \mlttfamily \small]!model.initV!) value, as well as the initial model probabilities (\lstinline[ basicstyle = \mlttfamily \small]!model.initS! . %only in the case of $\mathtt{S}=2$ model classes).
 Those initial values are usually poor guesses, which may be refined using Kalman smoothing up to $t=0$.
