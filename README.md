@@ -28,7 +28,7 @@ The Matlab Statistics and Machine Learning Toolbox is required.
 
 ### Getting started
 
-Enter in the folder OpenBDLM-master, and type `OpenBDLM_main();` in the Matlab command line. The OpenBDLM main menu should appear on the Matlab command window:
+Enter in the folder OpenBDLM-master, and type `OpenBDLM_main;` in the Matlab command line. The OpenBDLM main menu should appear on the Matlab command window:
 
 ```
 ----------------------------------------------------------------------------------------------
