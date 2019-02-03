@@ -78,32 +78,37 @@
 \BOOKMARK [3][-]{subsubsection.9.3.2}{Model description}{subsection.9.3}% 78
 \BOOKMARK [3][-]{subsubsection.9.3.3}{Run the example from pre-existing configuration file}{subsection.9.3}% 79
 \BOOKMARK [3][-]{subsubsection.9.3.4}{Run the example from command line interaction}{subsection.9.3}% 80
-\BOOKMARK [2][-]{subsection.9.4}{Example \0434: generate and analyze synthetic data }{section.9}% 81
-\BOOKMARK [3][-]{subsubsection.9.4.1}{Purpose}{subsection.9.4}% 82
+\BOOKMARK [2][-]{subsection.9.4}{Example \0434: single time-series analysis with non-harmonic periodic pattern}{section.9}% 81
+\BOOKMARK [3][-]{subsubsection.9.4.1}{Data description}{subsection.9.4}% 82
 \BOOKMARK [3][-]{subsubsection.9.4.2}{Model description}{subsection.9.4}% 83
-\BOOKMARK [3][-]{subsubsection.9.4.3}{Run the example from command line interaction}{subsection.9.4}% 84
-\BOOKMARK [1][-]{section.10}{FAQ Troubleshooting}{}% 85
-\BOOKMARK [1][-]{section.11}{Reference Theory}{}% 86
-\BOOKMARK [2][-]{subsection.11.1}{Linear gaussian state-space model}{section.11}% 87
-\BOOKMARK [2][-]{subsection.11.2}{Kalman filter \046 UD filters}{section.11}% 88
-\BOOKMARK [2][-]{subsection.11.3}{Switching Kalman filter}{section.11}% 89
-\BOOKMARK [2][-]{subsection.11.4}{Model parameter estimation}{section.11}% 90
-\BOOKMARK [3][-]{subsubsection.11.4.1}{Maximum log A Posteriori \(MAP\)}{subsection.11.4}% 91
-\BOOKMARK [3][-]{subsubsection.11.4.2}{Maximum log Likelihood Estimation \(MLE\)}{subsection.11.4}% 92
-\BOOKMARK [3][-]{subsubsection.11.4.3}{Laplace Approximation}{subsection.11.4}% 93
-\BOOKMARK [3][-]{subsubsection.11.4.4}{Gradient-based optimization}{subsection.11.4}% 94
-\BOOKMARK [3][-]{subsubsection.11.4.5}{Model parameter space transformation}{subsection.11.4}% 95
-\BOOKMARK [2][-]{subsection.11.5}{Block components}{section.11}% 96
-\BOOKMARK [3][-]{subsubsection.11.5.1}{Local level \(baseline\)}{subsection.11.5}% 97
-\BOOKMARK [3][-]{subsubsection.11.5.2}{Local trend \(baseline\)}{subsection.11.5}% 98
-\BOOKMARK [3][-]{subsubsection.11.5.3}{Local acceleration \(baseline\)}{subsection.11.5}% 99
-\BOOKMARK [3][-]{subsubsection.11.5.4}{Local level compatible trend \(baseline\)}{subsection.11.5}% 100
-\BOOKMARK [3][-]{subsubsection.11.5.5}{Local level compatible acceleration \(baseline\)}{subsection.11.5}% 101
-\BOOKMARK [3][-]{subsubsection.11.5.6}{Local trend compatible acceleration \(baseline\)}{subsection.11.5}% 102
-\BOOKMARK [3][-]{subsubsection.11.5.7}{Periodic \(Fourier form\)}{subsection.11.5}% 103
-\BOOKMARK [3][-]{subsubsection.11.5.8}{Periodic \(Kernel regression form\)}{subsection.11.5}% 104
-\BOOKMARK [3][-]{subsubsection.11.5.9}{First order autoregressive}{subsection.11.5}% 105
-\BOOKMARK [2][-]{subsection.11.6}{Handling non-uniform time vector and missing data}{section.11}% 106
-\BOOKMARK [3][-]{subsubsection.11.6.1}{Non-uniform time vector}{subsection.11.6}% 107
-\BOOKMARK [3][-]{subsubsection.11.6.2}{Missing data \(NaN\)}{subsection.11.6}% 108
-\BOOKMARK [2][-]{subsection.11.7}{Dependencies between time-series}{section.11}% 109
+\BOOKMARK [3][-]{subsubsection.9.4.3}{Run the example from pre-existing configuration file}{subsection.9.4}% 84
+\BOOKMARK [3][-]{subsubsection.9.4.4}{Run the example from command line interaction}{subsection.9.4}% 85
+\BOOKMARK [2][-]{subsection.9.5}{Example \0435: generate and analyze synthetic data }{section.9}% 86
+\BOOKMARK [3][-]{subsubsection.9.5.1}{Purpose}{subsection.9.5}% 87
+\BOOKMARK [3][-]{subsubsection.9.5.2}{Model description}{subsection.9.5}% 88
+\BOOKMARK [3][-]{subsubsection.9.5.3}{Run the example from command line interaction}{subsection.9.5}% 89
+\BOOKMARK [1][-]{section.10}{FAQ Troubleshooting}{}% 90
+\BOOKMARK [1][-]{section.11}{Reference Theory}{}% 91
+\BOOKMARK [2][-]{subsection.11.1}{Linear gaussian state-space model}{section.11}% 92
+\BOOKMARK [2][-]{subsection.11.2}{Kalman filter \046 UD filters}{section.11}% 93
+\BOOKMARK [2][-]{subsection.11.3}{Switching Kalman filter}{section.11}% 94
+\BOOKMARK [2][-]{subsection.11.4}{Model parameter estimation}{section.11}% 95
+\BOOKMARK [3][-]{subsubsection.11.4.1}{Maximum log A Posteriori \(MAP\)}{subsection.11.4}% 96
+\BOOKMARK [3][-]{subsubsection.11.4.2}{Maximum log Likelihood Estimation \(MLE\)}{subsection.11.4}% 97
+\BOOKMARK [3][-]{subsubsection.11.4.3}{Laplace Approximation}{subsection.11.4}% 98
+\BOOKMARK [3][-]{subsubsection.11.4.4}{Gradient-based optimization}{subsection.11.4}% 99
+\BOOKMARK [3][-]{subsubsection.11.4.5}{Model parameter space transformation}{subsection.11.4}% 100
+\BOOKMARK [2][-]{subsection.11.5}{Block components}{section.11}% 101
+\BOOKMARK [3][-]{subsubsection.11.5.1}{Local level \(baseline\)}{subsection.11.5}% 102
+\BOOKMARK [3][-]{subsubsection.11.5.2}{Local trend \(baseline\)}{subsection.11.5}% 103
+\BOOKMARK [3][-]{subsubsection.11.5.3}{Local acceleration \(baseline\)}{subsection.11.5}% 104
+\BOOKMARK [3][-]{subsubsection.11.5.4}{Local level compatible trend \(baseline\)}{subsection.11.5}% 105
+\BOOKMARK [3][-]{subsubsection.11.5.5}{Local level compatible acceleration \(baseline\)}{subsection.11.5}% 106
+\BOOKMARK [3][-]{subsubsection.11.5.6}{Local trend compatible acceleration \(baseline\)}{subsection.11.5}% 107
+\BOOKMARK [3][-]{subsubsection.11.5.7}{Periodic \(Fourier form\)}{subsection.11.5}% 108
+\BOOKMARK [3][-]{subsubsection.11.5.8}{Periodic \(Kernel regression form\)}{subsection.11.5}% 109
+\BOOKMARK [3][-]{subsubsection.11.5.9}{First order autoregressive}{subsection.11.5}% 110
+\BOOKMARK [2][-]{subsection.11.6}{Handling non-uniform time vector and missing data}{section.11}% 111
+\BOOKMARK [3][-]{subsubsection.11.6.1}{Non-uniform time vector}{subsection.11.6}% 112
+\BOOKMARK [3][-]{subsubsection.11.6.2}{Missing data \(NaN\)}{subsection.11.6}% 113
+\BOOKMARK [2][-]{subsection.11.7}{Dependencies between time-series}{section.11}% 114

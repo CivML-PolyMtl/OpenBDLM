@@ -1,4 +1,4 @@
-\subsection{Example \#4: generate and analyze synthetic data }
+\subsection{Example \#5: generate and analyze synthetic data }
 \label{S:EXAMPLESYNTHETICDATA}
 
 
@@ -22,8 +22,8 @@ This example corresponds to the OpenBDLM demo presented in Section~\ref{S:OPENBD
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf}
 \caption{Availability}
 \end{subfigure}
-\caption{Data used in example \#4}.
-\label{fig:DataSummaryRaw4}
+\caption{Data used in example \#5}.
+\label{fig:DataSummaryRawSynthetic}
 \end{figure*}
 
 
@@ -47,12 +47,12 @@ The default initial hidden states mean and covariance values, and model probabil
  \pi_{0}^{1,\text{default}} & = 1,
  \end{align*}
  respectively.
-The synthetic data generated from this model structure, model parameters values and initial hidden states values are presented in Figure~\ref{fig:DataSummaryRaw4}.
-The hidden states computed using the same (i.e. true) model structure, model parameters values and initial hidden states values are presented in Figure~\ref{fig:SYNTHETICOptimizedOptimizedExample4}.
+The synthetic data generated from this model structure, model parameters values and initial hidden states values are presented in Figure~\ref{fig:DataSummaryRawSynthetic}.
+The hidden states computed using the same (i.e. true) model structure, model parameters values and initial hidden states values are presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
 
 \subsubsection{Run the example from command line interaction}
 
-This section explains how to run the example \#4, that is, how to generate the synthetic data presented in Figure~\ref{fig:DataSummaryRaw4}, and estimate the hidden states as presented in Figure~\ref{fig:SYNTHETICOptimizedOptimizedExample4}.
+This section explains how to run the example \#4, that is, how to generate the synthetic data presented in Figure~\ref{fig:DataSummaryRawSynthetic}, and estimate the hidden states as presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
 
 
 \begin{enumerate}
@@ -65,9 +65,9 @@ This section explains how to run the example \#4, that is, how to generate the s
 \item Provide  the date corresponding of the last data sample. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2005-01-01!}.
 \item Provide  the timestep in day. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
 \item Select the number of model classes. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-\item Select the model block components. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![13 31 41]!}. The Figure~\ref{fig:DataSummaryRaw4} should popup on screen.
+\item Select the model block components. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![13 31 41]!}. The Figure~\ref{fig:DataSummaryRawSynthetic} should popup on screen.
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
-\item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:SYNTHETICOptimizedOptimizedExample4}.
+\item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
 \item Save and quit OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!}.
 \end{enumerate}
 
@@ -93,7 +93,7 @@ This section explains how to run the example \#4, that is, how to generate the s
 %%The presence of a daily periodic pattern is unclear.
 %Therefore, we choose \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![13 31 41]!}.
 %This model considers a trend stationary model with a yearly periodic pattern, and an autoregressive process to be more realistic.
-%At this time, three figures  that represent the amplitude, timestep and availability of the newly created synthetic data (as shown in Figure~\ref{fig:DataSummaryRaw4}) should popup on the screen.
+%At this time, three figures  that represent the amplitude, timestep and availability of the newly created synthetic data (as shown in Figure~\ref{fig:DataSummaryRawSynthetic}) should popup on the screen.
 %Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!} to save and quit.
 %
 %\subsection{Step 4: explore the model}
@@ -132,7 +132,7 @@ This section explains how to run the example \#4, that is, how to generate the s
 %\caption{Availability}
 %\end{subfigure}
 %\caption{Data used in example \#4}.
-%\label{fig:DataSummaryRaw4}
+%\label{fig:DataSummaryRawSynthetic}
 %\end{figure*}
 
 
@@ -171,7 +171,7 @@ This section explains how to run the example \#4, that is, how to generate the s
 %\includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/default/TS01_AR_6.pdf} 
 %\caption{Estimated displacement autoregressive component}
 %\end{subfigure}
-%\caption{Estimated results using OpenBDLM default model parameters and default initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryRaw4}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively. The red dashed line represent the true the hidden state value.}
+%\caption{Estimated results using OpenBDLM default model parameters and default initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryRawSynthetic}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively. The red dashed line represent the true the hidden state value.}
 %\label{fig:SYNTHETICDefaultDefaultExample4}
 %\end{figure*}
 
@@ -186,7 +186,7 @@ This section explains how to run the example \#4, that is, how to generate the s
 % respectively.
 %Once it is done, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}, and then  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to compute the filtered hidden states using the optimized model parameters and optimized initial hidden states.
 %The value of the log-likelihood is $5011$.
-%The estimated hidden states are presented in Figure~\ref{fig:SYNTHETICOptimizedOptimizedExample4}.
+%The estimated hidden states are presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
 
 
 \begin{figure*}[h!]
@@ -218,8 +218,8 @@ This section explains how to run the example \#4, that is, how to generate the s
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR_6.pdf} 
 \caption{Estimated displacement autoregressive component}
 \end{subfigure}
-\caption{Estimated results using OpenBDLM default model parameters and optimized initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryRaw4}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively. The red dashed line represent the true the hidden state value.}
-\label{fig:SYNTHETICOptimizedOptimizedExample4}
+\caption{Estimated results using OpenBDLM default model parameters and optimized initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryRawSynthetic}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively. The red dashed line represent the true the hidden state value.}
+\label{fig:SYNTHETICOptimizedOptimized}
 \end{figure*}
 
 
