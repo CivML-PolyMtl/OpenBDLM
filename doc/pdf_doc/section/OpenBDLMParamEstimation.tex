@@ -86,6 +86,37 @@ The values of the parameters are saved in the variable \lstinline[basicstyle = \
 
 
 
+%\begin{table}[h]
+
+\begin{longtable}{|C{4cm}"C{4cm} |C{4cm} |N}\thickhline
+$\bm{\theta}$ name  & $\bm{\theta}^{0}$ & $\bm{\theta}$ bounds &\\[25pt]\thickhline
+$\sigma_{w}^{\mathtt{LL}}$  &  $0$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{LT}} $ &  $10^{-7}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{LA}} $ &  $10^{-8}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{LcT}} $ &  $10^{-7}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{LcA}} $ &  $10^{-7}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{TcA}} $ &  $10^{-8}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{P}} $ &  $0$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{AR}} $ &  $10^{-1}\times\sigma_{y_{obs}}$ & $[0,\text{Inf}]$ &\\[25pt]\hline
+$\sigma_{w,0}^{\mathtt{KR}}  $ &  $10^{-1}\times\sigma_{y_{obs}}$  & $[0,\text{Inf}]$ &\\[25pt]\hline
+$\sigma_{w,1}^{\mathtt{KR}}  $ &  $0$  &  $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{v}$ &  $0.05\times\sigma_{y_{obs}}$  &  $[0,\text{Inf}]$ &\\[25pt]\hline
+$\phi^{\mathtt{AR}} $ &  $0.75$ & $[0,1]$ &\\[25pt]\hline
+$p^{\mathtt{P}} $ &  $[365.24, 1, 182.62]$\footnote{One different default value for the period is given for each periodic component.} & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$p^{\mathtt{KR}} $ &  $365.24$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\ell^{\mathtt{KR}} $ &  $0.5$ & $[0,\text{Inf}]$ &\\[25pt]\hline
+$\phi $ &  $0.5$  &  $[-\text{Inf}, \text{Inf}]$ &\\[25pt]\hline
+\caption{Default value of model parameters. $\sigma_{y_{obs}}$ corresponds to the standard deviation of the observed data. Note that default value for synthetic data are different, see~\ref{table:defaultsynthetic} for details.} 
+\label{table:defaultsynthetic}
+\end{longtable}
+
+%\end{table}
+
+
+
+
+
+
 \subsubsection{Model parameter estimation functions}
 
 \begin{description}[style=unboxed]

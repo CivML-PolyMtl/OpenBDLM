@@ -1,5 +1,13 @@
 \documentclass[11pt,twoside]{article}
 
+
+\usepackage{fancyhdr}\pagestyle{fancy}
+\fancyhf{}
+\rhead{OpenBDLM V1.0 reference manual}
+\lhead{\leftmark}
+\cfoot{\thepage}
+
+
 \usepackage{pdfpages}
 
 %FAQ
@@ -7,7 +15,20 @@
 \newcounter{question}
 \setcounter{question}{0}
 
-\usepackage[section]{placeins}
+%\usepackage[section]{placeins}
+
+
+\usepackage{placeins}
+
+\let\Oldsection\section
+\renewcommand{\section}{\FloatBarrier\Oldsection}
+
+\let\Oldsubsection\subsection
+\renewcommand{\subsection}{\FloatBarrier\Oldsubsection}
+
+\let\Oldsubsubsection\subsubsection
+\renewcommand{\subsubsection}{\FloatBarrier\Oldsubsubsection}
+
 
 % bibliography
 \usepackage[numbers]{natbib}
@@ -53,6 +74,17 @@
 \newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}} 
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}m{#1}} 
 \newcolumntype{N}{@{}m{0pt}@{}}
+
+\usepackage{longtable}
+
+\makeatletter
+\newcommand{\thickhline}{%
+    \noalign {\ifnum 0=`}\fi \hrule height 1pt
+    \futurelet \reserved@a \@xhline
+}
+\newcolumntype{"}{@{\hskip\tabcolsep\vrule width 1pt\hskip\tabcolsep}}
+\makeatother
+
 
 % For description
 \usepackage{enumitem}
@@ -135,7 +167,7 @@
 
 \title{\includegraphics[width=100mm]{OpenBDLM_logo.pdf}\\[20pt]
  OpenBDLM V1.0 reference manual}
-\author{Ianis Gaudot, Luong H. Nguyen, James-A. Goulet \\ Polytechnique Montreal}
+\author{Ianis Gaudot, Luong H. Nguyen, and James-A. Goulet \\ Polytechnique Montreal}
 
 \begin{document}
 

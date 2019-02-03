@@ -28,7 +28,7 @@ The time-series is stationary with a level, a yearly periodic, a daily periodic 
 
 \subsubsection{Model description}
 \label{SS:ModelConstructionExample1}
-The model includes one model class, and the block components are 
+The model includes one model class, and the hidden states variables are 
 \begin{gather*}
 \textbf{x}=[x^{\mathtt{LL}}, x^{\mathtt{P1}\text{,yearly}}, x^{\mathtt{P2}\text{,yearly}}, x^{\mathtt{P1}\text{,daily}}, x^{\mathtt{P2}\text{,daily}}, x^{\mathtt{AR}}].
 \end{gather*}
@@ -36,7 +36,7 @@ The associated model parameters are
 \begin{gather*}
 \bm\theta=[\sigma_{w}^{\mathtt{LL}}, p^{\mathtt{P}, \text{yearly}}, \sigma_{w}^{\mathtt{P}, \text{yearly}} , p^{\mathtt{P}, \text{daily}}, \sigma_{w}^{\mathtt{P}, \text{daily}}, \phi^{\mathtt{AR}}, \sigma_{w}^{\mathtt{AR}}, \sigma_{v}].
 \end{gather*}
-The optimized model parameters values computed using the Newton-Rahpson algorithm (see~\ref{SS:THModelParameterEstimation}) are
+The optimized model parameters values computed using the Newton-Raphson algorithm (see~\ref{SS:THModelParameterEstimation}) are
 \begin{gather*}
 \bm\theta^{\text{*}}=[0, 365.2422, 0, 1, 0, 0.97, 0.0192, 7.4258\times10^{-7} ].
 \end{gather*}

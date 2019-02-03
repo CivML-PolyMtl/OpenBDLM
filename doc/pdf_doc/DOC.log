@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  31 JAN 2019 18:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 FEB 2019 19:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -24,6 +24,17 @@ File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
+(/usr/local/texlive/2016/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+\fancy@headwidth=\skip43
+\f@ncyO@elh=\skip44
+\f@ncyO@erh=\skip45
+\f@ncyO@olh=\skip46
+\f@ncyO@orh=\skip47
+\f@ncyO@elf=\skip48
+\f@ncyO@erf=\skip49
+\f@ncyO@olf=\skip50
+\f@ncyO@orf=\skip51
+)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/pdfpages/pdfpages.sty
 Package: pdfpages 2016/04/19 v0.5f Insert pages of external PDF documents (AM)
 
@@ -36,12 +47,12 @@ Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Bcount=\count88
 \calc@Adimen=\dimen103
 \calc@Bdimen=\dimen104
-\calc@Askip=\skip43
-\calc@Bskip=\skip44
+\calc@Askip=\skip52
+\calc@Bskip=\skip53
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count89
-\calc@Cskip=\skip45
+\calc@Cskip=\skip54
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/eso-pic/eso-pic.sty
 Package: eso-pic 2015/07/21 v2.0g eso-pic (RN)
@@ -124,8 +135,8 @@ Package: placeins 2005/04/18  v 2.2
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip46
-\bibsep=\skip47
+\bibhang=\skip55
+\bibsep=\skip56
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count94
 )
@@ -243,9 +254,9 @@ Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
 \netBracketCount@mlpr=\count103
 \blkLvl@mlpr=\count104
 \blkLvlAtClassdef@mlpr=\count105
-\emHeight@mlpr=\skip48
-\jayDepth@mlpr=\skip49
-\sectionRuleOffset@mlpr=\skip50
+\emHeight@mlpr=\skip57
+\jayDepth@mlpr=\skip58
+\sectionRuleOffset@mlpr=\skip59
 \toks@mlpr=\toks18
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/fontenc.sty
@@ -569,7 +580,7 @@ File: microtype-pdftex.def 2016/05/14 v2.6a Definitions specific to pdftex (RS)
 
 LaTeX Info: Redefining \lsstyle on input line 916.
 LaTeX Info: Redefining \lslig on input line 916.
-\MT@outer@space=\skip51
+\MT@outer@space=\skip60
 )
 Package microtype Info: Loading configuration file microtype.cfg.
 
@@ -578,7 +589,7 @@ File: microtype.cfg 2016/05/14 v2.6a microtype main configuration file (RS)
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2016/03/10 v2.15b AMS math features
-\@mathmargin=\skip52
+\@mathmargin=\skip61
 
 For additional information on amsmath, use the `?' option.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -628,8 +639,8 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 635.
 \totwidth@=\dimen167
 \lineht@=\dimen168
 \@envbody=\toks37
-\multlinegap=\skip53
-\multlinetaggap=\skip54
+\multlinegap=\skip62
+\multlinetaggap=\skip63
 \mathdisplay@stack=\toks38
 LaTeX Info: Redefining \[ on input line 2739.
 LaTeX Info: Redefining \] on input line 2740.
@@ -669,7 +680,7 @@ LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
 \g_MT_multlinerow_int=\count141
 \l_MT_multwidth_dim=\dimen172
-\origjot=\skip55
+\origjot=\skip64
 \l_MT_shortvdotswithinadjustabove_dim=\dimen173
 \l_MT_shortvdotswithinadjustbelow_dim=\dimen174
 \l_MT_above_intertext_sep=\dimen175
@@ -1098,9 +1109,9 @@ Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
-\Hy@SectionHShift=\skip56
+\Hy@SectionHShift=\skip65
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 42.
+Package hyperref Info: Option `colorlinks' set `true' on input line 63.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2016/02/20 v1.1-142 Sub-captions (AR)
@@ -1174,24 +1185,42 @@ Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen261
 \extrarowheight=\dimen262
 \NC@list=\toks40
-\extratabsurround=\skip57
-\backup@length=\skip58
+\extratabsurround=\skip66
+\backup@length=\skip67
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
+\LTleft=\skip68
+\LTright=\skip69
+\LTpre=\skip70
+\LTpost=\skip71
+\LTchunksize=\count163
+\LTcapwidth=\dimen263
+\LT@head=\box43
+\LT@firsthead=\box44
+\LT@foot=\box45
+\LT@lastfoot=\box46
+\LT@cols=\count164
+\LT@rows=\count165
+\c@LT@tables=\count166
+\c@LT@chunks=\count167
+\LT@p@ftn=\toks41
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2011/09/28 v3.5.2 Customized lists
-\labelindent=\skip59
-\enit@outerparindent=\dimen263
-\enit@toks=\toks41
-\enit@inbox=\box43
-\enitdp@description=\count163
+\labelindent=\skip72
+\enit@outerparindent=\dimen264
+\enit@toks=\toks42
+\enit@inbox=\box47
+\enitdp@description=\count168
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/rotating/rotating.sty
 Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
-\c@r@tfl@t=\count164
-\rotFPtop=\skip60
-\rotFPbot=\skip61
-\rot@float@box=\box44
-\rot@mess@toks=\toks42
+\c@r@tfl@t=\count169
+\rotFPtop=\skip73
+\rotFPbot=\skip74
+\rot@float@box=\box48
+\rot@mess@toks=\toks43
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibrarycalc.code.tex
@@ -1211,16 +1240,16 @@ s/tikzlibrarydecorations.pathmorphing.code.tex
 s/tikzlibrarydecorations.code.tex
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/modules/pgfmoduledecoration
 s.code.tex
-\pgfdecoratedcompleteddistance=\dimen264
-\pgfdecoratedremainingdistance=\dimen265
-\pgfdecoratedinputsegmentcompleteddistance=\dimen266
-\pgfdecoratedinputsegmentremainingdistance=\dimen267
-\pgf@decorate@distancetomove=\dimen268
-\pgf@decorate@repeatstate=\count165
-\pgfdecorationsegmentamplitude=\dimen269
-\pgfdecorationsegmentlength=\dimen270
+\pgfdecoratedcompleteddistance=\dimen265
+\pgfdecoratedremainingdistance=\dimen266
+\pgfdecoratedinputsegmentcompleteddistance=\dimen267
+\pgfdecoratedinputsegmentremainingdistance=\dimen268
+\pgf@decorate@distancetomove=\dimen269
+\pgf@decorate@repeatstate=\count170
+\pgfdecorationsegmentamplitude=\dimen270
+\pgfdecorationsegmentlength=\dimen271
 )
-\tikz@lib@dec@box=\box45
+\tikz@lib@dec@box=\box49
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/libraries/decorations/pgfli
 brarydecorations.pathmorphing.code.tex))
@@ -1283,26 +1312,26 @@ File: tikzlibraryshapes.multipart.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1
 shapes.multipart.code.tex
 File: pgflibraryshapes.multipart.code.tex 2010/01/07 v3.0.1a (rcs-revision 1.2)
 
-\pgfnodepartlowerbox=\box46
-\pgfnodeparttwobox=\box47
-\pgfnodepartthreebox=\box48
-\pgfnodepartfourbox=\box49
-\pgfnodeparttwentybox=\box50
-\pgfnodepartnineteenbox=\box51
-\pgfnodeparteighteenbox=\box52
-\pgfnodepartseventeenbox=\box53
-\pgfnodepartsixteenbox=\box54
-\pgfnodepartfifteenbox=\box55
-\pgfnodepartfourteenbox=\box56
-\pgfnodepartthirteenbox=\box57
-\pgfnodeparttwelvebox=\box58
-\pgfnodepartelevenbox=\box59
-\pgfnodeparttenbox=\box60
-\pgfnodepartninebox=\box61
-\pgfnodeparteightbox=\box62
-\pgfnodepartsevenbox=\box63
-\pgfnodepartsixbox=\box64
-\pgfnodepartfivebox=\box65
+\pgfnodepartlowerbox=\box50
+\pgfnodeparttwobox=\box51
+\pgfnodepartthreebox=\box52
+\pgfnodepartfourbox=\box53
+\pgfnodeparttwentybox=\box54
+\pgfnodepartnineteenbox=\box55
+\pgfnodeparteighteenbox=\box56
+\pgfnodepartseventeenbox=\box57
+\pgfnodepartsixteenbox=\box58
+\pgfnodepartfifteenbox=\box59
+\pgfnodepartfourteenbox=\box60
+\pgfnodepartthirteenbox=\box61
+\pgfnodeparttwelvebox=\box62
+\pgfnodepartelevenbox=\box63
+\pgfnodeparttenbox=\box64
+\pgfnodepartninebox=\box65
+\pgfnodeparteightbox=\box66
+\pgfnodepartsevenbox=\box67
+\pgfnodepartsixbox=\box68
+\pgfnodepartfivebox=\box69
 )))
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibraryfit.code.tex
@@ -1316,9 +1345,9 @@ File: tikzlibrarymatrix.code.tex 2013/07/12 v3.0.1a (rcs-revision 1.4)
 s/tikzlibrarydecorations.text.code.tex
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/libraries/decorations/pgfli
 brarydecorations.text.code.tex
-\pgf@lib@dec@text@box=\box66
+\pgf@lib@dec@text@box=\box70
 )
-\tikz@lib@dec@te@box=\box67
+\tikz@lib@dec@te@box=\box71
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibraryarrows.code.tex
@@ -1327,15 +1356,15 @@ File: tikzlibraryarrows.code.tex 2008/01/09 v3.0.1a (rcs-revision 1.1)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.
 code.tex
 File: pgflibraryarrows.code.tex 2013/09/23 v3.0.1a (rcs-revision 1.16)
-\arrowsize=\dimen271
+\arrowsize=\dimen272
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.
 meta.code.tex
 File: pgflibraryarrows.meta.code.tex 2015/05/13 v3.0.1a (rcs-revision 1.13)
-\pgfarrowinset=\dimen272
-\pgfarrowlength=\dimen273
-\pgfarrowwidth=\dimen274
-\pgfarrowlinewidth=\dimen275
+\pgfarrowinset=\dimen273
+\pgfarrowlength=\dimen274
+\pgfarrowwidth=\dimen275
+\pgfarrowlinewidth=\dimen276
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibrarybending.code.tex
@@ -1349,58 +1378,64 @@ File: pgfmodulebending.code.tex 2013/09/30 v3.0.1a (rcs-revision 1.18)
 ransformations.code.tex
 File: pgfmodulenonlineartransformations.code.tex 2013/10/09 v3.0.1a (rcs-revisi
 on 1.4)
-\pgftransformnonlinearflatness=\dimen276
+\pgftransformnonlinearflatness=\dimen277
 )
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/libraries/pgflibrarycurvili
 near.code.tex
 File: pgflibrarycurvilinear.code.tex 2015/05/14 v3.0.1a (rcs-revision 1.4)
-\pgf@curvilinear@time@a=\dimen277
-\pgf@curvilinear@length@a=\dimen278
-\pgf@curvilinear@length@b=\dimen279
-\pgf@curvilinear@length@c=\dimen280
-\pgf@curvilinear@length@d=\dimen281
+\pgf@curvilinear@time@a=\dimen278
+\pgf@curvilinear@length@a=\dimen279
+\pgf@curvilinear@length@b=\dimen280
+\pgf@curvilinear@length@c=\dimen281
+\pgf@curvilinear@length@d=\dimen282
 )
-\pgf@arrows@the@rigidity=\dimen282
-)) (./DOC.aux)
+\pgf@arrows@the@rigidity=\dimen283
+)) (./DOC.aux
+
+LaTeX Warning: Label `table:defaultsynthetic' multiply defined.
+
+
+LaTeX Warning: Label `table:defaultsynthetic@cref' multiply defined.
+
+)
 \openout1 = `DOC.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 140.
-LaTeX Font Info:    ... okay on input line 140.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 140.
-LaTeX Font Info:    ... okay on input line 140.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 140.
-LaTeX Font Info:    ... okay on input line 140.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 140.
-LaTeX Font Info:    ... okay on input line 140.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 140.
-LaTeX Font Info:    ... okay on input line 140.
-LaTeX Font Info:    Checking defaults for U/mathx/m/n on input line 140.
-LaTeX Font Info:    ... okay on input line 140.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 140.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 140.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 172.
+LaTeX Font Info:    ... okay on input line 172.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 172.
+LaTeX Font Info:    ... okay on input line 172.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 172.
+LaTeX Font Info:    ... okay on input line 172.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 172.
+LaTeX Font Info:    ... okay on input line 172.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 172.
+LaTeX Font Info:    ... okay on input line 172.
+LaTeX Font Info:    Checking defaults for U/mathx/m/n on input line 172.
+LaTeX Font Info:    ... okay on input line 172.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 172.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 172.
 
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 140.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 140.
-LaTeX Font Info:    ... okay on input line 140.
-\AtBeginShipoutBox=\box68
+LaTeX Font Info:    ... okay on input line 172.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 172.
+LaTeX Font Info:    ... okay on input line 172.
+\AtBeginShipoutBox=\box72
 
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count166
-\scratchdimen=\dimen283
-\scratchbox=\box69
-\nofMPsegments=\count167
-\nofMParguments=\count168
-\everyMPshowfont=\toks43
-\MPscratchCnt=\count169
-\MPscratchDim=\dimen284
-\MPnumerator=\count170
-\makeMPintoPDFobject=\count171
-\everyMPtoPDFconversion=\toks44
+\scratchcounter=\count171
+\scratchdimen=\dimen284
+\scratchbox=\box73
+\nofMPsegments=\count172
+\nofMParguments=\count173
+\everyMPshowfont=\toks44
+\MPscratchCnt=\count174
+\MPscratchDim=\dimen285
+\MPnumerator=\count175
+\makeMPintoPDFobject=\count176
+\everyMPtoPDFconversion=\toks45
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -1424,10 +1459,10 @@ Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-\c@lstlisting=\count172
+\c@lstlisting=\count177
 
 ABD: EveryShipout initializing macros
-LaTeX Info: Redefining \microtypecontext on input line 140.
+LaTeX Info: Redefining \microtypecontext on input line 172.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1442,7 +1477,7 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-Package hyperref Info: Link coloring ON on input line 140.
+Package hyperref Info: Link coloring ON on input line 172.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1450,27 +1485,32 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count173
+\c@section@level=\count178
 )
-LaTeX Info: Redefining \ref on input line 140.
-LaTeX Info: Redefining \pageref on input line 140.
-LaTeX Info: Redefining \nameref on input line 140.
+LaTeX Info: Redefining \ref on input line 172.
+LaTeX Info: Redefining \pageref on input line 172.
+LaTeX Info: Redefining \nameref on input line 172.
 
 (./DOC.out) (./DOC.out)
 \@outlinefile=\write4
 \openout4 = `DOC.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: longtable package is loaded.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2013/06/09 v1.4-94 longtable captions (AR)
+)
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
 
-<./docfigs/OpenBDLM_logo.pdf, id=445, 279.5765pt x 80.73552pt>
+<./docfigs/OpenBDLM_logo.pdf, id=465, 279.5765pt x 80.73552pt>
 File: ./docfigs/OpenBDLM_logo.pdf Graphic file (type pdf)
 
 <use ./docfigs/OpenBDLM_logo.pdf>
-Package pdftex.def Info: ./docfigs/OpenBDLM_logo.pdf used on input line 158.
+Package pdftex.def Info: ./docfigs/OpenBDLM_logo.pdf used on input line 190.
 (pdftex.def)             Requested size: 284.52756pt x 82.16803pt.
-LaTeX Font Info:    Try loading font information for U+msa on input line 158.
+LaTeX Font Info:    Try loading font information for U+msa on input line 190.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1478,7 +1518,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 158.
+LaTeX Font Info:    Try loading font information for U+msb on input line 190.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1486,24 +1526,45 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 158.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 190.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 158.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 190.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 158.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 190.
  (./DOC.toc
 [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./docfi
-gs/OpenBDLM_logo.pdf>] [2] [3])
+gs/OpenBDLM_logo.pdf>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[2]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[3])
 \tf@toc=\write5
 \openout5 = `DOC.toc'.
 
- [4] (./section/OpenBDLMGettingStarted.tex
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[4] (./section/OpenBDLMGettingStarted.tex
 LaTeX Font Info:    Try loading font information for T1+cmtt on input line 10.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1cmtt.fd
@@ -1541,14 +1602,20 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
 (Font)              scaled to size 8.50006pt on input line 31.
- [5]
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[5]
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 53.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 53.
 LaTeX Font Info:    Try loading font information for TS1+fvm on input line 61.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/bera/ts1fvm.fd
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/bera/ts1fvm.fd
 File: ts1fvm.fd 2004/09/07 scalable font definitions for TS1/fvm.
 )
 LaTeX Font Info:    Font shape `TS1/fvm/m/n' will be
@@ -1557,16 +1624,38 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             `fvm' (encoding: TS1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+
+
+LaTeX Warning: Reference `fig:DataSummaryRaw4' on page 6 undefined on input lin
+e 82.
+
+
+LaTeX Warning: Reference `fig:SYNTHETICOptimizedOptimizedExample4' on page 6 un
+defined on input line 82.
+
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <9> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 82.
 
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6]) (./section/OpenBDLMInputOutput.tex
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [7]
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[6]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) (./section/OpenBDLMInputOutput.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[7]
 Underfull \hbox (badness 10000) in paragraph at lines 8--9
 
  []
@@ -1596,15 +1685,90 @@ Underfull \hbox (badness 10000) in paragraph at lines 25--27
 
  []
 
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 [8]
 Package microtype Info: Loading generic settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [9] [10]) (./section/OpenBDLMRunningModes.tex [11])
-(./section/OpenBDLMConfigurationFile.tex [12] [13] [14] [15] [16] [17])
-(./section/OpenBDLMMainWorkflow.tex
-<./docfigs/user_logo.png, id=780, 411.136pt x 411.136pt>
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[9]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[10]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[11]) (./section/OpenBDLMRunningModes.tex)
+(./section/OpenBDLMConfigurationFile.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[12]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[13]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[14]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[15]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[16]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[17]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[18]) (./section/OpenBDLMMainWorkflow.tex
+<./docfigs/user_logo.png, id=806, 411.136pt x 411.136pt>
 File: ./docfigs/user_logo.png Graphic file (type png)
 
 <use ./docfigs/user_logo.png>
@@ -1628,33 +1792,155 @@ Overfull \hbox (28.7013pt too wide) in paragraph at lines 69--70
  [][] 
  []
 
-(./section/OpenBDLMDataLoading.tex [18] [19 <./docfigs/user_logo.png>] [20]
+(./section/OpenBDLMDataLoading.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[19]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[20 <./docfigs/user_logo.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[21]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 ) (./section/OpenBDLMDataEditingPreProcessing.tex
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-[21] [22] [23]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-) (./section/OpenBDLMModelConfiguration.tex [24] [25] [26] [27])
-(./section/OpenBDLMModelConstruction.tex [28])
-(./section/OpenBDLMParamEstimation.tex
-Underfull \vbox (badness 1584) has occurred while \output is active []
-
- [29]
-[30]
+[22]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[23]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[24]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[25]) (./section/OpenBDLMModelConfiguration.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[26]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[27]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[28]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) (./section/OpenBDLMModelConstruction.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[29]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[30]) (./section/OpenBDLMParamEstimation.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
 [31]
-Underfull \vbox (badness 5050) has occurred while \output is active []
 
- [32]
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[32]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Overfull \hbox (19.63304pt too wide) in alignment at lines 91--111
+ [] [] [] [] 
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 [33]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[34]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[35]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[36]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1664,7 +1950,44 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./section/OpenBDLMHiddenStatesEstimation.tex [34] [35] [36]
+) (./section/OpenBDLMHiddenStatesEstimation.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[37]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[38]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[39]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[40]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[41
+
+]
 Overfull \hbox (81.18451pt too wide) in paragraph at lines 101--102
  [][] 
  []
@@ -1673,15 +1996,85 @@ Overfull \hbox (81.18451pt too wide) in paragraph at lines 101--102
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-)) (./section/OpenBDLMCreatingSyntheticData.tex [37] [38] [39] [40] [41
+[42]
 
-]
-Underfull \vbox (badness 3118) has occurred while \output is active []
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
- [42]
-[43]) (./section/OpenBDLMResults.tex [44] [45] [46] [47] [48]
+[43])) (./section/OpenBDLMCreatingSyntheticData.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[44]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[45]
+Underfull \vbox (badness 2662) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[46]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[47]) (./section/OpenBDLMResults.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[48]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[49]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[50]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[51]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[52]
 Underfull \hbox (badness 3407) in paragraph at lines 181--181
 [][][]\T1/cmr/m/n/9 (+20) Yair Alt-man, 2011, ex-port_fig, [][]$\T1/cmtt/m/n/9 
 https : / / www . mathworks . com / matlabcentral /
@@ -1693,17 +2086,43 @@ Underfull \hbox (badness 1845) in paragraph at lines 181--181
  https : / / www . mathworks . com / matlabcentral /
  []
 
-[49]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[53]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) (./section/OpenBDLMVersionControl.tex [50]
+) (./section/OpenBDLMVersionControl.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[54]
 Underfull \vbox (badness 5288) has occurred while \output is active []
 
- [51])
-(./section/OpenBDLMExamples.tex (./section/OpenBDLMExampleSingleTimeSeries.tex
-[52]
-<./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf, id=1292, 708.65958pt x 179.9
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[55]) (./section/OpenBDLMExamples.tex
+(./section/OpenBDLMExampleSingleTimeSeries.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[56]
+<./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf, id=1337, 708.65958pt x 179.9
 6436pt>
 File: ./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf>
@@ -1711,7 +2130,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf used
 on input line 13.
 (pdftex.def)             Requested size: 323.9978pt x 82.27933pt.
 
-<./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf, id=1293, 696.85344pt x 181.47
+<./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf, id=1338, 696.85344pt x 181.47
 198pt>
 File: ./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf>
@@ -1719,17 +2138,24 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf used o
 n input line 17.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf, id=1294, 680.3769pt x 174.3885
+<./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf, id=1339, 680.3769pt x 174.3885
 2pt>
 File: ./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf used on
  input line 21.
 (pdftex.def)             Requested size: 323.9978pt x 83.04295pt.
- [53 <./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_DISP
-SIM/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf>]
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[57 <./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_DISPS
+IM/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf>]
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_ObservedPr
-edicted.pdf, id=1331, 705.299pt x 179.95934pt>
+edicted.pdf, id=1376, 705.299pt x 179.95934pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_Obser
 vedPredicted.pdf Graphic file (type pdf)
 
@@ -1740,7 +2166,7 @@ denstate/DISP_ObservedPredicted.pdf used on input line 55.
 (pdftex.def)             Requested size: 323.9978pt x 82.6697pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf, 
-id=1332, 712.75287pt x 179.92018pt>
+id=1377, 712.75287pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.
 pdf Graphic file (type pdf)
 
@@ -1751,7 +2177,7 @@ denstate/DISP_LL_1.pdf used on input line 59.
 (pdftex.def)             Requested size: 323.9978pt x 81.78418pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.pdf, 
-id=1333, 715.45491pt x 179.91817pt>
+id=1378, 715.45491pt x 179.91817pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.
 pdf Graphic file (type pdf)
 
@@ -1762,7 +2188,7 @@ denstate/DISP_S1_2.pdf used on input line 63.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.pdf, 
-id=1334, 739.80792pt x 179.92018pt>
+id=1379, 739.80792pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.
 pdf Graphic file (type pdf)
 
@@ -1773,7 +2199,7 @@ denstate/DISP_S1_4.pdf used on input line 67.
 (pdftex.def)             Requested size: 323.9978pt x 78.79723pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.pdf, 
-id=1335, 715.45491pt x 179.92218pt>
+id=1380, 715.45491pt x 179.92218pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.
 pdf Graphic file (type pdf)
 
@@ -1789,6 +2215,25 @@ LaTeX Warning: Float too large for page by 35.20978pt on input line 77.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[58]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[59 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_Observ
+edPredicted.pdf> <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstat
+e/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstat
+e/DISP_S1_2.pdf> <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstat
+e/DISP_S1_4.pdf> <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstat
+e/DISP_AR_6.pdf>]
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
 (Font)              scaled to size 6.80005pt on input line 95.
 LaTeX Font Info:    Font shape `T1/fvm/bx/n' in size <8> not available
@@ -1798,13 +2243,36 @@ LaTeX Font Info:    Font shape `T1/fvm/b/n' will be
 LaTeX Font Info:    Font shape `TS1/fvm/m/n' will be
 (Font)              scaled to size 6.80005pt on input line 100.
 
+
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[54]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[60
+
+]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [55]
-<./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png, id=1415
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[61]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[62]
+<./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png, id=1558
 , 1096.095pt x 686.565pt>
 File: ./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png Gra
 phic file (type png)
@@ -1813,12 +2281,16 @@ phic file (type png)
 Package pdftex.def Info: ./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfi
 les_annoted.png used on input line 175.
 (pdftex.def)             Requested size: 323.9978pt x 202.94348pt.
+)
+(./section/OpenBDLMExampleDependenceModel.tex
 
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-) (./section/OpenBDLMExampleDependenceModel.tex [56]
-<./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf, id=1446, 722.09973pt x 1
+[63 <./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png>]
+<./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf, id=1575, 722.09973pt x 1
 84.79037pt>
 File: ./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf Graphic file (type p
 df)
@@ -1827,7 +2299,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf u
 sed on input line 21.
 (pdftex.def)             Requested size: 323.9978pt x 82.9124pt.
 
-<./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf, id=1447, 696.85344pt x 19
+<./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf, id=1576, 696.85344pt x 19
 8.18341pt>
 File: ./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf Graphic file (type pd
 f)
@@ -1836,7 +2308,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf us
 ed on input line 25.
 (pdftex.def)             Requested size: 323.9978pt x 92.14223pt.
 
-<./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf, id=1448, 680.3769pt x 174.
+<./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf, id=1577, 680.3769pt x 174.
 38852pt>
 File: ./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf Graphic file (type pdf
 )
@@ -1845,11 +2317,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf use
 d on input line 29.
 (pdftex.def)             Requested size: 323.9978pt x 83.04295pt.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf, id=1449
+<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf, id=1578
 , 722.09973pt x 184.79037pt>
 File: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf Gra
 phic file (type pdf)
@@ -1859,7 +2327,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL
 _AMPLITUDES.pdf used on input line 40.
 (pdftex.def)             Requested size: 323.9978pt x 82.9124pt.
 
-<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf, id=1450,
+<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf, id=1579,
  696.85344pt x 198.18341pt>
 File: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf Grap
 hic file (type pdf)
@@ -1869,7 +2337,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL
 _TIMESTEPS.pdf used on input line 44.
 (pdftex.def)             Requested size: 323.9978pt x 92.14223pt.
 
-<./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf, id=1451, 
+<./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf, id=1580, 
 680.3769pt x 174.38852pt>
 File: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf Graph
 ic file (type pdf)
@@ -1882,107 +2350,156 @@ ILABILITY.pdf used on input line 48.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[57] [58]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[64 <./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_D
+ISPTEMPSIM/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPTEMPSIM/raw/AVAILABILI
+TY.pdf>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[65 <./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf> <./
+docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf> <./docfigs/
+Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[66]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[67]
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_Observ
-edPredicted.pdf, id=1483, 705.299pt x 179.96033pt>
+edPredicted.pdf, id=1693, 705.299pt x 179.96033pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_O
 bservedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_Ob
 servedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/DISP_ObservedPredicted.pdf used on input line 354.
+lhiddenstate/DISP_ObservedPredicted.pdf used on input line 355.
 (pdftex.def)             Requested size: 323.9978pt x 82.67015pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.p
-df, id=1484, 712.75287pt x 179.91817pt>
+df, id=1694, 712.75287pt x 179.91817pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_L
 L_1.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_LL
 _1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/DISP_LL_1.pdf used on input line 358.
+lhiddenstate/DISP_LL_1.pdf used on input line 359.
 (pdftex.def)             Requested size: 323.9978pt x 81.78328pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_AR_2.p
-df, id=1485, 715.45491pt x 179.92018pt>
+df, id=1695, 715.45491pt x 179.92018pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_A
 R_2.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_AR
 _2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/DISP_AR_2.pdf used on input line 362.
+lhiddenstate/DISP_AR_2.pdf used on input line 363.
 (pdftex.def)             Requested size: 323.9978pt x 81.47945pt.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_Observ
-edPredicted.pdf, id=1486, 718.73921pt x 179.96535pt>
+edPredicted.pdf, id=1696, 718.73921pt x 179.96535pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_O
 bservedPredicted.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_Ob
 servedPredicted.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_ObservedPredicted.pdf used on input line 369.
+lhiddenstate/TEMP_ObservedPredicted.pdf used on input line 370.
 (pdftex.def)             Requested size: 323.9978pt x 81.12643pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_LL_1.p
-df, id=1487, 686.27289pt x 172.95816pt>
+df, id=1697, 686.27289pt x 172.95816pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_L
 L_1.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_LL
 _1.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_LL_1.pdf used on input line 373.
+lhiddenstate/TEMP_LL_1.pdf used on input line 374.
 (pdftex.def)             Requested size: 323.9978pt x 81.65718pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_2.p
-df, id=1488, 718.16302pt x 179.92117pt>
+df, id=1698, 718.16302pt x 179.92117pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S
 1_2.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1
 _2.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_S1_2.pdf used on input line 377.
+lhiddenstate/TEMP_S1_2.pdf used on input line 378.
 (pdftex.def)             Requested size: 323.9978pt x 81.16968pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_4.p
-df, id=1489, 715.45491pt x 179.92218pt>
+df, id=1699, 715.45491pt x 179.92218pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S
 1_4.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1
 _4.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_S1_4.pdf used on input line 381.
+lhiddenstate/TEMP_S1_4.pdf used on input line 382.
 (pdftex.def)             Requested size: 323.9978pt x 81.48036pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_AR_6.p
-df, id=1490, 723.57228pt x 179.92018pt>
+df, id=1700, 723.57228pt x 179.92018pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_A
 R_6.pdf Graphic file (type pdf)
 
 <use ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_AR
 _6.pdf>
 Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initia
-lhiddenstate/TEMP_AR_6.pdf used on input line 385.
+lhiddenstate/TEMP_AR_6.pdf used on input line 386.
 (pdftex.def)             Requested size: 323.9978pt x 80.5625pt.
 
 
-LaTeX Warning: Float too large for page by 22.99593pt on input line 390.
+LaTeX Warning: Float too large for page by 22.99593pt on input line 391.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-) (./section/OpenBDLMExampleAnomaly.tex [59]
-<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf, id=1519, 722.09973pt
+) (./section/OpenBDLMExampleAnomaly.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[68 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_Ob
+servedPredicted.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhi
+ddenstate/DISP_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initi
+alhiddenstate/DISP_AR_2.pdf>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[69 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_Ob
+servedPredicted.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhi
+ddenstate/TEMP_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initi
+alhiddenstate/TEMP_S1_2.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_i
+nitialhiddenstate/TEMP_S1_4.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_opt
+im_initialhiddenstate/TEMP_AR_6.pdf>]
+<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf, id=1844, 722.09973pt
  x 180.677pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf Graphic file (ty
 pe pdf)
@@ -1991,7 +2508,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.p
 df used on input line 18.
 (pdftex.def)             Requested size: 323.9978pt x 81.0668pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf, id=1520, 696.85442pt 
+<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf, id=1845, 696.85442pt 
 x 181.47198pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf Graphic file (typ
 e pdf)
@@ -2000,7 +2517,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pd
 f used on input line 22.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf, id=1521, 680.37788pt x
+<./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf, id=1846, 680.37788pt x
  174.38852pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf Graphic file (type
  pdf)
@@ -2010,11 +2527,18 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf
 (pdftex.def)             Requested size: 323.9978pt x 83.04295pt.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-[60]
+[70
+
+ <./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_
+DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPSIM_ANOMALY/raw/A
+VAILABILITY.pdf>]
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_Ob
-servedPredicted.pdf, id=1529, 718.73921pt x 180.67902pt>
+servedPredicted.pdf, id=1879, 718.73921pt x 180.67902pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_ObservedPredicted.pdf Graphic file (type pdf)
 
@@ -2025,7 +2549,7 @@ itialhiddenstate/DISP_ObservedPredicted.pdf used on input line 75.
 (pdftex.def)             Requested size: 323.9978pt x 81.44815pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/ModelPr
-obability.pdf, id=1530, 702.72437pt x 179.95934pt>
+obability.pdf, id=1880, 702.72437pt x 179.95934pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/Mo
 delProbability.pdf Graphic file (type pdf)
 
@@ -2036,7 +2560,7 @@ itialhiddenstate/ModelProbability.pdf used on input line 79.
 (pdftex.def)             Requested size: 323.9978pt x 82.97176pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LL
-_1.pdf, id=1531, 718.16302pt x 179.92018pt>
+_1.pdf, id=1881, 718.16302pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_LL_1.pdf Graphic file (type pdf)
 
@@ -2047,7 +2571,7 @@ itialhiddenstate/DISP_LL_1.pdf used on input line 83.
 (pdftex.def)             Requested size: 323.9978pt x 81.16922pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LT
-_2.pdf, id=1532, 715.45596pt x 179.91817pt>
+_2.pdf, id=1882, 715.45596pt x 179.91817pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_LT_2.pdf Graphic file (type pdf)
 
@@ -2058,7 +2582,7 @@ itialhiddenstate/DISP_LT_2.pdf used on input line 87.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LA
-c_3.pdf, id=1533, 738.90556pt x 179.92117pt>
+c_3.pdf, id=1883, 738.90556pt x 179.92117pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_LAc_3.pdf Graphic file (type pdf)
 
@@ -2073,7 +2597,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_S1
-_4.pdf, id=1534, 715.45596pt x 179.91617pt>
+_4.pdf, id=1884, 715.45596pt x 179.91617pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_S1_4.pdf Graphic file (type pdf)
 
@@ -2084,7 +2608,7 @@ itialhiddenstate/DISP_S1_4.pdf used on input line 98.
 (pdftex.def)             Requested size: 323.9978pt x 81.47763pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_AR
-_6.pdf, id=1535, 692.93878pt x 172.95517pt>
+_6.pdf, id=1885, 692.93878pt x 172.95517pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_AR_6.pdf Graphic file (type pdf)
 
@@ -2097,8 +2621,179 @@ itialhiddenstate/DISP_AR_6.pdf used on input line 102.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[61]) (./section/OpenBDLMExampleCreatingSyntheticData.tex [62]
-<./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf, id=1581, 722.10176pt x 179
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[71]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[72 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
+P_ObservedPredicted.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_i
+nitialhiddenstate/ModelProbability.pdf> <./docfigs/Example_DISPSIM_ANOMALY/opti
+m_param_optim_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM_ANOM
+ALY/optim_param_optim_initialhiddenstate/DISP_LT_2.pdf> <./docfigs/Example_DISP
+SIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LAc_3.pdf>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[73 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DIS
+P_S1_4.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddens
+tate/DISP_AR_6.pdf>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[74
+
+]) (./section/OpenBDLMExampleTraffic.tex
+<./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf, id=2016, 709.2417pt x 179.92
+018pt>
+File: ./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf Graphic file (type pdf)
+ <use ./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf>
+Package pdftex.def Info: ./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf used 
+on input line 17.
+(pdftex.def)             Requested size: 323.9978pt x 82.19324pt.
+
+<./docfigs/Example_TRAFFIC/raw/ALL_TIMESTEPS.pdf, id=2017, 696.85846pt x 181.47
+198pt>
+File: ./docfigs/Example_TRAFFIC/raw/ALL_TIMESTEPS.pdf Graphic file (type pdf)
+ <use ./docfigs/Example_TRAFFIC/raw/ALL_TIMESTEPS.pdf>
+Package pdftex.def Info: ./docfigs/Example_TRAFFIC/raw/ALL_TIMESTEPS.pdf used o
+n input line 21.
+(pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
+
+<./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf, id=2018, 680.38193pt x 174.388
+52pt>
+File: ./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf Graphic file (type pdf)
+ <use ./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf>
+Package pdftex.def Info: ./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf used on
+ input line 25.
+(pdftex.def)             Requested size: 323.9978pt x 83.04295pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[75]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[76 <./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_TRAFF
+IC/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf>]
+<./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_Obs
+ervedPredicted.pdf, id=2062, 711.29037pt x 179.92117pt>
+File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
+d_ObservedPredicted.pdf Graphic file (type pdf)
+
+<use ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad
+_ObservedPredicted.pdf>
+Package pdftex.def Info: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhid
+denstate/TrafficLoad_ObservedPredicted.pdf used on input line 79.
+(pdftex.def)             Requested size: 323.9978pt x 81.95485pt.
+
+<./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_LL_
+1.pdf, id=2063, 704.64052pt x 179.92018pt>
+File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
+d_LL_1.pdf Graphic file (type pdf)
+
+<use ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad
+_LL_1.pdf>
+Package pdftex.def Info: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhid
+denstate/TrafficLoad_LL_1.pdf used on input line 83.
+(pdftex.def)             Requested size: 323.9978pt x 82.72858pt.
+
+<./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_KR0
+_2.pdf, id=2064, 710.04971pt x 184.59264pt>
+File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
+d_KR0_2.pdf Graphic file (type pdf)
+
+<use ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad
+_KR0_2.pdf>
+Package pdftex.def Info: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhid
+denstate/TrafficLoad_KR0_2.pdf used on input line 87.
+(pdftex.def)             Requested size: 323.9978pt x 84.232pt.
+
+<./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_KR1
+_3.pdf, id=2065, 710.04971pt x 184.59064pt>
+File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
+d_KR1_3.pdf Graphic file (type pdf)
+
+<use ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad
+_KR1_3.pdf>
+Package pdftex.def Info: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhid
+denstate/TrafficLoad_KR1_3.pdf used on input line 91.
+(pdftex.def)             Requested size: 323.9978pt x 84.2311pt.
+
+<./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_AR_
+4.pdf, id=2066, 710.04971pt x 180.62582pt>
+File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
+d_AR_4.pdf Graphic file (type pdf)
+
+<use ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad
+_AR_4.pdf>
+Package pdftex.def Info: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhid
+denstate/TrafficLoad_AR_4.pdf used on input line 95.
+(pdftex.def)             Requested size: 323.9978pt x 82.42189pt.
+
+
+LaTeX Warning: Float too large for page by 44.56818pt on input line 101.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[77]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[78 <./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad
+_ObservedPredicted.pdf> <./docfigs/Example_TRAFFIC/optim_param_optim_initialhid
+denstate/TrafficLoad_LL_1.pdf> <./docfigs/Example_TRAFFIC/optim_param_optim_ini
+tialhiddenstate/TrafficLoad_KR0_2.pdf> <./docfigs/Example_TRAFFIC/optim_param_o
+ptim_initialhiddenstate/TrafficLoad_KR1_3.pdf> <./docfigs/Example_TRAFFIC/optim
+_param_optim_initialhiddenstate/TrafficLoad_AR_4.pdf>]
+
+LaTeX Warning: Reference `fig:Example_DISPSIMOptimizedOptimizedExampleTraffic' 
+on page 79 undefined on input line 124.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[79
+
+]) (./section/OpenBDLMExampleCreatingSyntheticData.tex
+<./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf, id=2168, 722.10176pt x 179
 .95831pt>
 File: ./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf Graphic file (type pdf
 )
@@ -2107,7 +2802,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf use
 d on input line 14.
 (pdftex.def)             Requested size: 323.9978pt x 80.74434pt.
 
-<./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf, id=1582, 696.85645pt x 181.
+<./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf, id=2169, 696.85645pt x 181.
 47198pt>
 File: ./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf Graphic file (type pdf)
 
@@ -2116,7 +2811,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf used
  on input line 18.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf, id=1583, 680.37886pt x 174.3
+<./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf, id=2170, 680.37886pt x 174.3
 8852pt>
 File: ./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf Graphic file (type pdf)
  <use ./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf>
@@ -2125,11 +2820,30 @@ on input line 22.
 (pdftex.def)             Requested size: 323.9978pt x 83.04295pt.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-[63]
+[80]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[81 <./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_SYN
+THETIC/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf
+>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[82]
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_Observed
-Predicted.pdf, id=1594, 718.74124pt x 179.95934pt>
+Predicted.pdf, id=2241, 718.74124pt x 179.95934pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_Obs
 ervedPredicted.pdf Graphic file (type pdf)
 
@@ -2140,7 +2854,7 @@ iddenstate/TS01_ObservedPredicted.pdf used on input line 195.
 (pdftex.def)             Requested size: 323.9978pt x 81.12373pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_1.pdf
-, id=1595, 718.16505pt x 179.92117pt>
+, id=2242, 718.16505pt x 179.92117pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_
 1.pdf Graphic file (type pdf)
 
@@ -2151,7 +2865,7 @@ iddenstate/TS01_LL_1.pdf used on input line 199.
 (pdftex.def)             Requested size: 323.9978pt x 81.16968pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_2.pdf
-, id=1596, 715.45694pt x 179.91817pt>
+, id=2243, 715.45694pt x 179.91817pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_
 2.pdf Graphic file (type pdf)
 
@@ -2162,7 +2876,7 @@ iddenstate/TS01_LT_2.pdf used on input line 203.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA_3.pdf
-, id=1597, 744.31677pt x 179.92018pt>
+, id=2244, 744.31677pt x 179.92018pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA_
 3.pdf Graphic file (type pdf)
 
@@ -2172,12 +2886,8 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialh
 iddenstate/TS01_LA_3.pdf used on input line 207.
 (pdftex.def)             Requested size: 323.9978pt x 78.31679pt.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_S1_4.pdf
-, id=1598, 718.16505pt x 179.92117pt>
+, id=2245, 718.16505pt x 179.92117pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_S1_
 4.pdf Graphic file (type pdf)
 
@@ -2188,7 +2898,7 @@ iddenstate/TS01_S1_4.pdf used on input line 214.
 (pdftex.def)             Requested size: 323.9978pt x 81.16968pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR_6.pdf
-, id=1599, 715.45694pt x 179.91617pt>
+, id=2246, 715.45694pt x 179.91617pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR_
 6.pdf Graphic file (type pdf)
 
@@ -2201,118 +2911,238 @@ iddenstate/TS01_AR_6.pdf used on input line 218.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-)) (./section/OpenBDLMFAQ.tex [64] [65 <./docfigs/Example_DISPSIM/optim_param_o
-ptim_initialhiddenstate/DISP_ObservedPredicted.pdf> <./docfigs/Example_DISPSIM/
-optim_param_optim_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM/
-optim_param_optim_initialhiddenstate/DISP_S1_2.pdf> <./docfigs/Example_DISPSIM/
-optim_param_optim_initialhiddenstate/DISP_S1_4.pdf> <./docfigs/Example_DISPSIM/
-optim_param_optim_initialhiddenstate/DISP_AR_6.pdf>] [66 <./docfigs/Example_DIS
-PSIM/dataloading_DISPSIM_uipickfiles_annoted.png>] [67 <./docfigs/Example_DISPT
-EMPSIM/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS
-.pdf> <./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf>] [68 <./docfigs/Exam
-ple_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf> <./docfigs/Example_DIS
-PTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPTEMPSIM
-/preprocessed_default/AVAILABILITY.pdf>] [69 <./docfigs/Example_DISPTEMPSIM/opt
-im_param_optim_initialhiddenstate/DISP_ObservedPredicted.pdf> <./docfigs/Exampl
-e_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf> <./docfigs/Ex
-ample_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_AR_2.pdf>] [70 <./d
-ocfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_ObservedPr
-edicted.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstat
-e/TEMP_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhidden
-state/TEMP_S1_2.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhi
-ddenstate/TEMP_S1_4.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initi
-alhiddenstate/TEMP_AR_6.pdf>] [71 <./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AM
-PLITUDES.pdf> <./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf> <./docf
-igs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf>] [72 <./docfigs/Example_DISPS
-IM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_ObservedPredicted.pdf> <./
-docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/ModelProba
-bility.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddens
-tate/DISP_LL_1.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initia
-lhiddenstate/DISP_LT_2.pdf> <./docfigs/Example_DISPSIM_ANOMALY/optim_param_opti
-m_initialhiddenstate/DISP_LAc_3.pdf>] [73 <./docfigs/Example_DISPSIM_ANOMALY/op
-tim_param_optim_initialhiddenstate/DISP_S1_4.pdf> <./docfigs/Example_DISPSIM_AN
-OMALY/optim_param_optim_initialhiddenstate/DISP_AR_6.pdf>] [74 <./docfigs/Examp
-le_SYNTHETIC/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_SYNTHETIC/raw/ALL_TIMES
-TEPS.pdf> <./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf>] [75 <./docfigs/Ex
-ample_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_ObservedPredicted.pdf
-> <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_1.p
-df> <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_2
-.pdf> <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA
-_3.pdf>] [76 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/
-TS01_S1_4.pdf> <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstat
-e/TS01_AR_6.pdf>]
+)) (./section/OpenBDLMFAQ.tex
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[83 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_Obse
+rvedPredicted.pdf> <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhidden
+state/TS01_LL_1.pdf> <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhidd
+enstate/TS01_LT_2.pdf> <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhi
+ddenstate/TS01_LA_3.pdf>]
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
 ine 44.
-) (./section/OpenBDLMReferenceTheory.tex [77
+)
 
-] [78] [79]
-[80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90] [91] [92])
-(./section/OpenBDLMAcknowledgements.tex) (./DOC.bbl [93]) [94]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 188.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 188.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[84 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_S1_4
+.pdf> <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR
+_6.pdf>]
+
+LaTeX Warning: Marginpar on page 85 moved.
+
+(./section/OpenBDLMReferenceTheory.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[85]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[86]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[87]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[88]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[89]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[90]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[91]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[92]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[93]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[94]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[95]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[96]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[97]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[98]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[99]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[100]) (./section/OpenBDLMAcknowledgements.tex) (./DOC.bbl
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[101])
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[102]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 220.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 220.
  (./DOC.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 188.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 188.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 220.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 220.
 Package rerunfilecheck Info: File `DOC.out' has not changed.
-(rerunfilecheck)             Checksum: F379592DFC6FDAD83A7B47E550F070B1;8608.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 188.
+(rerunfilecheck)             Checksum: 405A8F8C127A216F0A37D9ACCE1BFD04;9110.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 220.
  ) 
 Here is how much of TeX's memory you used:
- 31663 strings out of 493014
- 638538 string characters out of 6133351
- 1109100 words of memory out of 5000000
- 33585 multiletter control sequences out of 15000+600000
- 51857 words of font info for 215 fonts, out of 8000000 for 9000
+ 32024 strings out of 493014
+ 645392 string characters out of 6133351
+ 1106918 words of memory out of 5000000
+ 33879 multiletter control sequences out of 15000+600000
+ 51917 words of font info for 216 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,20n,120p,843b,1740s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
-exlive/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/tex
-live/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2016/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2016/texmf-dist/fon
-ts/type1/public/bera/fvmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
-/public/bera/fvmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
-mathabx-type1/matha10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publi
-c/mathabx-type1/matha6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publ
-ic/mathabx-type1/matha8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
-lic/mathabx-type1/mathb10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
-ublic/mathabx-type1/mathx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
-/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
-ype1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
-e1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
-/public/cm-super/sfbx1440.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
-ublic/cm-super/sfcc1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
-lic/cm-super/sfrm0600.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publi
-c/cm-super/sfrm0800.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
-cm-super/sfrm0900.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm
--super/sfrm1000.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-s
-uper/sfrm1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-sup
-er/sfrm1200.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super
-/sfrm1440.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/s
-frm1728.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sft
-i1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sftt0
-900.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sftt109
-5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfxc1095.
-pfb>
-Output written on DOC.pdf (94 pages, 20941358 bytes).
+ 62i,20n,120p,843b,1895s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exi
+st, replaced by a fixed one
+
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/tex
+live/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/texli
+ve/2016/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/
+2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2016/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2016/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2016/texmf-dist/fonts
+/type1/public/bera/fvmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
+ublic/bera/fvmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/ma
+thabx-type1/matha10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
+mathabx-type1/matha6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public
+/mathabx-type1/matha8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publi
+c/mathabx-type1/mathb10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
+lic/mathabx-type1/mathx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
+ublic/amsfonts/symbols/msam10.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
+e1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/public/cm-super/sfbx1200.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
+ublic/cm-super/sfbx1440.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
+lic/cm-super/sfcc1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publi
+c/cm-super/sfrm0600.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
+cm-super/sfrm0800.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm
+-super/sfrm0900.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-s
+uper/sfrm1000.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-sup
+er/sfrm1095.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super
+/sfrm1200.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/s
+frm1440.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfr
+m1728.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfti1
+095.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sftt090
+0.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sftt1095.
+pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfxc1095.pf
+b>
+Output written on DOC.pdf (102 pages, 21657350 bytes).
 PDF statistics:
- 2573 PDF objects out of 2984 (max. 8388607)
- 2335 compressed objects within 24 object streams
- 742 named destinations out of 1000 (max. 500000)
- 41041 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 2781 PDF objects out of 2984 (max. 8388607)
+ 2523 compressed objects within 26 object streams
+ 788 named destinations out of 1000 (max. 500000)
+ 41121 words of extra memory for PDF output out of 42996 (max. 10000000)
 

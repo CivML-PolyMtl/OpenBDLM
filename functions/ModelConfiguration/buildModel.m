@@ -343,7 +343,7 @@ AR.pW0=[];
 
 %#51 Kernel Regression
 if ~isfield(model.components,'nb_KR_p')
-    model.components.nb_KR_p=10+1;
+    model.components.nb_KR_p=misc.options.KRNumberControlPoints+1;
 end
 model.components.idx{51}='KR';
 KR.A=@(p,t,dt) [[0 Kernel_component(p,t,timestamps(1),model.components.nb_KR_p-1)];zeros(model.components.nb_KR_p-1,1) eye(model.components.nb_KR_p-1)];

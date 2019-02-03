@@ -83,6 +83,7 @@ misc.options.Optimizer = 'MMT';
 misc.options.MethodStateEstimation = 'kalman'; 
 misc.options.MaxSizeEstimation = 100;
 misc.options.DataPercent = 100;
+misc.options.KRNumberControlPoints = 100;
 
 % Data simulation option
 misc.options.Seed = 12345;
