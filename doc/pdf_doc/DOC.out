@@ -29,14 +29,14 @@
 \BOOKMARK [3][-]{subsubsection.5.1.1}{Input data format}{subsection.5.1}% 29
 \BOOKMARK [3][-]{subsubsection.5.1.2}{Data loading functions}{subsection.5.1}% 30
 \BOOKMARK [2][-]{subsection.5.2}{Data pre-processing}{section.5}% 31
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Selection of time-series}{subsection.5.2}% 32
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Selection of time series}{subsection.5.2}% 32
 \BOOKMARK [3][-]{subsubsection.5.2.2}{Selection of data analysis time-window}{subsection.5.2}% 33
 \BOOKMARK [3][-]{subsubsection.5.2.3}{Removing missing data}{subsection.5.2}% 34
 \BOOKMARK [3][-]{subsubsection.5.2.4}{Data resampling}{subsection.5.2}% 35
 \BOOKMARK [3][-]{subsubsection.5.2.5}{Time synchronization options}{subsection.5.2}% 36
 \BOOKMARK [3][-]{subsubsection.5.2.6}{Data pre-processing functions}{subsection.5.2}% 37
 \BOOKMARK [2][-]{subsection.5.3}{Model configuration}{section.5}% 38
-\BOOKMARK [3][-]{subsubsection.5.3.1}{Dependencies between time-series}{subsection.5.3}% 39
+\BOOKMARK [3][-]{subsubsection.5.3.1}{Dependencies between time series}{subsection.5.3}% 39
 \BOOKMARK [3][-]{subsubsection.5.3.2}{Block components}{subsection.5.3}% 40
 \BOOKMARK [3][-]{subsubsection.5.3.3}{Parameter constrains}{subsection.5.3}% 41
 \BOOKMARK [3][-]{subsubsection.5.3.4}{Number of model class}{subsection.5.3}% 42
@@ -63,22 +63,22 @@
 \BOOKMARK [3][-]{subsubsection.7.2.4}{Exporting results}{subsection.7.2}% 63
 \BOOKMARK [1][-]{section.8}{Version control}{}% 64
 \BOOKMARK [1][-]{section.9}{Examples}{}% 65
-\BOOKMARK [2][-]{subsection.9.1}{Example \0431: single time-series analysis}{section.9}% 66
+\BOOKMARK [2][-]{subsection.9.1}{Example \0431: single time series analysis}{section.9}% 66
 \BOOKMARK [3][-]{subsubsection.9.1.1}{Data description}{subsection.9.1}% 67
 \BOOKMARK [3][-]{subsubsection.9.1.2}{Model description}{subsection.9.1}% 68
 \BOOKMARK [3][-]{subsubsection.9.1.3}{Run the example from pre-existing configuration file}{subsection.9.1}% 69
 \BOOKMARK [3][-]{subsubsection.9.1.4}{Run the example from command line interaction}{subsection.9.1}% 70
-\BOOKMARK [2][-]{subsection.9.2}{Example \0432: dependence model between two time-series}{section.9}% 71
+\BOOKMARK [2][-]{subsection.9.2}{Example \0432: dependence model between two time series}{section.9}% 71
 \BOOKMARK [3][-]{subsubsection.9.2.1}{Data description}{subsection.9.2}% 72
 \BOOKMARK [3][-]{subsubsection.9.2.2}{Model description}{subsection.9.2}% 73
 \BOOKMARK [3][-]{subsubsection.9.2.3}{Run the example from pre-existing configuration file}{subsection.9.2}% 74
 \BOOKMARK [3][-]{subsubsection.9.2.4}{Run the example from command line interaction}{subsection.9.2}% 75
-\BOOKMARK [2][-]{subsection.9.3}{Example \0433: time-series with anomaly}{section.9}% 76
+\BOOKMARK [2][-]{subsection.9.3}{Example \0433: time series with anomaly}{section.9}% 76
 \BOOKMARK [3][-]{subsubsection.9.3.1}{Data description}{subsection.9.3}% 77
 \BOOKMARK [3][-]{subsubsection.9.3.2}{Model description}{subsection.9.3}% 78
 \BOOKMARK [3][-]{subsubsection.9.3.3}{Run the example from pre-existing configuration file}{subsection.9.3}% 79
 \BOOKMARK [3][-]{subsubsection.9.3.4}{Run the example from command line interaction}{subsection.9.3}% 80
-\BOOKMARK [2][-]{subsection.9.4}{Example \0434: single time-series analysis with non-harmonic periodic pattern}{section.9}% 81
+\BOOKMARK [2][-]{subsection.9.4}{Example \0434: single time series analysis with non-harmonic periodic pattern}{section.9}% 81
 \BOOKMARK [3][-]{subsubsection.9.4.1}{Data description}{subsection.9.4}% 82
 \BOOKMARK [3][-]{subsubsection.9.4.2}{Model description}{subsection.9.4}% 83
 \BOOKMARK [3][-]{subsubsection.9.4.3}{Run the example from pre-existing configuration file}{subsection.9.4}% 84
@@ -111,4 +111,4 @@
 \BOOKMARK [2][-]{subsection.11.6}{Handling non-uniform time vector and missing data}{section.11}% 111
 \BOOKMARK [3][-]{subsubsection.11.6.1}{Non-uniform time vector}{subsection.11.6}% 112
 \BOOKMARK [3][-]{subsubsection.11.6.2}{Missing data \(NaN\)}{subsection.11.6}% 113
-\BOOKMARK [2][-]{subsection.11.7}{Dependencies between time-series}{section.11}% 114
+\BOOKMARK [2][-]{subsection.11.7}{Dependencies between time series}{section.11}% 114

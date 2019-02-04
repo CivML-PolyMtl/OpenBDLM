@@ -4,15 +4,15 @@
 
 OpenBDLM supports two types of input data format.
 
-% depending whether the time-series are synchronous, or not.
-%The time-series are synchronous if they all share the same time vector. % and have the same number of data points.
-%Conversely, time-series are asynchronous if they do not all share the same time vector.
+% depending whether the time series are synchronous, or not.
+%The time series are synchronous if they all share the same time vector. % and have the same number of data points.
+%Conversely, time series are asynchronous if they do not all share the same time vector.
 %\subsubsection{Input data formatting for asynchronous time series}
 
 \paragraph{Comma Separated Values files (.CSV)}
 \label{SS:CSVInput}
 
-%Comma Separated Values (CSV) data formatting is generally used to load time-series data, which have not been synchronized yet.
+%Comma Separated Values (CSV) data formatting is generally used to load time series data, which have not been synchronized yet.
 %If the data have already been synchronized, it is preferable to use properly formatted .MAT \MATLAB{} files (see Section~\ref{SS:MatFiles})
 One .CSV data file must be provided for each time series.
 The file must contain two columns that are organized as shown in Listing~\ref{LST:CSV_Formatting}.
@@ -25,7 +25,7 @@ The file must contain two columns that are organized as shown in Listing~\ref{LS
 7374246           ,   0.57
 \end{lstlisting}    
 The first line of the file is the header.
-In the header, the first field must contain the label of the time-series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
+In the header, the first field must contain the label of the time series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
 The second field is the date of the first timestamp given as a quoted delimited string, formatted as \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle.  
 For the remaining lines, the first field is the date given as a serial date number in number of days, given as a real number, and the second field is the magnitude of the physical quantity measured, given as a real number.
 The missing data must be indicated as \lstinline[basicstyle = \mlttfamily \small ]!NaN! number.
@@ -36,12 +36,12 @@ The .csv files must be stored in the ``OpenBDLM-master/data/csv'' subfolder.
 
 The \MATLAB{} binary .MAT file must contain three \MATLAB{} variables called \lstinline[basicstyle = \mlttfamily \small]!labels!, \lstinline[basicstyle = \mlttfamily \small]!timestamps!, and \lstinline[basicstyle = \mlttfamily \small]!values!.
 \begin{itemize}
-\item \lstinline[basicstyle = \mlttfamily \small]!labels!: $1\times \mathtt{D}$ cell array containing the reference name associated with each time-series, where $\mathtt{D}$ is the number of time series.
+\item \lstinline[basicstyle = \mlttfamily \small]!labels!: $1\times \mathtt{D}$ cell array containing the reference name associated with each time series, where $\mathtt{D}$ is the number of time series.
 \item \lstinline[basicstyle = \mlttfamily \small]!timestamps!: $\mathtt{N}\times 1$ array containing the timestamps given as serial date number from January 0, 0000, where $\mathtt{N}$ is the number of data samples.
 \item \lstinline[basicstyle = \mlttfamily \small]!values!: $\mathtt{N}\times \mathtt{D}$ array containing the data amplitude values.
 \end{itemize}
  \MATLAB{} binary .mat files must be stored in the ``OpenBDLM-master/data/mat'' subfolder.
-Note that \MATLAB{} binary .MAT files can be used to load at once several time-series which share the same timestep vector (i.e. synchronous time-series, see Section~\ref{S:DATAEDITINGPREPROCESSING}  for details.)
+Note that \MATLAB{} binary .MAT files can be used to load at once several time series which share the same timestep vector (i.e. synchronous time series, see Section~\ref{S:DATAEDITINGPREPROCESSING}  for details.)
 
 
 \subsubsection{Data loading functions}

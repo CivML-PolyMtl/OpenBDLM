@@ -6,8 +6,8 @@ OpenBDLM uses the transition model  of the state-space modelling approach (see S
 There are two ways for creating synthetic data using OpenBDLM:
 
 \begin{itemize}
-\item from the interactive tool
-\item from an existing project.
+\item From the interactive tool
+\item From an existing project.
 \end{itemize}
 
 \subsection{Generate synthetic data using the interactive tool}
@@ -17,8 +17,8 @@ In the next step, the user has to define the time-series dependence (if applicab
 Default values for initial hidden states mean values and model parameters are automatically assigned for each block component.
 In the case of two model classes, the synthetic baseline will switch between the first and the second model class according to the transition probability values (see Section~\ref{SS:THSKF}).
 The amplitude of each synthetic anomaly (i.e. change of the local trend) is sampled randomly in a normal distribution of zero mean and standard deviation $\sigma_{w}^{12}$ as defined in the switching process noise transition matrix.
-Alternatively, the user may choose to create \emph{custom anomalies}.
-In such case, the beginning (in sample index), duration (in number of samples) and amplitude (in change of the local trend) of each anomaly is user's specified.
+Alternatly, the user may choose to create \emph{custom anomalies}.
+In such case, the beginning (in sample index), duration (in number of samples) and amplitude (in change of the local trend) of each anomaly is user specified.
 The information about custom anomaly are stored in the field \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!custom_anomalies! of the structure variable \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!misc!:
 \begin{itemize}
 \item \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!misc.custom_anomalies.start_custom_anomalies!: this field stores a $1\times \mathtt{A}$ vector of integers, where $\mathtt{A}$ is the total number of synthetic anomaly. Each value indicates the sample index of the anomaly start.
@@ -52,7 +52,7 @@ The synthetic data are saved in \lstinline[basicstyle = \mlttfamily \small, back
 
 Once a project is loaded, it is possible to create synthetic data from it (option \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!16!} from the main menu (see Listing~\ref{LST:OpenBDLMMainMenu}).
 The synthetic data time vector will be the same as the time vector in memory, and missing data will be replicated.
-The model used to create the synthetic data will be the same as the model of current project, including current initial hidden states as well as model parameters values.
+The model used to create the synthetic data will be the same as the model of the current project, including current initial hidden states as well as model parameters values.
 The creation of synthetic data in this way is particularly useful to closely mimic real dataset.
 The synthetic data are saved in \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!DATA_new_*.mat! and \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!*.csv! data files, and a \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!PROJ_new_*.mat! new project file is created that stores the information about the model (structure variable \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!model!), and the true hidden states (see structure variable \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!estimation.ref!).
 
@@ -69,7 +69,7 @@ The OpenBLDM functions used for synthetic data creation are:
 
 \begin{description}[style=unboxed]
 
-\item[Pilote function for synthetic data creation] \leavevmode
+\item[Pilot function for synthetic data creation] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [data,model,estimation,misc]=piloteSimulateData(data,model,estimation,misc)
   \end{lstlisting}
@@ -94,12 +94,12 @@ The OpenBLDM functions used for synthetic data creation are:
 [data,model,estimation,misc]=configureModelForDataSimulation(data,model,estimation,misc)
  \end{lstlisting}
  
- \item[Requests user's input to define the number of synthetic time series to create (for synthetic data creation from interactive tool only)] \leavevmode
+ \item[Requests user inputs to define the number of synthetic time series to create (for synthetic data creation from interactive tool only)] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
   [data,misc]=defineDataLabels(data,misc)
  \end{lstlisting}
  
-\item[Requests user's input to define synthetic data time vector (for synthetic data creation from interactive tool only)] \leavevmode
+\item[Requests user inputs to define synthetic data time vector (for synthetic data creation from interactive tool only)] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [data,misc]=defineTimestamps(data,misc)
  \end{lstlisting}

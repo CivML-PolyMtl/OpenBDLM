@@ -1,9 +1,9 @@
 \subsection{Model parameters estimation}
 \label{S:PARAMESTIMATION}
 
-OpenBDLM provides default values of the parameters from engineering heuristic knowledge or from statistics on the data.
+OpenBDLM provides default values of the parameters from engineering heuristic knowledge or from statistics on the data (see~\ref{table:defaultparamreal}).
 Each value is only a guess which has to be refined using an optimization algorithm (see Section~\ref{SS:THModelParameterEstimation}). 
-The algorithm will estimate the model parameters values from the data.
+The algorithm will estimate the model parameter values from the data.
 % that estimates the model parameters from the data.\\
 
 In order to access the model parameter estimation menu from OpenBDLM, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} (see Listing~\ref{LST:ModelParametersEstimationMenu}).
@@ -18,7 +18,7 @@ The model parameter can be learned by maximizing either the likelihood (Maximum 
 Note that MAP requires a valid prior for each unknown model parameters.
 In the case of of MAP, OpenBDLM supports gaussian prior only.
 The default option is MLE (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMAP=false!).
-
+There is the possibility to use the prediction capacity to drive the optimization process\footnote{The use of the prediction capacity is only available using the Stochastic Gradient Descent model parameter estimation algorithm.} (see  \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isPredCap! and \lstinline[basicstyle = \mlttfamily \small ]!misc.options.SplitPercent!).
 \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM model parameter estimation menu}, label = LST:ModelParametersEstimationMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
 -------------------------------------------
 / Learn model parameters
@@ -32,16 +32,16 @@ The default option is MLE (see \lstinline[basicstyle = \mlttfamily \small ]!misc
      choice >> 
 \end{lstlisting}
 The model parameter estimation framework computes point estimate of the model parameters. 
-However, it is also possible provide confidence intervals around the point estimate using the Laplace approximation (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isLaplaceApproximation = true!).
+However, it is also possible provide confidence intervals around the point estimate using the Laplace approximation\footnote{Laplace approximation is currently only available using the Newton-Raphson model parameter estimation algorithm.} (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isLaplaceApproximation = true!).
 Note that computing the Laplace approximation can significantly increase the computation time and it is not recommanded when the number of model parameters is large.\\
 
 Note also that Newton-Raphson and Stochastic Gradient Descent techniques are sensitive to the initial model parameters values. 
 %The algorithm can reach a local maximum, instead of the global maximum.
 Therefore, it is advised to run the optimizations several times with different starting model parameters values in order to check if the proposed solution is the best attainable solution.
-If \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMute = false!, outputs on the \MATLAB{} command line window allow to monitor the optimization process (see Listing~\ref{LST:OpenBLDMModelParameterLearning}).
-At each iteration, the quantity displayed are: the current value of the target function, the name as well as the current value of the unknown model parameter(s) being optimized, the change in model parameters, the change in the target function, and the convergence status ( \lstinline[basicstyle = \mlttfamily \small ]!1! if the model parameter converged according to the convergence criteria, \lstinline[basicstyle = \mlttfamily \small ]!0! otherwise).\\
+If \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMute = false!, outputs on the \MATLAB{} command line window allow to monitor the optimization process (see Listings~\ref{LST:OpenBLDMModelParameterLearning}-\ref{LST:OpenBLDMModelParameterLearningSGD}).
+At each iteration, the quantity displayed are: the current value of the target function, the name as well as the current value of the unknown model parameter being optimized, the change in model parameters, the change in the target function, and the convergence status (\lstinline[basicstyle = \mlttfamily \small ]!1! if the model parameter converged according to the convergence criteria, \lstinline[basicstyle = \mlttfamily \small ]!0! otherwise).\\
 
-The optimization stops when all the parameters converged, or if the maximum number of iterations (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxIterations!) / the maximum time (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxTime!) is reached.
+The optimization stops when all the parameters converged, or if the maximum number of iterations (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxIterations!) (or epochs for Stochastic Gradient Descent algorithm, see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxEpochs!) / the maximum time (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxTime!) is reached.
 The values of the parameters are saved in the variable \lstinline[basicstyle = \mlttfamily \small ]!model! \MATLAB{}.
  
  \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBLDM output example when running Newton-Raphson algorithm.}, label = LST:OpenBLDMModelParameterLearning,  float =h!, linewidth=\linewidth, captionpos=b]
@@ -86,28 +86,71 @@ The values of the parameters are saved in the variable \lstinline[basicstyle = \
 
 
 
+ \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBLDM output example when running Stochastic Gradient Ascent algorithm.}, label = LST:OpenBLDMModelParameterLearningSGD,  float =h!, linewidth=\linewidth, captionpos=b]
+    \Start SGD algorithm (finite difference method)
+
+      Optimization mode                           MLE
+      Optimizer                                   MMT
+      Metric                                      logpdf
+      Learning Rate mode                          hessian
+      Training period:                            1 - Inf [days]
+      Validation set portion:                     30 [%]
+      Training set:                               13556 [data points]
+      Validation set:                             5810 [data points]
+      Mini batch:                                 3873 [data points]
+      Number of max epoch:                        30+1 [epochs]
+      Total time limit for calibration:           60 [min]
+
+    Epoch #1
+             Metric: 25972.5904
+                    AR|M1|1         AR|M1|1         |M1|1           
+   parameter names: \phi            \sigma_w        \sigma_v        
+    initial values: +7.50e-01       +1.74e-02       +8.70e-03       
+
+--------------------------
+    Epoch #2
+            Metric: 33933.8856
+   parameter names: AR|M1|1         AR|M1|1         |M1|1           
+    current values: +9.61e-01       +2.00e-02       +5.66e-03      
+      param change: +2.11e-01       +2.61e-03       -3.04e-03      
+  initialize param: +0.00e+00       +0.00e+00       +0.00e+00      
+
+
+--------------------------
+    Epoch #3
+            Metric: 33933.8856
+   parameter names: AR|M1|1         AR|M1|1         |M1|1           
+    current values: +9.61e-01       +2.00e-02       +5.66e-03      
+      param change: +0.00e+00       +0.00e+00       +0.00e+00      
+  initialize param: +1.00e+00       +0.00e+00       +0.00e+00 
+\end{lstlisting}
+
+
+
+
+
 %\begin{table}[h]
 
 \begin{longtable}{|C{4cm}"C{4cm} |C{4cm} |N}\thickhline
 $\bm{\theta}$ name  & $\bm{\theta}^{0}$ & $\bm{\theta}$ bounds &\\[25pt]\thickhline
 $\sigma_{w}^{\mathtt{LL}}$  &  $0$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
-$\sigma_{w}^{\mathtt{LT}} $ &  $10^{-7}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
-$\sigma_{w}^{\mathtt{LA}} $ &  $10^{-8}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
-$\sigma_{w}^{\mathtt{LcT}} $ &  $10^{-7}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
-$\sigma_{w}^{\mathtt{LcA}} $ &  $10^{-7}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
-$\sigma_{w}^{\mathtt{TcA}} $ &  $10^{-8}\times\sigma_{y_{obs}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{LT}} $ &  $10^{-7}\times\sigma_{y_{obs(1:\mathtt{T})}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{LA}} $ &  $10^{-8}\times\sigma_{y_{obs(1:\mathtt{T})}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{LcT}} $ &  $10^{-7}\times\sigma_{y_{obs(1:\mathtt{T})}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{LcA}} $ &  $10^{-7}\times\sigma_{y_{obs(1:\mathtt{T})}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{TcA}} $ &  $10^{-8}\times\sigma_{y_{obs(1:\mathtt{T})}}$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
 $\sigma_{w}^{\mathtt{P}} $ &  $0$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
-$\sigma_{w}^{\mathtt{AR}} $ &  $10^{-1}\times\sigma_{y_{obs}}$ & $[0,\text{Inf}]$ &\\[25pt]\hline
-$\sigma_{w,0}^{\mathtt{KR}}  $ &  $10^{-1}\times\sigma_{y_{obs}}$  & $[0,\text{Inf}]$ &\\[25pt]\hline
+$\sigma_{w}^{\mathtt{AR}} $ &  $10^{-1}\times\sigma_{y_{obs(1:\mathtt{T})}}$ & $[0,\text{Inf}]$ &\\[25pt]\hline
+$\sigma_{w,0}^{\mathtt{KR}}  $ &  $10^{-1}\times\sigma_{y_{obs(1:\mathtt{T})}}$  & $[0,\text{Inf}]$ &\\[25pt]\hline
 $\sigma_{w,1}^{\mathtt{KR}}  $ &  $0$  &  $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
-$\sigma_{v}$ &  $0.05\times\sigma_{y_{obs}}$  &  $[0,\text{Inf}]$ &\\[25pt]\hline
+$\sigma_{v}$ &  $0.05\times\sigma_{y_{obs(1:\mathtt{T})}}$  &  $[0,\text{Inf}]$ &\\[25pt]\hline
 $\phi^{\mathtt{AR}} $ &  $0.75$ & $[0,1]$ &\\[25pt]\hline
 $p^{\mathtt{P}} $ &  $[365.24, 1, 182.62]$\footnote{One different default value for the period is given for each periodic component.} & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
 $p^{\mathtt{KR}} $ &  $365.24$ & $[\text{NaN},\text{NaN}]$ &\\[25pt]\hline
 $\ell^{\mathtt{KR}} $ &  $0.5$ & $[0,\text{Inf}]$ &\\[25pt]\hline
 $\phi $ &  $0.5$  &  $[-\text{Inf}, \text{Inf}]$ &\\[25pt]\hline
-\caption{Default value of model parameters. $\sigma_{y_{obs}}$ corresponds to the standard deviation of the observed data. Note that default value for synthetic data are different, see~\ref{table:defaultsynthetic} for details.} 
-\label{table:defaultsynthetic}
+\caption{Default value of model parameters. $\sigma_{y_{obs(1:\mathtt{T})}}$ corresponds to the standard deviation of the observed data from the first data sample to the last data sample of index $\mathtt{T}$. Note that default value for synthetic data are different, see~\ref{table:defaultsynthetic} for details.} 
+\label{table:defaultparamreal}
 \end{longtable}
 
 %\end{table}

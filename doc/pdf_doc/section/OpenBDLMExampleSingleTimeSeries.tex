@@ -1,11 +1,11 @@
-\subsection{Example \#1: single time-series analysis}
+\subsection{Example \#1: single time series analysis}
 \label{S:Example_DISP}
 \subsubsection{Data description}
 This example uses a synthetic time series that mimics displacement data measured on a bridge (Figure~\ref{fig:DataSummary1}). 
 The Figure~\ref{fig:DataSummary1}a shows that data points exist between August 2013 and October 2015.
 The timestep is non-uniform; it varies from 1 hour to 25 hours (see Figure~\ref{fig:DataSummary1}b). 
 The most frequent time step  (i.e referent time step, see Section~\ref{SS:NonUniform}) is 1 hour, and there is no missing data (see Figure~\ref{fig:DataSummary1}c).
-The time-series is stationary with a level, a yearly periodic, a daily periodic patterns and a residual autoregressive pattern.
+The time series is stationary with a level, a yearly periodic, a daily periodic patterns and a residual autoregressive pattern.
 
 \begin{figure*}[h]
 \centering
@@ -44,9 +44,8 @@ The optimized initial hidden states mean and covariance values are
 \begin{align*}
 \bm \mu^{*}_{0} & = [	 25.9  ,	-0.202 ,	-0.00305 ,	0.0331,	0.051 	,-0.00843]^{\intercal}, \text{and} \\
 \bm\Sigma^{*}_{0} & = \text{diag}[	3.74\times10^{-5} ,	6.85\times10^{-5}	, 6.99\times10^{-5} \\
-& 5.73\times10^{-7} ,	5.73\times10^{-7} , 	0.000485    ], 
+& 5.73\times10^{-7} ,	5.73\times10^{-7} , 	0.000485    ].
  \end{align*}
- respectively.
 The hidden states computed using the estimated model parameters and initial hidden states are presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
 
 \begin{figure*}[h!]
@@ -160,7 +159,7 @@ This may be done by following the following steps from the \MATLAB{} command lin
 \item Select the number of model classes. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
 \item Select the model block components. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![11 31 31 41]!}.
 \item Access model parameter estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-\item Start Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm is converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample1}. Note that it is possible to get slightly different value of parameters with the same performance\footnote{Keep in mind that the optimization may take several minutes to several hours. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISP\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx1}.}.
+\item Start Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm has converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample1}. Note that it is possible to get slightly different value of parameters with the same performance\footnote{Keep in mind that the optimization may take several minutes to several hours. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISP\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx1}.}.
 \item Estimate the initial hidden states values. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}.
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
 \item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
@@ -201,7 +200,7 @@ This may be done by following the following steps from the \MATLAB{} command lin
 %Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!} to save and quit.
 %
 % \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = { \MATLAB{} command window output during interactive model configuration.}, label = LST:OpenBDLMModelConfigureExample1,  float =h, linewidth=\linewidth, captionpos=b]
-%- How many model classes do you want for each time-series? 
+%- How many model classes do you want for each time series? 
 %     choice >> 1
 %     
 %     --------------------------------------------------------

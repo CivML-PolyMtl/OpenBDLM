@@ -1,18 +1,21 @@
 \subsection{Hidden states estimation}
 \label{S:HIDDENSTATESESTIMATION}
 
-The estimation of the hidden states is the core of OpenBLDM.
+The estimation of hidden states is the core of OpenBLDM.
 %Each hidden state belongs to a block component used to build the model.
-The hidden state estimation is performed recursively using the Kalman filter/smoother or the UD filter/smoother (see Section~\ref{SS:KFUD}).
+The hidden state estimation is performed recursively using the Kalman filter/smoother or the UD filter (see Section~\ref{SS:KFUD}).
 Once a project is loaded, typing \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!3!} opens the hidden state estimation menu (see Listing~\ref{LST:StateEstimationMenu}).
 
 \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM hidden states estimation menu}, label = LST:StateEstimationMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
 ---------------------------------------------------
 /    State estimation
 ---------------------------------------------------
+     Current state estimation method: UD
 
      1 ->  Filter 
      2 ->  Smoother 
+
+     3 ->  Change estimation method to kalman 
 
      Type R to return to the previous menu 
 
@@ -21,6 +24,7 @@ Once a project is loaded, typing \colorbox{light-gray}{\lstinline[basicstyle = \
 
 Type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!1!} runs the Kalman or UD filter, and typing \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!2!} runs the Kalman or UD smoother.
 The Kalman is the default state estimation method (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.MethodStateEstimation!), but UD computations are more stable in particular in the case of missing data or in case of a sudden increase of the time step.
+It is possible to switch between the Kalman and UD computation (and conversely) by typing \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small ]!3!} from the state estimation menu (see Listing`\ref{LST:StateEstimationMenu}).
 
 \subsubsection{Hidden state estimation functions}
 
@@ -28,7 +32,7 @@ The hidden state estimation workflow is presented Figure~\ref{FIG:HiddenStateEst
 The OpenBLDM functions used for hidden state estimation are:
 
 \begin{description}[style=unboxed]
-\item[Pilote function for hidden state estimation] \leavevmode
+\item[Pilot function for hidden state estimation] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [data,model,estimation,misc]=piloteStateEstimation(data,model,estimation,misc)
   \end{lstlisting}
@@ -38,12 +42,12 @@ The OpenBLDM functions used for hidden state estimation are:
 [estimation]=StateEstimation(data,model,misc,varargin)
   \end{lstlisting}
 
-\item[Runs switching Kalman filter for all time] \leavevmode
+\item[Runs switching Kalman filter for all time steps] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [x,V,VV,S,loglik,U,D]=SwitchingKalmanFilter(data,model,misc)
   \end{lstlisting}
 
-\item[Performs Rauch-Tung-Striebel switching smoother for all time] \leavevmode
+\item[Performs Rauch-Tung-Striebel switching smoother for all time steps] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [x,V,VV,S,x_prior_smoothed,V_prior_smoothed,VV_prior_smoothed,S_prior_smoothed]=RTS_SwitchingKalmanSmoother(data,model,estimation)
   \end{lstlisting}
@@ -105,10 +109,34 @@ The OpenBLDM functions used for hidden state estimation are:
 
 \subsubsection{Estimation of the initial hidden states}
 
-OpenBDLM computes default values for the initial (at $t=0$) mean (\lstinline[ basicstyle = \mlttfamily \small]!model.initX!) and covariance (\lstinline[ basicstyle = \mlttfamily \small]!model.initV!) value, as well as the initial model probabilities (\lstinline[ basicstyle = \mlttfamily \small]!model.initS! . %only in the case of $\mathtt{S}=2$ model classes).
-Those initial values are usually poor guesses, which may be refined using Kalman smoothing up to $t=0$.
+OpenBDLM computes default values for the initial (at $t=0$) mean (\lstinline[ basicstyle = \mlttfamily \small]!model.initX!) and covariance (\lstinline[ basicstyle = \mlttfamily \small]!model.initV!) value, as well as the initial model probabilities (\lstinline[ basicstyle = \mlttfamily \small]!model.initS!) (see Table~\ref{table:defaultreal}). %only in the case of $\mathtt{S}=2$ model classes).
+Those initial values are usually rough guesses, which may be refined using Kalman smoothing up to $t=0$.
 The percent of data used to estimate initial hidden states using Kalman smoothing is controlled by the value provided in \lstinline[ basicstyle = \mlttfamily \small]!misc.options.DataPercent!.
 From the OpenBDLM main menu, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}  in the \MATLAB{} command window to estimate the initial hidden states using Kalman smoothing.
+
+
+
+\begin{table}[h]
+
+     \begin{tabular}{|C{1cm}"C{3.25cm} |C{7cm} |N}\thickhline
+        & $\bm{\mu}_{0}$ & diag$(\mathbf{\Sigma}_{0})$ &\\[25pt]\thickhline
+       $ \mathtt{LL}$ & $[\mu_{y_{obs(1:\mathtt{T}/10)}}]$ & $[(2\times\sigma_{y_{obs(1:\mathtt{T})}})^{2}]$&\\[25pt]\hline
+        $ \mathtt{LT}$ & $[\mu_{y_{obs(1:\mathtt{T}/10)}}, 0]$ & $[(2\times\sigma_{y_{obs(1:\mathtt{T})}})^{2}, \sigma_{y_{obs(1:\mathtt{T})}})^{2}]$&\\[25pt]\hline
+        $ \mathtt{LA}$ & $[\mu_{y_{obs(1:\mathtt{T}/10)}}, 0, 0]$ & $[(2\times\sigma_{y_{obs(1:\mathtt{T})}})^{2}, \sigma_{y_{obs(1:\mathtt{T})}})^{2},  \sigma_{y_{obs(1:\mathtt{T})}})^{2}]$&\\[25pt]\hline
+        $ \mathtt{LcT}$ & $[\mu_{y_{obs(1:\mathtt{T}/10)}}, 0]$ & $[(2\times\sigma_{y_{obs(1:\mathtt{T})}})^{2}, \sigma_{y_{obs(1:\mathtt{T})}})^{2}]$&\\[25pt]\hline
+        $ \mathtt{LcA}$ & $[\mu_{y_{obs(1:\mathtt{T}/10)}}, 0, 0]$ & $[(2\times\sigma_{y_{obs(1:\mathtt{T})}})^{2}, \sigma_{y_{obs(1:\mathtt{T})}})^{2},  \sigma_{y_{obs(1:\mathtt{T})}})^{2}]$&\\[25pt]\hline
+        $ \mathtt{TcA}$ & $[\mu_{y_{obs(1:\mathtt{T}/10)}}, 0, 0]$ & $[(2\times\sigma_{y_{obs(1:\mathtt{T})}})^{2}, \sigma_{y_{obs(1:\mathtt{T})}})^{2},  \sigma_{y_{obs(1:\mathtt{T})}})^{2}]$&\\[25pt]\hline
+        $ \mathtt{P}$ & $[5, 0]$ & $[(2\times\sigma_{y_{obs(1:\mathtt{T})}})^{2}, \sigma_{y_{obs(1:\mathtt{T})}})^{2}]$&\\[25pt]\hline
+        $ \mathtt{AR}$ & $[0]$ & $[\sigma_{y_{obs(1:\mathtt{T})}})^{2}]$&\\[25pt]\hline
+        $ \mathtt{KR}$ & $[0, 0, \dots, 0]$ & $[\sigma_{y_{obs(1:\mathtt{T})}})^{2}, \sigma_{y_{obs(1:\mathtt{T})}})^{2}, \dots,  \sigma_{y_{obs(1:\mathtt{T})}})^{2}]$&\\[25pt]\hline
+     \end{tabular}
+     \caption{Default value of initial hidden state $\bm{\mu}_{0}$ and $\mathbf{\Sigma}_{0}$.   $\sigma_{y_{obs(1:\mathtt{T})}}$ corresponds to the standard deviation of the observed data from the first data sample to the last data sample of index $\mathtt{T}$.   $\mu_{y_{obs(1:\mathtt{T}/10)}}$ corresponds to the mean of the first ten percent of data samples. $\sigma_{y_{obs(1:\mathtt{T})}}$.  Note that default values for synthetic data are different, see~\ref{table:defaultsynthetic} for details. } 
+\label{table:defaultreal}
+\end{table}
+
+
+
+
 
 The hidden state estimation workflow is presented Figure~\ref{FIG:InitialHiddenStateEstimationWorkflow}. 
 The OpenBLDM functions used for initial hidden state estimation are:

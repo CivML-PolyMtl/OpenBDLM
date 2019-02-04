@@ -1,5 +1,17 @@
 \begin{thebibliography}{10}
 
+\bibitem{Goulet2017BDLMEmprical}
+James-A. Goulet and Ki~Koo.
+\newblock Empirical validation of bayesian dynamic linear models in the context
+  of structural health monitoring.
+\newblock {\em Journal of Bridge Engineering}, 23(2):05017017, 2018.
+
+\bibitem{Nguyen2019KRBDLM}
+Luong~Ha Nguyen, Ianis Gaudot, Shervin Khazaeli, and James-A. Goulet.
+\newblock A kernel-based method for modeling non-harmonic periodic phenomena in
+  bayesian dynamic linear models.
+\newblock {\em Frontiers in Built Environment}, 5(0):8, 2019.
+
 \bibitem{Gaudot2019OpenBDLM}
 Ianis Gaudot, Luong~Ha Nguyen, Shervin Khazaeli, and James-A. Goulet.
 \newblock Open{BDLM}, an open-source software for structural health monitoring
@@ -7,17 +19,11 @@ Ianis Gaudot, Luong~Ha Nguyen, Shervin Khazaeli, and James-A. Goulet.
 \newblock {\em submitted to 13th International Conference on Applications of
   Statistics and Probability in Civil Engineering}, 2019.
 
-\bibitem{Nguyen2019KRBDLM}
-Luong~Ha Nguyen, Ianis Gaudot, and James-A. Khazaeli, Shervin~Goulet.
-\newblock A kernel-based method for modeling non-harmonic periodic phenomena in
-  bayesian dynamic linear models.
-\newblock {\em Frontiers in Built Environment}, 0(0), 2019.
-
 \bibitem{Nguyen2018UncertaintyBDLM}
 Luong~Ha Nguyen, Ianis Gaudot, and James-A. Goulet.
 \newblock Uncertainty quantification for model parameters and hidden state
   variables in bayesian dynamic linear models.
-\newblock {\em Structural Control and Health Monitoring}, 0(0):e2309, 2018.
+\newblock {\em Structural Control and Health Monitoring}, 26(3):e2309, 2019.
 \newblock e2309 stc.2309.
 
 \bibitem{Nguyen2018}
@@ -32,12 +38,6 @@ L.H. Nguyen and J-A. Goulet.
 \newblock Structural health monitoring with dependence on non-harmonic periodic
   hidden covariates.
 \newblock {\em Engineering Structures}, 166:187 -- 194, 2018.
-
-\bibitem{Goulet2017BDLMEmprical}
-James-A. Goulet and Ki~Koo.
-\newblock Empirical validation of bayesian dynamic linear models in the context
-  of structural health monitoring.
-\newblock {\em Journal of Bridge Engineering}, 23(2):05017017, 2018.
 
 \bibitem{STC:STC2035}
 J.-A. Goulet.
@@ -68,6 +68,5 @@ A.~Gelman, J.~B. Carlin, H.~S. Stern, and D.~B. Rubin.
 Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
 \newblock {\em Deep Learning}.
 \newblock MIT Press, 2016.
-\newblock \url{http://www.deeplearningbook.org}.
 
 \end{thebibliography}

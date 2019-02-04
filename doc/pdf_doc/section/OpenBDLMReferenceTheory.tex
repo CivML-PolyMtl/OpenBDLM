@@ -8,7 +8,7 @@ This section presents a summary of the theory behind Bayesian Dynamic Linear Mod
 
 \noindent \emph{Uncertainty quantification for model parameters and hidden state variables in bayesian dynamic linear models}\\{\small
             Nguyen, L.H., Gaudot, I., and Goulet, J.-A.\\
-            Structural Control and Health Monitoring. Vol. X, Issue X, pp.e2136, 2018\\}
+            Structural Control and Health Monitoring. Vol. X, Issue X, pp.e2136, 2019\\}
       [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Nguyen_Gaudot_Goulet_MCMC_BDLM_2018.pdf}{PDF}] [~]  [~] [\href{https://doi.org/10.1002/stc.2309}{DOI link}] \cite{Nguyen2018UncertaintyBDLM}\\[4pt]
       
       \noindent \emph{Anomaly Detection with the Switching Kalman Filter for Structural Health Monitoring}\\{\small
@@ -47,7 +47,7 @@ The transition equation describes the dynamics of the system, and is formulated 
 \label{EQ:SSM_Transition}
 \end{equation}
 where, for each each time $t=1, \dots ,\mathtt{T}$, the variables $\mathbf{x}_{t}$ follow a Gaussian distribution with mean $\bm{\mu}_{t}$ and covariance matrix $\bm{\Sigma}_{t}$, $\mathbf{A}_{t}$ is the transition matrix, and $\mathbf{w}_{t}$ represents Gaussian model errors with zero mean and covariance matrix $\mathbf{Q}_{t}$.
-The variables $\mathbf{x}_{t}$ are usually referred to as hidden states because they are not directly observed.
+The variables $\mathbf{x}_{t}$ are referred to as hidden states because they are not directly observed.
 The relationship between the observations $\mathbf{y}_{t}$ and the hidden states $\mathbf{x}_{t}$ is given by the observation equation, such as
 \begin{equation}
 \mathbf{y}_{t}=\mathbf{C}_{t}\mathbf{x}_{t}+\mathbf{v}_{t},\quad\left\{\begin{array}{l}
@@ -58,7 +58,7 @@ The relationship between the observations $\mathbf{y}_{t}$ and the hidden states
 where $\mathbf{C}_{t}$ is the observation matrix, and $\mathbf{v}_{t}$ is the Gaussian measurement error with zero mean and covariance matrix $\mathbf{R}_{t}$.
 BDLMs are capable of analyzing multiple time series simultaneously.
 In case of dependencies between the time series, regression coefficients are added in $\mathbf{C}_{t}$ (see Section~\ref{S:Dependencies} and \cite{STC:STC2035}).
-One particularity of BDLMs is their capacity to update the current estimated state with the current observations, thus allowing to perform online state inference of non-stationary time series.
+One particularity of BDLMs is their capacity to update the current estimated state with the current observations, thus allowing to perform online state estimation for non-stationary time series.
 
 \subsection{Kalman filter \& UD filters}
 \label{SS:KFUD}
@@ -73,12 +73,12 @@ where $\mathcal{L}_{t}$ is the marginal likelihood describing the probability of
 Note that the UD and Kalman filter are two different methods for calculating the same results. On one hand, the Kalman filter is faster and computationally simpler to implement and on the other hand, the UD filter is more robust toward numerical instabilities.   
 
 
-The standard Kalman filter expressed in Eq.~\ref{EQ:KF} can process stationary, trend stationary, and acceleration stationary time series, but it is not capable of handling non-stationary time-series, which is needed when it comes to anomaly detection.
-The generalization of the Kalman Filter for non-stationary time-series is found in the Switching Kalman filter (SKF) equations.
+The standard Kalman filter expressed in Eq.~\ref{EQ:KF} can process stationary, trend stationary, and acceleration stationary time series, but it is not capable of handling non-stationary time series, which is needed when it comes to anomaly detection.
+The generalization of the Kalman Filter for non-stationary time series is found in the Switching Kalman filter (SKF) equations.
 
 \subsection{Switching Kalman filter}
 \label{SS:THSKF}
-We may be interested in anomaly detection, that is, modelling and detecting the changes of behavior due to changes in the dynamics of the baseline response of the time-series.
+We may be interested in anomaly detection, that is, modelling and detecting the changes of behavior due to changes in the dynamics of the baseline response of the time series.
 One way to model changing dynamics is to run in parallel a collection of ${\mathtt{S}}$ linear models, each having their own system dynamics $\mathbf{A}_{t}$ and $ \mathbf{Q}_{t}$.
 %In the Switching Kalman filter (SKF) approach \citep{Murphy1998}, a collection of $S$ linear models are run in parallel.
 %Each linear model has its own system dynamics (i.e their own $\mathbf{A}_{t}$ and $ \mathbf{Q}_{t}$ matrices).
@@ -233,7 +233,7 @@ Classical implementation of stochastic gradient algorithm includes momentum appr
 
 \paragraph{Approximation of the derivatives}
 
-In most cases. the derivatives of $\mathcal{T}(\bm{\theta})$ can not be computed analytically.
+In most cases. the derivatives of $\mathcal{T}(\bm{\theta})$ cannot be computed analytically.
 Therefore, the derivatives are approximated numerically using the central differentiation scheme, such as
 \begin{gather}
 \begin{aligned}
@@ -271,18 +271,18 @@ Moreover, the autoregression coefficient model parameters are real numbers that 
 \subsection{Block components}
 \label{SS:BlockComponent}
 The block components are pieces of the full model.
-Each block component is used to describe a given dynamics for a given time-series.
+Each block component is used to describe a given dynamics for a given time series.
 Therefore, each block component has its own transition and observation model, which are associated with some model parameters.
 Each block component can be associated with one or more hidden states variables.
 %The types of block components supported in the current OpenBDLM version are listed in the next sections.
 The block components are then assembled to build the full model.
 The block components associated with irreversible change in the time series belongs to the \emph{baseline} component.
-The other block components are associated with reversible change in the time-series.
-The \emph{compatible} block component are needed to model switching dynamics in the baseline of the time-series.
+The other block components are associated with reversible change in the time series.
+The \emph{compatible} block component are needed to model switching dynamics in the baseline of the time series.
 
 \subsubsection{Local level (baseline)}
 
-The local level block component describes the local mean of a stationary time-series (no trend and no acceleration) \cite{STC:STC2035}. 
+The local level block component describes the local mean of a stationary time series (no trend and no acceleration) \cite{STC:STC2035}. 
 The local level describes irreversible changes.\\
 
 \noindent
@@ -314,7 +314,7 @@ $\sigma_{w}^{\mathtt{LL}}$ is the process noise standard deviation which can be 
 
 \subsubsection{Local trend (baseline)}
 
-The local trend block component describes the local mean of a trend-stationary time-series (trend and no acceleration) \cite{STC:STC2035}. 
+The local trend block component describes the local mean of a trend-stationary time series (trend and no acceleration) \cite{STC:STC2035}. 
 The local level describes irreversible changes.\\
 
 \noindent
@@ -322,7 +322,7 @@ Number of hidden states: 2\\
 
 Hidden states vector: 
 \begin{gather*}
- \mathbf{x}^{\mathtt{LT}} = [x^{\mathtt{LL}}, x^{\mathtt{LT}}]^{\intercal}
+ \mathbf{x}^{\mathtt{LT}} = [x^{\mathtt{L}}, x^{\mathtt{LT}}]^{\intercal}
  \end{gather*}
 Transition matrix: 
 \begin{gather*}
@@ -347,7 +347,7 @@ $\sigma_{w}^{\mathtt{LT}}$ is the process noise standard deviation, which can be
 
 \subsubsection{Local acceleration (baseline)}
 
-The local acceleration block component describes the local mean of a acceleration-stationary time-series \cite{STC:STC2035}. 
+The local acceleration block component describes the local mean of a acceleration-stationary time series \cite{STC:STC2035}. 
 It describes irreversible changes.\\
 
 \noindent
@@ -355,7 +355,7 @@ Number of hidden states: 3\\
 
 Hidden states vector: 
 \begin{gather*}
-\mathbf{x}^{\mathtt{LA}} = [x^{\mathtt{LL}}, x^{\mathtt{LT}} ,  x^{\mathtt{LA}}]^{\intercal}
+\mathbf{x}^{\mathtt{LA}} = [x^{\mathtt{L}}, x^{\mathtt{T}} ,  x^{\mathtt{LA}}]^{\intercal}
 \end{gather*}
 Transition matrix: 
 \begin{gather*}
@@ -382,7 +382,7 @@ $\sigma_{w}^{\mathtt{LA}}$ is the process noise standard deviation, which can be
 \subsubsection{Local level compatible trend (baseline)}
 
 The local level trend compatible component must be used in case of model switching between a local level model and a local trend model \cite{Nguyen2018}.
-The local level trend compatible block component describes the local mean of a stationary time-series. 
+The local level trend compatible block component describes the local mean of a stationary time series. 
 It describes irreversible changes.\\
 
 \noindent
@@ -415,7 +415,7 @@ $\sigma_{w}^{\mathtt{LcT}}$ is the process noise standard deviation, which can b
 \subsubsection{Local level compatible acceleration (baseline)}
 
 The local level acceleration compatible component must be used in case of model switching between a local level model and a local acceleration model \cite{Nguyen2018}.
-The local level acceleration compatible block component describes the local mean of a stationary time-series.
+The local level acceleration compatible block component describes the local mean of a stationary time series.
 It describes irreversible changes.\\
 
 \noindent
@@ -447,14 +447,14 @@ $\sigma_{w}^{\mathtt{LcA}}$ is the process noise standard deviation, which can b
 
 \subsubsection{Local trend compatible acceleration (baseline)}
 The local trend acceleration compatible component must be used in case of model switching between a local trend model and a local acceleration model \cite{Nguyen2018}.
-The local trend acceleration compatible block component describes the local mean of a trend-stationary time-series. 
+The local trend acceleration compatible block component describes the local mean of a trend-stationary time series. 
 It describes irreversible changes.\\
 
 \noindent
 Number of hidden states: 2\\
 Hidden states vector: 
 \begin{gather*}
- \mathbf{x}^{\mathtt{TcA}} = [x^{\mathtt{LL}}, x^{\mathtt{LT}} , x^{\mathtt{LAc}}=0]^{\intercal}
+ \mathbf{x}^{\mathtt{TcA}} = [x^{\mathtt{L}}, x^{\mathtt{LT}} , x^{\mathtt{LAc}}=0]^{\intercal}
  \end{gather*}
 Transition matrix: 
 \begin{gather*}
@@ -480,8 +480,8 @@ $\sigma_{w}^{\mathtt{TcA}}$ is the process noise standard deviation, which can b
 
 \subsubsection{Periodic (Fourier form)}
 
-The periodic (Fourier form) block component describes a periodic pattern in the time-series using Fourier form \cite{west1999bayesian,STC:STC2035}. 
-The periodic Fourier form allows modelling sine-like periodic pattern in time-series.
+The periodic (Fourier form) block component describes a periodic pattern in the time series using Fourier form \cite{west1999bayesian,STC:STC2035}. 
+The periodic Fourier form allows modelling sine-like periodic pattern in time series.
 It describes reversible changes.\\
 
 \noindent
@@ -515,8 +515,8 @@ $\sigma_{w}^{\mathtt{P}}$ is the process noise standard deviation and $p$ the pe
 
 \subsubsection{Periodic (Kernel regression form)}
 
-The periodic (Kernel regression form) block component describes a periodic pattern in the time-series using periodic kernel regression  \cite{Nguyen2019KRBDLM}. 
-The periodic Kernel regression form allows modelling form-free periodic pattern in time-series.
+The periodic (Kernel regression form) block component describes a periodic pattern in the time series using periodic kernel regression  \cite{Nguyen2019KRBDLM}. 
+The periodic Kernel regression form allows modelling form-free periodic pattern in time series.
 It describes reversible changes.
 The periodic kernel measures the similarity between pairs of covariates, and it is defined as
 \begin{gather*}
@@ -586,13 +586,13 @@ Model parameters:
 $\sigma_{w}^{\mathtt{AR}}$ is the process noise standard deviation, and $\phi^{\mathtt{AR}}$ the autoregressive coefficient.
 
 \subsection{Handling non-uniform time vector and missing data}
-Label{SS:HandlingNonUniformMissingData}
+\label{SS:HandlingNonUniformMissingData}
 
 \subsubsection{Non-uniform time vector}
 \label{SS:NonUniform}
 
 Non uniform time vector occurs when the time between two successive data measurements (i.e. the timestep) varies with time.
-In order to accommodate non-uniform time vector, a reference time step $\Delta t^{\text{ref}} $ must be defined \cite{STC:STC2035}. 
+In order to accommodate non-uniform time vector, OpenBDLM employs an approximate method which is based on a reference time step $\Delta t^{\text{ref}} $ \cite{STC:STC2035}. 
 The reference time-step is a value corresponding to the most frequent time step in the time series.
 All parameter values in the parameter set $\bm \theta$ are estimated for the reference time step. 
 Therefore, for local time step $\Delta t$ different than the reference timestep $\Delta t^{\text{ref}} $, the parameters value must be adapted accordingly.
@@ -608,19 +608,19 @@ To account for time step changes, the autoregressive coefficients are elevated t
 \phi^{\mathtt{AR}, \Delta t}=  (\phi^{\mathtt{AR}, \Delta t ^{\text{ref}}})^{\frac{\Delta t}{\Delta t ^{\text{ref}}}}.
 \end{gather*}
 Therefore, the autocorrelation between successive data samples in the autoregressive prediction model decreases as the local time step increase with respect to the reference time step.
-
+Note that this procedure is an approximation.
 \subsubsection{Missing data (NaN)}
 
-The presence of missing data (NaN) for specific time impedes to perform the full Kalman computations as the update step can not be performed \cite{STC:STC2035}.
+The presence of missing data (NaN) for specific time impedes the completion of the full Kalman computations as the update step can not be performed \cite{STC:STC2035}.
 However, the prediction step using the current transition model can be done.
 %No update is performed at times associated with missing data (NaN), and only the prediction step is performed.
-Therefore, BDLM can fill the gap when data are missing using the transition model.
+Therefore, BDLM automatically fills gaps when data are missing using the transition model.
 
 
-\subsection{Dependencies between time-series}
+\subsection{Dependencies between time series}
 \label{S:Dependencies}
-The dependencies between time-series are handled by adding regression coefficients $\phi^{i|j}$ in the observation matrix.
-For a dataset with $\mathtt{D}$ time-series, the observation matrix is
+The dependencies between time series are handled by adding regression coefficients $\phi^{i|j}$ in the observation matrix.
+For a dataset with $\mathtt{D}$ time series, the observation matrix is
 \begin{equation*}
 \mathbf{C}=\left[\begin{array}{cccccc}
 \mathbf{C}^{1}& \mathbf{C}_{1,2}^{c}&\cdots & \mathbf{C}_{1,j}^{c}&\cdots& \mathbf{C}_{1,\mathtt{D}}^{c}\\
@@ -646,7 +646,7 @@ d_{\mathtt{D},1}&d_{\mathtt{D},2}&\cdots&d_{\mathtt{D},j}&\cdots&1\\
 Then, 
 \begin{itemize}
 \item if $d_{i,j}=0$, $\mathbf{C}_{i,j}^{c}=[\mathbf{0}]$
-\item if $d_{i,j}=1$, $\mathbf{C}_{i,j}^{c}=\left[\phi^{i|j}_{1},\phi^{i|j}_{2},\cdots,\phi^{i|j}_{k_{j}}\right]$ where $k_{j}$ is the number of hidden states associated with the $j^{th}$ time-series.
+\item if $d_{i,j}=1$, $\mathbf{C}_{i,j}^{c}=\left[\phi^{i|j}_{1},\phi^{i|j}_{2},\cdots,\phi^{i|j}_{k_{j}}\right]$ where $k_{j}$ is the number of hidden states associated with the $j^{th}$ time series.
 \end{itemize}
 The regression coefficient $\phi^{i|j}_{k}$ gives the linear dependence between the $k^{th}$ hidden states of the $j^{th}$ time series and the $i^{th}$ time series.
-In OpenBDLM, a dependence model between time-series assigns regression coefficient for the observed hidden states associated with block component describing reversible behavior (periodic and autoregressive patterns).
+In OpenBDLM, a dependence model between time series assigns regression coefficient for the observed hidden states associated with block component describing reversible behavior (periodic and autoregressive patterns).

@@ -2,10 +2,10 @@
 \label{S:DATAEDITINGPREPROCESSING}
 
 Data pre-processing is a step taken ahead of data analysis.
-In most cases, the set of available time-series is heterogeneous, in the sense that each time-series does not originate from the same system of acquisition.
+In most cases, the set of available time series is heterogeneous, in the sense that each time series does not originate from the same system of acquisition.
 Therefore, the raw data do not usually share the same time vectors.
-This is an issue because BDLM techniques are incapable to analyze asynchronous time-series.
-Therefore, the main objective of data pre-processing is to synchronize the time-series. 
+This is an issue because BDLM is not capable to analyze asynchronous time series.
+Therefore, the main objective of data pre-processing is to synchronize the time series. 
 Moreover, data pre-processing includes time series selection, data analysis time period selection, \lstinline[basicstyle = \mlttfamily \small ]!NaN! removal, and data resampling.
 %The time synchronization is performed automatically through the data editing process.
 
@@ -24,11 +24,11 @@ Moreover, data pre-processing includes time series selection, data analysis time
      choice >> 
 \end{lstlisting}    
 
-\subsubsection{Selection of time-series}
+\subsubsection{Selection of time series}
 \label{SS:SelectionTimeSeries}
 
-The selection of time-series allows including a subset of the time series.
-The time series are automatically synchronized as time-series are added to (or removed from) the dataset.
+The selection of time series allows including a subset of the time series.
+The time series are automatically synchronized as time series are added to (or removed from) the dataset.
 
 \subsubsection{Selection of data analysis time-window}
 \label{SS:SelectionPeriodAnalysis}
@@ -42,12 +42,12 @@ The timestep for the padding must be provided by the user.
 \label{SS:MissingDataRemoval}
 
 It is possible to control the maximum amount of missing data (\lstinline[basicstyle = \mlttfamily \small ]!NaN!) allowed at each time slice. 
-The maximum amount of \lstinline[basicstyle = \mlttfamily \small ]!NaN! allowed at each time slice is given in percent with respect to the total number of time-series.
+The maximum amount of \lstinline[basicstyle = \mlttfamily \small ]!NaN! allowed at each time slice is given in percent with respect to the total number of time series.
 By default, the maximum amount of missing data is 100\% (see variable \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NaNThreshold!).
 
 \subsubsection{Data resampling}
 \label{SS:DataResampling}
-Data resampling changes the sampling rate of the time-series according to a given timestep provided by the user. 
+Data resampling changes the sampling rate of the time series according to a given timestep provided by the user. 
 If the requested timestep is higher than the original data timestep, \lstinline[basicstyle = \mlttfamily \small ]!NaN! values are added.
 Conversely, if the requested timestep is lower than the original  data timestep, OpenBDLM averages the data amplitude values within non-overlapping fixed time windows, each having the duration of the requested timestep.
 The first time window starts at the first timestamp, and the new timestamps are assigned at the times corresponding to the mid point of each time window.
@@ -56,7 +56,7 @@ The first time window starts at the first timestamp, and the new timestamps are 
 \label{SS:synchronization}
 By default, the time synchronization in OpenBDLM is done by padding with \lstinline[basicstyle = \mlttfamily \small ]!NaN! values.
 The time synchronization is controlled by the \lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold! and \lstinline[basicstyle = \mlttfamily \small ]!tolerance! variables.
-\lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold!  is given in percent with respect to the total number of time-series.
+\lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold!  is given in percent with respect to the total number of time series.
 The variable \lstinline[basicstyle = \mlttfamily \small ]!tolerance! gives the duration (in number of days) after which two timestamps are not considered equal.
 The default values for \lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold!  and \lstinline[basicstyle = \mlttfamily \small ]!tolerance! are 100\% and $10^{-6}$ days, respectively (see variables \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NaNThreshold! and \lstinline[basicstyle = \mlttfamily \small ]!misc.options.tolerance!. % $100$\% and $10^{-6}$ days, respectively. 
 

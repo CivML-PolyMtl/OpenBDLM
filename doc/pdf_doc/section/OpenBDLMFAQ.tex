@@ -20,20 +20,54 @@
 
 \begin{description}[style=unboxed]
 
+\item[\textbf{The state estimation crashes. What can I do ?}] \leavevmode \\
+
+There are two well-known issues that make the state estimation to crash.
+\begin{itemize}
+\item numerical instabilities of the Kalman computation due to missing data and/or non-uniform time step vector. Possible solution: switch to UD computation (see Section~\ref{S:HIDDENSTATESESTIMATION}). An alternative consists in removing missing data in the original data, and/or make the timestep vector uniform using the pre-processing tools (see Section~\ref{S:DATAEDITINGPREPROCESSING}).
+\item pinv error. Possible solution: in the \lstinline[basicstyle = \mlttfamily \small ]!KalmanFilter.m! function, change the tolerance value of the built-in \MATLAB{} function  \lstinline[basicstyle = \mlttfamily \small ]!pinv.m!. See \url{https://www.mathworks.com/help/matlab/ref/pinv.html} for more details.
+\end{itemize}
+
+\item[\textbf{The model parameter estimation crashes. What can I do ?}] \leavevmode \\
+This is likely due to the fact that the state estimation crashes. Therefore, see previous answer to work around that problem.
+
+\item[\textbf{The model parameter estimation is really slow. What can I do ?}] \leavevmode \\
+Model parameter estimation is usually slow, but hereafter are some tips to speed-up the procedure.
+\begin{itemize}
+\item shorten the training period (see  \lstinline[basicstyle = \mlttfamily \small ]!misc.options.trainingPeriod!).
+\item decrease the number of data points by averaging (see Section~\ref{S:DATAEDITINGPREPROCESSING}).
+\item perform parallel computation (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isParallel!). Note that parallel computation requires the \MATLAB{} \emph{Parallel Computing Toolbox}.
+\item assume some model parameters to be known based on your knowledge and the data to reduce the number of model parameters to learn (i.e. set the model parameters bound to \lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!, see Section~\ref{S:PARAMESTIMATION}).
+\item constrain model parameters between each other (if applicable) to reduce the total number of model parameters to learn.
+\item abort the process and start again with different starting values of model parameters. 
+\end{itemize}
+
+\item[\textbf{How to choose the right model structure for my data ?}] \leavevmode \\
+There is no silver bullet: inspect the data to propose candidates of model.
+Comparing the log-likelihood values obtained using different model candidates is a good indicator.
+Moreover, the presence of non-stationarity in the autoregressive hidden states may indicate that the model is incorrect or, at least, incomplete (but this may also due to model parameters values).
+Note that model structure selection is a large field of study and many methods are available in the literature.
+
+\item[\textbf{The default value for model parameters and initial hidden states do not satisfy me. How can I change them ?}] \leavevmode \\
+It is possible to change the default values from the function  \lstinline[basicstyle = \mlttfamily \small ]!buildModel.m!.
+
+\item[\textbf{Is there a way to keep track of the analysis when OpenBDLM runs in batch mode  ?}] \leavevmode \\
+Yes, this is the purpose of the \lstinline[basicstyle = \mlttfamily \small ]!LOG_*.txt! files which are saved in the ``log\_files'' folder.
+Each time an analysis is performed (interactive or batch mode), a log file is created that records information about the analysis.
+
+\item[\textbf{How can I delete projects ?}] \leavevmode \\
+From the OpenBDLM main menu, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!D!} and then select the indexes of the projects to delete.
+
+\item[\textbf{How can I clean my OpenBDLM working directory ?}] \leavevmode \\
+Type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Clean!} and then press Enter key $\dlsh$. This function will take care of deleting all the files related to previous analysis. Make sure that you have a copy of the files of interests before deleting them.
+
+
 \item[\textbf{How to cite OpenBDLM ?}] \leavevmode \\
 
 \noindent \emph{OpenBDLM, an Open-Source Software for Structural Health Monitoring using Bayesian Dynamic Linear Models}\\{\small
             Gaudot, I., Nguyen, L.H., Khazaeli S.and Goulet, J.-A.\\
             Submitted to 13th International Conference on Applications of Statistics and Probability in Civil Engineering, Vol. X, Issue X, 2019\\}
       [~] [~]  [~] [~] \cite{Gaudot2019OpenBDLM}\\[4pt]
-
-
-\item[\textbf{How to choose the right model structure  for my data ?}] \leavevmode \\
-
-There is no magic: inspect the data to propose candidates of model.
-Comparing the log-likelihood values obtained using different model candidates is a good indicator.
-Moreover, the presence of a weird behavior in the autoregressive hidden states (trend, periodicity) may indicate that the model is incorrect or, at least, incomplete (but this may also due to model parameters values).
-Note that model structure selection is a large field of study and many methods are available in the literature.
 
 
 \end{description}

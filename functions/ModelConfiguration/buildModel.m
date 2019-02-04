@@ -137,7 +137,7 @@ LT.pI=[];
 LT.pI0=[];
 LT.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2;dt^2/2 dt];
 LT.pQ={'\sigma_w','LT',[],[],[0,inf], PriorType, PriorMean, PriorSdev };
-LT.x={'x^{LL}',[],[];'x^{LT}',[],[]};
+LT.x={'x^{L}',[],[];'x^{LT}',[],[]};
 if misc.internalVars.isDataSimulation
     LT.pQ0={'1E-7'};
     LT.init={'[10 -0.001]','[0.1^2 0.1^2]'};
@@ -172,7 +172,7 @@ LA.pI=[];
 LA.pI0=[];
 LA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^5/20 dt^4/8 dt^3/6;dt^4/8 dt^3/3 dt^2/2;dt^3/6 dt^2/2 dt];
 LA.pQ={'\sigma_w','LA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
-LA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LA}',[],[]};
+LA.x={'x^{L}',[],[];'x^{T}',[],[];'x^{LA}',[],[]};
 if misc.internalVars.isDataSimulation
     LA.pQ0={'1E-8'};
     LA.init={'[10 -0.001 -0.00001]','[0.1^2 0.1^2 0.1^2]'};
@@ -269,7 +269,7 @@ TcA.pC0=[];
 %TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-15/(p^2*dt/dt_ref)];
 TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-30];
 TcA.pQ={'\sigma_w','TcA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
-TcA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LAc}',[],[]};
+TcA.x={'x^{L}',[],[];'x^{LT}',[],[];'x^{LAc}',[],[]};
 if misc.internalVars.isDataSimulation
     TcA.pQ0={'1E-8'};
     TcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
