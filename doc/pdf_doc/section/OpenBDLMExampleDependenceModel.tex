@@ -1,4 +1,4 @@
-\subsection{Example \#2: dependence model between two time-series}
+\subsection{Example \#2: dependence model between two time series}
 \label{S:ExampleDispTemp}
 
 \subsubsection{Data description}
@@ -7,13 +7,13 @@ This example uses two synthetic time series that mimics displacement and tempera
 The  Figure~\ref{fig:DataSummaryRaw2}a shows that data points exist between August 2013 and October 2015.
 The timestep is non-uniform; it varies from 1 hour to 25 hours (see Figure~\ref{fig:DataSummaryRaw2}b). 
 The timestep vector is not identical on each time series. 
-It means that the time-series are not synchronized between each other.
-The most frequent (i.e referent) time step is 1 hour for both time-series (Section~\ref{SS:NonUniform}).
-There is no missing data (NaN) on the displacement time-series, but there are missing data on the temperature time series as indicated by the red crosses on the Figure~\ref{fig:DataSummaryRaw2}c.
+It means that the time series are not synchronized between each other.
+The most frequent (i.e referent) time step is 1 hour for both time series (Section~\ref{SS:NonUniform}).
+There is no missing data (NaN) on the displacement time series, but there are missing data on the temperature time series as indicated by the red crosses on the Figure~\ref{fig:DataSummaryRaw2}c.
 Each red cross indicates the presence of a Not a Number (NaN) value in the time series.
 After data synchronization, the time step vectors are identical on each time series (Figure~\ref{fig:DataSummaryDefaultPreProcessed2}).
-Both time-series are stationary, and they exhibit a level, a yearly and daily periodic pattern as well as an autoregressive pattern.
-The periodic patterns observed on the displacement time-series is due to the temperature variations observed in the temperature time series.
+Both time series are stationary, and they exhibit a level, a yearly and daily periodic pattern as well as an autoregressive pattern.
+The periodic patterns observed on the displacement time series is due to the temperature variations observed in the temperature time series.
 
 \begin{figure*}[h!]
 \centering
@@ -61,8 +61,8 @@ The model includes one model class, and the block components are
 \begin{gather*}
 \textbf{x}=[x^{\mathtt{LL}}_{\text{D}}, x^{\mathtt{AR}}_{\text{D}}, x^{\mathtt{LL}}_{\text{T}}, x^{\mathtt{P1}\text{,yearly}}_{\text{T}}, x^{\mathtt{P2}\text{,yearly}}_{\text{T}}, x^{\mathtt{P1}\text{,daily}}_{\text{T}} , x^{\mathtt{P2}\text{,daily}}_{T}, x^{\mathtt{AR}}_{\text{T}}].
 \end{gather*}
-where $\text{D}$ and $\text{T}$ stand for displacement and temperature time-series, respectively.
-The periodic patterns observed on the displacement are considered through a dependency of the displacement on the periodic block components of the temperature time-series (Section~\ref{S:Dependencies}).
+where $\text{D}$ and $\text{T}$ stand for displacement and temperature time series, respectively.
+The periodic patterns observed on the displacement are considered through a dependency of the displacement on the periodic block components of the temperature time series (Section~\ref{S:Dependencies}).
 The associated model parameters are
 \begin{align*}
 \bm\theta & =[\sigma_{w, \text{D}}^{\mathtt{LL}}, \phi^{\mathtt{AR}}_{D}, \sigma_{w, \text{D}}^{\mathtt{AR}}, \sigma_{v, \text{D}},  \\
@@ -77,9 +77,8 @@ The optimized initial hidden states mean and covariance values are
 \begin{align*}
 \bm \mu^{*}_{0} & = [	 25.9  ,	-0.0595	, 5.45  	, 17.6  ,	-0.934	, 0.678 ,	0.41  ,	2.1]^{\intercal}, \text{and} \\
 \bm\Sigma^{*}_{0} & = \text{diag} [	3.71\times10^{-5},	0.000457	, 0.287 	, 0.263 ,	0.265 	,8.14\times10^{-5}	, \\
- & 8.14\times10^{-5}	, 0.71    ], 
+ & 8.14\times10^{-5}	, 0.71    ].
  \end{align*}
- respectively.
 The hidden states computed using the estimated model parameters and initial hidden states are presented in Figure~\ref{fig:DISPTEMPSIMOptimizedOptimizedExample2}.
 
 
@@ -88,7 +87,7 @@ The hidden states computed using the estimated model parameters and initial hidd
 There is a configuration file CFG\_Example\_DISPTEMP\_optim.m which is located in the ``config\_files'' folder of the OpenBDLM package.
 CFG\_Example\_DISPTEMP\_optim.m contains the optimized model parameters and optimized initial hidden states values.
 There is also a data file DATA\_Example\_DISPTEMP\_optim.mat that is located in the ``data/mat'' subfolder.
-Therefore, it is possible to run the example \#1 by following the following steps from the \MATLAB{} command line:
+Therefore, it is possible to run the example \#2 by following the following steps from the \MATLAB{} command line:
 \begin{enumerate}
 \item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISPTEMP_optim.m');!}.
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}.
@@ -100,7 +99,7 @@ Therefore, it is possible to run the example \#1 by following the following step
 \subsubsection{Run the example from command line interaction}
 
 The analysis of a new dataset usually requires to start from scratch.
-This section explains how to run the example \#1 from scratch, that is, how to load the data presented in Figure~\ref{fig:DataSummaryRaw2}, configure the model, estimate the model parameters and estimate the hidden states.
+This section explains how to run the example \#2 from scratch, that is, how to load the data presented in Figure~\ref{fig:DataSummaryRaw2}, configure the model, estimate the model parameters and estimate the hidden states.
 This may be done by following the following steps from the \MATLAB{} command line:
 \begin{enumerate}
 \item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}.
@@ -119,7 +118,7 @@ This may be done by following the following steps from the \MATLAB{} command lin
 \item Change the state estimation method to UD\footnote{The UD computation is required in this case because of the presence of missing data. See Section~\ref{SS:KFUD} for more details.}. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
 \item Return to the main menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!R!}.
 \item Access model parameter estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-\item Start the Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm is converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample2}. Note also that it is possible to get slightly different values of parameters with the same performance\footnote{Keep in mind that the optimization may take several minutes to several hours. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISPTEMP\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx2}.}.
+\item Start the Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm has converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample2}. Note also that it is possible to get slightly different values of parameters with the same performance\footnote{Keep in mind that the optimization may take several minutes to several hours. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISPTEMP\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx2}.}.
 \item Estimate the initial hidden states values. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}.
 \item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:DISPTEMPSIMOptimizedOptimizedExample2}.
 \item Access export menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!17!}. 
@@ -135,11 +134,11 @@ This may be done by following the following steps from the \MATLAB{} command lin
 %The next step is to configure the model.
 %First, the program requests the number of model class.
 %In this exemple, the time series data looks stationary and we are not interested in anomaly detection, and therefore we type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
-%Secondly, because there are several time series, OpenBDLM needs to know if there are dependencies between the time-series.
-%Typing \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!} for the first time-series, and \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!} for the second time series means that the model will consider the irreversible components (if any) of the second (temperature) time-series as covariates to describe the irreversible patterns observed in the first (displacement) time-series.
-%Then, OpenBDLM asks for the type of block component for each time-series. 
+%Secondly, because there are several time series, OpenBDLM needs to know if there are dependencies between the time series.
+%Typing \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!} for the first time series, and \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!} for the second time series means that the model will consider the irreversible components (if any) of the second (temperature) time series as covariates to describe the irreversible patterns observed in the first (displacement) time series.
+%Then, OpenBDLM asks for the type of block component for each time series. 
 %Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![11 41]!} for the displacement time series and \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![11 31 31 41]!} for the temperature time series.
-%The yearly and daily periodic patterns observed in the displacement time-series are modelled using the dependence on the periodic components defined for modelling the temperature time series data.
+%The yearly and daily periodic patterns observed in the displacement time series are modelled using the dependence on the periodic components defined for modelling the temperature time series data.
 %Note that because an autoregressive component is chosen for the displacement time series data, the time-dependent model error on the displacement is modelled using a dependence on the autoregressive component of the temperature time series data, as well as an independent autoregressive component.
 %The  output on \MATLAB{} command window during interactive model configuration is presented in Listing~\ref{LST:OpenBDLMModelConfigureExample2}.
 %Type $\dlsh$ to valid.
@@ -156,7 +155,7 @@ This may be done by following the following steps from the \MATLAB{} command lin
 %- Identifies dependence between time series; use [0] to indicate no dependence
 %    time serie #2 depends on time series # >> [0]
 %
-%- How many model classes do you want for each time-series? 
+%- How many model classes do you want for each time series? 
 %     choice >> 1
 %     
 %     ------------------------------------

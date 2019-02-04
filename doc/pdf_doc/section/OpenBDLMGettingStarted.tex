@@ -3,7 +3,7 @@
 \subsection{What is OpenBDLM ?}
 \label{S:OPENBDLMWHATIS}
 
-OpenBDLM is a \MATLAB{} open-source software developed to use Bayesian Dynamic Linear Models for long-term time series analysis (i.e time step in the order of one hour or higher).
+OpenBDLM is a \MATLAB{} open-source software developed to use Bayesian Dynamic Linear Models for time series analysis with time steps in the order of one hour or higher.
 OpenBDLM is capable of processing simultaneously several time series, enabling interpretation, monitoring and prediction over time.
 OpenBDLM includes an anomaly detection tool which allows detecting abnormal behavior in a fully probabilistic framework.
 In addition, OpenBDLM handles time series with missing data and non-uniform timestep vector.
@@ -16,7 +16,7 @@ OpenBDLM is available for download from GitHub at \url{https://github.com/CivML-
 
 The following instructions show how to download and setup OpenBDLM on your local machine for direct use, testing, and development purposes.
 \subsubsection{Prerequisites}
-\MATLAB{} (version 2016a or higher) installed on Mac OSX or Windows.\\
+\MATLAB{} (version 2016a or higher) installed on Mac OS X or Windows.\\
 
 \noindent
 The \MATLAB{}  \emph{Statistics and Machine Learning Toolbox} is required.
@@ -27,8 +27,8 @@ The \MATLAB{}  \emph{Statistics and Machine Learning Toolbox} is required.
 \item Download and extract the ZIP file from \url{https://github.com/CivML-PolyMtl/OpenBDLM} (or clone the git repository) in your working directory.
 \item Add ``OpenBDLM-master'' folder and all its subfolders to your \MATLAB{}  path through one of the following two options:
 \begin{itemize}
-    \item using the ``Set Path'' dialog box in \MATLAB{}, or 
-    \item by running  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!addpath! function from the \MATLAB{} command window
+    \item Using the ``Set Path'' dialog box in \MATLAB{}, or 
+    \item By running  \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!addpath! function from the \MATLAB{} command window
     \end{itemize}
 \end{enumerate}
 
@@ -79,7 +79,7 @@ In the \MATLAB{} command line, type
  followed by pressing the key enter $\dlsh$ to run a demo. 
 %\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!run_DEMO.m! to run a little demo. 
 Some messages on the \MATLAB{} command window show that the program has started (see Listing~\ref{LST:MessageDemo}).
-Some figures as shown in Figure~\ref{fig:DataSummaryRaw4}, and Figure~\ref{fig:SYNTHETICOptimizedOptimizedExample4} should popup on the screen \footnote{The demo runs in batch the example described in Section~\ref{S:EXAMPLESYNTHETICDATA}.}
+Some figures as shown in Figures~\ref{fig:DataSummaryRawSynthetic}-\ref{fig:SYNTHETICOptimizedOptimized} should popup on the screen\footnote{The demo runs in batch mode following the example described in Section~\ref{S:EXAMPLESYNTHETICDATA}.}
 
 
 \begin{lstlisting}[frame = single, basicstyle = \mlttfamily \small, caption = {Output on \MATLAB{} command window when running \lstinline!run_DEMO.m!}, linewidth=\linewidth, label=LST:MessageDemo, ,captionpos=b, float = h] 

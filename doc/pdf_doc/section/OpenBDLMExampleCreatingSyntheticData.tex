@@ -30,7 +30,7 @@ This example corresponds to the OpenBDLM demo presented in Section~\ref{S:OPENBD
 \subsubsection{Model description}
 The model includes one model class, and the block components are 
 \begin{gather*}
-\textbf{x}=[x^{\mathtt{LL}}, x^{\mathtt{LT}}, x^{\mathtt{La}}, x^{\mathtt{P1}\text{,yearly}}, x^{\mathtt{P2}\text{,yearly}}, x^{\mathtt{AR}}].
+\textbf{x}=[x^{\mathtt{L}}, x^{\mathtt{T}}, x^{\mathtt{LA}}, x^{\mathtt{P1}\text{,yearly}}, x^{\mathtt{P2}\text{,yearly}}, x^{\mathtt{AR}}].
 \end{gather*}
 The associated model parameters are
 \begin{gather*}
@@ -44,9 +44,8 @@ The default initial hidden states mean and covariance values, and model probabil
 \begin{align*}
 \bm \mu^{\text{defaut}}_{0} & = [	 10  , -1\times10^{-5}  ,	-0.001	,	10  ,  	10    ,	0  ]^{\intercal}, \text{and} \\
 \bm\Sigma^{\text{defaut}}_{0} & = \text{diag}[ 0.01  ,	0.01  ,	0.01  	,0.04  ,	0.04  ,	0.01 ], \\
- \pi_{0}^{1,\text{default}} & = 1,
+ \pi_{0}^{1,\text{default}} & = 1.
  \end{align*}
- respectively.
 The synthetic data generated from this model structure, model parameters values and initial hidden states values are presented in Figure~\ref{fig:DataSummaryRawSynthetic}.
 The hidden states computed using the same (i.e. true) model structure, model parameters values and initial hidden states values are presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
 
@@ -197,11 +196,11 @@ This section explains how to run the example \#4, that is, how to generate the s
 \end{subfigure}
 \begin{subfigure}{\linewidth}
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_1.pdf} 
-\caption{Estimated displacement local level component}
+\caption{Estimated displacement level component}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_2.pdf}
-\caption{Estimated displacement local trend component.}
+\caption{Estimated displacement trend component.}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA_3.pdf}
