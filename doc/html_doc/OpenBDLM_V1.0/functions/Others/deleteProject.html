@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of deleteProject</title>
+  <meta name="keywords" content="deleteProject">
+  <meta name="description" content="DELETEPROJECT Delete existing project file(s)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; deleteProject.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>deleteProject
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>DELETEPROJECT Delete existing project file(s)</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function deleteProject(misc, ProjectIdx) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DELETEPROJECT Delete existing project file(s)
+
+   SYNOPSIS:
+     DELETEPROJECT(misc, ProjectIdx)
+
+   INPUT:
+      misc                 - structure (required)
+                            see documentation for details about the fields
+                            in structure &quot;misc&quot;
+
+      ProjectIdx           - 1xM array of integer (required)
+                             This is the indices of the project to delete
+
+   OUTPUT:
+      N/A
+      Deleted existing project files.
+
+   DESCRIPTION:
+      DELETEPROJECT deletes project file(s).
+      The projects to delete are identified by the argument ProjectIdx.
+      The location of the file(s) to delete is read from the FilePath.
+
+   EXAMPLES:
+      DELETEPROJECT(misc, 2)
+      DELETEPROJECT(misc, [2,5,6])
+
+   EXTERNAL FUNCTIONS CALLED:
+      N/A
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="piloteDeleteProject.html" class="code" title="function piloteDeleteProject(misc)">piloteDeleteProject</a>	PILOTEDELETEPROJECT Pilote function to delete project(s)</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function deleteProject(misc, ProjectIdx)</a>
+0002 <span class="comment">%DELETEPROJECT Delete existing project file(s)</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     DELETEPROJECT(misc, ProjectIdx)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      misc                 - structure (required)</span>
+0009 <span class="comment">%                            see documentation for details about the fields</span>
+0010 <span class="comment">%                            in structure &quot;misc&quot;</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      ProjectIdx           - 1xM array of integer (required)</span>
+0013 <span class="comment">%                             This is the indices of the project to delete</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   OUTPUT:</span>
+0016 <span class="comment">%      N/A</span>
+0017 <span class="comment">%      Deleted existing project files.</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%   DESCRIPTION:</span>
+0020 <span class="comment">%      DELETEPROJECT deletes project file(s).</span>
+0021 <span class="comment">%      The projects to delete are identified by the argument ProjectIdx.</span>
+0022 <span class="comment">%      The location of the file(s) to delete is read from the FilePath.</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%   EXAMPLES:</span>
+0025 <span class="comment">%      DELETEPROJECT(misc, 2)</span>
+0026 <span class="comment">%      DELETEPROJECT(misc, [2,5,6])</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0029 <span class="comment">%      N/A</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%   SUBFUNCTIONS:</span>
+0032 <span class="comment">%      N/A</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%   See also</span>
+0035 
+0036 <span class="comment">%   AUTHORS:</span>
+0037 <span class="comment">%       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet,</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0040 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   MATLAB VERSION:</span>
+0043 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">%   DATE CREATED:</span>
+0046 <span class="comment">%       July 26, 2018</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   DATE LAST UPDATE:</span>
+0049 <span class="comment">%       July 27, 2018</span>
+0050 
+0051 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0052 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0053 
+0054 p = inputParser;
+0055 
+0056 validation_Fct_ProjectIdx = @(x) <span class="keyword">...</span>
+0057     ~ischar(x) &amp;&amp; ~any(mod(x,1)) &amp;&amp; isempty(x(x&lt;1));
+0058 
+0059 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0060 addRequired(p,<span class="string">'ProjectIdx'</span>, validation_Fct_ProjectIdx );
+0061 
+0062 parse(p,misc, ProjectIdx);
+0063 
+0064 misc=p.Results.misc;
+0065 ProjectIdx=p.Results.ProjectIdx;
+0066 
+0067 FilePath = misc.internalVars.ProjectPath;
+0068 ProjectInfofile = misc.internalVars.ProjectInfoFilename;
+0069 
+0070 <span class="comment">% Load project info file array</span>
+0071 FileContent = load(fullfile(pwd, FilePath,ProjectInfofile));
+0072 ProjectInfo = FileContent.ProjectInfo;
+0073 
+0074 <span class="comment">% Get number of saved projects</span>
+0075 NumberOfSavedProjects = size(ProjectInfo,1);
+0076 
+0077 <span class="comment">% Remove indices out of range</span>
+0078 ProjectIdx(ProjectIdx&gt;NumberOfSavedProjects) = [];
+0079 
+0080 <span class="keyword">if</span> isempty(ProjectIdx)
+0081     disp(<span class="string">' '</span>)
+0082     disp(<span class="string">'     wrong input'</span>)
+0083     disp(<span class="string">' '</span>)
+0084     <span class="keyword">return</span>
+0085 <span class="keyword">else</span>
+0086     <span class="comment">% Gather names of project to remove</span>
+0087     ProjectList = ProjectInfo(ProjectIdx,1);
+0088     fprintf([<span class="string">'     Are you sure you want to delete '</span>, <span class="keyword">...</span>
+0089         <span class="string">'the following projects: '</span>]);
+0090     fprintf(<span class="string">'%s, '</span>, ProjectList{1:end});
+0091     fprintf(<span class="string">'?\n'</span>)
+0092     
+0093     isYesNoCorrect= false;
+0094     <span class="keyword">while</span> ~isYesNoCorrect
+0095         choice = input(<span class="string">'     (y/n) &gt;&gt; '</span>,<span class="string">'s'</span>);
+0096         <span class="keyword">if</span> isempty(choice)
+0097             disp(<span class="string">' '</span>)
+0098             disp(<span class="string">'     wrong input'</span>)
+0099             disp(<span class="string">' '</span>)
+0100         <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'y'</span>) || strcmpi(choice,<span class="string">'yes'</span>)
+0101             
+0102             <span class="comment">% Delete project file</span>
+0103             delete(ProjectInfo{ProjectIdx,3});
+0104             
+0105             <span class="comment">% Delete info in FileInfo</span>
+0106             ProjectInfo(ProjectIdx,:) = [];
+0107             save(fullfile(pwd, FilePath, <span class="keyword">...</span>
+0108                 ProjectInfofile), <span class="string">'ProjectInfo'</span> );
+0109             disp(<span class="string">' '</span>)
+0110             disp(<span class="string">'     The projects files have been deleted'</span>)
+0111             disp(<span class="string">' '</span>)
+0112             
+0113             isYesNoCorrect =  true;
+0114             
+0115         <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'n'</span>) || strcmpi(choice,<span class="string">'no'</span>)
+0116             disp(<span class="string">' '</span>)
+0117             fprintf(<span class="string">'     No project files have been deleted.\n'</span>)
+0118             disp(<span class="string">' '</span>)
+0119             isYesNoCorrect =  true;          
+0120         <span class="keyword">else</span>
+0121             disp(<span class="string">' '</span>)
+0122             disp(<span class="string">'     wrong input'</span>)
+0123             disp(<span class="string">' '</span>)
+0124         <span class="keyword">end</span>
+0125         
+0126     <span class="keyword">end</span>
+0127        
+0128 <span class="keyword">end</span>
+0129 
+0130 <span class="comment">%--------------------END CODE ------------------------</span>
+0131 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

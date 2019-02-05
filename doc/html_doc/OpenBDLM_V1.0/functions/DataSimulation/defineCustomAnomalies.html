@@ -1,0 +1,361 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of defineCustomAnomalies</title>
+  <meta name="keywords" content="defineCustomAnomalies">
+  <meta name="description" content="DEFINECUSTOMANOMALIES Request user's input to define custom anomalies">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataSimulation</a> &gt; defineCustomAnomalies.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/DataSimulation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>defineCustomAnomalies
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>DEFINECUSTOMANOMALIES Request user's input to define custom anomalies</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [misc]=defineCustomAnomalies(data, model, misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DEFINECUSTOMANOMALIES Request user's input to define custom anomalies
+
+   SYNOPSIS:
+     [misc]=DEFINECUSTOMANOMALIES(data, model, misc)
+
+   INPUT:
+      data  - structure (required)
+      model - structure (required)
+      misc  - structure (required)
+
+   OUTPUT:
+      misc  - structure
+
+   DESCRIPTION:
+      DEFINECUSTOMANOMALIES requests user's input to define custom anomalies
+
+   EXAMPLES:
+      [misc]=DEFINECUSTOMANOMALIES(data, model, misc)
+
+   See also CONFIGUREMODELFORDATASIMULATION</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/ModelConfiguration/configureModelForDataSimulation.html" class="code" title="function [data, model, estimation, misc]=configureModelForDataSimulation(data, model, estimation , misc)">configureModelForDataSimulation</a>	CONFIGUREMODELFORDATASIMULATION Configure model for BDLM analysis based on simulated data</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [misc]=defineCustomAnomalies(data, model, misc)</a>
+0002 <span class="comment">%DEFINECUSTOMANOMALIES Request user's input to define custom anomalies</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [misc]=DEFINECUSTOMANOMALIES(data, model, misc)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data  - structure (required)</span>
+0009 <span class="comment">%      model - structure (required)</span>
+0010 <span class="comment">%      misc  - structure (required)</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   OUTPUT:</span>
+0013 <span class="comment">%      misc  - structure</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   DESCRIPTION:</span>
+0016 <span class="comment">%      DEFINECUSTOMANOMALIES requests user's input to define custom anomalies</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   EXAMPLES:</span>
+0019 <span class="comment">%      [misc]=DEFINECUSTOMANOMALIES(data, model, misc)</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   See also CONFIGUREMODELFORDATASIMULATION</span>
+0022 
+0023 <span class="comment">%   AUTHORS:</span>
+0024 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet,</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0027 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   MATLAB VERSION:</span>
+0030 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   DATE CREATED:</span>
+0033 <span class="comment">%       April 24, 2018</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   DATE LAST UPDATE:</span>
+0036 <span class="comment">%       August 9, 2018</span>
+0037 
+0038 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0039 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0040 p = inputParser;
+0041 
+0042 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0043 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0044 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0045 parse(p,data, model, misc);
+0046 
+0047 misc=p.Results.misc;
+0048 
+0049 MaxFailAttempts=4;
+0050 
+0051 <span class="comment">% Set fileID for logfile</span>
+0052 <span class="keyword">if</span> misc.internalVars.isQuiet
+0053     <span class="comment">% output message in logfile</span>
+0054     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0055 <span class="keyword">else</span>
+0056     <span class="comment">% output message on screen and logfile using diary command</span>
+0057     fileID=1;
+0058 <span class="keyword">end</span>
+0059 
+0060 
+0061 incTest=0;
+0062 isCorrect = false;
+0063 <span class="keyword">while</span> ~isCorrect
+0064     
+0065     incTest=incTest+1;
+0066     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0067             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0068     
+0069     fprintf(fileID,<span class="string">'- Define custom anomalies ? (y/n): \n'</span>);
+0070     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0071         choice_custom_anomalies = <span class="keyword">...</span>
+0072             eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+0073         fprintf(fileID,<span class="string">'     %s\n'</span>,choice_custom_anomalies);
+0074     <span class="keyword">else</span>
+0075         choice_custom_anomalies = input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0076     <span class="keyword">end</span>
+0077     
+0078     <span class="comment">% Remove space and quotes</span>
+0079     <span class="comment">% remove quotes</span>
+0080     choice_custom_anomalies=strrep(choice_custom_anomalies,<span class="string">''''</span>,<span class="string">''</span> );
+0081     <span class="comment">% remove double quotes</span>
+0082     choice_custom_anomalies=strrep(choice_custom_anomalies,<span class="string">'&quot;'</span>,<span class="string">''</span> );
+0083     <span class="comment">% remove spaces</span>
+0084     choice_custom_anomalies=strrep(choice_custom_anomalies, <span class="string">' '</span>,<span class="string">''</span> );
+0085     
+0086     
+0087     <span class="keyword">if</span> isempty(choice_custom_anomalies)
+0088         <span class="keyword">continue</span>        
+0089     <span class="keyword">elseif</span> strcmpi(choice_custom_anomalies,<span class="string">'y'</span>) ||  <span class="keyword">...</span>
+0090             strcmpi(choice_custom_anomalies,<span class="string">'yes'</span>)
+0091         
+0092         misc.isCustomAnomalies = true;
+0093         isCorrect = true;
+0094     <span class="keyword">elseif</span> strcmpi(choice_custom_anomalies,<span class="string">'n'</span>) || <span class="keyword">...</span>
+0095             strcmpi(choice_custom_anomalies,<span class="string">'no'</span>)
+0096         
+0097         misc.isCustomAnomalies = false;
+0098         isCorrect = true;
+0099     <span class="keyword">else</span>
+0100         fprintf(fileID,<span class="string">'\n'</span>);
+0101         fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0102         fprintf(fileID,<span class="string">'\n'</span>);
+0103         <span class="keyword">continue</span>
+0104     <span class="keyword">end</span>
+0105     
+0106 <span class="keyword">end</span>
+0107 misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+0108 fprintf(fileID,<span class="string">'\n'</span>);
+0109 <span class="keyword">if</span> misc.isCustomAnomalies
+0110     <span class="comment">%% Request anomalies start</span>
+0111     incTest=0;
+0112     isCorrect = false;
+0113     <span class="keyword">while</span> ~isCorrect
+0114         
+0115         incTest=incTest+1;
+0116         <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0117                 <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0118         
+0119         fprintf(fileID,<span class="string">'- Anomalies starts (in sample index) ?\n'</span>);
+0120         <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0121             start_custom_anomalies = <span class="keyword">...</span>
+0122                 eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+0123             x=start_custom_anomalies;
+0124             fprintf(fileID, [<span class="string">''</span>, <span class="keyword">...</span>
+0125                 <span class="string">'     [%s]\n'</span>], strjoin(cellstr(num2str(x(:))),<span class="string">', '</span>));
+0126         <span class="keyword">else</span>
+0127             start_custom_anomalies= input(<span class="string">'     choice &gt;&gt; '</span>);
+0128         <span class="keyword">end</span>
+0129         <span class="keyword">if</span> isempty(start_custom_anomalies)
+0130             fprintf(fileID,<span class="string">'\n'</span>);
+0131             fprintf(fileID,<span class="string">'     wrong input -&gt;  input is empty\n'</span>);
+0132             fprintf(fileID,<span class="string">'\n'</span>);
+0133             <span class="keyword">continue</span>
+0134         <span class="keyword">elseif</span> ischar(start_custom_anomalies)|| <span class="keyword">...</span>
+0135                 any(rem(start_custom_anomalies,1)~=0) || <span class="keyword">...</span>
+0136                 ~any(all(start_custom_anomalies &gt; 0))
+0137             
+0138             fprintf(fileID,<span class="string">'\n'</span>);
+0139             fprintf(fileID,[<span class="string">'     wrong input -&gt; should be strictly '</span> <span class="keyword">...</span>
+0140                 <span class="string">'positive integers\n'</span>]);
+0141             fprintf(fileID,<span class="string">'\n'</span>);
+0142             <span class="keyword">continue</span>
+0143         <span class="keyword">elseif</span> length(unique(start_custom_anomalies)) ~= <span class="keyword">...</span>
+0144                 length(start_custom_anomalies)
+0145             fprintf(fileID,<span class="string">'\n'</span>);
+0146             fprintf(fileID,[<span class="string">'     wrong input -&gt; at least two '</span>
+0147                 <span class="string">'anomaly starts are identical.\n'</span>]);
+0148             fprintf(fileID,<span class="string">'\n'</span>);
+0149             <span class="keyword">continue</span>
+0150         <span class="keyword">else</span>
+0151             <span class="comment">% Sort vector</span>
+0152             start_custom_anomalies=sort(start_custom_anomalies);
+0153             
+0154             <span class="comment">% Record anomalies start</span>
+0155             misc.custom_anomalies.start_custom_anomalies= <span class="keyword">...</span>
+0156                 start_custom_anomalies;
+0157             isCorrect = true;
+0158             
+0159         <span class="keyword">end</span>
+0160     <span class="keyword">end</span>
+0161     misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+0162     fprintf(fileID,<span class="string">'\n'</span>);
+0163         
+0164     <span class="comment">%% Request anomalies durations</span>
+0165     incTest=0;
+0166     isCorrect=false;
+0167     <span class="keyword">while</span> ~isCorrect
+0168         
+0169         incTest=incTest+1;
+0170         <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0171                 <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0172         
+0173         fprintf(fileID,<span class="string">'- Anomalies durations (in number of points) ?\n'</span>);
+0174         <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0175             duration_custom_anomalies = <span class="keyword">...</span>
+0176                 eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+0177             
+0178             x=duration_custom_anomalies;
+0179             fprintf(fileID, [<span class="string">''</span>, <span class="keyword">...</span>
+0180                 <span class="string">'     [%s]\n'</span>], strjoin(cellstr(num2str(x(:))),<span class="string">', '</span>));
+0181             
+0182         <span class="keyword">else</span>
+0183             duration_custom_anomalies= input( <span class="string">'     choice &gt;&gt; '</span>);
+0184         <span class="keyword">end</span>
+0185         <span class="keyword">if</span> isempty(duration_custom_anomalies)
+0186             fprintf(fileID,<span class="string">'\n'</span>);
+0187             fprintf(fileID,<span class="string">'     wrong input -&gt;  input is empty\n'</span>);
+0188             fprintf(fileID,<span class="string">'\n'</span>);
+0189             <span class="keyword">continue</span>
+0190         <span class="keyword">elseif</span> ischar( duration_custom_anomalies)|| <span class="keyword">...</span>
+0191                 any(rem(duration_custom_anomalies,1)~=0) || <span class="keyword">...</span>
+0192                 any(duration_custom_anomalies(duration_custom_anomalies <span class="keyword">...</span>
+0193                 &lt;= 0))
+0194             fprintf(fileID,<span class="string">'\n'</span>);
+0195             fprintf(fileID,[<span class="string">'     wrong input -&gt; '</span>, <span class="keyword">...</span>
+0196                 <span class="string">'should be strictly positive integers\n'</span>]);
+0197             fprintf(fileID,<span class="string">'\n'</span>);
+0198             <span class="keyword">continue</span>
+0199         <span class="keyword">elseif</span> length(duration_custom_anomalies) ~= <span class="keyword">...</span>
+0200                 length(start_custom_anomalies)
+0201             fprintf(fileID,<span class="string">'\n'</span>);
+0202             fprintf(fileID,[<span class="string">'     wrong input -&gt; '</span>, <span class="keyword">...</span>
+0203                 <span class="string">'length of the vector should be %s\n'</span>], <span class="keyword">...</span>
+0204                 num2str(length(start_custom_anomalies)));
+0205             fprintf(fileID,<span class="string">'\n'</span>);
+0206             <span class="keyword">continue</span>
+0207         <span class="keyword">else</span>
+0208             overlap = false;
+0209             <span class="keyword">for</span> i=1:length(duration_custom_anomalies)-1
+0210                 
+0211                 <span class="keyword">if</span> start_custom_anomalies(i)+duration_custom_anomalies(i)<span class="keyword">...</span>
+0212                         &gt;= start_custom_anomalies(i+1)
+0213                     overlap = true;
+0214                 <span class="keyword">end</span>
+0215             <span class="keyword">end</span>
+0216             
+0217             <span class="keyword">if</span> overlap
+0218                 fprintf(fileID,<span class="string">'\n'</span>);
+0219                 fprintf(fileID,[<span class="string">'     wrong input -&gt; '</span>, <span class="keyword">...</span>
+0220                     <span class="string">' at least two overlapping anomalies\n'</span>]);
+0221                 fprintf(fileID,<span class="string">'\n'</span>);
+0222                 <span class="keyword">continue</span>
+0223             <span class="keyword">end</span>
+0224             
+0225             <span class="comment">% Record anomalies duration</span>
+0226             misc.custom_anomalies.duration_custom_anomalies= <span class="keyword">...</span>
+0227                 duration_custom_anomalies;
+0228             isCorrect = true;
+0229         <span class="keyword">end</span>
+0230     <span class="keyword">end</span>
+0231     misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
+0232     fprintf(fileID,<span class="string">'\n'</span>);
+0233     
+0234     <span class="comment">%% Request anomalies amplitudes</span>
+0235     incTest=0;
+0236     isCorrect=false;
+0237     <span class="keyword">while</span> ~isCorrect
+0238         
+0239         incTest=incTest+1;
+0240         <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0241                 <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0242         
+0243         fprintf(fileID,<span class="string">'- Anomalies amplitudes (i.e change in local trend) ?\n'</span>);
+0244         <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0245             amplitude_custom_anomalies = <span class="keyword">...</span>
+0246                 eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+0247             
+0248             x=amplitude_custom_anomalies;
+0249             fprintf(fileID, [<span class="string">''</span>, <span class="keyword">...</span>
+0250                 <span class="string">'     [%s]\n'</span>], strjoin(cellstr(num2str(x(:))),<span class="string">', '</span>));
+0251             
+0252         <span class="keyword">else</span>
+0253             amplitude_custom_anomalies=input(<span class="string">'     choice &gt;&gt; '</span>);
+0254         <span class="keyword">end</span>
+0255         <span class="keyword">if</span> isempty(amplitude_custom_anomalies)
+0256             fprintf(fileID,<span class="string">'\n'</span>);
+0257             fprintf(fileID,<span class="string">'     wrong input -&gt;  input is empty\n'</span>);
+0258             fprintf(fileID,<span class="string">'\n'</span>);
+0259             <span class="keyword">continue</span>
+0260         <span class="keyword">elseif</span> ischar( amplitude_custom_anomalies)
+0261             fprintf(fileID,<span class="string">'\n'</span>);
+0262             fprintf(fileID,[<span class="string">'     wrong input -&gt;  '</span>, <span class="keyword">...</span>
+0263                 <span class="string">'input contains character\n'</span>]);
+0264             fprintf(fileID,<span class="string">'\n'</span>);
+0265             <span class="keyword">continue</span>
+0266         <span class="keyword">elseif</span> length(amplitude_custom_anomalies) ~= <span class="keyword">...</span>
+0267                 length(start_custom_anomalies)
+0268             fprintf(fileID,<span class="string">'\n'</span>);
+0269             fprintf(fileID,[<span class="string">'     wrong input -&gt; '</span>, <span class="keyword">...</span>
+0270                 <span class="string">'length of the vector should be %s'</span>], <span class="keyword">...</span>
+0271                 num2str(length(start_custom_anomalies)));
+0272             fprintf(fileID,<span class="string">'\n'</span>);
+0273             <span class="keyword">continue</span>
+0274         <span class="keyword">elseif</span> ~all(amplitude_custom_anomalies)
+0275             fprintf(fileID,<span class="string">'\n'</span>);
+0276             fprintf(fileID,[<span class="string">'     wrong input -&gt;  '</span>, <span class="keyword">...</span>
+0277                 <span class="string">'input should be nonzero\n'</span>]);
+0278             fprintf(fileID,<span class="string">'\n'</span>);
+0279             <span class="keyword">continue</span>
+0280         <span class="keyword">end</span>
+0281         
+0282         <span class="comment">% Record anomalies amplitude</span>
+0283         misc.custom_anomalies.amplitude_custom_anomalies=<span class="keyword">...</span>
+0284             amplitude_custom_anomalies;
+0285         
+0286         isCorrect = true;
+0287     <span class="keyword">end</span>
+0288     
+0289     misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;   
+0290 <span class="keyword">else</span>
+0291     <span class="keyword">return</span>
+0292 <span class="keyword">end</span>
+0293 fprintf(fileID,<span class="string">'\n'</span>);
+0294 <span class="comment">%--------------------END CODE ------------------------</span>
+0295 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

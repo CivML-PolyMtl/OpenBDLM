@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of setDefaultOptions</title>
+  <meta name="keywords" content="setDefaultOptions">
+  <meta name="description" content="SETDEFAULTOPTIONS Set default options for OpenBDLM">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; setDefaultOptions.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>setDefaultOptions
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>SETDEFAULTOPTIONS Set default options for OpenBDLM</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [misc]=setDefaultOptions(misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SETDEFAULTOPTIONS Set default options for OpenBDLM
+
+   SYNOPSIS:
+     [misc]=SETDEFAULTOPTIONS(misc)
+ 
+   INPUT:
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+ 
+   OUTPUT:
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+ 
+   DESCRIPTION:
+      SETDEFAULTOPTIONS sets default options for OpenBDLM
+      SETDEFAULTOPTIONS initializes the field misc.options 
+ 
+   EXAMPLES:
+      [misc]=SETDEFAULTOPTIONS(misc)
+ 
+   EXTERNAL FUNCTIONS CALLED:
+      N/A
+ 
+   SUBFUNCTIONS:
+      N/A
+ 
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/OpenBDLM_main.html" class="code" title="function [data, model, estimation, misc] = OpenBDLM_main(UserInput)">OpenBDLM_main</a>	OPENBDLM_MAIN Process control for OpenBDLM</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [misc]=setDefaultOptions(misc)</a>
+0002 <span class="comment">%SETDEFAULTOPTIONS Set default options for OpenBDLM</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [misc]=SETDEFAULTOPTIONS(misc)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      misc             - structure (required)</span>
+0009 <span class="comment">%                         see documentation for details about the fields of</span>
+0010 <span class="comment">%                         misc</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   OUTPUT:</span>
+0013 <span class="comment">%      misc             - structure (required)</span>
+0014 <span class="comment">%                         see documentation for details about the fields of</span>
+0015 <span class="comment">%                         misc</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   DESCRIPTION:</span>
+0018 <span class="comment">%      SETDEFAULTOPTIONS sets default options for OpenBDLM</span>
+0019 <span class="comment">%      SETDEFAULTOPTIONS initializes the field misc.options</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   EXAMPLES:</span>
+0022 <span class="comment">%      [misc]=SETDEFAULTOPTIONS(misc)</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0025 <span class="comment">%      N/A</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%   SUBFUNCTIONS:</span>
+0028 <span class="comment">%      N/A</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   See also</span>
+0031  
+0032 <span class="comment">%   AUTHORS:</span>
+0033 <span class="comment">%        Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0036 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%   MATLAB VERSION:</span>
+0039 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   DATE CREATED:</span>
+0042 <span class="comment">%       August 14, 2018</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   DATE LAST UPDATE:</span>
+0045 <span class="comment">%       October 18, 2018</span>
+0046  
+0047 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0048 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0049 p = inputParser;
+0050 
+0051 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0052 parse(p, misc);
+0053 misc=p.Results.misc;
+0054  
+0055 <span class="comment">%% Set default options</span>
+0056 
+0057 <span class="comment">% Syncronization options</span>
+0058 misc.options.NaNThreshold = 100;
+0059 misc.options.Tolerance = 10^(-6);
+0060 
+0061 <span class="comment">% Optimization options</span>
+0062 misc.options.trainingPeriod = [1 Inf];
+0063 misc.options.isParallel = false;
+0064 misc.options.isMute = false;
+0065 misc.options.isMAP = false;
+0066 misc.options.maxTime = 60; 
+0067 
+0068 <span class="comment">% Newton-Raphson</span>
+0069 misc.options.maxIterations = 100;
+0070 misc.options.isLaplaceApprox = false;
+0071 misc.options.isPredCap = false;
+0072 misc.options.NRLevelsLambdaRef = 4;
+0073 misc.options.NRTerminationTolerance = 10^(-7);
+0074 
+0075 <span class="comment">% Stochastic gradient</span>
+0076 misc.options.maxEpochs = 30;
+0077 misc.options.SplitPercent = 30;
+0078 misc.options.MiniBatchSizePercent = 20;
+0079 misc.options.SGTerminationTolerance = 95;
+0080 misc.options.Optimizer = <span class="string">'MMT'</span>;
+0081 
+0082 <span class="comment">% Hidden states estimation options</span>
+0083 misc.options.MethodStateEstimation = <span class="string">'kalman'</span>; 
+0084 misc.options.MaxSizeEstimation = 100;
+0085 misc.options.DataPercent = 100;
+0086 misc.options.KRNumberControlPoints = 100;
+0087 
+0088 <span class="comment">% Data simulation option</span>
+0089 misc.options.Seed = 12345;
+0090 
+0091 <span class="comment">% Plot options</span>
+0092 misc.options.isPlotEstimations = false;
+0093 misc.options.FigurePosition = [100, 100, 1300, 270];
+0094 misc.options.isSecondaryPlot = false;
+0095 misc.options.Subsample = 1;
+0096 misc.options.Linewidth = 1;
+0097 misc.options.ndivx = 4;
+0098 misc.options.ndivy = 3;
+0099 misc.options.Xaxis_lag = 0;
+0100 misc.options.isExportTEX = false;
+0101 misc.options.isExportPNG = false;
+0102 misc.options.isExportPDF = false;
+0103 
+0104 <span class="comment">%--------------------END CODE ------------------------</span>
+0105 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

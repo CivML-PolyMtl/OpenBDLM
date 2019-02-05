@@ -1,0 +1,681 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of modifyModelParameters</title>
+  <meta name="keywords" content="modifyModelParameters">
+  <meta name="description" content="MODIFYMODELPARAMETERS Request user to modify model parameters values">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelParametersLearning</a> &gt; modifyModelParameters.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/ModelParametersLearning&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>modifyModelParameters
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>MODIFYMODELPARAMETERS Request user to modify model parameters values</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [model, misc] = modifyModelParameters(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MODIFYMODELPARAMETERS Request user to modify model parameters values
+
+   SYNOPSIS:
+     [model, misc] = MODIFYMODELPARAMETERS(data, model, estimation, misc, varargin)
+
+   INPUT:
+      data             - structure (required)
+                         see documentation for details about the fields of
+                         data
+
+      model            - structure (required)
+                          see documentation for details about the fields of
+                          model
+
+      estimation       - structure (required)
+                         see documentation for details about the fields of
+                         estimation
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+      FilePath         - character (optional)
+                         directory where to save the modifications
+                         save modification in
+                         FilePath/PROJ_'misc.ProjectName'.mat file
+                         default: '.'  (current folder)
+
+   OUTPUT:
+      model            - structure (required)
+                          see documentation for details about the fields of
+                          model
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+      Updated project file with new model parameters values
+
+   DESCRIPTION:
+      MODIFYMODELPARAMETERS modifies model parameters (values, domain)
+
+   EXAMPLES:
+      [model, misc] = MODIFYMODELPARAMETERS(data, model, estimation, misc)
+      [model, misc] = MODIFYMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects')
+
+   EXTERNAL FUNCTIONS CALLED:
+      saveProject
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also SAVEPROJECT</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>	READPARAMETERPROPERTIES Extract some columns of a cell array</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/writeParameterProperties.html" class="code" title="function [cellOut]=writeParameterProperties(cellIn, arrayIn, Position)">writeParameterProperties</a>	WRITEPARAMETERPROPERTIES Write updated model parameter properties</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="piloteModifyModelParameters.html" class="code" title="function [model, misc]=piloteModifyModelParameters(data, model, estimation, misc)">piloteModifyModelParameters</a>	PILOTEMODIFYMODELPARAMETERS Pilote function to modify model parameters</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [model, misc] = modifyModelParameters(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%MODIFYMODELPARAMETERS Request user to modify model parameters values</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [model, misc] = MODIFYMODELPARAMETERS(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data             - structure (required)</span>
+0009 <span class="comment">%                         see documentation for details about the fields of</span>
+0010 <span class="comment">%                         data</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      model            - structure (required)</span>
+0013 <span class="comment">%                          see documentation for details about the fields of</span>
+0014 <span class="comment">%                          model</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%      estimation       - structure (required)</span>
+0017 <span class="comment">%                         see documentation for details about the fields of</span>
+0018 <span class="comment">%                         estimation</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      misc             - structure (required)</span>
+0021 <span class="comment">%                         see documentation for details about the fields of</span>
+0022 <span class="comment">%                         misc</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%      FilePath         - character (optional)</span>
+0025 <span class="comment">%                         directory where to save the modifications</span>
+0026 <span class="comment">%                         save modification in</span>
+0027 <span class="comment">%                         FilePath/PROJ_'misc.ProjectName'.mat file</span>
+0028 <span class="comment">%                         default: '.'  (current folder)</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   OUTPUT:</span>
+0031 <span class="comment">%      model            - structure (required)</span>
+0032 <span class="comment">%                          see documentation for details about the fields of</span>
+0033 <span class="comment">%                          model</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%      misc             - structure (required)</span>
+0036 <span class="comment">%                         see documentation for details about the fields of</span>
+0037 <span class="comment">%                         misc</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%      Updated project file with new model parameters values</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   DESCRIPTION:</span>
+0042 <span class="comment">%      MODIFYMODELPARAMETERS modifies model parameters (values, domain)</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   EXAMPLES:</span>
+0045 <span class="comment">%      [model, misc] = MODIFYMODELPARAMETERS(data, model, estimation, misc)</span>
+0046 <span class="comment">%      [model, misc] = MODIFYMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects')</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0049 <span class="comment">%      saveProject</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">%   SUBFUNCTIONS:</span>
+0052 <span class="comment">%      N/A</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%   See also SAVEPROJECT</span>
+0055 
+0056 <span class="comment">%   AUTHORS:</span>
+0057 <span class="comment">%        Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0058 <span class="comment">%</span>
+0059 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0060 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0061 <span class="comment">%</span>
+0062 <span class="comment">%   MATLAB VERSION:</span>
+0063 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0064 <span class="comment">%</span>
+0065 <span class="comment">%   DATE CREATED:</span>
+0066 <span class="comment">%       June 11, 2018</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%   DATE LAST UPDATE:</span>
+0069 <span class="comment">%       August 20, 2018</span>
+0070 
+0071 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0072 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0073 p = inputParser;
+0074 
+0075 defaultFilePath = <span class="string">'.'</span>;
+0076 
+0077 validationFonction = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0078     ~isempty(x(~isspace(x)));
+0079 
+0080 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0081 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0082 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0083 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0084 addParameter(p, <span class="string">'FilePath'</span>, defaultFilePath, validationFonction)
+0085 parse(p,data, model, estimation, misc, varargin{:});
+0086 
+0087 data=p.Results.data;
+0088 model=p.Results.model;
+0089 estimation=p.Results.estimation;
+0090 misc=p.Results.misc;
+0091 FilePath=p.Results.FilePath;
+0092 
+0093 MaxFailAttempts=4;
+0094 
+0095 <span class="comment">% Set fileID for logfile</span>
+0096 <span class="keyword">if</span> misc.internalVars.isQuiet
+0097     <span class="comment">% output message in logfile</span>
+0098     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0099 <span class="keyword">else</span>
+0100     <span class="comment">% output message on screen and logfile using diary command</span>
+0101     fileID=1;
+0102 <span class="keyword">end</span>
+0103 
+0104 <span class="comment">%% Read model parameter properties</span>
+0105 idx_pvalues=size(model.param_properties,2)-1;
+0106 idx_pref= size(model.param_properties,2);
+0107 
+0108 [arrayOut]=<span class="keyword">...</span>
+0109     <a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>(model.param_properties, <span class="keyword">...</span>
+0110     [idx_pvalues, idx_pref]);
+0111 
+0112 parameter= arrayOut(:,1);
+0113 p_ref = arrayOut(:,2);
+0114 
+0115 <span class="comment">%% Display current values</span>
+0116 fprintf(fileID,[<span class="string">'     #   |Parameter  '</span>, <span class="keyword">...</span>
+0117     <span class="string">'  |Component |Model # |Observation '</span><span class="keyword">...</span>
+0118     <span class="string">'|Current value |Bounds min/max |Prior type'</span> <span class="keyword">...</span>
+0119     <span class="string">' |Mean prior |Sdev prior |Constraint\n'</span>]);
+0120 <span class="keyword">for</span> i=1:length(parameter)
+0121     i_ref=p_ref(i);
+0122     <span class="keyword">if</span> i~=i_ref
+0123         contraint=[<span class="string">'@'</span> num2str(i_ref)];
+0124     <span class="keyword">else</span>
+0125         contraint=<span class="string">''</span>;
+0126     <span class="keyword">end</span>
+0127     
+0128     format = [<span class="string">'     %-4s %-13s %-10s %-8s '</span> <span class="keyword">...</span>
+0129         <span class="string">'%-12s %-14s %-15s %-11s %-11s %-11s %-10s\n'</span>];
+0130     
+0131     fprintf(fileID, format, <span class="keyword">...</span>
+0132         num2str(i, <span class="string">'%03d'</span> ), <span class="keyword">...</span>
+0133         model.param_properties{i,1}, <span class="keyword">...</span>
+0134         model.param_properties{i,2}, <span class="keyword">...</span>
+0135         model.param_properties{i,3}, <span class="keyword">...</span>
+0136         model.param_properties{i,4}, <span class="keyword">...</span>
+0137         num2str(parameter(i)), <span class="keyword">...</span>
+0138         [num2str(model.param_properties{i,5}(1)), <span class="string">'/'</span>, <span class="keyword">...</span>
+0139         num2str(model.param_properties{i,5}(2)) ], <span class="keyword">...</span>
+0140         model.param_properties{i,6}, <span class="keyword">...</span>
+0141         num2str(model.param_properties{i,7}), <span class="keyword">...</span>
+0142         num2str(model.param_properties{i,8}), <span class="keyword">...</span>
+0143         contraint);
+0144 <span class="keyword">end</span>
+0145 
+0146 incTest=0;
+0147 isCorrectAnswer = false;
+0148 <span class="keyword">while</span> ~isCorrectAnswer
+0149     
+0150     incTest=incTest+1;
+0151     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0152             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0153     
+0154     fprintf(fileID,<span class="string">'\n'</span>);
+0155     fprintf(fileID,<span class="string">'     1   -&gt;  Modify a parameter value\n'</span>);
+0156     fprintf(fileID,<span class="string">'     2   -&gt;  Modify a parameter prior\n'</span>);
+0157     fprintf(fileID,<span class="string">'     3   -&gt;  Constrain a parameter to another\n'</span>);
+0158     fprintf(fileID,[<span class="string">'     4   -&gt;  Export current  '</span> <span class="keyword">...</span>
+0159         <span class="string">'parameter properties in config file format\n'</span>]);
+0160     fprintf(fileID,<span class="string">'\n'</span>);
+0161     fprintf(fileID,<span class="string">'     Type R to return to the previous menu\n'</span>);
+0162     fprintf(fileID,<span class="string">'\n'</span>);
+0163     
+0164     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0165         user_inputs.inp_1 = <span class="keyword">...</span>
+0166             eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
+0167         user_inputs.inp_1 = num2str(user_inputs.inp_1);
+0168         <span class="keyword">if</span> ischar(user_inputs.inp_1)
+0169             fprintf(fileID, <span class="string">'     %s  \n'</span>, user_inputs.inp_1);
+0170         <span class="keyword">else</span>
+0171             fprintf(fileID, <span class="string">'     %s  \n'</span>, num2str(user_inputs.inp_1));
+0172         <span class="keyword">end</span>
+0173         
+0174     <span class="keyword">else</span>
+0175         user_inputs.inp_1 =  input(<span class="string">'     choice &gt;&gt; '</span>, <span class="string">'s'</span>);
+0176     <span class="keyword">end</span>
+0177     fprintf(fileID,<span class="string">'\n'</span>);
+0178     
+0179     <span class="comment">% Remove space and simple/double quotes</span>
+0180     user_inputs.inp_1=strrep(user_inputs.inp_1,<span class="string">''''</span>,<span class="string">''</span>);
+0181     user_inputs.inp_1=strrep(user_inputs.inp_1,<span class="string">'&quot;'</span>,<span class="string">''</span> );
+0182     user_inputs.inp_1=strrep(user_inputs.inp_1, <span class="string">' '</span>,<span class="string">''</span> );
+0183     
+0184     
+0185     <span class="keyword">if</span> ischar(user_inputs.inp_1) &amp;&amp; length(user_inputs.inp_1) == 1 &amp;&amp; <span class="keyword">...</span>
+0186             strcmpi(user_inputs.inp_1, <span class="string">'R'</span>)
+0187         
+0188         misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0189         <span class="keyword">return</span>
+0190         
+0191     <span class="keyword">elseif</span> round(str2double(user_inputs.inp_1)) == 1
+0192         
+0193         misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0194         
+0195         <span class="comment">%% Provide the index of the parameter to modify</span>
+0196         incTest_2=0;
+0197         isCorrect = false;
+0198         <span class="keyword">while</span> ~isCorrect
+0199             
+0200             incTest_2=incTest_2+1;
+0201             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0202                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0203             
+0204             fprintf(fileID,<span class="string">'     Modify parameter # \n'</span>);
+0205             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0206                 user_inputs.inp_2 = <span class="keyword">...</span>
+0207                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0208                     misc.internalVars.BatchMode.AnswerIndex}));
+0209                 fprintf(fileID,<span class="string">'     %s \n'</span>, num2str(user_inputs.inp_2));
+0210             <span class="keyword">else</span>
+0211                 user_inputs.inp_2 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0212             <span class="keyword">end</span>
+0213             
+0214             <span class="keyword">if</span> ~isempty(user_inputs.inp_2) &amp;&amp; <span class="keyword">...</span>
+0215                     rem(user_inputs.inp_2,1) == 0 &amp;&amp; <span class="keyword">...</span>
+0216                     (user_inputs.inp_2 &gt; 0) &amp;&amp; <span class="keyword">...</span>
+0217                     user_inputs.inp_2 &lt;= length(model.param_properties)
+0218                 misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0219                 isCorrect = true;
+0220             <span class="keyword">else</span>
+0221                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0222                 <span class="keyword">continue</span>
+0223             <span class="keyword">end</span>
+0224             
+0225         <span class="keyword">end</span>
+0226         
+0227         <span class="comment">%% Provide the new value of the parameter</span>
+0228         incTest_2=0;
+0229         isCorrect = false;
+0230         <span class="keyword">while</span> ~isCorrect
+0231             
+0232             incTest_2=incTest_2+1;
+0233             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0234                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0235             
+0236             fprintf(fileID,<span class="string">'     New value :\n'</span>);
+0237             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0238                 user_inputs.inp_3 = <span class="keyword">...</span>
+0239                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0240                     misc.internalVars.BatchMode.AnswerIndex}));
+0241                 
+0242                 fprintf(fileID, <span class="string">'     %s\n'</span>, num2str(user_inputs.inp_3));
+0243             <span class="keyword">else</span>
+0244                 user_inputs.inp_3 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0245             <span class="keyword">end</span>
+0246             
+0247             <span class="keyword">if</span> ~isempty(user_inputs.inp_3) &amp;&amp; <span class="keyword">...</span>
+0248                     isnumeric(user_inputs.inp_3) &amp;&amp; <span class="keyword">...</span>
+0249                     length(user_inputs.inp_3) ==1
+0250                 misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0251                 isCorrect = true;
+0252             <span class="keyword">else</span>
+0253                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0254                 <span class="keyword">continue</span>
+0255             <span class="keyword">end</span>
+0256             
+0257         <span class="keyword">end</span>
+0258         
+0259         <span class="comment">%% Provide the new model parameter constraints</span>
+0260         incTest_2=0;
+0261         isCorrect = false;
+0262         <span class="keyword">while</span> ~isCorrect
+0263             
+0264             incTest_2=incTest_2+1;
+0265             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0266                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0267             
+0268             fprintf(fileID,<span class="string">'     New bounds : \n'</span>);
+0269             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0270                 user_inputs.inp_4 = <span class="keyword">...</span>
+0271                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0272                     misc.internalVars.BatchMode.AnswerIndex}));
+0273                 
+0274                 x=user_inputs.inp_4;
+0275                 fprintf(fileID, [<span class="string">'     [%s] '</span>, <span class="keyword">...</span>
+0276                     <span class="string">'\n'</span>], strjoin(cellstr(num2str(x(:))),<span class="string">', '</span>));
+0277                 
+0278             <span class="keyword">else</span>
+0279                 user_inputs.inp_4 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0280             <span class="keyword">end</span>
+0281             
+0282             <span class="keyword">if</span> ~isempty(user_inputs.inp_4) &amp;&amp; <span class="keyword">...</span>
+0283                     isnumeric(user_inputs.inp_4) &amp;&amp; <span class="keyword">...</span>
+0284                     length(user_inputs.inp_4) ==2
+0285                 misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0286                 isCorrect = true;
+0287             <span class="keyword">else</span>
+0288                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0289                 <span class="keyword">continue</span>
+0290             <span class="keyword">end</span>
+0291         <span class="keyword">end</span>
+0292         
+0293         <span class="comment">% Change parameter values</span>
+0294         <span class="keyword">if</span> ~isempty(user_inputs.inp_3)
+0295             parameter(user_inputs.inp_2)=user_inputs.inp_3;
+0296         <span class="keyword">end</span>
+0297         <span class="keyword">if</span> ~isempty(user_inputs.inp_4)
+0298             model.param_properties{user_inputs.inp_2,5}=user_inputs.inp_4;
+0299         <span class="keyword">end</span>
+0300         fprintf(fileID,<span class="string">'\n'</span>);
+0301         
+0302         isCorrectAnswer = true;
+0303         
+0304     <span class="keyword">elseif</span> round(str2double(user_inputs.inp_1)) == 2
+0305         
+0306         <span class="comment">%% Provide the index of the parameter for which to modify the prior</span>
+0307         
+0308         misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0309         
+0310         incTest_2=0;
+0311         isCorrect = false;
+0312         <span class="keyword">while</span> ~isCorrect
+0313             
+0314             incTest_2=incTest_2+1;
+0315             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0316                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0317             
+0318             fprintf(fileID,<span class="string">'     Modify prior for parameter # \n'</span>);
+0319             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0320                 user_inputs.inp_2 = <span class="keyword">...</span>
+0321                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0322                     misc.internalVars.BatchMode.AnswerIndex}));
+0323                 fprintf(fileID, <span class="string">'     %s  \n'</span>, num2str(user_inputs.inp_2));
+0324             <span class="keyword">else</span>
+0325                 user_inputs.inp_2 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0326             <span class="keyword">end</span>
+0327             
+0328             <span class="keyword">if</span> ~ischar(user_inputs.inp_2) &amp;&amp; <span class="keyword">...</span>
+0329                     ~isempty(user_inputs.inp_2) &amp;&amp; <span class="keyword">...</span>
+0330                     rem(user_inputs.inp_2,1) == 0 &amp;&amp; <span class="keyword">...</span>
+0331                     (user_inputs.inp_2 &gt; 0) &amp;&amp; <span class="keyword">...</span>
+0332                     user_inputs.inp_2 &lt;= length(model.param_properties)
+0333                 misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0334                 isCorrect = true;
+0335             <span class="keyword">else</span>
+0336                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0337                 <span class="keyword">continue</span>
+0338             <span class="keyword">end</span>
+0339             
+0340         <span class="keyword">end</span>
+0341         
+0342         <span class="comment">%% Provide the type of prior</span>
+0343         incTest_2=0;
+0344         isCorrect = false;
+0345         <span class="keyword">while</span> ~isCorrect
+0346             
+0347             incTest_2=incTest_2+1;
+0348             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0349                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0350             
+0351             fprintf(fileID,<span class="string">'     New prior type :\n'</span>);
+0352             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0353                 user_inputs.inp_3 = <span class="keyword">...</span>
+0354                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0355                     misc.internalVars.BatchMode.AnswerIndex}));
+0356                 fprintf(fileID, <span class="string">'     %s  \n'</span>, user_inputs.inp_3);
+0357             <span class="keyword">else</span>
+0358                 user_inputs.inp_3 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0359             <span class="keyword">end</span>
+0360             
+0361             <span class="keyword">if</span> ~isempty(user_inputs.inp_3) &amp;&amp; <span class="keyword">...</span>
+0362                     ischar(user_inputs.inp_3)
+0363                 misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0364                 isCorrect = true;
+0365             <span class="keyword">else</span>
+0366                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0367                 <span class="keyword">continue</span>
+0368             <span class="keyword">end</span>
+0369             
+0370         <span class="keyword">end</span>
+0371         
+0372         <span class="comment">%% Provide the new mean of the prior</span>
+0373         incTest_2=0;
+0374         isCorrect = false;
+0375         <span class="keyword">while</span> ~isCorrect
+0376             
+0377             incTest_2=incTest_2+1;
+0378             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0379                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0380             
+0381             fprintf(fileID,<span class="string">'     New prior mean :\n'</span>);
+0382             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0383                 user_inputs.inp_4 = <span class="keyword">...</span>
+0384                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0385                     misc.internalVars.BatchMode.AnswerIndex}));
+0386                 fprintf(fileID, <span class="string">'     %s  \n'</span>, num2str(user_inputs.inp_4));
+0387             <span class="keyword">else</span>
+0388                 user_inputs.inp_4 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0389             <span class="keyword">end</span>
+0390             
+0391             <span class="keyword">if</span> ~isempty(user_inputs.inp_4) &amp;&amp; <span class="keyword">...</span>
+0392                     isnumeric(user_inputs.inp_4) &amp;&amp; <span class="keyword">...</span>
+0393                     length(user_inputs.inp_4) ==1
+0394                 misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0395                 isCorrect = true;
+0396             <span class="keyword">else</span>
+0397                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0398                 <span class="keyword">continue</span>
+0399             <span class="keyword">end</span>
+0400             
+0401         <span class="keyword">end</span>
+0402         
+0403         <span class="comment">%% Provide the new standard deviation</span>
+0404         incTest_2=0;
+0405         isCorrect = false;
+0406         <span class="keyword">while</span> ~isCorrect
+0407             
+0408             incTest_2=incTest_2+1;
+0409             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0410                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0411             
+0412             fprintf(fileID,<span class="string">'     New prior standard deviation :\n'</span>);
+0413             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0414                 user_inputs.inp_5 = <span class="keyword">...</span>
+0415                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0416                     misc.internalVars.BatchMode.AnswerIndex}));
+0417                 fprintf(fileID, <span class="string">'     %s  \n'</span>, num2str(user_inputs.inp_5));
+0418             <span class="keyword">else</span>
+0419                 user_inputs.inp_5 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0420             <span class="keyword">end</span>
+0421             
+0422             <span class="keyword">if</span> ~isempty(user_inputs.inp_5) &amp;&amp; <span class="keyword">...</span>
+0423                     isnumeric(user_inputs.inp_5) &amp;&amp; <span class="keyword">...</span>
+0424                     length(user_inputs.inp_5) ==1
+0425                 misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0426                 isCorrect = true;
+0427             <span class="keyword">else</span>
+0428                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0429                 <span class="keyword">continue</span>
+0430             <span class="keyword">end</span>
+0431             
+0432         <span class="keyword">end</span>
+0433         
+0434         <span class="comment">% Change prior values</span>
+0435         <span class="keyword">if</span> ~isempty(user_inputs.inp_3)
+0436             model.param_properties{user_inputs.inp_2,6}=user_inputs.inp_3;
+0437         <span class="keyword">end</span>
+0438         <span class="keyword">if</span> ~isempty(user_inputs.inp_4)
+0439             model.param_properties{user_inputs.inp_2,7}=user_inputs.inp_4;
+0440         <span class="keyword">end</span>
+0441         <span class="keyword">if</span> ~isempty(user_inputs.inp_5)
+0442             model.param_properties{user_inputs.inp_2,8}=user_inputs.inp_5;
+0443         <span class="keyword">end</span>
+0444         
+0445         fprintf(fileID,<span class="string">'\n'</span>);
+0446         
+0447         isCorrectAnswer = true;
+0448         
+0449     <span class="keyword">elseif</span> round(str2double(user_inputs.inp_1)) == 3
+0450         
+0451         <span class="comment">%% Provide the index of the parameter(s) to constrain</span>
+0452         misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0453         incTest_2=0;
+0454         isCorrect = false;
+0455         <span class="keyword">while</span> ~isCorrect
+0456             
+0457             incTest_2=incTest_2+1;
+0458             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0459                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0460             
+0461             fprintf(fileID,<span class="string">'     Constrain parameter # \n'</span>);
+0462             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0463                 user_inputs.inp_2 = <span class="keyword">...</span>
+0464                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0465                     misc.internalVars.BatchMode.AnswerIndex}));
+0466                 
+0467                 fprintf(fileID, <span class="string">'     %s  \n'</span>, num2str(user_inputs.inp_2));
+0468                 
+0469             <span class="keyword">else</span>
+0470                 user_inputs.inp_2 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0471             <span class="keyword">end</span>
+0472             
+0473             <span class="keyword">if</span> ~isempty(user_inputs.inp_2) &amp;&amp; <span class="keyword">...</span>
+0474                     rem(user_inputs.inp_2,1) == 0 &amp;&amp; <span class="keyword">...</span>
+0475                     (user_inputs.inp_2 &gt; 0) &amp;&amp; <span class="keyword">...</span>
+0476                     user_inputs.inp_2 &lt;= length(model.param_properties)
+0477                 misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0478                 isCorrect = true;
+0479             <span class="keyword">else</span>
+0480                 fprintf(fileID,<span class="string">'     Wrong input.'</span>);
+0481                 <span class="keyword">continue</span>
+0482             <span class="keyword">end</span>
+0483             
+0484         <span class="keyword">end</span>
+0485         
+0486         incTest_2=0;
+0487         isCorrect = false;
+0488         <span class="keyword">while</span> ~isCorrect
+0489             
+0490             incTest_2=incTest_2+1;
+0491             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0492                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0493             
+0494             fprintf(fileID,<span class="string">'     to parameter #\n'</span>);
+0495             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0496                 user_inputs.inp_3 = <span class="keyword">...</span>
+0497                     eval(char(misc.internalVars.BatchMode.Answers{ <span class="keyword">...</span>
+0498                     misc.internalVars.BatchMode.AnswerIndex}));
+0499                 fprintf(fileID,<span class="string">'     %s'</span>, num2str(user_inputs.inp_3));
+0500             <span class="keyword">else</span>
+0501                 user_inputs.inp_3 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0502             <span class="keyword">end</span>
+0503             
+0504             <span class="keyword">if</span> ~isempty(user_inputs.inp_3) &amp;&amp; <span class="keyword">...</span>
+0505                     all(rem(user_inputs.inp_3,1)) == 0 &amp;&amp; <span class="keyword">...</span>
+0506                     all(user_inputs.inp_3 &gt; 0) &amp;&amp; <span class="keyword">...</span>
+0507                     all( user_inputs.inp_3 &lt;= <span class="keyword">...</span>
+0508                     length(model.param_properties))
+0509                 misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0510                 isCorrect = true;
+0511             <span class="keyword">else</span>
+0512                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0513                 <span class="keyword">continue</span>
+0514             <span class="keyword">end</span>
+0515             
+0516         <span class="keyword">end</span>
+0517         
+0518         <span class="comment">% Change values</span>
+0519         p_ref(user_inputs.inp_2)=user_inputs.inp_3;
+0520         model.param_properties{user_inputs.inp_2,5}=[nan,nan];
+0521         fprintf(fileID,<span class="string">'\n'</span>);
+0522         
+0523         isCorrectAnswer = true;
+0524         
+0525     <span class="keyword">elseif</span> round(str2double(user_inputs.inp_1)) == 4
+0526         <span class="comment">%% Display parameter properties in configuration file format</span>
+0527         fprintf(fileID,<span class="string">'\n'</span>);
+0528         fprintf(fileID, repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0529         fprintf(fileID, <span class="string">'\n'</span>);
+0530         fprintf(fileID, <span class="string">'%%%% D - Model parameters \n'</span>);
+0531         fprintf(fileID, repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0532         fprintf(fileID, <span class="string">'\n'</span>);
+0533         fprintf(fileID, <span class="string">'model.param_properties={\n'</span>);
+0534         
+0535         format = [<span class="string">'     %-13s %-15s %-6s %-6s '</span> <span class="keyword">...</span>
+0536             <span class="string">'[%-10s],    %-10s   %-8s %-15s %-15s %-6s %-6s\n'</span>];
+0537                 
+0538         fprintf(fileID, [<span class="string">'     %% #1       '</span>, <span class="keyword">...</span>
+0539             <span class="string">'    #2             #3      #4  '</span>, <span class="keyword">...</span>
+0540             <span class="string">'  #5               #6      '</span>, <span class="keyword">...</span>
+0541             <span class="string">'     #7       #8              #9    '</span>, <span class="keyword">...</span>
+0542             <span class="string">'          #10'</span>, <span class="string">'\n'</span>]);
+0543         fprintf(fileID, [<span class="string">'     %% Param name  '</span>, <span class="keyword">...</span>
+0544             <span class="string">' Block name     Model '</span>, <span class="keyword">...</span>
+0545             <span class="string">'  Obs   Bound       '</span>, <span class="keyword">...</span>
+0546             <span class="string">'     Prior        Mean     Std   '</span>, <span class="keyword">...</span>
+0547             <span class="string">'          Values          Ref'</span>, <span class="string">'\n'</span>]);
+0548         <span class="keyword">for</span> i=1:size(model.param_properties,1)
+0549             fprintf(fileID, format, <span class="keyword">...</span>
+0550                 [<span class="string">''''</span>, model.param_properties{i,1},<span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0551                 [<span class="string">''''</span>,model.param_properties{i,2},<span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0552                 [<span class="string">''''</span>,model.param_properties{i,3}, <span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0553                 [<span class="string">''''</span>, model.param_properties{i,4},<span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0554                 strjoin(cellstr(num2str(model.param_properties{i,5})), <span class="keyword">...</span>
+0555                 <span class="string">', '</span>), <span class="keyword">...</span>
+0556                 [<span class="string">''''</span>, model.param_properties{i,6},<span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0557                 [num2str(model.param_properties{i,7}), <span class="string">','</span>], <span class="keyword">...</span>
+0558                 [num2str(model.param_properties{i,8}), <span class="string">','</span>], <span class="keyword">...</span>
+0559                 [num2str(model.param_properties{i,9}), <span class="string">','</span>], <span class="keyword">...</span>
+0560                 num2str(model.param_properties{i,10}), <span class="keyword">...</span>
+0561                 [<span class="string">'%#'</span>, num2str(i)]);
+0562             
+0563         <span class="keyword">end</span>
+0564         fprintf(fileID, <span class="string">'};\n'</span>);
+0565         fprintf(fileID, <span class="string">'\n'</span>);
+0566         
+0567         misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
+0568         isCorrectAnswer = true;
+0569         
+0570     <span class="keyword">else</span>
+0571         fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0572         <span class="keyword">continue</span>
+0573     <span class="keyword">end</span>
+0574 <span class="keyword">end</span>
+0575 
+0576 <span class="comment">%% Write parameter properties</span>
+0577 [model.param_properties]= <span class="keyword">...</span>
+0578     <a href="../../../OpenBDLM_V1.0/functions/Others/writeParameterProperties.html" class="code" title="function [cellOut]=writeParameterProperties(cellIn, arrayIn, Position)">writeParameterProperties</a>(model.param_properties, <span class="keyword">...</span>
+0579     [parameter, p_ref], size(model.param_properties,2)-1);
+0580 
+0581 <span class="comment">%--------------------END CODE ------------------------</span>
+0582 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

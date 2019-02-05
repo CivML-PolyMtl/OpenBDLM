@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of saveResultsMAT</title>
+  <meta name="keywords" content="saveResultsMAT">
+  <meta name="description" content="SAVERESULTSMAT Save results in a .mat file">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; saveResultsMAT.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>saveResultsMAT
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>SAVERESULTSMAT Save results in a .mat file</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [misc]=saveResultsMAT(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SAVERESULTSMAT Save results in a .mat file
+
+   SYNOPSIS:
+     [misc]=SAVERESULTSMAT(data, model, estimation, misc, varargin)
+
+   INPUT:
+      data                 - structure (required)
+                             see the documentation for details about the
+                             field in misc
+
+      model                - structure (required)
+                             see the documentation for details about the
+                             field in misc
+
+      estimation           - structure (required)
+                             see the documentation for details about the
+                             field in misc
+
+      misc                 - structure (required)
+                             see the documentation for details about the
+                             field in misc
+
+      FilePath             - character (optional)
+                             directory where to save the MAT files
+                             default: '.'  (current folder)
+
+      isForceOverwrite     - logical (optional)
+                             if isOverwrite = true, overwrite previous file without
+                             notice
+                             default = false
+
+   OUTPUT:
+      misc                 - structure (required)
+                             see the documentation for details about the
+                             field in misc
+
+      MAT files saved in the location given by FilePath.
+
+   DESCRIPTION:
+      SAVERESULTSMAT saves estimated hidden states, predicted data, and
+      model probability in Matlab MAT binary files
+
+   EXAMPLES:
+      [misc]=SAVERESULTSMAT(data, model, estimation, misc)
+      [misc]=SAVERESULTSMAT(data, model, estimation, misc, 'FilePath', 'results/mat')
+
+   EXTERNAL FUNCTIONS CALLED:
+      testFileExistence, incrementFilename
+
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">TESTFILEEXISTENCE</a>, <a href="incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">INCREMENTFILENAME</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">incrementFilename</a>	INCREMENTFILENAME Increment filename to prevent overwriting</li><li><a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/OpenBDLM_main.html" class="code" title="function [data, model, estimation, misc] = OpenBDLM_main(UserInput)">OpenBDLM_main</a>	OPENBDLM_MAIN Process control for OpenBDLM</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [misc]=saveResultsMAT(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%SAVERESULTSMAT Save results in a .mat file</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [misc]=SAVERESULTSMAT(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data                 - structure (required)</span>
+0009 <span class="comment">%                             see the documentation for details about the</span>
+0010 <span class="comment">%                             field in misc</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      model                - structure (required)</span>
+0013 <span class="comment">%                             see the documentation for details about the</span>
+0014 <span class="comment">%                             field in misc</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%      estimation           - structure (required)</span>
+0017 <span class="comment">%                             see the documentation for details about the</span>
+0018 <span class="comment">%                             field in misc</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      misc                 - structure (required)</span>
+0021 <span class="comment">%                             see the documentation for details about the</span>
+0022 <span class="comment">%                             field in misc</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%      FilePath             - character (optional)</span>
+0025 <span class="comment">%                             directory where to save the MAT files</span>
+0026 <span class="comment">%                             default: '.'  (current folder)</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%      isForceOverwrite     - logical (optional)</span>
+0029 <span class="comment">%                             if isOverwrite = true, overwrite previous file without</span>
+0030 <span class="comment">%                             notice</span>
+0031 <span class="comment">%                             default = false</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   OUTPUT:</span>
+0034 <span class="comment">%      misc                 - structure (required)</span>
+0035 <span class="comment">%                             see the documentation for details about the</span>
+0036 <span class="comment">%                             field in misc</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%      MAT files saved in the location given by FilePath.</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   DESCRIPTION:</span>
+0041 <span class="comment">%      SAVERESULTSMAT saves estimated hidden states, predicted data, and</span>
+0042 <span class="comment">%      model probability in Matlab MAT binary files</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   EXAMPLES:</span>
+0045 <span class="comment">%      [misc]=SAVERESULTSMAT(data, model, estimation, misc)</span>
+0046 <span class="comment">%      [misc]=SAVERESULTSMAT(data, model, estimation, misc, 'FilePath', 'results/mat')</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0049 <span class="comment">%      testFileExistence, incrementFilename</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%   SUBFUNCTIONS:</span>
+0053 <span class="comment">%      N/A</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   See also TESTFILEEXISTENCE, INCREMENTFILENAME</span>
+0056 
+0057 <span class="comment">%   AUTHORS:</span>
+0058 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen,  James-A Goulet</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0061 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%   MATLAB VERSION:</span>
+0064 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0065 <span class="comment">%</span>
+0066 <span class="comment">%   DATE CREATED:</span>
+0067 <span class="comment">%       December 6, 2018</span>
+0068 <span class="comment">%</span>
+0069 <span class="comment">%   DATE LAST UPDATE:</span>
+0070 <span class="comment">%       January 31, 2019</span>
+0071 
+0072 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0073 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0074 p = inputParser;
+0075 
+0076 defaultFilePath = <span class="string">'.'</span>;
+0077 validationFct_FilePath = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0078     ~isempty(x(~isspace(x)));
+0079 defaultisForceOverwrite = false;
+0080 
+0081 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0082 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0083 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0084 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0085 addParameter(p,<span class="string">'FilePath'</span>, defaultFilePath, validationFct_FilePath );
+0086 addParameter(p,<span class="string">'isForceOverwrite'</span>, defaultisForceOverwrite, @islogical );
+0087 parse(p,data, model, estimation, misc, varargin{:});
+0088 
+0089 data=p.Results.data;
+0090 model=p.Results.model;
+0091 estimation=p.Results.estimation;
+0092 misc=p.Results.misc;
+0093 FilePath=p.Results.FilePath;
+0094 isForceOverwrite=p.Results.isForceOverwrite;
+0095 
+0096 FilePath_full=fullfile(FilePath, <span class="string">'mat'</span>);
+0097 
+0098 ProjectName = misc.ProjectName;
+0099 
+0100 <span class="comment">% Set fileID for logfile</span>
+0101 <span class="keyword">if</span> misc.internalVars.isQuiet
+0102     <span class="comment">% output message in logfile</span>
+0103     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0104 <span class="keyword">else</span>
+0105     <span class="comment">% output message on screen and logfile using diary command</span>
+0106     fileID=1;
+0107 <span class="keyword">end</span>
+0108 
+0109 <span class="comment">%% Verification if there are data to plot, or not</span>
+0110 <span class="keyword">if</span> ~isfield(estimation,<span class="string">'x'</span>)
+0111     <span class="comment">%     fprintf(fileID,'     No files to create.\n');</span>
+0112     <span class="comment">%     fprintf(fileID,'\n');</span>
+0113     <span class="keyword">return</span>
+0114 <span class="keyword">end</span>
+0115 
+0116 <span class="comment">%% Create specified path if not existing</span>
+0117 [isFileExist] = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FilePath_full, <span class="string">'dir'</span>);
+0118 <span class="keyword">if</span> ~isFileExist
+0119     <span class="comment">% create directory</span>
+0120     mkdir(FilePath_full)
+0121     <span class="comment">% set directory on path</span>
+0122     addpath(FilePath_full)
+0123 <span class="keyword">end</span>
+0124 
+0125 ResultsFilename = [<span class="string">'RES_'</span>,ProjectName, <span class="string">'.mat'</span>];
+0126 
+0127 
+0128 <span class="keyword">if</span> ~isForceOverwrite
+0129     
+0130     [isFileExist] = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(fullfile(FilePath_full, <span class="keyword">...</span>
+0131         ResultsFilename), <span class="string">'file'</span>);
+0132     
+0133     <span class="keyword">if</span> isFileExist
+0134         isAnswerCorrect = false;
+0135         <span class="keyword">while</span> ~isAnswerCorrect
+0136             disp([<span class="string">'     Result file '</span>, <span class="keyword">...</span>
+0137                 <span class="string">'name '</span>, ResultsFilename ,<span class="string">' already exists. '</span> <span class="keyword">...</span>
+0138                 <span class="string">'Overwrite ? (y/n)'</span>]);
+0139             choice = input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0140             <span class="comment">% Remove space and quotes</span>
+0141             choice=strrep(choice,<span class="string">''''</span>,<span class="string">''</span> ); <span class="comment">% remove quotes</span>
+0142             choice=strrep(choice,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0143             choice=strrep(choice, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0144             
+0145             <span class="keyword">if</span> isempty(choice)
+0146                 disp(<span class="string">' '</span>)
+0147                 disp(<span class="string">'     wrong input'</span>)
+0148                 disp(<span class="string">' '</span>)
+0149                 <span class="keyword">continue</span>
+0150             <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'y'</span>) || strcmpi(choice,<span class="string">'yes'</span>)
+0151                 Filename = fullfile(FilePath_full, ResultsFilename);
+0152                 isAnswerCorrect =  true;
+0153             <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'n'</span>) || strcmpi(choice,<span class="string">'no'</span>)
+0154                 [name]=<a href="incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">incrementFilename</a>(<span class="string">'RES_new'</span>, <span class="keyword">...</span>
+0155                     <span class="string">'./results/mat'</span>, <span class="string">'FileExtension'</span>, <span class="string">'mat'</span>);
+0156                 Filename = fullfile(FilePath_full, name);
+0157                 isAnswerCorrect = true;
+0158             <span class="keyword">else</span>
+0159                 disp(<span class="string">' '</span>)
+0160                 disp(<span class="string">'     wrong input'</span>)
+0161                 disp(<span class="string">' '</span>)
+0162                 <span class="keyword">continue</span>
+0163             <span class="keyword">end</span>
+0164             
+0165         <span class="keyword">end</span>
+0166     <span class="keyword">else</span>
+0167         Filename = fullfile(FilePath_full, ResultsFilename);
+0168     <span class="keyword">end</span>
+0169     
+0170 <span class="keyword">else</span>
+0171     Filename = fullfile(FilePath_full, ResultsFilename);
+0172 <span class="keyword">end</span>
+0173 
+0174 
+0175 <span class="comment">%% Get posterior mu and sigma values</span>
+0176 
+0177 <span class="comment">% Get posterior mean and variance hidden states values</span>
+0178 dataset_x=estimation.x;
+0179 dataset_V=estimation.V;
+0180 
+0181 <span class="comment">% Get posterior mean and variance predicted data values</span>
+0182 dataset_y=estimation.y;
+0183 dataset_Vy=estimation.Vy;
+0184 
+0185 <span class="comment">% get posterior model probability</span>
+0186 Pr_M=estimation.S;
+0187 
+0188 <span class="keyword">if</span> model.nb_class == 2
+0189     Pr_M = Pr_M(:,2);
+0190 <span class="keyword">end</span>
+0191 <span class="comment">%% Save in MAT file</span>
+0192 
+0193 <span class="comment">% Get number of hidden states</span>
+0194 numberOfHiddenStates = size(model.hidden_states_names{1},1);
+0195 
+0196 <span class="comment">% Get number of time series</span>
+0197 numberOfTimeSeries = size(data.values,2);
+0198 
+0199 <span class="comment">% Get timestamps</span>
+0200 timestamps = data.timestamps;
+0201 
+0202 <span class="comment">% Select indexes of the hidden states of interest</span>
+0203 HiddenStatesNames = model.hidden_states_names{1}(:,1);
+0204 IndexC = strfind(HiddenStatesNames,[<span class="string">'KR'</span>, num2str(model.components.nb_KR_p-1)]);
+0205 Index = find(not(cellfun(<span class="string">'isempty'</span>,IndexC)));
+0206 
+0207 <span class="keyword">if</span> ~isempty(Index)
+0208     ind=[];
+0209     <span class="keyword">for</span> i=1:length(Index)
+0210         
+0211         indi=Index(i)-model.components.nb_KR_p+3;
+0212         ind=[ind Index(i):-1:indi];
+0213         
+0214     <span class="keyword">end</span>
+0215     
+0216     idx_to_keep = find(~ismember(1:numberOfHiddenStates, ind));
+0217     
+0218 <span class="keyword">else</span>
+0219     
+0220     idx_to_keep = 1:numberOfHiddenStates;
+0221     
+0222 <span class="keyword">end</span>
+0223 
+0224 <span class="comment">% Select hidden states of interest</span>
+0225 
+0226 full_Labels = cell(1,length(idx_to_keep)+ numberOfTimeSeries + 1);
+0227 inc=0;
+0228 loop=0;
+0229 <span class="keyword">for</span> i=1:length(idx_to_keep)+ numberOfTimeSeries + 1
+0230     
+0231     <span class="keyword">if</span> i &lt;= length(idx_to_keep)
+0232         
+0233         sensor_name = <span class="keyword">...</span>
+0234             data.labels{<span class="keyword">...</span>
+0235             str2double(model.hidden_states_names{1}{idx_to_keep(i),3})};
+0236         
+0237         
+0238         <span class="keyword">if</span> i &gt; 1 &amp;&amp; ~strcmp(model.hidden_states_names{1}{idx_to_keep(i)-1,3},  <span class="keyword">...</span>
+0239                 model.hidden_states_names{1}{idx_to_keep(i),3})
+0240             loop=0;
+0241         <span class="keyword">end</span>
+0242         
+0243         loop=loop+1;
+0244                                
+0245         HiddenStateName = model.hidden_states_names{1}{idx_to_keep(i),1};
+0246         HiddenStateName = strrep(HiddenStateName, <span class="string">'x'</span>, <span class="string">''</span>);
+0247         HiddenStateName = strrep(HiddenStateName, <span class="string">'^'</span>, <span class="string">''</span>);
+0248         HiddenStateName = strrep(HiddenStateName, <span class="string">'{'</span>, <span class="string">''</span>);
+0249         HiddenStateName = strrep(HiddenStateName, <span class="string">'}'</span>, <span class="string">''</span>);
+0250         
+0251         full_Labels{i} = [ sensor_name, <span class="string">'_'</span>, <span class="keyword">...</span>
+0252             HiddenStateName,<span class="string">'_'</span>, num2str(loop)];
+0253          
+0254     <span class="keyword">elseif</span> i &gt;  length(idx_to_keep) &amp;&amp; <span class="keyword">...</span>
+0255             i &lt;= length(idx_to_keep)+ numberOfTimeSeries
+0256         
+0257         inc=inc+1;
+0258         full_Labels{i} = [<span class="string">'Predicted_'</span> data.labels{inc}];
+0259         
+0260     <span class="keyword">else</span>
+0261         
+0262         full_Labels{i} = <span class="string">'ModelProbability'</span>;
+0263     <span class="keyword">end</span>
+0264     
+0265 <span class="keyword">end</span>
+0266 
+0267 mean = [ dataset_x(idx_to_keep,:)' dataset_y' Pr_M ];
+0268 std = [ sqrt(dataset_V(idx_to_keep,:))' sqrt(dataset_Vy)' <span class="keyword">...</span>
+0269     zeros(length(timestamps),1)];
+0270 
+0271 <span class="comment">%% Create structure for saving</span>
+0272 
+0273 dat.timestamps = timestamps;
+0274 dat.Mean = mean;
+0275 dat.StandardDeviation =  std;
+0276 dat.labels = full_Labels;
+0277 
+0278 save(Filename, <span class="string">'-struct'</span>, <span class="string">'dat'</span>)
+0279 fprintf(fileID, <span class="string">'     Results saved in %s. \n'</span>, Filename);
+0280 
+0281 <span class="comment">%--------------------END CODE ------------------------</span>
+0282 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

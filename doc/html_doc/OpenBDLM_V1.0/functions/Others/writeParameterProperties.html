@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of writeParameterProperties</title>
+  <meta name="keywords" content="writeParameterProperties">
+  <meta name="description" content="WRITEPARAMETERPROPERTIES Write updated model parameter properties">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; writeParameterProperties.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>writeParameterProperties
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>WRITEPARAMETERPROPERTIES Write updated model parameter properties</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [cellOut]=writeParameterProperties(cellIn, arrayIn, Position) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">WRITEPARAMETERPROPERTIES Write updated model parameter properties
+
+   SYNOPSIS:
+     [CellOut]=WRITEPARAMETERPROPERTIES(cellIn, arrayIn, Position)
+
+   INPUT:
+      cellIn       - NxM cell array (required)
+                     original cell array with previous model parameters
+                     properties
+
+      arrayIn      - NxP array (required)
+                     updated model parameters properties in a an array
+
+      Position     - integer (required)
+                     insertion of arrayIn in cellIn starts at Position
+                     if Position &gt; M, column(s) is (are) added
+
+   OUTPUT:
+      cellOut      - updated cellIn with values of arrayIn inserted in
+                     columns index given by Position
+
+   DESCRIPTION:
+      WRITEPARAMETERPROPERTIES write updated model parameter properties
+      from array
+
+   EXAMPLES:
+      [CellOut]=WRITEPARAMETERPROPERTIES(cellIn, arrayIn, Position)
+
+   EXTERNAL FUNCTIONS CALLED:
+      N/A
+
+   SUBFUNCTIONS:
+      insertArrayInCell
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/ModelConfiguration/buildModel.html" class="code" title="function [model, misc]=buildModel(data, model, misc)">buildModel</a>	BUILDMODEL Build model (build A,C, Q, R matrices)</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelParametersLearning/NewtonRaphson.html" class="code" title="function [optim, model]=NewtonRaphson(data, model, misc)">NewtonRaphson</a>	NEWTONRAPHSON Learn models parameters using the Newton-Raphson technique</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelParametersLearning/SGD.html" class="code" title="function [optim, model] = SGD(data, model, misc, varargin)">SGD</a>	INPUTS:</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelParametersLearning/logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, misc, varargin)">logPosteriorPE</a>	INPUTS:</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelParametersLearning/modifyModelParameters.html" class="code" title="function [model, misc] = modifyModelParameters(data, model, estimation, misc, varargin)">modifyModelParameters</a>	MODIFYMODELPARAMETERS Request user to modify model parameters values</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [cellOutput] = insertArrayInCell(cellInput, arrayInput, Pos)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [cellOut]=writeParameterProperties(cellIn, arrayIn, Position)</a>
+0002 <span class="comment">%WRITEPARAMETERPROPERTIES Write updated model parameter properties</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [CellOut]=WRITEPARAMETERPROPERTIES(cellIn, arrayIn, Position)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      cellIn       - NxM cell array (required)</span>
+0009 <span class="comment">%                     original cell array with previous model parameters</span>
+0010 <span class="comment">%                     properties</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      arrayIn      - NxP array (required)</span>
+0013 <span class="comment">%                     updated model parameters properties in a an array</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%      Position     - integer (required)</span>
+0016 <span class="comment">%                     insertion of arrayIn in cellIn starts at Position</span>
+0017 <span class="comment">%                     if Position &gt; M, column(s) is (are) added</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%   OUTPUT:</span>
+0020 <span class="comment">%      cellOut      - updated cellIn with values of arrayIn inserted in</span>
+0021 <span class="comment">%                     columns index given by Position</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%   DESCRIPTION:</span>
+0024 <span class="comment">%      WRITEPARAMETERPROPERTIES write updated model parameter properties</span>
+0025 <span class="comment">%      from array</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%   EXAMPLES:</span>
+0028 <span class="comment">%      [CellOut]=WRITEPARAMETERPROPERTIES(cellIn, arrayIn, Position)</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0031 <span class="comment">%      N/A</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   SUBFUNCTIONS:</span>
+0034 <span class="comment">%      insertArrayInCell</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   See also</span>
+0037 
+0038 <span class="comment">%   AUTHORS:</span>
+0039 <span class="comment">%       Ianis Gaudot,  Luong Ha Nguyen, James-A Goulet</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0042 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   MATLAB VERSION:</span>
+0045 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   DATE CREATED:</span>
+0048 <span class="comment">%       August 2, 2018</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%   DATE LAST UPDATE:</span>
+0051 <span class="comment">%       August 2, 2018</span>
+0052 
+0053 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0054 
+0055 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0056 p = inputParser;
+0057 
+0058 validationFct_Position = @(n) (rem(n,1) == 0) &amp; (n &gt; 0);
+0059 
+0060 addRequired(p,<span class="string">'cellIn'</span>, @iscell );
+0061 addRequired(p,<span class="string">'arrayIn'</span>, @isnumeric );
+0062 addRequired(p,<span class="string">'Position'</span>, validationFct_Position);
+0063 parse(p,cellIn, arrayIn, Position);
+0064 
+0065 cellIn=p.Results.cellIn;
+0066 arrayIn=p.Results.arrayIn;
+0067 Position=p.Results.Position;
+0068 
+0069 <span class="comment">%% Incorporate arrayIn in cellIn</span>
+0070 [cellOut] = <a href="#_sub1" class="code" title="subfunction [cellOutput] = insertArrayInCell(cellInput, arrayInput, Pos)">insertArrayInCell</a>(cellIn, arrayIn, Position);
+0071 
+0072 <span class="comment">%% Modify cellOut to take into account parameter constraint</span>
+0073 
+0074 <span class="comment">% Get model parameter constrains</span>
+0075 p_ref = arrayIn(:,2);
+0076 
+0077 p_ref_unique = unique(p_ref);
+0078 Ncount = histc(p_ref, p_ref_unique);
+0079 
+0080 p_ref_target = p_ref_unique(Ncount~=1);
+0081 
+0082 <span class="keyword">if</span> ~isempty(p_ref_target)
+0083     <span class="keyword">for</span> i=1:length(p_ref_target)
+0084         idx=find(p_ref == p_ref_target(i));
+0085         
+0086         idx_to_replace = idx(2:end);
+0087         
+0088         <span class="comment">% Bounds to NaN/NaN</span>
+0089         cellOut(idx_to_replace, 5) = {[NaN, NaN]};
+0090         
+0091         <span class="comment">% Duplicate prior type/mean/std</span>
+0092 <span class="comment">%         cellOut(idx_to_replace, 6) = cellOut(p_ref_target(i), 6);</span>
+0093 <span class="comment">%         cellOut(idx_to_replace, 7) = cellOut(p_ref_target(i), 7);</span>
+0094 <span class="comment">%         cellOut(idx_to_replace, 8) = cellOut(p_ref_target(i), 8);</span>
+0095 <span class="comment">%</span>
+0096 <span class="comment">%         % Duplicate parameter value</span>
+0097 <span class="comment">%         cellOut(idx_to_replace, 9) = cellOut(p_ref_target(i), 9);</span>
+0098 
+0099 
+0100         <span class="comment">% Duplicate prior type/mean/std</span>
+0101         cellOut(idx_to_replace, 6) = {<span class="string">'N/A'</span>};
+0102         cellOut(idx_to_replace, 7) = {NaN};
+0103         cellOut(idx_to_replace, 8) = {NaN};
+0104 <span class="comment">%</span>
+0105 <span class="comment">%         % Duplicate parameter value</span>
+0106          cellOut(idx_to_replace, 9) = {NaN};
+0107 
+0108     <span class="keyword">end</span>
+0109 <span class="keyword">end</span>
+0110 
+0111 <span class="comment">%--------------------END CODE ------------------------</span>
+0112 <span class="keyword">end</span>
+0113 
+0114 <a name="_sub1" href="#_subfunctions" class="code">function [cellOutput] = insertArrayInCell(cellInput, arrayInput, Pos)</a>
+0115 <span class="comment">% INPUT</span>
+0116 <span class="comment">% cellInput     : NxM cell</span>
+0117 <span class="comment">% arrayInput    : NxP array</span>
+0118 <span class="comment">% Pos           : insertion of arrayIn starts at Position</span>
+0119 <span class="comment">%                 if Pos &gt; M , the cell array is extended (i.e columns</span>
+0120 <span class="comment">%                 will be added)</span>
+0121 <span class="comment">% OUTPUT</span>
+0122 <span class="comment">% cellOutput    : updated cellIn with insertion of arrayIn inside</span>
+0123 
+0124 <span class="comment">% Verify compatibility size</span>
+0125 <span class="keyword">if</span> size(arrayInput, 1) ~= size(cellInput,1)
+0126     error(<span class="string">'     Impossible to concatenate. Size does not match. '</span>)
+0127 <span class="keyword">end</span>
+0128 
+0129 Position_end = Pos+size(arrayInput,2)-1;
+0130 
+0131 cellInput(:,Pos:Position_end) = num2cell(arrayInput);
+0132 cellOutput=cellInput;
+0133 
+0134 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

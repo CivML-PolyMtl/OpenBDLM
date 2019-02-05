@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of KalmanFilter</title>
+  <meta name="keywords" content="KalmanFilter">
+  <meta name="description" content="KALMANFILTER Do one step of the Kalman filter (prediction + update at time t)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">StateEstimation</a> &gt; KalmanFilter.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/StateEstimation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>KalmanFilter
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>KALMANFILTER Do one step of the Kalman filter (prediction + update at time t)</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [xnew, Vnew, VVnew, loglik]=KalmanFilter(A, C, Q, R, y, x, V,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">KALMANFILTER Do one step of the Kalman filter (prediction + update at time t)
+
+   SYNOPSIS:
+     [xnew, Vnew, VVnew, loglik]=KALMANFILTER(A, C, Q, R, y, x, V,varargin)
+ 
+   INPUT:
+      A                        - real valued array (required)
+                                 transition matrix
+
+      C                        - real valued array (required)
+                                 observation matrix   
+
+      Q                        - real valued array (required)
+                                 process noise covariance matrix 
+
+      R                        - real valued array (required)
+                                 observation noise covariance matrix 
+
+      y                        - real valued array (required)
+                                 available observations a time t 
+
+      x                        - real valued array (required)
+                                 posterior mean vector at time t-1
+
+      V                        - real valued array (required)
+                                 posterior covariance matrix at time t-1
+
+      B                        - real valued array (optionnal)
+                                 mean correction term
+                                 default value = 0
+
+      W                        - real valued array (optionnal)
+                                 covariance correction terms
+                                 default value = 0
+
+ 
+   OUTPUT:
+      xnew                     - real valued array (required)
+                                 posterior mean vector at time t
+
+      Vnew                     - real valued array (required)
+                                 posterior covariance matrix at time t
+
+      VVnew                    - real valued array (required)
+
+                                 
+      loglik                   - real 
+                                 log-likelihood at time t
+
+   DESCRIPTION:
+      KALMANFILTER performs one step of the Kalman filter 
+      (prediction and update at time t)
+
+      Given that X(t) is the hidden state random variable, and y(:,t) the
+      vector of observation at time t:
+
+      x(:) = E[X(t-1) | y(:, 1:t-1)]       Posterior hidden state mean at time t-1
+
+      V(:,:) = Cov[X(t-1) | y(:, 1:t-1)]   Posterior hidden state covariance at time t-1
+
+      Prediction equations:
+
+      xpred(:) = A*x(:)                    Predicted hidden state mean at time t 
+      Vpred(:,:) = A*V(:,:)*A' + Q         Predicted hidden state covariance at time t 
+      
+      ypred(:) = C*xpred(:)                Predicted observation at time t
+      r(:) = y - ypred                     Innovation vector at time t
+
+      K = Vpred*C' / C*Vpred*C'+R          Kalman gain
+
+      Update equations:
+      
+      xnew(:) = xpred(:)+K*r(:)            Posterior hidden state mean at time t
+      xnew(:) = E[X(t) | y(:, 1:t)] 
+
+      Vnew(:,:) = (I-K*C)*Vpred(:,:)       Posterior hidden state covariance at time t
+      Vnew(:,:) = Cov[X(t) | y(:, 1:t)]
+
+      Note that VVnew(:,:) = Cov[ X(t), X(t-1) | y(:, 1:t) ]
+
+      Note that loglik(t) = log(N(y(t) ; ypred(:), C*Vpred*C'+R ))
+
+   EXAMPLES:
+      [xnew, Vnew, VVnew, loglik]=KALMANFILTER(A, C, Q, R, y, x, V)
+ 
+   EXTERNAL FUNCTIONS CALLED:
+      N/A
+ 
+   SUBFUNCTIONS:
+      N/A
+ 
+   See also <a href="StateEstimation.html" class="code" title="function [estimation]=StateEstimation(data, model, misc, varargin)">STATEESTIMATION</a>, <a href="SwitchingKalmanFilter.html" class="code" title="function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)">SWITCHINGKALMANFILTER</a>,
+   <a href="RTS_SwitchingKalmanSmoother.html" class="code" title="function [x, V, VV, S,x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed]=RTS_SwitchingKalmanSmoother(data, model, estimation)">RTS_SWITCHINGKALMANSMOOTHER</a>, <a href="getGaussianProbability.html" class="code" title="function [prob]=getGaussianProbability(x, m, C, varargin)">GETGAUSSIANPROBABILITY</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="getGaussianProbability.html" class="code" title="function [prob]=getGaussianProbability(x, m, C, varargin)">getGaussianProbability</a>	GETGAUSSIANPROBABILITY Evaluate a multivariate Gaussian density</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="SwitchingKalmanFilter.html" class="code" title="function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)">SwitchingKalmanFilter</a>	SWITCHINGKALMANFILTER Perform Switching Kalman filtering of time series</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [xnew, Vnew, VVnew, loglik]=KalmanFilter(A, C, Q, R, y, x, V,varargin)</a>
+0002 <span class="comment">%KALMANFILTER Do one step of the Kalman filter (prediction + update at time t)</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [xnew, Vnew, VVnew, loglik]=KALMANFILTER(A, C, Q, R, y, x, V,varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      A                        - real valued array (required)</span>
+0009 <span class="comment">%                                 transition matrix</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%      C                        - real valued array (required)</span>
+0012 <span class="comment">%                                 observation matrix</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%      Q                        - real valued array (required)</span>
+0015 <span class="comment">%                                 process noise covariance matrix</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%      R                        - real valued array (required)</span>
+0018 <span class="comment">%                                 observation noise covariance matrix</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      y                        - real valued array (required)</span>
+0021 <span class="comment">%                                 available observations a time t</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%      x                        - real valued array (required)</span>
+0024 <span class="comment">%                                 posterior mean vector at time t-1</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%      V                        - real valued array (required)</span>
+0027 <span class="comment">%                                 posterior covariance matrix at time t-1</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%      B                        - real valued array (optionnal)</span>
+0030 <span class="comment">%                                 mean correction term</span>
+0031 <span class="comment">%                                 default value = 0</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%      W                        - real valued array (optionnal)</span>
+0034 <span class="comment">%                                 covariance correction terms</span>
+0035 <span class="comment">%                                 default value = 0</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%   OUTPUT:</span>
+0039 <span class="comment">%      xnew                     - real valued array (required)</span>
+0040 <span class="comment">%                                 posterior mean vector at time t</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%      Vnew                     - real valued array (required)</span>
+0043 <span class="comment">%                                 posterior covariance matrix at time t</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">%      VVnew                    - real valued array (required)</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%      loglik                   - real</span>
+0049 <span class="comment">%                                 log-likelihood at time t</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">%   DESCRIPTION:</span>
+0052 <span class="comment">%      KALMANFILTER performs one step of the Kalman filter</span>
+0053 <span class="comment">%      (prediction and update at time t)</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%      Given that X(t) is the hidden state random variable, and y(:,t) the</span>
+0056 <span class="comment">%      vector of observation at time t:</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%      x(:) = E[X(t-1) | y(:, 1:t-1)]       Posterior hidden state mean at time t-1</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%      V(:,:) = Cov[X(t-1) | y(:, 1:t-1)]   Posterior hidden state covariance at time t-1</span>
+0061 <span class="comment">%</span>
+0062 <span class="comment">%      Prediction equations:</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%      xpred(:) = A*x(:)                    Predicted hidden state mean at time t</span>
+0065 <span class="comment">%      Vpred(:,:) = A*V(:,:)*A' + Q         Predicted hidden state covariance at time t</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">%      ypred(:) = C*xpred(:)                Predicted observation at time t</span>
+0068 <span class="comment">%      r(:) = y - ypred                     Innovation vector at time t</span>
+0069 <span class="comment">%</span>
+0070 <span class="comment">%      K = Vpred*C' / C*Vpred*C'+R          Kalman gain</span>
+0071 <span class="comment">%</span>
+0072 <span class="comment">%      Update equations:</span>
+0073 <span class="comment">%</span>
+0074 <span class="comment">%      xnew(:) = xpred(:)+K*r(:)            Posterior hidden state mean at time t</span>
+0075 <span class="comment">%      xnew(:) = E[X(t) | y(:, 1:t)]</span>
+0076 <span class="comment">%</span>
+0077 <span class="comment">%      Vnew(:,:) = (I-K*C)*Vpred(:,:)       Posterior hidden state covariance at time t</span>
+0078 <span class="comment">%      Vnew(:,:) = Cov[X(t) | y(:, 1:t)]</span>
+0079 <span class="comment">%</span>
+0080 <span class="comment">%      Note that VVnew(:,:) = Cov[ X(t), X(t-1) | y(:, 1:t) ]</span>
+0081 <span class="comment">%</span>
+0082 <span class="comment">%      Note that loglik(t) = log(N(y(t) ; ypred(:), C*Vpred*C'+R ))</span>
+0083 <span class="comment">%</span>
+0084 <span class="comment">%   EXAMPLES:</span>
+0085 <span class="comment">%      [xnew, Vnew, VVnew, loglik]=KALMANFILTER(A, C, Q, R, y, x, V)</span>
+0086 <span class="comment">%</span>
+0087 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0088 <span class="comment">%      N/A</span>
+0089 <span class="comment">%</span>
+0090 <span class="comment">%   SUBFUNCTIONS:</span>
+0091 <span class="comment">%      N/A</span>
+0092 <span class="comment">%</span>
+0093 <span class="comment">%   See also STATEESTIMATION, SWITCHINGKALMANFILTER,</span>
+0094 <span class="comment">%   RTS_SWITCHINGKALMANSMOOTHER, GETGAUSSIANPROBABILITY</span>
+0095  
+0096 <span class="comment">%   AUTHORS:</span>
+0097 <span class="comment">%       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet,</span>
+0098 <span class="comment">%</span>
+0099 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0100 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0101 <span class="comment">%</span>
+0102 <span class="comment">%   MATLAB VERSION:</span>
+0103 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0104 <span class="comment">%</span>
+0105 <span class="comment">%   DATE CREATED:</span>
+0106 <span class="comment">%       June 28, 2018</span>
+0107 <span class="comment">%</span>
+0108 <span class="comment">%   DATE LAST UPDATE:</span>
+0109 <span class="comment">%       June 28, 2018</span>
+0110  
+0111 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0112 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0113 p = inputParser;
+0114 
+0115 defaultB = 0;
+0116 defaultW = 0;
+0117 addRequired(p,<span class="string">'A'</span>, @isnumeric );
+0118 addRequired(p,<span class="string">'C'</span>, @isnumeric );
+0119 addRequired(p,<span class="string">'Q'</span>, @isnumeric );
+0120 addRequired(p,<span class="string">'R'</span>, @isnumeric );
+0121 addRequired(p,<span class="string">'y'</span>, @isnumeric );
+0122 addRequired(p,<span class="string">'x'</span>, @isnumeric );
+0123 addRequired(p,<span class="string">'V'</span>, @isnumeric );
+0124 addParameter(p, <span class="string">'B'</span>, defaultB, @isnumeric)
+0125 addParameter(p, <span class="string">'W'</span>, defaultW, @isnumeric)
+0126 parse(p,A,C,Q,R,y,x,V,varargin{:});
+0127 
+0128 A=p.Results.A;
+0129 C=p.Results.C;
+0130 Q=p.Results.Q;
+0131 R=p.Results.R;
+0132 y = p.Results.y;
+0133 x=p.Results.x;      
+0134 V=p.Results.V;   
+0135 B=p.Results.B;
+0136 W=p.Results.W;
+0137 
+0138 <span class="comment">%% Prediction step</span>
+0139 <span class="comment">% Predicted hidden state mean</span>
+0140 xpred = A*x+B;
+0141 <span class="comment">% Predicted hidden state covariance</span>
+0142 Vpred = A*V*A'+Q+W; 
+0143 Vpred=(Vpred+Vpred')/2;
+0144 
+0145 <span class="comment">%% Identify missing data</span>
+0146 missing_idx=isnan(y);
+0147 
+0148 <span class="comment">%% Update step</span>
+0149 <span class="comment">% error (innovation)</span>
+0150 e = y - C*xpred;  
+0151 n = length(e);
+0152 ss = length(A);
+0153 S = C*Vpred*C' + R;
+0154 S = (S+S')/2;
+0155 Sinv = pinv(S);
+0156 Sinv(missing_idx,missing_idx)=0;
+0157 ss = length(V);
+0158 <span class="comment">% compute loglikelihood</span>
+0159 <span class="keyword">if</span> all(missing_idx)
+0160     loglik=0;
+0161 <span class="keyword">else</span>
+0162     [loglik] = <a href="getGaussianProbability.html" class="code" title="function [prob]=getGaussianProbability(x, m, C, varargin)">getGaussianProbability</a>(e(~missing_idx), <span class="keyword">...</span>
+0163         zeros(1,sum(~missing_idx)), <span class="keyword">...</span>
+0164         S(~missing_idx,~missing_idx), <span class="string">'isLog'</span>, true);
+0165 <span class="keyword">end</span>
+0166 <span class="comment">% Kalman gain matrix</span>
+0167 K = Vpred*C'*Sinv; 
+0168 e(missing_idx)=0;
+0169 <span class="comment">% Posterior hidden state mean</span>
+0170 xnew = xpred + K*e;
+0171 <span class="comment">% Posterior hidden state covariance</span>
+0172 Vnew = Vpred - K*C*Vpred;
+0173 Vnew=triu(Vnew)+triu(Vnew,1)';
+0174 VVnew = A*V - K*C*A*V;
+0175 VVnew=triu(VVnew)+triu(VVnew,1)';
+0176 
+0177 <span class="comment">%--------------------END CODE ------------------------</span>
+0178 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

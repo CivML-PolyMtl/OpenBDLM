@@ -1,0 +1,551 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plotData</title>
+  <meta name="keywords" content="plotData">
+  <meta name="description" content="PLOTDATA Plot data amplitude values and data timestep">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">VisualizationTools</a> &gt; plotData.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/VisualizationTools&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>plotData
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>PLOTDATA Plot data amplitude values and data timestep</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [FigureNames] = plotData(data, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PLOTDATA Plot data amplitude values and data timestep
+
+   SYNOPSIS:
+     PLOTDATA(data, misc, varargin)
+
+   INPUT:
+       data            - structure (required)
+                         data must contain three fields:
+
+                               'timestamps' is a M×1 array
+
+                               'values' is a MxN  array
+
+                               'labels' is a 1×N cell array
+                                each cell is a character array
+
+                                   N: number of time series
+                                   M: number of samples
+
+      misc             - structure (required)
+                           see the documentation for details about the
+                           field in misc
+
+      isPlotTimestep   - logical (optional)
+                         if isPlotTimestep = true, plot timestep
+                         default = false
+
+      isExportPDF      - logical (optional)
+                         if isExportPDF, export the figure in PDF format
+                         default: false
+
+      isExportPNG      - logical (optional)
+                         if isExportPNG, export the figure in PNG format
+                         default: true
+
+      isExportTEX      - logical (optional)
+                         if isExportTEX, export the figure in TEX format
+                         default: false
+
+      isVisible        - logical (optional)
+                         if isVisible = true, show figure on screen
+                         default: true
+
+      isForceOverwrite - logical (optional)
+                         if isForceOverwrite = true, save figure and
+                         overwrite previous files of same name without notice
+                         default = false
+
+   OUTPUT:
+
+     FigureNames       - cell array of character
+                        record name of the saved figures
+
+     Show up figures on screen and eventually save them
+
+   DESCRIPTION:
+      PLOTDATA plots OpenBDLM data
+
+   EXAMPLES:
+      PLOTDATA(data, misc)
+      PLOTDATA(data, misc, 'isPlotTimestep', true)
+
+   EXTERNAL FUNCTIONS CALLED:
+      M/A
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also <a href="plotDataSummary.html" class="code" title="function plotDataSummary(data, misc, varargin)">PLOTDATASUMMARY</a>, <a href="plotDataAvailability.html" class="code" title="function plotDataAvailability(data, misc, varargin)">PLOTDATAAVAILABILITY</a>, <a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">PLOTESTIMATIONS</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/DataLoader/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>	COMPUTETIMESTEPS Compute timestep vector from timestamps vector</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>	DEFINEREFERENCETIMESTEP Compute reference timestep of a timestamp vector</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">incrementFilename</a>	INCREMENTFILENAME Increment filename to prevent overwriting</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li><li><a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">exportPlot</a>	EXPORTPLOT Export the current figure in TeX file using matlab2tikz</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/DataLoader/extractSynchronousRecords.html" class="code" title="function [data, misc]=extractSynchronousRecords(data, misc, varargin)">extractSynchronousRecords</a>	EXTRACTSYNCHRONOUSRECORDS Extract synchronous records among time series</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/piloteExport.html" class="code" title="function [misc]=piloteExport(data, model, estimation, misc)">piloteExport</a>	PILOTEEXPORT Pilote function to export data, estimations and project</li><li><a href="pilotePlot.html" class="code" title="function [misc] = pilotePlot(data, model, estimation, misc)">pilotePlot</a>	PILOTEPLOT Pilote function to plot data and estimations</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [FigureNames] = plotData(data, misc, varargin)</a>
+0002 <span class="comment">%PLOTDATA Plot data amplitude values and data timestep</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     PLOTDATA(data, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%       data            - structure (required)</span>
+0009 <span class="comment">%                         data must contain three fields:</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%                               'timestamps' is a M×1 array</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%                               'values' is a MxN  array</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%                               'labels' is a 1×N cell array</span>
+0016 <span class="comment">%                                each cell is a character array</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%                                   N: number of time series</span>
+0019 <span class="comment">%                                   M: number of samples</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%      misc             - structure (required)</span>
+0022 <span class="comment">%                           see the documentation for details about the</span>
+0023 <span class="comment">%                           field in misc</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%      isPlotTimestep   - logical (optional)</span>
+0026 <span class="comment">%                         if isPlotTimestep = true, plot timestep</span>
+0027 <span class="comment">%                         default = false</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%      isExportPDF      - logical (optional)</span>
+0030 <span class="comment">%                         if isExportPDF, export the figure in PDF format</span>
+0031 <span class="comment">%                         default: false</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%      isExportPNG      - logical (optional)</span>
+0034 <span class="comment">%                         if isExportPNG, export the figure in PNG format</span>
+0035 <span class="comment">%                         default: true</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%      isExportTEX      - logical (optional)</span>
+0038 <span class="comment">%                         if isExportTEX, export the figure in TEX format</span>
+0039 <span class="comment">%                         default: false</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%      isVisible        - logical (optional)</span>
+0042 <span class="comment">%                         if isVisible = true, show figure on screen</span>
+0043 <span class="comment">%                         default: true</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">%      isForceOverwrite - logical (optional)</span>
+0046 <span class="comment">%                         if isForceOverwrite = true, save figure and</span>
+0047 <span class="comment">%                         overwrite previous files of same name without notice</span>
+0048 <span class="comment">%                         default = false</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%   OUTPUT:</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%     FigureNames       - cell array of character</span>
+0053 <span class="comment">%                        record name of the saved figures</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%     Show up figures on screen and eventually save them</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   DESCRIPTION:</span>
+0058 <span class="comment">%      PLOTDATA plots OpenBDLM data</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%   EXAMPLES:</span>
+0061 <span class="comment">%      PLOTDATA(data, misc)</span>
+0062 <span class="comment">%      PLOTDATA(data, misc, 'isPlotTimestep', true)</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0065 <span class="comment">%      M/A</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">%   SUBFUNCTIONS:</span>
+0068 <span class="comment">%      N/A</span>
+0069 <span class="comment">%</span>
+0070 <span class="comment">%   See also PLOTDATASUMMARY, PLOTDATAAVAILABILITY, PLOTESTIMATIONS</span>
+0071 
+0072 <span class="comment">%   AUTHORS:</span>
+0073 <span class="comment">%       Ianis Gaudot, Luong Ha Nguyen,  James-A Goulet,</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0076 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0077 <span class="comment">%</span>
+0078 <span class="comment">%   MATLAB VERSION:</span>
+0079 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0080 <span class="comment">%</span>
+0081 <span class="comment">%   DATE CREATED:</span>
+0082 <span class="comment">%       August 23, 2018</span>
+0083 <span class="comment">%</span>
+0084 <span class="comment">%   DATE LAST UPDATE:</span>
+0085 <span class="comment">%       January 4, 2019</span>
+0086 
+0087 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0088 
+0089 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0090 p = inputParser;
+0091 
+0092 defaultisPlotTimestep =  false;
+0093 defaultisExportPDF = false;
+0094 defaultisExportPNG = true;
+0095 defaultisExportTEX = false;
+0096 defaultisVisible = true;
+0097 defaultisForceOverwrite = false;
+0098 
+0099 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0100 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0101 addParameter(p,<span class="string">'isPlotTimestep'</span>, defaultisPlotTimestep, @islogical );
+0102 addParameter(p,<span class="string">'isExportPDF'</span>, defaultisExportPDF,  @islogical);
+0103 addParameter(p,<span class="string">'isExportPNG'</span>, defaultisExportPNG,  @islogical);
+0104 addParameter(p,<span class="string">'isExportTEX'</span>, defaultisExportTEX,  @islogical);
+0105 addParameter(p,<span class="string">'isVisible'</span>, defaultisVisible,  @islogical);
+0106 addParameter(p,<span class="string">'isForceOverwrite'</span>, defaultisForceOverwrite, @islogical);
+0107 parse(p,data, misc, varargin{:});
+0108 
+0109 data=p.Results.data;
+0110 misc=p.Results.misc;
+0111 isExportPDF = p.Results.isExportPDF;
+0112 isExportPNG = p.Results.isExportPNG;
+0113 isExportTEX = p.Results.isExportTEX;
+0114 isVisible = p.Results.isVisible;
+0115 isForceOverwrite = p.Results.isForceOverwrite;
+0116 isPlotTimestep = p.Results.isPlotTimestep;
+0117 
+0118 FigurePath=misc.internalVars.FigurePath;
+0119 
+0120 <span class="comment">% Set fileID for logfile</span>
+0121 <span class="keyword">if</span> misc.internalVars.isQuiet
+0122     <span class="comment">% output message in logfile</span>
+0123     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0124 <span class="keyword">else</span>
+0125     <span class="comment">% output message on screen and logfile using diary command</span>
+0126     fileID=1;
+0127 <span class="keyword">end</span>
+0128 
+0129 <span class="keyword">if</span> isVisible
+0130     VisibleOption = <span class="string">'on'</span>;
+0131 <span class="keyword">else</span>
+0132     VisibleOption = <span class="string">'off'</span>;
+0133 <span class="keyword">end</span>
+0134 
+0135 <span class="comment">%% Get options from misc</span>
+0136 FigurePosition=misc.options.FigurePosition;
+0137 isSecondaryPlot=misc.options.isSecondaryPlot;
+0138 Linewidth=misc.options.Linewidth;
+0139 ndivx = misc.options.ndivx;
+0140 ndivy = misc.options.ndivy;
+0141 Subsample = misc.options.Subsample;
+0142 Xaxis_lag=misc.options.Xaxis_lag;
+0143 
+0144 <span class="comment">% Figure setting</span>
+0145 color_black = [0 0 0];
+0146 color_red = [1 0 0];
+0147 
+0148 <span class="comment">%% Create subdirectory where to save the figures</span>
+0149 <span class="keyword">if</span> isExportPNG || isExportPDF || isExportTEX
+0150     
+0151     disp(<span class="string">'     Creating figures for data ...'</span>)
+0152     
+0153     <span class="comment">% Create specified path if not existing</span>
+0154     [isFileExist] = <a href="../../../OpenBDLM_V1.0/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FigurePath, <span class="string">'dir'</span>);
+0155     <span class="keyword">if</span> ~isFileExist
+0156         <span class="comment">% create directory</span>
+0157         mkdir(FigurePath)
+0158         <span class="comment">% set directory on path</span>
+0159         addpath(FigurePath)
+0160     <span class="keyword">end</span>
+0161     
+0162     fullPath = fullfile(FigurePath, misc.ProjectName);
+0163     [isFileExist] = <a href="../../../OpenBDLM_V1.0/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(fullPath, <span class="string">'dir'</span>);
+0164     
+0165     <span class="keyword">if</span> isFileExist
+0166         
+0167         <span class="keyword">if</span> ~isForceOverwrite
+0168             disp([<span class="string">'     Directory '</span>, fullPath,<span class="string">' already '</span>, <span class="keyword">...</span>
+0169                 <span class="string">'exists. Merge and overwrite existing files ?'</span>] );
+0170             
+0171             isYesNoCorrect = false;
+0172             <span class="keyword">while</span> ~isYesNoCorrect
+0173                 choice = input(<span class="string">'     (y/n) &gt;&gt; '</span>,<span class="string">'s'</span>);
+0174                 <span class="keyword">if</span> isempty(choice)
+0175                     fprintf(fileID,<span class="string">'\n'</span>);
+0176                     fprintf(fileID,[<span class="string">'     wrong input --&gt; please '</span>, <span class="keyword">...</span>
+0177                         <span class="string">' make a choice\n'</span>]);
+0178                     fprintf(fileID,<span class="string">'\n'</span>);
+0179                 <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'y'</span>) || strcmpi(choice,<span class="string">'yes'</span>)
+0180                     
+0181                     isYesNoCorrect =  true;
+0182                     
+0183                 <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'n'</span>) || strcmpi(choice,<span class="string">'no'</span>)
+0184                     
+0185                     [name] = <a href="../../../OpenBDLM_V1.0/functions/Others/incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">incrementFilename</a>([misc.ProjectName, <span class="string">'_new'</span>], <span class="keyword">...</span>
+0186                         FigurePath);
+0187                     fullPath=fullfile(FigurePath, name);
+0188                     
+0189                     <span class="comment">% Create new directory</span>
+0190                     mkdir(fullPath)
+0191                     addpath(fullPath)
+0192                     
+0193                     isYesNoCorrect =  true;
+0194                     
+0195                 <span class="keyword">else</span>
+0196                     fprintf(fileID,<span class="string">'\n'</span>);
+0197                     fprintf(fileID,<span class="string">'     wrong input\n'</span>);
+0198                     fprintf(fileID,<span class="string">'\n'</span>);
+0199                 <span class="keyword">end</span>
+0200                 
+0201             <span class="keyword">end</span>
+0202             
+0203         <span class="keyword">end</span>
+0204     <span class="keyword">else</span>
+0205         
+0206         <span class="comment">% Create new directory</span>
+0207         mkdir(fullPath)
+0208         addpath(fullPath)
+0209         
+0210     <span class="keyword">end</span>
+0211     
+0212 <span class="keyword">end</span>
+0213 
+0214 
+0215 <span class="comment">%% Get amplitude values to plot</span>
+0216 
+0217 <span class="comment">% Get number of time series</span>
+0218 numberOfTimeSeries = size(data.values,2);
+0219 
+0220 <span class="comment">% Get observation amplitude values</span>
+0221 DataValues = data.values;
+0222 
+0223 <span class="comment">% Get timestamps vector</span>
+0224 timestamps=data.timestamps;
+0225 
+0226 <span class="comment">% Compute timestep vector</span>
+0227 [timesteps]=<a href="../../../OpenBDLM_V1.0/functions/DataLoader/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>(timestamps);
+0228 
+0229 <span class="comment">% Get reference timestep</span>
+0230 [referenceTimestep]=<a href="../../../OpenBDLM_V1.0/functions/Others/defineReferenceTimeStep.html" class="code" title="function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)">defineReferenceTimeStep</a>(timestamps);
+0231 
+0232 <span class="comment">% Define timestamp vector for main plot</span>
+0233 plot_time_1=1:Subsample:length(timestamps);
+0234 
+0235 <span class="keyword">if</span>  isSecondaryPlot
+0236     
+0237     ZoomDuration = 14; <span class="comment">% zoom duration in days</span>
+0238     
+0239     <span class="keyword">if</span> ZoomDuration/referenceTimestep &gt;= 1
+0240         <span class="comment">% Define timestamp vector for secondary plot plot</span>
+0241         time_fraction=0.641;
+0242         plot_time_2=round(time_fraction*length(timestamps)): <span class="keyword">...</span>
+0243             round(time_fraction*length(timestamps))+ <span class="keyword">...</span>
+0244             (ZoomDuration/referenceTimestep);
+0245     <span class="keyword">else</span>
+0246         isSecondaryPlot = false;
+0247     <span class="keyword">end</span>
+0248 <span class="keyword">end</span>
+0249 
+0250 <span class="comment">%% Define paramater for plot appeareance</span>
+0251 
+0252 <span class="keyword">if</span> ~isSecondaryPlot
+0253     idx_supp_plot=1;
+0254 <span class="keyword">else</span>
+0255     idx_supp_plot=0;
+0256 <span class="keyword">end</span>
+0257 
+0258 <span class="keyword">if</span> isPlotTimestep
+0259     FigureNames=cell(numberOfTimeSeries*2,1);
+0260 <span class="keyword">else</span>
+0261     FigureNames=cell(numberOfTimeSeries,1);
+0262 <span class="keyword">end</span>
+0263 
+0264 <span class="comment">%% Plot data amplitude</span>
+0265 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0266     FigHandle = figure(<span class="string">'DefaultAxesPosition'</span>, [0.1, 0.17, 0.8, 0.8]);
+0267     set(FigHandle, <span class="string">'Position'</span>, FigurePosition)
+0268     set(FigHandle, <span class="string">'Visible'</span>, VisibleOption)
+0269     subplot(1,3,1:2+idx_supp_plot,<span class="string">'align'</span>)
+0270     
+0271     <span class="comment">%% Main plot</span>
+0272     
+0273     <span class="comment">% Plot observation mean values</span>
+0274     <span class="comment">%plot(timestamps(plot_time_1),DataValues(plot_time_1,i), ...</span>
+0275     <span class="comment">%    'Linewidth',Linewidth, 'Color', [1 0 0])</span>
+0276     
+0277     
+0278     plot(timestamps(plot_time_1), DataValues(plot_time_1,i), <span class="keyword">...</span>
+0279         <span class="string">'Color'</span>, color_red, <span class="keyword">...</span>
+0280         <span class="string">'LineWidth'</span>, Linewidth, <span class="keyword">...</span>
+0281         <span class="string">'Marker'</span>, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>,0.5, <span class="keyword">...</span>
+0282         <span class="string">'MarkerEdgeColor'</span>, color_red, <span class="keyword">...</span>
+0283         <span class="string">'MarkerFacecolor'</span>, color_red)
+0284     
+0285     
+0286     miny=min(DataValues(plot_time_1,i));
+0287     maxy=max(DataValues(plot_time_1,i));
+0288     ylim([miny, maxy ])
+0289     set(gca,<span class="string">'XTick'</span>,linspace(timestamps(plot_time_1(1)), <span class="keyword">...</span>
+0290         timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),<span class="keyword">...</span>
+0291         <span class="string">'YTick'</span>, linspace(miny, maxy, ndivy), <span class="keyword">...</span>
+0292         <span class="string">'box'</span>,<span class="string">'off'</span>, <span class="string">'FontSize'</span>, 16);
+0293     <span class="keyword">if</span> miny~=maxy
+0294         set(gca,<span class="string">'Ylim'</span>,[miny,maxy])
+0295     <span class="keyword">end</span>
+0296     ytickformat(<span class="string">'%.1f'</span>)
+0297     datetick(<span class="string">'x'</span>,<span class="string">'yy-mm'</span>,<span class="string">'keepticks'</span>)
+0298     xlabel(<span class="string">'Time [YY-MM]'</span>)
+0299     ylabel(data.labels{i})
+0300     xlim([timestamps(1)-Xaxis_lag,timestamps(end)])
+0301     hold off
+0302     
+0303     <span class="comment">%% Secondary plot</span>
+0304     <span class="keyword">if</span> isSecondaryPlot
+0305         subplot(1,3,3,<span class="string">'align'</span>)
+0306         
+0307         <span class="comment">% Plot observation mean values</span>
+0308         <span class="comment">% plot(timestamps(plot_time_2),DataValues(plot_time_2,i), ...</span>
+0309         <span class="comment">%     'Linewidth',Linewidth, 'Color', [1 0 0] )</span>
+0310                
+0311         plot(timestamps(plot_time_2), DataValues(plot_time_2,i), <span class="keyword">...</span>
+0312             <span class="string">'Color'</span>, color_red, <span class="keyword">...</span>
+0313             <span class="string">'LineWidth'</span>, Linewidth, <span class="keyword">...</span>
+0314             <span class="string">'Marker'</span>, <span class="string">'.'</span>, <span class="string">'MarkerSize'</span>,0.5, <span class="keyword">...</span>
+0315             <span class="string">'MarkerEdgeColor'</span>, color_red, <span class="keyword">...</span>
+0316             <span class="string">'MarkerFacecolor'</span>, color_red)
+0317         
+0318         
+0319         set(gca,<span class="string">'XTick'</span>,linspace(timestamps(plot_time_2(1)), <span class="keyword">...</span>
+0320             timestamps(plot_time_2(size(timestamps(plot_time_2),1))), <span class="keyword">...</span>
+0321             3), <span class="string">'YTick'</span>, [], <span class="string">'box'</span>,<span class="string">'off'</span>, <span class="string">'FontSize'</span>, 16);
+0322         ytickformat(<span class="string">'%.1f'</span>)
+0323         datetick(<span class="string">'x'</span>,<span class="string">'mm-dd'</span>,<span class="string">'keepticks'</span>)
+0324         year=datevec(timestamps(plot_time_2(1)));
+0325         xlabel([<span class="string">'Time ['</span> num2str(year(1)) <span class="string">'--MM-DD]'</span>])
+0326         hold off
+0327         
+0328     <span class="keyword">end</span>
+0329     
+0330     <span class="comment">%% Export plots</span>
+0331     <span class="keyword">if</span> isExportPDF || isExportPNG || isExportTEX
+0332         <span class="comment">% Define the name of the figure</span>
+0333         NameFigure = [data.labels{i}, <span class="string">'_Amplitude'</span> ];
+0334         
+0335         <span class="comment">% Record Figure Name</span>
+0336         FigureNames{i} = NameFigure;
+0337         
+0338         <span class="comment">% Export figure to TeX file in location given by fullPath</span>
+0339         <a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">exportPlot</a>(NameFigure, <span class="string">'FilePath'</span>, fullPath,  <span class="keyword">...</span>
+0340             <span class="string">'isExportPDF'</span>, isExportPDF, <span class="keyword">...</span>
+0341             <span class="string">'isExportPNG'</span>, isExportPNG, <span class="keyword">...</span>
+0342             <span class="string">'isExportTEX'</span>, isExportTEX);
+0343     <span class="keyword">else</span>
+0344         FigureNames{1} = [];
+0345     <span class="keyword">end</span>
+0346     
+0347     <span class="keyword">if</span> ~isVisible
+0348         close(FigHandle)
+0349     <span class="keyword">end</span>
+0350     
+0351     
+0352 <span class="keyword">end</span>
+0353 
+0354 
+0355 
+0356 <span class="keyword">if</span> isPlotTimestep
+0357     <span class="comment">%% Plot data timestep</span>
+0358     
+0359     <span class="keyword">for</span> i=1:numberOfTimeSeries
+0360         FigHandle = figure(<span class="string">'DefaultAxesPosition'</span>, [0.1, 0.17, 0.8, 0.8]);
+0361         set(FigHandle, <span class="string">'Position'</span>, FigurePosition)
+0362         set(FigHandle, <span class="string">'Visible'</span>, VisibleOption)
+0363         subplot(1,3,1:2+idx_supp_plot,<span class="string">'align'</span>)
+0364         
+0365         <span class="comment">%% Main plot</span>
+0366         semilogy(timestamps,timesteps*24 , <span class="keyword">...</span>
+0367             <span class="string">'Marker'</span>, <span class="string">'o'</span>, <span class="string">'LineStyle'</span>, <span class="string">'none'</span>, <span class="string">'Markersize'</span>, 6, <span class="keyword">...</span>
+0368             <span class="string">'Color'</span>, [0 0 0], <span class="string">'MarkerFaceColor'</span>,[0 0 0])
+0369         
+0370         set(gca,<span class="string">'XTick'</span>,linspace(timestamps(plot_time_1(1)), <span class="keyword">...</span>
+0371             timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),<span class="keyword">...</span>
+0372             <span class="string">'box'</span>,<span class="string">'off'</span>, <span class="string">'FontSize'</span>, 16);
+0373         set(gca,<span class="string">'FontSize'</span>,16)
+0374         YTicks=([ 1 10 100 1000]);
+0375         set(gca, <span class="string">'YTick'</span>, YTicks)
+0376         set(gca,<span class="string">'YTickLabel'</span>, <span class="keyword">...</span>
+0377             cellstr(num2str(round(log10(YTicks(:))), <span class="string">'10^%d'</span>)))
+0378         set(gca,<span class="string">'YMinorTick'</span>,<span class="string">'off'</span>)
+0379         datetick(<span class="string">'x'</span>,<span class="string">'yy-mm'</span>,<span class="string">'keepticks'</span>)
+0380         xlabel(<span class="string">'Time [YY-MM]'</span>)
+0381         ylabel(data.labels{i})
+0382         ylim([0.01 1000])
+0383         
+0384         <span class="comment">%% Secondary plot</span>
+0385         <span class="keyword">if</span> isSecondaryPlot
+0386             subplot(1,3,3,<span class="string">'align'</span>)
+0387             
+0388             semilogy(timestamps(plot_time_2),timesteps(plot_time_2)*24 , <span class="keyword">...</span>
+0389                 <span class="string">'Marker'</span>, <span class="string">'o'</span>, <span class="string">'LineStyle'</span>, <span class="string">'none'</span>, <span class="string">'Markersize'</span>, 6, <span class="keyword">...</span>
+0390                 <span class="string">'Color'</span>, [0 0 0], <span class="string">'MarkerFaceColor'</span>,[0 0 0])
+0391             
+0392             set(gca,<span class="string">'XTick'</span>,linspace(timestamps(plot_time_2(1)), <span class="keyword">...</span>
+0393                 timestamps(plot_time_2(size(timestamps(plot_time_2),1))), <span class="keyword">...</span>
+0394                 3), <span class="string">'YTick'</span>, [], <span class="string">'box'</span>,<span class="string">'off'</span>, <span class="string">'FontSize'</span>, 16);
+0395             datetick(<span class="string">'x'</span>,<span class="string">'mm-dd'</span>,<span class="string">'keepticks'</span>)
+0396             year=datevec(timestamps(plot_time_2(1)));
+0397             xlabel([<span class="string">'Time ['</span> num2str(year(1)) <span class="string">'--MM-DD]'</span>])
+0398             ylim([0.01 1000])
+0399             hold off
+0400             
+0401         <span class="keyword">end</span>
+0402         
+0403         <span class="comment">%% Export plots</span>
+0404         <span class="keyword">if</span> isExportPDF || isExportPNG || isExportTEX
+0405             <span class="comment">% Define the name of the figure</span>
+0406             NameFigure = [data.labels{i}, <span class="string">'_Timesteps'</span> ];
+0407             
+0408             <span class="comment">% Record Figure Name</span>
+0409             FigureNames{i+numberOfTimeSeries} = NameFigure;
+0410             
+0411             <span class="comment">% Export figure to TeX file in location given by fullPath</span>
+0412             <a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">exportPlot</a>(NameFigure, <span class="string">'FilePath'</span>, fullPath,  <span class="keyword">...</span>
+0413                 <span class="string">'isExportPDF'</span>, isExportPDF, <span class="keyword">...</span>
+0414                 <span class="string">'isExportPNG'</span>, isExportPNG, <span class="keyword">...</span>
+0415                 <span class="string">'isExportTEX'</span>, isExportTEX);
+0416         <span class="keyword">else</span>
+0417             FigureNames{1} = [];
+0418         <span class="keyword">end</span>
+0419         
+0420         
+0421         <span class="keyword">if</span> ~isVisible
+0422             close(FigHandle)
+0423         <span class="keyword">end</span>
+0424         
+0425     <span class="keyword">end</span>
+0426     
+0427 <span class="keyword">end</span>
+0428 
+0429 <span class="keyword">if</span> isExportPNG || isExportPDF || isExportTEX
+0430     fprintf(fileID,<span class="string">'\n'</span>);
+0431     fprintf(fileID,<span class="string">'     Figures saved in %s.\n'</span>, fullPath);
+0432     fprintf(fileID,<span class="string">'\n'</span>);
+0433 <span class="keyword">end</span>
+0434 
+0435 <span class="comment">%--------------------END CODE ------------------------</span>
+0436 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

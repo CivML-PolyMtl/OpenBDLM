@@ -82,6 +82,7 @@ misc=p.Results.misc;
 
 ProjectPath=misc.internalVars.ProjectPath;
 FigurePath=misc.internalVars.FigurePath;
+isPlotEstimations = misc.options.isPlotEstimations;
 
 % Set fileID for logfile
 if misc.internalVars.isQuiet
@@ -186,11 +187,13 @@ end
 % Save project
 saveProject(model, estimation, misc, 'FilePath',ProjectPath)
 
-%Plot estimations
-plotEstimations(data, model, estimation, misc,'FilePath', FigurePath, ...
-    'isExportPDF', false, ...
-    'isExportPNG', false, ...
-    'isExportTEX', false)
+if isPlotEstimations
+    %Plot estimations
+    plotEstimations(data, model, estimation, misc,'FilePath', FigurePath, ...
+        'isExportPDF', false, ...
+        'isExportPNG', false, ...
+        'isExportTEX', false)
+end
 
 misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 

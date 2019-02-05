@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of readParameterProperties</title>
+  <meta name="keywords" content="readParameterProperties">
+  <meta name="description" content="READPARAMETERPROPERTIES Extract some columns of a cell array">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; readParameterProperties.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>readParameterProperties
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>READPARAMETERPROPERTIES Extract some columns of a cell array</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [arrayOut]=readParameterProperties(cellIn, Position) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">READPARAMETERPROPERTIES Extract some columns of a cell array
+
+   SYNOPSIS:
+     [arrayOut]=READPARAMETERPROPERTIES(cellIn, Position)
+ 
+   INPUT:
+      cellIn           - NxM cell array (required)
+
+      Position         - 1xP array of integer (required)
+                         Index column to be extracted from cellIn
+ 
+   OUTPUT:
+      arrayOut         - NxP array
+                         All extracted columns stored a single array
+ 
+   DESCRIPTION:
+      READPARAMETERPROPERTIES extracts some columns of a cell array 
+ 
+   EXAMPLES:
+      [arrayOut]=READPARAMETERPROPERTIES(cellIn, Position)
+ 
+   EXTERNAL FUNCTIONS CALLED:
+      N/A
+ 
+   SUBFUNCTIONS:
+      N/A
+ 
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/DataSimulation/simulateDataFromCustomAnomalies.html" class="code" title="function [data, model, estimation, misc]=simulateDataFromCustomAnomalies(data, model, misc)">simulateDataFromCustomAnomalies</a>	SIMULATEDATAFROMCUSTOMANOMALIES Create synth. data from custom anomalies</li><li><a href="../../../OpenBDLM_V1.0/functions/DataSimulation/simulateDataFromTransitionProbabilities.html" class="code" title="function [data, model, estimation, misc]=simulateDataFromTransitionProbabilities(data, model, misc)">simulateDataFromTransitionProbabilities</a>	SIMULATEDATAFROMTRANSITIONPROBABILITIES Create synth. data from trans. prob.</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelConfiguration/buildModel.html" class="code" title="function [model, misc]=buildModel(data, model, misc)">buildModel</a>	BUILDMODEL Build model (build A,C, Q, R matrices)</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelParametersLearning/NewtonRaphson.html" class="code" title="function [optim, model]=NewtonRaphson(data, model, misc)">NewtonRaphson</a>	NEWTONRAPHSON Learn models parameters using the Newton-Raphson technique</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelParametersLearning/SGD.html" class="code" title="function [optim, model] = SGD(data, model, misc, varargin)">SGD</a>	INPUTS:</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelParametersLearning/modifyModelParameters.html" class="code" title="function [model, misc] = modifyModelParameters(data, model, estimation, misc, varargin)">modifyModelParameters</a>	MODIFYMODELPARAMETERS Request user to modify model parameters values</li><li><a href="displayModelMatrices.html" class="code" title="function displayModelMatrices(data, model, estimation, misc, TimestampIndex)">displayModelMatrices</a>	DISPLAYMODELMATRICES Display A,C, Q, R matrices for a given timestamp</li><li><a href="../../../OpenBDLM_V1.0/functions/StateEstimation/RTS_SwitchingKalmanSmoother.html" class="code" title="function [x, V, VV, S,x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed]=RTS_SwitchingKalmanSmoother(data, model, estimation)">RTS_SwitchingKalmanSmoother</a>	RTS_SWITCHINGKALMANSMOOTHER Perform RTS Switching Kalman smoothing</li><li><a href="../../../OpenBDLM_V1.0/functions/StateEstimation/StateEstimation.html" class="code" title="function [estimation]=StateEstimation(data, model, misc, varargin)">StateEstimation</a>	STATEESTIMATION State estimation from switching Kalman filtering/smoothing</li><li><a href="../../../OpenBDLM_V1.0/functions/StateEstimation/SwitchingKalmanFilter.html" class="code" title="function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)">SwitchingKalmanFilter</a>	SWITCHINGKALMANFILTER Perform Switching Kalman filtering of time series</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotKernelRegression.html" class="code" title="function [FigureNames] = plotKernelRegression(data, model, estimation, misc, varargin)">plotKernelRegression</a>	PLOTKERNELREGRESSION Plot Kernel regression time series pattern</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotPredictedData.html" class="code" title="function [FigureNames] = plotPredictedData(data, model, estimation, misc, varargin)">plotPredictedData</a>	PLOTPREDICTEDDATA Plot observed and predicted data</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotWaterfallKRegression.html" class="code" title="function [FigureNames] = plotWaterfallKRegression(data, model, estimation, misc, varargin)">plotWaterfallKRegression</a>	PLOTWATERFALLKREGRESSION Waterfall plot for kernel regression component</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [arrayOut]=readParameterProperties(cellIn, Position)</a>
+0002 <span class="comment">%READPARAMETERPROPERTIES Extract some columns of a cell array</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [arrayOut]=READPARAMETERPROPERTIES(cellIn, Position)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      cellIn           - NxM cell array (required)</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%      Position         - 1xP array of integer (required)</span>
+0011 <span class="comment">%                         Index column to be extracted from cellIn</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%   OUTPUT:</span>
+0014 <span class="comment">%      arrayOut         - NxP array</span>
+0015 <span class="comment">%                         All extracted columns stored a single array</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   DESCRIPTION:</span>
+0018 <span class="comment">%      READPARAMETERPROPERTIES extracts some columns of a cell array</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%   EXAMPLES:</span>
+0021 <span class="comment">%      [arrayOut]=READPARAMETERPROPERTIES(cellIn, Position)</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0024 <span class="comment">%      N/A</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%   SUBFUNCTIONS:</span>
+0027 <span class="comment">%      N/A</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   See also</span>
+0030  
+0031 <span class="comment">%   AUTHORS:</span>
+0032 <span class="comment">%       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0035 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   MATLAB VERSION:</span>
+0038 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   DATE CREATED:</span>
+0041 <span class="comment">%       August 2, 2018</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   DATE LAST UPDATE:</span>
+0044 <span class="comment">%       August 2, 2018</span>
+0045  
+0046 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0047 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0048 p = inputParser;
+0049 
+0050 validationFct_Position = @(n) all(rem(n,1) == 0) &amp; all(n &gt; 0);
+0051 
+0052 addRequired(p,<span class="string">'cellIn'</span>, @iscell );
+0053 addRequired(p,<span class="string">'Position'</span>, validationFct_Position );
+0054 parse(p, cellIn, Position);
+0055 
+0056 cellIn=p.Results.cellIn;
+0057 Position=p.Results.Position;
+0058 
+0059 <span class="keyword">if</span> ~all(Position &lt;= size(cellIn,2))
+0060     disp(<span class="string">' '</span>)
+0061     disp(<span class="string">'     Impossible to extract column. Index out of range. '</span>)
+0062     disp(<span class="string">' '</span>)
+0063     arrayOut= [];
+0064     <span class="keyword">return</span>
+0065 <span class="keyword">end</span>
+0066  
+0067 <span class="comment">%% Extract specified columns</span>
+0068 arrayOut=cell2mat(cellIn(:,Position));
+0069 
+0070 <span class="comment">%--------------------END CODE ------------------------</span>
+0071 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

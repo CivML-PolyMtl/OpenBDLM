@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of versionControl</title>
+  <meta name="keywords" content="versionControl">
+  <meta name="description" content="VERSIONCONTROL Version control for OpenBDLM">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">VersionControl</a> &gt; versionControl.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/VersionControl&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>versionControl
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>VERSIONCONTROL Version control for OpenBDLM</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [controlOut]=versionControl(misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">VERSIONCONTROL Version control for OpenBDLM
+
+   SYNOPSIS:
+     [controlOut]=VERSIONCONTROL(misc, varargin)
+
+   INPUT:
+      misc                 - structure (required)
+                            see documentation for details about the fields
+                            in structure &quot;misc&quot;
+
+      FilePath             - character (optionnal)
+                             Path of the directory in which version
+                             control files are stored
+                             default = '.'(current directory)
+
+   OUTPUT:
+      controlOut          - cell array
+                            controlOut stores the results of the version
+                            control tests
+
+   DESCRIPTION:
+      VERSIONCONTROL controls version of OpenBDLM
+
+   EXAMPLES:
+      [controlOut]=VERSIONCONTROL(misc)
+      [controlOut]=VERSIONCONTROL(misc, 'FilePath','version_control')
+
+   EXTERNAL FUNCTIONS CALLED:
+      N/A
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/OpenBDLM_main.html" class="code" title="function [data, model, estimation, misc] = OpenBDLM_main(UserInput)">OpenBDLM_main</a>	OPENBDLM_MAIN Process control for OpenBDLM</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/Clean.html" class="code" title="function Clean(varargin)">Clean</a>	CLEAN Clean OpenBDLM folder tree</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="piloteVersionControl.html" class="code" title="function piloteVersionControl(misc)">piloteVersionControl</a>	PILOTEVERSIONCONTROL Pilote function for version control</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [controlOut]=versionControl(misc, varargin)</a>
+0002 <span class="comment">%VERSIONCONTROL Version control for OpenBDLM</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [controlOut]=VERSIONCONTROL(misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      misc                 - structure (required)</span>
+0009 <span class="comment">%                            see documentation for details about the fields</span>
+0010 <span class="comment">%                            in structure &quot;misc&quot;</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      FilePath             - character (optionnal)</span>
+0013 <span class="comment">%                             Path of the directory in which version</span>
+0014 <span class="comment">%                             control files are stored</span>
+0015 <span class="comment">%                             default = '.'(current directory)</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   OUTPUT:</span>
+0018 <span class="comment">%      controlOut          - cell array</span>
+0019 <span class="comment">%                            controlOut stores the results of the version</span>
+0020 <span class="comment">%                            control tests</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   DESCRIPTION:</span>
+0023 <span class="comment">%      VERSIONCONTROL controls version of OpenBDLM</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   EXAMPLES:</span>
+0026 <span class="comment">%      [controlOut]=VERSIONCONTROL(misc)</span>
+0027 <span class="comment">%      [controlOut]=VERSIONCONTROL(misc, 'FilePath','version_control')</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0030 <span class="comment">%      N/A</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   SUBFUNCTIONS:</span>
+0033 <span class="comment">%      N/A</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   See also</span>
+0036 
+0037 <span class="comment">%   AUTHORS:</span>
+0038 <span class="comment">%       Ianis Gaudot, Luong Ha Nguyen,  James-A Goulet</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0041 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   MATLAB VERSION:</span>
+0044 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   DATE CREATED:</span>
+0047 <span class="comment">%       August 6, 2018</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   DATE LAST UPDATE:</span>
+0050 <span class="comment">%       August 7, 2018</span>
+0051 
+0052 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0053 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0054 p = inputParser;
+0055 defaultFilePath = <span class="string">'.'</span>;
+0056 validationFct_FilePath = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0057     ~isempty(x(~isspace(x)));
+0058 
+0059 addRequired(p,<span class="string">'misc'</span>,  @isstruct);
+0060 addParameter(p,<span class="string">'FilePath'</span>,defaultFilePath, validationFct_FilePath);
+0061 
+0062 parse(p,misc, varargin{:});
+0063 
+0064 misc=p.Results.misc;
+0065 FilePath=p.Results.FilePath;
+0066 
+0067 ProjectPath=misc.internalVars.ProjectPath;
+0068 ProjectInfofile = misc.internalVars.ProjectInfoFilename;
+0069 
+0070 sse_threshold=1E-3;
+0071 
+0072 <span class="comment">%% Search for all CFG files in FilePath</span>
+0073 
+0074 InfoFile_1=dir(fullfile(FilePath, <span class="string">'*CFG*'</span>));
+0075 
+0076 <span class="keyword">if</span> isempty(InfoFile_1)  <span class="comment">% the file does not exist</span>
+0077     disp(<span class="string">' '</span>)
+0078     fprintf(<span class="string">'     No version control configuration file(s) found in %s\n'</span>,<span class="keyword">...</span>
+0079         FilePath)
+0080     disp(<span class="string">' '</span>)
+0081     <span class="keyword">return</span>
+0082 <span class="keyword">else</span>
+0083     controlOut={};
+0084     <span class="keyword">for</span> j=1:length(InfoFile_1)
+0085         
+0086         <span class="comment">% Get name of the files</span>
+0087         ConfigFileName_src=InfoFile_1(j).name;
+0088         
+0089         <span class="comment">% Get reference name</span>
+0090         subref_1=strsplit(ConfigFileName_src, <span class="string">'CFG_'</span>);
+0091         subref_2=strsplit(subref_1{2}, <span class="string">'.'</span>);
+0092         refname = subref_2{1};
+0093         
+0094         disp(<span class="string">' '</span>)
+0095         disp([<span class="string">'- Version control test #'</span>, num2str(j)]);
+0096         disp(<span class="string">' '</span>)
+0097         
+0098         
+0099         DataFileName_src=[<span class="string">'DATA_'</span>, refname, <span class="string">'.mat'</span>];
+0100         ProjectFileName_src=[<span class="string">'PROJ_'</span>, refname, <span class="string">'.mat'</span>];
+0101         
+0102         <span class="comment">% Search for DATA_refname and PROJ_refname in FilePath</span>
+0103         InfoFile_2=dir(fullfile(FilePath, DataFileName_src));
+0104         InfoFile_3=dir(fullfile(FilePath, ProjectFileName_src));
+0105         
+0106         <span class="keyword">if</span> isempty(InfoFile_2) || isempty(InfoFile_3)
+0107             <span class="keyword">continue</span>
+0108         <span class="keyword">else</span>
+0109             
+0110             <span class="comment">%Get y_ref</span>
+0111             project = load(fullfile(FilePath, ProjectFileName_src ));
+0112             <span class="keyword">if</span> isfield(project.estimation, <span class="string">'y'</span>)
+0113                 y_ref=project.estimation.y;
+0114             <span class="keyword">else</span>
+0115                 <span class="keyword">continue</span>
+0116             <span class="keyword">end</span>
+0117             
+0118             <span class="comment">% Try to run OpenBLDM to compute y_test</span>
+0119             <span class="keyword">try</span>
+0120                 [~, ~, estimation, ~] = <span class="keyword">...</span>
+0121                     <a href="../../../OpenBDLM_V1.0/OpenBDLM_main.html" class="code" title="function [data, model, estimation, misc] = OpenBDLM_main(UserInput)">OpenBDLM_main</a>({[<span class="string">''''</span>,ConfigFileName_src,<span class="string">''''</span>], <span class="keyword">...</span>
+0122                     <span class="string">'3'</span>, <span class="string">'1'</span>, <span class="string">'''Q'''</span>});
+0123                 isRun = true;
+0124             <span class="keyword">catch</span>
+0125                 isRun = false;
+0126                 isValidSSE=false;
+0127                 mean_sse = Inf;
+0128             <span class="keyword">end</span>
+0129             
+0130             <span class="keyword">if</span> isRun
+0131                 
+0132                 <span class="comment">% Get predicted data from current version</span>
+0133                 y_test=estimation.y;
+0134                 
+0135                 <span class="comment">% Verify size are compatible</span>
+0136                 <span class="keyword">if</span> size(y_ref, 1) ~= size(y_test, 1) || <span class="keyword">...</span>
+0137                         size(y_ref, 2) ~= size(y_ref, 2)
+0138                     <span class="keyword">continue</span>
+0139                 <span class="keyword">end</span>
+0140                 
+0141                 <span class="comment">% Compute sum squared error between y_test and y_ref</span>
+0142                 sse_sum=0;
+0143                 <span class="keyword">for</span> i=1:size(y_ref,2)
+0144                     
+0145                     sse=mean((y_ref(:,i)-y_test(:,i)).^2);
+0146                     sse_sum=sse+sse_sum;
+0147                 <span class="keyword">end</span>
+0148                 
+0149                 mean_sse=sse_sum/size(y_ref,2);
+0150                 
+0151                 <span class="keyword">if</span> mean_sse &lt; sse_threshold
+0152                     isValidSSE=true;
+0153                 <span class="keyword">else</span>
+0154                     isValidSSE=false;
+0155                 <span class="keyword">end</span>
+0156                 
+0157             <span class="keyword">end</span>
+0158             
+0159         <span class="keyword">end</span>
+0160         
+0161         controlOut=[controlOut ; {refname, isRun, isValidSSE, mean_sse}];
+0162         
+0163         
+0164         disp(<span class="string">' '</span>)
+0165         <span class="keyword">if</span> ~isRun || ~isValidSSE
+0166             resStr = <span class="string">'FAIL'</span>;
+0167         <span class="keyword">else</span>
+0168             resStr = <span class="string">'PASS'</span>;
+0169         <span class="keyword">end</span>
+0170         
+0171         disp( [<span class="string">'     ==&gt; Version control '</span>, <span class="keyword">...</span>
+0172             <span class="string">'test '</span> , num2str(j), <span class="string">': '</span> , resStr]);
+0173         disp(<span class="string">' '</span>)
+0174         
+0175         
+0176     <span class="keyword">end</span>
+0177     
+0178 <span class="keyword">end</span>
+0179 
+0180 <span class="comment">% Clean folder tree</span>
+0181 <a href="../../../OpenBDLM_V1.0/functions/Others/Clean.html" class="code" title="function Clean(varargin)">Clean</a>(<span class="string">'isForceDelete'</span>, true);
+0182 
+0183 <span class="comment">%--------------------END CODE ------------------------</span>
+0184 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

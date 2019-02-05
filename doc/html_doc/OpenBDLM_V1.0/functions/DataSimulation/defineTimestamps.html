@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of defineTimestamps</title>
+  <meta name="keywords" content="defineTimestamps">
+  <meta name="description" content="DEFINETIMESTAMPS Request user's input to define data timestamps">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataSimulation</a> &gt; defineTimestamps.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/DataSimulation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>defineTimestamps
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>DEFINETIMESTAMPS Request user's input to define data timestamps</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [data, misc]=defineTimestamps(data, misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DEFINETIMESTAMPS Request user's input to define data timestamps
+
+   SYNOPSIS:
+     [data, misc]=DEFINETIMESTAMPS(data, misc)
+
+   INPUT:
+      data - structure(required)
+      misc - structure(required)
+
+   OUTPUT:
+      data - structure
+      data - structure
+
+   DESCRIPTION:
+      DEFINETIMESTAMPS request user input to define data timestamps
+      DEFINETIMESTAMPS create the field timestamps of the structure data
+
+   EXAMPLES:
+      [data, misc]=DEFINETIMESTAMPS(data, misc)
+
+   See also <a href="defineDataLabels.html" class="code" title="function [data, misc]=defineDataLabels(data, misc)">DEFINEDATALABELS</a>, <a href="defineCustomAnomalies.html" class="code" title="function [misc]=defineCustomAnomalies(data, model, misc)">DEFINECUSTOMANOMALIES</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/ModelConfiguration/configureModelForDataSimulation.html" class="code" title="function [data, model, estimation, misc]=configureModelForDataSimulation(data, model, estimation , misc)">configureModelForDataSimulation</a>	CONFIGUREMODELFORDATASIMULATION Configure model for BDLM analysis based on simulated data</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [data, misc]=defineTimestamps(data, misc)</a>
+0002 <span class="comment">%DEFINETIMESTAMPS Request user's input to define data timestamps</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [data, misc]=DEFINETIMESTAMPS(data, misc)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data - structure(required)</span>
+0009 <span class="comment">%      misc - structure(required)</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%   OUTPUT:</span>
+0012 <span class="comment">%      data - structure</span>
+0013 <span class="comment">%      data - structure</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   DESCRIPTION:</span>
+0016 <span class="comment">%      DEFINETIMESTAMPS request user input to define data timestamps</span>
+0017 <span class="comment">%      DEFINETIMESTAMPS create the field timestamps of the structure data</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%   EXAMPLES:</span>
+0020 <span class="comment">%      [data, misc]=DEFINETIMESTAMPS(data, misc)</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   See also DEFINEDATALABELS, DEFINECUSTOMANOMALIES</span>
+0023 
+0024 <span class="comment">%   AUTHORS:</span>
+0025 <span class="comment">%     Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0028 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   MATLAB VERSION:</span>
+0031 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   DATE CREATED:</span>
+0034 <span class="comment">%       April 24, 2018</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   DATE LAST UPDATE:</span>
+0037 <span class="comment">%       December 3, 2018</span>
+0038 
+0039 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0040 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0041 p = inputParser;
+0042 
+0043 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0044 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0045 parse(p,data, misc);
+0046 
+0047 data=p.Results.data;
+0048 misc=p.Results.misc;
+0049 
+0050 MaxFailAttempts=4;
+0051 
+0052 <span class="comment">% Set fileID for logfile</span>
+0053 <span class="keyword">if</span> misc.internalVars.isQuiet
+0054     <span class="comment">% output message in logfile</span>
+0055     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0056 <span class="keyword">else</span>
+0057     <span class="comment">% output message on screen and logfile using diary command</span>
+0058     fileID=1;
+0059 <span class="keyword">end</span>
+0060 
+0061 <span class="comment">%% Verify presence of field &quot;labels&quot; in structure data</span>
+0062 
+0063 <span class="keyword">if</span> ~isfield(data, <span class="string">'labels'</span>)
+0064     error([<span class="string">'data structure should contain '</span> <span class="keyword">...</span>
+0065         <span class="string">'a non-empty field named labels \n'</span>]);
+0066 <span class="keyword">else</span>
+0067     <span class="keyword">if</span> isempty(data.labels)
+0068         error([<span class="string">'data structure should contain '</span> <span class="keyword">...</span>
+0069             <span class="string">'a non-empty field named labels \n'</span>]);
+0070     <span class="keyword">end</span>
+0071 <span class="keyword">end</span>
+0072 
+0073 <span class="comment">%% Get number of time series</span>
+0074 
+0075 fprintf(fileID,<span class="string">'\n'</span>);
+0076 fprintf(fileID,<span class="string">'- Define timestamps \n'</span>);
+0077 fmt = <span class="string">'yyyy-mm-dd'</span>;
+0078 
+0079 <span class="comment">%% Request user's input to specify start date</span>
+0080 incTest=0;
+0081 isCorrect = false;
+0082 <span class="keyword">while</span> ~isCorrect
+0083     
+0084     incTest=incTest+1;
+0085     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0086             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0087     
+0088     fprintf(fileID, <span class="string">'  Start date (%s): \n'</span>,fmt);
+0089     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0090         tts=eval(char(misc.internalVars.BatchMode.Answers{ <span class="keyword">...</span>
+0091             misc.internalVars.BatchMode.AnswerIndex}));
+0092         fprintf(fileID,<span class="string">'     %s'</span>, tts);
+0093     <span class="keyword">else</span>
+0094         tts = input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0095     <span class="keyword">end</span>
+0096     
+0097     <span class="comment">% Remove space and quotes</span>
+0098     tts=strrep(tts,<span class="string">''''</span>,<span class="string">''</span> ); <span class="comment">% remove quotes</span>
+0099     tts=strrep(tts,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0100     tts=strrep(tts, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0101     
+0102     <span class="keyword">if</span> isempty(tts)
+0103         <span class="keyword">continue</span>
+0104     <span class="keyword">else</span>
+0105         <span class="keyword">try</span>
+0106             datenum(tts,fmt);
+0107         <span class="keyword">catch</span>
+0108             fprintf(fileID,<span class="string">'\n'</span>);
+0109             fprintf(fileID,[<span class="string">'     wrong format. '</span>, <span class="keyword">...</span>
+0110                 <span class="string">' Format should be %s \n'</span>],fmt);
+0111             fprintf(fileID,<span class="string">'\n'</span>);
+0112             <span class="keyword">continue</span>
+0113         <span class="keyword">end</span>
+0114         
+0115         <span class="keyword">if</span> ~strcmp(datestr(tts, fmt), tts )
+0116             fprintf(fileID,<span class="string">'\n'</span>);
+0117             fprintf(fileID,<span class="string">'     wrong input: Invalid date.\n'</span>);
+0118             fprintf(fileID,<span class="string">'\n'</span>);
+0119             <span class="keyword">continue</span>
+0120         <span class="keyword">end</span>
+0121         
+0122     <span class="keyword">end</span>
+0123     isCorrect = true;
+0124 <span class="keyword">end</span>
+0125 <span class="comment">% Increment global variable to read next answer when required</span>
+0126 misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0127     misc.internalVars.BatchMode.AnswerIndex + 1;
+0128 fprintf(fileID,<span class="string">'\n'</span>);
+0129 
+0130 <span class="comment">%% Request user's input to specify end date</span>
+0131 incTest=0;
+0132 isCorrect = false;
+0133 <span class="keyword">while</span> ~isCorrect
+0134     incTest=incTest+1;
+0135     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0136             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0137     
+0138     fprintf(fileID, <span class="string">'  End date (%s): \n'</span>,fmt);
+0139     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0140         tte=eval(char(misc.internalVars.BatchMode.Answers{ <span class="keyword">...</span>
+0141             misc.internalVars.BatchMode.AnswerIndex}));
+0142         fprintf(fileID,<span class="string">'     %s'</span>, tte);
+0143     <span class="keyword">else</span>
+0144         tte = input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0145     <span class="keyword">end</span>
+0146     
+0147     <span class="comment">% Remove space and quotes</span>
+0148     tte=strrep(tte,<span class="string">''''</span>,<span class="string">''</span> ); <span class="comment">% remove quotes</span>
+0149     tte=strrep(tte,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0150     tte=strrep(tte, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0151     
+0152     <span class="keyword">if</span> isempty(tte)
+0153         <span class="keyword">continue</span>
+0154     <span class="keyword">else</span>
+0155         <span class="keyword">try</span>
+0156             datenum(tte,fmt);
+0157         <span class="keyword">catch</span>
+0158             fprintf(fileID,<span class="string">'\n'</span>);
+0159             fprintf(fileID,[<span class="string">'     wrong format. '</span>, <span class="keyword">...</span>
+0160                 <span class="string">'Format should be %s \n'</span>],fmt);
+0161             fprintf(fileID,<span class="string">'\n'</span>);
+0162             <span class="keyword">continue</span>
+0163         <span class="keyword">end</span>
+0164         
+0165         <span class="keyword">if</span> ~strcmp(datestr(tte, fmt), tte )
+0166             fprintf(fileID,<span class="string">'\n'</span>);
+0167             fprintf(fileID,<span class="string">'    wrong input: Invalid date.\n'</span>);
+0168             fprintf(fileID,<span class="string">'\n'</span>);
+0169             <span class="keyword">continue</span>
+0170         <span class="keyword">end</span>
+0171         
+0172         <span class="keyword">if</span> datenum(tte) &lt;= datenum(tts)
+0173             fprintf(fileID,<span class="string">'\n'</span>);
+0174             fprintf(fileID,[<span class="string">'     wrong input: end date  '</span> <span class="keyword">...</span>
+0175                 <span class="string">'should be more recent than start date \n'</span>]);
+0176             fprintf(fileID,<span class="string">'\n'</span>);
+0177             <span class="keyword">continue</span>
+0178         <span class="keyword">end</span>
+0179         
+0180     <span class="keyword">end</span>
+0181     isCorrect = true;
+0182 <span class="keyword">end</span>
+0183 <span class="comment">% Increment global variable to read next answer when required</span>
+0184 misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0185     misc.internalVars.BatchMode.AnswerIndex + 1;
+0186 fprintf(fileID,<span class="string">'\n'</span>);
+0187 fprintf(fileID,<span class="string">'\n'</span>);
+0188 incTest=0;
+0189 isCorrect = false;
+0190 <span class="keyword">while</span> ~isCorrect
+0191     incTest=incTest+1;
+0192     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0193             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0194     
+0195     fprintf(fileID,<span class="string">'  Time step (in day): \n'</span>);
+0196     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0197         dt= <span class="keyword">...</span>
+0198             eval(char(misc.internalVars.BatchMode.Answers{ <span class="keyword">...</span>
+0199             misc.internalVars.BatchMode.AnswerIndex}));
+0200         fprintf(fileID,<span class="string">'     %s'</span>, num2str(dt));
+0201     <span class="keyword">else</span>
+0202         dt=input(<span class="string">'     choice &gt;&gt; '</span>);
+0203     <span class="keyword">end</span>
+0204     
+0205     <span class="keyword">if</span> isempty(dt)
+0206         <span class="keyword">continue</span>
+0207     <span class="keyword">else</span>
+0208         <span class="keyword">if</span> ischar(dt)
+0209             fprintf(fileID,<span class="string">'\n'</span>);
+0210             fprintf(fileID,<span class="string">'     wrong input -&gt; not an digit\n'</span>);
+0211             fprintf(fileID,<span class="string">'\n'</span>);
+0212             <span class="keyword">continue</span>
+0213         <span class="keyword">elseif</span> length(dt) &gt; 1
+0214             fprintf(fileID,<span class="string">'\n'</span>);
+0215             fprintf(fileID,[<span class="string">'     wrong input -&gt; '</span>, <span class="keyword">...</span>
+0216                 <span class="string">'should be single value\n'</span>]);
+0217             fprintf(fileID,<span class="string">'\n'</span>);
+0218             <span class="keyword">continue</span>
+0219         <span class="keyword">else</span>
+0220             isCorrect = true;
+0221         <span class="keyword">end</span>
+0222     <span class="keyword">end</span>
+0223 <span class="keyword">end</span>
+0224 <span class="comment">% Increment global variable to read next answer when required</span>
+0225 misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0226     misc.internalVars.BatchMode.AnswerIndex + 1;
+0227 
+0228 <span class="comment">% Generate timestamp vector</span>
+0229 data.timestamps=(datenum(tts):dt:datenum(tte))';
+0230 
+0231 fprintf(fileID,<span class="string">'\n'</span>);
+0232 <span class="comment">%--------------------END CODE ------------------------</span>
+0233 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of countModelParameters</title>
+  <meta name="keywords" content="countModelParameters">
+  <meta name="description" content="COUNTMODELPARAMETERS Count the number of parameters needed for a model">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelConfiguration</a> &gt; countModelParameters.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/ModelConfiguration&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>countModelParameters
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>COUNTMODELPARAMETERS Count the number of parameters needed for a model</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [NumberOfParameters]=countModelParameters(model) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">COUNTMODELPARAMETERS Count the number of parameters needed for a model
+
+   SYNOPSIS:
+     [NumberOfParameters]=COUNTMODELPARAMETERS(model)
+
+   INPUT:
+      model              - structure (required)
+
+   OUTPUT:
+      NumberOfParameters - integer
+
+   DESCRIPTION:
+      COUNTMODELPARAMETERS counts the number of parameter needed for a
+      defined model
+
+   EXAMPLES:
+      [NumberOfParameters]=COUNTMODELPARAMETERS(model)
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [NumberOfParameters]=countModelParameters(model)</a>
+0002 <span class="comment">%COUNTMODELPARAMETERS Count the number of parameters needed for a model</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [NumberOfParameters]=COUNTMODELPARAMETERS(model)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      model              - structure (required)</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%   OUTPUT:</span>
+0011 <span class="comment">%      NumberOfParameters - integer</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%   DESCRIPTION:</span>
+0014 <span class="comment">%      COUNTMODELPARAMETERS counts the number of parameter needed for a</span>
+0015 <span class="comment">%      defined model</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%   EXAMPLES:</span>
+0018 <span class="comment">%      [NumberOfParameters]=COUNTMODELPARAMETERS(model)</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%   See also</span>
+0021 
+0022 <span class="comment">%   AUTHORS:</span>
+0023 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0026 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%   MATLAB VERSION:</span>
+0029 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%   DATE CREATED:</span>
+0032 <span class="comment">%       May 29, 2018</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%   DATE LAST UPDATE:</span>
+0035 <span class="comment">%       June 4, 2018</span>
+0036 
+0037 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0038 
+0039 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0040 p = inputParser;
+0041 
+0042 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0043 parse(p,model);
+0044 
+0045 model=p.Results.model;
+0046 
+0047 <span class="comment">%% Initialize number of model parameters to 0</span>
+0048 NumberOfParameters= 0;
+0049 
+0050 <span class="comment">%% Get number of model classes</span>
+0051 nb_models = size(model.components.block,2);
+0052 <span class="keyword">if</span> nb_models == 2
+0053     NumberOfParameters= NumberOfParameters + 2;
+0054 <span class="keyword">end</span>
+0055 
+0056 <span class="comment">%% Get number of time series</span>
+0057 
+0058 numberOfTimeSeries = size(model.components.block{nb_models},2);
+0059 
+0060 NumberOfParameters= NumberOfParameters + nb_models*numberOfTimeSeries;
+0061 
+0062 components=[11 12 13 21 22 23 31 41 51];
+0063 
+0064 <span class="comment">%% Count the number of model parameters from components</span>
+0065 isDynamicRegression = false;
+0066 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0067     <span class="keyword">if</span> nb_models == 2
+0068         
+0069         <span class="comment">% Count parameters for local trend component</span>
+0070         v_LT = ismember(model.components.block{1}{i}, components(4));
+0071         <span class="keyword">if</span> any(v_LT)
+0072             <span class="keyword">if</span> model.components.const{2}{i}(v_LT) == 1
+0073                 NumberOfParameters= NumberOfParameters + 3;
+0074             <span class="keyword">else</span>
+0075                 NumberOfParameters= NumberOfParameters + 3*nb_models;
+0076             <span class="keyword">end</span>
+0077         <span class="keyword">end</span>
+0078         
+0079         <span class="comment">% Count parameters for local acceleration component</span>
+0080         v_LA = ismember(model.components.block{1}{i}, components(5:6));
+0081         <span class="keyword">if</span> any(v_LA)
+0082             <span class="keyword">if</span> model.components.const{2}{i}(v_LA) == 1
+0083                 NumberOfParameters= NumberOfParameters + 4;
+0084             <span class="keyword">else</span>
+0085                 NumberOfParameters= NumberOfParameters + 4*nb_models;
+0086             <span class="keyword">end</span>
+0087         <span class="keyword">end</span>
+0088         
+0089         
+0090         <span class="comment">% Count parameters for periodic components</span>
+0091         v_P = ismember(model.components.block{1}{i}, components(7));
+0092         <span class="keyword">if</span> any(v_P)
+0093             pos=find(model.components.const{2}{i}(v_P) == 1,1 );
+0094             <span class="keyword">if</span> ~isempty(pos)
+0095                 NumberOfParameters= NumberOfParameters +  <span class="keyword">...</span>
+0096                     length(v_P(v_P==true))*2;
+0097             <span class="keyword">else</span>
+0098                 NumberOfParameters= NumberOfParameters + <span class="keyword">...</span>
+0099                     length(v_P(v_P==true))*2*nb_models;
+0100             <span class="keyword">end</span>
+0101         <span class="keyword">end</span>
+0102         
+0103         <span class="comment">% Count parameters for autoregressive components</span>
+0104         v_AR = ismember(model.components.block{1}{i}, components(8));
+0105         <span class="keyword">if</span> any(v_AR)
+0106             pos=find(model.components.const{2}{i}(v_AR) == 1,1 );
+0107             <span class="keyword">if</span> ~isempty(pos)
+0108                 NumberOfParameters= NumberOfParameters + <span class="keyword">...</span>
+0109                     length(v_AR(v_AR==true))*2;
+0110             <span class="keyword">else</span>
+0111                 NumberOfParameters= NumberOfParameters + <span class="keyword">...</span>
+0112                     length(v_AR(v_AR==true))*2*nb_models;
+0113             <span class="keyword">end</span>
+0114         <span class="keyword">end</span>
+0115         
+0116         
+0117     <span class="keyword">end</span>
+0118     
+0119     <span class="comment">% Count parameters for kernel regression</span>
+0120     v_KR = ismember(model.components.block{1}{i}, components(11));
+0121     <span class="keyword">if</span> any(v_KR)
+0122         pos=find(model.components.const{2}{i}(v_KR) == 1,1 );
+0123         <span class="keyword">if</span> ~isempty(pos)
+0124             NumberOfParameters= NumberOfParameters + <span class="keyword">...</span>
+0125                 length(v_KR(v_KR==true))*3;
+0126         <span class="keyword">else</span>
+0127             NumberOfParameters= NumberOfParameters + <span class="keyword">...</span>
+0128                 length(v_KR(v_KR==true))*3*nb_models;
+0129         <span class="keyword">end</span>
+0130     <span class="keyword">end</span>
+0131     
+0132     
+0133     
+0134     <span class="keyword">if</span> nb_models == 1
+0135         
+0136         <span class="comment">% Count number of paramaters for baseline</span>
+0137         v_baseline = ismember(model.components.block{1}{i}, components(1:3));
+0138         <span class="keyword">if</span> any(v_baseline)
+0139             NumberOfParameters= NumberOfParameters + 1;
+0140         <span class="keyword">end</span>
+0141         
+0142         <span class="comment">% Count parameters for periodic components</span>
+0143         v_P = ismember(model.components.block{1}{i}, components(7));
+0144         <span class="keyword">if</span> any(v_P)
+0145             NumberOfParameters= NumberOfParameters + <span class="keyword">...</span>
+0146                 length(v_P(v_P==true))*2;
+0147         <span class="keyword">end</span>
+0148         
+0149         
+0150         <span class="comment">% Count parameters for autoregressive components</span>
+0151         v_AR = ismember(model.components.block{1}{i}, components(8));
+0152         <span class="keyword">if</span> any(v_AR)
+0153             NumberOfParameters= NumberOfParameters + <span class="keyword">...</span>
+0154                 length(v_AR(v_AR==true))*2;
+0155         <span class="keyword">end</span>
+0156         
+0157         
+0158         <span class="comment">% Count parameters for kernel regression</span>
+0159         v_KR = ismember(model.components.block{1}{i}, components(11));
+0160         <span class="keyword">if</span> any(v_KR)
+0161             NumberOfParameters= NumberOfParameters + <span class="keyword">...</span>
+0162                 length(v_KR(v_KR==true))*3;
+0163         <span class="keyword">end</span>
+0164         
+0165         
+0166     <span class="keyword">else</span>
+0167         
+0168         disp(<span class="string">' '</span>)
+0169         error(<span class="string">'The number of model classes &gt; 2.'</span>)
+0170         disp(<span class="string">' '</span>)
+0171         
+0172     <span class="keyword">end</span>
+0173     
+0174 <span class="keyword">end</span>
+0175 
+0176 <span class="comment">%% Dependencies between time series</span>
+0177 
+0178 <span class="keyword">if</span> numberOfTimeSeries &gt; 1
+0179     <span class="keyword">for</span> i=1:numberOfTimeSeries
+0180         
+0181         <span class="keyword">if</span> ~isempty(model.components.ic{i})
+0182             <span class="keyword">for</span> j=1:length(model.components.ic{i})
+0183                 index=model.components.block{1}{model.components.ic{i}(j)};
+0184                 
+0185                 v_P_AR = ismember(index, components(7:8));
+0186                 
+0187                 <span class="keyword">if</span> any(v_P_AR)
+0188                     NumberOfParameters= NumberOfParameters + <span class="keyword">...</span>
+0189                         length(v_P_AR(v_P_AR==true))*nb_models;
+0190                 <span class="keyword">end</span>
+0191                 
+0192             <span class="keyword">end</span>
+0193         <span class="keyword">end</span>
+0194     <span class="keyword">end</span>
+0195     
+0196 <span class="keyword">end</span>
+0197 
+0198 
+0199 <span class="comment">%% Exception message for dynamic regression</span>
+0200 <span class="keyword">if</span>  isDynamicRegression
+0201     disp(<span class="string">' '</span>)
+0202     fprintf([<span class="string">'     Inportant note about dynamic regression component: '</span>, <span class="keyword">...</span>
+0203         <span class="string">'the model parameters counting '</span>, <span class="keyword">...</span>
+0204         <span class="string">'is based on the assumption of %d control '</span>, <span class="keyword">...</span>
+0205         <span class="string">'points for the dynamic regression component. '</span>], nb_control_points)
+0206     disp(<span class="string">' '</span>)
+0207 <span class="keyword">end</span>
+0208 <span class="comment">%--------------------END CODE ------------------------</span>
+0209 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

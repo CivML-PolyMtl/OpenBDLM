@@ -107,7 +107,7 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 OpenBDLMversion = '1.0';
 
 %% Warning if multiple conflictous installations
-findDuplicateInstallation
+%findDuplicateInstallation
 
 %% Verify that the program is running from the right location
 currentFolder = cd;

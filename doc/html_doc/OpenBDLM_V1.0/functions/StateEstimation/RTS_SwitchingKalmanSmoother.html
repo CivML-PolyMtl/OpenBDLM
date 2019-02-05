@@ -1,0 +1,477 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of RTS_SwitchingKalmanSmoother</title>
+  <meta name="keywords" content="RTS_SwitchingKalmanSmoother">
+  <meta name="description" content="RTS_SWITCHINGKALMANSMOOTHER Perform RTS Switching Kalman smoothing">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">StateEstimation</a> &gt; RTS_SwitchingKalmanSmoother.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/StateEstimation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>RTS_SwitchingKalmanSmoother
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>RTS_SWITCHINGKALMANSMOOTHER Perform RTS Switching Kalman smoothing</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [x, V, VV, S,x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed]=RTS_SwitchingKalmanSmoother(data, model, estimation) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">RTS_SWITCHINGKALMANSMOOTHER Perform RTS Switching Kalman smoothing
+
+   SYNOPSIS:
+     [x, V, VV, S, x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed ]=RTS_SWITCHINGKALMANSMOOTHER(data, model, estimation)
+
+   INPUT:
+      data             - structure (required)
+                         see documentation for details about the fields of
+                         data
+
+      model            - structure (required)
+                         see documentation for details about the fields of
+                         model
+
+      estimation       - structure (required)
+                         see documentation for details about the fields of
+                         estimation
+                         estimation contains previous result from
+                         filtering in estimation.x_M, estimation.V_M,
+                         estimation.VV_M, estimation.S
+
+   OUTPUT:
+      x                - 1×M cell array
+                         Each element in the array is a NxT real array,
+                         which is the smoothed posterior hidden state mean
+                         vector for each time t (t=1,...,T) for one model class
+
+      V                - 1×M cell array
+                         Each element in the array is a NxNxT real array,
+                         which is the smoothed posterior hidden state covariance
+                         matrix for each time t (t=1,...,T) for one model
+                         class
+
+      VV               - 1×M cell array
+                         Each element in the array is a NxNxT real array,
+                         which the smoothed posterior covariance between hidden states
+                         at time t and time t+1 for each time t (t=1,...,T)
+
+      S                - TxM real valued array
+                         smoothed posterior probability of each model class
+                         for each time t (t=1,...,T)
+
+      x_prior_smoothed - 1×M cell array
+                         Each element in the array is a Nx1 real array,
+                         which is the smoothed posterior hidden state mean
+                         vector for time t=0 for one model class
+
+      V_prior_smoothed - 1×M cell array
+                         Each element in the array is a NxN real array,
+                         which is the smoothed posterior hidden state
+                         covariance matrix for time t=0 for one model class
+
+      VV_prior_smoothed- 1×M cell array
+                         Each element in the array is a NxN real array,
+                         which is the smoothed posterior covariance between hidden states
+                         at time t and time t+1 for time t=0 for one model class
+
+      S_prior_smoothed - 1×M real valued array
+                         smoothed posterior probability of each model class
+                         for time t=0
+
+   DESCRIPTION:
+      RTS_SWITCHINGKALMANSMOOTHER performs Rauch-Tung-Striebel Switching
+      Kalman smoother
+      RTS_SWITCHINGKALMANSMOOTHER perform the smoothing operation
+      It estimates x(t|T) and V(t|T), for each time t (t=1,...,T)
+      where x and V refers to mean and
+      variance values, respectively and T the time of the last observation
+      RTS_SWITCHINGKALMANSMOOTHER should be called after Switching Kalman
+      Filtering
+
+      In all previous definitions:
+
+           x hidden states mean vector
+           V hidden state covariance matrix
+           VV covariance matrix between states at two consecutive times
+           t is the time (t=0, ..., T)
+           T is the time of the last observation
+           M refers to the number of model class
+           N is the number of hidden states in one model class
+
+   EXAMPLES:
+      [x, V, VV, S, x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed]=RTS_SWITCHINGKALMANSMOOTHER(data, model, estimation)
+
+   EXTERNAL FUNCTIONS CALLED:
+      N/A
+
+   SUBFUNCTIONS:
+      smooth_update_SKF
+
+   See also <a href="StateEstimation.html" class="code" title="function [estimation]=StateEstimation(data, model, misc, varargin)">STATEESTIMATION</a>, <a href="SwitchingKalmanFilter.html" class="code" title="function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)">SWITCHINGKALMANFILTER</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/DataLoader/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>	COMPUTETIMESTEPS Compute timestep vector from timestamps vector</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>	READPARAMETERPROPERTIES Extract some columns of a cell array</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="StateEstimation.html" class="code" title="function [estimation]=StateEstimation(data, model, misc, varargin)">StateEstimation</a>	STATEESTIMATION State estimation from switching Kalman filtering/smoothing</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function [xsmooth, Vsmooth, VVsmooth_future] =</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [x, V, VV, S, </a><span class="keyword">...</span>
+0002     x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed]=<span class="keyword">...</span>
+0003     RTS_SwitchingKalmanSmoother(data, model, estimation)
+0004 <span class="comment">%RTS_SWITCHINGKALMANSMOOTHER Perform RTS Switching Kalman smoothing</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%   SYNOPSIS:</span>
+0007 <span class="comment">%     [x, V, VV, S, x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed ]=RTS_SWITCHINGKALMANSMOOTHER(data, model, estimation)</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%   INPUT:</span>
+0010 <span class="comment">%      data             - structure (required)</span>
+0011 <span class="comment">%                         see documentation for details about the fields of</span>
+0012 <span class="comment">%                         data</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%      model            - structure (required)</span>
+0015 <span class="comment">%                         see documentation for details about the fields of</span>
+0016 <span class="comment">%                         model</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%      estimation       - structure (required)</span>
+0019 <span class="comment">%                         see documentation for details about the fields of</span>
+0020 <span class="comment">%                         estimation</span>
+0021 <span class="comment">%                         estimation contains previous result from</span>
+0022 <span class="comment">%                         filtering in estimation.x_M, estimation.V_M,</span>
+0023 <span class="comment">%                         estimation.VV_M, estimation.S</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   OUTPUT:</span>
+0026 <span class="comment">%      x                - 1×M cell array</span>
+0027 <span class="comment">%                         Each element in the array is a NxT real array,</span>
+0028 <span class="comment">%                         which is the smoothed posterior hidden state mean</span>
+0029 <span class="comment">%                         vector for each time t (t=1,...,T) for one model class</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%      V                - 1×M cell array</span>
+0032 <span class="comment">%                         Each element in the array is a NxNxT real array,</span>
+0033 <span class="comment">%                         which is the smoothed posterior hidden state covariance</span>
+0034 <span class="comment">%                         matrix for each time t (t=1,...,T) for one model</span>
+0035 <span class="comment">%                         class</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%      VV               - 1×M cell array</span>
+0038 <span class="comment">%                         Each element in the array is a NxNxT real array,</span>
+0039 <span class="comment">%                         which the smoothed posterior covariance between hidden states</span>
+0040 <span class="comment">%                         at time t and time t+1 for each time t (t=1,...,T)</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%      S                - TxM real valued array</span>
+0043 <span class="comment">%                         smoothed posterior probability of each model class</span>
+0044 <span class="comment">%                         for each time t (t=1,...,T)</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%      x_prior_smoothed - 1×M cell array</span>
+0047 <span class="comment">%                         Each element in the array is a Nx1 real array,</span>
+0048 <span class="comment">%                         which is the smoothed posterior hidden state mean</span>
+0049 <span class="comment">%                         vector for time t=0 for one model class</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">%      V_prior_smoothed - 1×M cell array</span>
+0052 <span class="comment">%                         Each element in the array is a NxN real array,</span>
+0053 <span class="comment">%                         which is the smoothed posterior hidden state</span>
+0054 <span class="comment">%                         covariance matrix for time t=0 for one model class</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%      VV_prior_smoothed- 1×M cell array</span>
+0057 <span class="comment">%                         Each element in the array is a NxN real array,</span>
+0058 <span class="comment">%                         which is the smoothed posterior covariance between hidden states</span>
+0059 <span class="comment">%                         at time t and time t+1 for time t=0 for one model class</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">%      S_prior_smoothed - 1×M real valued array</span>
+0062 <span class="comment">%                         smoothed posterior probability of each model class</span>
+0063 <span class="comment">%                         for time t=0</span>
+0064 <span class="comment">%</span>
+0065 <span class="comment">%   DESCRIPTION:</span>
+0066 <span class="comment">%      RTS_SWITCHINGKALMANSMOOTHER performs Rauch-Tung-Striebel Switching</span>
+0067 <span class="comment">%      Kalman smoother</span>
+0068 <span class="comment">%      RTS_SWITCHINGKALMANSMOOTHER perform the smoothing operation</span>
+0069 <span class="comment">%      It estimates x(t|T) and V(t|T), for each time t (t=1,...,T)</span>
+0070 <span class="comment">%      where x and V refers to mean and</span>
+0071 <span class="comment">%      variance values, respectively and T the time of the last observation</span>
+0072 <span class="comment">%      RTS_SWITCHINGKALMANSMOOTHER should be called after Switching Kalman</span>
+0073 <span class="comment">%      Filtering</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">%      In all previous definitions:</span>
+0076 <span class="comment">%</span>
+0077 <span class="comment">%           x hidden states mean vector</span>
+0078 <span class="comment">%           V hidden state covariance matrix</span>
+0079 <span class="comment">%           VV covariance matrix between states at two consecutive times</span>
+0080 <span class="comment">%           t is the time (t=0, ..., T)</span>
+0081 <span class="comment">%           T is the time of the last observation</span>
+0082 <span class="comment">%           M refers to the number of model class</span>
+0083 <span class="comment">%           N is the number of hidden states in one model class</span>
+0084 <span class="comment">%</span>
+0085 <span class="comment">%   EXAMPLES:</span>
+0086 <span class="comment">%      [x, V, VV, S, x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed]=RTS_SWITCHINGKALMANSMOOTHER(data, model, estimation)</span>
+0087 <span class="comment">%</span>
+0088 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0089 <span class="comment">%      N/A</span>
+0090 <span class="comment">%</span>
+0091 <span class="comment">%   SUBFUNCTIONS:</span>
+0092 <span class="comment">%      smooth_update_SKF</span>
+0093 <span class="comment">%</span>
+0094 <span class="comment">%   See also STATEESTIMATION, SWITCHINGKALMANFILTER</span>
+0095 
+0096 <span class="comment">%   AUTHORS:</span>
+0097 <span class="comment">%       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet,</span>
+0098 <span class="comment">%</span>
+0099 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0100 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0101 <span class="comment">%</span>
+0102 <span class="comment">%   MATLAB VERSION:</span>
+0103 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0104 <span class="comment">%</span>
+0105 <span class="comment">%   DATE CREATED:</span>
+0106 <span class="comment">%       June 29, 2018</span>
+0107 <span class="comment">%</span>
+0108 <span class="comment">%   DATE LAST UPDATE:</span>
+0109 <span class="comment">%       October 18, 2018</span>
+0110 
+0111 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0112 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0113 p = inputParser;
+0114 
+0115 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0116 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0117 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0118 parse(p,data, model, estimation);
+0119 
+0120 data=p.Results.data;
+0121 model=p.Results.model;
+0122 estimation=p.Results.estimation;
+0123 
+0124 
+0125 <span class="comment">%% Get timestamps information</span>
+0126 
+0127 <span class="comment">% Get timestamps</span>
+0128 timestamps = data.timestamps;
+0129 
+0130 <span class="comment">% Compute timestep vector</span>
+0131 [timesteps]=<a href="../../../OpenBDLM_V1.0/functions/DataLoader/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>(timestamps);
+0132 
+0133 <span class="comment">% Number of timestamps</span>
+0134 T = length(timestamps);
+0135 
+0136 <span class="comment">%% Get number of model classes</span>
+0137 M = model.nb_class;
+0138 
+0139 <span class="comment">%% Read model parameter properties</span>
+0140 idx_pvalues=size(model.param_properties,2)-1;
+0141 idx_pref= size(model.param_properties,2);
+0142 
+0143 [arrayOut]=<span class="keyword">...</span>
+0144     <a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>(model.param_properties, [idx_pvalues, idx_pref]);
+0145 
+0146 parameter= arrayOut(:,1);
+0147 p_ref = arrayOut(:,2);
+0148 
+0149 
+0150 <span class="comment">%% Initialization</span>
+0151 x = cell(1,M);
+0152 V = cell(1,M);
+0153 VV = cell(1,M);
+0154 x_jk=cell(1,M);
+0155 V_jk=cell(1,M);
+0156 VV_jk=cell(1,M);
+0157 
+0158 S_prior_smoothed = zeros(1,M);
+0159 x_prior_smoothed = cell(1,M);
+0160 V_prior_smoothed = cell(1,M);
+0161 VV_prior_smoothed = cell(1,M);
+0162 
+0163 <span class="keyword">for</span> k=1:M
+0164     ss=size(model.hidden_states_names{1},1);
+0165     x{k} = zeros(ss, T);
+0166     x{k}(:,T)=estimation.x_M{k}(:,T);
+0167     
+0168     V{k} = zeros(ss, ss, T);
+0169     V{k}(:,:,T)=estimation.V_M{k}(:,:,T);
+0170     
+0171     VV{k} = zeros(ss, ss, T);
+0172     
+0173     x_jk{k} = zeros(ss,M);
+0174     V_jk{k} = zeros(ss,ss,M);
+0175     VV_jk{k} = zeros(ss,ss,M);
+0176     
+0177     x_prior_smoothed{k} = zeros(ss);
+0178     V_prior_smoothed{k} = zeros(ss, ss);
+0179     VV_prior_smoothed{k} = zeros(ss, ss);
+0180     
+0181 <span class="keyword">end</span>
+0182 
+0183 S = zeros(T,M);
+0184 S(T,:)=estimation.S(T,:);
+0185 W=zeros(M,M);
+0186 
+0187 <span class="comment">%% Interventions</span>
+0188 <span class="keyword">if</span> isfield(data, <span class="string">'interventions'</span>)
+0189     interventions=find(ismember(data.timestamps,data.interventions));
+0190 <span class="keyword">else</span>
+0191     data.interventions=[];
+0192     interventions=find(ismember(data.timestamps,data.interventions));
+0193 <span class="keyword">end</span>
+0194 
+0195 <span class="comment">%% Estimate state for each time t</span>
+0196 <span class="keyword">for</span> t=T-1:-1:0
+0197     S_marginal = zeros(M,M);
+0198     U = zeros(M,M);
+0199     <span class="keyword">for</span> k=1:M
+0200         A_k = model.A{k}(parameter(p_ref),timestamps(t+1),timesteps(t+1));
+0201         Z_k = model.Z(parameter(p_ref),timestamps(t+1),timesteps(t+1));
+0202         <span class="keyword">for</span> j=1:M
+0203             Q_k = model.Q{k}{j}(parameter(p_ref), <span class="keyword">...</span>
+0204                 timestamps(t+1),timesteps(t+1));
+0205             
+0206             <span class="keyword">if</span> t~=0 &amp;&amp; any(t+1==interventions)
+0207                 B_=model.B{j}(parameter(p_ref), <span class="keyword">...</span>
+0208                     data.timestamps(t),timesteps(t))';
+0209                 WB_=model.W{j}(parameter(p_ref),<span class="keyword">...</span>
+0210                     data.timestamps(t),timesteps(t))';
+0211             <span class="keyword">else</span>
+0212                 B_=0;
+0213                 WB_=0;
+0214             <span class="keyword">end</span>
+0215             
+0216             <span class="keyword">if</span> t == 0
+0217                 xfilt = model.initX{j};
+0218                 Vfilt = model.initV{j};
+0219                 Sfilt = model.initS{j};
+0220             <span class="keyword">else</span>
+0221                 xfilt = estimation.x_M{j}(:,t);
+0222                 Vfilt = estimation.V_M{j}(:,:,t);
+0223                 Sfilt = estimation.S(t,j);
+0224             <span class="keyword">end</span>
+0225             
+0226             
+0227             [x_jk{j}(:,k), V_jk{j}(:,:,k), VV_jk{k}(:,:,j)] = <span class="keyword">...</span>
+0228                 smooth_update_SKF(x{k}(:,t+1), <span class="keyword">...</span>
+0229                 V{k}(:,:,t+1), xfilt, <span class="keyword">...</span>
+0230                 Vfilt, <span class="keyword">...</span>
+0231                 estimation.V_M{k}(:,:,t+1), <span class="keyword">...</span>
+0232                 estimation.VV_M{k}(:,:,t+1), <span class="keyword">...</span>
+0233                 A_k, Q_k, M, <span class="string">'B'</span>,B_,<span class="string">'W'</span>,WB_);
+0234             
+0235             U(j,k)=Sfilt*Z_k(j,k);
+0236         <span class="keyword">end</span>
+0237         U(:,k)=U(:,k)/sum(U(:,k));
+0238         <span class="keyword">for</span> j=1:M
+0239             S_marginal(j,k)=U(j,k)*S(t+1,k);
+0240         <span class="keyword">end</span>
+0241     <span class="keyword">end</span>
+0242     <span class="keyword">for</span> j=1:M
+0243         <span class="keyword">if</span> t == 0
+0244             S_prior_smoothed(1,j)=sum(S_marginal(j,:));
+0245         <span class="keyword">else</span>
+0246             S(t,j)=sum(S_marginal(j,:));
+0247         <span class="keyword">end</span>
+0248     <span class="keyword">end</span>
+0249     <span class="comment">%% Weights of state components</span>
+0250     <span class="keyword">for</span> j=1:M
+0251         <span class="keyword">for</span> k=1:M
+0252             <span class="keyword">if</span> t == 0
+0253                 W(k,j) = S_marginal(j,k)/S_prior_smoothed(1,j);
+0254             <span class="keyword">else</span>
+0255                 W(k,j) = S_marginal(j,k)/S(t,j);
+0256             <span class="keyword">end</span>
+0257         <span class="keyword">end</span>
+0258     <span class="keyword">end</span>
+0259     
+0260     <span class="comment">%% Approximate new continuous state</span>
+0261     <span class="keyword">for</span> j=1:M
+0262         
+0263         <span class="keyword">if</span> t == 0
+0264             
+0265             x_prior_smoothed{j} = x_jk{j}(:,:) * W(:,j);
+0266             <span class="keyword">for</span> k=1:M
+0267                 m = x_jk{j}(:,k) - x_prior_smoothed{j};
+0268                 V_prior_smoothed{j} = V_prior_smoothed{j} + W(k,j)*(V_jk{j}(:,:,k) + m*m');
+0269                 VV_prior_smoothed{j} = VV_prior_smoothed{j} + W(k,j)*(VV_jk{j}(:,:,k) + m*m');
+0270             <span class="keyword">end</span>
+0271             
+0272         <span class="keyword">else</span>
+0273             
+0274             x{j}(:,t) = x_jk{j}(:,:) * W(:,j);
+0275             <span class="keyword">for</span> k=1:M
+0276                 m = x_jk{j}(:,k) - x{j}(:,t);
+0277                 V{j}(:,:,t) = V{j}(:,:,t) + W(k,j)*(V_jk{j}(:,:,k) + m*m');
+0278                 VV{j}(:,:,t) = VV{j}(:,:,t) + W(k,j)*(VV_jk{j}(:,:,k) + m*m');
+0279             <span class="keyword">end</span>
+0280             
+0281         <span class="keyword">end</span>
+0282     <span class="keyword">end</span>
+0283     
+0284 <span class="keyword">end</span>
+0285 <span class="comment">%--------------------END CODE ------------------------</span>
+0286 <span class="keyword">end</span>
+0287 
+0288 <a name="_sub1" href="#_subfunctions" class="code">function [xsmooth, Vsmooth, VVsmooth_future] = </a><span class="keyword">...</span>
+0289     smooth_update_SKF(xsmooth_future, Vsmooth_future, xfilt, Vfilt, <span class="keyword">...</span>
+0290     Vfilt_future, VVfilt_future, A, Q, M, varargin)
+0291 
+0292 <span class="comment">% One step of the backwards RTS smoothing equations.</span>
+0293 <span class="comment">% function [xsmooth, Vsmooth, VVsmooth_future] = smooth_update(xsmooth_future, Vsmooth_future, ...</span>
+0294 <span class="comment">%    xfilt, Vfilt,  Vfilt_future, VVfilt_future, A, B, u)</span>
+0295 <span class="comment">%</span>
+0296 <span class="comment">% INPUTS:</span>
+0297 <span class="comment">% xsmooth_future = E[X_t+1|T]</span>
+0298 <span class="comment">% Vsmooth_future = Cov[X_t+1|T]</span>
+0299 <span class="comment">% xfilt = E[X_t|t]</span>
+0300 <span class="comment">% Vfilt = Cov[X_t|t]</span>
+0301 <span class="comment">% Vfilt_future = Cov[X_t+1|t+1]</span>
+0302 <span class="comment">% VVfilt_future = Cov[X_t+1,X_t|t+1]</span>
+0303 <span class="comment">% A = system matrix for time t+1</span>
+0304 <span class="comment">% Q = system covariance for time t+1</span>
+0305 <span class="comment">% M =  number of model class</span>
+0306 
+0307 <span class="comment">%</span>
+0308 <span class="comment">% OUTPUTS:</span>
+0309 <span class="comment">% xsmooth = E[X_t|T]</span>
+0310 <span class="comment">% Vsmooth = Cov[X_t|T]</span>
+0311 <span class="comment">% VVsmooth_future = Cov[X_t+1,X_t|T]</span>
+0312 
+0313 <span class="comment">%xpred = E[X(t+1) | t]</span>
+0314 args = varargin;
+0315 B=0;    <span class="comment">% Mean correction term</span>
+0316 W=0;    <span class="comment">% Covariance correction term</span>
+0317 <span class="keyword">for</span> t=1:2:length(args)
+0318     <span class="keyword">switch</span> args{t}
+0319         <span class="keyword">case</span> <span class="string">'B'</span>, B = args{t+1};
+0320         <span class="keyword">case</span> <span class="string">'W'</span>, W = args{t+1};
+0321         <span class="keyword">otherwise</span>, error([<span class="string">'unrecognized argument '</span> args{t}])
+0322     <span class="keyword">end</span>
+0323 <span class="keyword">end</span>
+0324 
+0325 Vfilt=(Vfilt + Vfilt')/2;
+0326 
+0327 xpred = A*xfilt+B;
+0328 Vpred = A*Vfilt*A'+ Q+W; <span class="comment">% Vpred = Cov[X(t+1) | t]</span>
+0329 <span class="keyword">if</span> M &gt; 1
+0330     J = Vfilt * A'*pinv(Vpred,1E-3); <span class="comment">% smoother gain matrix when switching</span>
+0331 <span class="keyword">else</span>
+0332     J = Vfilt * A'*pinv(Vpred); <span class="comment">% smoother gain matrix when no switching</span>
+0333 <span class="keyword">end</span>
+0334 xsmooth = xfilt + J*(xsmooth_future - xpred);
+0335 Vsmooth = Vfilt + J*(Vsmooth_future - Vpred)*J';
+0336 VVsmooth_future = VVfilt_future + <span class="keyword">...</span>
+0337     (Vsmooth_future - Vfilt_future)*pinv(Vfilt_future)*VVfilt_future;
+0338 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

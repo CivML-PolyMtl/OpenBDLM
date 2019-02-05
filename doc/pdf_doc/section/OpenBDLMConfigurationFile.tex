@@ -1,6 +1,7 @@
 \section{Configuration file}
 \label{S:CFGFile}
 
+\includepdf[pages=-, pagecommand={\thispagestyle{plain}}]{docfigs/Example_DISPSIM/listing/config_file_2.pdf}
 
 The configuration file is a \MATLAB{} script utilized for initializing the project.
 The name of a configuration file can be given as an input to the function   \lstinline[basicstyle = \mlttfamily \small ]!OpenBLDM_main.m!, as mentionned in Section~\ref{SS:OpenBDLMinput}.
@@ -143,6 +144,7 @@ The options are stored in the field named \text{options} of the \MATLAB{} variab
 \item Options for the graphical outputs
 
 \begin{itemize}
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isPlotEstimations!: logical. if \lstinline[basicstyle = \mlttfamily \small ]!isPlotEstimations=true!, figures plotting the estimation results popup on screen each time the hidden states are estimated. Default: \lstinline[basicstyle = \mlttfamily \small ]!true!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.FigurePosition!: $1\times4$ array of real number that gives the location and size of the drawable area, specified as a vector of the form [left bottom width height] in the current units of \MATLAB{}. Default: \lstinline[basicstyle = \mlttfamily \small ]![100, 100, 1300, 270]!
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isSecondaryPlot!: logical. if \lstinline[basicstyle = \mlttfamily \small ]!isSecondaryPlot=true!, a closeup over two weeks is plotted at the right of each figure. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Subsample!: integer that controls the number of points to plot in the figure. The number of points to plot is divided by a factor given by the values of \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Subsample!. Default: \lstinline[basicstyle = \mlttfamily \small ]!1!.

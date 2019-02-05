@@ -29,7 +29,12 @@ There are two well-known issues that make the state estimation to crash.
 \end{itemize}
 
 \item[\textbf{The model parameter estimation crashes. What can I do ?}] \leavevmode \\
-This is likely due to the fact that the state estimation crashes. Therefore, see previous answer to work around that problem.
+This is likely due to the fact that the state estimation crashes. 
+There are two well-known issues that make the state estimation to crash.
+\begin{itemize}
+\item numerical instabilities of the Kalman computation due to missing data and/or non-uniform time step vector. Possible solution: switch to UD computation (see Section~\ref{S:HIDDENSTATESESTIMATION}). An alternative consists in removing missing data in the original data, and/or make the timestep vector uniform using the pre-processing tools (see Section~\ref{S:DATAEDITINGPREPROCESSING}).
+\item pinv error. Possible solution: in the \lstinline[basicstyle = \mlttfamily \small ]!KalmanFilter.m! function, change the tolerance value of the built-in \MATLAB{} function  \lstinline[basicstyle = \mlttfamily \small ]!pinv.m!. See \url{https://www.mathworks.com/help/matlab/ref/pinv.html} for more details.
+\end{itemize}
 
 \item[\textbf{The model parameter estimation is really slow. What can I do ?}] \leavevmode \\
 Model parameter estimation is usually slow, but hereafter are some tips to speed-up the procedure.
@@ -37,7 +42,7 @@ Model parameter estimation is usually slow, but hereafter are some tips to speed
 \item shorten the training period (see  \lstinline[basicstyle = \mlttfamily \small ]!misc.options.trainingPeriod!).
 \item decrease the number of data points by averaging (see Section~\ref{S:DATAEDITINGPREPROCESSING}).
 \item perform parallel computation (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isParallel!). Note that parallel computation requires the \MATLAB{} \emph{Parallel Computing Toolbox}.
-\item assume some model parameters to be known based on your knowledge and the data to reduce the number of model parameters to learn (i.e. set the model parameters bound to \lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!, see Section~\ref{S:PARAMESTIMATION}).
+\item assume that some model parameter values are known to reduce the total number of model parameters to learn (i.e. set the model parameters bound to \lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!, see Section~\ref{S:PARAMESTIMATION}).
 \item constrain model parameters between each other (if applicable) to reduce the total number of model parameters to learn.
 \item abort the process and start again with different starting values of model parameters. 
 \end{itemize}
@@ -51,6 +56,18 @@ Note that model structure selection is a large field of study and many methods a
 \item[\textbf{The default value for model parameters and initial hidden states do not satisfy me. How can I change them ?}] \leavevmode \\
 It is possible to change the default values from the function  \lstinline[basicstyle = \mlttfamily \small ]!buildModel.m!.
 
+\item[\textbf{What is the procedure to save the optimized value of model parameters ?}] \leavevmode \\
+The optimized model parameter values are automatically saved inside a project.
+Note however that the associated configuration file remains unchanged.
+It is possible to export the model parameters values in a configuration file using OpenBDLM export menu (type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!17!} from the main menu).
+
+\item[\textbf{Can I change the model parameters values and properties inside a project ?}] \leavevmode \\
+Yes, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!11!} from the main menu.
+
+\item[\textbf{Can I change the initial hidden states values inside a project ?}] \leavevmode \\
+Yes, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!12!} from the main menu.
+
+
 \item[\textbf{Is there a way to keep track of the analysis when OpenBDLM runs in batch mode  ?}] \leavevmode \\
 Yes, this is the purpose of the \lstinline[basicstyle = \mlttfamily \small ]!LOG_*.txt! files which are saved in the ``log\_files'' folder.
 Each time an analysis is performed (interactive or batch mode), a log file is created that records information about the analysis.
@@ -61,6 +78,15 @@ From the OpenBDLM main menu, type \colorbox{light-gray}{\lstinline[basicstyle = 
 \item[\textbf{How can I clean my OpenBDLM working directory ?}] \leavevmode \\
 Type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Clean!} and then press Enter key $\dlsh$. This function will take care of deleting all the files related to previous analysis. Make sure that you have a copy of the files of interests before deleting them.
 
+\item[\textbf{Where does the HTML documentation come from ?}] \leavevmode \\
+The HTML documentation is generated using matlab2html.
+matlab2html can be downloaded from \url{https://www.artefact.tk/software/matlab/m2html/}.
+If you want to update the documentation: (1) Download the matlab2html function and add it in your \MATLAB{} path (2) Make a copy of the OpenBDLM master directory, (3) Move to the directory which allows to have the copy of the OpenBDLM master directory in the current directory (move one step back in the arborescence), (4) From the \MATLAB{} command line, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!m2html('mfiles','OpenBDLM_V1.0', 'htmldir','doc', ...!}
+\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'recursive','on', 'graph', 'on', ...!}
+\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'ignoredDir', \{'ExternalPackages', 'doc', 'data', 'config_files',  ...!}
+\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'figures', 'saved_projects', 'log_files', 'version_control', ...!}
+\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'demo', 'results', 'logo'\}, 'global', 'on')!}.
+5) (for Mac OS X and Linux users only) in each subfolder of the ``doc'' folder, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!dot graph.dot -Tpng > graph.png!} from the terminal command line to generate the dependency graphs. Dot tools can be downloaded from \url{https://graphviz.gitlab.io/download/}.
 
 \item[\textbf{How to cite OpenBDLM ?}] \leavevmode \\
 
@@ -75,4 +101,4 @@ Type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgrou
 
 
 
-\noindent \todo{To be completed}
+%\noindent \todo{To be completed}

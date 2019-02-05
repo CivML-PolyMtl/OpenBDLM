@@ -1,0 +1,372 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of mergeTimeStampVectors</title>
+  <meta name="keywords" content="mergeTimeStampVectors">
+  <meta name="description" content="MERGETIMESTAMPVECTORS Create a single time vector from a set of time series">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataLoader</a> &gt; mergeTimeStampVectors.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/DataLoader&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>mergeTimeStampVectors
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>MERGETIMESTAMPVECTORS Create a single time vector from a set of time series</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MERGETIMESTAMPVECTORS Create a single time vector from a set of time series
+
+   SYNOPSIS:
+     [data, misc]=MERGETIMESTAMPVECTORS(data, misc, varargin)
+
+   INPUT:
+       dataOrig    - structure (required)
+                     dataOrig must contain three fields :
+
+                           'timestamps' is a 1×N cell array
+                           each cell is a M_ix1 real array
+
+                           'values' is a 1×N cell array
+                           each cell is a M_ix1 real array
+
+                           'labels' is a 1×N cell array
+                           each cell is a character array
+
+                               N: number of time series
+                               M_i: number of samples of time series i
+
+      misc         - structure
+                     see the documentation for details about the
+                     field in misc
+
+      NanThreshold - real (optional)
+                     maximum amount of missing data (NaN) allowed at each
+                     timestamp, given in percent 0&lt;= NanThreshold &lt;= 100
+                     default: 0 (no missing data is allowed)
+
+
+      tolerance    - real (optional)
+                     value given in number of days
+                     timestamps +/- tolerance are considered equal
+                     default: 10E-6
+
+      isOutputFile - logical (optional)
+                     if true, save the data in a DATA_*.mat Matlab file
+                     default: false
+
+      isPlot       - logical (optional)
+                     if true, plot data
+                     default: false
+
+   OUTPUT:
+       data        - structure (required)
+                     data must contain three fields :
+
+                           'timestamps' is a M×1 array
+
+                           'values' is a M×N array
+
+                           'labels' is a 1×N cell array
+                           each cell is a character array
+
+                           N: number of time series
+                           M: number of samples
+
+      misc         - structure
+                     see the documentation for details about the
+                     field in misc
+
+   DESCRIPTION:
+      MERGETIMESTAMPVECTORS process a set of time series, each having
+      their own timestamp vector.
+      MERGETIMESTAMPVECTORS merge all  timestamps vector in a single one by
+      removing samples and/or padding with missing data if required.
+      The parameter &quot;NanThreshold&quot; controls the amount of missing data
+      allowed at each time step.
+      Small &quot;NanThreshold&quot; value may force to remove a lot of data
+      samples.
+      High &quot;NanThreshold&quot; usually preserve the data, but may lead to a
+      strong NaN padding.
+
+      Note that timestamps +/- tolerance are considered equal
+      Tolerance variable is a real value given in number of days.
+
+   EXAMPLES:
+      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig, misc)
+      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig, misc, 'NanThreshold', 100, ...
+               'Tolerance', 0.01)
+      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig, misc, 'NanThreshold', 100, ...
+               'Tolerance', 0.01, 'isPlot', true, 'isOutputFile', true)
+      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig,misc, 'Tolerance', 0.01 )
+
+   See also <a href="extractSynchronousRecords.html" class="code" title="function [data, misc]=extractSynchronousRecords(data, misc, varargin)">EXTRACTSYNCHRONOUSRECORDS</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="editData.html" class="code" title="function [data, misc, dataFilename]=editData(data, misc, varargin)">editData</a>	EDITDATA Control script to edit dataset (selection, resampling, etc..)</li><li><a href="resampleData.html" class="code" title="function [data_resample, misc]=resampleData(data, misc, varargin)">resampleData</a>	RESAMPLEDATA Resample dataset according to a given timestep.</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)</a>
+0002 <span class="comment">%MERGETIMESTAMPVECTORS Create a single time vector from a set of time series</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [data, misc]=MERGETIMESTAMPVECTORS(data, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%       dataOrig    - structure (required)</span>
+0009 <span class="comment">%                     dataOrig must contain three fields :</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%                           'timestamps' is a 1×N cell array</span>
+0012 <span class="comment">%                           each cell is a M_ix1 real array</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%                           'values' is a 1×N cell array</span>
+0015 <span class="comment">%                           each cell is a M_ix1 real array</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%                           'labels' is a 1×N cell array</span>
+0018 <span class="comment">%                           each cell is a character array</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%                               N: number of time series</span>
+0021 <span class="comment">%                               M_i: number of samples of time series i</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%      misc         - structure</span>
+0024 <span class="comment">%                     see the documentation for details about the</span>
+0025 <span class="comment">%                     field in misc</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%      NanThreshold - real (optional)</span>
+0028 <span class="comment">%                     maximum amount of missing data (NaN) allowed at each</span>
+0029 <span class="comment">%                     timestamp, given in percent 0&lt;= NanThreshold &lt;= 100</span>
+0030 <span class="comment">%                     default: 0 (no missing data is allowed)</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%      tolerance    - real (optional)</span>
+0034 <span class="comment">%                     value given in number of days</span>
+0035 <span class="comment">%                     timestamps +/- tolerance are considered equal</span>
+0036 <span class="comment">%                     default: 10E-6</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%      isOutputFile - logical (optional)</span>
+0039 <span class="comment">%                     if true, save the data in a DATA_*.mat Matlab file</span>
+0040 <span class="comment">%                     default: false</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%      isPlot       - logical (optional)</span>
+0043 <span class="comment">%                     if true, plot data</span>
+0044 <span class="comment">%                     default: false</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   OUTPUT:</span>
+0047 <span class="comment">%       data        - structure (required)</span>
+0048 <span class="comment">%                     data must contain three fields :</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%                           'timestamps' is a M×1 array</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%                           'values' is a M×N array</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%                           'labels' is a 1×N cell array</span>
+0055 <span class="comment">%                           each cell is a character array</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%                           N: number of time series</span>
+0058 <span class="comment">%                           M: number of samples</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%      misc         - structure</span>
+0061 <span class="comment">%                     see the documentation for details about the</span>
+0062 <span class="comment">%                     field in misc</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%   DESCRIPTION:</span>
+0065 <span class="comment">%      MERGETIMESTAMPVECTORS process a set of time series, each having</span>
+0066 <span class="comment">%      their own timestamp vector.</span>
+0067 <span class="comment">%      MERGETIMESTAMPVECTORS merge all  timestamps vector in a single one by</span>
+0068 <span class="comment">%      removing samples and/or padding with missing data if required.</span>
+0069 <span class="comment">%      The parameter &quot;NanThreshold&quot; controls the amount of missing data</span>
+0070 <span class="comment">%      allowed at each time step.</span>
+0071 <span class="comment">%      Small &quot;NanThreshold&quot; value may force to remove a lot of data</span>
+0072 <span class="comment">%      samples.</span>
+0073 <span class="comment">%      High &quot;NanThreshold&quot; usually preserve the data, but may lead to a</span>
+0074 <span class="comment">%      strong NaN padding.</span>
+0075 <span class="comment">%</span>
+0076 <span class="comment">%      Note that timestamps +/- tolerance are considered equal</span>
+0077 <span class="comment">%      Tolerance variable is a real value given in number of days.</span>
+0078 <span class="comment">%</span>
+0079 <span class="comment">%   EXAMPLES:</span>
+0080 <span class="comment">%      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig, misc)</span>
+0081 <span class="comment">%      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig, misc, 'NanThreshold', 100, ...</span>
+0082 <span class="comment">%               'Tolerance', 0.01)</span>
+0083 <span class="comment">%      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig, misc, 'NanThreshold', 100, ...</span>
+0084 <span class="comment">%               'Tolerance', 0.01, 'isPlot', true, 'isOutputFile', true)</span>
+0085 <span class="comment">%      [data, misc] = MERGETIMESTAMPVECTORS (dataOrig,misc, 'Tolerance', 0.01 )</span>
+0086 <span class="comment">%</span>
+0087 <span class="comment">%   See also EXTRACTSYNCHRONOUSRECORDS</span>
+0088 
+0089 <span class="comment">%   AUTHORS:</span>
+0090 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0091 <span class="comment">%</span>
+0092 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0093 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0094 <span class="comment">%</span>
+0095 <span class="comment">%   MATLAB VERSION:</span>
+0096 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0097 <span class="comment">%</span>
+0098 <span class="comment">%   DATE CREATED:</span>
+0099 <span class="comment">%       April 13, 2018</span>
+0100 <span class="comment">%</span>
+0101 <span class="comment">%   DATE LAST UPDATE:</span>
+0102 <span class="comment">%       December 3, 2018</span>
+0103 
+0104 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0105 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0106 p = inputParser;
+0107 defaultNanThreshold = 0;
+0108 defaulttolerance = 10^(-6);
+0109 defaultisOutputFile =  false;
+0110 defaultisPlot = false;
+0111 
+0112 addRequired(p,<span class="string">'dataOrig'</span>, @isstruct );
+0113 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0114 validationFcn = @(x) isreal(x) &amp; x &gt;= 0 &amp; x &lt;= 100;
+0115 addParameter(p,<span class="string">'NanThreshold'</span>,defaultNanThreshold,validationFcn);
+0116 addParameter(p,<span class="string">'tolerance'</span>,defaulttolerance,@isreal);
+0117 addParameter(p,<span class="string">'isOutputFile'</span>,defaultisOutputFile,@islogical);
+0118 addParameter(p,<span class="string">'isPlot'</span>,defaultisPlot,@islogical);
+0119 
+0120 parse(p,dataOrig, misc, varargin{:} );
+0121 
+0122 dataOrig=p.Results.dataOrig;
+0123 misc=p.Results.misc;
+0124 NaNThreshold = p.Results.NanThreshold;
+0125 tolerance = p.Results.tolerance;
+0126 isOutputFile=p.Results.isOutputFile;
+0127 isPlot=p.Results.isPlot;
+0128 
+0129 <span class="comment">%% Gather all serial date number in a single matrix</span>
+0130 
+0131 <span class="comment">% Get number of time series</span>
+0132 numberOfTimeSeries = length(dataOrig.values);
+0133 
+0134 <span class="comment">% Get lengh of each time series (number of samples)</span>
+0135 AllTimeSeriesLength = cellfun(@length, dataOrig.values);
+0136 
+0137 <span class="comment">% Gather serial dates number in same matrix</span>
+0138 alldates = [];
+0139 <span class="comment">% Load array</span>
+0140 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0141     alldates = [alldates ; dataOrig.timestamps{i}];
+0142 <span class="keyword">end</span>
+0143 
+0144 <span class="comment">%% Full outer join</span>
+0145 <span class="comment">% select identical timestamp with tolerance</span>
+0146 [keys,~,ind] = uniquetol( alldates, tolerance, <span class="string">'Datascale'</span>, 1 ); 
+0147 indice=[];
+0148 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0149     <span class="keyword">if</span> i==1
+0150         beg_idx=1;
+0151         end_idx=AllTimeSeriesLength(i);
+0152         indice(1:end_idx-beg_idx+1,i)=ind(beg_idx:end_idx,1);
+0153     <span class="keyword">else</span>
+0154         beg_idx=end_idx+1;
+0155         end_idx=beg_idx+AllTimeSeriesLength(i)-1;
+0156         indice(1:end_idx-beg_idx+1,i)=ind(beg_idx:end_idx,1);
+0157     <span class="keyword">end</span>
+0158 <span class="keyword">end</span>
+0159 
+0160 fullOuterJoin = zeros(length(keys),numberOfTimeSeries+1);
+0161 fullOuterJoin(:,:)=NaN; <span class="comment">% fill with NaN (missing data)</span>
+0162 fullOuterJoin(:,1) = keys; <span class="comment">% union of dates</span>
+0163 
+0164 <span class="comment">%% Build full outerjoin</span>
+0165 <span class="keyword">for</span> i=1:numberOfTimeSeries    
+0166     <span class="comment">% stores values</span>
+0167     fullOuterJoin(indice(1:AllTimeSeriesLength(i),i),i+1) = <span class="keyword">...</span>
+0168         dataOrig.values{i};
+0169 <span class="keyword">end</span>
+0170 
+0171 <span class="comment">%% Remove time samples to try to reach NaNThreshold condition</span>
+0172 NaNThresholdTested = NaNThreshold;
+0173 
+0174 isData = false;
+0175 <span class="keyword">while</span> isData == false
+0176     
+0177     tmp = fullOuterJoin;
+0178     criteria=(numberOfTimeSeries*NaNThresholdTested)./100;
+0179     tmp(sum(isnan(tmp(:,2:end)),2) &gt; criteria,:)=[];
+0180     
+0181     <span class="keyword">if</span> isempty(tmp)
+0182         NaNThresholdTested = NaNThresholdTested + 1;
+0183         
+0184         <span class="keyword">if</span> NaNThresholdTested &gt;= 100
+0185             tmp = fullOuterJoin;
+0186             isData = true;
+0187         <span class="keyword">end</span>
+0188         
+0189     <span class="keyword">else</span>
+0190         isData = true;
+0191     <span class="keyword">end</span>
+0192     
+0193 <span class="keyword">end</span>
+0194 
+0195 <span class="keyword">if</span> NaNThresholdTested ~= NaNThreshold
+0196     disp(<span class="string">' '</span>)
+0197     warning([<span class="string">'NaNThreshold has been increased from '</span> <span class="keyword">...</span>
+0198         <span class="string">'%6.2f %% to %6.2f %% to avoid removing all the data'</span>], <span class="keyword">...</span>
+0199         NaNThreshold, NaNThresholdTested )
+0200     disp(<span class="string">' '</span>)
+0201 <span class="keyword">end</span>
+0202 
+0203 <span class="comment">%% Overwrite data structure</span>
+0204 TimeSeriesIdxToRemove = [];
+0205 
+0206 data.timestamps = [];
+0207 data.values = [];
+0208 
+0209 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0210     
+0211     <span class="keyword">if</span> ~all(isnan(tmp(:,i+1)))
+0212         <span class="comment">% stores timestamps</span>
+0213         data.timestamps = [data.timestamps tmp(:,1) ];
+0214         <span class="comment">% stores values</span>
+0215         data.values = [ data.values tmp(:,i+1)];
+0216         
+0217         data.labels{i} = dataOrig.labels{i};
+0218     <span class="keyword">else</span>
+0219         warning([<span class="string">'%s has been removed because '</span> <span class="keyword">...</span>
+0220             <span class="string">'it is full of missing data (NaN)'</span>], dataOrig.labels{i})
+0221         disp(<span class="string">' '</span>)
+0222         
+0223         TimeSeriesIdxToRemove = [i TimeSeriesIdxToRemove];
+0224 
+0225         data.timestamps = [data.timestamps zeros(size(tmp,1),1 )];
+0226         data.values = [data.values zeros(size(tmp,1),1 )];
+0227         data.labels{i} = [];
+0228 
+0229         <span class="keyword">continue</span>
+0230     <span class="keyword">end</span>
+0231 <span class="keyword">end</span>
+0232 
+0233 <span class="comment">% Remove empty fields</span>
+0234 data.timestamps(:,TimeSeriesIdxToRemove)=[];
+0235 data.timestamps = data.timestamps(:,1);
+0236 data.values(:,TimeSeriesIdxToRemove)=[];
+0237 data.labels(cellfun(@isempty, data.labels))=[];
+0238 
+0239 <span class="comment">%--------------------END CODE ------------------------</span>
+0240 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

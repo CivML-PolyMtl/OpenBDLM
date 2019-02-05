@@ -89,6 +89,7 @@ misc.options.KRNumberControlPoints = 100;
 misc.options.Seed = 12345;
 
 % Plot options
+misc.options.isPlotEstimations = true;
 misc.options.FigurePosition = [100, 100, 1300, 270];
 misc.options.isSecondaryPlot = false;
 misc.options.Subsample = 1;

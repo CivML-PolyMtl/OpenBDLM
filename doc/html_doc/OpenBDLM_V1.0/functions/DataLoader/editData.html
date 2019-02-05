@@ -1,0 +1,627 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of editData</title>
+  <meta name="keywords" content="editData">
+  <meta name="description" content="EDITDATA Control script to edit dataset (selection, resampling, etc..)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataLoader</a> &gt; editData.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/DataLoader&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>editData
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>EDITDATA Control script to edit dataset (selection, resampling, etc..)</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [data, misc, dataFilename]=editData(data, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">EDITDATA Control script to edit dataset (selection, resampling, etc..)
+
+   SYNOPSIS:
+     [data, misc, dataFilename]=EDITDATA(data, misc, varargin)
+
+   INPUT:
+       data            - structure (required)
+                         Two formats are accepted:
+
+                           (1) data must contain three fields :
+
+                               'timestamps' is a 1×N cell array
+                               each cell is a M_ix1 real array
+
+                               'values' is a 1×N cell array
+                               each cell is a M_ix1 real array
+
+                               'labels' is a 1×N cell array
+                               each cell is a character array
+
+                               N: number of time series
+                               M_i: number of samples of time series i
+
+
+                           (2) data must contain three fields:
+
+                               'timestamps' is a M×1 array
+
+                               'values' is a MxN  array
+
+                               'labels' is a 1×N cell array
+                               each cell is a character array
+
+                               N: number of time series
+                               M: number of samples
+
+      misc             - structure (required)
+                           see the documentation for details about the
+                           field in misc
+
+      FilePath         - character (optional)
+                         directory where to save the plot
+                         defaut: '.'  (current folder)
+
+   OUTPUT:
+       data            - structure
+                               data must contain three fields:
+
+                               'timestamps' is a M×1 array
+
+                               'values' is a MxN  array
+
+                               'labels' is a 1×N cell array
+                               each cell is a character array
+
+                               N: number of time series
+                               M: number of samples
+
+       misc            - structure
+                           see the documentation for details about the
+                           field in misc
+
+      dataFilename -  character
+                      full name of the filename where data are saved
+
+   DESCRIPTION:
+      EDITDATA edits dataset
+      Editing dataset includes, among others:
+
+         - select some time series
+         - select data analysis time period
+         - resampling
+         - remove missing data
+
+     The updated dataset is saved in the location given by FilePath.
+     The name of the *.MAT file containing the dataset is returned in
+     dataFilename output.
+
+   EXAMPLES:
+      [data, misc,  dataFilename]=EDITDATA(data, misc)
+      [data, misc, dataFilename]=EDITDATA(data, misc, 'FilePath', 'processed_data')
+
+   EXTERNAL FUNCTIONS CALLED:
+      saveDataBinary, chooseTimeSeries, resampleData, selectTimePeriod,
+      mergeTimeStampVectors
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also SAVEDATABINARY, <a href="chooseTimeSeries.html" class="code" title="function [data, misc]=chooseTimeSeries(data, misc)">CHOOSETIMESERIES</a>, <a href="resampleData.html" class="code" title="function [data_resample, misc]=resampleData(data, misc, varargin)">RESAMPLEDATA</a>,
+   SELECTTIMEPERIOD, <a href="mergeTimeStampVectors.html" class="code" title="function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)">MERGETIMESTAMPVECTORS</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="chooseTimeSeries.html" class="code" title="function [data, misc]=chooseTimeSeries(data, misc)">chooseTimeSeries</a>	CHOOSETIMESERIES Request the user to select some time series</li><li><a href="mergeTimeStampVectors.html" class="code" title="function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)">mergeTimeStampVectors</a>	MERGETIMESTAMPVECTORS Create a single time vector from a set of time series</li><li><a href="resampleData.html" class="code" title="function [data_resample, misc]=resampleData(data, misc, varargin)">resampleData</a>	RESAMPLEDATA Resample dataset according to a given timestep.</li><li><a href="verificationMergedDataset.html" class="code" title="function [isMerged]=verificationMergedDataset(data)">verificationMergedDataset</a>	VERIFICATIONMERGEDDATASET Return true if the time series are merged</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/convertCell2Mat.html" class="code" title="function [data]=convertCell2Mat(data)">convertCell2Mat</a>	CONVERTCELL2MAT Convert cells in data.timestamps and data.values to array</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/convertMat2Cell.html" class="code" title="function [data]=convertMat2Cell(data)">convertMat2Cell</a>	CONVERTMAT2CELL Convert matrices in data.timestamps and data.values to cell array</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/saveDataBinary.html" class="code" title="function [misc, dataFilename] = saveDataBinary(data, misc, varargin)">saveDataBinary</a>	SAVEDATABINARY Save data in a binary Matlab .mat file</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/selectTimePeriod.html" class="code" title="function [data, misc]=selectTimePeriod(data, misc)">selectTimePeriod</a>	SELECTTIMEPERIOD Select data between two dates</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotDataSummary.html" class="code" title="function plotDataSummary(data, misc, varargin)">plotDataSummary</a>	PLOTDATASUMMARY Plot data amplitude, data time step, and data availability</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="DataLoader.html" class="code" title="function [data, misc, dataFilename]=DataLoader(misc)">DataLoader</a>	DATALOADER Create a data file</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [data, misc, dataFilename]=editData(data, misc, varargin)</a>
+0002 <span class="comment">%EDITDATA Control script to edit dataset (selection, resampling, etc..)</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [data, misc, dataFilename]=EDITDATA(data, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%       data            - structure (required)</span>
+0009 <span class="comment">%                         Two formats are accepted:</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%                           (1) data must contain three fields :</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%                               'timestamps' is a 1×N cell array</span>
+0014 <span class="comment">%                               each cell is a M_ix1 real array</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%                               'values' is a 1×N cell array</span>
+0017 <span class="comment">%                               each cell is a M_ix1 real array</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%                               'labels' is a 1×N cell array</span>
+0020 <span class="comment">%                               each cell is a character array</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%                               N: number of time series</span>
+0023 <span class="comment">%                               M_i: number of samples of time series i</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%                           (2) data must contain three fields:</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%                               'timestamps' is a M×1 array</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%                               'values' is a MxN  array</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%                               'labels' is a 1×N cell array</span>
+0033 <span class="comment">%                               each cell is a character array</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%                               N: number of time series</span>
+0036 <span class="comment">%                               M: number of samples</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%      misc             - structure (required)</span>
+0039 <span class="comment">%                           see the documentation for details about the</span>
+0040 <span class="comment">%                           field in misc</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%      FilePath         - character (optional)</span>
+0043 <span class="comment">%                         directory where to save the plot</span>
+0044 <span class="comment">%                         defaut: '.'  (current folder)</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   OUTPUT:</span>
+0047 <span class="comment">%       data            - structure</span>
+0048 <span class="comment">%                               data must contain three fields:</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%                               'timestamps' is a M×1 array</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%                               'values' is a MxN  array</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%                               'labels' is a 1×N cell array</span>
+0055 <span class="comment">%                               each cell is a character array</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%                               N: number of time series</span>
+0058 <span class="comment">%                               M: number of samples</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%       misc            - structure</span>
+0061 <span class="comment">%                           see the documentation for details about the</span>
+0062 <span class="comment">%                           field in misc</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%      dataFilename -  character</span>
+0065 <span class="comment">%                      full name of the filename where data are saved</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">%   DESCRIPTION:</span>
+0068 <span class="comment">%      EDITDATA edits dataset</span>
+0069 <span class="comment">%      Editing dataset includes, among others:</span>
+0070 <span class="comment">%</span>
+0071 <span class="comment">%         - select some time series</span>
+0072 <span class="comment">%         - select data analysis time period</span>
+0073 <span class="comment">%         - resampling</span>
+0074 <span class="comment">%         - remove missing data</span>
+0075 <span class="comment">%</span>
+0076 <span class="comment">%     The updated dataset is saved in the location given by FilePath.</span>
+0077 <span class="comment">%     The name of the *.MAT file containing the dataset is returned in</span>
+0078 <span class="comment">%     dataFilename output.</span>
+0079 <span class="comment">%</span>
+0080 <span class="comment">%   EXAMPLES:</span>
+0081 <span class="comment">%      [data, misc,  dataFilename]=EDITDATA(data, misc)</span>
+0082 <span class="comment">%      [data, misc, dataFilename]=EDITDATA(data, misc, 'FilePath', 'processed_data')</span>
+0083 <span class="comment">%</span>
+0084 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0085 <span class="comment">%      saveDataBinary, chooseTimeSeries, resampleData, selectTimePeriod,</span>
+0086 <span class="comment">%      mergeTimeStampVectors</span>
+0087 <span class="comment">%</span>
+0088 <span class="comment">%   SUBFUNCTIONS:</span>
+0089 <span class="comment">%      N/A</span>
+0090 <span class="comment">%</span>
+0091 <span class="comment">%   See also SAVEDATABINARY, CHOOSETIMESERIES, RESAMPLEDATA,</span>
+0092 <span class="comment">%   SELECTTIMEPERIOD, MERGETIMESTAMPVECTORS</span>
+0093 
+0094 <span class="comment">%   AUTHORS:</span>
+0095 <span class="comment">%        Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0096 <span class="comment">%</span>
+0097 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0098 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0099 <span class="comment">%</span>
+0100 <span class="comment">%</span>
+0101 <span class="comment">%   MATLAB VERSION:</span>
+0102 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0103 <span class="comment">%</span>
+0104 <span class="comment">%   DATE CREATED:</span>
+0105 <span class="comment">%       July 4, 2018</span>
+0106 <span class="comment">%</span>
+0107 <span class="comment">%   DATE LAST UPDATE:</span>
+0108 <span class="comment">%       October 18, 2018</span>
+0109 <span class="comment">%</span>
+0110 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0111 
+0112 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0113 p = inputParser;
+0114 
+0115 defaultFilePath = <span class="string">'.'</span>;
+0116 validationFct_FilePath = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0117     ~isempty(x(~isspace(x)));
+0118 
+0119 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0120 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0121 addParameter(p,<span class="string">'FilePath'</span>, defaultFilePath, validationFct_FilePath );
+0122 parse(p,data, misc, varargin{:});
+0123 
+0124 data=p.Results.data;
+0125 misc=p.Results.misc;
+0126 FilePath = p.Results.FilePath;
+0127 
+0128 MaxFailAttempts=4;
+0129 
+0130 PossibleAnswers = [1 2 3 4 5 6 7];
+0131 
+0132 <span class="comment">% Get information from misc</span>
+0133 NaNThreshold=misc.options.NaNThreshold;
+0134 tolerance= misc.options.Tolerance;
+0135 
+0136 <span class="comment">% Set fileID for logfile</span>
+0137 <span class="keyword">if</span> misc.internalVars.isQuiet
+0138     <span class="comment">% output message in logfile</span>
+0139     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0140 <span class="keyword">else</span>
+0141     <span class="comment">% output message on screen and logfile using diary command</span>
+0142     fileID=1;
+0143 <span class="keyword">end</span>
+0144 
+0145 <span class="comment">% if data given in format (2), translate it to format (1)</span>
+0146 <span class="keyword">if</span> ~iscell(data.timestamps) &amp;&amp; ~iscell(data.values)
+0147     [data]=<a href="../../../OpenBDLM_V1.0/functions/Others/convertMat2Cell.html" class="code" title="function [data]=convertMat2Cell(data)">convertMat2Cell</a>(data);
+0148 <span class="keyword">end</span>
+0149 
+0150 <span class="comment">%% Save current dataset (original data)</span>
+0151 misc.dataBeforeEditing = data;
+0152 
+0153 <span class="comment">%% Display data editing menu</span>
+0154 incTest=0;
+0155 <span class="keyword">while</span>(1)
+0156     
+0157     incTest=incTest+1;
+0158     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0159             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0160     
+0161     <span class="comment">% Plot current data</span>
+0162     close all
+0163     <a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotDataSummary.html" class="code" title="function plotDataSummary(data, misc, varargin)">plotDataSummary</a>(data, misc, <span class="string">'FilePath'</span>, <span class="string">'figures'</span>);
+0164     
+0165     fprintf(fileID,<span class="string">'\n'</span>);
+0166     fprintf(fileID,<span class="string">'- Data editing and preprocessing. Choose from: \n'</span>);
+0167     fprintf(fileID,<span class="string">'\n'</span>);
+0168     fprintf(fileID,<span class="string">'     1  -&gt;  Select time series\n'</span>);
+0169     fprintf(fileID,<span class="string">'     2  -&gt;  Select data analysis time period\n'</span>);
+0170     fprintf(fileID,<span class="string">'     3  -&gt;  Remove missing data\n'</span>);
+0171     fprintf(fileID,<span class="string">'     4  -&gt;  Resample\n'</span>);
+0172     fprintf(fileID,<span class="string">'     5  -&gt;  Change synchronization options\n'</span>);
+0173     fprintf(fileID,<span class="string">'\n'</span>);
+0174     fprintf(fileID,<span class="string">'     6  -&gt;  Reset changes\n'</span>);
+0175     fprintf(fileID,<span class="string">'     7  -&gt;  Save and continue analysis\n'</span>);
+0176     fprintf(fileID,<span class="string">'\n'</span>);
+0177     
+0178     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0179         user_inputs.inp_1=eval(char(misc.internalVars.BatchMode.Answers{ <span class="keyword">...</span>
+0180             misc.internalVars.BatchMode.AnswerIndex}));
+0181         fprintf(fileID,<span class="string">'     %s\n'</span>,num2str(user_inputs.inp_1));
+0182     <span class="keyword">else</span>
+0183         user_inputs.inp_1 = input(<span class="string">'     choice &gt;&gt; '</span>);
+0184     <span class="keyword">end</span>
+0185     
+0186     <span class="keyword">if</span> ~any(ismember( PossibleAnswers, user_inputs.inp_1 )) &amp;&amp; <span class="keyword">...</span>
+0187             ~isempty(user_inputs.inp_1 )
+0188         fprintf(fileID,<span class="string">'\n'</span>);
+0189         fprintf(fileID,<span class="string">'     wrong input\n'</span>);
+0190         fprintf(fileID,<span class="string">'\n'</span>);
+0191         <span class="keyword">continue</span>
+0192         
+0193     <span class="keyword">elseif</span> user_inputs.inp_1 == 7
+0194         misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0195             misc.internalVars.BatchMode.AnswerIndex +1;
+0196         
+0197         <span class="comment">% Remove original data</span>
+0198         misc=rmfield(misc, <span class="string">'dataBeforeEditing'</span>);
+0199         
+0200         <span class="comment">% Test that data timestamps have been merged</span>
+0201         [isMerged]=<a href="verificationMergedDataset.html" class="code" title="function [isMerged]=verificationMergedDataset(data)">verificationMergedDataset</a>(data);
+0202         
+0203         <span class="keyword">if</span> iscell(data.timestamps) &amp;&amp; iscell(data.values) &amp;&amp; isMerged
+0204             [data] = <a href="../../../OpenBDLM_V1.0/functions/Others/convertCell2Mat.html" class="code" title="function [data]=convertCell2Mat(data)">convertCell2Mat</a>(data);
+0205         <span class="keyword">elseif</span> iscell(data.timestamps) &amp;&amp; iscell(data.values) &amp;&amp; ~isMerged
+0206             <span class="comment">% If not, merge data timestampps</span>
+0207             disp(<span class="string">'     Synchronizing time series ...'</span>)
+0208             [data, misc] = <a href="mergeTimeStampVectors.html" class="code" title="function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)">mergeTimeStampVectors</a>(data, misc, <span class="keyword">...</span>
+0209                 <span class="string">'NaNThreshold'</span>, NaNThreshold, <span class="string">'tolerance'</span>, tolerance);
+0210         <span class="keyword">end</span>
+0211         
+0212         <span class="comment">% Plot data summary</span>
+0213         close all
+0214         <a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotDataSummary.html" class="code" title="function plotDataSummary(data, misc, varargin)">plotDataSummary</a>(data, misc, <span class="string">'FilePath'</span>, <span class="string">'figures'</span>)
+0215         
+0216         <span class="comment">% Save data</span>
+0217         [misc, dataFilename] = <a href="../../../OpenBDLM_V1.0/functions/Others/saveDataBinary.html" class="code" title="function [misc, dataFilename] = saveDataBinary(data, misc, varargin)">saveDataBinary</a>(data,misc, <span class="keyword">...</span>
+0218             <span class="string">'FilePath'</span>, FilePath, <span class="string">'isForceOverwrite'</span>, true);
+0219         
+0220         <span class="comment">%        close all</span>
+0221         <span class="keyword">return</span>
+0222     <span class="keyword">else</span>
+0223         misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0224             misc.internalVars.BatchMode.AnswerIndex+1;
+0225         
+0226         <span class="keyword">if</span> user_inputs.inp_1 == 1
+0227             <span class="comment">% Choose some time series</span>
+0228             [data, misc]=<a href="chooseTimeSeries.html" class="code" title="function [data, misc]=chooseTimeSeries(data, misc)">chooseTimeSeries</a>(data, misc);
+0229             
+0230             <span class="comment">% Merge the timestamp vectors of the selected time series if</span>
+0231             <span class="comment">% needed</span>
+0232             [isMerged]=<a href="verificationMergedDataset.html" class="code" title="function [isMerged]=verificationMergedDataset(data)">verificationMergedDataset</a>(data);
+0233             
+0234             <span class="keyword">if</span> ~isMerged
+0235                 disp(<span class="string">'     Synchronizing time series ...'</span>)
+0236                 [data, misc] = <a href="mergeTimeStampVectors.html" class="code" title="function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)">mergeTimeStampVectors</a>(data, misc, <span class="keyword">...</span>
+0237                     <span class="string">'NaNThreshold'</span>, NaNThreshold, <span class="string">'tolerance'</span>, tolerance);
+0238             <span class="keyword">end</span>
+0239             
+0240             incTest=0;
+0241             <span class="keyword">continue</span>
+0242             
+0243         <span class="keyword">elseif</span> user_inputs.inp_1 == 2
+0244             
+0245             <span class="comment">% Merge the timestamp vectors of the selected time series if</span>
+0246             <span class="comment">% needed</span>
+0247             [isMerged]=<a href="verificationMergedDataset.html" class="code" title="function [isMerged]=verificationMergedDataset(data)">verificationMergedDataset</a>(data);
+0248             <span class="keyword">if</span> iscell(data.timestamps) &amp;&amp; iscell(data.values) &amp;&amp; isMerged
+0249                 [data] = <a href="../../../OpenBDLM_V1.0/functions/Others/convertCell2Mat.html" class="code" title="function [data]=convertCell2Mat(data)">convertCell2Mat</a>(data);
+0250             <span class="keyword">elseif</span> iscell(data.timestamps) &amp;&amp; iscell(data.values) &amp;&amp; ~isMerged
+0251                 <span class="comment">% If not, merge data timestampps</span>
+0252                 disp(<span class="string">'     Synchronizing time series ...'</span>)
+0253                 [data, misc] = <a href="mergeTimeStampVectors.html" class="code" title="function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)">mergeTimeStampVectors</a>(data, misc, <span class="keyword">...</span>
+0254                     <span class="string">'NaNThreshold'</span>, NaNThreshold, <span class="string">'tolerance'</span>, tolerance);
+0255             <span class="keyword">end</span>
+0256             
+0257             <span class="comment">% Select period of analysis</span>
+0258             [data, misc]=<a href="../../../OpenBDLM_V1.0/functions/Others/selectTimePeriod.html" class="code" title="function [data, misc]=selectTimePeriod(data, misc)">selectTimePeriod</a>(data, misc);
+0259             
+0260             incTest=0;
+0261             <span class="keyword">continue</span>
+0262             
+0263         <span class="keyword">elseif</span> user_inputs.inp_1 == 3
+0264             
+0265             incTest_2=0;
+0266             isAnswerCorrect = false;
+0267             <span class="keyword">while</span> ~isAnswerCorrect
+0268                 
+0269                 incTest_2=incTest_2+1;
+0270                 <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0271                         <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0272                 
+0273                 fprintf(fileID,<span class="string">'\n'</span>);
+0274                 fprintf(fileID,[<span class="string">'     Percentage of missing data '</span>, <span class="keyword">...</span>
+0275                     <span class="string">'allowed at each timestamp:\n'</span>]);
+0276                 fprintf(fileID,[<span class="string">'     (Example: 25 means that, at each '</span>, <span class="keyword">...</span>
+0277                     <span class="string">'timestamp maximum 25%% of the data can be NaN)\n'</span>]);
+0278                 <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0279                     user_inputs.inp_2= eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0280                         misc.internalVars.BatchMode.AnswerIndex}));
+0281                     fprintf(fileID,<span class="string">'     %s'</span>, num2str(user_inputs.inp_2));
+0282                 <span class="keyword">else</span>
+0283                     fprintf(fileID,<span class="string">'\n'</span>);
+0284                     user_inputs.inp_2 = input(<span class="string">'     choice &gt;&gt; '</span>);
+0285                 <span class="keyword">end</span>
+0286                 
+0287                 <span class="keyword">if</span>  isnumeric(user_inputs.inp_2) &amp;&amp; <span class="keyword">...</span>
+0288                         length(user_inputs.inp_2) ==1
+0289                     
+0290                     <span class="comment">% Convert mat2cell</span>
+0291                     <span class="keyword">if</span> ~iscell(data.timestamps) &amp;&amp; ~iscell(data.values)
+0292                         [data]=<a href="../../../OpenBDLM_V1.0/functions/Others/convertMat2Cell.html" class="code" title="function [data]=convertMat2Cell(data)">convertMat2Cell</a>(data);
+0293                     <span class="keyword">end</span>
+0294                     
+0295                     [data, misc] = <a href="mergeTimeStampVectors.html" class="code" title="function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)">mergeTimeStampVectors</a> (data, misc, <span class="keyword">...</span>
+0296                         <span class="string">'NaNThreshold'</span>, user_inputs.inp_2, <span class="keyword">...</span>
+0297                         <span class="string">'tolerance'</span>, tolerance);
+0298                     incTest=0;
+0299                     isAnswerCorrect = true;
+0300                 <span class="keyword">else</span>
+0301                     fprintf(fileID,<span class="string">'\n'</span>);
+0302                     fprintf(fileID,<span class="string">'     wrong input\n'</span>);
+0303                     fprintf(fileID,<span class="string">'\n'</span>);
+0304                     <span class="keyword">continue</span>
+0305                 <span class="keyword">end</span>
+0306                 
+0307             <span class="keyword">end</span>
+0308             
+0309             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0310                 misc.internalVars.BatchMode.AnswerIndex+1;
+0311             
+0312         <span class="keyword">elseif</span> user_inputs.inp_1 == 4
+0313             
+0314             <span class="comment">% Merge the timestamp vectors of the selected time series if</span>
+0315             <span class="comment">% needed</span>
+0316             [isMerged]=<a href="verificationMergedDataset.html" class="code" title="function [isMerged]=verificationMergedDataset(data)">verificationMergedDataset</a>(data);
+0317             <span class="keyword">if</span> iscell(data.timestamps) &amp;&amp; iscell(data.values) &amp;&amp; isMerged
+0318                 [data] = <a href="../../../OpenBDLM_V1.0/functions/Others/convertCell2Mat.html" class="code" title="function [data]=convertCell2Mat(data)">convertCell2Mat</a>(data);
+0319             <span class="keyword">elseif</span> iscell(data.timestamps) &amp;&amp; iscell(data.values) &amp;&amp; ~isMerged
+0320                 <span class="comment">% If not, merge data timestampps</span>
+0321                 disp(<span class="string">'     Synchronizing time series ...'</span>)
+0322                 [data, misc] = <a href="mergeTimeStampVectors.html" class="code" title="function [data, misc]=mergeTimeStampVectors(dataOrig, misc, varargin)">mergeTimeStampVectors</a>(data, misc, <span class="keyword">...</span>
+0323                     <span class="string">'NaNThreshold'</span>, NaNThreshold, <span class="string">'tolerance'</span>, tolerance);
+0324             <span class="keyword">end</span>
+0325             
+0326             incTest_2=0;
+0327             isAnswerCorrect = false;
+0328             <span class="keyword">while</span> ~isAnswerCorrect
+0329                 
+0330                 incTest_2=incTest_2+1;
+0331                 <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0332                         <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0333                 
+0334                 fprintf(fileID,<span class="string">'\n'</span>);
+0335                 fprintf(fileID,<span class="string">'     Provide time step (in days)\n'</span>);
+0336                 <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0337                     dt_ref=eval(char(misc.internalVars.BatchMode.Answers{ <span class="keyword">...</span>
+0338                         misc.internalVars.BatchMode.AnswerIndex}));
+0339                     fprintf(fileID,<span class="string">'     %s'</span>,num2str(dt_ref));
+0340                 <span class="keyword">else</span>
+0341                     dt_ref = input(<span class="string">'     choice &gt;&gt; '</span>);
+0342                 <span class="keyword">end</span>
+0343                 
+0344                 <span class="keyword">if</span>  isnumeric(dt_ref) &amp;&amp; length(dt_ref) ==1
+0345                     [data, misc] =  <a href="resampleData.html" class="code" title="function [data_resample, misc]=resampleData(data, misc, varargin)">resampleData</a>(data, misc, <span class="keyword">...</span>
+0346                         <span class="string">'Timestep'</span>, dt_ref);
+0347                     incTest=0;
+0348                     isAnswerCorrect = true;
+0349                 <span class="keyword">else</span>
+0350                     fprintf(fileID,<span class="string">'\n'</span>);
+0351                     fprintf(fileID,<span class="string">'     wrong input'</span>);
+0352                     fprintf(fileID,<span class="string">'\n'</span>);
+0353                     <span class="keyword">continue</span>
+0354                 <span class="keyword">end</span>
+0355                 
+0356             <span class="keyword">end</span>
+0357             
+0358             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0359                 misc.internalVars.BatchMode.AnswerIndex+1;
+0360             
+0361         <span class="keyword">elseif</span> user_inputs.inp_1 == 5
+0362             
+0363             <span class="comment">% Change time synchronization options</span>
+0364             <span class="comment">% Synchronization options control how the merging of the</span>
+0365             <span class="comment">% timestamps vector of each time series is done</span>
+0366             <span class="comment">% Merging timestamps is required for further analysis</span>
+0367             
+0368             <span class="comment">% Change the amount of missing data allowed at each timestamp</span>
+0369             incTest_2=0;
+0370             isCorrectAnswer =  false;
+0371             <span class="keyword">while</span> ~isCorrectAnswer
+0372                 
+0373                 incTest_2=incTest_2+1;
+0374                 <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0375                         <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0376                 fprintf(fileID,<span class="string">'\n'</span>);
+0377                 fprintf(fileID,<span class="string">'     Provide a NaN threshold value (in %%): \n'</span>);
+0378                 <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0379                     NaNThreshold=eval(char(misc.internalVars.BatchMode.Answers<span class="keyword">...</span>
+0380                         {misc.internalVars.BatchMode.AnswerIndex}));
+0381                     fprintf(fileID, <span class="string">'     %s\n'</span>, num2str(NaNThreshold));
+0382                 <span class="keyword">else</span>
+0383                     NaNThreshold = input(<span class="string">'     choice &gt;&gt; '</span>);
+0384                 <span class="keyword">end</span>
+0385                 
+0386                 <span class="keyword">if</span>  isnumeric(NaNThreshold) &amp;&amp; length(NaNThreshold) ==1 &amp;&amp; <span class="keyword">...</span>
+0387                         NaNThreshold &gt;= 0 &amp;&amp; NaNThreshold &lt;= 100
+0388                     misc.options.NaNThreshold = NaNThreshold;
+0389                     isCorrectAnswer =  true;
+0390                 <span class="keyword">else</span>
+0391                     fprintf(fileID,<span class="string">'\n'</span>);
+0392                     fprintf(fileID,<span class="string">'     wrong input \n'</span>);
+0393                     <span class="keyword">continue</span>
+0394                 <span class="keyword">end</span>
+0395                 
+0396             <span class="keyword">end</span>
+0397             
+0398             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0399                 misc.internalVars.BatchMode.AnswerIndex+1;
+0400             
+0401             <span class="comment">% Change the tolerance</span>
+0402             <span class="comment">% timestamps +/- tolerance are considered equal</span>
+0403             
+0404             incTest_2=0;
+0405             isCorrectAnswer =  false;
+0406             <span class="keyword">while</span> ~isCorrectAnswer
+0407                 
+0408                 incTest_2=incTest_2+1;
+0409                 <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0410                         <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0411                 fprintf(fileID,<span class="string">'\n'</span>);
+0412                 fprintf(fileID,<span class="string">'     Provide a tolerance value (in days): \n'</span>);
+0413                 <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0414                     tolerance=eval(char(misc.internalVars.BatchMode.Answers<span class="keyword">...</span>
+0415                         {misc.internalVars.BatchMode.AnswerIndex}));
+0416                     fprintf(fileID, <span class="string">'     %s\n'</span>, num2str(tolerance));
+0417                 <span class="keyword">else</span>
+0418                     tolerance = input(<span class="string">'     choice &gt;&gt; '</span>);
+0419                 <span class="keyword">end</span>
+0420                 
+0421                 <span class="keyword">if</span>  isnumeric(tolerance) &amp;&amp; length(tolerance) ==1 &amp;&amp; <span class="keyword">...</span>
+0422                         tolerance &gt;= 0
+0423                     
+0424                     misc.options.Tolerance = tolerance;
+0425                     isCorrectAnswer =  true;
+0426                 <span class="keyword">else</span>
+0427                     fprintf(fileID,<span class="string">'\n'</span>);
+0428                     fprintf(fileID,<span class="string">'     wrong input \n'</span>);
+0429                     <span class="keyword">continue</span>
+0430                 <span class="keyword">end</span>
+0431                 
+0432             <span class="keyword">end</span>
+0433             
+0434             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0435                 misc.internalVars.BatchMode.AnswerIndex+1;
+0436             
+0437         <span class="keyword">elseif</span> user_inputs.inp_1 == 6
+0438             
+0439             incTest_2=0;
+0440             isAnswerCorrect = false;
+0441             <span class="keyword">while</span> ~isAnswerCorrect
+0442                 
+0443                 incTest_2=incTest_2+1;
+0444                 <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0445                         <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0446                 
+0447                 fprintf(fileID,<span class="string">'\n'</span>);
+0448                 fprintf(fileID,[<span class="string">'     Do you really want '</span>, <span class="keyword">...</span>
+0449                     <span class="string">'to reset the changes ? (y/n)\n'</span>]);
+0450                 <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0451                     choice=eval(char(misc.internalVars.BatchMode.Answers{ <span class="keyword">...</span>
+0452                         misc.internalVars.BatchMode.AnswerIndex}));
+0453                     fprintf(fileID,<span class="string">'     %s'</span>, choice);
+0454                 <span class="keyword">else</span>
+0455                     choice = input(<span class="string">'     choice &gt;&gt; '</span>, <span class="string">'s'</span>);
+0456                 <span class="keyword">end</span>
+0457                 
+0458                 <span class="keyword">if</span>  strcmpi(choice,<span class="string">'y'</span>) || strcmpi(choice,<span class="string">'yes'</span>)
+0459                     data = misc.dataBeforeEditing;
+0460                     isAnswerCorrect = true;
+0461                 <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'n'</span>) || strcmpi(choice,<span class="string">'no'</span>)
+0462                     incTest=0;
+0463                     isAnswerCorrect = true;
+0464                 <span class="keyword">else</span>
+0465                     fprintf(fileID,<span class="string">'\n'</span>);
+0466                     fprintf(fileID,<span class="string">'     wrong input\n'</span>);
+0467                     fprintf(fileID,<span class="string">'\n'</span>);
+0468                     <span class="keyword">continue</span>
+0469                 <span class="keyword">end</span>
+0470                 
+0471             <span class="keyword">end</span>
+0472             
+0473             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0474                 misc.internalVars.BatchMode.AnswerIndex+1;
+0475             
+0476         <span class="keyword">elseif</span> isempty(user_inputs.inp_1 )
+0477             <span class="keyword">continue</span>
+0478         <span class="keyword">else</span>
+0479             fprintf(fileID,<span class="string">'\n'</span>);
+0480             fprintf(fileID,<span class="string">'     wrong input.\n'</span>);
+0481             fprintf(fileID,<span class="string">'\n'</span>);
+0482             <span class="keyword">continue</span>
+0483             
+0484         <span class="keyword">end</span>
+0485         
+0486     <span class="keyword">end</span>
+0487     
+0488 <span class="keyword">end</span>
+0489 
+0490 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

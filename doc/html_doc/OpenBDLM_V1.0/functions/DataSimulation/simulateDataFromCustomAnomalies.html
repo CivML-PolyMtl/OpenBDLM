@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of simulateDataFromCustomAnomalies</title>
+  <meta name="keywords" content="simulateDataFromCustomAnomalies">
+  <meta name="description" content="SIMULATEDATAFROMCUSTOMANOMALIES Create synth. data from custom anomalies">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataSimulation</a> &gt; simulateDataFromCustomAnomalies.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/DataSimulation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>simulateDataFromCustomAnomalies
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>SIMULATEDATAFROMCUSTOMANOMALIES Create synth. data from custom anomalies</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [data, model, estimation, misc]=simulateDataFromCustomAnomalies(data, model, misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">SIMULATEDATAFROMCUSTOMANOMALIES Create synth. data from custom anomalies
+
+   SYNOPSIS:
+     [data, model, estimation, misc]=SIMULATEDATAFROMCUSTOMANOMALIES(data, model, estimation, misc)
+
+   INPUT:
+      data         - structure (required)
+                     see documentation for details about the fields of data
+
+      model        - structure (required)
+                     see documentation for details about the fields of
+                     model
+
+      misc         - structure (required)
+                     see documentation for details about the fields of misc
+
+   OUTPUT:
+      data         - structure (required)
+                     see documentation for details about the fields of data
+
+      model        - structure (required)
+                     see documentation for details about the fields of
+                     model
+
+      estimation   - structure (required)
+                     see documentation for details about the fields of
+                     estimation
+
+      misc         - structure (required)
+                     see documentation for details about the fields of misc
+
+   DESCRIPTION:
+      SIMULATEDATAFROMCUSTOMANOMALIES performs &quot;deterministic&quot; data
+      simulation. Here, &quot;deterministic&quot; data simulation means that, in case of
+      switching regime model, SIMULATEDATAFROMCUSTOMANOMALIES uses the
+      user's defined [timing, duration, amplitude] of anomalies to
+      control the occurrence of the anomalies.
+      Note however that the rest of the simulation follows a stochastic
+      process.
+      An anomaly occurs when the probability of being in model
+      two (Pr = M2) equals one.
+
+   EXAMPLES:
+      [data, model, estimation, misc]=SIMULATEDATAFROMCUSTOMANOMALIES(data, model, estimation, misc)
+
+
+   See also <a href="simulateDataFromTransitionProbabilities.html" class="code" title="function [data, model, estimation, misc]=simulateDataFromTransitionProbabilities(data, model, misc)">SIMULATEDATAFROMTRANSITIONPROBABILITIES</a>, <a href="SimulateData.html" class="code" title="function [data, model, estimation, misc]=SimulateData(data, model, misc, varargin)">SIMULATEDATA</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/DataLoader/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>	COMPUTETIMESTEPS Compute timestep vector from timestamps vector</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>	READPARAMETERPROPERTIES Extract some columns of a cell array</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="SimulateData.html" class="code" title="function [data, model, estimation, misc]=SimulateData(data, model, misc, varargin)">SimulateData</a>	SIMULATEDATA Simulate data from current model configuration</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [data, model, estimation, misc]=simulateDataFromCustomAnomalies(data, model, misc)</a>
+0002 <span class="comment">%SIMULATEDATAFROMCUSTOMANOMALIES Create synth. data from custom anomalies</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [data, model, estimation, misc]=SIMULATEDATAFROMCUSTOMANOMALIES(data, model, estimation, misc)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data         - structure (required)</span>
+0009 <span class="comment">%                     see documentation for details about the fields of data</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%      model        - structure (required)</span>
+0012 <span class="comment">%                     see documentation for details about the fields of</span>
+0013 <span class="comment">%                     model</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%      misc         - structure (required)</span>
+0016 <span class="comment">%                     see documentation for details about the fields of misc</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   OUTPUT:</span>
+0019 <span class="comment">%      data         - structure (required)</span>
+0020 <span class="comment">%                     see documentation for details about the fields of data</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%      model        - structure (required)</span>
+0023 <span class="comment">%                     see documentation for details about the fields of</span>
+0024 <span class="comment">%                     model</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%      estimation   - structure (required)</span>
+0027 <span class="comment">%                     see documentation for details about the fields of</span>
+0028 <span class="comment">%                     estimation</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%      misc         - structure (required)</span>
+0031 <span class="comment">%                     see documentation for details about the fields of misc</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   DESCRIPTION:</span>
+0034 <span class="comment">%      SIMULATEDATAFROMCUSTOMANOMALIES performs &quot;deterministic&quot; data</span>
+0035 <span class="comment">%      simulation. Here, &quot;deterministic&quot; data simulation means that, in case of</span>
+0036 <span class="comment">%      switching regime model, SIMULATEDATAFROMCUSTOMANOMALIES uses the</span>
+0037 <span class="comment">%      user's defined [timing, duration, amplitude] of anomalies to</span>
+0038 <span class="comment">%      control the occurrence of the anomalies.</span>
+0039 <span class="comment">%      Note however that the rest of the simulation follows a stochastic</span>
+0040 <span class="comment">%      process.</span>
+0041 <span class="comment">%      An anomaly occurs when the probability of being in model</span>
+0042 <span class="comment">%      two (Pr = M2) equals one.</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   EXAMPLES:</span>
+0045 <span class="comment">%      [data, model, estimation, misc]=SIMULATEDATAFROMCUSTOMANOMALIES(data, model, estimation, misc)</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   See also SIMULATEDATAFROMTRANSITIONPROBABILITIES, SIMULATEDATA</span>
+0049 
+0050 <span class="comment">%   AUTHORS:</span>
+0051 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0052 <span class="comment">%</span>
+0053 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0054 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   MATLAB VERSION:</span>
+0057 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0058 <span class="comment">%</span>
+0059 <span class="comment">%   DATE CREATED:</span>
+0060 <span class="comment">%       April 25, 2018</span>
+0061 <span class="comment">%</span>
+0062 <span class="comment">%   DATE LAST UPDATE:</span>
+0063 <span class="comment">%       January 18, 2019</span>
+0064 
+0065 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0066 
+0067 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0068 p = inputParser;
+0069 
+0070 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0071 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0072 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0073 parse(p,data, model,  misc);
+0074 
+0075 data=p.Results.data;
+0076 model=p.Results.model;
+0077 misc=p.Results.misc;
+0078 
+0079 
+0080 <span class="comment">%% Get seed</span>
+0081 seed=misc.options.Seed;
+0082 
+0083 <span class="comment">%% Initialize the seed</span>
+0084 <span class="keyword">if</span> isempty(seed)
+0085     <span class="comment">% Initialize seed from current time</span>
+0086     rng(<span class="string">'shuffle'</span>)
+0087 <span class="keyword">else</span>
+0088     
+0089     <span class="keyword">if</span> isinf(seed) &amp;&amp; floor(seed) == seed &amp;&amp; seed &gt; 0 &amp;&amp; <span class="keyword">...</span>
+0090             length(seed) == 1
+0091     <span class="comment">% Initialize seed from seed</span>
+0092     rng(seed)
+0093     <span class="keyword">else</span>
+0094         seed = 12345;
+0095         rng(seed);
+0096     <span class="keyword">end</span>
+0097 <span class="keyword">end</span>
+0098 
+0099 <span class="comment">%% Get timestamps</span>
+0100 timestamps = data.timestamps;
+0101 
+0102 <span class="comment">%% Compute timestep vector</span>
+0103 [timesteps]=<a href="../../../OpenBDLM_V1.0/functions/DataLoader/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>(timestamps);
+0104 
+0105 T = length(timestamps);            <span class="comment">%Number of timestamps</span>
+0106 M = model.nb_class;           <span class="comment">%Number of model classes or regime</span>
+0107 numberOfTimeSeries=length(data.labels);            <span class="comment">%Number of observations</span>
+0108 
+0109 
+0110 <span class="comment">%% Read model parameter properties</span>
+0111 idx_pvalues=size(model.param_properties,2)-1;
+0112 idx_pref= size(model.param_properties,2);
+0113 
+0114 [arrayOut]=<span class="keyword">...</span>
+0115     <a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>(model.param_properties, [idx_pvalues, idx_pref]);
+0116 
+0117 parameter= arrayOut(:,1);
+0118 p_ref = arrayOut(:,2);
+0119 
+0120 <span class="comment">%% Initialization</span>
+0121 
+0122 y_obs= zeros(numberOfTimeSeries,T);
+0123 y_pred= zeros(numberOfTimeSeries,T);
+0124 
+0125 SS=zeros(1,T);
+0126 
+0127 <span class="keyword">for</span> j=1:M
+0128     ss=size(model.hidden_states_names{1},1);
+0129     x = zeros(ss,T);
+0130 <span class="keyword">end</span>
+0131 
+0132 elapsed_points=0;
+0133 anomaly_counter=0;
+0134 ongoing_anomaly=false;
+0135 
+0136 <span class="comment">%% Simulate data</span>
+0137 
+0138 <span class="comment">% Get index for LTc and/or LAc</span>
+0139 
+0140 Index = strfind(model.hidden_states_names{1}, <span class="string">'x^{LTc}'</span>);
+0141 Index_LTc=find(not(cellfun(<span class="string">'isempty'</span>, Index)));
+0142 
+0143 Index = strfind(model.hidden_states_names{1}, <span class="string">'x^{LAc}'</span>);
+0144 Index_LAc=find(not(cellfun(<span class="string">'isempty'</span>, Index)));
+0145 
+0146 
+0147 <span class="keyword">for</span> t=1:T
+0148     
+0149     <span class="keyword">if</span> t == 1
+0150         i=1 ; <span class="comment">% we assume that starting regime (i) is the first regime</span>
+0151     <span class="keyword">end</span>
+0152     
+0153     <span class="comment">% Store regime index</span>
+0154     <span class="keyword">if</span> i == 1
+0155         SS(t)= 1;
+0156     <span class="keyword">else</span>
+0157         SS(t)=0;
+0158     <span class="keyword">end</span>
+0159     
+0160     <span class="comment">% Anomaly start ?</span>
+0161     
+0162     <span class="keyword">if</span> any(misc.custom_anomalies.start_custom_anomalies==t)
+0163         j=2;
+0164         elapsed_points=0;
+0165         ongoing_anomaly=true;
+0166         anomaly_counter = anomaly_counter+1;
+0167     <span class="keyword">end</span>
+0168     
+0169     <span class="keyword">if</span> ongoing_anomaly &amp;&amp; elapsed_points &lt; <span class="keyword">...</span>
+0170             misc.custom_anomalies.duration_custom_anomalies(anomaly_counter)
+0171         elapsed_points=elapsed_points+1;
+0172     <span class="keyword">else</span>
+0173         j=1;
+0174     <span class="keyword">end</span>
+0175     
+0176     <span class="comment">% Define matrices</span>
+0177     A_j = model.A{j}(parameter(p_ref),timestamps(t),timesteps(t));
+0178     C_j = model.C{j}(parameter(p_ref),timestamps(t),timesteps(t));
+0179     R_j = model.R{j}(parameter(p_ref),timestamps(t),timesteps(t));
+0180     <span class="keyword">if</span> i == j
+0181         Q_j = model.Q{i}{j}(parameter(p_ref),timestamps(t),timesteps(t));
+0182     <span class="keyword">else</span>
+0183         Q_j = zeros(size(x,1)) ;
+0184     <span class="keyword">end</span>
+0185     
+0186     <span class="keyword">if</span> t==1
+0187         prevX = model.initX{i};
+0188     <span class="keyword">else</span>
+0189         prevX = x(:,t-1);
+0190     <span class="keyword">end</span>
+0191     
+0192     <span class="comment">% Prediction step  x_t+1=A.x_t + Q</span>
+0193     
+0194     w=mvnrnd(zeros(length(Q_j),1),Q_j); <span class="comment">% process noise</span>
+0195     x(:,t) = A_j*prevX + w'; <span class="comment">% prediction</span>
+0196     
+0197     <span class="keyword">if</span> i == 1 &amp;&amp; j == 2
+0198         
+0199         pos_LTc=0;
+0200         pos_LAc=0;
+0201         
+0202         <span class="keyword">for</span> n=1:numberOfTimeSeries
+0203             
+0204             <span class="keyword">if</span> any(cell2mat(model.components.block{1,1}(n)) == 21)
+0205                 
+0206                 pos_LTc=pos_LTc+1;
+0207                 
+0208                 x(Index_LTc(pos_LTc),t) = <span class="keyword">...</span>
+0209                     misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+0210                 
+0211             <span class="keyword">elseif</span>  any(cell2mat(model.components.block{1,1}(n)) == 22)
+0212                 
+0213                 pos_LAc=pos_LAc+1;
+0214                 
+0215                 x(Index_LAc(pos_LAc)-1,t) = <span class="keyword">...</span>
+0216                     misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+0217                 x(Index_LAc(pos_LAc),t) = <span class="keyword">...</span>
+0218                     misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+0219                 
+0220             <span class="keyword">elseif</span> any(cell2mat(model.components.block{1,1}(n)) == 23)
+0221                 
+0222                 pos_LAc=pos_LAc+1;
+0223                 
+0224                 x(Index_LAc(pos_LAc)-1,t) = <span class="keyword">...</span>
+0225                     prevX(Index_LAc(pos_LAc)-1)+ <span class="keyword">...</span>
+0226                     misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+0227                 x(Index_LAc(pos_LAc),t) = <span class="keyword">...</span>
+0228                     misc.custom_anomalies.amplitude_custom_anomalies(anomaly_counter);
+0229                 
+0230             <span class="keyword">end</span>
+0231             
+0232         <span class="keyword">end</span>
+0233     <span class="keyword">end</span>
+0234     
+0235     <span class="comment">% Back to initial trend</span>
+0236     <span class="keyword">if</span> i == 2 &amp;&amp; j == 1
+0237         
+0238         pos_LAc=0;
+0239         
+0240         <span class="keyword">for</span> n=1:numberOfTimeSeries
+0241             
+0242             <span class="keyword">if</span>  any(cell2mat(model.components.block{1,1}(n)) == 22) <span class="keyword">...</span>
+0243                     || any(cell2mat(model.components.block{1,1}(n)) == 23)
+0244                 
+0245                 pos_LAc=pos_LAc+1;
+0246                 
+0247                 x(Index_LAc(pos_LAc)-1,t) = <span class="keyword">...</span>
+0248                     model.initX{1,1}(Index_LAc(pos_LAc)-1,1) ;
+0249                 x(Index_LAc(pos_LAc),t) = 0;
+0250             <span class="keyword">end</span>
+0251         <span class="keyword">end</span>
+0252     <span class="keyword">end</span>
+0253     
+0254     <span class="comment">% Compute y_pred=C.x</span>
+0255     y_pred(:,t) = C_j*x(:,t);
+0256     
+0257     <span class="comment">% Observation y_obs=C.x + R</span>
+0258     v = mvnrnd(zeros(numberOfTimeSeries,1),R_j); <span class="comment">% observation noise</span>
+0259     
+0260     y_obs(:,t) = C_j*x(:,t) + v' ;
+0261     
+0262     i=j;
+0263 <span class="keyword">end</span>
+0264 
+0265 <span class="comment">% Save hidden states for plot_estimate</span>
+0266 estimation.ref = [x' SS'];
+0267 
+0268 <span class="comment">% Add NaN if applicable</span>
+0269 y_obs=y_obs';
+0270 
+0271 <span class="keyword">if</span> isfield(data, <span class="string">'values'</span>)
+0272     <span class="keyword">for</span> i=1:numberOfTimeSeries
+0273         y_obs(isnan(data.values(:,i)),i)=NaN; <span class="comment">% add NaN</span>
+0274     <span class="keyword">end</span>
+0275 <span class="keyword">end</span>
+0276 
+0277 <span class="comment">% Fill data with y_obs (simulated data)</span>
+0278 data.values = [];
+0279 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0280     data.values = [ data.values y_obs(:,i)];
+0281 <span class="keyword">end</span>
+0282 
+0283 <span class="comment">% Store model which has been used to simulate the data</span>
+0284 <span class="keyword">if</span> isfield(model, <span class="string">'ref'</span>)
+0285     model = rmfield(model,<span class="string">'ref'</span>);
+0286 <span class="keyword">end</span>
+0287 model.ref = model;
+0288 <span class="comment">%--------------------END CODE ------------------------</span>
+0289 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

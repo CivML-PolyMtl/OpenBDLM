@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getTimeOverlap</title>
+  <meta name="keywords" content="getTimeOverlap">
+  <meta name="description" content="GETTIMEOVERLAP Detect time overlap range among a set of start/end dates">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataLoader</a> &gt; getTimeOverlap.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/DataLoader&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>getTimeOverlap
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>GETTIMEOVERLAP Detect time overlap range among a set of start/end dates</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [OverlapRange, Index]=getTimeOverlap(Start_End) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">GETTIMEOVERLAP Detect time overlap range among a set of start/end dates
+
+   SYNOPSIS:
+     [OverlapRange, Index]=GETTIMEOVERLAP(Start_End)
+ 
+   INPUT:
+      Start_End     - Nx2 real array (required)
+                      first column contains start date of each time series
+                      second column contains end date of each time series
+                      N is the number of time series
+   OUTPUT:
+      OverlapRange  - 1x2 real array
+                      first column contains start date of detected overlap
+                      end column contains end date of detected overlap
+
+      Index         - Mx1 integer array
+                      It stores the index of time series participating to
+                      the detected overlap
+ 
+   DESCRIPTION:
+      GETTIMEOVERLAP extracts overlap among time 
+      series
+      It may happen that several overlap occur.
+      Example with N=4 time series:
+                A
+      1 -----|---|   B   C
+      2      |---|-|---|--|  D
+      3                |--|----|-------
+      4            |---|--|----|
+
+      4 overlaps, labeled A, B, C, D
+
+      In such case, GETTIMEOVERLAP proceeds as follows:
+      1) Select the overlap that include the maximum of the 
+      time series
+      2) If 1) is not discriminant criterion, select the longest overlap.
+ 
+      Consequently, GETTIMEOVERLAP would select range C.
+ 
+   EXAMPLES:
+      [OverlapRange, Index]=GETTIMEOVERLAP(Start_End)
+ 
+   See also <a href="extractSynchronousRecords.html" class="code" title="function [data, misc]=extractSynchronousRecords(data, misc, varargin)">EXTRACTSYNCHRONOUSRECORDS</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="extractSynchronousRecords.html" class="code" title="function [data, misc]=extractSynchronousRecords(data, misc, varargin)">extractSynchronousRecords</a>	EXTRACTSYNCHRONOUSRECORDS Extract synchronous records among time series</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [OverlapRange, Index]=getTimeOverlap(Start_End)</a>
+0002 <span class="comment">%GETTIMEOVERLAP Detect time overlap range among a set of start/end dates</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [OverlapRange, Index]=GETTIMEOVERLAP(Start_End)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      Start_End     - Nx2 real array (required)</span>
+0009 <span class="comment">%                      first column contains start date of each time series</span>
+0010 <span class="comment">%                      second column contains end date of each time series</span>
+0011 <span class="comment">%                      N is the number of time series</span>
+0012 <span class="comment">%   OUTPUT:</span>
+0013 <span class="comment">%      OverlapRange  - 1x2 real array</span>
+0014 <span class="comment">%                      first column contains start date of detected overlap</span>
+0015 <span class="comment">%                      end column contains end date of detected overlap</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%      Index         - Mx1 integer array</span>
+0018 <span class="comment">%                      It stores the index of time series participating to</span>
+0019 <span class="comment">%                      the detected overlap</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   DESCRIPTION:</span>
+0022 <span class="comment">%      GETTIMEOVERLAP extracts overlap among time</span>
+0023 <span class="comment">%      series</span>
+0024 <span class="comment">%      It may happen that several overlap occur.</span>
+0025 <span class="comment">%      Example with N=4 time series:</span>
+0026 <span class="comment">%                A</span>
+0027 <span class="comment">%      1 -----|---|   B   C</span>
+0028 <span class="comment">%      2      |---|-|---|--|  D</span>
+0029 <span class="comment">%      3                |--|----|-------</span>
+0030 <span class="comment">%      4            |---|--|----|</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%      4 overlaps, labeled A, B, C, D</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%      In such case, GETTIMEOVERLAP proceeds as follows:</span>
+0035 <span class="comment">%      1) Select the overlap that include the maximum of the</span>
+0036 <span class="comment">%      time series</span>
+0037 <span class="comment">%      2) If 1) is not discriminant criterion, select the longest overlap.</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%      Consequently, GETTIMEOVERLAP would select range C.</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   EXAMPLES:</span>
+0042 <span class="comment">%      [OverlapRange, Index]=GETTIMEOVERLAP(Start_End)</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   See also EXTRACTSYNCHRONOUSRECORDS</span>
+0045  
+0046 <span class="comment">%   AUTHORS:</span>
+0047 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0050 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%   MATLAB VERSION:</span>
+0053 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   DATE CREATED:</span>
+0056 <span class="comment">%       April 13, 2018</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   DATE LAST UPDATE:</span>
+0059 <span class="comment">%       April 13, 2018</span>
+0060  
+0061 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0062  <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0063 p = inputParser;
+0064 validationFcn = @(x) isnumeric(x) &amp;&amp; size(x,2) == 2 ;
+0065 addRequired(p,<span class="string">'Start_End'</span>, validationFcn );    
+0066 parse(p,Start_End);
+0067  
+0068 <span class="comment">%% Get number of time series in dataset</span>
+0069 numberOfTimeSeries = size(Start_End,1);
+0070 
+0071 <span class="comment">%% Initialization</span>
+0072 beg_end_idx=cell(numberOfTimeSeries,3);
+0073 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0074     beg_end_idx{i,1}=Start_End(i,1);
+0075     beg_end_idx{i,2}=Start_End(i,2);
+0076     beg_end_idx{i,3}=i;
+0077 <span class="keyword">end</span>
+0078 
+0079 
+0080 <span class="comment">%% Detect overlapping</span>
+0081 isOverlapping = true;
+0082 
+0083 <span class="keyword">while</span> isOverlapping
+0084     
+0085     <span class="comment">% &quot;Compress matrix&quot; to remove redondancies</span>
+0086     beggendd=cell2mat(beg_end_idx(:,1:2));
+0087     match = squeeze(all((bsxfun(@eq, beggendd, permute(beggendd, [3 2 1]))), 2));
+0088     
+0089     ts=zeros(length(beg_end_idx));
+0090     <span class="keyword">for</span> i=1:length(match)
+0091         idx=find(match(i,:)~=0);
+0092         ts(i,1:length(idx))=idx;
+0093     <span class="keyword">end</span>
+0094     
+0095     tsu=unique(ts,<span class="string">'rows'</span>);
+0096     
+0097     tsu( ~any(tsu,2), : ) = []; <span class="comment">% remove zero</span>
+0098     
+0099     beg_end_idx_compressed=cell(size(tsu,1),3);
+0100     
+0101     <span class="keyword">for</span> i=1:size(tsu,1)
+0102         beg_end_idx_compressed{i,1}=beg_end_idx{tsu(i,1),1};
+0103         beg_end_idx_compressed{i,2}=beg_end_idx{tsu(i,1),2};
+0104         
+0105         idx_ts=beg_end_idx( tsu(i,(tsu(i,:)~=0)) ,3);
+0106         
+0107         concat=[];
+0108         
+0109         <span class="keyword">for</span> j=1:length(idx_ts)
+0110             concat=[ idx_ts{j} concat];
+0111         <span class="keyword">end</span>
+0112         
+0113         beg_end_idx_compressed{i,3}=unique(concat);
+0114         
+0115     <span class="keyword">end</span>
+0116         
+0117     <span class="keyword">if</span> size(beg_end_idx_compressed,1) == 1
+0118         beg_end_idx=beg_end_idx_compressed;
+0119         <span class="keyword">break</span>
+0120     <span class="keyword">end</span>
+0121     
+0122     beg_end_idx=beg_end_idx_compressed;
+0123     
+0124     beg_end_idx_new=[];
+0125     
+0126     <span class="comment">% Detect if overlap</span>
+0127     over=0;
+0128     pos=1;
+0129     <span class="keyword">for</span> i=1:size(beg_end_idx,1)
+0130                
+0131         <span class="keyword">for</span> j=(i+1):size(beg_end_idx,1)
+0132             
+0133             <span class="keyword">if</span> (( beg_end_idx{i,1} &gt;= beg_end_idx{j,1} ) &amp;&amp; <span class="keyword">...</span>
+0134                     ( beg_end_idx{i,1} &lt;= beg_end_idx{j,2} ) ) || <span class="keyword">...</span>
+0135                     (( beg_end_idx{i,2}  &gt;= beg_end_idx{j,1} ) &amp;&amp; <span class="keyword">...</span>
+0136                     ( beg_end_idx{i,2} &lt;= beg_end_idx{j,2} ) )
+0137                 
+0138                 begg=max(beg_end_idx{i,1},beg_end_idx{j,1});
+0139                 endd=min(beg_end_idx{i,2},beg_end_idx{j,2});
+0140                 
+0141                 beg_end_idx_new{pos,1}=begg;
+0142                 beg_end_idx_new{pos,2}=endd;
+0143                 beg_end_idx_new{pos,3}=[beg_end_idx{i,3}, beg_end_idx{j,3}];
+0144                 pos=pos+1;
+0145                 over=over+1;  <span class="comment">% overlap occurs between the time series i and j</span>
+0146                 
+0147             <span class="keyword">else</span>
+0148                 
+0149                 <span class="keyword">if</span> ( beg_end_idx{i,1} &lt; beg_end_idx{j,1} ) &amp;&amp; ( beg_end_idx{i,2} &gt; beg_end_idx{j,2} )
+0150                     
+0151                     begg=max(beg_end_idx{i,1},beg_end_idx{j,1});
+0152                     endd=min(beg_end_idx{i,2},beg_end_idx{j,2});
+0153                     
+0154                     beg_end_idx_new{pos,1}=begg;
+0155                     beg_end_idx_new{pos,2}=endd;
+0156                     beg_end_idx_new{pos,3}=[beg_end_idx{i,3}, beg_end_idx{j,3}];
+0157                     
+0158                     pos=pos+1;
+0159                     over=over+1; <span class="comment">% overlap occurs between the time series i and j</span>
+0160                 <span class="keyword">else</span>
+0161                     <span class="comment">% the time series i and j does not overlap</span>
+0162                 <span class="keyword">end</span>
+0163             <span class="keyword">end</span>
+0164             
+0165         <span class="keyword">end</span>
+0166         
+0167     <span class="keyword">end</span>
+0168     
+0169     <span class="keyword">if</span> over == 0
+0170         isOverlapping = false;
+0171     <span class="keyword">else</span>
+0172         isOverlapping = true;
+0173         beg_end_idx=beg_end_idx_new;
+0174     <span class="keyword">end</span>
+0175     
+0176 <span class="keyword">end</span>
+0177 
+0178 <span class="comment">%% Select a unique overlap range among all detected overlap</span>
+0179 <span class="comment">%  1) Select the overlap that include the maximum of the time series</span>
+0180 <span class="comment">%  2) If 1) is not discriminant criterion, select the longest overlap.</span>
+0181 
+0182 ll=zeros(1,size(beg_end_idx,1));
+0183 <span class="keyword">for</span> i=1:size(beg_end_idx,1)
+0184     ll(i)=length(beg_end_idx{i,3});
+0185 <span class="keyword">end</span>
+0186 
+0187 pos=find(ll==max(ll));
+0188 
+0189 <span class="keyword">if</span> length(pos) == 1
+0190     
+0191     begg_overlap=beg_end_idx{pos,1};
+0192     endd_overlap=beg_end_idx{pos,2};
+0193     Index=unique(beg_end_idx{pos,3});
+0194     
+0195 <span class="keyword">else</span>
+0196     
+0197     max_duration=0;
+0198     <span class="keyword">for</span> i=1:length(pos)
+0199         
+0200         duration=beg_end_idx{pos(i),2}-beg_end_idx{pos(i),1};
+0201         
+0202         <span class="keyword">if</span> duration &gt; max_duration
+0203             max_duration = duration;
+0204             begg_overlap=beg_end_idx{pos(i),1};
+0205             endd_overlap=beg_end_idx{pos(i),2};
+0206             Index=unique(beg_end_idx{pos(i),3});
+0207         <span class="keyword">end</span>
+0208         
+0209     <span class="keyword">end</span>
+0210         
+0211 <span class="keyword">end</span>
+0212 
+0213 OverlapRange=[begg_overlap, endd_overlap];
+0214 <span class="comment">%--------------------END CODE ------------------------</span>
+0215 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>
