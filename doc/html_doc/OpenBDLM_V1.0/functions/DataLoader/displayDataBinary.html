@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of displayDataBinary</title>
+  <meta name="keywords" content="displayDataBinary">
+  <meta name="description" content="DISPLAYDATABINARY Display the list of DATA_*.mat files">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataLoader</a> &gt; displayDataBinary.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/DataLoader&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>displayDataBinary
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>DISPLAYDATABINARY Display the list of DATA_*.mat files</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [FileInfo] = displayDataBinary(misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DISPLAYDATABINARY Display the list of DATA_*.mat files
+
+   SYNOPSIS:
+      [FileInfo] = DISPLAYDATABINARY(misc, varargin)
+
+   INPUT:
+      misc          - structure
+                      see the documentation for details about the
+                      field in misc
+
+      FilePath     - character (optional)
+                     directory where to save the file
+                     default: '.'  (current folder)
+
+   OUTPUT:
+      FileInfo     - cell array of string
+                     name of each file
+
+
+   DESCRIPTION:
+      DISPLAYDATABINARY displays the list of DATA_*.mat files in the
+      specified location given by FilePath
+
+   EXAMPLES:
+      [FileInfo] = DISPLAYDATABINARY(misc)
+      [FileInfo] = DISPLAYDATABINARY(misc, 'FilePath', 'processed_data')
+
+   See also CHOOSEDATABINARY, SAVEPROJECT</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="DataLoader.html" class="code" title="function [data, misc, dataFilename]=DataLoader(misc)">DataLoader</a>	DATALOADER Create a data file</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [FileInfo] = displayDataBinary(misc, varargin)</a>
+0002 <span class="comment">%DISPLAYDATABINARY Display the list of DATA_*.mat files</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%      [FileInfo] = DISPLAYDATABINARY(misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      misc          - structure</span>
+0009 <span class="comment">%                      see the documentation for details about the</span>
+0010 <span class="comment">%                      field in misc</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      FilePath     - character (optional)</span>
+0013 <span class="comment">%                     directory where to save the file</span>
+0014 <span class="comment">%                     default: '.'  (current folder)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%   OUTPUT:</span>
+0017 <span class="comment">%      FileInfo     - cell array of string</span>
+0018 <span class="comment">%                     name of each file</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   DESCRIPTION:</span>
+0022 <span class="comment">%      DISPLAYDATABINARY displays the list of DATA_*.mat files in the</span>
+0023 <span class="comment">%      specified location given by FilePath</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   EXAMPLES:</span>
+0026 <span class="comment">%      [FileInfo] = DISPLAYDATABINARY(misc)</span>
+0027 <span class="comment">%      [FileInfo] = DISPLAYDATABINARY(misc, 'FilePath', 'processed_data')</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   See also CHOOSEDATABINARY, SAVEPROJECT</span>
+0030 
+0031 <span class="comment">%   AUTHORS:</span>
+0032 <span class="comment">%        Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0035 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%   MATLAB VERSION:</span>
+0038 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   DATE CREATED:</span>
+0041 <span class="comment">%       April 19, 2018</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   DATE LAST UPDATE:</span>
+0044 <span class="comment">%       August 10, 2018</span>
+0045 
+0046 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0047 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0048 p = inputParser;
+0049 
+0050 defaultFilePath = <span class="string">'.'</span>;
+0051 
+0052 validationFct_FilePath = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0053     ~isempty(x(~isspace(x)));
+0054 
+0055 addRequired(p, <span class="string">'misc'</span>, @isstruct);
+0056 addParameter(p,<span class="string">'FilePath'</span>, defaultFilePath, validationFct_FilePath );
+0057 parse(p, misc, varargin{:});
+0058 
+0059 FilePath=p.Results.FilePath;
+0060 
+0061 FilePath_full=fullfile(FilePath, <span class="string">'mat'</span>);
+0062 
+0063 
+0064 <span class="comment">% Set fileID for logfile</span>
+0065 <span class="keyword">if</span> misc.internalVars.isQuiet
+0066     <span class="comment">% output message in logfile</span>
+0067     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0068 <span class="keyword">else</span>
+0069     <span class="comment">% output message on screen and logfile using diary command</span>
+0070     fileID=1;
+0071 <span class="keyword">end</span>
+0072 
+0073 <span class="comment">%% Create specified path if not existing</span>
+0074 [isFileExist] = <a href="../../../OpenBDLM_V1.0/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FilePath_full, <span class="string">'dir'</span>);
+0075 <span class="keyword">if</span> ~isFileExist
+0076     <span class="comment">% create directory</span>
+0077     mkdir(FilePath_full)   
+0078     <span class="comment">% set directory on path</span>
+0079     addpath(FilePath)
+0080     addpath(FilePath_full)
+0081 <span class="keyword">end</span>
+0082 
+0083 <span class="comment">%% List files in specified directory</span>
+0084 pattern = <span class="string">'DATA*.mat'</span>;
+0085 fullpattern = fullfile(FilePath_full, pattern);
+0086 
+0087 info_file=dir(fullpattern);
+0088 info_file=info_file(~ismember({info_file.name},{<span class="string">'.'</span>,<span class="string">'..'</span>, <span class="string">'.DS_Store'</span>}));
+0089 
+0090 <span class="keyword">if</span> ~isempty(info_file)
+0091     FileInfo=cell(length(info_file),1);
+0092     <span class="comment">%% Display saved databases</span>
+0093     <span class="keyword">for</span> i=1:length(info_file)
+0094         FileInfo{i} = info_file(i).name;
+0095         fprintf(fileID, <span class="string">'     %-3s -&gt; %-25s\t\n'</span>, num2str(i), info_file(i).name);
+0096     <span class="keyword">end</span>
+0097 <span class="keyword">else</span>
+0098     FileInfo =[];
+0099 <span class="keyword">end</span>
+0100 disp(<span class="string">' '</span>)
+0101 <span class="comment">%--------------------END CODE ------------------------</span>
+0102 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

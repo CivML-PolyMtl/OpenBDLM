@@ -1,0 +1,458 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Clean</title>
+  <meta name="keywords" content="Clean">
+  <meta name="description" content="CLEAN Clean OpenBDLM folder tree">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; Clean.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>Clean
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>CLEAN Clean OpenBDLM folder tree</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function Clean(varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CLEAN Clean OpenBDLM folder tree
+
+   SYNOPSIS:
+     CLEAN(FoldersList)
+
+   INPUT:
+
+      FolderList           - cell array of strings (optionnal)
+                             FolderList contains list of folder to delete
+                             default: {'saved_projects', 'config_files', 'processed_data', 'figures', 'raw_data'}
+
+      isForceDelete        - logical (optionnal)
+                             if isForceDelete, delete without notice
+                             default = false
+
+      Pattern              - character (optionnal)
+                             files and folder containing pattern are not
+                             deleted
+                             default: 'Example'
+
+   OUTPUT:
+      N/A
+      All files and subdirectories in specified directories are permanently
+      removed
+
+   DESCRIPTION:
+      CLEAN permanently removes all elements in specified directories
+      Elements include files and subdirectories
+      CLEAN also add specific hidden files for git file management
+
+   EXAMPLES:
+      CLEAN('FolderList', {'raw_data', 'processed_data'}, 'Pattern', '')
+      CLEAN({'FolderList','figures'})</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/VersionControl/versionControl.html" class="code" title="function [controlOut]=versionControl(misc, varargin)">versionControl</a>	VERSIONCONTROL Version control for OpenBDLM</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function Clean(varargin)</a>
+0002 <span class="comment">%CLEAN Clean OpenBDLM folder tree</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     CLEAN(FoldersList)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%      FolderList           - cell array of strings (optionnal)</span>
+0010 <span class="comment">%                             FolderList contains list of folder to delete</span>
+0011 <span class="comment">%                             default: {'saved_projects', 'config_files', 'processed_data', 'figures', 'raw_data'}</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%      isForceDelete        - logical (optionnal)</span>
+0014 <span class="comment">%                             if isForceDelete, delete without notice</span>
+0015 <span class="comment">%                             default = false</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">%      Pattern              - character (optionnal)</span>
+0018 <span class="comment">%                             files and folder containing pattern are not</span>
+0019 <span class="comment">%                             deleted</span>
+0020 <span class="comment">%                             default: 'Example'</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%   OUTPUT:</span>
+0023 <span class="comment">%      N/A</span>
+0024 <span class="comment">%      All files and subdirectories in specified directories are permanently</span>
+0025 <span class="comment">%      removed</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%   DESCRIPTION:</span>
+0028 <span class="comment">%      CLEAN permanently removes all elements in specified directories</span>
+0029 <span class="comment">%      Elements include files and subdirectories</span>
+0030 <span class="comment">%      CLEAN also add specific hidden files for git file management</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   EXAMPLES:</span>
+0033 <span class="comment">%      CLEAN('FolderList', {'raw_data', 'processed_data'}, 'Pattern', '')</span>
+0034 <span class="comment">%      CLEAN({'FolderList','figures'})</span>
+0035 
+0036 <span class="comment">%   AUTHORS:</span>
+0037 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0040 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   MATLAB VERSION:</span>
+0043 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">%   DATE CREATED:</span>
+0046 <span class="comment">%       April 17, 2018</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   DATE LAST UPDATE:</span>
+0049 <span class="comment">%       January 29, 2019</span>
+0050 
+0051 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0052 
+0053 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0054 
+0055 p = inputParser;
+0056 
+0057 defaultFoldersList = {<span class="string">'saved_projects'</span>, <span class="string">'config_files'</span>, <span class="string">'data'</span>, <span class="keyword">...</span>
+0058     <span class="string">'figures'</span>, <span class="string">'log_files'</span>, <span class="string">'results'</span>};
+0059 
+0060 defaultisForceDelete = false;
+0061 
+0062 defaultPattern = <span class="string">'Example'</span>;
+0063 
+0064 addParameter(p,<span class="string">'FoldersList'</span>, defaultFoldersList, @iscell);
+0065 addParameter(p, <span class="string">'isForceDelete'</span>, defaultisForceDelete, @islogical)
+0066 addParameter(p, <span class="string">'Pattern'</span>, defaultPattern, @ischar)
+0067 
+0068 parse(p, varargin{:});
+0069 
+0070 FoldersList=p.Results.FoldersList;
+0071 isForceDelete = p.Results.isForceDelete;
+0072 pattern = p.Results.Pattern;
+0073 
+0074 <span class="comment">%% Clean the list of CSV files</span>
+0075 
+0076 <span class="comment">% Remove empty fields</span>
+0077 FoldersList=FoldersList(~cellfun(@isempty, FoldersList));
+0078 
+0079 <span class="keyword">if</span> isempty(FoldersList)
+0080     disp(<span class="string">' '</span>)
+0081     error(<span class="string">'Folder list is empty.'</span>)
+0082 <span class="keyword">end</span>
+0083 
+0084 <span class="comment">% Remove redundant fields</span>
+0085 FoldersList=unique(FoldersList);
+0086 
+0087 <span class="keyword">if</span> ~isForceDelete
+0088     
+0089     <span class="comment">%% Notice user that we are about to permanently remove folder content</span>
+0090     fprintf(<span class="string">'Do you want to remove the content of '</span>);
+0091     fprintf(<span class="string">'%s, '</span>, FoldersList{1:end});
+0092     fprintf(<span class="string">'? (y/n)\n'</span>)
+0093     
+0094     isYesNoCorrect= false;
+0095     <span class="keyword">while</span> ~isYesNoCorrect
+0096         choice = input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0097         <span class="keyword">if</span> isempty(choice)
+0098             disp(<span class="string">' '</span>)
+0099             disp(<span class="string">'     wrong input'</span>)
+0100             disp(<span class="string">' '</span>)
+0101         <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'y'</span>) || strcmpi(choice,<span class="string">'yes'</span>)
+0102             
+0103             isYesNoCorrect =  true;
+0104             
+0105         <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'n'</span>) || strcmpi(choice,<span class="string">'no'</span>)
+0106             disp(<span class="string">' '</span>)
+0107             disp(<span class="string">'     No files has been removed.'</span>)
+0108             disp(<span class="string">' '</span>)
+0109             <span class="keyword">return</span>
+0110         <span class="keyword">else</span>
+0111             disp(<span class="string">' '</span>)
+0112             disp(<span class="string">'     wrong input'</span>)
+0113             disp(<span class="string">' '</span>)
+0114         <span class="keyword">end</span>
+0115         
+0116     <span class="keyword">end</span>
+0117     
+0118 <span class="keyword">end</span>
+0119 
+0120 <span class="comment">%% Deletion</span>
+0121 <span class="comment">%disp('     Cleaning and building folder tree...')</span>
+0122 <span class="keyword">for</span> i=1:length(FoldersList)
+0123     
+0124     isDir = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FoldersList{i}, <span class="string">'dir'</span>);
+0125     
+0126     <span class="keyword">if</span> ~isDir
+0127         
+0128         <span class="comment">% Create the folder</span>
+0129         mkdir(FoldersList{i});
+0130         addpath(FoldersList{i});
+0131         
+0132         <span class="comment">% Add file .keep to allow the directory to be push in Git</span>
+0133         <span class="comment">% repos</span>
+0134         phantomFilename=<span class="string">'.keep'</span>;
+0135         
+0136         fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0137             phantomFilename), <span class="string">'w'</span>);
+0138         fclose(fileID);
+0139                 
+0140         <span class="comment">% re-build tree directory for data folder</span>
+0141         <span class="keyword">if</span> strcmp(FoldersList{i}, <span class="string">'data'</span>)
+0142             mkdir(fullfile(<span class="string">'data'</span>, <span class="string">'mat'</span>));
+0143             mkdir(fullfile(<span class="string">'data'</span>, <span class="string">'csv'</span>));
+0144             addpath(fullfile(<span class="string">'data'</span>, <span class="string">'mat'</span>));
+0145             addpath(fullfile(<span class="string">'data'</span>, <span class="string">'csv'</span>));
+0146             
+0147             fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0148                 <span class="string">'mat'</span>, phantomFilename), <span class="string">'w'</span>);
+0149             fclose(fileID);
+0150             
+0151             fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0152                 <span class="string">'csv'</span>, phantomFilename), <span class="string">'w'</span>);
+0153             fclose(fileID);
+0154             
+0155         <span class="keyword">end</span>
+0156         
+0157         <span class="comment">% re-build tree directory for results folder</span>
+0158         <span class="keyword">if</span> strcmp(FoldersList{i}, <span class="string">'results'</span>)
+0159             mkdir(fullfile(<span class="string">'results'</span>, <span class="string">'mat'</span>));
+0160             mkdir(fullfile(<span class="string">'results'</span>, <span class="string">'csv'</span>));
+0161             addpath(fullfile(<span class="string">'results'</span>, <span class="string">'mat'</span>));
+0162             addpath(fullfile(<span class="string">'results'</span>, <span class="string">'csv'</span>));
+0163             
+0164             fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0165                 <span class="string">'mat'</span>, phantomFilename), <span class="string">'w'</span>);
+0166             fclose(fileID);
+0167             
+0168             fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0169                 <span class="string">'csv'</span>, phantomFilename), <span class="string">'w'</span>);
+0170             fclose(fileID);
+0171             
+0172         <span class="keyword">end</span>
+0173                 
+0174         <span class="comment">% Add .gitignore file</span>
+0175         gitignorefilename=<span class="string">'.gitignore'</span>;
+0176         fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0177             gitignorefilename), <span class="string">'w'</span>);
+0178         
+0179         fprintf(fileID, <span class="string">'LOG_*\n'</span>);
+0180 <span class="comment">%        fprintf(fileID, 'DATA_*\n');</span>
+0181         fprintf(fileID, <span class="string">'PROJ_*\n'</span>);
+0182 <span class="comment">%        fprintf(fileID, 'CFG_*\n');</span>
+0183         fprintf(fileID, <span class="string">'RES_*\n'</span>);
+0184         fprintf(fileID, <span class="string">'ProjectsInfo.mat\n'</span>);
+0185 <span class="comment">%        fprintf(fileID, '*/*/*.csv\n');</span>
+0186         fprintf(fileID, <span class="string">'*/*.fig\n'</span>);
+0187         fprintf(fileID, <span class="string">'*/*.pdf\n'</span>);
+0188         fprintf(fileID, <span class="string">'*/*.png\n'</span>);
+0189         
+0190         <span class="keyword">continue</span>
+0191     <span class="keyword">else</span>
+0192         
+0193         <span class="keyword">if</span> strcmp(FoldersList{i}, <span class="string">'config_files'</span>)
+0194             
+0195             MyFolderInfoCFG=dir(FoldersList{i});
+0196             
+0197             <span class="comment">% remove '.' and '..' files from the list of files</span>
+0198             MyFolderInfoCFG=MyFolderInfoCFG(~ismember(<span class="keyword">...</span>
+0199                 {MyFolderInfoCFG.name},{<span class="string">'.'</span>,<span class="string">'..'</span>}));
+0200             
+0201             <span class="keyword">if</span> ~isempty(MyFolderInfoCFG)
+0202                 
+0203                 <span class="keyword">for</span> j=1:length(MyFolderInfoCFG)
+0204                     
+0205                     <span class="keyword">if</span> isempty(strfind(MyFolderInfoCFG(j).name, pattern))
+0206                         
+0207                         warning off
+0208                         
+0209                         <span class="comment">% Delete folders</span>
+0210                         <span class="keyword">try</span> rmdir(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0211                                 MyFolderInfoCFG(j).name), <span class="string">'s'</span>)
+0212                         <span class="keyword">catch</span>
+0213                         <span class="keyword">end</span>
+0214                         
+0215                         <span class="comment">% Delete files</span>
+0216                         <span class="keyword">try</span>  delete(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0217                                 MyFolderInfoCFG(j).name))
+0218                         <span class="keyword">catch</span>
+0219                         <span class="keyword">end</span>
+0220                         warning on
+0221                         
+0222                     <span class="keyword">end</span>
+0223                     
+0224                 <span class="keyword">end</span>
+0225                 
+0226             <span class="keyword">end</span>
+0227             
+0228         <span class="keyword">elseif</span> strcmp(FoldersList{i}, <span class="string">'data'</span>)
+0229             
+0230             <span class="comment">% Handle data/csv files and folders</span>
+0231             
+0232             MyFolderInfoCSV=dir(fullfile(FoldersList{i}, <span class="string">'csv'</span>));
+0233             
+0234             <span class="comment">% remove '.' and '..' files from the list of files</span>
+0235             MyFolderInfoCSV= MyFolderInfoCSV(~ismember( <span class="keyword">...</span>
+0236                 {MyFolderInfoCSV.name},{<span class="string">'.'</span>,<span class="string">'..'</span>}));
+0237             
+0238             <span class="keyword">if</span> ~isempty(MyFolderInfoCSV)
+0239                 
+0240                 <span class="keyword">for</span> j=1:length(MyFolderInfoCSV)
+0241                     
+0242                     <span class="keyword">if</span> isempty(strfind(MyFolderInfoCSV(j).name, pattern))
+0243                         
+0244                         warning off
+0245                         <span class="comment">% Delete folders</span>
+0246                         <span class="keyword">try</span> rmdir(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0247                                 <span class="string">'csv'</span>, MyFolderInfoCSV(j).name), <span class="string">'s'</span>)
+0248                         <span class="keyword">catch</span>
+0249                         <span class="keyword">end</span>
+0250                         
+0251                         <span class="comment">% Delete files</span>
+0252                         <span class="keyword">try</span>    delete(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0253                                 <span class="string">'csv'</span>, MyFolderInfoCSV(j).name))
+0254                         <span class="keyword">catch</span>
+0255                         <span class="keyword">end</span>
+0256                         warning on
+0257                     <span class="keyword">end</span>
+0258                     
+0259                 <span class="keyword">end</span>
+0260                 
+0261             <span class="keyword">end</span>
+0262             
+0263             <span class="comment">% Handle data/mat files and folders</span>
+0264             
+0265             MyFolderInfoMAT=dir(fullfile(FoldersList{i}, <span class="string">'mat'</span>));
+0266             
+0267             <span class="comment">% remove '.' and '..' files from the list of files</span>
+0268             MyFolderInfoMAT=MyFolderInfoMAT(~ismember( <span class="keyword">...</span>
+0269                 {MyFolderInfoMAT.name},{<span class="string">'.'</span>,<span class="string">'..'</span>}));
+0270             
+0271             <span class="keyword">if</span> ~isempty(MyFolderInfoMAT)
+0272                 
+0273                 <span class="keyword">for</span> j=1:length(MyFolderInfoMAT)
+0274                     
+0275                     <span class="keyword">if</span> isempty(strfind(MyFolderInfoMAT(j).name, pattern))
+0276                                                 
+0277                         warning off
+0278                         <span class="comment">% Delete folders</span>
+0279                         <span class="keyword">try</span> rmdir(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0280                                 <span class="string">'mat'</span>, MyFolderInfoMAT(j).name), <span class="string">'s'</span>)
+0281                         <span class="keyword">catch</span>
+0282                         <span class="keyword">end</span>
+0283                         
+0284                         <span class="comment">% Delete files</span>
+0285                         <span class="keyword">try</span>    delete(fullfile(FoldersList{i},<span class="keyword">...</span>
+0286                                 <span class="string">'mat'</span>, MyFolderInfoMAT(j).name))
+0287                         <span class="keyword">catch</span>
+0288                         <span class="keyword">end</span>
+0289                         warning on
+0290                         
+0291                     <span class="keyword">end</span>
+0292                     
+0293                 <span class="keyword">end</span>
+0294                 
+0295             <span class="keyword">end</span>
+0296             
+0297         <span class="keyword">else</span>
+0298             
+0299             warning off
+0300             <span class="comment">% Delete folders</span>
+0301             <span class="keyword">try</span> rmdir(fullfile(FoldersList{i}, <span class="string">'*'</span>), <span class="string">'s'</span>)
+0302             <span class="keyword">catch</span>
+0303             <span class="keyword">end</span>
+0304             
+0305             <span class="comment">% Delete files</span>
+0306             <span class="keyword">try</span> delete(fullfile(FoldersList{i}, <span class="string">'*'</span>))
+0307             <span class="keyword">catch</span>
+0308             <span class="keyword">end</span>
+0309             warning on
+0310             
+0311         <span class="keyword">end</span>
+0312         
+0313         <span class="comment">% Add file .keep to allow the directory to be push in Git</span>
+0314         <span class="comment">% repos</span>
+0315         phantomFilename=<span class="string">'.keep'</span>;
+0316         
+0317         fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0318             phantomFilename), <span class="string">'w'</span>);
+0319         fclose(fileID);
+0320                 
+0321         <span class="comment">% re-build tree directory for data folder</span>
+0322         <span class="keyword">if</span> strcmp(FoldersList{i}, <span class="string">'data'</span>)
+0323             warning off
+0324             mkdir(fullfile(<span class="string">'data'</span>, <span class="string">'mat'</span>));
+0325             mkdir(fullfile(<span class="string">'data'</span>, <span class="string">'csv'</span>));
+0326             addpath(fullfile(<span class="string">'data'</span>, <span class="string">'mat'</span>));
+0327             addpath(fullfile(<span class="string">'data'</span>, <span class="string">'csv'</span>));
+0328             warning on
+0329             fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0330                 <span class="string">'mat'</span>, phantomFilename), <span class="string">'w'</span>);
+0331             fclose(fileID);
+0332             
+0333             fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0334                 <span class="string">'csv'</span>, phantomFilename), <span class="string">'w'</span>);
+0335             fclose(fileID);
+0336             
+0337         <span class="keyword">end</span>
+0338         
+0339         <span class="comment">% re-build tree directory for results folder</span>
+0340         <span class="keyword">if</span> strcmp(FoldersList{i}, <span class="string">'results'</span>)
+0341             warning off
+0342             mkdir(fullfile(<span class="string">'results'</span>, <span class="string">'mat'</span>));
+0343             mkdir(fullfile(<span class="string">'results'</span>, <span class="string">'csv'</span>));
+0344             addpath(fullfile(<span class="string">'results'</span>, <span class="string">'mat'</span>));
+0345             addpath(fullfile(<span class="string">'results'</span>, <span class="string">'csv'</span>));
+0346             warning on
+0347             
+0348             fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0349                 <span class="string">'mat'</span>, phantomFilename), <span class="string">'w'</span>);
+0350             fclose(fileID);
+0351             
+0352             fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0353                 <span class="string">'csv'</span>, phantomFilename), <span class="string">'w'</span>);
+0354             fclose(fileID);
+0355             
+0356         <span class="keyword">end</span>
+0357                 
+0358         <span class="comment">% Add .gitignore file</span>
+0359         gitignorefilename=<span class="string">'.gitignore'</span>;
+0360         fileID=fopen(fullfile(FoldersList{i}, <span class="keyword">...</span>
+0361             gitignorefilename), <span class="string">'w'</span>);
+0362         
+0363         fprintf(fileID, <span class="string">'LOG_*\n'</span>);
+0364 <span class="comment">%        fprintf(fileID, 'DATA_*\n');</span>
+0365         fprintf(fileID, <span class="string">'PROJ_*\n'</span>);
+0366 <span class="comment">%        fprintf(fileID, 'CFG_*\n');</span>
+0367         fprintf(fileID, <span class="string">'RES_*\n'</span>);
+0368         fprintf(fileID, <span class="string">'ProjectsInfo.mat\n'</span>);
+0369 <span class="comment">%        fprintf(fileID, '*/*/*.csv\n');</span>
+0370         fprintf(fileID, <span class="string">'*/*.fig\n'</span>);
+0371         fprintf(fileID, <span class="string">'*/*.pdf\n'</span>);
+0372         fprintf(fileID, <span class="string">'*/*.png\n'</span>);
+0373         
+0374     <span class="keyword">end</span>
+0375     
+0376 <span class="keyword">end</span>
+0377 disp(<span class="string">' '</span>)
+0378 <span class="comment">%--------------------END CODE ------------------------</span>
+0379 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

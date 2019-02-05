@@ -1,0 +1,436 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of modifyInitialHiddenStates</title>
+  <meta name="keywords" content="modifyInitialHiddenStates">
+  <meta name="description" content="MODIFYINITIALHIDDENSTATES Request user to modify initial hidden states">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">StateEstimation</a> &gt; modifyInitialHiddenStates.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/StateEstimation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>modifyInitialHiddenStates
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>MODIFYINITIALHIDDENSTATES Request user to modify initial hidden states</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [model, misc]= modifyInitialHiddenStates(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">MODIFYINITIALHIDDENSTATES Request user to modify initial hidden states
+
+   SYNOPSIS:
+     [model, misc] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc, varargin)
+
+   INPUT:
+      data             - structure (required)
+                         see documentation for details about the fields of
+                         data
+
+      model            - structure (required)
+                          see documentation for details about the fields of
+                          model
+
+      estimation       - structure (required)
+                         see documentation for details about the fields of
+                         estimation
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+      FilePath         - character (optional)
+                         directory where to save the modifications
+                         Modifications are saved directly in project file
+                         located in FilePath/PROJ_'misc.ProjectName'.mat file
+                         default: '.'  (current folder)
+
+   OUTPUT:
+      model            - structure (required)
+                          see documentation for details about the fields of
+                          model
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+
+      Updated project file with new initial hidden states values
+
+   DESCRIPTION:
+      MODIFYINITIALHIDDENSTATES modifies initial hidden states values
+      MODIFYINITIALHIDDENSTATES modifies the mean and variance of
+      initial hidden state values
+
+   EXAMPLES:
+      [model, misc] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc)
+      [model, misc] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc, 'FilePath', 'saved_projects')
+
+   EXTERNAL FUNCTIONS CALLED:
+      saveProject
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="piloteModifyInitialStates.html" class="code" title="function [model, misc]=piloteModifyInitialStates(data, model, estimation, misc)">piloteModifyInitialStates</a>	PILOTEMODIFYINITIALSTATES Pilote function to modify initial hidden states</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [model, misc]= modifyInitialHiddenStates(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%MODIFYINITIALHIDDENSTATES Request user to modify initial hidden states</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [model, misc] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data             - structure (required)</span>
+0009 <span class="comment">%                         see documentation for details about the fields of</span>
+0010 <span class="comment">%                         data</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      model            - structure (required)</span>
+0013 <span class="comment">%                          see documentation for details about the fields of</span>
+0014 <span class="comment">%                          model</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%      estimation       - structure (required)</span>
+0017 <span class="comment">%                         see documentation for details about the fields of</span>
+0018 <span class="comment">%                         estimation</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      misc             - structure (required)</span>
+0021 <span class="comment">%                         see documentation for details about the fields of</span>
+0022 <span class="comment">%                         misc</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%      FilePath         - character (optional)</span>
+0025 <span class="comment">%                         directory where to save the modifications</span>
+0026 <span class="comment">%                         Modifications are saved directly in project file</span>
+0027 <span class="comment">%                         located in FilePath/PROJ_'misc.ProjectName'.mat file</span>
+0028 <span class="comment">%                         default: '.'  (current folder)</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   OUTPUT:</span>
+0031 <span class="comment">%      model            - structure (required)</span>
+0032 <span class="comment">%                          see documentation for details about the fields of</span>
+0033 <span class="comment">%                          model</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%      misc             - structure (required)</span>
+0036 <span class="comment">%                         see documentation for details about the fields of</span>
+0037 <span class="comment">%                         misc</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%      Updated project file with new initial hidden states values</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   DESCRIPTION:</span>
+0043 <span class="comment">%      MODIFYINITIALHIDDENSTATES modifies initial hidden states values</span>
+0044 <span class="comment">%      MODIFYINITIALHIDDENSTATES modifies the mean and variance of</span>
+0045 <span class="comment">%      initial hidden state values</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   EXAMPLES:</span>
+0048 <span class="comment">%      [model, misc] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc)</span>
+0049 <span class="comment">%      [model, misc] = MODIFYINITIALHIDDENSTATES(data, model, estimation, misc, 'FilePath', 'saved_projects')</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0052 <span class="comment">%      saveProject</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%   SUBFUNCTIONS:</span>
+0055 <span class="comment">%      N/A</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   See also</span>
+0058 
+0059 <span class="comment">%   AUTHORS:</span>
+0060 <span class="comment">%       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet,</span>
+0061 <span class="comment">%</span>
+0062 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0063 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0064 <span class="comment">%</span>
+0065 <span class="comment">%   MATLAB VERSION:</span>
+0066 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%   DATE CREATED:</span>
+0069 <span class="comment">%       June 11, 2018</span>
+0070 <span class="comment">%</span>
+0071 <span class="comment">%   DATE LAST UPDATE:</span>
+0072 <span class="comment">%       August 9, 2018</span>
+0073 
+0074 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0075 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0076 p = inputParser;
+0077 
+0078 defaultFilePath = <span class="string">'.'</span>;
+0079 
+0080 validationFonction = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0081     ~isempty(x(~isspace(x)));
+0082 
+0083 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0084 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0085 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0086 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0087 addParameter(p, <span class="string">'FilePath'</span>, defaultFilePath, validationFonction)
+0088 parse(p,data, model, estimation, misc, varargin{:});
+0089 
+0090 data=p.Results.data;
+0091 model=p.Results.model;
+0092 estimation=p.Results.estimation;
+0093 misc=p.Results.misc;
+0094 FilePath=p.Results.FilePath;
+0095 
+0096 MaxFailAttempts=4;
+0097 
+0098 <span class="comment">% Set fileID for logfile</span>
+0099 <span class="keyword">if</span> misc.internalVars.isQuiet
+0100     <span class="comment">% output message in logfile</span>
+0101     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0102 <span class="keyword">else</span>
+0103     <span class="comment">% output message on screen and logfile using diary command</span>
+0104     fileID=1;
+0105 <span class="keyword">end</span>
+0106 
+0107 <span class="comment">%% Display current values</span>
+0108 fprintf(fileID, [<span class="string">'     #     |state variable    |observation    '</span><span class="keyword">...</span>
+0109     <span class="string">'   |E[x_0]    |var[x_0] \n'</span>]);
+0110 
+0111 format = (<span class="string">'     %-5s %-18s %-18s %-10s %-10s\n'</span>);
+0112 
+0113 <span class="keyword">for</span> i=1:length(model.initX{1})
+0114     
+0115     fprintf(fileID, format, <span class="keyword">...</span>
+0116         num2str(i, <span class="string">'%03d'</span> ), <span class="keyword">...</span>
+0117         model.hidden_states_names{1}{i,1}, <span class="keyword">...</span>
+0118         model.hidden_states_names{1}{i,3}, <span class="keyword">...</span>
+0119         num2str(model.initX{1}(i)), <span class="keyword">...</span>
+0120         num2str(model.initV{1}(i,i)));
+0121 <span class="keyword">end</span>
+0122 
+0123 incTest=0;
+0124 isCorrectAnswer =  false;
+0125 <span class="keyword">while</span> ~isCorrectAnswer
+0126     
+0127     incTest=incTest+1;
+0128     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0129             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0130     
+0131     fprintf(fileID,<span class="string">'\n'</span>);
+0132     fprintf(fileID,<span class="string">'     1   -&gt;  Modify a initial value\n'</span>);
+0133     fprintf(fileID,[<span class="string">'     2   -&gt;  Export initial values '</span>, <span class="keyword">...</span>
+0134         <span class="string">' in config file format\n'</span>]);
+0135     fprintf(fileID,<span class="string">'\n'</span>);
+0136     fprintf(fileID,<span class="string">'     Type R to return to the previous menu\n'</span>);
+0137     fprintf(fileID,<span class="string">'\n'</span>);
+0138     
+0139     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0140         user_inputs.inp_2 =  <span class="keyword">...</span>
+0141             eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0142             misc.internalVars.BatchMode.AnswerIndex}));
+0143         user_inputs.inp_2 = num2str(user_inputs.inp_2);
+0144         
+0145         <span class="keyword">if</span> ischar(user_inputs.inp_2)
+0146             fprintf(fileID, <span class="string">'     %s  \n'</span>, user_inputs.inp_2);
+0147         <span class="keyword">else</span>
+0148             fprintf(fileID, <span class="string">'     %s  \n'</span>, num2str(user_inputs.inp_2));
+0149         <span class="keyword">end</span>
+0150         
+0151     <span class="keyword">else</span>
+0152         user_inputs.inp_2 =  input(<span class="string">'     choice &gt;&gt; '</span>, <span class="string">'s'</span>);
+0153     <span class="keyword">end</span>
+0154     
+0155     <span class="comment">% Remove space and simple/double quotes</span>
+0156     user_inputs.inp_2=strrep(user_inputs.inp_2,<span class="string">''''</span>,<span class="string">''</span>); 
+0157     user_inputs.inp_2=strrep(user_inputs.inp_2,<span class="string">'&quot;'</span>,<span class="string">''</span> ); 
+0158     user_inputs.inp_2=strrep(user_inputs.inp_2, <span class="string">' '</span>,<span class="string">''</span> ); 
+0159     
+0160     
+0161     <span class="keyword">if</span> ischar(user_inputs.inp_2) &amp;&amp; length(user_inputs.inp_2) == 1 &amp;&amp; <span class="keyword">...</span>
+0162             strcmpi(user_inputs.inp_2, <span class="string">'R'</span>)
+0163         
+0164         misc.internalVars.BatchMode.AnswerIndex= <span class="keyword">...</span>
+0165             misc.internalVars.BatchMode.AnswerIndex+1;
+0166         <span class="keyword">return</span>
+0167         
+0168     <span class="keyword">elseif</span> round(str2double(user_inputs.inp_2)) == 1
+0169         misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0170             misc.internalVars.BatchMode.AnswerIndex+1;
+0171         
+0172         <span class="comment">%% Providing index of the variable to modify</span>
+0173         incTest_2=0;
+0174         isCorrect = false;
+0175         <span class="keyword">while</span> ~isCorrect
+0176             incTest_2=incTest_2+1;
+0177             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0178                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0179             
+0180             fprintf(fileID,<span class="string">'     Modify variable #\n'</span>);
+0181             
+0182             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0183                 user_inputs.inp_3 = <span class="keyword">...</span>
+0184                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0185                     misc.internalVars.BatchMode.AnswerIndex}));
+0186                 fprintf(fileID, <span class="string">'     %s\n'</span>, num2str(user_inputs.inp_3));
+0187             <span class="keyword">else</span>
+0188                 user_inputs.inp_3 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0189             <span class="keyword">end</span>
+0190             
+0191             <span class="keyword">if</span>  ~isempty(user_inputs.inp_3) &amp;&amp; <span class="keyword">...</span>
+0192                     rem(user_inputs.inp_3,1) == 0 &amp;&amp; <span class="keyword">...</span>
+0193                     (user_inputs.inp_3 &gt; 0) &amp;&amp; <span class="keyword">...</span>
+0194                     user_inputs.inp_3 &lt;= length(model.initX{1})
+0195                 
+0196                 isCorrect = true;
+0197                 misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0198                     misc.internalVars.BatchMode.AnswerIndex +1;
+0199             <span class="keyword">else</span>
+0200                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0201                 <span class="keyword">continue</span>
+0202             <span class="keyword">end</span>
+0203             
+0204         <span class="keyword">end</span>
+0205         
+0206         <span class="comment">%% Providing new expected value</span>
+0207         incTest_2=0;
+0208         isCorrect = false;
+0209         <span class="keyword">while</span> ~isCorrect
+0210             
+0211             incTest_2=incTest_2+1;
+0212             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0213                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0214             
+0215             fprintf(fileID,<span class="string">'     New E[x_0] : \n'</span>);
+0216             
+0217             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0218                 user_inputs.inp_4 = <span class="keyword">...</span>
+0219                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0220                     misc.internalVars.BatchMode.AnswerIndex}));
+0221                 fprintf(fileID, <span class="string">'     %s\n'</span>, num2str(user_inputs.inp_4));
+0222             <span class="keyword">else</span>
+0223                 user_inputs.inp_4 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0224             <span class="keyword">end</span>
+0225             
+0226             <span class="keyword">if</span>  ~isempty(user_inputs.inp_4) &amp;&amp; ~ischar(user_inputs.inp_4)
+0227                 
+0228                 isCorrect = true;
+0229                 misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0230                     misc.internalVars.BatchMode.AnswerIndex +1;
+0231             <span class="keyword">else</span>
+0232                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0233                 <span class="keyword">continue</span>
+0234             <span class="keyword">end</span>
+0235             
+0236         <span class="keyword">end</span>
+0237         
+0238         <span class="comment">%% Providing new variance value</span>
+0239         incTest_2=0;
+0240         isCorrect = false;
+0241         <span class="keyword">while</span> ~isCorrect
+0242             
+0243             incTest_2=incTest_2+1;
+0244             <span class="keyword">if</span> incTest_2 &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0245                     <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0246             
+0247             fprintf(fileID,<span class="string">'     New var[x_0] : \n'</span>);
+0248             
+0249             <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0250                 user_inputs.inp_5 = <span class="keyword">...</span>
+0251                     eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0252                     misc.internalVars.BatchMode.AnswerIndex}));
+0253                 fprintf(fileID, <span class="string">'     %s'</span>, user_inputs.inp_5);
+0254             <span class="keyword">else</span>
+0255                 user_inputs.inp_5 =  input(<span class="string">'     choice &gt;&gt; '</span>);
+0256             <span class="keyword">end</span>
+0257             
+0258             <span class="keyword">if</span>  ~isempty(user_inputs.inp_5) &amp;&amp; <span class="keyword">...</span>
+0259                     ~ischar(user_inputs.inp_5) &amp;&amp; user_inputs.inp_5 &gt;= 0
+0260                 
+0261                 isCorrect = true;
+0262                 misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0263                     misc.internalVars.BatchMode.AnswerIndex+1;
+0264             <span class="keyword">else</span>
+0265                 fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0266                 <span class="keyword">continue</span>
+0267             <span class="keyword">end</span>
+0268             
+0269         <span class="keyword">end</span>
+0270         
+0271         <span class="comment">% Modify values</span>
+0272         <span class="keyword">for</span> i=1:model.nb_class
+0273             model.initX{i}(user_inputs.inp_3)=user_inputs.inp_4;
+0274             D=diag(model.initV{1});
+0275             D(user_inputs.inp_3)=user_inputs.inp_5;
+0276             model.initV{i}=diag(D);
+0277         <span class="keyword">end</span>
+0278         
+0279         <span class="keyword">return</span>
+0280         
+0281     <span class="keyword">elseif</span> round(str2double(user_inputs.inp_2)) == 2
+0282         
+0283         <span class="comment">%% Display in configuration file format</span>
+0284         fprintf(fileID, <span class="string">'\n'</span>);
+0285         fprintf(fileID, repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0286         fprintf(fileID, <span class="string">'\n'</span>);
+0287         fprintf(fileID,<span class="string">'%%%% E - Initial states values \n'</span>);
+0288         fprintf(fileID, repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0289         fprintf(fileID, <span class="string">'\n'</span>);
+0290         
+0291         <span class="keyword">for</span> m=1:model.nb_class
+0292             <span class="comment">% Expected initial hidden states</span>
+0293             fprintf(fileID, [<span class="string">'%% Initial hidden states '</span>, <span class="keyword">...</span>
+0294                 <span class="string">'mean for model %s:\n'</span>], num2str(m));
+0295             fprintf(fileID, <span class="string">'model.initX{ %s }=['</span>, num2str(m) );
+0296             <span class="keyword">for</span> i=1:size(model.initX{m},1)
+0297                 fprintf(fileID, <span class="string">'\t%-6.3G'</span>, model.initX{m}(i,:));
+0298             <span class="keyword">end</span>
+0299             fprintf(fileID, <span class="string">']'';\n'</span>);
+0300             fprintf(fileID, <span class="string">'\n'</span>);
+0301             
+0302             <span class="comment">% Initial hidden states variance (ignore covariance)</span>
+0303             fprintf(fileID, [<span class="string">'%% Initial hidden '</span>, <span class="keyword">...</span>
+0304                 <span class="string">'states variance for model %s: \n'</span>], num2str(m));
+0305             
+0306             diagV=diag(model.initV{m});
+0307             
+0308             fprintf(fileID, <span class="string">'model.initV{ %s }=diag([ '</span>, num2str(m) );
+0309             <span class="keyword">for</span> i=1:length(diagV)
+0310                 fprintf(fileID, <span class="string">'\t%-6.3G'</span>, diagV(i,:));
+0311             <span class="keyword">end</span>
+0312             fprintf(fileID, <span class="string">' ]);\n'</span>);
+0313             fprintf(fileID, <span class="string">'\n'</span>);
+0314             fprintf(fileID, <span class="string">'%% Initial probability for model %s\n'</span>, <span class="keyword">...</span>
+0315                 num2str(m));
+0316             <span class="keyword">for</span> i=1:size(model.initS{m},1)
+0317                 fprintf(fileID, <span class="string">'model.initS{%d}=[%-6.3G];\n'</span>, <span class="keyword">...</span>
+0318                     m, model.initS{m});
+0319             <span class="keyword">end</span>
+0320             fprintf(fileID, <span class="string">'\n'</span>);
+0321         <span class="keyword">end</span>
+0322         
+0323         misc.internalVars.BatchMode.AnswerIndex= <span class="keyword">...</span>
+0324             misc.internalVars.BatchMode.AnswerIndex+1;
+0325         <span class="keyword">return</span>
+0326         
+0327     <span class="keyword">else</span>
+0328         fprintf(fileID,<span class="string">'     Wrong input.\n'</span>);
+0329         <span class="keyword">continue</span>
+0330     <span class="keyword">end</span>
+0331     
+0332 <span class="keyword">end</span>
+0333 <span class="comment">%--------------------END CODE ------------------------</span>
+0334 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

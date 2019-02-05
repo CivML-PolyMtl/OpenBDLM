@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of pilotePlot</title>
+  <meta name="keywords" content="pilotePlot">
+  <meta name="description" content="PILOTEPLOT Pilote function to plot data and estimations">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">VisualizationTools</a> &gt; pilotePlot.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/VisualizationTools&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>pilotePlot
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>PILOTEPLOT Pilote function to plot data and estimations</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [misc] = pilotePlot(data, model, estimation, misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PILOTEPLOT Pilote function to plot data and estimations
+
+   SYNOPSIS:
+     [misc] = PILOTEPLOT(data, model, estimation, misc)
+
+   INPUT:
+      data                - structure
+                            see documentation for details about the fields
+                            in structure &quot;data&quot;
+
+      model               - structure
+                            see documentation for details about the fields
+                            in structure &quot;model&quot;
+
+      estimation         - structure
+                            see documentation for details about the fields
+                            in structure &quot;estimation&quot;
+
+      misc               - structure
+                            see documentation for details about the fields
+                            in structure &quot;misc&quot;
+   OUTPUT:
+      misc               - structure
+                            see documentation for details about the fields
+                            in structure &quot;misc&quot;
+
+      Figures on screen and/or figures saved
+
+   DESCRIPTION:
+     PILOTEPLOT Pilote function to plot data and estimations
+
+   EXAMPLES:
+      [misc] = PILOTEPLOT(data, model, estimation, misc)
+
+   EXTERNAL FUNCTIONS CALLED:
+     plotEstimations, verificationMergedDataset
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also <a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">PLOTESTIMATIONS</a>, VERIFICATIONMERGEDDATASET</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/DataLoader/verificationMergedDataset.html" class="code" title="function [isMerged]=verificationMergedDataset(data)">verificationMergedDataset</a>	VERIFICATIONMERGEDDATASET Return true if the time series are merged</li><li><a href="plotData.html" class="code" title="function [FigureNames] = plotData(data, misc, varargin)">plotData</a>	PLOTDATA Plot data amplitude values and data timestep</li><li><a href="plotDataSummary.html" class="code" title="function plotDataSummary(data, misc, varargin)">plotDataSummary</a>	PLOTDATASUMMARY Plot data amplitude, data time step, and data availability</li><li><a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">plotEstimations</a>	PLOTESTIMATIONS Plot hidden states, predicted data, and model probability</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/OpenBDLM_main.html" class="code" title="function [data, model, estimation, misc] = OpenBDLM_main(UserInput)">OpenBDLM_main</a>	OPENBDLM_MAIN Process control for OpenBDLM</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [misc] = pilotePlot(data, model, estimation, misc)</a>
+0002 <span class="comment">%PILOTEPLOT Pilote function to plot data and estimations</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [misc] = PILOTEPLOT(data, model, estimation, misc)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data                - structure</span>
+0009 <span class="comment">%                            see documentation for details about the fields</span>
+0010 <span class="comment">%                            in structure &quot;data&quot;</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      model               - structure</span>
+0013 <span class="comment">%                            see documentation for details about the fields</span>
+0014 <span class="comment">%                            in structure &quot;model&quot;</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%      estimation         - structure</span>
+0017 <span class="comment">%                            see documentation for details about the fields</span>
+0018 <span class="comment">%                            in structure &quot;estimation&quot;</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      misc               - structure</span>
+0021 <span class="comment">%                            see documentation for details about the fields</span>
+0022 <span class="comment">%                            in structure &quot;misc&quot;</span>
+0023 <span class="comment">%   OUTPUT:</span>
+0024 <span class="comment">%      misc               - structure</span>
+0025 <span class="comment">%                            see documentation for details about the fields</span>
+0026 <span class="comment">%                            in structure &quot;misc&quot;</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%      Figures on screen and/or figures saved</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   DESCRIPTION:</span>
+0031 <span class="comment">%     PILOTEPLOT Pilote function to plot data and estimations</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   EXAMPLES:</span>
+0034 <span class="comment">%      [misc] = PILOTEPLOT(data, model, estimation, misc)</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0037 <span class="comment">%     plotEstimations, verificationMergedDataset</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   SUBFUNCTIONS:</span>
+0040 <span class="comment">%      N/A</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   See also PLOTESTIMATIONS, VERIFICATIONMERGEDDATASET</span>
+0043 
+0044 <span class="comment">%   AUTHORS:</span>
+0045 <span class="comment">%       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0048 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%   MATLAB VERSION:</span>
+0051 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0052 <span class="comment">%</span>
+0053 <span class="comment">%   DATE CREATED:</span>
+0054 <span class="comment">%       July 27, 2018</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   DATE LAST UPDATE:</span>
+0057 <span class="comment">%       December 6, 2018</span>
+0058 
+0059 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0060 
+0061 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0062 p = inputParser;
+0063 
+0064 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0065 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0066 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0067 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0068 parse(p,data, model, estimation, misc );
+0069 
+0070 data=p.Results.data;
+0071 model=p.Results.model;
+0072 estimation=p.Results.estimation;
+0073 misc=p.Results.misc;
+0074 
+0075 <span class="comment">%% Get options from misc</span>
+0076 isExportPNG=misc.options.isExportPNG;
+0077 isExportPDF=misc.options.isExportPDF;
+0078 isExportTEX=misc.options.isExportTEX;
+0079 
+0080 FigurePath=misc.internalVars.FigurePath ;
+0081 
+0082 MaxFailAttempts = 4;
+0083 
+0084 <span class="comment">% Set fileID for logfile</span>
+0085 <span class="keyword">if</span> misc.internalVars.isQuiet
+0086     <span class="comment">% output message in logfile</span>
+0087     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0088 <span class="keyword">else</span>
+0089     <span class="comment">% output message on screen and logfile using diary command</span>
+0090     fileID=1;
+0091 <span class="keyword">end</span>
+0092 
+0093 fprintf(fileID,<span class="string">'\n'</span>);
+0094 fprintf(fileID,[<span class="string">'-----------------------------------------'</span>, <span class="keyword">...</span>
+0095     <span class="string">'-----------------------------------------------------\n'</span>]);
+0096 fprintf(fileID,<span class="string">'/    Plot\n'</span>);
+0097 fprintf(fileID,[<span class="string">'-----------------------------------------'</span>, <span class="keyword">...</span>
+0098     <span class="string">'-----------------------------------------------------\n'</span>]);
+0099 incTest = 0;
+0100 isCorrectAnswer =  false;
+0101 <span class="keyword">while</span> ~isCorrectAnswer
+0102     
+0103     incTest=incTest+1;
+0104     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0105             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0106     
+0107     
+0108     fprintf(fileID,<span class="string">'\n'</span>);
+0109     fprintf(fileID,<span class="string">'     1 -&gt;  Plot data \n'</span>);
+0110     fprintf(fileID,<span class="string">'     2 -&gt;  Plot data summary \n'</span>);
+0111     fprintf(fileID,<span class="string">'     3 -&gt;  Plot hidden states \n'</span>);
+0112     fprintf(fileID,<span class="string">'\n'</span>);
+0113     fprintf(fileID,<span class="string">'     Type R to return to the previous menu\n'</span>);
+0114     fprintf(fileID,<span class="string">'\n'</span>);
+0115     
+0116     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0117         user_inputs.inp_2=eval(char(misc.internalVars.BatchMode.Answers <span class="keyword">...</span>
+0118             {misc.internalVars.BatchMode.AnswerIndex}));
+0119         user_inputs.inp_2 = num2str(user_inputs.inp_2);
+0120         <span class="keyword">if</span> ischar(user_inputs.inp_2)
+0121             fprintf(fileID, <span class="string">'     %s  \n'</span>, user_inputs.inp_2);
+0122         <span class="keyword">else</span>
+0123             fprintf(fileID, <span class="string">'     %s  \n'</span>, num2str(user_inputs.inp_2));
+0124         <span class="keyword">end</span>
+0125         
+0126     <span class="keyword">else</span>
+0127         user_inputs.inp_2 = input(<span class="string">'     choice &gt;&gt; '</span>, <span class="string">'s'</span>);
+0128     <span class="keyword">end</span>
+0129     
+0130     <span class="comment">% Remove space and simple/double quotes</span>
+0131     user_inputs.inp_2=strrep(user_inputs.inp_2,<span class="string">''''</span>,<span class="string">''</span>);
+0132     user_inputs.inp_2=strrep(user_inputs.inp_2,<span class="string">'&quot;'</span>,<span class="string">''</span> );
+0133     user_inputs.inp_2=strrep(user_inputs.inp_2, <span class="string">' '</span>,<span class="string">''</span> );
+0134     
+0135     
+0136     <span class="keyword">if</span> ischar(user_inputs.inp_2) &amp;&amp; length(user_inputs.inp_2) == 1 &amp;&amp; <span class="keyword">...</span>
+0137             strcmpi(user_inputs.inp_2, <span class="string">'R'</span>)
+0138         <span class="keyword">break</span>
+0139         
+0140     <span class="keyword">elseif</span> round(str2double(user_inputs.inp_2)) == 1
+0141         
+0142         [isMerged]=<a href="../../../OpenBDLM_V1.0/functions/DataLoader/verificationMergedDataset.html" class="code" title="function [isMerged]=verificationMergedDataset(data)">verificationMergedDataset</a>(data);
+0143         
+0144         <span class="keyword">if</span> isMerged
+0145             <a href="plotData.html" class="code" title="function [FigureNames] = plotData(data, misc, varargin)">plotData</a>(data, misc, <span class="keyword">...</span>
+0146                 <span class="string">'isPlotTimestep'</span>, true, <span class="keyword">...</span>
+0147                 <span class="string">'isExportTEX'</span>, isExportTEX, <span class="keyword">...</span>
+0148                 <span class="string">'isExportPNG'</span>, isExportPNG, <span class="keyword">...</span>
+0149                 <span class="string">'isExportPDF'</span>, isExportPDF);
+0150             
+0151             isCorrectAnswer =  true;
+0152         <span class="keyword">else</span>
+0153             disp(<span class="string">' '</span>)
+0154             error(<span class="string">'Unable to read the data from the structure.'</span>);
+0155         <span class="keyword">end</span>
+0156         
+0157     <span class="keyword">elseif</span> round(str2double(user_inputs.inp_2)) == 2
+0158         
+0159         <a href="plotDataSummary.html" class="code" title="function plotDataSummary(data, misc, varargin)">plotDataSummary</a>(data, misc, <span class="string">'FilePath'</span>, FigurePath, <span class="keyword">...</span>
+0160             <span class="string">'isExportTEX'</span>, isExportTEX, <span class="keyword">...</span>
+0161             <span class="string">'isExportPNG'</span>, isExportPNG, <span class="keyword">...</span>
+0162             <span class="string">'isExportPDF'</span>, isExportPDF);
+0163         
+0164         isCorrectAnswer =  true;       
+0165     <span class="keyword">elseif</span> round(str2double(user_inputs.inp_2)) == 3
+0166         
+0167         <a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">plotEstimations</a>(data, model, estimation, misc, <span class="keyword">...</span>
+0168             <span class="string">'FilePath'</span>, FigurePath, <span class="keyword">...</span>
+0169             <span class="string">'isExportTEX'</span>, isExportTEX, <span class="keyword">...</span>
+0170             <span class="string">'isExportPNG'</span>, isExportPNG, <span class="keyword">...</span>
+0171             <span class="string">'isExportPDF'</span>, isExportPDF);
+0172         
+0173         isCorrectAnswer =  true;
+0174     <span class="keyword">else</span>
+0175         fprintf(fileID,<span class="string">'\n'</span>);
+0176         fprintf(fileID,<span class="string">'      wrong input\n'</span>);
+0177         <span class="keyword">continue</span>
+0178     <span class="keyword">end</span>
+0179     
+0180 <span class="keyword">end</span>
+0181 
+0182 misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0183     misc.internalVars.BatchMode.AnswerIndex+1;
+0184 
+0185 <span class="comment">%--------------------END CODE ------------------------</span>
+0186 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

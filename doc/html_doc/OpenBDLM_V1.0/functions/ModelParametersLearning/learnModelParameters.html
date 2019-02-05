@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of learnModelParameters</title>
+  <meta name="keywords" content="learnModelParameters">
+  <meta name="description" content="LEARNMODELPARAMETERS Learn Bayesian dynamic linear model parameters">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelParametersLearning</a> &gt; learnModelParameters.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/ModelParametersLearning&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>learnModelParameters
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>LEARNMODELPARAMETERS Learn Bayesian dynamic linear model parameters</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [data, model, estimation, misc]=learnModelParameters(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">LEARNMODELPARAMETERS Learn Bayesian dynamic linear model parameters
+
+   SYNOPSIS:
+     [data, model, estimation, misc]=LEARNMODELPARAMETERS(data, model, estimation, misc, varargin)
+
+   INPUT:
+      data             - structure (required)
+                         see documentation for details about the fields of
+                         data
+
+      model            - structure (required)
+                         see documentation for details about the fields of
+                         model
+
+      estimation       - structure (required)
+                         see documentation for details about the fields of
+                         estimation
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+      Method           - character (optional)
+                         Give the name of the optimization method to use
+                         'Method' can be either 'NR' (stand for
+                         Newton-Raphson) or 'SGA' (stands for Stochastic
+                         Gradient Ascent)
+                         default is 'Method' = 'NR'
+
+      FilePath         - character (optional)
+                         directory where to save the modifications
+                         Modifications are saved directly in project file
+                         located in FilePath/PROJ_'misc.ProjectName'.mat
+                         file
+                         default: '.'  (current folder)
+
+   OUTPUT:
+      data             - structure (required)
+                         see documentation for details about the fields of
+                         data
+
+      model            - structure (required)
+                         see documentation for details about the fields of
+                         model
+
+      estimation       - structure (required)
+                         see documentation for details about the fields of
+                         estimation
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+   DESCRIPTION:
+      LEARNMODELPARAMETERS learn parameters of the Bayesian dynamic linear
+      model using gradient based optimization approaches.
+
+      LEARNMODELPARAMETERS supports two optimization methods :
+               1- Newton-Raphson (argument 'Method' sets to 'NR')
+               2- Stochastic Gradient Ascent (argument 'Method' sets to 'SGA')
+
+      LEARNMODELPARAMETERS saves the optimized parameters values in the
+      project file with name PROJ_'misc.ProjectName'.mat located in
+      location specified by the argument 'FilePath'.
+
+   EXAMPLES:
+      [data, model, estimation, misc]=LEARNMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects', 'Method', 'SGA')
+      [data, model, estimation, misc]=LEARNMODELPARAMETERS(data, model, estimation, misc, 'Method', 'NR')
+
+   EXTERNAL FUNCTIONS CALLED:
+      N/A
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="NewtonRaphson.html" class="code" title="function [optim, model]=NewtonRaphson(data, model, misc)">NewtonRaphson</a>	NEWTONRAPHSON Learn models parameters using the Newton-Raphson technique</li><li><a href="SGD.html" class="code" title="function [optim, model] = SGD(data, model, misc, varargin)">SGD</a>	INPUTS:</li><li><a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, misc, varargin)">logPosteriorPE</a>	INPUTS:</li><li><a href="../../../OpenBDLM_V1.0/functions/StateEstimation/computeInitialHiddenStates.html" class="code" title="function [model] = computeInitialHiddenStates(data, model, estimation, misc, varargin)">computeInitialHiddenStates</a>	COMPUTEINITIALHIDDENSTATES Compute initial hidden states using smoothing</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="piloteOptimization.html" class="code" title="function [data, model, estimation, misc]=piloteOptimization(data, model, estimation, misc)">piloteOptimization</a>	PILOTEOPTIMIZATION Pilote function for optimization</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [data, model, estimation, misc]=learnModelParameters(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%LEARNMODELPARAMETERS Learn Bayesian dynamic linear model parameters</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [data, model, estimation, misc]=LEARNMODELPARAMETERS(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data             - structure (required)</span>
+0009 <span class="comment">%                         see documentation for details about the fields of</span>
+0010 <span class="comment">%                         data</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      model            - structure (required)</span>
+0013 <span class="comment">%                         see documentation for details about the fields of</span>
+0014 <span class="comment">%                         model</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%      estimation       - structure (required)</span>
+0017 <span class="comment">%                         see documentation for details about the fields of</span>
+0018 <span class="comment">%                         estimation</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      misc             - structure (required)</span>
+0021 <span class="comment">%                         see documentation for details about the fields of</span>
+0022 <span class="comment">%                         misc</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%      Method           - character (optional)</span>
+0025 <span class="comment">%                         Give the name of the optimization method to use</span>
+0026 <span class="comment">%                         'Method' can be either 'NR' (stand for</span>
+0027 <span class="comment">%                         Newton-Raphson) or 'SGA' (stands for Stochastic</span>
+0028 <span class="comment">%                         Gradient Ascent)</span>
+0029 <span class="comment">%                         default is 'Method' = 'NR'</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%      FilePath         - character (optional)</span>
+0032 <span class="comment">%                         directory where to save the modifications</span>
+0033 <span class="comment">%                         Modifications are saved directly in project file</span>
+0034 <span class="comment">%                         located in FilePath/PROJ_'misc.ProjectName'.mat</span>
+0035 <span class="comment">%                         file</span>
+0036 <span class="comment">%                         default: '.'  (current folder)</span>
+0037 <span class="comment">%</span>
+0038 <span class="comment">%   OUTPUT:</span>
+0039 <span class="comment">%      data             - structure (required)</span>
+0040 <span class="comment">%                         see documentation for details about the fields of</span>
+0041 <span class="comment">%                         data</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%      model            - structure (required)</span>
+0044 <span class="comment">%                         see documentation for details about the fields of</span>
+0045 <span class="comment">%                         model</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%      estimation       - structure (required)</span>
+0048 <span class="comment">%                         see documentation for details about the fields of</span>
+0049 <span class="comment">%                         estimation</span>
+0050 <span class="comment">%</span>
+0051 <span class="comment">%      misc             - structure (required)</span>
+0052 <span class="comment">%                         see documentation for details about the fields of</span>
+0053 <span class="comment">%                         misc</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   DESCRIPTION:</span>
+0056 <span class="comment">%      LEARNMODELPARAMETERS learn parameters of the Bayesian dynamic linear</span>
+0057 <span class="comment">%      model using gradient based optimization approaches.</span>
+0058 <span class="comment">%</span>
+0059 <span class="comment">%      LEARNMODELPARAMETERS supports two optimization methods :</span>
+0060 <span class="comment">%               1- Newton-Raphson (argument 'Method' sets to 'NR')</span>
+0061 <span class="comment">%               2- Stochastic Gradient Ascent (argument 'Method' sets to 'SGA')</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%      LEARNMODELPARAMETERS saves the optimized parameters values in the</span>
+0064 <span class="comment">%      project file with name PROJ_'misc.ProjectName'.mat located in</span>
+0065 <span class="comment">%      location specified by the argument 'FilePath'.</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">%   EXAMPLES:</span>
+0068 <span class="comment">%      [data, model, estimation, misc]=LEARNMODELPARAMETERS(data, model, estimation, misc, 'FilePath', 'saved_projects', 'Method', 'SGA')</span>
+0069 <span class="comment">%      [data, model, estimation, misc]=LEARNMODELPARAMETERS(data, model, estimation, misc, 'Method', 'NR')</span>
+0070 <span class="comment">%</span>
+0071 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0072 <span class="comment">%      N/A</span>
+0073 <span class="comment">%</span>
+0074 <span class="comment">%   SUBFUNCTIONS:</span>
+0075 <span class="comment">%      N/A</span>
+0076 <span class="comment">%</span>
+0077 <span class="comment">%   See also</span>
+0078 
+0079 <span class="comment">%   AUTHORS:</span>
+0080 <span class="comment">%       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0081 <span class="comment">%</span>
+0082 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0083 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0084 <span class="comment">%</span>
+0085 <span class="comment">%   MATLAB VERSION:</span>
+0086 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0087 <span class="comment">%</span>
+0088 <span class="comment">%   DATE CREATED:</span>
+0089 <span class="comment">%       June 13, 2018</span>
+0090 <span class="comment">%</span>
+0091 <span class="comment">%   DATE LAST UPDATE:</span>
+0092 <span class="comment">%       June 13, 2018</span>
+0093 
+0094 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0095 
+0096 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0097 p = inputParser;
+0098 
+0099 defaultMethod = <span class="string">'NR'</span>;
+0100 defaultFilePath = <span class="string">'.'</span>;
+0101 
+0102 validationFonctionMethod = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0103     ~isempty(x(~isspace(x))) &amp;&amp; (strcmp(x,<span class="string">'NR'</span>) || strcmp(x,<span class="string">'SGA'</span>))  ;
+0104 
+0105 validationFonction = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0106     ~isempty(x(~isspace(x)));
+0107 
+0108 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0109 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0110 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0111 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0112 addParameter(p, <span class="string">'Method'</span>, defaultMethod, validationFonctionMethod)
+0113 addParameter(p, <span class="string">'FilePath'</span>, defaultFilePath, validationFonction)
+0114 parse(p,data, model, estimation, misc, varargin{:});
+0115 
+0116 data=p.Results.data;
+0117 model=p.Results.model;
+0118 estimation=p.Results.estimation;
+0119 misc=p.Results.misc;
+0120 Method = p.Results.Method;
+0121 FilePath=p.Results.FilePath;
+0122 
+0123 <span class="comment">%% Learn model parameters</span>
+0124 
+0125 <span class="keyword">if</span> strcmp(Method, <span class="string">'NR'</span>)
+0126     <span class="comment">%% Model parameters optimization using Newton-Raphson technique</span>
+0127    
+0128     <span class="comment">% Define the maximal number of iteration for learning initial hidden</span>
+0129     <span class="comment">% states values (multi-pass technique)</span>
+0130     iteration_limit_initValues=0;
+0131     
+0132     <span class="comment">% Start optimization procedure with multi-pass</span>
+0133     loop=0;
+0134     <span class="keyword">while</span>(1)
+0135         
+0136         loop=loop+1;
+0137         
+0138         <span class="comment">% Save the previous initial hidden states values computed by default</span>
+0139         <span class="comment">% or computed using smoother</span>
+0140         model.initX_prev=model.initX;
+0141         model.initV_prev=model.initV;
+0142         model.initS_prev=model.initS;
+0143         
+0144         [optim, model] = <a href="NewtonRaphson.html" class="code" title="function [optim, model]=NewtonRaphson(data, model, misc)">NewtonRaphson</a>(data, model, misc);
+0145         
+0146         <span class="comment">%model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);</span>
+0147         <span class="comment">%model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);</span>
+0148         
+0149         misc  = optim.misc;
+0150         
+0151         <span class="comment">% Save the previous log-likelihood from Newton-Raphson</span>
+0152         log_lik_loop=optim.log_lik;
+0153         
+0154         <span class="keyword">if</span> all(optim.converged)|| loop &gt;= iteration_limit_initValues
+0155             <span class="comment">% Stop if the number of iteration_limit_initValues is reached</span>
+0156             <span class="keyword">break</span>
+0157         <span class="keyword">end</span>
+0158         
+0159         <span class="comment">% Estimate initial hidden states values using smoother on a subset</span>
+0160         <span class="comment">% of the data</span>
+0161         [model]=<a href="../../../OpenBDLM_V1.0/functions/StateEstimation/computeInitialHiddenStates.html" class="code" title="function [model] = computeInitialHiddenStates(data, model, estimation, misc, varargin)">computeInitialHiddenStates</a>(data, model, estimation, misc, <span class="keyword">...</span>
+0162             <span class="string">'FilePath'</span>, <span class="string">'saved_projects'</span>, <span class="string">'Percent'</span>, 25);
+0163         
+0164         misc.optim_mode = optim.optim_mode;
+0165         
+0166         <span class="comment">% Calculate log-posterior with initial value x_t optimized using SKS</span>
+0167         [log_lik_testInitValues,~,~,~]=<a href="logPosteriorPE.html" class="code" title="function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, misc, varargin)">logPosteriorPE</a>(optim.data_train, <span class="keyword">...</span>
+0168             model, misc, <span class="string">'getlogpdf'</span>, 1);
+0169         
+0170         <span class="comment">% Make sure that we end up with the better log-likelihood using</span>
+0171         <span class="comment">% these values</span>
+0172         <span class="comment">% otherwise we re-use the previous initial values x_t</span>
+0173         <span class="keyword">if</span> log_lik_testInitValues&lt;log_lik_loop
+0174             model.initX=model.initX_prev;
+0175             model.initV=model.initV_prev;
+0176             model.initS=model.initS_prev;
+0177         <span class="keyword">end</span>
+0178         
+0179         
+0180     <span class="keyword">end</span>
+0181         
+0182 <span class="keyword">elseif</span> strcmp(Method, <span class="string">'SGA'</span>)
+0183     <span class="comment">%% Model parameters optimization using Stochastic Gradient Ascent approach</span>
+0184     
+0185     [optim, model] = <a href="SGD.html" class="code" title="function [optim, model] = SGD(data, model, misc, varargin)">SGD</a>(data, model, misc);
+0186     
+0187     <span class="comment">%model.parameter(model.p_ref)=optim.parameter_opt(model.p_ref);</span>
+0188     <span class="comment">%model.parameterTR(model.p_ref)= optim.parameterTR_opt(model.p_ref);</span>
+0189     
+0190     misc  = optim.misc;
+0191     
+0192 <span class="keyword">end</span>
+0193 
+0194 <span class="comment">% Remove extra field from structure model</span>
+0195 model = rmfield(model,<span class="string">'parameter'</span>);
+0196 model = rmfield(model,<span class="string">'parameterTR'</span>);
+0197 model = rmfield(model,<span class="string">'p_ref'</span>);
+0198 
+0199 <span class="comment">%--------------------END CODE ------------------------</span>
+0200 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,17 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  ModelConfiguration -> configureModelForDataReal;
+  ModelConfiguration -> configureModelForDataSimulation;
+  configureModelForDataReal -> buildModel;
+  configureModelForDataReal -> defineModel;
+  configureModelForDataSimulation -> buildModel;
+  configureModelForDataSimulation -> defineModel;
+
+  ModelConfiguration [URL="ModelConfiguration.html"];
+  buildModel [URL="buildModel.html"];
+  configureModelForDataReal [URL="configureModelForDataReal.html"];
+  configureModelForDataSimulation [URL="configureModelForDataSimulation.html"];
+  countModelParameters [URL="countModelParameters.html"];
+  defineModel [URL="defineModel.html"];
+  hidden_component [URL="hidden_component.html"];
+}

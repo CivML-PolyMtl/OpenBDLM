@@ -1,0 +1,449 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plotWaterfallKRegression</title>
+  <meta name="keywords" content="plotWaterfallKRegression">
+  <meta name="description" content="PLOTWATERFALLKREGRESSION Waterfall plot for kernel regression component">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">VisualizationTools</a> &gt; plotWaterfallKRegression.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/VisualizationTools&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>plotWaterfallKRegression
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>PLOTWATERFALLKREGRESSION Waterfall plot for kernel regression component</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [FigureNames] = plotWaterfallKRegression(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PLOTWATERFALLKREGRESSION Waterfall plot for kernel regression component
+
+   SYNOPSIS:
+     PLOTWATERFALLKREGRESSION(data, model, estimation, misc, varargin)
+   INPUT:
+      data             - structure (required)
+                         see documentation for details about the fields of
+                         data
+
+      model            - structure (required)
+                         see documentation for details about the fields of
+                         model
+
+      estimation       - structure (required)
+                         see documentation for details about the fields of
+                         estimation
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+      isExportPDF      - logical (optional)
+                         if isExportPDF, export the figure in PDF format
+                         default: false
+
+      isExportPNG      - logical (optional)
+                         if isExportPNG, export the figure in PNG format
+                         default: true
+
+      isExportTEX      - logical (optional)
+                         if isExportTEX, export the figure in TEX format
+                         default: false
+
+      isVisible        - logical (optional)
+                         if isVisible = true , show the figure on screen
+                         default: true
+
+      FilePath         - character (optional)
+                         directory where to save the file
+                         default: '.'  (current folder)
+
+   OUTPUT:
+      FigureNames      - cell array of character
+                         record name of the saved figures
+      Figure(s) on screen
+      If applicable, figure(s) saved in the location given by FilePath
+
+   DESCRIPTION:
+      PLOTWATERFALLKREGRESSION plot &quot;waterfall&quot; like plot for static
+      and dynamic kernel regression components
+
+   EXAMPLES:
+       PLOTWATERFALLKREGRESSION(data, model, estimation, misc)
+       PLOTWATERFALLKREGRESSION(data, model, estimation, misc, 'FilePath', 'figures')
+
+   EXTERNAL FUNCTIONS CALLED:
+      exportPlot
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also <a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">EXPORTPLOT</a>, <a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">PLOTESTIMATIONS</a>, <a href="plotPredictedData.html" class="code" title="function [FigureNames] = plotPredictedData(data, model, estimation, misc, varargin)">PLOTPREDICTEDDATA</a>,
+   <a href="plotHiddenStates.html" class="code" title="function [FigureNames] = plotHiddenStates(data, model, estimation, misc, varargin)">PLOTHIDDENSTATES</a>, <a href="plotModelProbability.html" class="code" title="function [FigureNames] = plotModelProbability(data, model, estimation, misc, varargin)">PLOTMODELPROBABILITY</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>	READPARAMETERPROPERTIES Extract some columns of a cell array</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li><li><a href="../../../OpenBDLM_V1.0/functions/StateEstimation/Kernel_component.html" class="code" title="function [K_norm]=Kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)">Kernel_component</a>	KERNEL_COMPONENT Compute normalized kernel coefficients</li><li><a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">exportPlot</a>	EXPORTPLOT Export the current figure in TeX file using matlab2tikz</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="plotEstimations.html" class="code" title="function plotEstimations(data, model, estimation, misc, varargin)">plotEstimations</a>	PLOTESTIMATIONS Plot hidden states, predicted data, and model probability</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [FigureNames] = plotWaterfallKRegression(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%PLOTWATERFALLKREGRESSION Waterfall plot for kernel regression component</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     PLOTWATERFALLKREGRESSION(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%   INPUT:</span>
+0007 <span class="comment">%      data             - structure (required)</span>
+0008 <span class="comment">%                         see documentation for details about the fields of</span>
+0009 <span class="comment">%                         data</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%      model            - structure (required)</span>
+0012 <span class="comment">%                         see documentation for details about the fields of</span>
+0013 <span class="comment">%                         model</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%      estimation       - structure (required)</span>
+0016 <span class="comment">%                         see documentation for details about the fields of</span>
+0017 <span class="comment">%                         estimation</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%      misc             - structure (required)</span>
+0020 <span class="comment">%                         see documentation for details about the fields of</span>
+0021 <span class="comment">%                         misc</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%      isExportPDF      - logical (optional)</span>
+0024 <span class="comment">%                         if isExportPDF, export the figure in PDF format</span>
+0025 <span class="comment">%                         default: false</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%      isExportPNG      - logical (optional)</span>
+0028 <span class="comment">%                         if isExportPNG, export the figure in PNG format</span>
+0029 <span class="comment">%                         default: true</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">%      isExportTEX      - logical (optional)</span>
+0032 <span class="comment">%                         if isExportTEX, export the figure in TEX format</span>
+0033 <span class="comment">%                         default: false</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%      isVisible        - logical (optional)</span>
+0036 <span class="comment">%                         if isVisible = true , show the figure on screen</span>
+0037 <span class="comment">%                         default: true</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%      FilePath         - character (optional)</span>
+0040 <span class="comment">%                         directory where to save the file</span>
+0041 <span class="comment">%                         default: '.'  (current folder)</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   OUTPUT:</span>
+0044 <span class="comment">%      FigureNames      - cell array of character</span>
+0045 <span class="comment">%                         record name of the saved figures</span>
+0046 <span class="comment">%      Figure(s) on screen</span>
+0047 <span class="comment">%      If applicable, figure(s) saved in the location given by FilePath</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   DESCRIPTION:</span>
+0050 <span class="comment">%      PLOTWATERFALLKREGRESSION plot &quot;waterfall&quot; like plot for static</span>
+0051 <span class="comment">%      and dynamic kernel regression components</span>
+0052 <span class="comment">%</span>
+0053 <span class="comment">%   EXAMPLES:</span>
+0054 <span class="comment">%       PLOTWATERFALLKREGRESSION(data, model, estimation, misc)</span>
+0055 <span class="comment">%       PLOTWATERFALLKREGRESSION(data, model, estimation, misc, 'FilePath', 'figures')</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0058 <span class="comment">%      exportPlot</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%   SUBFUNCTIONS:</span>
+0061 <span class="comment">%      N/A</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%   See also EXPORTPLOT, PLOTESTIMATIONS, PLOTPREDICTEDDATA,</span>
+0064 <span class="comment">%   PLOTHIDDENSTATES, PLOTMODELPROBABILITY</span>
+0065 
+0066 <span class="comment">%   AUTHORS:</span>
+0067 <span class="comment">%       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0068 <span class="comment">%</span>
+0069 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0070 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0071 <span class="comment">%</span>
+0072 <span class="comment">%   MATLAB VERSION:</span>
+0073 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">%   DATE CREATED:</span>
+0076 <span class="comment">%       June 6, 2018</span>
+0077 <span class="comment">%</span>
+0078 <span class="comment">%   DATE LAST UPDATE:</span>
+0079 <span class="comment">%       December 6, 2018</span>
+0080 
+0081 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0082 
+0083 
+0084 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0085 p = inputParser;
+0086 
+0087 defaultFilePath = <span class="string">'.'</span>;
+0088 defaultisExportPDF = false;
+0089 defaultisExportPNG = true;
+0090 defaultisExportTEX = false;
+0091 defaultisVisible = true;
+0092 
+0093 validationFonction = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0094     ~isempty(x(~isspace(x)));
+0095 
+0096 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0097 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0098 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0099 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0100 addParameter(p,<span class="string">'isExportPDF'</span>, defaultisExportPDF,  @islogical);
+0101 addParameter(p,<span class="string">'isExportPNG'</span>, defaultisExportPNG,  @islogical);
+0102 addParameter(p,<span class="string">'isExportTEX'</span>, defaultisExportTEX,  @islogical);
+0103 addParameter(p,<span class="string">'isVisible'</span>, defaultisVisible,  @islogical);
+0104 addParameter(p, <span class="string">'FilePath'</span>, defaultFilePath, validationFonction)
+0105 parse(p,data, model, estimation, misc, varargin{:});
+0106 
+0107 data=p.Results.data;
+0108 model=p.Results.model;
+0109 estimation=p.Results.estimation;
+0110 misc=p.Results.misc;
+0111 isExportPDF = p.Results.isExportPDF;
+0112 isExportPNG = p.Results.isExportPNG;
+0113 isExportTEX = p.Results.isExportTEX;
+0114 isVisible   = p.Results.isVisible;
+0115 FilePath=p.Results.FilePath;
+0116 
+0117 <span class="keyword">if</span> isVisible
+0118    VisibleOption = <span class="string">'on'</span>; 
+0119 <span class="keyword">else</span>
+0120    VisibleOption = <span class="string">'off'</span>;   
+0121 <span class="keyword">end</span>
+0122 
+0123 
+0124 <span class="comment">%% Get options from misc</span>
+0125 FigurePosition=misc.options.FigurePosition;
+0126 
+0127 <span class="comment">%% Read model parameter properties</span>
+0128 <span class="comment">% Current model parameters</span>
+0129 idx_pvalues=size(model.param_properties,2)-1;
+0130 idx_pref= size(model.param_properties,2);
+0131 
+0132 [arrayOut]=<span class="keyword">...</span>
+0133     <a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>(model.param_properties, <span class="keyword">...</span>
+0134     [idx_pvalues, idx_pref]);
+0135 
+0136 parameter= arrayOut(:,1);
+0137 
+0138 
+0139 <span class="comment">%% Create specified path if not existing</span>
+0140 [isFileExist] = <a href="../../../OpenBDLM_V1.0/functions/Others/testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FilePath, <span class="string">'dir'</span>);
+0141 <span class="keyword">if</span> ~isFileExist
+0142     <span class="comment">% create directory</span>
+0143     mkdir(FilePath)
+0144     <span class="comment">% set directory on path</span>
+0145     addpath(FilePath)
+0146 <span class="keyword">end</span>
+0147 
+0148 <span class="comment">%% Define timestamp</span>
+0149 <span class="comment">% Get timestamps vector</span>
+0150 timestamps=data.timestamps;
+0151 
+0152 <span class="comment">%% Get number of time series</span>
+0153 numberOfTimeSeries = length(data.labels);
+0154 
+0155 <span class="comment">%% Create static/dynamic kernel regression waterfall plot for each time series</span>
+0156 <span class="comment">% Loop over time series</span>
+0157 <span class="keyword">for</span> obs=1:numberOfTimeSeries
+0158     
+0159     <span class="comment">% Get data labels</span>
+0160     labels=data.labels{obs};
+0161     
+0162     <span class="comment">% Get hidden states associated to this observation</span>
+0163     TestNameHiddenStates = <span class="keyword">...</span>
+0164         strfind(model.hidden_states_names{1}(:,3), num2str(obs));
+0165     IndexNameHiddenStates = <span class="keyword">...</span>
+0166         find(not(cellfun(<span class="string">'isempty'</span>, TestNameHiddenStates )));
+0167     
+0168     hidden_states_names_sub =  <span class="keyword">...</span>
+0169         model.hidden_states_names{1}(IndexNameHiddenStates,:);
+0170     
+0171     <span class="comment">% Get parameters associated to this observation</span>
+0172     
+0173     strs=model.param_properties(:,4);
+0174     strs(cellfun(<span class="string">'isempty'</span>,strs)) = [];
+0175     
+0176     TestNameParameters = <span class="keyword">...</span>
+0177         strfind(strs, num2str(obs));
+0178     IndexNameParameters = <span class="keyword">...</span>
+0179         find(not(cellfun(<span class="string">'isempty'</span>,  TestNameParameters)));
+0180     
+0181     <span class="comment">% Get parameter properties</span>
+0182     param_properties_sub =  model.param_properties(IndexNameParameters,:);
+0183     
+0184     <span class="comment">% Get estimated current parameter values</span>
+0185     parameter_sub = parameter(IndexNameParameters,:);
+0186     
+0187     <span class="comment">%% Get amplitude values to plot</span>
+0188     <span class="comment">% Estimated hidden states values</span>
+0189     <span class="keyword">if</span> isfield(estimation, <span class="string">'x'</span>)
+0190         <span class="comment">% mean values</span>
+0191         estimation_x_sub = estimation.x_M{1,1}(IndexNameHiddenStates,:);
+0192         
+0193         numberOfHiddenStates_sub = size(hidden_states_names_sub,1);
+0194         
+0195         <span class="keyword">for</span> idx=1:numberOfHiddenStates_sub
+0196             <span class="keyword">if</span> and(strncmpi(hidden_states_names_sub(idx,1),<span class="string">'x^{KR'</span>,5), <span class="keyword">...</span>
+0197                     ~strcmp(hidden_states_names_sub(idx,1),<span class="string">'x^{KR1}'</span>))
+0198                 Kernel_regression=<span class="string">'KR'</span>;
+0199                 <span class="keyword">break</span>
+0200             <span class="keyword">else</span>
+0201                 FigureNames{obs}=[];
+0202                 Kernel_regression=[];
+0203             <span class="keyword">end</span>
+0204         <span class="keyword">end</span>
+0205         
+0206         <span class="keyword">if</span> isempty(Kernel_regression)
+0207             <span class="keyword">continue</span>
+0208         <span class="keyword">end</span>
+0209         
+0210         <span class="comment">% Get model parameters index corresponding to kernel regression</span>
+0211         K_p_idx=[];
+0212         K_idx=[];
+0213         <span class="keyword">for</span> i=1:size(param_properties_sub,1)
+0214             <span class="keyword">if</span> strcmp(param_properties_sub(i,2),Kernel_regression)
+0215                 K_idx=[K_idx i];
+0216                 <span class="keyword">if</span> strcmp(param_properties_sub(i,1),<span class="string">'p'</span>)
+0217                     K_p_idx=[K_p_idx i];
+0218                 <span class="keyword">end</span>
+0219             <span class="keyword">end</span>
+0220         <span class="keyword">end</span>
+0221         
+0222         <span class="comment">% Get hidden states index corresponding to kernel regression</span>
+0223         K_x_idx=[];
+0224         <span class="keyword">for</span> i=1:size(hidden_states_names_sub,1)
+0225             <span class="keyword">if</span> strncmpi(hidden_states_names_sub(i,1),[<span class="string">'x^{'</span> Kernel_regression],5)
+0226                 K_x_idx=[K_x_idx i];
+0227             <span class="keyword">end</span>
+0228         <span class="keyword">end</span>
+0229         <span class="keyword">if</span> strcmp(Kernel_regression,<span class="string">'KR'</span>)
+0230             K_x_idx=K_x_idx(2:end);
+0231         <span class="keyword">end</span>
+0232         
+0233         
+0234         period=parameter_sub(K_p_idx);
+0235         tsi=timestamps(1);
+0236         tsf=tsi+period;
+0237         X=[];
+0238         Y=[];
+0239         Z=[];
+0240         ts_plot=floor((timestamps(end)-timestamps(1))/(period));
+0241         CP=zeros(ts_plot,length(K_x_idx));
+0242         <span class="keyword">for</span> i=1:ts_plot
+0243             x=linspace(tsi,tsf,200);
+0244             xpl=zeros(1,length(x));
+0245             ts_hs=find(abs(timestamps-tsf)==min(abs(timestamps-tsf)));
+0246             <span class="keyword">if</span> isfield(estimation, <span class="string">'x'</span>)
+0247                 CP(i,:)=estimation_x_sub(K_x_idx,ts_hs)';
+0248             <span class="keyword">end</span>
+0249             
+0250             <span class="keyword">for</span> j=1:length(x)
+0251                 p_KRHC=parameter_sub(1:length(parameter_sub));
+0252                 p_KRHC=p_KRHC(K_idx(1:2));
+0253                 k=<a href="../../../OpenBDLM_V1.0/functions/StateEstimation/Kernel_component.html" class="code" title="function [K_norm]=Kernel_component(reg_parameters,timestamp,timestamp_ref,nb_p)">Kernel_component</a>(p_KRHC,x(j), <span class="keyword">...</span>
+0254                     timestamps(1),model.components.nb_KR_p-1);
+0255                 xpl(j)=CP(i,:)*k';
+0256             <span class="keyword">end</span>
+0257             tsi_last=tsi;
+0258             tsi=tsf;
+0259             tsf=tsi+period;
+0260             
+0261             X=[X;x*0+x(1)];
+0262             Y=[Y;x-x(1)];
+0263             Z=[Z;xpl];
+0264             
+0265         <span class="keyword">end</span>
+0266         
+0267         
+0268         FigHandle = figure(<span class="string">'DefaultAxesPosition'</span>, [0.1, 0.17, 0.8, 0.8]);
+0269         set(FigHandle, <span class="string">'Position'</span>, FigurePosition)
+0270         set(FigHandle, <span class="string">'Visible'</span>, VisibleOption)
+0271         set(gca, <span class="string">'Fontsize'</span>, 16)
+0272         
+0273         <span class="keyword">if</span> isfield(estimation, <span class="string">'x'</span>)
+0274             
+0275             subplot(1,2,1)
+0276             waterfall(X,Y,Z)
+0277             xlim([timestamps(1) timestamps(end)])
+0278             ylim([0 period])
+0279             datetick(<span class="string">'x'</span>,<span class="string">'yy'</span>,<span class="string">'keepticks'</span>)
+0280             datetick(<span class="string">'y'</span>,<span class="string">'mm-dd'</span>,<span class="string">'keepticks'</span>)
+0281             xlim([timestamps(1) timestamps(end)])
+0282             ylim([0 period])
+0283             xlabel(<span class="string">'Time [YY]'</span>)
+0284             ylabel(<span class="string">'Time [MM-DD]'</span>)
+0285             zlabel([<span class="string">'Kernel Regression'</span>, <span class="string">' ['</span>, labels, <span class="string">']'</span>], <span class="keyword">...</span>
+0286                 <span class="string">'Interpreter'</span>,<span class="string">'Latex'</span> )
+0287             set(gca, <span class="string">'Fontsize'</span>, 16)
+0288             grid on
+0289             
+0290             subplot(1,2,2)            
+0291             z2=linspace(0,period,length(K_x_idx)+1);
+0292             z2(end)=[];
+0293             [X2,Y2]=ndgrid(linspace(timestamps(1),tsi_last,ts_plot), z2);
+0294             plot3(X2,Y2,CP,<span class="string">'+r'</span>)
+0295             xlim([timestamps(1) timestamps(end)])
+0296             ylim([0 period])
+0297             datetick(<span class="string">'x'</span>,<span class="string">'yy'</span>,<span class="string">'keepticks'</span>)
+0298             datetick(<span class="string">'y'</span>,<span class="string">'mm-dd'</span>,<span class="string">'keepticks'</span>)
+0299             ylim([0 period])
+0300             xlim([timestamps(1) timestamps(end)])
+0301             
+0302             xlabel(<span class="string">'Time [YY]'</span>)
+0303             ylabel(<span class="string">'Time [MM-DD]'</span>)
+0304             zlabel([<span class="string">'Control points'</span>,<span class="string">' ['</span>, labels, <span class="string">']'</span>], <span class="keyword">...</span>
+0305                 <span class="string">'Interpreter'</span>,<span class="string">'Latex'</span> )
+0306             set(gca, <span class="string">'Fontsize'</span>, 16)
+0307             grid on
+0308             hold off
+0309         <span class="keyword">end</span>
+0310               
+0311         <span class="comment">%% Export plots</span>
+0312         <span class="keyword">if</span> isExportPDF || isExportPNG || isExportTEX
+0313             
+0314             NameFigure = [ labels, <span class="string">'_'</span>, Kernel_regression, <span class="string">'_Waterfall'</span>];
+0315             
+0316             FigureNames{obs} = NameFigure;
+0317             
+0318             <span class="comment">% Export figure to location given by FilePath</span>
+0319             <a href="exportPlot.html" class="code" title="function exportPlot(FigureName, varargin)">exportPlot</a>(NameFigure, <span class="string">'FilePath'</span>, FilePath,  <span class="keyword">...</span>
+0320                 <span class="string">'isExportPDF'</span>, isExportPDF, <span class="keyword">...</span>
+0321                 <span class="string">'isExportPNG'</span>, isExportPNG, <span class="keyword">...</span>
+0322                 <span class="string">'isExportTEX'</span>, isExportTEX);
+0323         <span class="keyword">else</span>
+0324             
+0325             FigureNames{1} = [];
+0326         <span class="keyword">end</span>
+0327         
+0328         
+0329     <span class="keyword">else</span>
+0330         FigureNames{1} = [];
+0331     <span class="keyword">end</span>
+0332     
+0333 <span class="keyword">end</span>
+0334 
+0335     <span class="keyword">if</span> ~isVisible
+0336         close all
+0337     <span class="keyword">end</span>
+0338 
+0339 <span class="comment">%--------------------END CODE ------------------------</span>
+0340 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

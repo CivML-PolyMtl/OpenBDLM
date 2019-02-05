@@ -1,0 +1,523 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of OpenBDLM_main</title>
+  <meta name="keywords" content="OpenBDLM_main">
+  <meta name="description" content="OPENBDLM_MAIN Process control for OpenBDLM">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../index.html">Home</a> &gt;  <a href="index.html">OpenBDLM_V1.0</a> &gt; OpenBDLM_main.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../index.html"><img alt="<" border="0" src="../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0&nbsp;<img alt=">" border="0" src="../right.png"></a></td></tr></table>-->
+
+<h1>OpenBDLM_main
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>OPENBDLM_MAIN Process control for OpenBDLM</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>function [data, model, estimation, misc] = OpenBDLM_main(UserInput) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">OPENBDLM_MAIN Process control for OpenBDLM
+
+   SYNOPSIS:
+     [data, model, estimation, misc] = OPENBDLM_MAIN(UserInput)
+
+   INPUT:
+      UserInput          - character or cell array of characters (optional)
+
+                           If UserInput is not provided, the function runs
+                           in interactive mode, in which online user's
+                           interactions from the command line is
+                           required to perform the analysis.
+
+                           If UserInput is a character array, it should be
+                           the name of a configuration file name (see doc)
+                           The configuration file is only used to
+                           initialize the project. The function then
+                           switches to the interactive mode.
+
+                           If UserInput is a cell array, it should contain
+                           all the inputs required for analysis (see doc).
+                           The is the batch mode, in which the function runs
+                           silently by automatically reading pre-loaded
+                           commands.
+
+   OUTPUT:
+      data                - structure
+                            see documentation for details about the fields
+                            in structure &quot;data&quot;
+
+      model               - structure
+                            see documentation for details about the fields
+                            in structure &quot;model&quot;
+
+      estimation         - structure
+                            see documentation for details about the fields
+                            in structure &quot;estimation&quot;
+
+      misc               - structure
+                            see documentation for details about the fields
+                            in structure &quot;misc&quot;
+
+   DESCRIPTION:
+      OPENBDLM_MAIN is the process control function for OpenBDLM.
+      OpenBDLM is an open-source software for performing structural
+      health monitoring using Bayesian Dynamic Linear Models
+
+   EXAMPLES:
+      [data, model, estimation, misc] = OPENBDLM_MAIN()
+      [data, model, estimation, misc] = OPENBDLM_MAIN('CFG_TEST1.m')
+      [data, model, estimation, misc] = OPENBDLM_MAIN({'''CFG_TEST1.m''', '31'})
+
+
+   EXTERNAL FUNCTIONS CALLED:
+      DataLoader, saveDataBinary, verificationDataStructure, SimulateData
+      ModelConfiguration, buildModel, displayModelMatrices
+      modifyInitialHiddenStates, modifyTrainingPeriod, learnModelParameters,
+      modifyModelParameters, chooseIsDataSimulation, chooseProjectName
+      displayProjects, initializeProject, printConfigurationFile,
+      printProjectDateCreation, saveProject, testFileExistence,
+      computeInitialHiddenStates,      plotData, plotEstimations
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also
+    DATALOADER, STATEESTIMATION, LEARNMODELPARAMETERS, SAVEDATABINARY,
+    SIMULATEDATA, MODELCONFIGURATION, BUILDMODEL, DISPLAYMODELMATRICES
+    MODIFYINITIALHIDDENSTATES, MODIFYTRAININGPERIOD,VERIFICATIONDATASTRUCTURE
+    MODIFYMODELPARAMETERS, CHOOSEISDATASIMULATION, CHOOSEPROJECTNAME
+     DISPLAYPROJECTS, INITIALIZEPROJECT, PRINTCONFIGURATIONFILE,
+    PRINTPROJECTDATECREATION, SAVEPROJECT, TESTFILEEXISTENCE,
+    COMPUTEINITIALHIDDENSTATES, PLOTDATA, PLOTESTIMATIONS</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="../OpenBDLM_V1.0/functions/DataLoader/loadConfigurationFile.html" class="code" title="function [data, model, estimation, misc]=loadConfigurationFile(misc, ConfigFileName)">loadConfigurationFile</a>	LOADCONFIGURATIONFILE Load a new project from a configuration file</li><li><a href="../OpenBDLM_V1.0/functions/DataSimulation/piloteSimulateData.html" class="code" title="function [data, model, estimation, misc]=piloteSimulateData(data, model,estimation, misc)">piloteSimulateData</a>	PILOTESIMULATEDATA Pilote function to simulate data</li><li><a href="../OpenBDLM_V1.0/functions/ModelParametersLearning/piloteModifyModelParameters.html" class="code" title="function [model, misc]=piloteModifyModelParameters(data, model, estimation, misc)">piloteModifyModelParameters</a>	PILOTEMODIFYMODELPARAMETERS Pilote function to modify model parameters</li><li><a href="../OpenBDLM_V1.0/functions/ModelParametersLearning/piloteModifyTrainingPeriod.html" class="code" title="function [misc]=piloteModifyTrainingPeriod(data, model, estimation, misc)">piloteModifyTrainingPeriod</a>	PILOTEMODIFYTRAININGPERIOD Pilote function to modify training period</li><li><a href="../OpenBDLM_V1.0/functions/ModelParametersLearning/piloteOptimization.html" class="code" title="function [data, model, estimation, misc]=piloteOptimization(data, model, estimation, misc)">piloteOptimization</a>	PILOTEOPTIMIZATION Pilote function for optimization</li><li><a href="../OpenBDLM_V1.0/functions/Others/createLogFile.html" class="code" title="function [misc]=createLogFile(misc)">createLogFile</a>	CREATELOGFILE Create log file to print message during program execution</li><li><a href="../OpenBDLM_V1.0/functions/Others/displayMenuOpenBDLM.html" class="code" title="function [menuChoices]=displayMenuOpenBDLM(misc)">displayMenuOpenBDLM</a>	DISPLAYMENUOPENBDLM Display OpenBDLM menu</li><li><a href="../OpenBDLM_V1.0/functions/Others/displayProjects.html" class="code" title="function [ProjectInfo]=displayProjects(misc)">displayProjects</a>	DISPLAYPROJECTS displays on screen information about saved projects</li><li><a href="../OpenBDLM_V1.0/functions/Others/findDuplicateInstallation.html" class="code" title="function findDuplicateInstallation">findDuplicateInstallation</a>	FINDDUPLICATEINSTALLATION Warning if conflictous OpenBDLM installation</li><li><a href="../OpenBDLM_V1.0/functions/Others/loadInteractive.html" class="code" title="function [data, model, estimation, misc]=loadInteractive(misc)">loadInteractive</a>	LOADINTERACTIVE Load a new project using interactive mode</li><li><a href="../OpenBDLM_V1.0/functions/Others/loadProjectFile.html" class="code" title="function [data, model, estimation, misc]=loadProjectFile(misc, ProjectIdx)">loadProjectFile</a>	LOADPROJECTFILE Load a project from a project file</li><li><a href="../OpenBDLM_V1.0/functions/Others/piloteDeleteProject.html" class="code" title="function piloteDeleteProject(misc)">piloteDeleteProject</a>	PILOTEDELETEPROJECT Pilote function to delete project(s)</li><li><a href="../OpenBDLM_V1.0/functions/Others/piloteDisplayModelMatrices.html" class="code" title="function piloteDisplayModelMatrices(data, model, estimation, misc)">piloteDisplayModelMatrices</a>	PILOTEDISPLAYMODELMATRICES Pilote function to display model matrices</li><li><a href="../OpenBDLM_V1.0/functions/Others/piloteExport.html" class="code" title="function [misc]=piloteExport(data, model, estimation, misc)">piloteExport</a>	PILOTEEXPORT Pilote function to export data, estimations and project</li><li><a href="../OpenBDLM_V1.0/functions/Others/printOptions.html" class="code" title="function [misc]=printOptions(misc)">printOptions</a>	PRINTOPTIONS Print misc.options fields in configuration file format</li><li><a href="../OpenBDLM_V1.0/functions/Others/saveProject.html" class="code" title="function saveProject(model, estimation, misc, varargin)">saveProject</a>	SAVEPROJECT Save the variables model, estimation, misc in a .mat file</li><li><a href="../OpenBDLM_V1.0/functions/Others/saveResultsMAT.html" class="code" title="function [misc]=saveResultsMAT(data, model, estimation, misc, varargin)">saveResultsMAT</a>	SAVERESULTSMAT Save results in a .mat file</li><li><a href="../OpenBDLM_V1.0/functions/Others/setDefaultOptions.html" class="code" title="function [misc]=setDefaultOptions(misc)">setDefaultOptions</a>	SETDEFAULTOPTIONS Set default options for OpenBDLM</li><li><a href="../OpenBDLM_V1.0/functions/Others/setInternalVars.html" class="code" title="function [misc]=setInternalVars(UserInput)">setInternalVars</a>	SETINTERNALVARS Read OpenBDLM arguments and set internal variables</li><li><a href="../OpenBDLM_V1.0/functions/Others/welcomeOpenBDLM.html" class="code" title="function welcomeOpenBDLM(misc, varargin)">welcomeOpenBDLM</a>	WELCOMEOPENBDLM Print welcome message when starting the program</li><li><a href="../OpenBDLM_V1.0/functions/StateEstimation/piloteInitialStateEstimation.html" class="code" title="function [data, model, estimation, misc]=piloteInitialStateEstimation(data, model, estimation, misc)">piloteInitialStateEstimation</a>	PILOTEINITIALSTATEESTIMATION Pilote function to estimate initial states</li><li><a href="../OpenBDLM_V1.0/functions/StateEstimation/piloteModifyInitialStates.html" class="code" title="function [model, misc]=piloteModifyInitialStates(data, model, estimation, misc)">piloteModifyInitialStates</a>	PILOTEMODIFYINITIALSTATES Pilote function to modify initial hidden states</li><li><a href="../OpenBDLM_V1.0/functions/StateEstimation/piloteStateEstimation.html" class="code" title="function [data, model, estimation, misc]=piloteStateEstimation(data, model, estimation, misc)">piloteStateEstimation</a>	PILOTESTATEESTIMATION Pilote function for state estimation</li><li><a href="../OpenBDLM_V1.0/functions/VersionControl/piloteVersionControl.html" class="code" title="function piloteVersionControl(misc)">piloteVersionControl</a>	PILOTEVERSIONCONTROL Pilote function for version control</li><li><a href="../OpenBDLM_V1.0/functions/VisualizationTools/pilotePlot.html" class="code" title="function [misc] = pilotePlot(data, model, estimation, misc)">pilotePlot</a>	PILOTEPLOT Pilote function to plot data and estimations</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="../OpenBDLM_V1.0/functions/VersionControl/versionControl.html" class="code" title="function [controlOut]=versionControl(misc, varargin)">versionControl</a>	VERSIONCONTROL Version control for OpenBDLM</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [data, model, estimation, misc] = OpenBDLM_main(UserInput)</a>
+0002 <span class="comment">%OPENBDLM_MAIN Process control for OpenBDLM</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [data, model, estimation, misc] = OPENBDLM_MAIN(UserInput)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      UserInput          - character or cell array of characters (optional)</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%                           If UserInput is not provided, the function runs</span>
+0011 <span class="comment">%                           in interactive mode, in which online user's</span>
+0012 <span class="comment">%                           interactions from the command line is</span>
+0013 <span class="comment">%                           required to perform the analysis.</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%                           If UserInput is a character array, it should be</span>
+0016 <span class="comment">%                           the name of a configuration file name (see doc)</span>
+0017 <span class="comment">%                           The configuration file is only used to</span>
+0018 <span class="comment">%                           initialize the project. The function then</span>
+0019 <span class="comment">%                           switches to the interactive mode.</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%                           If UserInput is a cell array, it should contain</span>
+0022 <span class="comment">%                           all the inputs required for analysis (see doc).</span>
+0023 <span class="comment">%                           The is the batch mode, in which the function runs</span>
+0024 <span class="comment">%                           silently by automatically reading pre-loaded</span>
+0025 <span class="comment">%                           commands.</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">%   OUTPUT:</span>
+0028 <span class="comment">%      data                - structure</span>
+0029 <span class="comment">%                            see documentation for details about the fields</span>
+0030 <span class="comment">%                            in structure &quot;data&quot;</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%      model               - structure</span>
+0033 <span class="comment">%                            see documentation for details about the fields</span>
+0034 <span class="comment">%                            in structure &quot;model&quot;</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%      estimation         - structure</span>
+0037 <span class="comment">%                            see documentation for details about the fields</span>
+0038 <span class="comment">%                            in structure &quot;estimation&quot;</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%      misc               - structure</span>
+0041 <span class="comment">%                            see documentation for details about the fields</span>
+0042 <span class="comment">%                            in structure &quot;misc&quot;</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   DESCRIPTION:</span>
+0045 <span class="comment">%      OPENBDLM_MAIN is the process control function for OpenBDLM.</span>
+0046 <span class="comment">%      OpenBDLM is an open-source software for performing structural</span>
+0047 <span class="comment">%      health monitoring using Bayesian Dynamic Linear Models</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   EXAMPLES:</span>
+0050 <span class="comment">%      [data, model, estimation, misc] = OPENBDLM_MAIN()</span>
+0051 <span class="comment">%      [data, model, estimation, misc] = OPENBDLM_MAIN('CFG_TEST1.m')</span>
+0052 <span class="comment">%      [data, model, estimation, misc] = OPENBDLM_MAIN({'''CFG_TEST1.m''', '31'})</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0056 <span class="comment">%      DataLoader, saveDataBinary, verificationDataStructure, SimulateData</span>
+0057 <span class="comment">%      ModelConfiguration, buildModel, displayModelMatrices</span>
+0058 <span class="comment">%      modifyInitialHiddenStates, modifyTrainingPeriod, learnModelParameters,</span>
+0059 <span class="comment">%      modifyModelParameters, chooseIsDataSimulation, chooseProjectName</span>
+0060 <span class="comment">%      displayProjects, initializeProject, printConfigurationFile,</span>
+0061 <span class="comment">%      printProjectDateCreation, saveProject, testFileExistence,</span>
+0062 <span class="comment">%      computeInitialHiddenStates,      plotData, plotEstimations</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%   SUBFUNCTIONS:</span>
+0065 <span class="comment">%      N/A</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">%   See also</span>
+0068 <span class="comment">%    DATALOADER, STATEESTIMATION, LEARNMODELPARAMETERS, SAVEDATABINARY,</span>
+0069 <span class="comment">%    SIMULATEDATA, MODELCONFIGURATION, BUILDMODEL, DISPLAYMODELMATRICES</span>
+0070 <span class="comment">%    MODIFYINITIALHIDDENSTATES, MODIFYTRAININGPERIOD,VERIFICATIONDATASTRUCTURE</span>
+0071 <span class="comment">%    MODIFYMODELPARAMETERS, CHOOSEISDATASIMULATION, CHOOSEPROJECTNAME</span>
+0072 <span class="comment">%     DISPLAYPROJECTS, INITIALIZEPROJECT, PRINTCONFIGURATIONFILE,</span>
+0073 <span class="comment">%    PRINTPROJECTDATECREATION, SAVEPROJECT, TESTFILEEXISTENCE,</span>
+0074 <span class="comment">%    COMPUTEINITIALHIDDENSTATES, PLOTDATA, PLOTESTIMATIONS</span>
+0075 
+0076 <span class="comment">%   AUTHORS:</span>
+0077 <span class="comment">%        James-A Goulet, Luong Ha Nguyen, Ianis Gaudot</span>
+0078 <span class="comment">%</span>
+0079 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0080 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0081 <span class="comment">%</span>
+0082 <span class="comment">%   REFERENCES:</span>
+0083 <span class="comment">%       [1]  Goulet, J.-A., 2017, Bayesian dynamic linear models for</span>
+0084 <span class="comment">%       structural health monitoring,</span>
+0085 <span class="comment">%       Structural Control and Health Monitoring, Vol. 24, Issue 12.</span>
+0086 <span class="comment">%</span>
+0087 <span class="comment">%       [2]  Goulet, J.-A., Koo K., 2017, Empirical validation of Bayesian</span>
+0088 <span class="comment">%       dynamic linear models in the context of structural health monitoring,</span>
+0089 <span class="comment">%       Journal of Bridge Engineering, Vol.23, Issue 2.</span>
+0090 <span class="comment">%</span>
+0091 <span class="comment">%       [3]  Nguyen, L. H., Goulet J.-A., 2018, Anomaly detection with the</span>
+0092 <span class="comment">%       Switching Kalman Filter for structural health monitoring,</span>
+0093 <span class="comment">%       Structural Control and Health Monitoring, Vol. 25, Issue 4.</span>
+0094 <span class="comment">%</span>
+0095 <span class="comment">%   MATLAB VERSION:</span>
+0096 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0097 <span class="comment">%</span>
+0098 <span class="comment">%   DATE CREATED:</span>
+0099 <span class="comment">%       June 27, 2018</span>
+0100 <span class="comment">%</span>
+0101 <span class="comment">%   DATE LAST UPDATE:</span>
+0102 <span class="comment">%       October 30, 2018</span>
+0103 
+0104 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0105 
+0106 <span class="comment">%% Version of the program</span>
+0107 OpenBDLMversion = <span class="string">'1.0'</span>;
+0108 
+0109 <span class="comment">%% Warning if multiple conflictous installations</span>
+0110 <a href="../OpenBDLM_V1.0/functions/Others/findDuplicateInstallation.html" class="code" title="function findDuplicateInstallation">findDuplicateInstallation</a>
+0111 
+0112 <span class="comment">%% Verify that the program is running from the right location</span>
+0113 currentFolder = cd;
+0114 isFileExist  = (exist(fullfile(currentFolder, mfilename), <span class="string">'file'</span>) == 2);
+0115 
+0116 <span class="keyword">if</span> ~isFileExist
+0117     disp(<span class="string">' '</span>);
+0118     error(<span class="string">'%s is called from the wrong directory.'</span>, mfilename)
+0119 <span class="keyword">end</span>
+0120 
+0121 <span class="comment">%% Read arguments and set internal variables</span>
+0122 <span class="keyword">if</span> exist(<span class="string">'UserInput'</span>, <span class="string">'var'</span>)
+0123     [misc]=<a href="../OpenBDLM_V1.0/functions/Others/setInternalVars.html" class="code" title="function [misc]=setInternalVars(UserInput)">setInternalVars</a>(UserInput);
+0124 <span class="keyword">else</span>
+0125     [misc]=<a href="../OpenBDLM_V1.0/functions/Others/setInternalVars.html" class="code" title="function [misc]=setInternalVars(UserInput)">setInternalVars</a>();
+0126 <span class="keyword">end</span>
+0127     
+0128 <span class="keyword">if</span> isempty(misc)
+0129     disp(<span class="string">' '</span>);
+0130     error(<span class="string">'Unrecognized input argument.'</span>)
+0131 <span class="keyword">end</span>
+0132 
+0133 <span class="comment">%% Create log file to record messages during program run</span>
+0134 [misc] = <a href="../OpenBDLM_V1.0/functions/Others/createLogFile.html" class="code" title="function [misc]=createLogFile(misc)">createLogFile</a>(misc);
+0135 
+0136 <span class="comment">%% Set default options</span>
+0137 [misc]=<a href="../OpenBDLM_V1.0/functions/Others/setDefaultOptions.html" class="code" title="function [misc]=setDefaultOptions(misc)">setDefaultOptions</a>(misc);
+0138 
+0139 <span class="keyword">if</span> misc.internalVars.isQuiet
+0140     <span class="comment">% output messages in  a specific log file</span>
+0141     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0142 <span class="keyword">else</span>
+0143     <span class="comment">% output message on screen</span>
+0144     fileID=1;
+0145 <span class="keyword">end</span>
+0146 
+0147 <span class="keyword">if</span> misc.internalVars.InteractiveMode.isInteractiveMode || <span class="keyword">...</span>
+0148         misc.internalVars.BatchMode.isBatchMode
+0149     
+0150     <span class="comment">%Set default font type</span>
+0151     set(0,<span class="string">'DefaultAxesFontname'</span>,<span class="string">'Helvetica'</span>)
+0152     <span class="comment">%Set default font size</span>
+0153     set(0,<span class="string">'DefaultAxesFontSize'</span>,20)
+0154     <span class="comment">%Set display format</span>
+0155     format short g
+0156     
+0157     <span class="comment">%% Display welcome menu</span>
+0158     <a href="../OpenBDLM_V1.0/functions/Others/welcomeOpenBDLM.html" class="code" title="function welcomeOpenBDLM(misc, varargin)">welcomeOpenBDLM</a>(misc, <span class="string">'version'</span>, OpenBDLMversion)
+0159     incTest=0;
+0160     MaxFailAttempts = 4;
+0161     
+0162     isAnswerCorrect = false;
+0163     <span class="keyword">while</span> ~isAnswerCorrect
+0164         
+0165         incTest=incTest+1;
+0166         <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0167                 <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0168         
+0169         fprintf(fileID, <span class="string">'\n'</span>);
+0170         fprintf(fileID,<span class="string">'- Start a new project: \n'</span>);
+0171         fprintf(fileID, <span class="string">'\n'</span>);
+0172         fprintf(fileID,[<span class="string">'     *      '</span>, <span class="keyword">...</span>
+0173             <span class="string">'Enter a configuration filename \n'</span>]);
+0174         fprintf(fileID, <span class="string">'     0   -&gt; Interactive tool \n'</span>);
+0175         fprintf(fileID, <span class="string">'\n'</span>);
+0176         
+0177         <span class="comment">%% Display existing &amp; saved projects</span>
+0178         [~] = <a href="../OpenBDLM_V1.0/functions/Others/displayProjects.html" class="code" title="function [ProjectInfo]=displayProjects(misc)">displayProjects</a>(misc);
+0179         
+0180         fprintf(fileID, [<span class="string">'- Type D to Delete project(s), '</span>, <span class="keyword">...</span>
+0181             <span class="string">'V for Version control, Q to Quit.\n'</span>]);
+0182         <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0183             UserChoice= <span class="keyword">...</span>
+0184                 eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0185                 misc.internalVars.BatchMode.AnswerIndex}));
+0186             UserChoice = num2str(UserChoice);
+0187             <span class="keyword">if</span> ischar(UserChoice)
+0188                 fprintf(fileID, <span class="string">'     %s  \n'</span>, UserChoice);
+0189             <span class="keyword">else</span>
+0190                 fprintf(fileID, <span class="string">'     %s  \n'</span>, num2str(UserChoice));
+0191             <span class="keyword">end</span>
+0192         <span class="keyword">else</span>
+0193             fprintf(fileID,<span class="string">'\n'</span>);
+0194             UserChoice = input(<span class="string">'     choice &gt;&gt; '</span>, <span class="string">'s'</span>);
+0195         <span class="keyword">end</span>
+0196         fprintf(fileID,<span class="string">'\n'</span>);
+0197         
+0198         <span class="comment">% Remove space and quotes</span>
+0199         UserChoice=strrep(UserChoice,<span class="string">''''</span>,<span class="string">''</span>); <span class="comment">% remove quotes</span>
+0200         UserChoice=strrep(UserChoice,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0201         UserChoice=strrep(UserChoice, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0202         
+0203         <span class="keyword">if</span> isempty(UserChoice)
+0204             <span class="keyword">continue</span>
+0205         <span class="keyword">elseif</span> isnan(str2double(UserChoice))
+0206             
+0207             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0208                 misc.internalVars.BatchMode.AnswerIndex+1;
+0209             
+0210             <span class="keyword">if</span> strcmpi(<span class="string">'D'</span>,UserChoice) &amp;&amp; length(UserChoice) == 1
+0211                 <span class="comment">%% Delete project file(s)</span>
+0212                 <a href="../OpenBDLM_V1.0/functions/Others/piloteDeleteProject.html" class="code" title="function piloteDeleteProject(misc)">piloteDeleteProject</a>(misc)
+0213                 incTest=0;
+0214                 <span class="keyword">continue</span>
+0215                 
+0216             <span class="keyword">elseif</span> strcmpi(<span class="string">'V'</span>, UserChoice) &amp;&amp; length(UserChoice) == 1
+0217                 <span class="comment">%% Version control</span>
+0218                 <a href="../OpenBDLM_V1.0/functions/VersionControl/piloteVersionControl.html" class="code" title="function piloteVersionControl(misc)">piloteVersionControl</a>(misc)
+0219                 data=struct; model=struct; estimation=struct; misc=struct;
+0220                 diary off
+0221                 <span class="keyword">return</span>
+0222                 
+0223             <span class="keyword">elseif</span> strcmpi(<span class="string">'Q'</span>, UserChoice) &amp;&amp; length(UserChoice) == 1
+0224                 
+0225                 <span class="comment">%% Quit the program</span>
+0226                 disp(<span class="string">'     Done ! See you soon !'</span>);
+0227                 <span class="keyword">if</span> misc.internalVars.isQuiet
+0228                     fclose(fileID);
+0229                 <span class="keyword">else</span>
+0230                     diary off
+0231                 <span class="keyword">end</span>
+0232                 data=struct; model=struct; estimation=struct; misc=struct;
+0233                 <span class="keyword">return</span>
+0234                 
+0235             <span class="keyword">else</span>
+0236                 <span class="comment">%% Load project from configuration file</span>
+0237                 [data, model, estimation, misc]= <span class="keyword">...</span>
+0238                     <a href="../OpenBDLM_V1.0/functions/DataLoader/loadConfigurationFile.html" class="code" title="function [data, model, estimation, misc]=loadConfigurationFile(misc, ConfigFileName)">loadConfigurationFile</a>(misc, UserChoice);
+0239                 
+0240                 isAnswerCorrect = true;
+0241                 
+0242             <span class="keyword">end</span>
+0243             
+0244         <span class="keyword">elseif</span> round(str2double(UserChoice)) == 0
+0245             
+0246             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0247                 misc.internalVars.BatchMode.AnswerIndex+1;
+0248             
+0249             <span class="comment">%% Load a project from interactive mode</span>
+0250             [data, model, estimation, misc]=<a href="../OpenBDLM_V1.0/functions/Others/loadInteractive.html" class="code" title="function [data, model, estimation, misc]=loadInteractive(misc)">loadInteractive</a>(misc);
+0251             
+0252             isAnswerCorrect = true;
+0253         <span class="keyword">else</span>
+0254             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0255                 misc.internalVars.BatchMode.AnswerIndex+1;
+0256             
+0257             <span class="comment">%% Load project from project file</span>
+0258             UserChoice = round(str2double(UserChoice));
+0259             [data, model, estimation, misc]= <span class="keyword">...</span>
+0260                 <a href="../OpenBDLM_V1.0/functions/Others/loadProjectFile.html" class="code" title="function [data, model, estimation, misc]=loadProjectFile(misc, ProjectIdx)">loadProjectFile</a>(misc, UserChoice);
+0261             <span class="keyword">if</span> ~isempty(model)
+0262                 isAnswerCorrect = true;
+0263             <span class="keyword">end</span>
+0264         <span class="keyword">end</span>
+0265     <span class="keyword">end</span>
+0266     
+0267 <span class="keyword">elseif</span> misc.internalVars.ReadFromConfigFileMode.isReadFromConfigFileMode
+0268     
+0269     configFileName = <span class="keyword">...</span>
+0270         misc.internalVars.ReadFromConfigFileMode.ConfigFilename;
+0271     
+0272     <span class="comment">%% Load project from configuration file</span>
+0273     [data, model, estimation, misc]= <a href="../OpenBDLM_V1.0/functions/DataLoader/loadConfigurationFile.html" class="code" title="function [data, model, estimation, misc]=loadConfigurationFile(misc, ConfigFileName)">loadConfigurationFile</a>(misc, <span class="keyword">...</span>
+0274         configFileName);
+0275 <span class="keyword">end</span>
+0276 
+0277 incTest=0;
+0278 MaxFailAttempts = 4;
+0279 <span class="keyword">while</span>(1)
+0280     
+0281     incTest=incTest+1;
+0282     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0283             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0284     
+0285     <span class="comment">%% Display menu</span>
+0286     [PossibleAnswers]=<a href="../OpenBDLM_V1.0/functions/Others/displayMenuOpenBDLM.html" class="code" title="function [menuChoices]=displayMenuOpenBDLM(misc)">displayMenuOpenBDLM</a>(misc);
+0287     
+0288     <span class="comment">%% Read user's choice</span>
+0289     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0290         user_inputs=eval( <span class="keyword">...</span>
+0291             char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0292             misc.internalVars.BatchMode.AnswerIndex}));
+0293         user_inputs = num2str(user_inputs);
+0294         <span class="keyword">if</span> ischar(user_inputs)
+0295             fprintf(fileID, <span class="string">'     %s  \n'</span>, user_inputs);
+0296         <span class="keyword">else</span>
+0297             fprintf(fileID, <span class="string">'     %s  \n'</span>, num2str(user_inputs));
+0298         <span class="keyword">end</span>
+0299     <span class="keyword">else</span>
+0300         user_inputs = input(<span class="string">'     choice &gt;&gt; '</span>, <span class="string">'s'</span>);
+0301     <span class="keyword">end</span>
+0302     
+0303     <span class="comment">% Remove space and quotes</span>
+0304     user_inputs=strrep(user_inputs,<span class="string">''''</span>,<span class="string">''</span>); <span class="comment">% remove quotes</span>
+0305     user_inputs=strrep(user_inputs,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0306     user_inputs=strrep(user_inputs, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0307     
+0308     
+0309     <span class="keyword">if</span> isnan(str2double(user_inputs))
+0310         
+0311         <span class="keyword">if</span> strcmpi(user_inputs, <span class="string">'Q'</span>)
+0312             
+0313             <span class="comment">%% Save project and quit</span>
+0314             fprintf(fileID, <span class="string">'\n'</span>);
+0315             <a href="../OpenBDLM_V1.0/functions/Others/saveProject.html" class="code" title="function saveProject(model, estimation, misc, varargin)">saveProject</a>(model, estimation, misc, <span class="keyword">...</span>
+0316                 <span class="string">'FilePath'</span>, misc.internalVars.ProjectPath)
+0317             [misc]=<a href="../OpenBDLM_V1.0/functions/Others/saveResultsMAT.html" class="code" title="function [misc]=saveResultsMAT(data, model, estimation, misc, varargin)">saveResultsMAT</a>(data, model, estimation, <span class="keyword">...</span>
+0318                 misc, <span class="string">'FilePath'</span>, misc.internalVars.ResultsPath, <span class="keyword">...</span>
+0319                 <span class="string">'isForceOverwrite'</span>, true);
+0320             fprintf(fileID, <span class="string">'\n'</span>);
+0321             disp(<span class="string">'     Done ! See you soon !'</span>);
+0322             <span class="keyword">if</span> misc.internalVars.isQuiet
+0323                 fclose(fileID);
+0324             <span class="keyword">else</span>
+0325                 diary off
+0326             <span class="keyword">end</span>
+0327             <span class="keyword">return</span>
+0328         <span class="keyword">else</span>
+0329             fprintf(fileID, <span class="string">'\n'</span>);
+0330             fprintf(fileID, <span class="string">'     wrong input \n'</span>);
+0331             <span class="keyword">continue</span>
+0332         <span class="keyword">end</span>
+0333     <span class="keyword">elseif</span> ~ischar(user_inputs) &amp;&amp; <span class="keyword">...</span>
+0334             ~any(ismember(PossibleAnswers, user_inputs ))
+0335         fprintf(fileID, <span class="string">'\n'</span>);
+0336         fprintf(fileID, <span class="string">'     wrong input \n'</span>);
+0337         <span class="keyword">continue</span>
+0338         
+0339     <span class="keyword">else</span>
+0340         misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0341             misc.internalVars.BatchMode.AnswerIndex+1;
+0342         
+0343         user_inputs = round(str2double(user_inputs));
+0344         
+0345         <span class="keyword">if</span>  user_inputs==1
+0346             <span class="comment">%% Learn model parameters</span>
+0347             [data, model, estimation, misc]= <span class="keyword">...</span>
+0348                 <a href="../OpenBDLM_V1.0/functions/ModelParametersLearning/piloteOptimization.html" class="code" title="function [data, model, estimation, misc]=piloteOptimization(data, model, estimation, misc)">piloteOptimization</a>(data, model, estimation, misc);
+0349             incTest=0;
+0350         <span class="keyword">elseif</span>  user_inputs==2
+0351             <span class="comment">%% Initial hidden states estimation</span>
+0352             [data, model, estimation, misc]= <span class="keyword">...</span>
+0353                 <a href="../OpenBDLM_V1.0/functions/StateEstimation/piloteInitialStateEstimation.html" class="code" title="function [data, model, estimation, misc]=piloteInitialStateEstimation(data, model, estimation, misc)">piloteInitialStateEstimation</a>(data, model, estimation, misc);
+0354             incTest=0;
+0355         <span class="keyword">elseif</span>  user_inputs==3
+0356             <span class="comment">%% Hidden states estimation</span>
+0357             [data, model, estimation, misc]= <span class="keyword">...</span>
+0358                 <a href="../OpenBDLM_V1.0/functions/StateEstimation/piloteStateEstimation.html" class="code" title="function [data, model, estimation, misc]=piloteStateEstimation(data, model, estimation, misc)">piloteStateEstimation</a>(data, model, estimation, misc);
+0359             incTest=0;
+0360         <span class="keyword">elseif</span>  user_inputs==11
+0361             <span class="comment">%% Modify model parameters</span>
+0362             [model, misc]= <span class="keyword">...</span>
+0363                 <a href="../OpenBDLM_V1.0/functions/ModelParametersLearning/piloteModifyModelParameters.html" class="code" title="function [model, misc]=piloteModifyModelParameters(data, model, estimation, misc)">piloteModifyModelParameters</a>(data, model, estimation, misc);
+0364             incTest=0;
+0365         <span class="keyword">elseif</span>  user_inputs==12
+0366             <span class="comment">%% Modify initial hidden states</span>
+0367             [model, misc]= <span class="keyword">...</span>
+0368                 <a href="../OpenBDLM_V1.0/functions/StateEstimation/piloteModifyInitialStates.html" class="code" title="function [model, misc]=piloteModifyInitialStates(data, model, estimation, misc)">piloteModifyInitialStates</a>(data, model, estimation, misc);
+0369             incTest=0;
+0370         <span class="keyword">elseif</span>  user_inputs==13
+0371             <span class="comment">%% Modify training period</span>
+0372             [misc]=<a href="../OpenBDLM_V1.0/functions/ModelParametersLearning/piloteModifyTrainingPeriod.html" class="code" title="function [misc]=piloteModifyTrainingPeriod(data, model, estimation, misc)">piloteModifyTrainingPeriod</a>(data, model, estimation, misc);
+0373             incTest=0;
+0374         <span class="keyword">elseif</span>  user_inputs==14
+0375             <span class="comment">%% Plot tools</span>
+0376             [misc] = <a href="../OpenBDLM_V1.0/functions/VisualizationTools/pilotePlot.html" class="code" title="function [misc] = pilotePlot(data, model, estimation, misc)">pilotePlot</a>(data, model, estimation, misc);
+0377             incTest=0;
+0378         <span class="keyword">elseif</span>  user_inputs==15
+0379             <span class="comment">%% Display model matrices</span>
+0380             <a href="../OpenBDLM_V1.0/functions/Others/piloteDisplayModelMatrices.html" class="code" title="function piloteDisplayModelMatrices(data, model, estimation, misc)">piloteDisplayModelMatrices</a>(data, model, estimation, misc)
+0381             incTest=0;
+0382         <span class="keyword">elseif</span>  user_inputs==16
+0383             <span class="comment">%% Create synthetic data</span>
+0384             [data, model, estimation, misc]= <span class="keyword">...</span>
+0385                 <a href="../OpenBDLM_V1.0/functions/DataSimulation/piloteSimulateData.html" class="code" title="function [data, model, estimation, misc]=piloteSimulateData(data, model,estimation, misc)">piloteSimulateData</a>(data, model, estimation, misc);
+0386             incTest=0;
+0387         <span class="keyword">elseif</span>  user_inputs==17
+0388             <span class="comment">%% Export</span>
+0389             [misc] = <a href="../OpenBDLM_V1.0/functions/Others/piloteExport.html" class="code" title="function [misc]=piloteExport(data, model, estimation, misc)">piloteExport</a>(data, model, estimation, misc);
+0390             incTest=0;
+0391         <span class="keyword">elseif</span>  user_inputs==18
+0392             <span class="comment">%% Export current options in a configuration file format</span>
+0393             [misc] = <a href="../OpenBDLM_V1.0/functions/Others/printOptions.html" class="code" title="function [misc]=printOptions(misc)">printOptions</a>(misc);
+0394             incTest=0;
+0395         <span class="keyword">else</span>
+0396             disp(<span class="string">' '</span>)
+0397             disp(<span class="string">'      wrong input'</span>)
+0398         <span class="keyword">end</span>
+0399         
+0400     <span class="keyword">end</span>
+0401     
+0402 <span class="keyword">end</span>
+0403 
+0404 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of convertMAT2CSV</title>
+  <meta name="keywords" content="convertMAT2CSV">
+  <meta name="description" content="CONVERTMAT2CSV Convert a OpenBDLM DATA_*.mat file to OpenBDLM CSV file(s)">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; convertMAT2CSV.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>convertMAT2CSV
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>CONVERTMAT2CSV Convert a OpenBDLM DATA_*.mat file to OpenBDLM CSV file(s)</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function convertMAT2CSV(FileName, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">CONVERTMAT2CSV Convert a OpenBDLM DATA_*.mat file to OpenBDLM CSV file(s)
+
+   SYNOPSIS:
+     CONVERTMAT2CSV(FileName, varargin)
+
+   INPUT:
+      FileName    - character (required)
+                    name of a OpenBDLM DATA_*.mat file
+
+      FilePath    - character (optional)
+                    directory where to save the CSV files
+                    default: '.'  (current folder)
+
+   OUTPUT:
+      CSV file created in FilePath
+
+   DESCRIPTION:
+      CONVERTMAT2CSV converts DATA_*.mat to CSV files
+      CSV files are saved in FilePath/ProjectName/
+      ProjectName are taken from FileName, assuming that FileName =
+      'DATA_ProjectName.mat'
+
+
+   EXAMPLES:
+      convertMAT2CSV('DATA_TEST.mat')
+      convertMAT2CSV('DATA_TEST.mat', 'FilePath', '/data/csv')
+
+   EXTERNAL FUNCTIONS CALLED:
+      verificationDataStructure
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also VERIFICATIONDATASTRUCTURE</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/DataLoader/verificationDataStructure.html" class="code" title="function [isValid]=verificationDataStructure(data)">verificationDataStructure</a>	VERIFICATIONDATASTRUCTURE Verify formatting of data structure</li><li><a href="incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">incrementFilename</a>	INCREMENTFILENAME Increment filename to prevent overwriting</li><li><a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function convertMAT2CSV(FileName, varargin)</a>
+0002 <span class="comment">%CONVERTMAT2CSV Convert a OpenBDLM DATA_*.mat file to OpenBDLM CSV file(s)</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     CONVERTMAT2CSV(FileName, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      FileName    - character (required)</span>
+0009 <span class="comment">%                    name of a OpenBDLM DATA_*.mat file</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%      FilePath    - character (optional)</span>
+0012 <span class="comment">%                    directory where to save the CSV files</span>
+0013 <span class="comment">%                    default: '.'  (current folder)</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   OUTPUT:</span>
+0016 <span class="comment">%      CSV file created in FilePath</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   DESCRIPTION:</span>
+0019 <span class="comment">%      CONVERTMAT2CSV converts DATA_*.mat to CSV files</span>
+0020 <span class="comment">%      CSV files are saved in FilePath/ProjectName/</span>
+0021 <span class="comment">%      ProjectName are taken from FileName, assuming that FileName =</span>
+0022 <span class="comment">%      'DATA_ProjectName.mat'</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%   EXAMPLES:</span>
+0026 <span class="comment">%      convertMAT2CSV('DATA_TEST.mat')</span>
+0027 <span class="comment">%      convertMAT2CSV('DATA_TEST.mat', 'FilePath', '/data/csv')</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0030 <span class="comment">%      verificationDataStructure</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   SUBFUNCTIONS:</span>
+0033 <span class="comment">%      N/A</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   See also VERIFICATIONDATASTRUCTURE</span>
+0036 
+0037 <span class="comment">%   AUTHORS:</span>
+0038 <span class="comment">%        Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0041 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">%   MATLAB VERSION:</span>
+0044 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   DATE CREATED:</span>
+0047 <span class="comment">%       December 4, 2018</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   DATE LAST UPDATE:</span>
+0050 <span class="comment">%       December 4, 2018</span>
+0051 
+0052 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0053 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0054 p = inputParser;
+0055 
+0056 defaultFilePath = <span class="string">'.'</span>;
+0057 validationFct_FilePath = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0058     ~isempty(x(~isspace(x)));
+0059 
+0060 addRequired(p,<span class="string">'FileName'</span>, validationFct_FilePath );
+0061 addParameter(p,<span class="string">'FilePath'</span>, defaultFilePath, validationFct_FilePath );
+0062 parse(p,FileName, varargin{:});
+0063 
+0064 FileName=p.Results.FileName;
+0065 FilePath=p.Results.FilePath;
+0066 
+0067 <span class="comment">%% Test the file existence</span>
+0068 [isFileExist]=<a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FileName, <span class="string">'file'</span>);
+0069 
+0070 <span class="keyword">if</span> ~isFileExist
+0071     error(<span class="string">'The file %s is not found'</span>, FileName)
+0072 <span class="keyword">end</span>
+0073 
+0074 <span class="comment">%% Create the output directory</span>
+0075 
+0076 <span class="comment">% Try to catch the name from the file</span>
+0077 [~,name,~] = fileparts(FileName);
+0078 
+0079 namesplit=strsplit(name, <span class="string">'_'</span>);
+0080 
+0081 <span class="keyword">if</span> length(namesplit) == 1 || length(namesplit) &gt; 2
+0082     [name_datadir] = <a href="incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">incrementFilename</a>(<span class="string">'data_new'</span>, FilePath);
+0083 <span class="keyword">else</span>
+0084     name_datadir = namesplit{2};
+0085     fullname=fullfile(FilePath, name_datadir);
+0086     [isFileExist] = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(fullname, <span class="string">'dir'</span>);
+0087     
+0088     <span class="keyword">if</span> isFileExist
+0089         isAnswerCorrect = false;
+0090         <span class="keyword">while</span> ~isAnswerCorrect
+0091             disp([<span class="string">'     Directory '</span>, name_datadir , <span class="string">' already exists. '</span> <span class="keyword">...</span>
+0092                 <span class="string">'Overwrite ? (y/n)'</span>]);
+0093             choice = input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0094             <span class="comment">% Remove space and quotes</span>
+0095             choice=strrep(choice,<span class="string">''''</span>,<span class="string">''</span> ); <span class="comment">% remove quotes</span>
+0096             choice=strrep(choice,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0097             choice=strrep(choice, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0098             
+0099             <span class="keyword">if</span> isempty(choice)
+0100                 disp(<span class="string">' '</span>)
+0101                 disp(<span class="string">'     wrong input'</span>)
+0102                 disp(<span class="string">' '</span>)
+0103                 <span class="keyword">continue</span>
+0104             <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'y'</span>) || strcmpi(choice,<span class="string">'yes'</span>)
+0105                 isAnswerCorrect =  true;
+0106             <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'n'</span>) || strcmpi(choice,<span class="string">'no'</span>)
+0107                 [name_datadir] = <span class="keyword">...</span>
+0108                     <a href="incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">incrementFilename</a>(<span class="string">'data_new'</span>, FilePath);
+0109                 isAnswerCorrect = true;
+0110             <span class="keyword">else</span>
+0111                 disp(<span class="string">' '</span>)
+0112                 disp(<span class="string">'     wrong input'</span>)
+0113                 disp(<span class="string">' '</span>)
+0114                 <span class="keyword">continue</span>
+0115             <span class="keyword">end</span>
+0116             
+0117         <span class="keyword">end</span>
+0118         
+0119     <span class="keyword">end</span>
+0120     
+0121 <span class="keyword">end</span>
+0122 
+0123 <span class="comment">% Create the output directory</span>
+0124 fullname=fullfile(FilePath, name_datadir);
+0125 mkdir(fullname)
+0126 addpath(fullname)
+0127 
+0128 <span class="comment">%% Load the file</span>
+0129 data=load(FileName);
+0130 
+0131 <span class="comment">% Validation of structure data</span>
+0132 isValid = <a href="../../../OpenBDLM_V1.0/functions/DataLoader/verificationDataStructure.html" class="code" title="function [isValid]=verificationDataStructure(data)">verificationDataStructure</a>(data);
+0133 <span class="keyword">if</span> ~isValid
+0134     disp(<span class="string">' '</span>)
+0135     error(<span class="string">'Unable to read the data from the structure.'</span>);
+0136 <span class="keyword">end</span>
+0137 
+0138 disp(<span class="string">'     Converting MAT to CSV format ...'</span>)
+0139 
+0140 <span class="comment">%% Save CSV files in specified location</span>
+0141 <span class="comment">% Get number of time series</span>
+0142 numberOfTimeSeries=size(data.values,2);
+0143 <span class="comment">% Loop over each time series</span>
+0144 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0145     <span class="comment">% Get serial number corresponding to the first timestamp for this time</span>
+0146     <span class="comment">% series</span>
+0147     first_timestamps=data.timestamps(1);
+0148     <span class="comment">% Convert the serial date to string date</span>
+0149     date_str=datestr(first_timestamps, <span class="string">'yyyy-mm-dd-HH:MM:SS'</span>);
+0150     
+0151     <span class="comment">% define the filename based on time series reference name</span>
+0152     sensor_name=data.labels{i};
+0153     file_name = fullfile(fullname , <span class="keyword">...</span>
+0154         [name_datadir, <span class="string">'_'</span> sensor_name, <span class="string">'.csv'</span> ]);
+0155     
+0156     <span class="comment">%create/open csv file</span>
+0157     fid = fopen(file_name, <span class="string">'w'</span>);
+0158     <span class="comment">% write csv header</span>
+0159     fprintf(fid, <span class="string">'%s \n'</span>, [ sensor_name <span class="string">', '''</span> date_str <span class="string">''''</span>]) ;
+0160     <span class="comment">% write timestamps, amplitude values in csv file</span>
+0161     dlmwrite( file_name, [data.timestamps(:) data.values(:,i)] , <span class="keyword">...</span>
+0162         <span class="string">'-append'</span>, <span class="string">'precision'</span>,<span class="string">'%f'</span>);
+0163     <span class="comment">% close file</span>
+0164     fclose(fid);
+0165 <span class="keyword">end</span>
+0166 disp([<span class="string">'     CSV file(s) saved in '</span>, fullname]);
+0167 disp(<span class="string">' '</span>)
+0168 <span class="comment">%--------------------END CODE ------------------------</span>
+0169 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

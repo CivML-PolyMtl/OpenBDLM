@@ -1,0 +1,552 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of printConfigurationFile</title>
+  <meta name="keywords" content="printConfigurationFile">
+  <meta name="description" content="PRINTCONFIGURATIONFILE Create and print a configuration file from project">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; printConfigurationFile.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>printConfigurationFile
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>PRINTCONFIGURATIONFILE Create and print a configuration file from project</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [configFilename] = printConfigurationFile(data, model, estimation, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PRINTCONFIGURATIONFILE Create and print a configuration file from project
+
+   SYNOPSIS:
+     [configconfigFilename] = PRINTCONFIGURATIONFILE(data, model, estimation, misc, varargin)
+
+   INPUT:
+      data                   - structure (required)
+                               see documentation for details about the fields
+                               of data
+
+      model                  - structure (required)
+                               see documentation for details about the fields
+                               of model
+
+      estimation             - structure (required)
+                               see documentation for details about the fields
+                               of estimation
+
+      misc                   - structure (required)
+                               see documentation for details about the fields
+                               of misc
+
+      FilePath               - character (optional)
+                               directory in which to save the file
+                               default : &quot;.&quot; (current folder)
+
+   OUTPUT:
+      data                   - structure
+                               see documentation for details about the fields
+                               of data
+
+      model                  - structure
+                               see documentation for details about the fields
+                               of model
+
+      estimation             - structure
+                               see documentation for details about the fields
+                               of estimation
+
+      misc                   - structure
+                               see documentation for details about the fields
+                               of misc
+
+      configconfigFilename         - character
+                               name of the printed configuration file
+
+   DESCRIPTION:
+      PRINTCONFIGURATIONFILE creates a configuration file in the directory
+      specified by &quot;Filepath&quot;
+      Important : PRINTCONFIGURATIONFILE overwrites previous file with
+      same name without notification
+
+   EXAMPLES:
+      [configconfigFilename] = PRINTCONFIGURATIONFILE(data, model, estimation, misc)
+      [configconfigFilename] = ]PRINTCONFIGURATIONFILE(data, model, estimation, misc, 'FilePath', 'config_files')
+
+   EXTERNAL FUNCTIONS CALLED:
+      N/A
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">incrementFilename</a>	INCREMENTFILENAME Increment filename to prevent overwriting</li><li><a href="saveDataBinary.html" class="code" title="function [misc, dataFilename] = saveDataBinary(data, misc, varargin)">saveDataBinary</a>	SAVEDATABINARY Save data in a binary Matlab .mat file</li><li><a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>	TESTFILEEXISTENCE Test existence of a file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="loadInteractive.html" class="code" title="function [data, model, estimation, misc]=loadInteractive(misc)">loadInteractive</a>	LOADINTERACTIVE Load a new project using interactive mode</li><li><a href="piloteExport.html" class="code" title="function [misc]=piloteExport(data, model, estimation, misc)">piloteExport</a>	PILOTEEXPORT Pilote function to export data, estimations and project</li><li><a href="pilotePrintConfigurationFile.html" class="code" title="function pilotePrintConfigurationFile(data, model, estimation, misc)">pilotePrintConfigurationFile</a>	PILOTEPRINTCONFIGURATIONFILE Pilote function to print configuration file</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [configFilename] = printConfigurationFile(data, model, estimation, misc, varargin)</a>
+0002 <span class="comment">%PRINTCONFIGURATIONFILE Create and print a configuration file from project</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [configconfigFilename] = PRINTCONFIGURATIONFILE(data, model, estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data                   - structure (required)</span>
+0009 <span class="comment">%                               see documentation for details about the fields</span>
+0010 <span class="comment">%                               of data</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      model                  - structure (required)</span>
+0013 <span class="comment">%                               see documentation for details about the fields</span>
+0014 <span class="comment">%                               of model</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%      estimation             - structure (required)</span>
+0017 <span class="comment">%                               see documentation for details about the fields</span>
+0018 <span class="comment">%                               of estimation</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%      misc                   - structure (required)</span>
+0021 <span class="comment">%                               see documentation for details about the fields</span>
+0022 <span class="comment">%                               of misc</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%      FilePath               - character (optional)</span>
+0025 <span class="comment">%                               directory in which to save the file</span>
+0026 <span class="comment">%                               default : &quot;.&quot; (current folder)</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%   OUTPUT:</span>
+0029 <span class="comment">%      data                   - structure</span>
+0030 <span class="comment">%                               see documentation for details about the fields</span>
+0031 <span class="comment">%                               of data</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%      model                  - structure</span>
+0034 <span class="comment">%                               see documentation for details about the fields</span>
+0035 <span class="comment">%                               of model</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">%      estimation             - structure</span>
+0038 <span class="comment">%                               see documentation for details about the fields</span>
+0039 <span class="comment">%                               of estimation</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%      misc                   - structure</span>
+0042 <span class="comment">%                               see documentation for details about the fields</span>
+0043 <span class="comment">%                               of misc</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">%      configconfigFilename         - character</span>
+0046 <span class="comment">%                               name of the printed configuration file</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   DESCRIPTION:</span>
+0049 <span class="comment">%      PRINTCONFIGURATIONFILE creates a configuration file in the directory</span>
+0050 <span class="comment">%      specified by &quot;Filepath&quot;</span>
+0051 <span class="comment">%      Important : PRINTCONFIGURATIONFILE overwrites previous file with</span>
+0052 <span class="comment">%      same name without notification</span>
+0053 <span class="comment">%</span>
+0054 <span class="comment">%   EXAMPLES:</span>
+0055 <span class="comment">%      [configconfigFilename] = PRINTCONFIGURATIONFILE(data, model, estimation, misc)</span>
+0056 <span class="comment">%      [configconfigFilename] = ]PRINTCONFIGURATIONFILE(data, model, estimation, misc, 'FilePath', 'config_files')</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0059 <span class="comment">%      N/A</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">%   SUBFUNCTIONS:</span>
+0062 <span class="comment">%      N/A</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%   See also</span>
+0065 
+0066 <span class="comment">%   AUTHORS:</span>
+0067 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0068 <span class="comment">%</span>
+0069 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0070 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0071 <span class="comment">%</span>
+0072 <span class="comment">%   MATLAB VERSION:</span>
+0073 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">%   DATE CREATED:</span>
+0076 <span class="comment">%       April 26, 2018</span>
+0077 <span class="comment">%</span>
+0078 <span class="comment">%   DATE LAST UPDATE:</span>
+0079 <span class="comment">%       August 20, 2018</span>
+0080 
+0081 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0082 
+0083 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0084 p = inputParser;
+0085 
+0086 validationFct_FilePath = @(x) ischar(x) &amp;&amp; <span class="keyword">...</span>
+0087     ~isempty(x(~isspace(x)));
+0088 
+0089 defaultFilePath = <span class="string">'.'</span>;
+0090 
+0091 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0092 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0093 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0094 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0095 addParameter(p,<span class="string">'FilePath'</span>, defaultFilePath, validationFct_FilePath );
+0096 parse(p,data, model, estimation, misc, varargin{:});
+0097 
+0098 data=p.Results.data;
+0099 model=p.Results.model;
+0100 <span class="comment">%estimation=p.Results.estimation;</span>
+0101 misc=p.Results.misc;
+0102 FilePath=p.Results.FilePath;
+0103 
+0104 DataPath = misc.internalVars.DataPath;
+0105 
+0106 <span class="comment">% Set fileID for logfile</span>
+0107 <span class="keyword">if</span> misc.internalVars.isQuiet
+0108     <span class="comment">% output message in logfile</span>
+0109     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0110 <span class="keyword">else</span>
+0111     <span class="comment">% output message on screen and logfile using diary command</span>
+0112     fileID=1;
+0113 <span class="keyword">end</span>
+0114 
+0115 <span class="comment">%% Create specified path if not existing</span>
+0116 [isFileExist] = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(FilePath, <span class="string">'dir'</span>);
+0117 <span class="keyword">if</span> ~isFileExist
+0118     <span class="comment">% create directory</span>
+0119     mkdir(FilePath)
+0120     <span class="comment">% set directory on path</span>
+0121     addpath(FilePath)
+0122 <span class="keyword">end</span>
+0123 
+0124 
+0125 disp(<span class="string">'     Printing configuration file...'</span>)
+0126 
+0127 <span class="comment">%% Gather information</span>
+0128 <span class="comment">%Get project name</span>
+0129 ProjectName = misc.ProjectName;
+0130 <span class="comment">% Get number of model class</span>
+0131 nb_models = model.nb_class;
+0132 <span class="comment">% Get number of time series</span>
+0133 numberOfTimeSeries = length(data.labels);
+0134 <span class="comment">% Get training period</span>
+0135 trainingPeriod = misc.options.trainingPeriod;
+0136 <span class="comment">% Get labels</span>
+0137 labels = data.labels;
+0138 
+0139 
+0140 <span class="comment">% Save data</span>
+0141 [misc, dataFilename] = <a href="saveDataBinary.html" class="code" title="function [misc, dataFilename] = saveDataBinary(data, misc, varargin)">saveDataBinary</a>(data, misc, <span class="string">'FilePath'</span>, DataPath, <span class="keyword">...</span>
+0142     <span class="string">'isForceOverwrite'</span>, true);
+0143 
+0144 <span class="comment">% Get config filename</span>
+0145 configFilename = fullfile(FilePath, [<span class="string">'CFG_'</span>, ProjectName, <span class="string">'.m'</span>] );
+0146 
+0147 [isFileExist] = <a href="testFileExistence.html" class="code" title="function [isFileExist]=testFileExistence(FileName, FileType)">testFileExistence</a>(configFilename, <span class="string">'file'</span>);
+0148 
+0149 <span class="keyword">if</span> isFileExist
+0150     isAnswerCorrect = false;
+0151     <span class="keyword">while</span> ~isAnswerCorrect
+0152         disp([<span class="string">'     Configuration file '</span>, <span class="keyword">...</span>
+0153             <span class="string">'name '</span>, [<span class="string">'CFG_'</span>, ProjectName, <span class="string">'.m'</span>] ,<span class="string">' already exists. '</span> <span class="keyword">...</span>
+0154             <span class="string">'Overwrite ? (y/n)'</span>]);
+0155         choice = input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0156         <span class="comment">% Remove space and quotes</span>
+0157         choice=strrep(choice,<span class="string">''''</span>,<span class="string">''</span> ); <span class="comment">% remove quotes</span>
+0158         choice=strrep(choice,<span class="string">'&quot;'</span>,<span class="string">''</span> ); <span class="comment">% remove double quotes</span>
+0159         choice=strrep(choice, <span class="string">' '</span>,<span class="string">''</span> ); <span class="comment">% remove spaces</span>
+0160         
+0161         <span class="keyword">if</span> isempty(choice)
+0162             disp(<span class="string">' '</span>)
+0163             disp(<span class="string">'     wrong input'</span>)
+0164             disp(<span class="string">' '</span>)
+0165             <span class="keyword">continue</span>
+0166         <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'y'</span>) || strcmpi(choice,<span class="string">'yes'</span>)
+0167             configFilename = fullfile(FilePath, [<span class="string">'CFG_'</span> ProjectName <span class="string">'.m'</span>]);
+0168             isAnswerCorrect =  true;
+0169         <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'n'</span>) || strcmpi(choice,<span class="string">'no'</span>)
+0170             [name]=<a href="incrementFilename.html" class="code" title="function [filename]=incrementFilename(ReferenceName, FilePath, varargin)">incrementFilename</a>(<span class="string">'CFG_new'</span>, <span class="keyword">...</span>
+0171                 <span class="string">'config_files'</span>, <span class="string">'FileExtension'</span>, <span class="string">'m'</span>);
+0172             configFilename = fullfile(FilePath, name);
+0173             isAnswerCorrect = true;
+0174         <span class="keyword">else</span>
+0175             disp(<span class="string">' '</span>)
+0176             disp(<span class="string">'     wrong input'</span>)
+0177             disp(<span class="string">' '</span>)
+0178             <span class="keyword">continue</span>
+0179         <span class="keyword">end</span>
+0180         
+0181     <span class="keyword">end</span>
+0182 <span class="keyword">else</span>
+0183     configFilename = fullfile(FilePath, [<span class="string">'CFG_'</span> ProjectName <span class="string">'.m'</span>]);
+0184 <span class="keyword">end</span>
+0185 
+0186 <span class="comment">%% Create configuration file</span>
+0187 
+0188 <span class="comment">%% Print header</span>
+0189 ConfigFileTitle = <span class="string">'OpenBDLM configuration file'</span>;
+0190 Autogen_str = [<span class="string">'Autogenerated by OpenBDLM on '</span>, datestr(now) ];
+0191 nshift_1 = 20;
+0192 nshift_2 = 10;
+0193 
+0194 fileID_CFG=fopen(configFilename,<span class="string">'w'</span>);
+0195 
+0196 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0197 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0198 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,1), repmat(<span class="string">' '</span>,1,nshift_1), <span class="keyword">...</span>
+0199     ConfigFileTitle, repmat(<span class="string">' '</span>,1,75-(length(ConfigFileTitle)+2+nshift_1)), <span class="keyword">...</span>
+0200     repmat(<span class="string">'%'</span>,1,1) );
+0201 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0202 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,1), repmat(<span class="string">' '</span>,1,nshift_2), <span class="keyword">...</span>
+0203     Autogen_str, repmat(<span class="string">' '</span>,1,75-(length(Autogen_str)+2+nshift_2)), <span class="keyword">...</span>
+0204     repmat(<span class="string">'%'</span>,1,1) );
+0205 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0206 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0207 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0208 
+0209 <span class="comment">%% Print project name</span>
+0210 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0211 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0212 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0213 fprintf(fileID_CFG, <span class="string">'%%%% A - Project name\n'</span>);
+0214 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0215 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0216 fprintf(fileID_CFG,<span class="string">'misc.ProjectName=''%s'';\n'</span>,ProjectName);
+0217 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0218 
+0219 <span class="comment">%% Print data</span>
+0220 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0221 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0222 fprintf(fileID_CFG, <span class="string">'%%%% B - Data\n'</span>);
+0223 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0224 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0225 fprintf(fileID_CFG,<span class="string">'dat=load(''%s''); \n'</span>, dataFilename );
+0226 fprintf(fileID_CFG,<span class="string">'data.values=dat.values;\n'</span> );
+0227 fprintf(fileID_CFG,<span class="string">'data.timestamps=dat.timestamps;\n'</span>);
+0228 <span class="comment">%fprintf(fileID_CFG,'misc.trainingPeriod=[%d,%d];\n',trainingPeriod);</span>
+0229 fprintf(fileID_CFG,<span class="string">'data.labels={'</span>);
+0230 <span class="keyword">for</span> i=1:numberOfTimeSeries
+0231     fprintf(fileID_CFG,<span class="string">'''%s'''</span>, labels{i});
+0232     <span class="keyword">if</span> i&lt;numberOfTimeSeries&amp;&amp;numberOfTimeSeries&gt;1
+0233         fprintf(fileID_CFG,<span class="string">','</span>);
+0234     <span class="keyword">end</span>
+0235 <span class="keyword">end</span>
+0236 fprintf(fileID_CFG,<span class="string">'};\n'</span>);
+0237 fprintf(fileID_CFG,<span class="string">'\n'</span>);
+0238 <span class="comment">%% Print model structure</span>
+0239 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0240 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0241 fprintf(fileID_CFG,<span class="string">'%%%% C - Model structure \n'</span>);
+0242 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0243 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0244 fprintf(fileID_CFG,<span class="string">'%% Components reference numbers\n'</span>);
+0245 fprintf(fileID_CFG,<span class="string">'%% 11: Local level\n'</span>);
+0246 fprintf(fileID_CFG,<span class="string">'%% 12: Local trend\n'</span>);
+0247 fprintf(fileID_CFG,<span class="string">'%% 13: Local acceleration\n'</span>);
+0248 fprintf(fileID_CFG,<span class="string">'%% 21: Local level compatible with local trend\n'</span>);
+0249 fprintf(fileID_CFG,<span class="string">'%% 22: Local level compatible with local acceleration\n'</span>);
+0250 fprintf(fileID_CFG,<span class="string">'%% 23: Local trend compatible with local acceleration\n'</span>);
+0251 fprintf(fileID_CFG,<span class="string">'%% 31: Periodic\n'</span>);
+0252 fprintf(fileID_CFG,<span class="string">'%% 41: Autoregressive\n'</span>);
+0253 fprintf(fileID_CFG,<span class="string">'%% 51: Kernel regression\n'</span>);
+0254 fprintf(fileID_CFG,<span class="string">'%% 61: Level Intervention\n'</span>);
+0255 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0256 <span class="comment">% Print model components</span>
+0257 fprintf(fileID_CFG,<span class="string">'%% Model components\n'</span>);
+0258 <span class="keyword">for</span> j=1:nb_models
+0259     fprintf(fileID_CFG,<span class="string">'%% Model %s\n'</span>, num2str(j));
+0260     fprintf(fileID_CFG,<span class="string">'model.components.block{%d}={'</span>,j);
+0261     <span class="keyword">for</span> i=1:numberOfTimeSeries
+0262         fprintf(fileID_CFG,<span class="string">'['</span>);
+0263         fprintf(fileID_CFG,<span class="string">'%d '</span>,model.components.block{j}{i});
+0264         fprintf(fileID_CFG,<span class="string">'] '</span>);
+0265     <span class="keyword">end</span>
+0266     fprintf(fileID_CFG,<span class="string">'};\n'</span>);
+0267 <span class="keyword">end</span>
+0268 fprintf(fileID_CFG,<span class="string">'\n'</span>);
+0269 <span class="comment">% Print model components constraints</span>
+0270 fprintf(fileID_CFG,[<span class="string">'%% Model component constrains | Take the same '</span><span class="keyword">...</span>
+0271     <span class="string">' parameter as model class #1\n'</span>]);
+0272 <span class="keyword">for</span> j=2:nb_models
+0273     fprintf(fileID_CFG,<span class="string">'model.components.const{%d}={'</span>,j);
+0274     <span class="keyword">for</span> i=1:numberOfTimeSeries
+0275         fprintf(fileID_CFG,<span class="string">'['</span>);
+0276         fprintf(fileID_CFG,<span class="string">'%d '</span>,model.components.const{j}{i});
+0277         fprintf(fileID_CFG,<span class="string">'] '</span>);
+0278     <span class="keyword">end</span>
+0279     fprintf(fileID_CFG,<span class="string">'};\n'</span>);
+0280 <span class="keyword">end</span>
+0281 
+0282 <span class="comment">% Print model components interdependencies</span>
+0283 fprintf(fileID_CFG,<span class="string">' \n'</span>);
+0284 fprintf(fileID_CFG,[<span class="string">'%% Model inter-components dependence | '</span> <span class="keyword">...</span>
+0285     <span class="string">'{[components form dataset_i depends on components from '</span> <span class="keyword">...</span>
+0286     <span class="string">' dataset_j]_i,[...]}\n'</span>]);
+0287 fprintf(fileID_CFG,<span class="string">'model.components.ic={'</span>);
+0288 <span class="keyword">for</span> j=1:numberOfTimeSeries
+0289     fprintf(fileID_CFG,<span class="string">'['</span>);
+0290     fprintf(fileID_CFG,<span class="string">'%d '</span>,model.components.ic{1,j});
+0291     fprintf(fileID_CFG,<span class="string">'] '</span>);
+0292 <span class="keyword">end</span>
+0293 fprintf(fileID_CFG,<span class="string">'};\n'</span>);
+0294 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0295 
+0296 <span class="comment">%% Print model parameters properties</span>
+0297 
+0298 fprintf(fileID_CFG,<span class="string">'\n'</span>);
+0299 fprintf(fileID_CFG, repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0300 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0301 fprintf(fileID_CFG, <span class="string">'%%%% D - Model parameters \n'</span>);
+0302 fprintf(fileID_CFG, repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0303 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0304 fprintf(fileID_CFG, <span class="string">'model.param_properties={\n'</span>);
+0305 format = [<span class="string">'     %-13s %-15s %-6s %-6s '</span> <span class="keyword">...</span>
+0306     <span class="string">'[%-10s],    %-10s   %-8s %-15s %-15s %-6s %-6s\n'</span>];
+0307 
+0308 fprintf(fileID_CFG, [<span class="string">'     %% #1       '</span>, <span class="keyword">...</span>
+0309     <span class="string">'    #2             #3      #4  '</span>, <span class="keyword">...</span>
+0310     <span class="string">'  #5               #6      '</span>, <span class="keyword">...</span>
+0311     <span class="string">'     #7       #8              #9    '</span>, <span class="keyword">...</span>
+0312     <span class="string">'          #10'</span>, <span class="string">'\n'</span>]);
+0313 fprintf(fileID_CFG, [<span class="string">'     %% Param name  '</span>, <span class="keyword">...</span>
+0314     <span class="string">' Block name     Model '</span>, <span class="keyword">...</span>
+0315     <span class="string">'  Obs   Bound       '</span>, <span class="keyword">...</span>
+0316     <span class="string">'     Prior        Mean     Std   '</span>, <span class="keyword">...</span>
+0317     <span class="string">'          Values          Ref'</span>, <span class="string">'\n'</span>]);
+0318 <span class="keyword">for</span> i=1:size(model.param_properties,1)
+0319     fprintf(fileID_CFG, format, <span class="keyword">...</span>
+0320         [<span class="string">''''</span>, model.param_properties{i,1},<span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0321         [<span class="string">''''</span>,model.param_properties{i,2},<span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0322         [<span class="string">''''</span>,model.param_properties{i,3}, <span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0323         [<span class="string">''''</span>, model.param_properties{i,4},<span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0324         strjoin(cellstr(num2str(model.param_properties{i,5})), <span class="keyword">...</span>
+0325         <span class="string">', '</span>), <span class="keyword">...</span>
+0326         [<span class="string">''''</span>, model.param_properties{i,6},<span class="string">''''</span>, <span class="string">','</span>], <span class="keyword">...</span>
+0327         [num2str(model.param_properties{i,7}), <span class="string">','</span>], <span class="keyword">...</span>
+0328         [num2str(model.param_properties{i,8}), <span class="string">','</span>], <span class="keyword">...</span>
+0329         [num2str(model.param_properties{i,9}), <span class="string">','</span>], <span class="keyword">...</span>
+0330         num2str(model.param_properties{i,10}), <span class="keyword">...</span>
+0331         [<span class="string">'%#'</span>, num2str(i)]);
+0332     
+0333 <span class="keyword">end</span>
+0334 fprintf(fileID_CFG, <span class="string">'};\n'</span>);
+0335 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0336 
+0337 
+0338 <span class="comment">%% Print initial states values</span>
+0339 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0340 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0341 fprintf(fileID_CFG,<span class="string">'%%%% E - Initial states values \n'</span>);
+0342 fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0343 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0344 
+0345 <span class="keyword">for</span> m=1:model.nb_class
+0346     <span class="comment">% Expected initial hidden states</span>
+0347     fprintf(fileID_CFG,[<span class="string">'%% Initial hidden states '</span>, <span class="keyword">...</span>
+0348         <span class="string">'mean for model %s:\n'</span>], num2str(m));
+0349     fprintf(fileID_CFG, <span class="string">'model.initX{ %s }=['</span>, num2str(m) );
+0350     <span class="keyword">for</span> i=1:size(model.initX{m},1)
+0351         fprintf(fileID_CFG, <span class="string">'\t%-6.3G'</span>, model.initX{m}(i,:));
+0352     <span class="keyword">end</span>
+0353     fprintf(fileID_CFG,<span class="string">']'';\n'</span>);
+0354     fprintf(fileID_CFG,<span class="string">'\n'</span>);
+0355     
+0356     <span class="comment">% Initial hidden states variance (ignore covariance)</span>
+0357     fprintf(fileID_CFG,[<span class="string">'%% Initial hidden '</span>, <span class="keyword">...</span>
+0358         <span class="string">'states variance for model %s: \n'</span>], num2str(m));
+0359     
+0360     diagV=diag(model.initV{m});
+0361     
+0362     fprintf(fileID_CFG, <span class="string">'model.initV{ %s }=diag([ '</span>, num2str(m) );
+0363     <span class="keyword">for</span> i=1:length(diagV)
+0364         fprintf(fileID_CFG, <span class="string">'\t%-6.3G'</span>, diagV(i,:));
+0365     <span class="keyword">end</span>
+0366     fprintf(fileID_CFG,<span class="string">' ]);\n'</span>);
+0367     fprintf(fileID_CFG,<span class="string">'\n'</span>);
+0368     fprintf(fileID_CFG,<span class="string">'%% Initial probability for model %s\n'</span>, num2str(m));
+0369     <span class="keyword">for</span> i=1:size(model.initS{m},1)
+0370         fprintf(fileID_CFG,<span class="string">'model.initS{%d}=[%-6.3G];\n'</span>, m, model.initS{m});
+0371     <span class="keyword">end</span>
+0372     fprintf(fileID_CFG,<span class="string">'\n'</span>);
+0373 <span class="keyword">end</span>
+0374 
+0375 <span class="comment">%% Print options</span>
+0376 fprintf(fileID_CFG, repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0377 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0378 fprintf(fileID_CFG, <span class="string">'%%%% F - Options \n'</span>);
+0379 fprintf(fileID_CFG, repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0380 fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0381 names = fieldnames(misc.options);
+0382 
+0383 <span class="keyword">for</span> i=1:length(names)
+0384     
+0385     <span class="keyword">if</span> strcmp(names{i}, <span class="string">'trainingPeriod'</span>) || <span class="keyword">...</span>
+0386             strcmp(names{i}, <span class="string">'FigurePosition'</span>)
+0387         fprintf(fileID_CFG, <span class="string">'misc.options.%s=[%s];\n'</span>, names{i},  <span class="keyword">...</span>
+0388             strjoin(cellstr(num2str(misc.options.(names{i}))),<span class="string">', '</span>));
+0389         
+0390     <span class="keyword">elseif</span> strcmp(names{i}, <span class="string">'MethodStateEstimation'</span>)
+0391         
+0392         fprintf(fileID_CFG, <span class="string">'misc.options.%s=%s;\n'</span>, <span class="keyword">...</span>
+0393             names{i}, [<span class="string">''''</span>, num2str(misc.options.(names{i})), <span class="string">''''</span>]);
+0394         
+0395     <span class="keyword">elseif</span> strcmp(names{i}, <span class="string">'Optimizer'</span>)
+0396         
+0397         fprintf(fileID_CFG, <span class="string">'misc.options.%s=%s;\n'</span>, <span class="keyword">...</span>
+0398             names{i}, [<span class="string">''''</span>, num2str(misc.options.(names{i})), <span class="string">''''</span>]);
+0399         
+0400         
+0401     <span class="keyword">elseif</span> strcmp(names{i}(1:2), <span class="string">'is'</span>)
+0402         
+0403         <span class="keyword">if</span> misc.options.(names{i})
+0404             
+0405             fprintf(fileID_CFG, <span class="string">'misc.options.%s=%s;\n'</span>, <span class="keyword">...</span>
+0406                 names{i},  <span class="string">'true'</span>);
+0407             
+0408         <span class="keyword">else</span>
+0409             fprintf(fileID_CFG, <span class="string">'misc.options.%s=%s;\n'</span>, <span class="keyword">...</span>
+0410                 names{i},  <span class="string">'false'</span>);
+0411         <span class="keyword">end</span>
+0412     <span class="keyword">else</span>
+0413         fprintf(fileID_CFG, <span class="string">'misc.options.%s=%s;\n'</span>, <span class="keyword">...</span>
+0414             names{i}, num2str(misc.options.(names{i})));
+0415     <span class="keyword">end</span>
+0416 <span class="keyword">end</span>
+0417 
+0418 
+0419 
+0420 <span class="comment">%% Print custom anomalies</span>
+0421 <span class="keyword">if</span> isfield(misc, <span class="string">'custom_anomalies'</span>)
+0422     fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0423     fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0424     fprintf(fileID_CFG,<span class="string">'%%%% Custom anomalies :\n'</span>);
+0425     fprintf(fileID_CFG,repmat(<span class="string">'%s'</span>,1,75),repmat(<span class="string">'%'</span>,1,75));
+0426     fprintf(fileID_CFG, <span class="string">'\n'</span>);
+0427     fprintf(fileID_CFG,[ <span class="keyword">...</span>
+0428         <span class="string">'misc.custom_anomalies.start_custom_anomalies=['</span> <span class="keyword">...</span>
+0429         num2str(misc.custom_anomalies.start_custom_anomalies) <span class="string">'];\n'</span>]);
+0430     fprintf(fileID_CFG,[<span class="keyword">...</span>
+0431         <span class="string">'misc.custom_anomalies.duration_custom_anomalies=['</span> <span class="keyword">...</span>
+0432         num2str(misc.custom_anomalies.duration_custom_anomalies) <span class="string">'];\n'</span>]);
+0433     fprintf(fileID_CFG,[<span class="keyword">...</span>
+0434         <span class="string">'misc.custom_anomalies.amplitude_custom_anomalies=['</span> <span class="keyword">...</span>
+0435         num2str(misc.custom_anomalies.amplitude_custom_anomalies) <span class="string">'];\n'</span>]);
+0436     fprintf(fileID_CFG,<span class="string">'\n'</span>);
+0437 <span class="keyword">end</span>
+0438 
+0439 fclose(fileID_CFG);
+0440 fprintf(fileID,<span class="string">'     Configuration file saved in %s. \n'</span>, configFilename );
+0441 
+0442 <span class="comment">%--------------------END CODE ------------------------</span>
+0443 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

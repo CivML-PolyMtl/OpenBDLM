@@ -1,0 +1,321 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of DataLoader</title>
+  <meta name="keywords" content="DataLoader">
+  <meta name="description" content="DATALOADER Create a data file">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataLoader</a> &gt; DataLoader.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/DataLoader&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>DataLoader
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>DATALOADER Create a data file</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [data, misc, dataFilename]=DataLoader(misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DATALOADER Create a data file
+
+   SYNOPSIS:
+     [data, misc, dataFilename]=DATALOADER(misc, varargin)
+
+   INPUT:
+      misc                 - structure
+                             see the documentation for details about the
+                             field in misc
+
+      FilePath             - character (optional)
+                               saving directory for data
+                               default: '.'  (current folder)
+   OUTPUT:
+       data                - structure 
+                               data must contain three fields :
+
+                               'timestamps' is a M×1 array
+
+                               'values' is a M×N array
+
+                               'labels' is a 1×N cell array
+                               each cell is a character array
+
+                               N: number of time series
+                               M: number of samples
+
+     misc                  - structure
+                             see the documentation for details about the
+                             field in misc
+
+     dataFilename          -  character
+
+   DESCRIPTION:
+      DATALOADER:
+           - loads an existing processed database (DATA_*.mat file)
+           - creates a new database (DATA_*.mat file) from .csv files
+
+   EXAMPLES:
+      [data, misc, dataFilename] = DATALOADER(misc)
+      [data, misc, dataFilename] = DATALOADER(misc, 'FilePath', 'processed_data')
+
+   EXTERNAL FUNCTIONS CALLED:
+      displayDataBinary, loadData, editData
+
+   See also <a href="displayDataBinary.html" class="code" title="function [FileInfo] = displayDataBinary(misc, varargin)">DISPLAYDATABINARY</a>, <a href="loadData.html" class="code" title="function [dataOrig, misc]=loadData(misc)">LOADDATA</a>, <a href="editData.html" class="code" title="function [data, misc, dataFilename]=editData(data, misc, varargin)">EDITDATA</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="displayData.html" class="code" title="function displayData(data, misc)">displayData</a>	DISPLAYDATA Display on screen the content of the data in memory</li><li><a href="displayDataBinary.html" class="code" title="function [FileInfo] = displayDataBinary(misc, varargin)">displayDataBinary</a>	DISPLAYDATABINARY Display the list of DATA_*.mat files</li><li><a href="editData.html" class="code" title="function [data, misc, dataFilename]=editData(data, misc, varargin)">editData</a>	EDITDATA Control script to edit dataset (selection, resampling, etc..)</li><li><a href="loadData.html" class="code" title="function [dataOrig, misc]=loadData(misc)">loadData</a>	LOADDATA Load data from csv file</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/saveDataBinary.html" class="code" title="function [misc, dataFilename] = saveDataBinary(data, misc, varargin)">saveDataBinary</a>	SAVEDATABINARY Save data in a binary Matlab .mat file</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotDataSummary.html" class="code" title="function plotDataSummary(data, misc, varargin)">plotDataSummary</a>	PLOTDATASUMMARY Plot data amplitude, data time step, and data availability</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/Others/loadInteractive.html" class="code" title="function [data, model, estimation, misc]=loadInteractive(misc)">loadInteractive</a>	LOADINTERACTIVE Load a new project using interactive mode</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [data, misc, dataFilename]=DataLoader(misc)</a>
+0002 <span class="comment">%DATALOADER Create a data file</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [data, misc, dataFilename]=DATALOADER(misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      misc                 - structure</span>
+0009 <span class="comment">%                             see the documentation for details about the</span>
+0010 <span class="comment">%                             field in misc</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%      FilePath             - character (optional)</span>
+0013 <span class="comment">%                               saving directory for data</span>
+0014 <span class="comment">%                               default: '.'  (current folder)</span>
+0015 <span class="comment">%   OUTPUT:</span>
+0016 <span class="comment">%       data                - structure</span>
+0017 <span class="comment">%                               data must contain three fields :</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%                               'timestamps' is a M×1 array</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%                               'values' is a M×N array</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%                               'labels' is a 1×N cell array</span>
+0024 <span class="comment">%                               each cell is a character array</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%                               N: number of time series</span>
+0027 <span class="comment">%                               M: number of samples</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%     misc                  - structure</span>
+0030 <span class="comment">%                             see the documentation for details about the</span>
+0031 <span class="comment">%                             field in misc</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%     dataFilename          -  character</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   DESCRIPTION:</span>
+0036 <span class="comment">%      DATALOADER:</span>
+0037 <span class="comment">%           - loads an existing processed database (DATA_*.mat file)</span>
+0038 <span class="comment">%           - creates a new database (DATA_*.mat file) from .csv files</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   EXAMPLES:</span>
+0041 <span class="comment">%      [data, misc, dataFilename] = DATALOADER(misc)</span>
+0042 <span class="comment">%      [data, misc, dataFilename] = DATALOADER(misc, 'FilePath', 'processed_data')</span>
+0043 <span class="comment">%</span>
+0044 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0045 <span class="comment">%      displayDataBinary, loadData, editData</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   See also DISPLAYDATABINARY, LOADDATA, EDITDATA</span>
+0048 
+0049 <span class="comment">%   AUTHORS:</span>
+0050 <span class="comment">%      Ianis Gaudot, Luong Ha Nguyen,  James-A Goulet</span>
+0051 <span class="comment">%</span>
+0052 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0053 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   MATLAB VERSION:</span>
+0056 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   DATE CREATED:</span>
+0059 <span class="comment">%       April 19, 2018</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">%   DATE LAST UPDATE:</span>
+0062 <span class="comment">%       December 5, 2018</span>
+0063 
+0064 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0065 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0066 
+0067 p = inputParser;
+0068 addRequired(p, <span class="string">'misc'</span>, @isstruct)
+0069 parse(p, misc);
+0070 
+0071 misc=p.Results.misc;
+0072 
+0073 FilePath = misc.internalVars.DataPath;
+0074 
+0075 <span class="comment">% Set fileID for logfile</span>
+0076 <span class="keyword">if</span> misc.internalVars.isQuiet
+0077     <span class="comment">% output message in logfile</span>
+0078     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0079 <span class="keyword">else</span>
+0080     <span class="comment">% output message on screen and logfile using diary command</span>
+0081     fileID=1;
+0082 <span class="keyword">end</span>
+0083 
+0084 disp(<span class="string">'     Load data...'</span>)
+0085 
+0086 <span class="comment">%% Choice for new datase</span>
+0087 fprintf(fileID, <span class="string">'\n'</span>);
+0088 fprintf(fileID, <span class="string">'- Choose a database\n'</span>);
+0089 fprintf(fileID, <span class="string">'\n'</span>);
+0090 fprintf(fileID,<span class="string">'     %-3s -&gt; %-25s\t\n'</span>, num2str(0), <span class="keyword">...</span>
+0091     <span class="string">'Build a new database'</span>);
+0092 fprintf(fileID, <span class="string">'\n'</span>);
+0093 [FileInfo] = <a href="displayDataBinary.html" class="code" title="function [FileInfo] = displayDataBinary(misc, varargin)">displayDataBinary</a>(misc, <span class="string">'FilePath'</span>, FilePath);
+0094 
+0095 incTest=0;
+0096 MaxFailAttempts=4;
+0097 <span class="keyword">while</span>(1)
+0098     incTest=incTest+1;
+0099     <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0100             <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0101     
+0102     <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0103         chosen_db= <span class="keyword">...</span>
+0104             eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0105             misc.internalVars.BatchMode.AnswerIndex}));
+0106         fprintf(fileID, <span class="string">'     %s\n'</span>, num2str(chosen_db));
+0107     <span class="keyword">else</span>
+0108         chosen_db=input(<span class="string">'     choice &gt;&gt; '</span>);
+0109     <span class="keyword">end</span>
+0110     <span class="keyword">if</span> ischar(chosen_db) || any(mod(chosen_db,1)) || <span class="keyword">...</span>
+0111             ~isempty(chosen_db(chosen_db&lt;0))
+0112         fprintf(fileID, <span class="string">'\n'</span>);
+0113         fprintf(fileID, [<span class="string">'     wrong input -&gt; '</span>, <span class="keyword">...</span>
+0114             <span class="string">'should be non-negative integers\n'</span>]);
+0115         fprintf(fileID, <span class="string">'\n'</span>);
+0116         <span class="keyword">continue</span>
+0117     <span class="keyword">elseif</span> length(chosen_db)&gt;1
+0118         fprintf(fileID, <span class="string">'\n'</span>);
+0119         fprintf(fileID, [<span class="string">'     wrong input -&gt; '</span>, <span class="keyword">...</span>
+0120             <span class="string">'should be only one integer\n'</span>]);
+0121         fprintf(fileID, <span class="string">'\n'</span>);
+0122         <span class="keyword">continue</span>
+0123     <span class="keyword">elseif</span> isempty(chosen_db)
+0124         <span class="keyword">continue</span>
+0125     <span class="keyword">elseif</span> chosen_db &gt; length(FileInfo)
+0126         fprintf(fileID, <span class="string">'\n'</span>);
+0127         fprintf(fileID, <span class="string">'     wrong input -&gt; out of range\n'</span>);
+0128         fprintf(fileID, <span class="string">'\n'</span>);
+0129         <span class="keyword">continue</span>
+0130     <span class="keyword">else</span>
+0131         <span class="keyword">break</span>
+0132     <span class="keyword">end</span>
+0133 <span class="keyword">end</span>
+0134 
+0135 <span class="comment">% Increment global variable to read next answer when required</span>
+0136 misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0137     misc.internalVars.BatchMode.AnswerIndex+1;
+0138 
+0139 <span class="comment">%% Load database</span>
+0140 <span class="keyword">if</span> chosen_db == 0
+0141     <span class="comment">% No database is selected, loading new data is needed</span>
+0142     [dataOrig, misc] = <a href="loadData.html" class="code" title="function [dataOrig, misc]=loadData(misc)">loadData</a>(misc);
+0143     
+0144     <span class="comment">% Display available data on screen</span>
+0145     <a href="displayData.html" class="code" title="function displayData(data, misc)">displayData</a>(dataOrig, misc)
+0146     
+0147     <span class="comment">% Edit dataset</span>
+0148     [data, misc, dataFilename ] = <span class="keyword">...</span>
+0149         <a href="editData.html" class="code" title="function [data, misc, dataFilename]=editData(data, misc, varargin)">editData</a>(dataOrig, misc, <span class="string">'FilePath'</span>, FilePath);
+0150     
+0151 <span class="keyword">else</span>
+0152     <span class="comment">% Select the data</span>
+0153     [data]=load(fullfile( FilePath, <span class="string">'mat'</span>, FileInfo{chosen_db}));
+0154     
+0155     <span class="comment">% Reshape data</span>
+0156     
+0157     <span class="comment">% Duplicate data binary MAT file with a new name based on current</span>
+0158     <span class="comment">% project</span>
+0159     <span class="comment">% Save data in binary format</span>
+0160     fprintf(fileID, <span class="string">'     Duplicate %s --&gt; %s ... \n'</span>, <span class="keyword">...</span>
+0161         FileInfo{chosen_db}, [<span class="string">'DATA_'</span>, misc.ProjectName ,<span class="string">'.mat'</span>]);
+0162     [misc, dataFilename] = <a href="../../../OpenBDLM_V1.0/functions/Others/saveDataBinary.html" class="code" title="function [misc, dataFilename] = saveDataBinary(data, misc, varargin)">saveDataBinary</a>(data, misc, <span class="keyword">...</span>
+0163         <span class="string">'FilePath'</span>, FilePath);
+0164         
+0165     <span class="comment">% Display available data on screen</span>
+0166     <a href="displayData.html" class="code" title="function displayData(data, misc)">displayData</a>(data, misc)
+0167     
+0168     <span class="comment">% Plot data summary</span>
+0169     <a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotDataSummary.html" class="code" title="function plotDataSummary(data, misc, varargin)">plotDataSummary</a>(data, misc, <span class="string">'FilePath'</span>, <span class="string">'figures'</span>)
+0170     
+0171     <span class="comment">% Give the possibility to edit the dataset</span>
+0172     incTest=0;
+0173     MaxFailAttempts=4;
+0174     
+0175     isYesNoCorrect = false;
+0176     <span class="keyword">while</span> ~isYesNoCorrect
+0177         
+0178         incTest=incTest+1;
+0179         <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0180                 <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0181         
+0182         fprintf(fileID, <span class="string">'\n'</span>);
+0183         fprintf(fileID, <span class="string">'- Do you want to edit the database ? (y/n) \n'</span>);
+0184         <span class="comment">% read from user input file (use of global variable )?</span>
+0185         <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0186             choice=eval(char(misc.internalVars.BatchMode.Answers{ <span class="keyword">...</span>
+0187                 misc.internalVars.BatchMode.AnswerIndex}));
+0188             fprintf(fileID, <span class="string">'     %s\n'</span>, choice);
+0189         <span class="keyword">else</span>
+0190             choice = input(<span class="string">'     choice &gt;&gt; '</span>,<span class="string">'s'</span>);
+0191         <span class="keyword">end</span>
+0192         <span class="keyword">if</span> isempty(choice)
+0193             <span class="keyword">continue</span>
+0194         <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'y'</span>) || strcmpi(choice,<span class="string">'yes'</span>)
+0195             
+0196             <span class="comment">% Increment global variable to read next answer when required</span>
+0197             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0198                 misc.internalVars.BatchMode.AnswerIndex+1;
+0199             
+0200             <span class="comment">% yes, edit the dataset</span>
+0201             [data, misc, dataFilename ] = <span class="keyword">...</span>
+0202                 <a href="editData.html" class="code" title="function [data, misc, dataFilename]=editData(data, misc, varargin)">editData</a>(data, misc, <span class="string">'FilePath'</span>, FilePath);
+0203             
+0204             isYesNoCorrect =  true;
+0205             
+0206         <span class="keyword">elseif</span> strcmpi(choice,<span class="string">'n'</span>) || strcmpi(choice,<span class="string">'no'</span>)
+0207             
+0208             <span class="comment">%plotDataSummary(data, misc, 'FilePath', 'figures')</span>
+0209             
+0210             <span class="comment">% no, use the data as such</span>
+0211             misc.internalVars.isDataSimulation = false;
+0212             
+0213             <span class="comment">% Increment global variable to read next answer when required</span>
+0214             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0215                 misc.internalVars.BatchMode.AnswerIndex+1;
+0216             
+0217             isYesNoCorrect =  true;
+0218             
+0219         <span class="keyword">else</span>
+0220             fprintf(fileID, <span class="string">'\n'</span>);
+0221             fprintf(fileID, <span class="string">'     wrong input\n'</span>);
+0222             fprintf(fileID, <span class="string">'\n'</span>);
+0223         <span class="keyword">end</span>
+0224         
+0225     <span class="keyword">end</span>
+0226     
+0227 <span class="keyword">end</span>
+0228 <span class="comment">%--------------------END CODE ------------------------</span>
+0229 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

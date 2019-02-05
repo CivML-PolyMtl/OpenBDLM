@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of piloteModifyTrainingPeriod</title>
+  <meta name="keywords" content="piloteModifyTrainingPeriod">
+  <meta name="description" content="PILOTEMODIFYTRAININGPERIOD Pilote function to modify training period">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">ModelParametersLearning</a> &gt; piloteModifyTrainingPeriod.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/ModelParametersLearning&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>piloteModifyTrainingPeriod
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>PILOTEMODIFYTRAININGPERIOD Pilote function to modify training period</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [misc]=piloteModifyTrainingPeriod(data, model, estimation, misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">PILOTEMODIFYTRAININGPERIOD Pilote function to modify training period
+   SYNOPSIS:
+     [misc]=PILOTEMODIFYTRAININGPERIOD(data, model, estimation, misc)
+
+   INPUT:
+      data                - structure
+                            see documentation for details about the fields
+                            in structure &quot;data&quot;
+
+      model               - structure
+                            see documentation for details about the fields
+                            in structure &quot;model&quot;
+
+      estimation         - structure
+                            see documentation for details about the fields
+                            in structure &quot;estimation&quot;
+
+      misc               - structure
+                            see documentation for details about the fields
+                            in structure &quot;misc&quot;
+
+
+   OUTPUT:
+
+      misc               - structure
+                            see documentation for details about the fields
+                            in structure &quot;misc&quot;
+
+   DESCRIPTION:
+      PILOTEMODIFYTRAININGPERIOD Pilote function to modify training period
+
+   EXAMPLES:
+      [misc]=PILOTEMODIFYTRAININGPERIOD(data, model, estimation, misc)
+
+   EXTERNAL FUNCTIONS CALLED:
+      modifyTrainingPeriod
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also <a href="modifyTrainingPeriod.html" class="code" title="function [misc] = modifyTrainingPeriod(data, model, estimation, misc, varargin)">MODIFYTRAININGPERIOD</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="modifyTrainingPeriod.html" class="code" title="function [misc] = modifyTrainingPeriod(data, model, estimation, misc, varargin)">modifyTrainingPeriod</a>	MODIFYTRAININGPERIOD Request user to modify training period</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/OpenBDLM_main.html" class="code" title="function [data, model, estimation, misc] = OpenBDLM_main(UserInput)">OpenBDLM_main</a>	OPENBDLM_MAIN Process control for OpenBDLM</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [misc]=piloteModifyTrainingPeriod(data, model, estimation, misc)</a>
+0002 <span class="comment">%PILOTEMODIFYTRAININGPERIOD Pilote function to modify training period</span>
+0003 <span class="comment">%   SYNOPSIS:</span>
+0004 <span class="comment">%     [misc]=PILOTEMODIFYTRAININGPERIOD(data, model, estimation, misc)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%   INPUT:</span>
+0007 <span class="comment">%      data                - structure</span>
+0008 <span class="comment">%                            see documentation for details about the fields</span>
+0009 <span class="comment">%                            in structure &quot;data&quot;</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">%      model               - structure</span>
+0012 <span class="comment">%                            see documentation for details about the fields</span>
+0013 <span class="comment">%                            in structure &quot;model&quot;</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%      estimation         - structure</span>
+0016 <span class="comment">%                            see documentation for details about the fields</span>
+0017 <span class="comment">%                            in structure &quot;estimation&quot;</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%      misc               - structure</span>
+0020 <span class="comment">%                            see documentation for details about the fields</span>
+0021 <span class="comment">%                            in structure &quot;misc&quot;</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%   OUTPUT:</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%      misc               - structure</span>
+0027 <span class="comment">%                            see documentation for details about the fields</span>
+0028 <span class="comment">%                            in structure &quot;misc&quot;</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%   DESCRIPTION:</span>
+0031 <span class="comment">%      PILOTEMODIFYTRAININGPERIOD Pilote function to modify training period</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">%   EXAMPLES:</span>
+0034 <span class="comment">%      [misc]=PILOTEMODIFYTRAININGPERIOD(data, model, estimation, misc)</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0037 <span class="comment">%      modifyTrainingPeriod</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   SUBFUNCTIONS:</span>
+0040 <span class="comment">%      N/A</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   See also MODIFYTRAININGPERIOD</span>
+0043 
+0044 <span class="comment">%   AUTHORS:</span>
+0045 <span class="comment">%        Ianis Gaudot,Luong Ha Nguyen, James-A Goulet</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0048 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0049 <span class="comment">%</span>
+0050 <span class="comment">%   MATLAB VERSION:</span>
+0051 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0052 <span class="comment">%</span>
+0053 <span class="comment">%   DATE CREATED:</span>
+0054 <span class="comment">%       July 27, 2018</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%   DATE LAST UPDATE:</span>
+0057 <span class="comment">%       August 9, 2018</span>
+0058 
+0059 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0060 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0061 p = inputParser;
+0062 
+0063 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0064 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0065 addRequired(p,<span class="string">'estimation'</span>, @isstruct );
+0066 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0067 parse(p,data, model, estimation, misc );
+0068 
+0069 data=p.Results.data;
+0070 model=p.Results.model;
+0071 estimation=p.Results.estimation;
+0072 misc=p.Results.misc;
+0073 
+0074 ProjectPath=misc.internalVars.ProjectPath;   
+0075 
+0076 <span class="comment">% Set fileID for logfile</span>
+0077 <span class="keyword">if</span> misc.internalVars.isQuiet
+0078     <span class="comment">% output message in logfile</span>
+0079     fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);
+0080 <span class="keyword">else</span>
+0081     <span class="comment">% output message on screen and logfile using diary command</span>
+0082     fileID=1;
+0083 <span class="keyword">end</span>
+0084 
+0085 
+0086 fprintf(fileID,<span class="string">'\n'</span>);
+0087 fprintf(fileID,[<span class="string">'-----------------------------------------'</span>, <span class="keyword">...</span>
+0088     <span class="string">'----------------------------------------------------- \n'</span>]);
+0089 fprintf(fileID,<span class="string">'/    Modify training period \n'</span>);
+0090 fprintf(fileID,[<span class="string">'-----------------------------------------'</span>, <span class="keyword">...</span>
+0091     <span class="string">'----------------------------------------------------- \n'</span>]);
+0092 
+0093 [misc] = <a href="modifyTrainingPeriod.html" class="code" title="function [misc] = modifyTrainingPeriod(data, model, estimation, misc, varargin)">modifyTrainingPeriod</a>(data, model, estimation, misc, <span class="keyword">...</span>
+0094     <span class="string">'FilePath'</span>, ProjectPath);
+0095 
+0096 <span class="comment">%--------------------END CODE ------------------------</span>
+0097 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of readMultipleDataFiles</title>
+  <meta name="keywords" content="readMultipleDataFiles">
+  <meta name="description" content="READMULTIPLEDATAFILES Read multiple CSV and MAT OpenBDLM data files">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">DataLoader</a> &gt; readMultipleDataFiles.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/DataLoader&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>readMultipleDataFiles
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>READMULTIPLEDATAFILES Read multiple CSV and MAT OpenBDLM data files</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [dataOrig, misc]=readMultipleDataFiles(misc) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">READMULTIPLEDATAFILES Read multiple CSV and MAT OpenBDLM data files
+
+   SYNOPSIS:
+     [dataOrig, misc]=READMULTIPLEDATAFILES(misc)
+
+   INPUT:
+      misc          - structure
+                      see the documentation for details about the
+                      field in misc
+
+   OUTPUT:
+      dataOrig     - structure array
+                     dataOrig must contain three fields :
+
+                           'timestamps' is a 1×N cell array
+                            each cell is a M_ix1 real array
+
+                           'values' is a 1×N cell array
+                            each cell is a M_ix1 real array
+
+                           'labels' is a 1×N cell array
+                            each cell is a character array
+
+                               N: number of time series
+                               M_i: number of samples of time series i
+
+      misc         - structure
+                     see the documentation for details about the
+                     field in misc
+
+   DESCRIPTION:
+      READMULTIPLEDATAFILES reads data from multiple data files in CSV and
+      MAT format and put the data in the structure dataOrig
+      path of the files are requested from user input during program
+      execution
+      The structure dataOrig contains three fields timestamps, values, labels
+
+   EXAMPLES:
+      [dataOrig, misc]=READMULTIPLEDATAFILES(misc)
+
+   EXTERNAL FUNCTIONS CALLED:
+      readSingleCSVFile, readSingleMATFile, plotData, plotDataAvailability,
+      saveDataBinary
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also <a href="readSingleCSVFile.html" class="code" title="function [dat,label]=readSingleCSVFile(FileToRead, varargin)">READSINGLECSVFILE</a>, <a href="readSingleMATFile.html" class="code" title="function [dat,label]=readSingleMATFile(FileToRead, varargin)">READSINGLEMATFILE</a>, PLOTDATA,
+        PLOTDATAAVAILABILITY, SAVEDATABINARY</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="readSingleCSVFile.html" class="code" title="function [dat,label]=readSingleCSVFile(FileToRead, varargin)">readSingleCSVFile</a>	READSINGLECSVFILE Read a single OpenBDLM CSV data file</li><li><a href="readSingleMATFile.html" class="code" title="function [dat,label]=readSingleMATFile(FileToRead, varargin)">readSingleMATFile</a>	READSINGLEMATFILE Read a single OpenBDLM MAT data file</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="loadData.html" class="code" title="function [dataOrig, misc]=loadData(misc)">loadData</a>	LOADDATA Load data from csv file</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [dataOrig, misc]=readMultipleDataFiles(misc)</a>
+0002 <span class="comment">%READMULTIPLEDATAFILES Read multiple CSV and MAT OpenBDLM data files</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [dataOrig, misc]=READMULTIPLEDATAFILES(misc)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      misc          - structure</span>
+0009 <span class="comment">%                      see the documentation for details about the</span>
+0010 <span class="comment">%                      field in misc</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   OUTPUT:</span>
+0013 <span class="comment">%      dataOrig     - structure array</span>
+0014 <span class="comment">%                     dataOrig must contain three fields :</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%                           'timestamps' is a 1×N cell array</span>
+0017 <span class="comment">%                            each cell is a M_ix1 real array</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%                           'values' is a 1×N cell array</span>
+0020 <span class="comment">%                            each cell is a M_ix1 real array</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">%                           'labels' is a 1×N cell array</span>
+0023 <span class="comment">%                            each cell is a character array</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%                               N: number of time series</span>
+0026 <span class="comment">%                               M_i: number of samples of time series i</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">%      misc         - structure</span>
+0029 <span class="comment">%                     see the documentation for details about the</span>
+0030 <span class="comment">%                     field in misc</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   DESCRIPTION:</span>
+0033 <span class="comment">%      READMULTIPLEDATAFILES reads data from multiple data files in CSV and</span>
+0034 <span class="comment">%      MAT format and put the data in the structure dataOrig</span>
+0035 <span class="comment">%      path of the files are requested from user input during program</span>
+0036 <span class="comment">%      execution</span>
+0037 <span class="comment">%      The structure dataOrig contains three fields timestamps, values, labels</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">%   EXAMPLES:</span>
+0040 <span class="comment">%      [dataOrig, misc]=READMULTIPLEDATAFILES(misc)</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0043 <span class="comment">%      readSingleCSVFile, readSingleMATFile, plotData, plotDataAvailability,</span>
+0044 <span class="comment">%      saveDataBinary</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">%   SUBFUNCTIONS:</span>
+0047 <span class="comment">%      N/A</span>
+0048 <span class="comment">%</span>
+0049 <span class="comment">%   See also READSINGLECSVFILE, READSINGLEMATFILE, PLOTDATA,</span>
+0050 <span class="comment">%        PLOTDATAAVAILABILITY, SAVEDATABINARY</span>
+0051 
+0052 <span class="comment">%   AUTHORS:</span>
+0053 <span class="comment">%        Ianis Gaudot, Luong Ha Nguyen, James-A Goulet</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0056 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0057 <span class="comment">%</span>
+0058 <span class="comment">%   MATLAB VERSION:</span>
+0059 <span class="comment">%      Tested on 9.4.0.813654 (R2018a)</span>
+0060 <span class="comment">%</span>
+0061 <span class="comment">%   DATE CREATED:</span>
+0062 <span class="comment">%       December 5, 2018</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">%   DATE LAST UPDATE:</span>
+0065 <span class="comment">%       December 5, 2018</span>
+0066 
+0067 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0068 
+0069 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0070 p = inputParser;
+0071 addRequired(p, <span class="string">'misc'</span>, @isstruct);
+0072 parse(p, misc );
+0073 misc=p.Results.misc;
+0074 
+0075 MaxFailAttempts=4;
+0076 
+0077 <span class="comment">%% Request FileList from user</span>
+0078 <span class="keyword">if</span> misc.internalVars.BatchMode.isBatchMode
+0079     incTest=0;
+0080     <span class="keyword">while</span>(1)
+0081         
+0082         incTest=incTest+1;
+0083         <span class="keyword">if</span> incTest &gt; MaxFailAttempts ; error([<span class="string">'Too many failed '</span>, <span class="keyword">...</span>
+0084                 <span class="string">'attempts ('</span>, num2str(MaxFailAttempts)  <span class="string">').'</span>]) ; <span class="keyword">end</span>
+0085         
+0086         disp(<span class="string">' '</span>)
+0087         fprintf([<span class="string">'- Provide a list of CSV and/or MAT filename to process '</span> <span class="keyword">...</span>
+0088             <span class="string">'(e.g. {''raw_data/data_Tamar/*.csv'', '</span> <span class="keyword">...</span>
+0089             <span class="string">'''DATA_DAT001.mat''}) :\n'</span>])
+0090         FileList=eval(char(misc.internalVars.BatchMode.Answers{<span class="keyword">...</span>
+0091             misc.internalVars.BatchMode.AnswerIndex}));
+0092         disp(FileList)
+0093         
+0094         <span class="keyword">if</span> ~iscellstr(FileList)
+0095             disp(<span class="string">' '</span>)
+0096             disp([<span class="string">'     wrong input -&gt; '</span>, <span class="keyword">...</span>
+0097                 <span class="string">'should be a cell array of character vectors. '</span>])
+0098             disp(<span class="string">' '</span>)
+0099             <span class="keyword">continue</span>
+0100         <span class="keyword">elseif</span> isempty(FileList)
+0101             disp(<span class="string">' '</span>)
+0102             disp([<span class="string">'     wrong input -&gt; '</span>, <span class="keyword">...</span>
+0103                 <span class="string">'should be a cell array of character vectors. '</span>])
+0104             disp(<span class="string">' '</span>)
+0105             <span class="keyword">continue</span>
+0106             
+0107         <span class="keyword">else</span>
+0108             
+0109             <span class="comment">%% Clean the list of files</span>
+0110             
+0111             <span class="comment">% Remove empty fields</span>
+0112             FileList=FileList(~cellfun(@isempty, FileList));
+0113             
+0114             <span class="keyword">if</span> isempty(FileList)
+0115                 disp(<span class="string">' '</span>)
+0116                 warning(<span class="string">'File list is empty.'</span>)
+0117                 disp(<span class="string">' '</span>)
+0118                 dataOrig.timestamps=[];
+0119                 dataOrig.values=[];
+0120                 dataOrig.labels=[];
+0121                 <span class="keyword">return</span>
+0122             <span class="keyword">end</span>
+0123             
+0124             <span class="comment">%Remove redundant fields</span>
+0125             FileList=unique(FileList);
+0126             
+0127             <span class="comment">%% Loop over single file and read data</span>
+0128             inc=0;
+0129             <span class="comment">% loop over list of csv files</span>
+0130             <span class="keyword">for</span> i=1:length(FileList)
+0131                 
+0132                 <span class="comment">%  get the path and all info about each file</span>
+0133                 InfoFile=dir(FileList{i});
+0134                 
+0135                 <span class="comment">% remove '.' and '..' and '.DS_Store' files from the list of files</span>
+0136                 InfoFile=InfoFile(~ismember({InfoFile.name}, <span class="keyword">...</span>
+0137                     {<span class="string">'.'</span>,<span class="string">'..'</span>, <span class="string">'.DS_Store'</span>}));
+0138                 
+0139                 <span class="comment">% test the existence of the group of files identified by the search</span>
+0140                 <span class="comment">% pattern</span>
+0141                 <span class="keyword">if</span> isempty(InfoFile)  <span class="comment">% the file does not exist</span>
+0142                     disp(<span class="string">' '</span>)
+0143                     warning(<span class="string">'%s is not found.'</span>, FileList{i})
+0144                     disp(<span class="string">' '</span>)
+0145                     <span class="keyword">continue</span>
+0146                 <span class="keyword">else</span> <span class="comment">% the file exists</span>
+0147                     
+0148                     <span class="keyword">for</span> j=1:length(InfoFile)
+0149                                                 
+0150                         <span class="comment">% Get path of the file</span>
+0151                         filename=InfoFile(j).name;
+0152                         PathFile=which(filename);
+0153                         
+0154                         <span class="keyword">if</span> isempty(PathFile)
+0155                             PathFile=filename;
+0156                         <span class="keyword">end</span>
+0157                         
+0158                         <span class="comment">% Try to read the file as a CSV</span>
+0159                         [dat,label] = <span class="keyword">...</span>
+0160                             <a href="readSingleCSVFile.html" class="code" title="function [dat,label]=readSingleCSVFile(FileToRead, varargin)">readSingleCSVFile</a>(PathFile, <span class="string">'isQuiet'</span>, false);
+0161                         
+0162                         <span class="keyword">if</span> isempty(dat) &amp;&amp; isempty(label)
+0163                             <span class="comment">% Try to read the file as MAT</span>
+0164                             [dat,label] = <span class="keyword">...</span>
+0165                                 <a href="readSingleMATFile.html" class="code" title="function [dat,label]=readSingleMATFile(FileToRead, varargin)">readSingleMATFile</a>(PathFile, <span class="keyword">...</span>
+0166                                 <span class="string">'isQuiet'</span>, false);
+0167                         <span class="keyword">end</span>
+0168                         
+0169                         <span class="keyword">if</span> ~isempty(dat) &amp;&amp; ~isempty(label)
+0170                             
+0171                             pos=0;
+0172                             <span class="keyword">for</span> k = 2:size(dat,2)
+0173                                 pos=pos+1;
+0174                                 inc=inc+1;
+0175                                 <span class="comment">% Store in structure array</span>
+0176                                 dataOrig.timestamps{inc} = dat(:,1);
+0177                                 dataOrig.values{inc} = dat(:,k);
+0178                                 dataOrig.labels{inc} = label{pos};
+0179                             <span class="keyword">end</span>
+0180                             
+0181                         <span class="keyword">else</span>
+0182                             warning([<span class="string">'Unable to read %s. '</span>, <span class="keyword">...</span>
+0183                                 <span class="string">'Check formatting.\n'</span>],  PathFile)
+0184                             disp(<span class="string">' '</span>)
+0185                         <span class="keyword">end</span>
+0186                         
+0187                     <span class="keyword">end</span>
+0188                     
+0189                 <span class="keyword">end</span>
+0190                 
+0191                 
+0192             <span class="keyword">end</span>
+0193             
+0194         <span class="keyword">end</span>
+0195         
+0196         <span class="keyword">if</span> ~exist(<span class="string">'dataOrig'</span>, <span class="string">'var'</span>)
+0197             <span class="keyword">continue</span>
+0198         <span class="keyword">else</span>
+0199             <span class="comment">% Increment global variable to read next answer when required</span>
+0200             misc.internalVars.BatchMode.AnswerIndex = <span class="keyword">...</span>
+0201                 misc.internalVars.BatchMode.AnswerIndex + 1;
+0202             <span class="keyword">break</span>
+0203         <span class="keyword">end</span>
+0204         
+0205     <span class="keyword">end</span>
+0206     
+0207 <span class="keyword">else</span>
+0208     
+0209     <span class="keyword">while</span>(1)
+0210         <span class="comment">% Open GUI to select multiple .*CSV files</span>
+0211         Info = uipickfiles(<span class="string">'Prompt'</span>, <span class="string">'Choose data files'</span>, <span class="keyword">...</span>
+0212             <span class="string">'REFilter'</span>, <span class="string">'\.csv$|\.mat$'</span>);
+0213         
+0214         <span class="keyword">if</span> iscell(Info)
+0215             IndexC = strfind(Info, <span class="string">'.DS_Store'</span>);
+0216             Index = find(not(cellfun(<span class="string">'isempty'</span>, IndexC)));
+0217             <span class="keyword">if</span> ~isempty(Index)
+0218                 Info{Index} = [];
+0219             <span class="keyword">end</span>
+0220         <span class="keyword">end</span>
+0221         
+0222         <span class="keyword">if</span> ~iscell(Info) || isempty(Info(~cellfun(@isempty, Info)))
+0223             error(<span class="string">'No valid files were selected.'</span>)
+0224             <span class="comment">%continue</span>
+0225         <span class="keyword">end</span>
+0226         
+0227         inc=0;
+0228         <span class="keyword">for</span> j=1:length(Info)
+0229             <span class="comment">%inc=inc+1;</span>
+0230             PathFile = Info{j};
+0231             
+0232             <span class="comment">% Try to read the file as a CSV</span>
+0233             [dat,label] = <a href="readSingleCSVFile.html" class="code" title="function [dat,label]=readSingleCSVFile(FileToRead, varargin)">readSingleCSVFile</a>(PathFile, <span class="string">'isQuiet'</span>, false);
+0234             
+0235             <span class="keyword">if</span> isempty(dat) &amp;&amp; isempty(label)
+0236                 <span class="comment">% Try to read the file as MAT</span>
+0237                 [dat,label] = <a href="readSingleMATFile.html" class="code" title="function [dat,label]=readSingleMATFile(FileToRead, varargin)">readSingleMATFile</a>(PathFile, <span class="string">'isQuiet'</span>, <span class="keyword">...</span>
+0238                     false);
+0239             <span class="keyword">end</span>
+0240             
+0241             <span class="keyword">if</span> ~isempty(dat) &amp;&amp; ~isempty(label)
+0242                 
+0243                 pos=0;
+0244                 <span class="keyword">for</span> k = 2:size(dat,2)
+0245                     pos=pos+1;
+0246                     inc=inc+1;
+0247                     <span class="comment">% Store in structure array</span>
+0248                     dataOrig.timestamps{inc} = dat(:,1);
+0249                     dataOrig.values{inc} = dat(:,k);
+0250                     dataOrig.labels{inc} = label{pos};
+0251                 <span class="keyword">end</span>
+0252                 
+0253             <span class="keyword">else</span>
+0254                 warning([<span class="string">'Unable to read %s. '</span>, <span class="keyword">...</span>
+0255                     <span class="string">'Check formatting.\n'</span>],  PathFile)
+0256                 disp(<span class="string">' '</span>)
+0257             <span class="keyword">end</span>
+0258             
+0259         <span class="keyword">end</span>
+0260         
+0261         <span class="keyword">if</span> ~exist(<span class="string">'dataOrig'</span>, <span class="string">'var'</span>)
+0262             <span class="keyword">continue</span>
+0263         <span class="keyword">else</span>
+0264             <span class="keyword">break</span>
+0265         <span class="keyword">end</span>
+0266         
+0267     <span class="keyword">end</span>
+0268     
+0269 <span class="keyword">end</span>
+0270 
+0271 
+0272 <span class="comment">%--------------------END CODE ------------------------</span>
+0273 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of defineReferenceTimeStep</title>
+  <meta name="keywords" content="defineReferenceTimeStep">
+  <meta name="description" content="DEFINEREFERENCETIMESTEP Compute reference timestep of a timestamp vector">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">Others</a> &gt; defineReferenceTimeStep.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/Others&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>defineReferenceTimeStep
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>DEFINEREFERENCETIMESTEP Compute reference timestep of a timestamp vector</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [ReferenceTimestep]=defineReferenceTimeStep(timestamps) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">DEFINEREFERENCETIMESTEP Compute reference timestep of a timestamp vector
+
+   SYNOPSIS:
+     [referencetimestep]=DEFINEREFERENCETIMESTEP(ts)
+
+   INPUT:
+      timestamp                 - Nx1 real array (required)
+                                  timestamp vector
+                                  N: number of samples in the time series
+
+   OUTPUT:
+      referencetimestep         - real                     
+
+   DESCRIPTION:
+      DEFINEREFERENCETIMESTEP computes reference timestep
+
+   EXAMPLES:
+     [referencetimestep] = DEFINEREFERENCETIMESTEP(timestamp)
+
+   See also</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/DataLoader/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>	COMPUTETIMESTEPS Compute timestep vector from timestamps vector</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelConfiguration/buildModel.html" class="code" title="function [model, misc]=buildModel(data, model, misc)">buildModel</a>	BUILDMODEL Build model (build A,C, Q, R matrices)</li><li><a href="../../../OpenBDLM_V1.0/functions/ModelParametersLearning/NewtonRaphson.html" class="code" title="function [optim, model]=NewtonRaphson(data, model, misc)">NewtonRaphson</a>	NEWTONRAPHSON Learn models parameters using the Newton-Raphson technique</li><li><a href="../../../OpenBDLM_V1.0/functions/StateEstimation/SwitchingKalmanFilter.html" class="code" title="function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)">SwitchingKalmanFilter</a>	SWITCHINGKALMANFILTER Perform Switching Kalman filtering of time series</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotData.html" class="code" title="function [FigureNames] = plotData(data, misc, varargin)">plotData</a>	PLOTDATA Plot data amplitude values and data timestep</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotDataSummary.html" class="code" title="function plotDataSummary(data, misc, varargin)">plotDataSummary</a>	PLOTDATASUMMARY Plot data amplitude, data time step, and data availability</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotDataTimestep.html" class="code" title="function plotDataTimestep(data, misc, varargin)">plotDataTimestep</a>	PLOTDATATIMESTEP Plot data timestep vector</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotHiddenStates.html" class="code" title="function [FigureNames] = plotHiddenStates(data, model, estimation, misc, varargin)">plotHiddenStates</a>	PLOTHIDDENSTATES Plot true and estimated hidden states</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotKernelRegression.html" class="code" title="function [FigureNames] = plotKernelRegression(data, model, estimation, misc, varargin)">plotKernelRegression</a>	PLOTKERNELREGRESSION Plot Kernel regression time series pattern</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotModelProbability.html" class="code" title="function [FigureNames] = plotModelProbability(data, model, estimation, misc, varargin)">plotModelProbability</a>	PLOTMODELPROBABILITY Plot true and estimated model probability</li><li><a href="../../../OpenBDLM_V1.0/functions/VisualizationTools/plotPredictedData.html" class="code" title="function [FigureNames] = plotPredictedData(data, model, estimation, misc, varargin)">plotPredictedData</a>	PLOTPREDICTEDDATA Plot observed and predicted data</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [ReferenceTimestep]=defineReferenceTimeStep(timestamps)</a>
+0002 <span class="comment">%DEFINEREFERENCETIMESTEP Compute reference timestep of a timestamp vector</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [referencetimestep]=DEFINEREFERENCETIMESTEP(ts)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      timestamp                 - Nx1 real array (required)</span>
+0009 <span class="comment">%                                  timestamp vector</span>
+0010 <span class="comment">%                                  N: number of samples in the time series</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   OUTPUT:</span>
+0013 <span class="comment">%      referencetimestep         - real</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">%   DESCRIPTION:</span>
+0016 <span class="comment">%      DEFINEREFERENCETIMESTEP computes reference timestep</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">%   EXAMPLES:</span>
+0019 <span class="comment">%     [referencetimestep] = DEFINEREFERENCETIMESTEP(timestamp)</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%   See also</span>
+0022 
+0023 <span class="comment">%   AUTHORS:</span>
+0024 <span class="comment">%      James-A Goulet, Luong Ha Nguyen, Ianis Gaudot</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0027 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%   MATLAB VERSION:</span>
+0030 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0031 <span class="comment">%</span>
+0032 <span class="comment">%   DATE CREATED:</span>
+0033 <span class="comment">%       April 19, 2018</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   DATE LAST UPDATE:</span>
+0036 <span class="comment">%       April 20, 2018</span>
+0037 
+0038 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0039 
+0040 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0041 p = inputParser;
+0042 ValidationFcn = @(x)isnumeric(x)&amp;~isempty(x);
+0043 addRequired(p,<span class="string">'timestamps'</span>, ValidationFcn );
+0044 parse(p,timestamps);
+0045 
+0046 <span class="comment">%% Get reference time step</span>
+0047 <span class="comment">% get time step</span>
+0048 dt_steps=diff(timestamps);
+0049 <span class="comment">% compute reference (most frequent) time step</span>
+0050 unique_dt_steps=unique(dt_steps);
+0051 counts_dt_steps= [unique_dt_steps,histc(dt_steps(:),unique_dt_steps)];
+0052 ReferenceTimestep=counts_dt_steps(find(counts_dt_steps(:,2)== <span class="keyword">...</span>
+0053     max(counts_dt_steps(:,2)),1,<span class="string">'first'</span>),1);
+0054 <span class="comment">%--------------------END CODE ------------------------</span>
+0055 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

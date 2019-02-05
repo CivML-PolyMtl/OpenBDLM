@@ -1,0 +1,307 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of StateEstimation</title>
+  <meta name="keywords" content="StateEstimation">
+  <meta name="description" content="STATEESTIMATION State estimation from switching Kalman filtering/smoothing">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html v1.5 &copy; 2003-2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+</head>
+<body>
+<a name="_top"></a>
+<div><a href="../../../index.html">Home</a> &gt;  <a href="../../index.html">OpenBDLM_V1.0</a> &gt; <a href="#">functions</a> &gt; <a href="index.html">StateEstimation</a> &gt; StateEstimation.m</div>
+
+<!--<table width="100%"><tr><td align="left"><a href="../../../index.html"><img alt="<" border="0" src="../../../left.png">&nbsp;Master index</a></td>
+<td align="right"><a href="index.html">Index for OpenBDLM_V1.0/functions/StateEstimation&nbsp;<img alt=">" border="0" src="../../../right.png"></a></td></tr></table>-->
+
+<h1>StateEstimation
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>STATEESTIMATION State estimation from switching Kalman filtering/smoothing</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [estimation]=StateEstimation(data, model, misc, varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">STATEESTIMATION State estimation from switching Kalman filtering/smoothing
+
+   SYNOPSIS:
+     [estimation]=STATEESTIMATION(data,model,estimation, misc, varargin)
+
+   INPUT:
+      data             - structure (required)
+                         see documentation for details about the fields of
+                         data
+                         data contains time series to be filtered
+
+      model            - structure (required)
+                         see documentation for details about the fields of
+                         model
+                         model contains A,C,Q,R matrices to perform
+                         filtering
+                         model also contains hidden states mean and variance
+                         initial values at t=0
+
+      misc             - structure (required)
+                         see documentation for details about the fields of
+                         misc
+
+      isSmooother      - logical (required)
+                         if isSmoother == true, perform both filtering and
+                         smoothing step
+                         default = false
+
+      isMute           - logical (required)
+                         if isQuiet == true, functions runs silently
+                         default = false
+
+
+   OUTPUT:
+      estimation       - structure (required)
+                         see documentation for details about the fields of
+                         estimation
+                         estimation contains the mean and variance of the
+                         filtered/smoothed posterior hidden state estimates
+
+   DESCRIPTION:
+      STATEESTIMATION computes filtered/smoothed posterior hidden state 
+      estimates.
+      STATEESTIMATION uses switching Kalman filtering/smoothing to compute
+      the estimates.
+
+   EXAMPLES:
+      [estimation]=STATEESTIMATION(data,model,estimation, misc)
+      [estimation]=STATEESTIMATION(data,model,estimation, misc, 'isSmoother', false)
+      [estimation]=STATEESTIMATION(data,model,estimation, misc, 'isSmoother', false, 'isQuiet', true)
+
+   EXTERNAL FUNCTIONS CALLED:
+      SwitchingKalmanFilter, RTS_SwitchingKalmanSmoother
+
+
+   SUBFUNCTIONS:
+      N/A
+
+   See also <a href="SwitchingKalmanFilter.html" class="code" title="function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)">SWITCHINGKALMANFILTER</a>, <a href="UDFilter.html" class="code" title="function [xnew, Vnew, VVnew, U_post, D_post, loglik]=UDFilter(A, C, Q, R, y, x, V, U_post, D_post)">UDFILTER</a>, <a href="RTS_SwitchingKalmanSmoother.html" class="code" title="function [x, V, VV, S,x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed]=RTS_SwitchingKalmanSmoother(data, model, estimation)">RTS_SWITCHINGKALMANSMOOTHER</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../OpenBDLM_V1.0/functions/DataLoader/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>	COMPUTETIMESTEPS Compute timestep vector from timestamps vector</li><li><a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>	READPARAMETERPROPERTIES Extract some columns of a cell array</li><li><a href="RTS_SwitchingKalmanSmoother.html" class="code" title="function [x, V, VV, S,x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed]=RTS_SwitchingKalmanSmoother(data, model, estimation)">RTS_SwitchingKalmanSmoother</a>	RTS_SWITCHINGKALMANSMOOTHER Perform RTS Switching Kalman smoothing</li><li><a href="SwitchingKalmanFilter.html" class="code" title="function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)">SwitchingKalmanFilter</a>	SWITCHINGKALMANFILTER Perform Switching Kalman filtering of time series</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="computeInitialHiddenStates.html" class="code" title="function [model] = computeInitialHiddenStates(data, model, estimation, misc, varargin)">computeInitialHiddenStates</a>	COMPUTEINITIALHIDDENSTATES Compute initial hidden states using smoothing</li><li><a href="piloteStateEstimation.html" class="code" title="function [data, model, estimation, misc]=piloteStateEstimation(data, model, estimation, misc)">piloteStateEstimation</a>	PILOTESTATEESTIMATION Pilote function for state estimation</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [estimation]=StateEstimation(data, model, misc, varargin)</a>
+0002 <span class="comment">%STATEESTIMATION State estimation from switching Kalman filtering/smoothing</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   SYNOPSIS:</span>
+0005 <span class="comment">%     [estimation]=STATEESTIMATION(data,model,estimation, misc, varargin)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   INPUT:</span>
+0008 <span class="comment">%      data             - structure (required)</span>
+0009 <span class="comment">%                         see documentation for details about the fields of</span>
+0010 <span class="comment">%                         data</span>
+0011 <span class="comment">%                         data contains time series to be filtered</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%      model            - structure (required)</span>
+0014 <span class="comment">%                         see documentation for details about the fields of</span>
+0015 <span class="comment">%                         model</span>
+0016 <span class="comment">%                         model contains A,C,Q,R matrices to perform</span>
+0017 <span class="comment">%                         filtering</span>
+0018 <span class="comment">%                         model also contains hidden states mean and variance</span>
+0019 <span class="comment">%                         initial values at t=0</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">%      misc             - structure (required)</span>
+0022 <span class="comment">%                         see documentation for details about the fields of</span>
+0023 <span class="comment">%                         misc</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">%      isSmooother      - logical (required)</span>
+0026 <span class="comment">%                         if isSmoother == true, perform both filtering and</span>
+0027 <span class="comment">%                         smoothing step</span>
+0028 <span class="comment">%                         default = false</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">%      isMute           - logical (required)</span>
+0031 <span class="comment">%                         if isQuiet == true, functions runs silently</span>
+0032 <span class="comment">%                         default = false</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">%</span>
+0035 <span class="comment">%   OUTPUT:</span>
+0036 <span class="comment">%      estimation       - structure (required)</span>
+0037 <span class="comment">%                         see documentation for details about the fields of</span>
+0038 <span class="comment">%                         estimation</span>
+0039 <span class="comment">%                         estimation contains the mean and variance of the</span>
+0040 <span class="comment">%                         filtered/smoothed posterior hidden state estimates</span>
+0041 <span class="comment">%</span>
+0042 <span class="comment">%   DESCRIPTION:</span>
+0043 <span class="comment">%      STATEESTIMATION computes filtered/smoothed posterior hidden state</span>
+0044 <span class="comment">%      estimates.</span>
+0045 <span class="comment">%      STATEESTIMATION uses switching Kalman filtering/smoothing to compute</span>
+0046 <span class="comment">%      the estimates.</span>
+0047 <span class="comment">%</span>
+0048 <span class="comment">%   EXAMPLES:</span>
+0049 <span class="comment">%      [estimation]=STATEESTIMATION(data,model,estimation, misc)</span>
+0050 <span class="comment">%      [estimation]=STATEESTIMATION(data,model,estimation, misc, 'isSmoother', false)</span>
+0051 <span class="comment">%      [estimation]=STATEESTIMATION(data,model,estimation, misc, 'isSmoother', false, 'isQuiet', true)</span>
+0052 <span class="comment">%</span>
+0053 <span class="comment">%   EXTERNAL FUNCTIONS CALLED:</span>
+0054 <span class="comment">%      SwitchingKalmanFilter, RTS_SwitchingKalmanSmoother</span>
+0055 <span class="comment">%</span>
+0056 <span class="comment">%</span>
+0057 <span class="comment">%   SUBFUNCTIONS:</span>
+0058 <span class="comment">%      N/A</span>
+0059 <span class="comment">%</span>
+0060 <span class="comment">%   See also SWITCHINGKALMANFILTER, UDFILTER, RTS_SWITCHINGKALMANSMOOTHER</span>
+0061 
+0062 <span class="comment">%   AUTHORS:</span>
+0063 <span class="comment">%       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet,</span>
+0064 <span class="comment">%</span>
+0065 <span class="comment">%      Email: &lt;james.goulet@polymtl.ca&gt;</span>
+0066 <span class="comment">%      Website: &lt;http://www.polymtl.ca/expertises/goulet-james-alexandre&gt;</span>
+0067 <span class="comment">%</span>
+0068 <span class="comment">%   MATLAB VERSION:</span>
+0069 <span class="comment">%      Tested on 9.1.0.441655 (R2016b)</span>
+0070 <span class="comment">%</span>
+0071 <span class="comment">%   DATE CREATED:</span>
+0072 <span class="comment">%       June 29, 2018</span>
+0073 <span class="comment">%</span>
+0074 <span class="comment">%   DATE LAST UPDATE:</span>
+0075 <span class="comment">%       October 18, 2018</span>
+0076 
+0077 <span class="comment">%--------------------BEGIN CODE ----------------------</span>
+0078 <span class="comment">%% Get arguments passed to the function and proceed to some verifications</span>
+0079 p = inputParser;
+0080 
+0081 defaultisSmoother =  false;
+0082 defaultisMute =  false;
+0083 
+0084 addRequired(p,<span class="string">'data'</span>, @isstruct );
+0085 addRequired(p,<span class="string">'model'</span>, @isstruct );
+0086 addRequired(p,<span class="string">'misc'</span>, @isstruct );
+0087 addParameter(p,<span class="string">'isSmoother'</span>, defaultisSmoother, @islogical );
+0088 addParameter(p,<span class="string">'isMute'</span>, defaultisMute, @islogical );
+0089 parse(p,data, model, misc, varargin{:});
+0090 
+0091 data=p.Results.data;
+0092 model=p.Results.model;
+0093 misc=p.Results.misc;
+0094 isSmoother=p.Results.isSmoother;
+0095 isMute=p.Results.isMute;
+0096 
+0097 
+0098 <span class="comment">% Set fileID for logfile</span>
+0099 <span class="keyword">if</span> misc.internalVars.isQuiet
+0100    <span class="comment">% output message in logfile</span>
+0101    fileID=fopen(misc.internalVars.logFileName, <span class="string">'a'</span>);  
+0102 <span class="keyword">else</span>
+0103    <span class="comment">% output message on screen and logfile using diary command</span>
+0104    fileID=1; 
+0105 <span class="keyword">end</span>
+0106 
+0107 disp(<span class="string">'     Computing hidden states ...'</span>);
+0108 
+0109 <span class="comment">%% Read model parameter properties</span>
+0110 <span class="comment">% Current model parameters</span>
+0111 idx_pvalues=size(model.param_properties,2)-1;
+0112 idx_pref= size(model.param_properties,2);
+0113 
+0114 [arrayOut]=<span class="keyword">...</span>
+0115     <a href="../../../OpenBDLM_V1.0/functions/Others/readParameterProperties.html" class="code" title="function [arrayOut]=readParameterProperties(cellIn, Position)">readParameterProperties</a>(model.param_properties, <span class="keyword">...</span>
+0116     [idx_pvalues, idx_pref]);
+0117 
+0118 parameter= arrayOut(:,1);
+0119 p_ref=arrayOut(:,2);
+0120 
+0121 <span class="comment">%% Get timestamps information</span>
+0122 
+0123 <span class="comment">% Get timestamps</span>
+0124 timestamps = data.timestamps;
+0125 
+0126 <span class="comment">% Compute timestep vector</span>
+0127 [timesteps]=<a href="../../../OpenBDLM_V1.0/functions/DataLoader/computeTimeSteps.html" class="code" title="function [timesteps]=computeTimeSteps(timestamps)">computeTimeSteps</a>(timestamps);
+0128 
+0129 <span class="comment">% Number of timestamps</span>
+0130 T = length(timestamps);
+0131 
+0132 <span class="comment">%% Get number of time series</span>
+0133 numberOfTimeSeries=length(data.labels);
+0134 
+0135 <span class="comment">%% Get number of model classes</span>
+0136 M = model.nb_class;
+0137 
+0138 <span class="comment">%% Kalman/UD filter</span>
+0139 [estimation.x_M, estimation.V_M, estimation.VV_M, estimation.S, <span class="keyword">...</span>
+0140     estimation.LL,estimation.U,estimation.D]= <span class="keyword">...</span>
+0141     <a href="SwitchingKalmanFilter.html" class="code" title="function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)">SwitchingKalmanFilter</a>(data,model,misc);
+0142 
+0143 <span class="keyword">if</span> ~isMute
+0144     fprintf(fileID,[<span class="string">'     log-likelihood: '</span>, <span class="keyword">...</span>
+0145         <span class="string">' %s \n'</span>], num2str(estimation.LL));
+0146 <span class="keyword">end</span>
+0147 
+0148 <span class="comment">%% Kalman smoother</span>
+0149 <span class="keyword">if</span> isSmoother
+0150     [estimation.x_M, estimation.V_M, estimation.VV_M, estimation.S, <span class="keyword">...</span>
+0151         x_prior_smoothed, V_prior_smoothed, ~, S_prior_smoothed ]= <span class="keyword">...</span>
+0152         <a href="RTS_SwitchingKalmanSmoother.html" class="code" title="function [x, V, VV, S,x_prior_smoothed, V_prior_smoothed, VV_prior_smoothed, S_prior_smoothed]=RTS_SwitchingKalmanSmoother(data, model, estimation)">RTS_SwitchingKalmanSmoother</a>(data, model, estimation);
+0153 <span class="keyword">end</span>
+0154 
+0155 <span class="comment">%% Collapse multiple model classes in a single one</span>
+0156 estimation.x=zeros(size(estimation.x_M{1}));
+0157 estimation.V=zeros(size(estimation.x_M{1}));
+0158 estimation.y=zeros(numberOfTimeSeries,T);
+0159 estimation.Vy=zeros(numberOfTimeSeries,T);
+0160 
+0161 mx=zeros(size(estimation.x_M{1},1),M);
+0162 my=zeros(numberOfTimeSeries,M);
+0163 <span class="keyword">for</span> t=1:T
+0164     <span class="keyword">for</span> j=1:M
+0165         estimation.x(:,t)=<span class="keyword">...</span>
+0166             estimation.x(:,t)+estimation.S(t,j)*estimation.x_M{j}(:,t);
+0167         
+0168         mx(:,j)=estimation.x_M{j}(:,t);
+0169         
+0170         estimation.V(:,t)=<span class="keyword">...</span>
+0171             estimation.V(:,t)+estimation.S(t,j)*diag(estimation.V_M{j}(:,:,t));
+0172         
+0173         C_j=model.C{j}(parameter(p_ref),timestamps(t),timesteps(t));
+0174         
+0175         estimation.y(:,t)= <span class="keyword">...</span>
+0176             estimation.y(:,t)+estimation.S(t,j)*(C_j*estimation.x_M{j}(:,t));
+0177         
+0178         my(:,j)=(C_j*estimation.x_M{j}(:,t));
+0179         
+0180         estimation.Vy(:,t)= estimation.Vy(:,t)+estimation.S(t,j)* <span class="keyword">...</span>
+0181             (diag(C_j*estimation.V_M{j}(:,:,t)*C_j')) ;
+0182     <span class="keyword">end</span>
+0183     <span class="keyword">for</span> j=1:M
+0184         estimation.V(:,t)= <span class="keyword">...</span>
+0185             estimation.V(:,t)+estimation.S(t,j)*diag((mx(:,j)- <span class="keyword">...</span>
+0186             estimation.x(:,t))*(mx(:,j)-estimation.x(:,t))');
+0187         
+0188         estimation.Vy(:,t)= <span class="keyword">...</span>
+0189             estimation.Vy(:,t)+estimation.S(t,j)*diag((my(:,j)- <span class="keyword">...</span>
+0190             estimation.y(:,t))*(my(:,j)-estimation.y(:,t))');
+0191     <span class="keyword">end</span>
+0192 <span class="keyword">end</span>
+0193 
+0194 <span class="keyword">if</span> isSmoother
+0195     <span class="comment">%% Store the initial (at t=0) hidden states values learned from RTS smoother</span>
+0196     estimation.x_prior_smoothed = x_prior_smoothed; <span class="comment">% initial mean</span>
+0197     estimation.V_prior_smoothed = V_prior_smoothed; <span class="comment">% initial covariance</span>
+0198     estimation.S_prior_smoothed = S_prior_smoothed; <span class="comment">% initial state probability</span>
+0199 <span class="keyword">end</span>
+0200 
+0201 <span class="comment">%--------------------END CODE ------------------------</span>
+0202 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Tue 05-Feb-2019 11:23:52 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>
