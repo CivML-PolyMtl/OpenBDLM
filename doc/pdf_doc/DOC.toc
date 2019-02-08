@@ -100,9 +100,9 @@
 \contentsline {subsubsection}{\numberline {11.4.2}Maximum log Likelihood Estimation (MLE)}{95}{subsubsection.11.4.2}
 \contentsline {subsubsection}{\numberline {11.4.3}Laplace Approximation}{96}{subsubsection.11.4.3}
 \contentsline {subsubsection}{\numberline {11.4.4}Gradient-based optimization}{96}{subsubsection.11.4.4}
-\contentsline {paragraph}{Parameter-wise Newton-Raphson}{96}{section*.48}
-\contentsline {paragraph}{Stochastic gradient}{97}{section*.49}
-\contentsline {paragraph}{Approximation of the derivatives}{97}{section*.50}
+\contentsline {paragraph}{Parameter-wise Newton-Raphson}{96}{section*.49}
+\contentsline {paragraph}{Stochastic gradient}{97}{section*.50}
+\contentsline {paragraph}{Approximation of the derivatives}{97}{section*.51}
 \contentsline {subsubsection}{\numberline {11.4.5}Model parameter space transformation}{97}{subsubsection.11.4.5}
 \contentsline {subsection}{\numberline {11.5}Block components}{98}{subsection.11.5}
 \contentsline {subsubsection}{\numberline {11.5.1}Local level (baseline)}{98}{subsubsection.11.5.1}

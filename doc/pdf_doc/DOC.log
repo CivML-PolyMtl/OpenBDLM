@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  5 FEB 2019 14:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.12.15)  8 FEB 2019 14:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2185,6 +2185,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [59]) (./section/OpenBDLMExamples.tex
 (./section/OpenBDLMExampleSingleTimeSeries.tex
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
+ine 4.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2192,7 +2195,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [60]
-<./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf, id=1447, 708.65958pt x 179.9
+<./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf, id=1448, 708.65958pt x 179.9
 6436pt>
 File: ./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf>
@@ -2200,7 +2203,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf used
 on input line 13.
 (pdftex.def)             Requested size: 323.9978pt x 82.27933pt.
 
-<./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf, id=1448, 696.85344pt x 181.47
+<./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf, id=1449, 696.85344pt x 181.47
 198pt>
 File: ./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf>
@@ -2208,7 +2211,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf used o
 n input line 17.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf, id=1449, 680.3769pt x 174.3885
+<./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf, id=1450, 680.3769pt x 174.3885
 2pt>
 File: ./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf Graphic file (type pdf)
  <use ./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf>
@@ -2225,7 +2228,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [61 <./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_DISPS
 IM/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf>]
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_ObservedPr
-edicted.pdf, id=1487, 705.299pt x 179.95934pt>
+edicted.pdf, id=1488, 705.299pt x 179.95934pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_Obser
 vedPredicted.pdf Graphic file (type pdf)
 
@@ -2236,7 +2239,7 @@ denstate/DISP_ObservedPredicted.pdf used on input line 54.
 (pdftex.def)             Requested size: 323.9978pt x 82.6697pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf, 
-id=1488, 712.75287pt x 179.92018pt>
+id=1489, 712.75287pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.
 pdf Graphic file (type pdf)
 
@@ -2247,7 +2250,7 @@ denstate/DISP_LL_1.pdf used on input line 58.
 (pdftex.def)             Requested size: 323.9978pt x 81.78418pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.pdf, 
-id=1489, 715.45491pt x 179.91817pt>
+id=1490, 715.45491pt x 179.91817pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.
 pdf Graphic file (type pdf)
 
@@ -2258,7 +2261,7 @@ denstate/DISP_S1_2.pdf used on input line 62.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.pdf, 
-id=1490, 739.80792pt x 179.92018pt>
+id=1491, 739.80792pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.
 pdf Graphic file (type pdf)
 
@@ -2269,7 +2272,7 @@ denstate/DISP_S1_4.pdf used on input line 66.
 (pdftex.def)             Requested size: 323.9978pt x 78.79723pt.
 
 <./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.pdf, 
-id=1491, 715.45491pt x 179.92218pt>
+id=1492, 715.45491pt x 179.92218pt>
 File: ./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.
 pdf Graphic file (type pdf)
 
@@ -2342,7 +2345,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [66]
-<./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png, id=1668
+<./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png, id=1669
 , 1096.095pt x 686.565pt>
 File: ./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png Gra
 phic file (type png)
@@ -2360,7 +2363,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [67 <./docfigs/Example_DISPSIM/dataloading_DISPSIM_uipickfiles_annoted.png>]
-<./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf, id=1686, 722.09973pt x 1
+<./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf, id=1687, 722.09973pt x 1
 84.79037pt>
 File: ./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf Graphic file (type p
 df)
@@ -2369,7 +2372,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf u
 sed on input line 21.
 (pdftex.def)             Requested size: 323.9978pt x 82.9124pt.
 
-<./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf, id=1687, 696.85344pt x 19
+<./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf, id=1688, 696.85344pt x 19
 8.18341pt>
 File: ./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf Graphic file (type pd
 f)
@@ -2378,7 +2381,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf us
 ed on input line 25.
 (pdftex.def)             Requested size: 323.9978pt x 92.14223pt.
 
-<./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf, id=1688, 680.3769pt x 174.
+<./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf, id=1689, 680.3769pt x 174.
 38852pt>
 File: ./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf Graphic file (type pdf
 )
@@ -2387,7 +2390,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf use
 d on input line 29.
 (pdftex.def)             Requested size: 323.9978pt x 83.04295pt.
 
-<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf, id=1689
+<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf, id=1690
 , 722.09973pt x 184.79037pt>
 File: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf Gra
 phic file (type pdf)
@@ -2397,7 +2400,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL
 _AMPLITUDES.pdf used on input line 40.
 (pdftex.def)             Requested size: 323.9978pt x 82.9124pt.
 
-<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf, id=1690,
+<./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf, id=1691,
  696.85344pt x 198.18341pt>
 File: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf Grap
 hic file (type pdf)
@@ -2407,7 +2410,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL
 _TIMESTEPS.pdf used on input line 44.
 (pdftex.def)             Requested size: 323.9978pt x 92.14223pt.
 
-<./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf, id=1691, 
+<./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf, id=1692, 
 680.3769pt x 174.38852pt>
 File: ./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf Graph
 ic file (type pdf)
@@ -2453,7 +2456,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [71]
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_Observ
-edPredicted.pdf, id=1803, 705.299pt x 179.96033pt>
+edPredicted.pdf, id=1804, 705.299pt x 179.96033pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_O
 bservedPredicted.pdf Graphic file (type pdf)
 
@@ -2464,7 +2467,7 @@ lhiddenstate/DISP_ObservedPredicted.pdf used on input line 354.
 (pdftex.def)             Requested size: 323.9978pt x 82.67015pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.p
-df, id=1804, 712.75287pt x 179.91817pt>
+df, id=1805, 712.75287pt x 179.91817pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_L
 L_1.pdf Graphic file (type pdf)
 
@@ -2475,7 +2478,7 @@ lhiddenstate/DISP_LL_1.pdf used on input line 358.
 (pdftex.def)             Requested size: 323.9978pt x 81.78328pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_AR_2.p
-df, id=1805, 715.45491pt x 179.92018pt>
+df, id=1806, 715.45491pt x 179.92018pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_A
 R_2.pdf Graphic file (type pdf)
 
@@ -2486,7 +2489,7 @@ lhiddenstate/DISP_AR_2.pdf used on input line 362.
 (pdftex.def)             Requested size: 323.9978pt x 81.47945pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_Observ
-edPredicted.pdf, id=1806, 718.73921pt x 179.96535pt>
+edPredicted.pdf, id=1807, 718.73921pt x 179.96535pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_O
 bservedPredicted.pdf Graphic file (type pdf)
 
@@ -2497,7 +2500,7 @@ lhiddenstate/TEMP_ObservedPredicted.pdf used on input line 369.
 (pdftex.def)             Requested size: 323.9978pt x 81.12643pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_LL_1.p
-df, id=1807, 686.27289pt x 172.95816pt>
+df, id=1808, 686.27289pt x 172.95816pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_L
 L_1.pdf Graphic file (type pdf)
 
@@ -2508,7 +2511,7 @@ lhiddenstate/TEMP_LL_1.pdf used on input line 373.
 (pdftex.def)             Requested size: 323.9978pt x 81.65718pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_2.p
-df, id=1808, 718.16302pt x 179.92117pt>
+df, id=1809, 718.16302pt x 179.92117pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S
 1_2.pdf Graphic file (type pdf)
 
@@ -2519,7 +2522,7 @@ lhiddenstate/TEMP_S1_2.pdf used on input line 377.
 (pdftex.def)             Requested size: 323.9978pt x 81.16968pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_4.p
-df, id=1809, 715.45491pt x 179.92218pt>
+df, id=1810, 715.45491pt x 179.92218pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S
 1_4.pdf Graphic file (type pdf)
 
@@ -2530,7 +2533,7 @@ lhiddenstate/TEMP_S1_4.pdf used on input line 381.
 (pdftex.def)             Requested size: 323.9978pt x 81.48036pt.
 
 <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_AR_6.p
-df, id=1810, 723.57228pt x 179.92018pt>
+df, id=1811, 723.57228pt x 179.92018pt>
 File: ./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_A
 R_6.pdf Graphic file (type pdf)
 
@@ -2569,7 +2572,7 @@ ddenstate/TEMP_LL_1.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_initi
 alhiddenstate/TEMP_S1_2.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_optim_i
 nitialhiddenstate/TEMP_S1_4.pdf> <./docfigs/Example_DISPTEMPSIM/optim_param_opt
 im_initialhiddenstate/TEMP_AR_6.pdf>]
-<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf, id=1955, 722.09973pt
+<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf, id=1956, 722.09973pt
  x 180.677pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.pdf Graphic file (ty
 pe pdf)
@@ -2578,7 +2581,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_AMPLITUDES.p
 df used on input line 18.
 (pdftex.def)             Requested size: 323.9978pt x 81.0668pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf, id=1956, 696.85442pt 
+<./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf, id=1957, 696.85442pt 
 x 181.47198pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf Graphic file (typ
 e pdf)
@@ -2587,7 +2590,7 @@ Package pdftex.def Info: ./docfigs/Example_DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pd
 f used on input line 22.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf, id=1957, 680.37788pt x
+<./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf, id=1958, 680.37788pt x
  174.38852pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/raw/AVAILABILITY.pdf Graphic file (type
  pdf)
@@ -2608,7 +2611,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 DISPSIM_ANOMALY/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_DISPSIM_ANOMALY/raw/A
 VAILABILITY.pdf>]
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_Ob
-servedPredicted.pdf, id=1989, 718.73921pt x 180.67902pt>
+servedPredicted.pdf, id=1990, 718.73921pt x 180.67902pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_ObservedPredicted.pdf Graphic file (type pdf)
 
@@ -2619,7 +2622,7 @@ itialhiddenstate/DISP_ObservedPredicted.pdf used on input line 73.
 (pdftex.def)             Requested size: 323.9978pt x 81.44815pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/ModelPr
-obability.pdf, id=1990, 702.72437pt x 179.95934pt>
+obability.pdf, id=1991, 702.72437pt x 179.95934pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/Mo
 delProbability.pdf Graphic file (type pdf)
 
@@ -2630,7 +2633,7 @@ itialhiddenstate/ModelProbability.pdf used on input line 77.
 (pdftex.def)             Requested size: 323.9978pt x 82.97176pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LL
-_1.pdf, id=1991, 718.16302pt x 179.92018pt>
+_1.pdf, id=1992, 718.16302pt x 179.92018pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_LL_1.pdf Graphic file (type pdf)
 
@@ -2641,7 +2644,7 @@ itialhiddenstate/DISP_LL_1.pdf used on input line 81.
 (pdftex.def)             Requested size: 323.9978pt x 81.16922pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LT
-_2.pdf, id=1992, 715.45596pt x 179.91817pt>
+_2.pdf, id=1993, 715.45596pt x 179.91817pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_LT_2.pdf Graphic file (type pdf)
 
@@ -2652,7 +2655,7 @@ itialhiddenstate/DISP_LT_2.pdf used on input line 85.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_LA
-c_3.pdf, id=1993, 738.90556pt x 179.92117pt>
+c_3.pdf, id=1994, 738.90556pt x 179.92117pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_LAc_3.pdf Graphic file (type pdf)
 
@@ -2667,7 +2670,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_S1
-_4.pdf, id=1994, 715.45596pt x 179.91617pt>
+_4.pdf, id=1995, 715.45596pt x 179.91617pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_S1_4.pdf Graphic file (type pdf)
 
@@ -2678,7 +2681,7 @@ itialhiddenstate/DISP_S1_4.pdf used on input line 96.
 (pdftex.def)             Requested size: 323.9978pt x 81.47763pt.
 
 <./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DISP_AR
-_6.pdf, id=1995, 692.93878pt x 172.95517pt>
+_6.pdf, id=1996, 692.93878pt x 172.95517pt>
 File: ./docfigs/Example_DISPSIM_ANOMALY/optim_param_optim_initialhiddenstate/DI
 SP_AR_6.pdf Graphic file (type pdf)
 
@@ -2728,7 +2731,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [78
 
 ]) (./section/OpenBDLMExampleTraffic.tex
-<./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf, id=2126, 709.2417pt x 179.92
+<./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf, id=2127, 709.2417pt x 179.92
 018pt>
 File: ./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf Graphic file (type pdf)
  <use ./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf>
@@ -2736,7 +2739,7 @@ Package pdftex.def Info: ./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf used
 on input line 17.
 (pdftex.def)             Requested size: 323.9978pt x 82.19324pt.
 
-<./docfigs/Example_TRAFFIC/raw/ALL_TIMESTEPS.pdf, id=2127, 696.85846pt x 181.47
+<./docfigs/Example_TRAFFIC/raw/ALL_TIMESTEPS.pdf, id=2128, 696.85846pt x 181.47
 198pt>
 File: ./docfigs/Example_TRAFFIC/raw/ALL_TIMESTEPS.pdf Graphic file (type pdf)
  <use ./docfigs/Example_TRAFFIC/raw/ALL_TIMESTEPS.pdf>
@@ -2744,7 +2747,7 @@ Package pdftex.def Info: ./docfigs/Example_TRAFFIC/raw/ALL_TIMESTEPS.pdf used o
 n input line 21.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf, id=2128, 680.38193pt x 174.388
+<./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf, id=2129, 680.38193pt x 174.388
 52pt>
 File: ./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf Graphic file (type pdf)
  <use ./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf>
@@ -2771,7 +2774,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [80 <./docfigs/Example_TRAFFIC/raw/ALL_AMPLITUDES.pdf> <./docfigs/Example_TRAFF
 IC/raw/ALL_TIMESTEPS.pdf> <./docfigs/Example_TRAFFIC/raw/AVAILABILITY.pdf>]
 <./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_Obs
-ervedPredicted.pdf, id=2173, 711.29037pt x 179.92117pt>
+ervedPredicted.pdf, id=2174, 711.29037pt x 179.92117pt>
 File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
 d_ObservedPredicted.pdf Graphic file (type pdf)
 
@@ -2782,7 +2785,7 @@ denstate/TrafficLoad_ObservedPredicted.pdf used on input line 78.
 (pdftex.def)             Requested size: 323.9978pt x 81.95485pt.
 
 <./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_LL_
-1.pdf, id=2174, 704.64052pt x 179.92018pt>
+1.pdf, id=2175, 704.64052pt x 179.92018pt>
 File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
 d_LL_1.pdf Graphic file (type pdf)
 
@@ -2793,7 +2796,7 @@ denstate/TrafficLoad_LL_1.pdf used on input line 82.
 (pdftex.def)             Requested size: 323.9978pt x 82.72858pt.
 
 <./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_KR0
-_2.pdf, id=2175, 710.04971pt x 184.59264pt>
+_2.pdf, id=2176, 710.04971pt x 184.59264pt>
 File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
 d_KR0_2.pdf Graphic file (type pdf)
 
@@ -2804,7 +2807,7 @@ denstate/TrafficLoad_KR0_2.pdf used on input line 86.
 (pdftex.def)             Requested size: 323.9978pt x 84.232pt.
 
 <./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_KR1
-_3.pdf, id=2176, 710.04971pt x 184.59064pt>
+_3.pdf, id=2177, 710.04971pt x 184.59064pt>
 File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
 d_KR1_3.pdf Graphic file (type pdf)
 
@@ -2815,7 +2818,7 @@ denstate/TrafficLoad_KR1_3.pdf used on input line 90.
 (pdftex.def)             Requested size: 323.9978pt x 84.2311pt.
 
 <./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_AR_
-4.pdf, id=2177, 710.04971pt x 180.62582pt>
+4.pdf, id=2178, 710.04971pt x 180.62582pt>
 File: ./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoa
 d_AR_4.pdf Graphic file (type pdf)
 
@@ -2863,7 +2866,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [83
 
 ]) (./section/OpenBDLMExampleCreatingSyntheticData.tex
-<./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf, id=2278, 722.10176pt x 179
+<./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf, id=2279, 722.10176pt x 179
 .95831pt>
 File: ./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf Graphic file (type pdf
 )
@@ -2872,7 +2875,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf use
 d on input line 14.
 (pdftex.def)             Requested size: 323.9978pt x 80.74434pt.
 
-<./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf, id=2279, 696.85645pt x 181.
+<./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf, id=2280, 696.85645pt x 181.
 47198pt>
 File: ./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf Graphic file (type pdf)
 
@@ -2881,7 +2884,7 @@ Package pdftex.def Info: ./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf used
  on input line 18.
 (pdftex.def)             Requested size: 323.9978pt x 84.37251pt.
 
-<./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf, id=2280, 680.37886pt x 174.3
+<./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf, id=2281, 680.37886pt x 174.3
 8852pt>
 File: ./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf Graphic file (type pdf)
  <use ./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf>
@@ -2913,7 +2916,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [86]
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_Observed
-Predicted.pdf, id=2351, 718.74124pt x 179.95934pt>
+Predicted.pdf, id=2352, 718.74124pt x 179.95934pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_Obs
 ervedPredicted.pdf Graphic file (type pdf)
 
@@ -2924,7 +2927,7 @@ iddenstate/TS01_ObservedPredicted.pdf used on input line 194.
 (pdftex.def)             Requested size: 323.9978pt x 81.12373pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_1.pdf
-, id=2352, 718.16505pt x 179.92117pt>
+, id=2353, 718.16505pt x 179.92117pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LL_
 1.pdf Graphic file (type pdf)
 
@@ -2935,7 +2938,7 @@ iddenstate/TS01_LL_1.pdf used on input line 198.
 (pdftex.def)             Requested size: 323.9978pt x 81.16968pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_2.pdf
-, id=2353, 715.45694pt x 179.91817pt>
+, id=2354, 715.45694pt x 179.91817pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LT_
 2.pdf Graphic file (type pdf)
 
@@ -2946,7 +2949,7 @@ iddenstate/TS01_LT_2.pdf used on input line 202.
 (pdftex.def)             Requested size: 323.9978pt x 81.47855pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA_3.pdf
-, id=2354, 744.31677pt x 179.92018pt>
+, id=2355, 744.31677pt x 179.92018pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_LA_
 3.pdf Graphic file (type pdf)
 
@@ -2957,7 +2960,7 @@ iddenstate/TS01_LA_3.pdf used on input line 206.
 (pdftex.def)             Requested size: 323.9978pt x 78.31679pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_S1_4.pdf
-, id=2355, 718.16505pt x 179.92117pt>
+, id=2356, 718.16505pt x 179.92117pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_S1_
 4.pdf Graphic file (type pdf)
 
@@ -2968,7 +2971,7 @@ iddenstate/TS01_S1_4.pdf used on input line 213.
 (pdftex.def)             Requested size: 323.9978pt x 81.16968pt.
 
 <./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR_6.pdf
-, id=2356, 715.45694pt x 179.91617pt>
+, id=2357, 715.45694pt x 179.91617pt>
 File: ./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR_
 6.pdf Graphic file (type pdf)
 
@@ -3169,10 +3172,10 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 220.
 ### simple group (level 1) entered at line 6 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 32083 strings out of 493014
- 646255 string characters out of 6133351
- 1109034 words of memory out of 5000000
- 33878 multiletter control sequences out of 15000+600000
+ 32129 strings out of 493014
+ 647170 string characters out of 6133350
+ 150832532 words of memory out of 160778931
+ 33923 multiletter control sequences out of 15000+600000
  52154 words of font info for 220 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,20n,120p,844b,1861s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -3223,10 +3226,10 @@ m1728.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfti1
 0.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sftt1095.
 pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/cm-super/sfxc1095.pf
 b>
-Output written on DOC.pdf (108 pages, 21826448 bytes).
+Output written on DOC.pdf (108 pages, 21826918 bytes).
 PDF statistics:
- 2911 PDF objects out of 2984 (max. 8388607)
- 2638 compressed objects within 27 object streams
- 837 named destinations out of 1000 (max. 500000)
+ 2912 PDF objects out of 2984 (max. 8388607)
+ 2639 compressed objects within 27 object streams
+ 838 named destinations out of 1000 (max. 500000)
  41141 words of extra memory for PDF output out of 42996 (max. 10000000)
 
