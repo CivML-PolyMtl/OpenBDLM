@@ -10,6 +10,10 @@ OpenBDLM is a Matlab open-source software developed to use Bayesian Dynamic Line
 
 <p align="center">
 <img src="/logo/OpenBDLM_intro.png" height="250">
+    
+## How to cite
+
+*OpenBDLM, an Open-Source Software for Structural Health Monitoring using Bayesian Dynamic Linear Models*<br/>Gaudot, I., Nguyen, L.H., Khazaeli S.and Goulet, J.-A.<br/>In the proceedings from the 13th International Conference on Applications of Statistics and Probability in Civil Engineering (ICASP13), May 2019<br/>[[PDF](https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.pdf)] [[EndNote](https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.xml)] [[BibTex](https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.bib)]
 
 ## Installation
 
@@ -158,9 +162,6 @@ Note that OpenBDLM has been originally developed to use Bayesian Dynamic Linear 
 ## License
 
 This project is licensed under the MIT license - see the [LICENSE.txt](LICENSE.txt) file for details
-
-## How to cite
-*OpenBDLM, an Open-Source Software for Structural Health Monitoring using Bayesian Dynamic Linear Models*<br/>Gaudot, I., Nguyen, L.H., Khazaeli S.and Goulet, J.-A.<br/>In the proceedings from the 13th International Conference on Applications of Statistics and Probability in Civil Engineering (ICASP13), May 2019<br/>[[PDF](https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.pdf)] [[EndNote](https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.xml)] [[BibTex](https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.bib)]
 
 ## Acknowledgments
 
