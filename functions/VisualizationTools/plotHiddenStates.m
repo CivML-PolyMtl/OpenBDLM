@@ -352,8 +352,8 @@ for idx=1:numberOfHiddenStates
                 'box', 'off', ...
                 'Fontsize', 16);
             %ytickformat('%.1f')
-%             ax=gca;
-%             ax.YAxis.TickLabelFormat='%.1f';
+            %             ax=gca;
+            %             ax.YAxis.TickLabelFormat='%.1f';
             datetick('x','mm-dd','keepticks')
             year=datevec(timestamps(plot_time_2(1)));
             xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
@@ -366,10 +366,31 @@ for idx=1:numberOfHiddenStates
         if isExportPDF || isExportPNG || isExportTEX
             
             % Define the name of the figure
-            match = [string('^'),string('{'),string('}'), string('x')];
+            if exist('string')
+                match = [string('^'),string('{'),string('}'), string('x')];
+                comp_name=erase(model.hidden_states_names{nb_class}{idx,1}, match);
+            else
+                comp_name=model.hidden_states_names{nb_class}{idx,1};
+                delete_idx=zeros(1,length(comp_name));
+                for i=1:length(comp_name)
+                    if strcmp(comp_name(i),'^')
+                        delete_idx(i)=1;
+                    end
+                    if strcmp(comp_name(i),'{')
+                        delete_idx(i)=1;
+                    end
+                    if strcmp(comp_name(i),'}')
+                        delete_idx(i)=1;
+                    end
+                    if strcmp(comp_name(i),'x')
+                        delete_idx(i)=1;
+                    end
+                end
+                comp_name(find(delete_idx))=[];
+            end
             NameFigure = [ data.labels{ ...
                 str2double(model.hidden_states_names{1}{idx,3})}, '_', ...
-                erase(model.hidden_states_names{nb_class}{idx,1}, match), '_', ...
+                comp_name, '_', ...
                 num2str(loop)];
             
             % Record Figure Name

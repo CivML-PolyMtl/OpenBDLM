@@ -27,7 +27,7 @@ The file must contain two columns that are organized as shown in Listing~\ref{LS
 The first line of the file is the header.
 In the header, the first field must contain the label of the time series given as a quoted delimited string, as \textquotesingle name\textquotesingle .
 The second field is the date of the first timestamp given as a quoted delimited string, formatted as \textquotesingle YYYY-DD-MM-HH-MM-SS\textquotesingle.  
-For the remaining lines, the first field is the date given as a serial date number in number of days, given as a real number, and the second field is the magnitude of the physical quantity measured, given as a real number.
+For the remaining lines, the first field is the date given as a serial date number in number of days since January 0, 0000, given as a real number, and the second field is the magnitude of the physical quantity measured, given as a real number.
 The missing data must be indicated as \lstinline[basicstyle = \mlttfamily \small ]!NaN! number.
 The .csv files must be stored in the ``OpenBDLM-master/data/csv'' subfolder.
 

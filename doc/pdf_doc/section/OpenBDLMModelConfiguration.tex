@@ -8,7 +8,7 @@ The structure \lstinline[basicstyle = \mlttfamily]!model.component! has three fi
 
 \subsubsection{Dependencies between time series}
 
-The field \lstinline[basicstyle = \mlttfamily]!model.component.ic! stores the information between time series dependencies.
+The field \lstinline[basicstyle = \mlttfamily]!model.component.ic! stores the information related to time series dependencies.
 \lstinline[basicstyle = \mlttfamily \small ]!model.component.ic! stores a $1\times \mathtt{D}$ cell array of $(1\times \mathtt{D}-1)$ matrix, where $\mathtt{D}$ is the number of time series.
 Each time series depend on the time series corresponding to the indexes given in the $\mathtt{D}$ arrays.
 If the array is empty, the time series are independent.
@@ -20,7 +20,7 @@ OpenBDLM supports 4 types of block components: (1) baseline, (2) periodic, (3) p
 There are three types of baseline supported in OpenBDLM: (i) level model, (ii) trend model, (iii) acceleration model. 
 (2) The periodic component models harmonic periodic phenomena. %, which are most often related to external effects.
 (3) The periodic kernel regression models non-harmonic periodic pattern.
-(4) The autoregressive component models the time dependent model error.
+(4) The autoregressive component is intended as a residual term to capture the time dependent model errors.
 The field \lstinline[basicstyle = \mlttfamily \small ]!block! stores a $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1,2 \}$ is the number of model classes.
 Each cell array is a $1\times \mathtt{D}$ cell array of array, where $\mathtt{D}$ is the number of time series.
 Each block component is associated with a reference number:
@@ -49,9 +49,7 @@ A value of $1$ indicates that the model parameters are constrained between the b
 
 \subsubsection{Number of model class}
 
-OpenBDLM is capable to detect changes of behavior due to changes in the dynamics in the baseline of the time series. 
-Therefore, OpenBDLM handles model switching between the three types of baseline dynamics, that is, local level, local trend, and local acceleration models. 
-OpenBDLM supports a maximum of two model dynamics, which includes six types of model switch: (1) from local level model to local trend model (and reverse), (2) from local level model to acceleration model (and reverse), (3) from local trend to acceleration model (and reverse).
+OpenBDLM is capable of detecting regime changes in the dynamics in the baseline of the time series. Therefore, OpenBDLM handles model switching between the three types of baseline dynamics, that is, local level, local trend, and local acceleration models. OpenBDLM supports a maximum of two model dynamics, which includes six types of model switch: (1) from local level model to local trend model (and reverse), (2) from local level model to acceleration model (and reverse), (3) from local trend to acceleration model (and reverse).
 
 
 \subsubsection{Model configuration functions}

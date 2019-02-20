@@ -1,0 +1,117 @@
+\contentsline {section}{\numberline {1}Getting started}{4}{section.1}
+\contentsline {subsection}{\numberline {1.1}What is OpenBDLM ?}{4}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Installing OpenBDLM}{4}{subsection.1.2}
+\contentsline {subsubsection}{\numberline {1.2.1}Prerequisites}{4}{subsubsection.1.2.1}
+\contentsline {subsubsection}{\numberline {1.2.2}Installation}{4}{subsubsection.1.2.2}
+\contentsline {subsection}{\numberline {1.3}Starting OpenBDLM}{4}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Demo}{5}{subsection.1.4}
+\contentsline {subsection}{\numberline {1.5}OpenBDLM main menu}{5}{subsection.1.5}
+\contentsline {section}{\numberline {2}Inputs and outputs}{7}{section.2}
+\contentsline {subsection}{\numberline {2.1}Inputs}{7}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Outputs}{7}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}data}{7}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}model}{7}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}estimation}{8}{subsubsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.4}misc}{9}{subsubsection.2.2.4}
+\contentsline {subsection}{\numberline {2.3}OpenBDLM files types}{9}{subsection.2.3}
+\contentsline {section}{\numberline {3}Configuration file}{10}{section.3}
+\contentsline {subsection}{\numberline {3.1}Project name}{11}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Data}{11}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Model structure}{11}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Model parameters}{12}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Initial states values}{12}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Options}{13}{subsection.3.6}
+\contentsline {section}{\numberline {4}Workflow}{16}{section.4}
+\contentsline {subsection}{\numberline {4.1}Data loading}{16}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}Input data format}{16}{subsubsection.4.1.1}
+\contentsline {paragraph}{Comma Separated Values files (.CSV)}{16}{section*.7}
+\contentsline {paragraph}{\textsc {Matlab}{} files (.MAT)}{17}{section*.9}
+\contentsline {subsubsection}{\numberline {4.1.2}Data loading functions}{17}{subsubsection.4.1.2}
+\contentsline {subsection}{\numberline {4.2}Data pre-processing}{18}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Selection of time series}{19}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Selection of data analysis time-window}{19}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}Removing missing data}{19}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}Data resampling}{19}{subsubsection.4.2.4}
+\contentsline {subsubsection}{\numberline {4.2.5}Time synchronization options}{19}{subsubsection.4.2.5}
+\contentsline {subsubsection}{\numberline {4.2.6}Data pre-processing functions}{20}{subsubsection.4.2.6}
+\contentsline {subsection}{\numberline {4.3}Model configuration}{21}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Dependencies between time series}{21}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}Block components}{21}{subsubsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.3}Parameter constrains}{22}{subsubsection.4.3.3}
+\contentsline {subsubsection}{\numberline {4.3.4}Number of model class}{22}{subsubsection.4.3.4}
+\contentsline {subsubsection}{\numberline {4.3.5}Model configuration functions}{22}{subsubsection.4.3.5}
+\contentsline {subsection}{\numberline {4.4}Model construction}{24}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Model construction functions}{24}{subsubsection.4.4.1}
+\contentsline {subsection}{\numberline {4.5}Model parameters estimation}{24}{subsection.4.5}
+\contentsline {subsubsection}{\numberline {4.5.1}Model parameter estimation functions}{29}{subsubsection.4.5.1}
+\contentsline {subsection}{\numberline {4.6}Hidden states estimation}{33}{subsection.4.6}
+\contentsline {subsubsection}{\numberline {4.6.1}Hidden state estimation functions}{33}{subsubsection.4.6.1}
+\contentsline {subsubsection}{\numberline {4.6.2}Estimation of the initial hidden states}{34}{subsubsection.4.6.2}
+\contentsline {section}{\numberline {5}Generate synthetic data}{37}{section.5}
+\contentsline {subsection}{\numberline {5.1}Generate synthetic data using the interactive tool}{37}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Generate synthetic data from an existing project}{38}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Synthetic data generation functions}{38}{subsection.5.3}
+\contentsline {section}{\numberline {6}Results}{40}{section.6}
+\contentsline {subsection}{\numberline {6.1}Visualizing results}{40}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}Generating figures at any time}{40}{subsubsection.6.1.1}
+\contentsline {subsubsection}{\numberline {6.1.2}Saving figures}{40}{subsubsection.6.1.2}
+\contentsline {subsection}{\numberline {6.2}Exploring results}{42}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {6.2.1}RES\_*.mat result file}{42}{subsubsection.6.2.1}
+\contentsline {subsubsection}{\numberline {6.2.2}PROJ\_*.mat project file}{43}{subsubsection.6.2.2}
+\contentsline {subsubsection}{\numberline {6.2.3}DATA\_*.mat data file}{43}{subsubsection.6.2.3}
+\contentsline {subsubsection}{\numberline {6.2.4}Exporting results}{43}{subsubsection.6.2.4}
+\contentsline {section}{\numberline {7}Version control}{46}{section.7}
+\contentsline {paragraph}{How does version control work ?}{46}{section*.32}
+\contentsline {section}{\numberline {8}Examples}{47}{section.8}
+\contentsline {subsection}{\numberline {8.1}Example \#1: single time series analysis}{47}{subsection.8.1}
+\contentsline {subsubsection}{\numberline {8.1.1}Data description}{47}{subsubsection.8.1.1}
+\contentsline {subsubsection}{\numberline {8.1.2}Model description}{48}{subsubsection.8.1.2}
+\contentsline {subsubsection}{\numberline {8.1.3}Run the example from pre-existing configuration file}{50}{subsubsection.8.1.3}
+\contentsline {subsubsection}{\numberline {8.1.4}Run the example from command line interaction}{50}{subsubsection.8.1.4}
+\contentsline {subsection}{\numberline {8.2}Example \#2: dependence model between two time series}{53}{subsection.8.2}
+\contentsline {subsubsection}{\numberline {8.2.1}Data description}{53}{subsubsection.8.2.1}
+\contentsline {subsubsection}{\numberline {8.2.2}Model description}{54}{subsubsection.8.2.2}
+\contentsline {subsubsection}{\numberline {8.2.3}Run the example from pre-existing configuration file}{55}{subsubsection.8.2.3}
+\contentsline {subsubsection}{\numberline {8.2.4}Run the example from command line interaction}{55}{subsubsection.8.2.4}
+\contentsline {subsection}{\numberline {8.3}Example \#3: time series with anomaly}{59}{subsection.8.3}
+\contentsline {subsubsection}{\numberline {8.3.1}Data description}{59}{subsubsection.8.3.1}
+\contentsline {subsubsection}{\numberline {8.3.2}Model description}{59}{subsubsection.8.3.2}
+\contentsline {subsubsection}{\numberline {8.3.3}Run the example from pre-existing configuration file}{63}{subsubsection.8.3.3}
+\contentsline {subsubsection}{\numberline {8.3.4}Run the example from command line interaction}{63}{subsubsection.8.3.4}
+\contentsline {subsection}{\numberline {8.4}Example \#4: single time series analysis with non-harmonic periodic pattern}{65}{subsection.8.4}
+\contentsline {subsubsection}{\numberline {8.4.1}Data description}{65}{subsubsection.8.4.1}
+\contentsline {subsubsection}{\numberline {8.4.2}Model description}{65}{subsubsection.8.4.2}
+\contentsline {subsubsection}{\numberline {8.4.3}Run the example from pre-existing configuration file}{68}{subsubsection.8.4.3}
+\contentsline {subsubsection}{\numberline {8.4.4}Run the example from command line interaction}{68}{subsubsection.8.4.4}
+\contentsline {subsection}{\numberline {8.5}Example \#5: generate and analyze synthetic data }{70}{subsection.8.5}
+\contentsline {subsubsection}{\numberline {8.5.1}Purpose}{70}{subsubsection.8.5.1}
+\contentsline {subsubsection}{\numberline {8.5.2}Model description}{70}{subsubsection.8.5.2}
+\contentsline {subsubsection}{\numberline {8.5.3}Run the example from command line interaction}{71}{subsubsection.8.5.3}
+\contentsline {section}{\numberline {9}FAQ Troubleshooting}{74}{section.9}
+\contentsline {section}{\numberline {10}Reference Theory}{77}{section.10}
+\contentsline {subsection}{\numberline {10.1}Linear gaussian state-space model}{77}{subsection.10.1}
+\contentsline {subsection}{\numberline {10.2}Kalman filter \& UD filters}{78}{subsection.10.2}
+\contentsline {subsection}{\numberline {10.3}Switching Kalman filter}{78}{subsection.10.3}
+\contentsline {subsection}{\numberline {10.4}Model parameter estimation}{79}{subsection.10.4}
+\contentsline {subsubsection}{\numberline {10.4.1}Maximum log A Posteriori (MAP)}{79}{subsubsection.10.4.1}
+\contentsline {subsubsection}{\numberline {10.4.2}Maximum log Likelihood Estimation (MLE)}{80}{subsubsection.10.4.2}
+\contentsline {subsubsection}{\numberline {10.4.3}Laplace Approximation}{80}{subsubsection.10.4.3}
+\contentsline {subsubsection}{\numberline {10.4.4}Gradient-based optimization}{80}{subsubsection.10.4.4}
+\contentsline {paragraph}{Parameter-wise Newton-Raphson}{80}{section*.50}
+\contentsline {paragraph}{Stochastic gradient}{81}{section*.51}
+\contentsline {paragraph}{Approximation of the derivatives}{81}{section*.52}
+\contentsline {subsubsection}{\numberline {10.4.5}Model parameter space transformation}{81}{subsubsection.10.4.5}
+\contentsline {subsection}{\numberline {10.5}Block components}{82}{subsection.10.5}
+\contentsline {subsubsection}{\numberline {10.5.1}Local level (baseline)}{82}{subsubsection.10.5.1}
+\contentsline {subsubsection}{\numberline {10.5.2}Local trend (baseline)}{83}{subsubsection.10.5.2}
+\contentsline {subsubsection}{\numberline {10.5.3}Local acceleration (baseline)}{83}{subsubsection.10.5.3}
+\contentsline {subsubsection}{\numberline {10.5.4}Local level compatible trend (baseline)}{84}{subsubsection.10.5.4}
+\contentsline {subsubsection}{\numberline {10.5.5}Local level compatible acceleration (baseline)}{84}{subsubsection.10.5.5}
+\contentsline {subsubsection}{\numberline {10.5.6}Local trend compatible acceleration (baseline)}{85}{subsubsection.10.5.6}
+\contentsline {subsubsection}{\numberline {10.5.7}Periodic (Fourier form)}{85}{subsubsection.10.5.7}
+\contentsline {subsubsection}{\numberline {10.5.8}Periodic (Kernel regression form)}{86}{subsubsection.10.5.8}
+\contentsline {subsubsection}{\numberline {10.5.9}First order autoregressive}{87}{subsubsection.10.5.9}
+\contentsline {subsection}{\numberline {10.6}Handling non-uniform time vector and missing data}{87}{subsection.10.6}
+\contentsline {subsubsection}{\numberline {10.6.1}Non-uniform time vector}{87}{subsubsection.10.6.1}
+\contentsline {subsubsection}{\numberline {10.6.2}Missing data (NaN)}{88}{subsubsection.10.6.2}
+\contentsline {subsection}{\numberline {10.7}Dependencies between time series}{88}{subsection.10.7}

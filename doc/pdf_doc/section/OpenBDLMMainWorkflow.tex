@@ -1,12 +1,10 @@
 \section{Workflow}
 \label{S:WORKFLOW}
 
-%\begin{figure}[!h]
-\begin{sidewaysfigure}
+\begin{figure}[h]
   \centering
-  \captionsetup{justification=centering}
-\scalebox{0.8}{
-\begin{tikzpicture}
+\scalebox{0.7}{
+\!\!\!\!\!\!\!\!\begin{tikzpicture}
 
 % Node position
 \node[paraamber](rawdata){\begin{tabular}{c}  .MAT \\ and \\ .CSV data files \end{tabular}};
@@ -67,9 +65,9 @@
 \node[above of = syntheticdatacreation, xshift = 0cm, yshift = 0.325 cm,  fill=white] { Section~\ref{S:SYNTHETIC}};
 
 \end{tikzpicture} }
-\caption{OpenBDLM workflow} \label{FIG:OpenBDLMworkflow}
-\end{sidewaysfigure}
-
+\label{FIG:OpenBDLMworkflow}
+\caption{OpenBDLM workflow}
+\end{figure}
 
 \input{section/OpenBDLMDataLoading.tex}
 

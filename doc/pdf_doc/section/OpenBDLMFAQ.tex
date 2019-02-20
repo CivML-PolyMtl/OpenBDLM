@@ -42,16 +42,19 @@ Model parameter estimation is usually slow, but hereafter are some tips to speed
 \item shorten the training period (see  \lstinline[basicstyle = \mlttfamily \small ]!misc.options.trainingPeriod!).
 \item decrease the number of data points by averaging (see Section~\ref{S:DATAEDITINGPREPROCESSING}).
 \item perform parallel computation (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isParallel!). Note that parallel computation requires the \MATLAB{} \emph{Parallel Computing Toolbox}.
-\item assume that some model parameter values are known to reduce the total number of model parameters to learn (i.e. set the model parameters bound to \lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!, see Section~\ref{S:PARAMESTIMATION}).
+\item fix the model parameter values that are known in order to reduce the total number of model parameters to learn (i.e. set the model parameters bound to \lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!, see Section~\ref{S:PARAMESTIMATION}).
 \item constrain model parameters between each other (if applicable) to reduce the total number of model parameters to learn.
 \item abort the process and start again with different starting values of model parameters. 
 \end{itemize}
 
 \item[\textbf{How to choose the right model structure for my data ?}] \leavevmode \\
-There is no silver bullet: inspect the data to propose candidates of model.
-Comparing the log-likelihood values obtained using different model candidates is a good indicator.
+Currently, one has to inspect the data to propose candidates model configurations.
+Different candidate models can be compared based on the log-likelihood values calculated for test sets not employed to train the model.
 Moreover, the presence of non-stationarity in the autoregressive hidden states may indicate that the model is incorrect or, at least, incomplete (but this may also due to model parameters values).
-Note that model structure selection is a large field of study and many methods are available in the literature.
+%Note that model structure selection is a large field of study and many methods are available in the literature.
+
+\item[\textbf{I cannot compile the figures exported in .tex files.}] \leavevmode \\
+By default, you need to employ the  compiler Lulatex compile. Lulatex is employed here because of its capacity to compile large figures. If your figure contains few data points (e.g. <50000) you can use the standard Latex compiler by commenting the line  \lstinline[basicstyle = \mlttfamily \small ]!\RequirePackage{luatex85}! in the preamble of the .tex file you want to compile. 
 
 \item[\textbf{The default value for model parameters and initial hidden states do not satisfy me. How can I change them ?}] \leavevmode \\
 It is possible to change the default values from the function  \lstinline[basicstyle = \mlttfamily \small ]!buildModel.m!.
@@ -92,8 +95,8 @@ If you want to update the documentation: (1) Download the matlab2html function a
 
 \noindent \emph{OpenBDLM, an Open-Source Software for Structural Health Monitoring using Bayesian Dynamic Linear Models}\\{\small
             Gaudot, I., Nguyen, L.H., Khazaeli S.and Goulet, J.-A.\\
-            Submitted to 13th International Conference on Applications of Statistics and Probability in Civil Engineering, Vol. X, Issue X, 2019\\}
-      [~] [~]  [~] [~] \cite{Gaudot2019OpenBDLM}\\[4pt]
+            In the proceedings from the 13th International Conference on Applications of Statistics and Probability in Civil Engineering (ICASP13), May 2019\\}
+      [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.pdf}{PDF}] [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.xml}{EndNote}]  [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.bib}{BibTex}]  \cite{Gaudot2019OpenBDLM}\\[4pt]
 
 
 \end{description}

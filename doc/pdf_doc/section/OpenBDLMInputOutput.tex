@@ -3,18 +3,20 @@
 
 \subsection{Inputs}
 \label{SS:OpenBDLMinput}
-{\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main! can take three types of input
+
+
+OpenBDLM has two operating modes: \emph{interactive mode} and \emph{batch mode}. In \emph{interactive mode}, OpenBDLM takes the required input for the project through \MATLAB{} command line queries. Each input is validated after pressing the Enter key $\dlsh$. In \emph{batch mode}, the inputs are provided in advance by the user and stored in a cell array of characters vector. OpenBDLM reads sequentially the inputs and performs the analysis. The batch mode requires the user to be familiar with the interactive mode because the set of input must be provided prior to the analysis. {\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main! can take three types of input
 \begin{itemize}
-  \item no input \\ 
+  \item no input (\emph{interactive mode}) \\ 
   
   \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main;!} \\  
   %the program requests user's inputs from the command line. 
-  \item the name of configuration file given as a character vector\\ 
+  \item the name of configuration file given as a character vector  (\emph{interactive mode}) \\ 
   
     \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main('CFG_DEMO.m');!} \\ 
       
     %a configuration file (see Section~\ref{S:CFGFile}) is used to initialize the project
-  \item a cell array of character vectors\\
+  \item a cell array of character vectors  (\emph{batch mode}) \\
   
 \raggedright{\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main(\{'''CFG_DEMO.m''', '2', '3', '1', '''Q'''\});!}} \\
  %the program reads pre-loaded commands stored in an input cell-array of character vectors.
@@ -22,7 +24,7 @@
 
 \subsection{Outputs}
 
- Four possible output can be obtained from \lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main.m!.
+ Four possible outputs can be obtained from \lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main.m!.
  These outputs are \lstinline[basicstyle = \mlttfamily \small ]!data!, \lstinline[basicstyle = \mlttfamily \small ]!model!,\lstinline[basicstyle = \mlttfamily \small ]!estimation!, \lstinline[basicstyle = \mlttfamily \small ]!misc!.\\
  
  \raggedright{\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]![data, model, estimation, misc]=OpenBDLM_main;!}} \\

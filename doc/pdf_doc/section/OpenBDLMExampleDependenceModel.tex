@@ -5,7 +5,7 @@
 
 This example uses two synthetic time series that mimics displacement and temperature data measured on a bridge.
 The  Figure~\ref{fig:DataSummaryRaw2}a shows that data points exist between August 2013 and October 2015.
-The timestep is non-uniform; it varies from 1 hour to 25 hours (see Figure~\ref{fig:DataSummaryRaw2}b). 
+The timestep in the original data is non-uniform; it varies from 1 hour to 25 hours (see Figure~\ref{fig:DataSummaryRaw2}b). 
 The timestep vector is not identical on each time series. 
 It means that the time series are not synchronized between each other.
 The most frequent (i.e referent) time step is 1 hour for both time series (Section~\ref{SS:NonUniform}).
@@ -15,21 +15,26 @@ After data synchronization, the time step vectors are identical on each time ser
 Both time series are stationary, and they exhibit a level, a yearly and daily periodic pattern as well as an autoregressive pattern.
 The periodic patterns observed on the displacement time series is due to the temperature variations observed in the temperature time series.
 
+In this example, we choose to resample the original data in order to have a time step of 6h instead of 1h. 
+
 \begin{figure*}[h!]
 \centering
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/raw/ALL_AMPLITUDES.pdf} 
 \caption{Amplitude}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/raw/ALL_TIMESTEPS.pdf}
 \caption{Timestep}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/raw/AVAILABILITY.pdf}
 \caption{Availability}
 \end{subfigure}
-\caption{Data used in example \#2.}
+\caption{Raw data in the example \#2 where the reference timestep is 1h.}
 \label{fig:DataSummaryRaw2}
 \end{figure*}
 
@@ -37,18 +42,21 @@ The periodic patterns observed on the displacement time series is due to the tem
 \begin{figure*}[h!]
 \centering
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_AMPLITUDES.pdf} 
 \caption{Amplitude}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/preprocessed_default/ALL_TIMESTEPS.pdf}
 \caption{Timestep}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/preprocessed_default/AVAILABILITY.pdf}
 \caption{Availability}
 \end{subfigure}
-\caption{Data used in example \#2 after pre-processing.}
+\caption{Data used in example \#2 after resampling to obtain a reference timestep of 6h.}
 \label{fig:DataSummaryDefaultPreProcessed2}
 \end{figure*}
 
@@ -68,16 +76,15 @@ The associated model parameters are
 \bm\theta & =[\sigma_{w, \text{D}}^{\mathtt{LL}}, \phi^{\mathtt{AR}}_{D}, \sigma_{w, \text{D}}^{\mathtt{AR}}, \sigma_{v, \text{D}},  \\
 &  \sigma_{w, \text{T}}^{\mathtt{LL}},  p^{\mathtt{P}, \text{yearly}}_{\text{T}}, \sigma_{w, \text{T}}^{\mathtt{P}, \text{yearly}} , p^{\mathtt{P}, \text{daily}}_{\text{T}} , \sigma_{w, \text{T}}^{\mathtt{P}, \text{daily}}, \phi^{\mathtt{AR}}_{\text{T}}, \sigma_{w, \text{T}}^{\mathtt{AR}}, \sigma_{v, \text{T}}].
 \end{align*}
-The optimized model parameters values computed using the Newton-Raphson algorithm (see~\ref{SS:THModelParameterEstimation}) are
+The optimized model parameters values computed using the Newton-Raphson algorithm (see~\ref{SS:THModelParameterEstimation}) with a training period of 180 days are
 \begin{align*}
- \bm\theta^{\text{*}}& =[0, 0.97, 0.019, 7.42\times10^{-7},  \\
- & 0, 365.2422, 0, 1, 0, 0.99, 0.43, 2.67\times10^{-5}, -0.011, 0.0711, 0.000292 ]
+ \bm\theta^{\text{*}}& =[0, 0.90, 0.037, 1.94\times10^{-5},  \\
+ & 0, 365.2422, 0, 1, 0, 0.98, 0.86, 1.14\times10^{-4}, -0.013, 0.0706, 0.00073 ]
 \end{align*}
 The optimized initial hidden states mean and covariance values are 
 \begin{align*}
-\bm \mu^{*}_{0} & = [	 25.9  ,	-0.0595	, 5.45  	, 17.6  ,	-0.934	, 0.678 ,	0.41  ,	2.1]^{\intercal}, \text{and} \\
-\bm\Sigma^{*}_{0} & = \text{diag} [	3.71\times10^{-5},	0.000457	, 0.287 	, 0.263 ,	0.265 	,8.14\times10^{-5}	, \\
- & 8.14\times10^{-5}	, 0.71    ].
+\bm \mu^{*}_{0} & = [	25.9,-2.55\times10^{-5},5.53,16.3,-0.999,0.263,0.669,3.77 ]^{\intercal}, \text{and} \\
+\bm\Sigma^{*}_{0} & = \text{diag}([4.27\times10^{-5},1.68\times10^{-3},0.715,0.338,0.341,6.73\times10^{-5},6.73\times10^{-5},1.81]).
  \end{align*}
 The hidden states computed using the estimated model parameters and initial hidden states are presented in Figure~\ref{fig:DISPTEMPSIMOptimizedOptimizedExample2}.
 
@@ -87,7 +94,7 @@ The hidden states computed using the estimated model parameters and initial hidd
 There is a configuration file CFG\_Example\_DISPTEMP\_optim.m which is located in the ``config\_files'' folder of the OpenBDLM package.
 CFG\_Example\_DISPTEMP\_optim.m contains the optimized model parameters and optimized initial hidden states values.
 There is also a data file DATA\_Example\_DISPTEMP\_optim.mat that is located in the ``data/mat'' subfolder.
-Therefore, it is possible to run the example \#2 by following the following steps from the \MATLAB{} command line:
+Therefore, it is possible to run the example \#2 by following the steps below while interacting with the \MATLAB{} command line:
 \begin{enumerate}
 \item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISPTEMP_optim.m');!}.
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}.
@@ -100,7 +107,7 @@ Therefore, it is possible to run the example \#2 by following the following step
 
 The analysis of a new dataset usually requires to start from scratch.
 This section explains how to run the example \#2 from scratch, that is, how to load the data presented in Figure~\ref{fig:DataSummaryRaw2}, configure the model, estimate the model parameters and estimate the hidden states.
-This may be done by following the following steps from the \MATLAB{} command line:
+This may be done by following steps below while interacting with the \MATLAB{} command line:
 \begin{enumerate}
 \item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}.
 \item Choose the interactive tool. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
@@ -108,12 +115,25 @@ This may be done by following the following steps from the \MATLAB{} command lin
 \item Disregard generating synthetic data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!no!}. 
 \item Load new data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
 \item Select from the graphical user interface the data files located in the ``/data/csv/Example\_DISPTEMP/'' folder. The Figure~\ref{fig:DataSummaryRaw2} that represents the raw data should popup on screen.
-\item Save and continue to perform default pre-processing . Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}. The Figure~\ref{fig:DataSummaryDefaultPreProcessed2} that represents the processed data should popup on screen.
+\item Access the resampling menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!4!}. 
+
+\item Resample data to obtain timesteps of 6h (0.25 day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0.25!}. The Figure \ref{fig:DataSummaryDefaultPreProcessed2} should popup on the screen this time for the resampled data.
+
+\item Save and continue. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}. The same figures should popup on the screen again.
 \item Select dependency for the time series \#1. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![2]!}.
 \item Select dependency for the time series \#2. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![0]!}.
 \item Select the number of model classes. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
 \item Select the model block components for time series \#1. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![11 41]!}.
 \item Select the model block components for time series \#2. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![11 31 31 41]!}.
+
+\item Access the training period modification menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!13!}. 
+
+\item Modify the training period. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
+
+\item Choose the starting time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
+
+\item Choose the end time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!180!}. 
+
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
 \item Change the state estimation method to UD\footnote{The UD computation is required in this case because of the presence of missing data. See Section~\ref{SS:KFUD} for more details.}. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
 \item Return to the main menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!R!}.
@@ -350,38 +370,38 @@ This may be done by following the following steps from the \MATLAB{} command lin
 
 \begin{figure*}[h!]
 \centering
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_ObservedPredicted.pdf}
 \caption{Observed and estimated displacement data} 
 \end{subfigure}
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf}
 \caption{Estimated displacement local level component.}
 \end{subfigure}
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/DISP_AR_2.pdf}
 \caption{Estimated displacement autoregressive component.}
 \end{subfigure}
 \end{figure*}
 \begin{figure*}[h!]
 \ContinuedFloat
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_ObservedPredicted.pdf} 
 \caption{Observed and estimated temperature data}
 \end{subfigure}
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_LL_1.pdf} 
 \caption{Estimated temperature local level component.}
 \end{subfigure}
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_2.pdf} 
 \caption{Estimated temperature yearly component (first hidden state)}
 \end{subfigure}
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_S1_4.pdf} 
 \caption{Estimated temperature daily component (first hidden state)}
 \end{subfigure}
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_AR_6.pdf} 
 \caption{Estimated temperature autoregressive component}
 \end{subfigure}

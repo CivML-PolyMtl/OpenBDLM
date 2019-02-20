@@ -1,27 +1,32 @@
 \subsection{Example \#1: single time series analysis}
 \label{S:Example_DISP}
 \subsubsection{Data description}
-\todo{Double check on parameter estimation}This example uses a synthetic time series that mimics displacement data measured on a bridge (Figure~\ref{fig:DataSummary1}). 
+This example uses a synthetic time series that mimics displacement data measured on a bridge (Figure~\ref{fig:DataSummary1}). 
 The Figure~\ref{fig:DataSummary1}a shows that data points exist between August 2013 and October 2015.
-The timestep is non-uniform; it varies from 1 hour to 25 hours (see Figure~\ref{fig:DataSummary1}b). 
+The timestep in the original data is non-uniform; it varies from 1 hour to 25 hours (see Figure~\ref{fig:DataSummary1}b). 
 The most frequent time step  (i.e referent time step, see Section~\ref{SS:NonUniform}) is 1 hour, and there is no missing data (see Figure~\ref{fig:DataSummary1}c).
 The time series is stationary with a level, a yearly periodic, a daily periodic patterns and a residual autoregressive pattern.
+
+In this example, we choose to resample the original data in order to have a time step of 6h instead of 1h. 
 
 \begin{figure*}[h]
 \centering
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/raw/ALL_AMPLITUDES.pdf}
 \caption{Amplitude}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/raw/ALL_TIMESTEPS.pdf} 
 \caption{Timestep}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/raw/AVAILABILITY.pdf}
 \caption{Availability}
 \end{subfigure}
-\caption{Data used in the example \#1.}
+\caption{Raw data in the example \#1 where the reference timestep is 1h.}
 \label{fig:DataSummary1}
 \end{figure*}
 
@@ -36,37 +41,41 @@ The associated model parameters are
 \begin{gather*}
 \bm\theta=[\sigma_{w}^{\mathtt{LL}}, p^{\mathtt{P}, \text{yearly}}, \sigma_{w}^{\mathtt{P}, \text{yearly}} , p^{\mathtt{P}, \text{daily}}, \sigma_{w}^{\mathtt{P}, \text{daily}}, \phi^{\mathtt{AR}}, \sigma_{w}^{\mathtt{AR}}, \sigma_{v}].
 \end{gather*}
-The optimized model parameters values computed using the Newton-Raphson algorithm (see~\ref{SS:THModelParameterEstimation}) are
+The optimized model parameters values computed using the Newton-Raphson algorithm (see~\ref{SS:THModelParameterEstimation}) with a training period of 180 days  are
 \begin{gather*}
-\bm\theta^{\text{*}}=[0, 365.2422, 0, 1, 0, 0.97, 0.0192, 7.4258\times10^{-7} ].
+\bm\theta^{\text{*}}=[0, 365.2422, 0, 1, 0, 0.903, 0.035, 7.8\times10^{-6} ].
 \end{gather*}
 The optimized initial hidden states mean and covariance values are 
 \begin{align*}
-\bm \mu^{*}_{0} & = [	 25.9  ,	-0.202 ,	-0.00305 ,	0.0331,	0.051 	,-0.00843]^{\intercal}, \text{and} \\
-\bm\Sigma^{*}_{0} & = \text{diag}[	3.74\times10^{-5} ,	6.85\times10^{-5}	, 6.99\times10^{-5} \\
-& 5.73\times10^{-7} ,	5.73\times10^{-7} , 	0.000485    ].
+\bm \mu^{*}_{0} & = [	25.9,-0.202,-0.004	,-0.004,0.054,-0.012]^{\intercal}, \text{and} \\
+\bm\Sigma^{*}_{0} & = \text{diag}([4.21\times10^{-5},	8.3\times10^{-5},	8.46\times10^{-5},	4.29\times10^{-7},	4.29\times10^{-7},	1.59\times10^{-3}   ]).
  \end{align*}
 The hidden states computed using the estimated model parameters and initial hidden states are presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
 
 \begin{figure*}[h!]
 \begin{center}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_ObservedPredicted.pdf} 
 \caption{Observed and estimated displacement data}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_LL_1.pdf}
 \caption{Estimated displacement local level component.}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_2.pdf} 
 \caption{Estimated displacement yearly periodic component (first hidden state)}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_S1_4.pdf}
 \caption{Estimated displacement daily periodic component (first hidden state)}
 \end{subfigure}
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.pdf} 
 \caption{Estimated displacement autoregressive component}
 \end{subfigure}
@@ -82,7 +91,7 @@ The hidden states computed using the estimated model parameters and initial hidd
 There is a configuration file CFG\_Example\_DISP\_optim.m which is located in the ``config\_files'' folder of the OpenBDLM package.
 CFG\_Example\_DISP\_optim.m contains the optimized model parameters and optimized initial hidden states values (see Listing~\ref{LST:CFGFileExample1}).
 There is also a data file DATA\_Example\_DISP\_optim.mat that is located in the ``data/mat'' subfolder.
-Therefore, it is possible to run the example \#1 by following the following steps from the \MATLAB{} command line:
+Therefore, it is possible to run the example \#1 by following the steps below while interacting with the \MATLAB{} command line:
 \begin{enumerate}
 \item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISP_optim.m');!}.
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}.
@@ -91,18 +100,18 @@ Therefore, it is possible to run the example \#1 by following the following step
 \end{enumerate}
 
 
-\begin{lstlisting}[linewidth=\linewidth, style=Matlab-editor,  basicstyle = \mlttfamily \scriptsize, backgroundcolor = \color{matlab-yellow}, caption = {Configuration file for the example \#1}, label=LST:CFGFileExample1, captionpos=b, float=h!]
+\begin{lstlisting}[linewidth=\linewidth, style=Matlab-editor,  basicstyle = \mlttfamily \tiny, backgroundcolor = \color{matlab-yellow}, caption = {Configuration file for the example \#1}, label=LST:CFGFileExample1, captionpos=b, float=h!]
 %                    OpenBDLM configuration file                          
 %          Autogenerated by OpenBDLM on 22-Nov-2018 17:18:09              
 %
 %% A - Project name
-misc.ProjectName='Example_DISP';
+misc.ProjectName='Example_DISP_optim';
 
 %% B - Data
-dat=load('DATA_Example_DISP.mat'); 
+dat=load('DATA_Example_DISP_optim.mat'); 
 data.values=dat.values;
 data.timestamps=dat.timestamps;
-data.labels={'Example_DISP'};
+data.labels={'DISP'};
 
 %% C - Model structure 
 
@@ -119,22 +128,22 @@ model.components.ic={[ ] };
 model.param_properties={
      % #1       #2       #3    #4    #5         #6       #7     #8     #9    #10
      % Param name Block name  Model Obs Bound Prior Mean Std Values Ref
-     '\sigma_w', 'LL',  '1',   '1', [NaN  NaN],    'N/A',  NaN, NaN,  0,          1 %#1   
-     'p',        'PD1', '1',   '1', [NaN  NaN],    'N/A',  NaN, NaN, 365.24,      2 %#2   
+     '\sigma_w', 'LL',  '1',   '1', [NaN  NaN],    'N/A',  NaN, NaN,   0,         1 %#1   
+     'p',        'PD1', '1',   '1', [NaN  NaN],    'N/A',  NaN, NaN,   365.24,    2 %#2   
      '\sigma_w', 'PD1', '1',   '1', [NaN  NaN],    'N/A',  NaN, NaN,   0,         3 %#3   
      'p',        'PD2', '1',   '1', [NaN  NaN],    'N/A',  NaN, NaN,   1,         4 %#4   
      '\sigma_w', 'PD2', '1',   '1', [NaN  NaN],    'N/A',  NaN, NaN,   0,         5 %#5   
-     '\phi',     'AR',  '1',   '1', [0  1],        'N/A',  NaN, NaN,   0.97,      6 %#6   
-     '\sigma_w', 'AR',  '1',   '1', [0  Inf],      'N/A',  NaN, NaN,   0.0192,    7 %#7   
-     '\sigma_v', '',    '1',   '1', [0  Inf],      'N/A',  NaN, NaN,   7.425e-07, 8 %#8   
+     '\phi',     'AR',  '1',   '1', [0  1],        'N/A',  NaN, NaN,   0.903,     6 %#6   
+     '\sigma_w', 'AR',  '1',   '1', [0  Inf],      'N/A',  NaN, NaN,   0.035,     7 %#7   
+     '\sigma_v', '',    '1',   '1', [0  Inf],      'N/A',  NaN, NaN,   7.8e-06,   8 %#8   
 };
 
 %% E - Initial states values 
 % Initial hidden states mean for model 1:
-model.initX{ 1 }=[	25.89 	-0.202	-0.00305	0.0331	0.051 	-0.00843   ]';
+model.initX{ 1 }=[	25.9  	-0.202	-0.00406	-0.00439	0.0548	-0.0129  ]';
 
 % Initial hidden states variance for model 1: 
-model.initV{ 1 }=diag([ 3.74E-05	6.85E-05	6.99E-05	5.73E-07	5.73E-07	0.000485	 ]);
+model.initV{ 1 }=diag([ 	4.21E-05	8.3E-05	8.46E-05	4.29E-07	4.29E-07	0.00159 ]);
 
 % Initial probability for model 1
 model.initS{1}=[1     ];
@@ -147,7 +156,7 @@ model.initS{1}=[1     ];
 
 The analysis of a new dataset usually requires to start from scratch.
 This section explains how to run the example \#1 from scratch, that is, how to load the data presented in Figure~\ref{fig:DataSummary1}, configure the model, estimate the model parameters and estimate the hidden states as presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
-This may be done by following the following steps from the \MATLAB{} command line:
+This may be done by following steps below while interacting with the \MATLAB{} command line
 \begin{enumerate}
 \item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}.
 \item Choose the interactive tool. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
@@ -155,9 +164,24 @@ This may be done by following the following steps from the \MATLAB{} command lin
 \item Disregard generating synthetic data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!no!}. 
 \item Load new data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
 \item Select from the graphical user interface\footnote{Douglas M. Schwarz, 2007, uipickfiles \url{https://www.mathworks.com/matlabcentral/fileexchange/10867-uipickfiles-uigetfile-on-steroids}} the data file Example\_DISP\_DISP.csv located in the folder ``/data/csv/Example\_DISP''. See Figure~\ref{fig:DataLoadingUIPickFileExample1}. The Figure~\ref{fig:DataSummary1} that represents the raw data should popup on screen.
-\item Save and continue without pre-processing. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}. The Figure~\ref{fig:DataSummary1} should popup on screen again,.
+
+\item Access the resampling menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!4!}. 
+
+\item Resample data to obtain timesteps of 6h (0.25 day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0.25!}. The Figure~\ref{fig:DataSummary1} should popup on the screen this time for the resampled data.
+
+\item Save and continue. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}. The same figures should popup on the screen again.
+
 \item Select the number of model classes. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
 \item Select the model block components. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![11 31 31 41]!}.
+
+\item Access the training period modification menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!13!}. 
+
+\item Modify the training period. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
+
+\item Choose the starting time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
+
+\item Choose the end time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!180!}. 
+
 \item Access model parameter estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
 \item Start Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm has converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample1}. Note that it is possible to get slightly different value of parameters with the same performance\footnote{Keep in mind that the optimization may take several minutes to several hours. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISP\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx1}.}.
 \item Estimate the initial hidden states values. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}.

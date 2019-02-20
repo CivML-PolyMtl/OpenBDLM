@@ -3,8 +3,8 @@
 \subsection{Visualizing results}
 \label{S:VisualizingResults}
 
-The figures that popup on screen aim to represent the data, the data summary, and the hidden states results for each step of the analysis.
-Note that in contrast with the data plot, the data summary plot offers a way  to visualize the amplitude, the timesteps and the data availability in a compact way.
+The figures that popup on screen represent the data, the data summary, and the hidden states results for each step of the analysis.
+Note that in contrast with the data plot, the data summary plot offers a way to visualize the amplitude, the timesteps and the data availability in a compact way.
 By default, a solid line connects two successive real-valued measurement, whatever the timestep.
 Missing data (NaN) are not represented in the plot of the observed data, thus resulting in gap for large period  of time with missing data.
 The data availability in the data summary plot indicates each missing data with a red cross, thus making it useful to detect sparse missing data which are invisible in the data amplitude plots.
@@ -12,12 +12,12 @@ The working period of the sensor is represented by a thick green line in the dat
 The plot appearance may be controlled from the dedicated \lstinline[basicstyle = \mlttfamily \small]!misc.options!.
 
 \subsubsection{Generating figures at any time}
-The option \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!14!} from the main menu allows generating the different type of figure at any time (see~\ref{LST:PlotMenu}).
+The option \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]!14!} from the main menu allows generating the different type of figure at any time (see~ Section\ref{LST:PlotMenu}).
 
 \subsubsection{Saving figures}
 It is not advised to save figures ``manually'' using the Matlab.
 It would most likely not save figures as seen on the screen.
-Instead, use the OpenBDLM export facilities described in the Section~\ref{SS:ExportResults}, or set the \lstinline[basicstyle = \mlttfamily \small]!misc.options.isExportTEX!, \lstinline[basicstyle = \mlttfamily \small]!misc.options.isExportPDF!, \lstinline[basicstyle = \mlttfamily \small]!misc.options.isExportPDF! to \lstinline[basicstyle = \mlttfamily \small]!true! to automatically save the figure in a specific format each time a figure is created \footnote{Automatic figure saving is not recommanded because it is computationally expensive.}.
+Instead, use the OpenBDLM export facilities described in the Section~\ref{SS:ExportResults}, or set the \lstinline[basicstyle = \mlttfamily \small]!misc.options.isExportTEX!, \lstinline[basicstyle = \mlttfamily \small]!misc.options.isExportPDF!, \lstinline[basicstyle = \mlttfamily \small]!misc.options.isExportPDF! to \lstinline[basicstyle = \mlttfamily \small]!true! to automatically save the figure in a specific format each time a figure is created\footnote{Automatic figure saving is not recommanded because it is computationally expensive.}.
 The workflow for visualization is shown in Figure~\ref{FIG:ResultsVisualizationsWorkflow}. 
 The functions used to visualize the data and results are:
 

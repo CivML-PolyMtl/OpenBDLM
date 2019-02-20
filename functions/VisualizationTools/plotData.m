@@ -293,7 +293,8 @@ for i=1:numberOfTimeSeries
     if miny~=maxy
         set(gca,'Ylim',[miny,maxy])
     end
-    ytickformat('%.1f')
+    ax=gca;
+    ax.YAxis.TickLabelFormat='%.1f';
     datetick('x','yy-mm','keepticks')
     xlabel('Time [YY-MM]')
     ylabel(data.labels{i})
@@ -319,7 +320,8 @@ for i=1:numberOfTimeSeries
         set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
             timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
             3), 'YTick', [], 'box','off', 'FontSize', 16);
-        ytickformat('%.1f')
+        ax=gca;
+        ax.YAxis.TickLabelFormat='%.1f';
         datetick('x','mm-dd','keepticks')
         year=datevec(timestamps(plot_time_2(1)));
         xlabel(['Time [' num2str(year(1)) '--MM-DD]'])

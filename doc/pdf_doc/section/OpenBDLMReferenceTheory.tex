@@ -3,13 +3,13 @@ This section presents a summary of the theory behind Bayesian Dynamic Linear Mod
 
 \noindent \emph{A Kernel-based Method for Modeling Non-Harmonic Periodic Phenomena in Bayesian Dynamic Linear Models}\\{\small
             Nguyen, L.H., Gaudot, I., Shervin Khazaeli and Goulet, J.-A.\\
-            Frontiers in Built Environment. Vol. X, Issue X, pp, 2019\\}
-      [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Nguyen_et_al_KR_BDLM_2019.pdf}{PDF}] [~]  [~] [~] \cite{Nguyen2019KRBDLM}\\[4pt]
+            Frontiers in Built Environment. Vol. 5, pp8, 2019\\}
+      [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Nguyen_et_al_KR_BDLM_2019.pdf}{PDF}] [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/2019_Nguyen_BDLM_KR.enw}{EndNote}]  [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/2019_Nguyen_BDLM_KR.bib}{BibTex}] [\href{https://doi.org/10.3389/fbuil.2019.00008}{DOI link}] \cite{Nguyen2019KRBDLM}\\[4pt]
 
 \noindent \emph{Uncertainty quantification for model parameters and hidden state variables in bayesian dynamic linear models}\\{\small
             Nguyen, L.H., Gaudot, I., and Goulet, J.-A.\\
-            Structural Control and Health Monitoring. Vol. X, Issue X, pp.e2136, 2019\\}
-      [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Nguyen_Gaudot_Goulet_MCMC_BDLM_2018.pdf}{PDF}] [~]  [~] [\href{https://doi.org/10.1002/stc.2309}{DOI link}] \cite{Nguyen2018UncertaintyBDLM}\\[4pt]
+            Structural Control and Health Monitoring. Vol. 26, Issue 3, pp.e2136, 2019\\}
+      [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Nguyen_Gaudot_Goulet_MCMC_BDLM_2018.pdf}{PDF}] [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/2019_Nguyen_BDLM_UC.xml}{EndNote}]  [\href{https://www.polymtl.ca/cgm/jagoulet/Site/Papers/2019_Nguyen_BDLM_UC.bib}{BibTex}] [\href{https://doi.org/10.1002/stc.2309}{DOI link}] \cite{Nguyen2018UncertaintyBDLM}\\[4pt]
       
       \noindent \emph{Anomaly Detection with the Switching Kalman Filter for Structural Health Monitoring}\\{\small
             Nguyen, L.H. and Goulet, J.-A.\\
@@ -78,7 +78,7 @@ The generalization of the Kalman Filter for non-stationary time series is found 
 
 \subsection{Switching Kalman filter}
 \label{SS:THSKF}
-We may be interested in anomaly detection, that is, modelling and detecting the changes of behavior due to changes in the dynamics of the baseline response of the time series.
+We may be interested in anomaly detection, that is, modelling and detecting the changes of regimes in the dynamics of the baseline response of the time series.
 One way to model changing dynamics is to run in parallel a collection of ${\mathtt{S}}$ linear models, each having their own system dynamics $\mathbf{A}_{t}$ and $ \mathbf{Q}_{t}$.
 %In the Switching Kalman filter (SKF) approach \citep{Murphy1998}, a collection of $S$ linear models are run in parallel.
 %Each linear model has its own system dynamics (i.e their own $\mathbf{A}_{t}$ and $ \mathbf{Q}_{t}$ matrices).
@@ -144,7 +144,7 @@ The log a posteriori probability density function (PDF) is defined as
 \end{equation} 
 where $p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)$ is the likelihood,  $p(\bm\theta)$ is the prior PDF.
 The likelihood PDF is the joint prior probability of observations, that is, plausibility of the available observations $\mathbf{y}_{1:\mathtt{Tr}}$ given the parameter vector $\bm\theta$.  
-Assuming that the observations are independent from each other, the joint log-likelihood function is defined as the sum of the marginal log-likelihoods, such as 
+Assuming that the observations errors are independent from each other, the joint log-likelihood function is defined as the sum of the marginal log-likelihoods, such as 
 \begin{equation}
 \ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)  = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln p(\mathbf{y}_{t}|\mathbf{y}_{1:t-1},\bm \theta) = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln \left[ \sum_{j=1}^{\mathtt{S}} \sum_{i=1}^{\mathtt{S}} \mathcal{L}_{t}^{i(j)} \pi_{t-1|t-1}^{i} Z_{t}^{i(j)} \right] \text{,}
 \label{EQ:LP}
@@ -237,12 +237,12 @@ In most cases. the derivatives of $\mathcal{T}(\bm{\theta})$ cannot be computed 
 Therefore, the derivatives are approximated numerically using the central differentiation scheme, such as
 \begin{gather}
 \begin{aligned}
- \nabla \mathcal{T}(\bm\theta^{i}) & = \frac{\partial \mathcal{T} (\bm\theta) }{\partial \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \Pi(i)\Delta \theta^{i} )  -  \mathcal{T} (\bm\theta - \Pi(i)\Delta \theta^{i} ) }{2\Delta \theta^{i}}  \\
- \nabla^{2} \mathcal{T}(\bm\theta^{i}) & = \frac{\partial^{2} \mathcal{T} (\bm\theta) }{\partial^{2} \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \Pi(i)\Delta \theta^{i} )  -  2 \mathcal{T} (\bm\theta) +  \mathcal{T} (\bm\theta - \Pi(i)\Delta \theta^{i} ) }{(\Delta \theta^{i})^{2}},
+ \nabla \mathcal{T}(\bm\theta^{i}) & = \frac{\partial \mathcal{T} (\bm\theta) }{\partial \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \mathbb{I}(i)\Delta \theta^{i} )  -  \mathcal{T} (\bm\theta - \mathbb{I}(i)\Delta \theta^{i} ) }{2\Delta \theta^{i}}  \\
+ \nabla^{2} \mathcal{T}(\bm\theta^{i}) & = \frac{\partial^{2} \mathcal{T} (\bm\theta) }{\partial^{2} \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \mathbb{I}(i)\Delta \theta^{i} )  -  2 \mathcal{T} (\bm\theta) +  \mathcal{T} (\bm\theta - \mathbb{I}(i)\Delta \theta^{i} ) }{(\Delta \theta^{i})^{2}},
 \label{EQ:numericaldiff}
 \end{aligned}
 \end{gather}
-where $\Delta \theta^{i}$ is a small perturbation to the value of the $i^{\text{th}}$ model parameters and $\Pi(i)$ is an indicator vector for which all values are equal to $0$, except the $i^{\text{th}}$ value which is equal to one.
+where $\Delta \theta^{i}$ is a small perturbation to the value of the $i^{\text{th}}$ model parameters and $\mathbb{I}(i)$ is an indicator vector for which all values are equal to $0$, except the $i^{\text{th}}$ value which is equal to one.
 
 
 \subsubsection{Model parameter space transformation}
@@ -513,7 +513,7 @@ $\sigma_{w}^{\mathtt{P}}$ is the process noise standard deviation and $p$ the pe
  $\omega=\frac{2\pi \Delta t}{p}$ is the angular of frequency defined from the period $p$, given in days.
 
 
-\subsubsection{Periodic (Kernel regression form)}
+\subsubsection{Periodic (Kernel regression form)}\label{SSS:KR}
 
 The periodic (Kernel regression form) block component describes a periodic pattern in the time series using periodic kernel regression  \cite{Nguyen2019KRBDLM}. 
 The periodic Kernel regression form allows modelling form-free periodic pattern in time series.
@@ -596,7 +596,7 @@ In order to accommodate non-uniform time vector, OpenBDLM employs an approximate
 The reference time-step is a value corresponding to the most frequent time step in the time series.
 All parameter values in the parameter set $\bm \theta$ are estimated for the reference time step. 
 Therefore, for local time step $\Delta t$ different than the reference timestep $\Delta t^{\text{ref}} $, the parameters value must be adapted accordingly.
-It is proposed to scale the model error standard deviations $\sigma_{w}$ in $\mathbf{Q}_{t}$  proportionally to the ratio between the current time step and the reference time step so that,
+As an approximation, the model error standard deviations  $\sigma_{w}$ in $\mathbf{Q}_{t}$ are scaled proportionally to the ratio between the current time step and the reference time step so that,
 \begin{gather*}
 \sigma_{w}^{\Delta t}= \sigma_{w}^{\Delta t ^{\text{ref}}}\frac{\Delta t}{\Delta t ^{\text{ref}}}.
 \end{gather*}

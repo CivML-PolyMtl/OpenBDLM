@@ -27,14 +27,13 @@ Moreover, data pre-processing includes time series selection, data analysis time
 \subsubsection{Selection of time series}
 \label{SS:SelectionTimeSeries}
 
-The selection of time series allows including a subset of the time series.
-The time series are automatically synchronized as time series are added to (or removed from) the dataset.
+The selection of time series allows including a subset of the time series. Note that time series are automatically synchronized as they are added to (or removed from) the dataset.
 
 \subsubsection{Selection of data analysis time-window}
 \label{SS:SelectionPeriodAnalysis}
 
 The selection of the analysis time-window allows selecting a portion of data between two dates.
-The date format is \textquotesingle YYYY-DD-MM\textquotesingle {} format.
+The date format follows \textquotesingle YYYY-DD-MM\textquotesingle {}.
 If the second requested date exceeds the date associated with the last data sample of the original dataset, padding with \lstinline[basicstyle = \mlttfamily \small ]!NaN! values is performed. 
 The timestep for the padding must be provided by the user.
 

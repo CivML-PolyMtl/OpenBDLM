@@ -60,7 +60,7 @@ misc.options.Tolerance = 10^(-6);
 
 % Optimization options
 misc.options.trainingPeriod = [1 Inf];
-misc.options.isParallel = false;
+misc.options.isParallel = true;
 misc.options.isMute = false;
 misc.options.isMAP = false;
 misc.options.maxTime = 60; 
@@ -73,7 +73,7 @@ misc.options.NRLevelsLambdaRef = 4;
 misc.options.NRTerminationTolerance = 10^(-7);
 
 % Stochastic gradient
-misc.options.maxEpochs = 30;
+misc.options.maxEpochs = 50;
 misc.options.SplitPercent = 30;
 misc.options.MiniBatchSizePercent = 20;
 misc.options.SGTerminationTolerance = 95;

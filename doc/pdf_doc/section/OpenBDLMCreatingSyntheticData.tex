@@ -11,14 +11,14 @@ There are two ways for creating synthetic data using OpenBDLM:
 \end{itemize}
 
 \subsection{Generate synthetic data using the interactive tool}
-The creation of the synthetic data from the interactive tool (option \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!} from the starting menu) enables to create synthetic data from scratch. 
+The creation of the synthetic data from the interactive tool (option \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!} from the starting menu) enables the creation of synthetic data from scratch. 
 OpenBDLM requests the user to provide the number of time series, and to define the time vector (starting time, end time, timestep).
-In the next step, the user has to define the time-series dependence (if applicable), to provide the number of model class, and to choose the block component for each time-series, as well as model constrains between model classes (if applicable).
+In the next step, the user has to define the time-series dependence (if applicable), to provide the number of model class, and to choose the block component for each time series, as well as model constrains between model classes (if applicable).
 Default values for initial hidden states mean values and model parameters are automatically assigned for each block component.
 In the case of two model classes, the synthetic baseline will switch between the first and the second model class according to the transition probability values (see Section~\ref{SS:THSKF}).
 The amplitude of each synthetic anomaly (i.e. change of the local trend) is sampled randomly in a normal distribution of zero mean and standard deviation $\sigma_{w}^{12}$ as defined in the switching process noise transition matrix.
-Alternatly, the user may choose to create \emph{custom anomalies}.
-In such case, the beginning (in sample index), duration (in number of samples) and amplitude (in change of the local trend) of each anomaly is user specified.
+Alternately, the user may choose to create \emph{custom anomalies}.
+In such a case, the beginning (in sample index), duration (in number of samples) and amplitude (in change of the local trend) of each anomaly is user specified.
 The information about custom anomaly are stored in the field \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!custom_anomalies! of the structure variable \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!misc!:
 \begin{itemize}
 \item \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!misc.custom_anomalies.start_custom_anomalies!: this field stores a $1\times \mathtt{A}$ vector of integers, where $\mathtt{A}$ is the total number of synthetic anomaly. Each value indicates the sample index of the anomaly start.
@@ -32,17 +32,17 @@ The synthetic data are saved in \lstinline[basicstyle = \mlttfamily \small, back
 
 
 \begin{table}[h]
-
-     \begin{tabular}{|C{1cm}"C{3.25cm} |C{3.25cm}  |C{3.25cm} |N}\thickhline
-        & $\bm{\theta}$ & $\bm{\mu}_{0}$ & diag$(\mathbf{\Sigma}_{0})$ &\\[25pt]\thickhline
-    $\mathtt{LL}$   &  $\sigma_{w}^{\mathtt{LL}}=0$ &$[10]$ & $[0.1^{2}]$ &\\[25pt]\hline
-    $\mathtt{LT}$    & $\sigma_{w}^{\mathtt{LT}}=10^{-7}$ &  $[10, -0.1\times10^{-2}]$ & $[0.1^{2}, 0.1^{2}]$ &\\[25pt]\hline
-     $\mathtt{LA}$   & $\sigma_{w}^{\mathtt{LA}}=10^{-8}$  &  $[10, -0.1\times10^{-2} , -0.1\times10^{-5}]$ & $[0.1^{2}, 0.1^{2}, 0.1^{2}]$ &\\[25pt]\hline
-     $\mathtt{P}$  &  $p=[365.24, 1, 182.62] $, $\sigma_{w}^{\mathtt{P}}=0$  &$[10, 10]$ & $[0.2^{2}, 0.2^{2}]$  &\\[25pt]\hline
-     $\mathtt{KR}$  & $p=[365.24]$, $\ell=0.5$, $\sigma_{w,0}^{\mathtt{KR}}=\sigma_{w,1}^{\mathtt{KR}}=0$ &  $[$$-0.97$, $1.65$, $1.73$, $-1.91$ , $0.23$, $0.37$, $-2.89$, $-0.22$, $0.73$, $-1.83$$]$ & $[$$0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$ , $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$$]$  &\\[25pt]\hline  
-         $\mathtt{AR}$   &  $\phi^{\mathtt{AR}}=0.75$, $\sigma_{w}^{\mathtt{AR}}=0.01$  &$[0]$ & $[0.1^{2}]$ &\\[25pt]\thickhline
+     \caption{Default value of model parameters and initial hidden states $\bm{\mu}_{0}$ and $\mathbf{\Sigma}_{0}$ for synthetic data generation.} 
+     \centering
+     \begin{tabular}{r|lp{3.1cm}p{4cm}}\thickhline
+        & $\bm{\theta}$ & $\bm{\mu}_{0}$ & diag$(\mathbf{\Sigma}_{0})$ \\\cmidrule(lr){1-4}
+    $\mathtt{LL}$   &  $\sigma_{w}^{\mathtt{LL}}=0$ &$[10]$ & $[0.1^{2}]$ \\
+    $\mathtt{LT}$    & $\sigma_{w}^{\mathtt{LT}}=10^{-7}$ &  $[10, -0.1\times10^{-2}]$ & $[0.1^{2}, 0.1^{2}]$ \\
+     $\mathtt{LA}$   & $\sigma_{w}^{\mathtt{LA}}=10^{-8}$  &  $[10, -0.1\times10^{-2} , -0.1\times10^{-5}]$ & $[0.1^{2}, 0.1^{2}, 0.1^{2}]$ \\
+     $\mathtt{P}$  &  $p=[365.24, 1, 182.62] $, $\sigma_{w}^{\mathtt{P}}=0$  &$[10, 10]$ & $[0.2^{2}, 0.2^{2}]$  \\
+     $\mathtt{KR}$  & $p=[365.24]$, $\ell=0.5$, $\sigma_{w,0}^{\mathtt{KR}}=\sigma_{w,1}^{\mathtt{KR}}=0$ &  $[$$-0.97$, $1.65$, $1.73$, $-1.91$, $0.23$, $0.37$, $-2.89$, $-0.22$, $0.73$, $-1.83$$]$ & $[$$0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$$]$  \\  
+         $\mathtt{AR}$   &  $\phi^{\mathtt{AR}}=0.75$, $\sigma_{w}^{\mathtt{AR}}=0.01$  &$[0]$ & $[0.1^{2}]$ \\\thickhline
      \end{tabular}
-     \caption{Default value of model parameters and initial hidden state $\bm{\mu}_{0}$ and $\mathbf{\Sigma}_{0}$ for synthetic data generation.} 
 \label{table:defaultsynthetic}
 \end{table}
 

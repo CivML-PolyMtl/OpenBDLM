@@ -10,11 +10,13 @@
 \usetikzlibrary{arrows.meta}
 \usepgfplotslibrary{patchplots}
 \usepackage{amsmath}
-\RequirePackage{luatex85}
+%\RequirePackage{luatex85}
 \def\pgfsysdriver{pgfsys-pdftex.def}
 
 \begin{document}
-\begin{tikzpicture}[font=\LARGE]
+\begin{tikzpicture}[%
+font=\LARGE
+]
 
 \begin{axis}[%
 width=1.8\textwidth,
@@ -36,10 +38,9 @@ yticklabels={{$\text{10}^\text{0}$},{$\text{10}^\text{1}$},{$\text{10}^\text{2}$
 ylabel style={font=\color{white!15!black}},
 ylabel={Timestep [hrs]},
 axis background/.style={fill=white},
-legend style={legend cell align=left, align=left, draw=white!15!black},
-scaled y ticks = false,scaled x ticks = false,y tick label style={/pgf/number format/.cd, fixed, fixed zerofill,precision=2},x tick label style={/pgf/number format/.cd, fixed, fixed zerofill,precision=2},x label style={font=\LARGE},y label style={font=\LARGE},
+scaled y ticks = false,scaled x ticks = false,y tick label style={/pgf/number format/.cd,  fixed, fixed zerofill,precision=2},x tick label style={/pgf/number format/.cd, fixed, fixed zerofill,precision=2},x label style={font=\LARGE},y label style={font=\LARGE},legend style={font=\LARGE},legend columns=4
 ]
-\addplot [color=black, draw=none, mark=*, mark options={solid, fill=black, black}]
+\addplot [color=black, draw=none, mark=*, mark options={solid, fill=black, black}, forget plot]
   table[row sep=crcr]{%
 733529	12\\
 733529.5	12\\
@@ -2999,12 +3000,10 @@ scaled y ticks = false,scaled x ticks = false,y tick label style={/pgf/number fo
 734988.5	12\\
 734989	12\\
 };
-%\addlegendentry{data1}
-
-\node[fill=none, align=center]
+\node[fill=white, align=center]
 at (rel axis cs:0.075,0.15) {DISP};
-\node[fill=none, align=center]
-at (rel axis cs:0.92-0.1,0.15) {Reference timestep: 12 hours};
+\node[fill=white, align=center]
+at (rel axis cs:0.72,0.15) {Reference timestep: 12 hours};
 \end{axis}
 \end{tikzpicture}%
 \end{document}

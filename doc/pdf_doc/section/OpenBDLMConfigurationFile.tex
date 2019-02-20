@@ -1,12 +1,15 @@
 \section{Configuration file}
 \label{S:CFGFile}
-
-\includepdf[pages=-, pagecommand={\thispagestyle{plain}}]{docfigs/Example_DISPSIM/listing/config_file_2.pdf}
-
-The configuration file is a \MATLAB{} script utilized for initializing the project.
+The configuration file is a \MATLAB{} script utilized for initializing the project (see Figure \ref{fig:cfgfile}).
 The name of a configuration file can be given as an input to the function   \lstinline[basicstyle = \mlttfamily \small ]!OpenBLDM_main.m!, as mentionned in Section~\ref{SS:OpenBDLMinput}.
 The configuration file must follow a specific structures, which includes 6 sections: Project name, Data, Model structure, Model parameters, Initial states values and Options.
 The first three sections are mandatory, while the last three sections are optional.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=115mm]{docfigs/Example_DISPSIM/listing/config_file_2.pdf}
+\caption{Exemple of configuration file}
+\label{fig:cfgfile}
+\end{figure}
 
 \subsection{Project name}
 This section of the configuration file defines the name of the project as a vector of characters stored in the field \lstinline[basicstyle = \mlttfamily \small ]!ProjectName! of the \MATLAB{} variable \lstinline[basicstyle = \mlttfamily \small ]!misc!.
@@ -49,7 +52,7 @@ A value of $1$ indicates that the model parameters are constrained between the b
 
 \item  \lstinline[basicstyle = \mlttfamily \small ]!model.component.ic!:  it defines the dependencies among the time-series.
 The field \lstinline[basicstyle = \mlttfamily \small ]!ic! stores a $1\times \mathtt{D}$ cell array of $1\times (\mathtt{D}-1)$ matrix, where $\mathtt{D}$ is the number of time series.
-Each time-series depend on the time-series corresponding to the indexes given in the $\mathtt{D}$ arrays.
+Each time series depend on the time series corresponding to the indexes given in the $\mathtt{D}$ arrays.
 If the array is empty, the time-series are considered independent by default.
 
 \end{itemize}
@@ -57,8 +60,7 @@ If the array is empty, the time-series are considered independent by default.
 
 \subsection{Model parameters}
 \label{SS:ModelParamProperties}
-This part of the configuration file aims at defining the model parameters properties.
-The model parameters properties are stored in the field named \lstinline[basicstyle = \mlttfamily \small ]!model.param_properties! of the \MATLAB{} structure \lstinline[basicstyle = \mlttfamily \small ]!model!.
+This part of the configuration file aims at defining the model parameters properties which are stored in the field named \lstinline[basicstyle = \mlttfamily \small ]!model.param_properties! of the \MATLAB{} structure \lstinline[basicstyle = \mlttfamily \small ]!model!.
 The field \lstinline[basicstyle = \mlttfamily \small ]!model.param_properties! stores $\mathtt{K} \times 10$ cell array, where $\mathtt{K}$ is the total number of model parameters.
 \begin{itemize}
 \item column 1 must be a character vector that gives the name of the model parameters (e.g.  \lstinline[basicstyle = \mlttfamily \small ]!sigma_w!). 
@@ -113,16 +115,16 @@ The options are stored in the field named \text{options} of the \MATLAB{} variab
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxIterations!: integer that gives the maximum number of iterations for the optimization procedure. Newton-Raphson only. Default: \lstinline[basicstyle = \mlttfamily \small ]!100!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxTime!: real number that gives, in minutes, the maximum amount of  time to spend for the optimization procedure. Default: \lstinline[basicstyle = \mlttfamily \small ]!60!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMAP!: logical that triggers or not the Maximum A Posteriori (MAP) estimation of the model parameters during the optimization procedure. MAP estimation includes prior information about the model parameters. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isPredCap!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isPredCap=true!, the Prediction Capacity (i.e. the log-likelihood over a test dataset) is used to drive the optimization process, otherwise the log-likelihood over the full dataset is used. Stochastic Gradient only. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isLaplaceApprox!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isLaplaceApprox=true! the full Laplace approximation around the optimized model parameters values is computed. Newton-Raphson only. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isPredCap!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isPredCap=true!, the Prediction Capacity (i.e. the log-likelihood over a test dataset) is used to drive the optimization process, otherwise the log-likelihood over the full dataset is used. This option is used only for Stochastic Gradient optimization. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isLaplaceApprox!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isLaplaceApprox=true! the posterior covariance matrix is estimated using Laplace approximation around the optimized model parameters values. This option is used only for Newton-Raphson optimization. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NRTerminationTolerance!: real value determining the termination tolerance for the Newton-Raphson algorithm. Default: $10^{-7}$.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NRLevelsLambdaRef!: integer. Control the number of trial loop for a parameter being optimized for Newton-Raphson algorithm. Default: $4$.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NRLevelsLambdaRef!: integer that controls the number of trial loop for a parameter being optimized for theNewton-Raphson algorithm. Default: $4$.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMute!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isMute=true!, no message are displayed on screen during the optimization procedure. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxEpochs!: integer that gives the maximum number of epochs the optimization procedure. Stochastic Gradient only. Default: \lstinline[basicstyle = \mlttfamily \small ]!30!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Optimizer!: vector of character that defines the optimizer for Stochastic Gradient algorithm. It must be either \lstinline[basicstyle = \mlttfamily \small ]!'MMT'!, \lstinline[basicstyle = \mlttfamily \small ]!'ADAM'!, \lstinline[basicstyle = \mlttfamily \small ]!'MMTbeta'!, \lstinline[basicstyle = \mlttfamily \small ]!'ADAMbeta'!. Stochastic Gradient only. Default: \lstinline[basicstyle = \mlttfamily \small ]!'MMT'!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxEpochs!: integer that gives the maximum number of epochs the optimization procedure. This option is used only for Stochastic Gradient optimization. Default: \lstinline[basicstyle = \mlttfamily \small ]!50!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Optimizer!: vector of character that defines the optimizer for Stochastic Gradient algorithm. It must be either \lstinline[basicstyle = \mlttfamily \small ]!'MMT'!, \lstinline[basicstyle = \mlttfamily \small ]!'ADAM'!, \lstinline[basicstyle = \mlttfamily \small ]!'MMTbeta'!, \lstinline[basicstyle = \mlttfamily \small ]!'ADAMbeta'!. This option is used only for Stochastic Gradient optimization. Default: \lstinline[basicstyle = \mlttfamily \small ]!'MMT'!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.SplitPercent!: real number that defines defines in percent the portion of the training data used for validation. Default: \lstinline[basicstyle = \mlttfamily \small ]!30!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.MiniBatchSizePercent!: real number that defines defines the size of mini-batch, in percent of the training data. Default: \lstinline[basicstyle = \mlttfamily \small ]!20!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.SGTerminationTolerance!: termination tolerance for the Stochastic gradient algorithm. Stochastic Gradient only. Default: \lstinline[basicstyle = \mlttfamily \small ]!0.95!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.SGTerminationTolerance!: termination tolerance for the Stochastic gradient algorithm. This option is used only for Stochastic Gradient optimization. Default: \lstinline[basicstyle = \mlttfamily \small ]!0.95!.
 \end{itemize}
 
 \item Options for the estimation
@@ -138,7 +140,7 @@ The options are stored in the field named \text{options} of the \MATLAB{} variab
 \item Options for the synthetic data creation
 
 \begin{itemize}
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Seed!: integer that controls the random number generation used to create synthetic data. Synthetic data created with the same seed are identical (useful to duplicate results). If  \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Seed=[]!, the seed is based on current time and therefore, a different sequence of random number  is generated at each run. Default: \lstinline[basicstyle = \mlttfamily \small ]!12345!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Seed!: integer that controls the random number generation used to create synthetic data. Synthetic data created with the same seed are identical (useful to replicate results). If  \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Seed=[]!, the seed is based on current time and therefore, a different sequence of random number  is generated at each run. Default: \lstinline[basicstyle = \mlttfamily \small ]!12345!.
 \end{itemize}
 
 \item Options for the graphical outputs
@@ -147,13 +149,13 @@ The options are stored in the field named \text{options} of the \MATLAB{} variab
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isPlotEstimations!: logical. if \lstinline[basicstyle = \mlttfamily \small ]!isPlotEstimations=true!, figures plotting the estimation results popup on screen each time the hidden states are estimated. Default: \lstinline[basicstyle = \mlttfamily \small ]!true!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.FigurePosition!: $1\times4$ array of real number that gives the location and size of the drawable area, specified as a vector of the form [left bottom width height] in the current units of \MATLAB{}. Default: \lstinline[basicstyle = \mlttfamily \small ]![100, 100, 1300, 270]!
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isSecondaryPlot!: logical. if \lstinline[basicstyle = \mlttfamily \small ]!isSecondaryPlot=true!, a closeup over two weeks is plotted at the right of each figure. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Subsample!: integer that controls the number of points to plot in the figure. The number of points to plot is divided by a factor given by the values of \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Subsample!. Default: \lstinline[basicstyle = \mlttfamily \small ]!1!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Subsample!: integer that controls the number of points that are displayed in the plots. The number of points to plot is divided by a factor given by the values of \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Subsample!. Default: \lstinline[basicstyle = \mlttfamily \small ]!1!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Linewidth!: real number that controls the width of the line plotted in the figure. Default: \lstinline[basicstyle = \mlttfamily \small ]!1!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.ndivx!: integer that controls the number of labels for abscissa x-axis in each figure. Default: \lstinline[basicstyle = \mlttfamily \small ]!4!.
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.ndivy!: integer that controls the number of labels for ordinate y-axis in each figure. Default: \lstinline[basicstyle = \mlttfamily \small ]!3!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Xaxis_lag!: real number that gives in number of days the amount of time the x-axis is shifted on each figure. Default: \lstinline[basicstyle = \mlttfamily \small ]!0!. 
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isExportTEX!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isExportTEX=true!, the figure are exported in \LaTeX{} format. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isExportPNG!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isExportPNG=true!, the figure are exported in PNG format. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isExportPDF!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isExportPDF=true!, the figure are exported in PDF format. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Xaxis_lag!: real number that gives in number of days the amount of time by which the x-axis is shifted on each figure. Default: \lstinline[basicstyle = \mlttfamily \small ]!0!. 
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isExportTEX!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isExportTEX=true!, figures are exported in \LaTeX{} format. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isExportPNG!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isExportPNG=true!,  figures are exported in PNG format. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isExportPDF!: logical so that if \lstinline[basicstyle = \mlttfamily \small ]!isExportPDF=true!,  figures are exported in PDF format. Default: \lstinline[basicstyle = \mlttfamily \small ]!false!.
 \end{itemize}
 \end{itemize}
