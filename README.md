@@ -80,14 +80,14 @@ If you do not see anything except Matlab errors verify your Matlab version, and 
 
 `OpenBDLM_main` accepts three types of input
 
-1. no input (`OpenBDLM_main();`) The program then runs in *interactive mode*, in which online user's interactions from the command line is required to perform the analysis.
+1. no input (`OpenBDLM_main;`) The program then runs in *interactive mode*, in which online user's interactions from the command line is required to perform the analysis.
 2. a configuration file as input, (`OpenBDLM_main('CFG_DEMO.m');`). The configuration file is used to initialize the project, and the program then runs in *interactive mode*. Configuration file must follow a specific format (see OpenBDLM documentation)
 3. a cell array as input (`OpenBDLM_main({'''CFG_DEMO.m''','3','1','''Q'''});`). The program runs in *batch mode*, in which pre-loaded commands stored in the input cell-array are sequentially read by the program to perform the analysis.
 
 ## Output
 
 `OpenBDLM_main` has the possibility to return four output Matlab structures containing the information about the internal variables data, model,estimation, misc.
-Type  `[data, model, estimation, misc] = OpenBDLM_main();` to get `data`, `model`, `estimation`, and `misc` as variables in the Matlab worskpace.
+Type  `[data, model, estimation, misc] = OpenBDLM_main;` to get `data`, `model`, `estimation`, and `misc` as variables in the Matlab worskpace.
 
 1. `data`: structure which stores the time series data used for the analysis. 
 2. `model` :	structure which stores all the information about the model used for the analysis (current model structure and model parameters values)
