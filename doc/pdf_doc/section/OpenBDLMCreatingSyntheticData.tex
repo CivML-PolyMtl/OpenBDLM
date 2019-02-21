@@ -1,7 +1,7 @@
 \section{Generate synthetic data}
 \label{S:SYNTHETIC}
 The creation of synthetic data is possible using OpenBDLM.
-The analysis of synthetic data is useful for validation, test and debugging purposes because the true value of the hidden states and model parameters are known.
+The analysis of synthetic data is useful for validation, test, and debugging purposes because the true value of the hidden states and model parameters are known.
 OpenBDLM uses the transition model  of the state-space modelling approach (see Section~\ref{SS:LGSSM}) to create realistic synthetic data.
 There are two ways for creating synthetic data using OpenBDLM:
 
@@ -13,7 +13,7 @@ There are two ways for creating synthetic data using OpenBDLM:
 \subsection{Generate synthetic data using the interactive tool}
 The creation of the synthetic data from the interactive tool (option \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!} from the starting menu) enables the creation of synthetic data from scratch. 
 OpenBDLM requests the user to provide the number of time series, and to define the time vector (starting time, end time, timestep).
-In the next step, the user has to define the time-series dependence (if applicable), to provide the number of model class, and to choose the block component for each time series, as well as model constrains between model classes (if applicable).
+In the next step, the user has to define the time-series dependence (if applicable), to provide the number of model class, and to define a set of block components for each time series, as well as model constrains between model classes (if applicable).
 Default values for initial hidden states mean values and model parameters are automatically assigned for each block component.
 In the case of two model classes, the synthetic baseline will switch between the first and the second model class according to the transition probability values (see Section~\ref{SS:THSKF}).
 The amplitude of each synthetic anomaly (i.e. change of the local trend) is sampled randomly in a normal distribution of zero mean and standard deviation $\sigma_{w}^{12}$ as defined in the switching process noise transition matrix.
@@ -34,14 +34,14 @@ The synthetic data are saved in \lstinline[basicstyle = \mlttfamily \small, back
 \begin{table}[h]
      \caption{Default value of model parameters and initial hidden states $\bm{\mu}_{0}$ and $\mathbf{\Sigma}_{0}$ for synthetic data generation.} 
      \centering
-     \begin{tabular}{r|lp{3.1cm}p{4cm}}\thickhline
+     \begin{tabular}{r|lp{3.1cm}p{4cm}}\toprule
         & $\bm{\theta}$ & $\bm{\mu}_{0}$ & diag$(\mathbf{\Sigma}_{0})$ \\\cmidrule(lr){1-4}
     $\mathtt{LL}$   &  $\sigma_{w}^{\mathtt{LL}}=0$ &$[10]$ & $[0.1^{2}]$ \\
     $\mathtt{LT}$    & $\sigma_{w}^{\mathtt{LT}}=10^{-7}$ &  $[10, -0.1\times10^{-2}]$ & $[0.1^{2}, 0.1^{2}]$ \\
      $\mathtt{LA}$   & $\sigma_{w}^{\mathtt{LA}}=10^{-8}$  &  $[10, -0.1\times10^{-2} , -0.1\times10^{-5}]$ & $[0.1^{2}, 0.1^{2}, 0.1^{2}]$ \\
      $\mathtt{P}$  &  $p=[365.24, 1, 182.62] $, $\sigma_{w}^{\mathtt{P}}=0$  &$[10, 10]$ & $[0.2^{2}, 0.2^{2}]$  \\
      $\mathtt{KR}$  & $p=[365.24]$, $\ell=0.5$, $\sigma_{w,0}^{\mathtt{KR}}=\sigma_{w,1}^{\mathtt{KR}}=0$ &  $[$$-0.97$, $1.65$, $1.73$, $-1.91$, $0.23$, $0.37$, $-2.89$, $-0.22$, $0.73$, $-1.83$$]$ & $[$$0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$, $0.01^{2}$$]$  \\  
-         $\mathtt{AR}$   &  $\phi^{\mathtt{AR}}=0.75$, $\sigma_{w}^{\mathtt{AR}}=0.01$  &$[0]$ & $[0.1^{2}]$ \\\thickhline
+         $\mathtt{AR}$   &  $\phi^{\mathtt{AR}}=0.75$, $\sigma_{w}^{\mathtt{AR}}=0.01$  &$[0]$ & $[0.1^{2}]$ \\\bottomrule
      \end{tabular}
 \label{table:defaultsynthetic}
 \end{table}
@@ -67,8 +67,7 @@ The synthetic data are saved in \lstinline[basicstyle = \mlttfamily \small, back
 The synthetic data creation workflow is presented Figure~\ref{FIG:SyntheticDataCreationWorkflow}. 
 The OpenBLDM functions used for synthetic data creation are:
 
-\begin{description}[style=unboxed]
-
+\begin{description}[style=unboxed]\setlength\itemsep{0em}
 \item[Pilot function for synthetic data creation] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [data,model,estimation,misc]=piloteSimulateData(data,model,estimation,misc)
@@ -111,7 +110,7 @@ The OpenBLDM functions used for synthetic data creation are:
 \begin{figure}[h]
   \centering
   \captionsetup{justification=centering}
-\scalebox{0.8}{
+\scalebox{0.7}{
 \begin{tikzpicture}
 
 \node[paralightgray](inputSDC){\begin{tabular}{c}  \lstinline[ basicstyle = \mlttfamily \small]!data! \\ \lstinline[ basicstyle = \mlttfamily \small]!model.param_properties! \\ \lstinline[ basicstyle = \mlttfamily \small]!model.initX, initV, initS! \end{tabular}};

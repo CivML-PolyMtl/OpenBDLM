@@ -4,10 +4,10 @@
 This example uses a synthetic time series that mimics displacement data measured on a bridge (Figure~\ref{fig:DataSummary1}). 
 The Figure~\ref{fig:DataSummary1}a shows that data points exist between August 2013 and October 2015.
 The timestep in the original data is non-uniform; it varies from 1 hour to 25 hours (see Figure~\ref{fig:DataSummary1}b). 
-The most frequent time step  (i.e referent time step, see Section~\ref{SS:NonUniform}) is 1 hour, and there is no missing data (see Figure~\ref{fig:DataSummary1}c).
+The most frequent time step  (i.e reference time step, see \S\ref{SS:NonUniform}) is 1 hour, and there is no missing data (see Figure~\ref{fig:DataSummary1}c).
 The time series is stationary with a level, a yearly periodic, a daily periodic patterns and a residual autoregressive pattern.
 
-In this example, we choose to resample the original data in order to have a time step of 6h instead of 1h. 
+In this example, we choose to resample the original data in order to have a timesteps of 6h instead of 1h. 
 
 \begin{figure*}[h]
 \centering
@@ -45,7 +45,7 @@ The optimized model parameters values computed using the Newton-Raphson algorith
 \begin{gather*}
 \bm\theta^{\text{*}}=[0, 365.2422, 0, 1, 0, 0.903, 0.035, 7.8\times10^{-6} ].
 \end{gather*}
-The optimized initial hidden states mean and covariance values are 
+The estimated initial hidden states mean and covariance values are 
 \begin{align*}
 \bm \mu^{*}_{0} & = [	25.9,-0.202,-0.004	,-0.004,0.054,-0.012]^{\intercal}, \text{and} \\
 \bm\Sigma^{*}_{0} & = \text{diag}([4.21\times10^{-5},	8.3\times10^{-5},	8.46\times10^{-5},	4.29\times10^{-7},	4.29\times10^{-7},	1.59\times10^{-3}   ]).
@@ -79,17 +79,17 @@ The hidden states computed using the estimated model parameters and initial hidd
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPSIM/optim_param_optim_initialhiddenstate/DISP_AR_6.pdf} 
 \caption{Estimated displacement autoregressive component}
 \end{subfigure}
-\caption{Estimated results using OpenBDLM optimized model parameters and optimized initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummary1}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively.}
+\caption{Estimated results using OpenBDLM with the optimized model parameters and estimated initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummary1}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states.}
 \label{fig:Example_DISPSIMOptimizedOptimizedExample1}
 \end{center}
 \end{figure*}
 
 
 
-\subsubsection{Run the example from pre-existing configuration file}
+\subsubsection{Run the example from the pre-existing configuration file}
 \label{SS:LoadConfigFileEx1}
 There is a configuration file CFG\_Example\_DISP\_optim.m which is located in the ``config\_files'' folder of the OpenBDLM package.
-CFG\_Example\_DISP\_optim.m contains the optimized model parameters and optimized initial hidden states values (see Listing~\ref{LST:CFGFileExample1}).
+CFG\_Example\_DISP\_optim.m contains the optimized model parameters and estimated initial hidden states values (see Listing~\ref{LST:CFGFileExample1}).
 There is also a data file DATA\_Example\_DISP\_optim.mat that is located in the ``data/mat'' subfolder.
 Therefore, it is possible to run the example \#1 by following the steps below while interacting with the \MATLAB{} command line:
 \begin{enumerate}
@@ -155,19 +155,19 @@ model.initS{1}=[1     ];
 \subsubsection{Run the example from command line interaction}
 
 The analysis of a new dataset usually requires to start from scratch.
-This section explains how to run the example \#1 from scratch, that is, how to load the data presented in Figure~\ref{fig:DataSummary1}, configure the model, estimate the model parameters and estimate the hidden states as presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
-This may be done by following steps below while interacting with the \MATLAB{} command line
+This section explains how to run the example \#1 from scratch, that is, how to load  and resample the data presented in Figure~\ref{fig:DataSummary1}, configure the model, estimate the model parameters, optimize the initial states, and estimate the hidden states as presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
+This may be done by following steps below while interacting with the \MATLAB{} command line:
 \begin{enumerate}
 \item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}.
 \item Choose the interactive tool. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
 \item Enter the project name. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Example_DISP!}. 
 \item Disregard generating synthetic data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!no!}. 
 \item Load new data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
-\item Select from the graphical user interface\footnote{Douglas M. Schwarz, 2007, uipickfiles \url{https://www.mathworks.com/matlabcentral/fileexchange/10867-uipickfiles-uigetfile-on-steroids}} the data file Example\_DISP\_DISP.csv located in the folder ``/data/csv/Example\_DISP''. See Figure~\ref{fig:DataLoadingUIPickFileExample1}. The Figure~\ref{fig:DataSummary1} that represents the raw data should popup on screen.
+\item Select from the graphical user interface\footnote{Douglas M. Schwarz, 2007, uipickfiles \url{https://www.mathworks.com/matlabcentral/fileexchange/10867-uipickfiles-uigetfile-on-steroids}} the data file Example\_DISP\_DISP.csv located in the folder ``/data/csv/Example\_DISP'' (See Figure~\ref{fig:DataLoadingUIPickFileExample1}). The Figure~\ref{fig:DataSummary1} that represents the raw data should popup on screen.
 
 \item Access the resampling menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!4!}. 
 
-\item Resample data to obtain timesteps of 6h (0.25 day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0.25!}. The Figure~\ref{fig:DataSummary1} should popup on the screen this time for the resampled data.
+\item Resample data to obtain timesteps of 6h (0.25 day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0.25!}. Another set of figures should popup on the screen this time for the resampled data.
 
 \item Save and continue. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}. The same figures should popup on the screen again.
 
@@ -183,12 +183,12 @@ This may be done by following steps below while interacting with the \MATLAB{} c
 \item Choose the end time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!180!}. 
 
 \item Access model parameter estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-\item Start Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm has converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample1}. Note that it is possible to get slightly different value of parameters with the same performance\footnote{Keep in mind that the optimization may take several minutes to several hours. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISP\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx1}.}.
+\item Start Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm has converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample1}. Note that it is possible to get slightly different  parameter values\footnote{Keep in mind that the optimization may take several minutes. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISP\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx1}.}.
 \item Estimate the initial hidden states values. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}.
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
-\item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
+\item Estimate the hidden states using the Kalman filter. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be corresponding to the results presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
 \item Access export menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!17!}. 
-\item Export the current project in a configuration file. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
+\item Export the current project in a configuration file. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. A config file corresponding to the one in Listing \ref{LST:CFGFileExample1} will not be created in the folder ``/config\_files/CFG\_Example\_DISP.m''
 \item Save and quit OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!}.
 \end{enumerate}
 

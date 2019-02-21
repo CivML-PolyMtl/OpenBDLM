@@ -2,14 +2,14 @@
 \label{S:DATAEDITINGPREPROCESSING}
 
 Data pre-processing is a step taken ahead of data analysis.
-In most cases, the set of available time series is heterogeneous, in the sense that each time series does not originate from the same system of acquisition.
-Therefore, the raw data do not usually share the same time vectors.
+In most cases, the set of available time series is heterogeneous because data is recorded from different systems of acquisition that are not synchronized with respect to time.
+Therefore, the raw data do not usually share the same timestamp vectors.
 This is an issue because BDLM is not capable to analyze asynchronous time series.
 Therefore, the main objective of data pre-processing is to synchronize the time series. 
 Moreover, data pre-processing includes time series selection, data analysis time period selection, \lstinline[basicstyle = \mlttfamily \small ]!NaN! removal, and data resampling.
 %The time synchronization is performed automatically through the data editing process.
 
-\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small,  linewidth = \linewidth, caption = OpenBDLM data editing menu,  label = LST:Editing_menu, float = h!, ,captionpos=b]
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \scriptsize,  linewidth = \linewidth, caption = OpenBDLM data editing menu,  label = LST:Editing_menu, float = h!, ,captionpos=b]
 - Data editing and preprocessing. Choose from:
 
      1  ->  Select time series
@@ -34,7 +34,7 @@ The selection of time series allows including a subset of the time series. Note 
 
 The selection of the analysis time-window allows selecting a portion of data between two dates.
 The date format follows \textquotesingle YYYY-DD-MM\textquotesingle {}.
-If the second requested date exceeds the date associated with the last data sample of the original dataset, padding with \lstinline[basicstyle = \mlttfamily \small ]!NaN! values is performed. 
+If the second date entered exceeds the date associated with the last data sample of the original dataset, padding with \lstinline[basicstyle = \mlttfamily \small ]!NaN! values is performed. 
 The timestep for the padding must be provided by the user.
 
 \subsubsection{Removing missing data}
@@ -57,13 +57,13 @@ By default, the time synchronization in OpenBDLM is done by padding with \lstinl
 The time synchronization is controlled by the \lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold! and \lstinline[basicstyle = \mlttfamily \small ]!tolerance! variables.
 \lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold!  is given in percent with respect to the total number of time series.
 The variable \lstinline[basicstyle = \mlttfamily \small ]!tolerance! gives the duration (in number of days) after which two timestamps are not considered equal.
-The default values for \lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold!  and \lstinline[basicstyle = \mlttfamily \small ]!tolerance! are 100\% and $10^{-6}$ days, respectively (see variables \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NaNThreshold! and \lstinline[basicstyle = \mlttfamily \small ]!misc.options.tolerance!. % $100$\% and $10^{-6}$ days, respectively. 
+The default values for \lstinline[basicstyle = \mlttfamily \small ]!NaNThreshold!  and \lstinline[basicstyle = \mlttfamily \small ]!tolerance! are 100\% and $10^{-6}$ days, respectively (see variables \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NaNThreshold! and \lstinline[basicstyle = \mlttfamily \small ]!misc.options.tolerance!). % $100$\% and $10^{-6}$ days, respectively. 
 
 \subsubsection{Data pre-processing functions}
 
 The data pre-processing workflow is presented Figure~\ref{FIG:DataEditingWorkflow}. The list of OpenBDLM functions used for data editing is:
 
-\begin{description}[style=unboxed]
+\begin{description}[style=unboxed]\setlength\itemsep{0em}
 \item[Control script to pre-process the dataset (selection, resampling, etc..)] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [data,misc,dataFilename]=editData(data,misc,varargin)
@@ -109,7 +109,7 @@ displayData(data,misc)
 \begin{figure}[!h]
   \centering
   \captionsetup{justification=centering}
-\scalebox{0.8}{
+\scalebox{0.7}{
 \begin{tikzpicture}
 
 \node[paraamber](inputDataEditor){\lstinline[basicstyle = \mlttfamily \small ]!data!};

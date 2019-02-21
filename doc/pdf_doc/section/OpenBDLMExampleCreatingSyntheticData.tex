@@ -1,24 +1,24 @@
-\subsection{Example \#5: generate and analyze synthetic data }
+\subsection{Example \#6: generate and analyze synthetic data }
 \label{S:EXAMPLESYNTHETICDATA}
 
 
 \subsubsection{Purpose}
 This example illustrates how to create a synthetic time series using OpenBDLM.
-The objective is to create a 4-years long time series with an acceleration stationary baseline, and a yearly periodic pattern as well as a autoregressive process superimposed into it. 
+The objective is to create a 4-years long time series with an acceleration stationary baseline, and a yearly periodic pattern as well as an autoregressive process superimposed into it. 
 The timestep is 1 day.
 This example corresponds to the OpenBDLM demo presented in Section~\ref{S:OPENBDLMGETTINGSTARTED}.
 
 \begin{figure*}[h!]
 \centering
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf} 
 \caption{Amplitude}
 \end{subfigure}
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/raw/ALL_TIMESTEPS.pdf}
 \caption{Timestep}
 \end{subfigure}
-\begin{subfigure}{\linewidth}
+\begin{subfigure}{\linewidth}\centering
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/raw/AVAILABILITY.pdf}
 \caption{Availability}
 \end{subfigure}
@@ -34,13 +34,13 @@ The model includes one model class, and the block components are
 \end{gather*}
 The associated model parameters are
 \begin{gather*}
-\bm\theta=\{\sigma_{w}^{\mathtt{LA}}, p^{\mathtt{PD}, \text{yearly}}, \sigma_{w}^{\mathtt{PD}, \text{yearly}}, \phi^{\mathtt{AR}}, \sigma_{w}^{\mathtt{AR}}, \sigma_{v,\text{D}}\} 
+\bm\theta=[\sigma_{w}^{\mathtt{LA}}, p^{\mathtt{PD}, \text{yearly}}, \sigma_{w}^{\mathtt{PD}, \text{yearly}}, \phi^{\mathtt{AR}}, \sigma_{w}^{\mathtt{AR}}, \sigma_{v,\text{D}}].
  \end{gather*}
 The model parameters values assigned by default from OpenBDLM are
 \begin{gather*}
 \bm\theta^{\text{defaut}}=[ 1\times10^{-8}, 365.24, 0, 0.75, 0.01, 0.01].
 \end{gather*}
-The default initial hidden states mean and covariance values, and model probability are 
+The default initial hidden states mean, covariance, and model probability are 
 \begin{align*}
 \bm \mu^{\text{defaut}}_{0} & = [	 10  , -1\times10^{-5}  ,	-0.001	,	10  ,  	10    ,	0  ]^{\intercal}, \text{and} \\
 \bm\Sigma^{\text{defaut}}_{0} & = \text{diag}[ 0.01  ,	0.01  ,	0.01  	,0.04  ,	0.04  ,	0.01 ], \\
@@ -51,7 +51,7 @@ The hidden states computed using the same (i.e. true) model structure, model par
 
 \subsubsection{Run the example from command line interaction}
 
-This section explains how to run the example \#4, that is, how to generate the synthetic data presented in Figure~\ref{fig:DataSummaryRawSynthetic}, and estimate the hidden states as presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
+This section explains how to run the example \#6, that is, how to generate the synthetic data presented in Figure~\ref{fig:DataSummaryRawSynthetic}, and estimate the hidden states as presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
 
 
 \begin{enumerate}
@@ -66,7 +66,7 @@ This section explains how to run the example \#4, that is, how to generate the s
 \item Select the number of model classes. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
 \item Select the model block components. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![13 31 41]!}. The Figure~\ref{fig:DataSummaryRawSynthetic} should popup on screen.
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
-\item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
+\item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should correspond to the results presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
 \item Save and quit OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!}.
 \end{enumerate}
 
@@ -217,7 +217,7 @@ This section explains how to run the example \#4, that is, how to generate the s
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/TS01_AR_6.pdf} 
 \caption{Estimated displacement autoregressive component}
 \end{subfigure}
-\caption{Estimated results using OpenBDLM default model parameters and optimized initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryRawSynthetic}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively. The red dashed line represent the true the hidden state value.}
+\caption{Estimated results using OpenBDLM with the default model parameters and optimized initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryRawSynthetic}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively. The red dashed line represent the true the hidden state value.}
 \label{fig:SYNTHETICOptimizedOptimized}
 \end{figure*}
 

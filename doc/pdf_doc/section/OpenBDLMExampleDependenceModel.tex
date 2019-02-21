@@ -3,19 +3,19 @@
 
 \subsubsection{Data description}
 
-This example uses two synthetic time series that mimics displacement and temperature data measured on a bridge.
+This example uses two synthetic time series that mimics the displacement and temperature data measured on a bridge.
 The  Figure~\ref{fig:DataSummaryRaw2}a shows that data points exist between August 2013 and October 2015.
 The timestep in the original data is non-uniform; it varies from 1 hour to 25 hours (see Figure~\ref{fig:DataSummaryRaw2}b). 
 The timestep vector is not identical on each time series. 
 It means that the time series are not synchronized between each other.
 The most frequent (i.e referent) time step is 1 hour for both time series (Section~\ref{SS:NonUniform}).
-There is no missing data (NaN) on the displacement time series, but there are missing data on the temperature time series as indicated by the red crosses on the Figure~\ref{fig:DataSummaryRaw2}c.
-Each red cross indicates the presence of a Not a Number (NaN) value in the time series.
+There is no missing data (\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!NaN!) on the displacement time series, but there are missing data on the temperature time series as indicated by the red crosses on the Figure~\ref{fig:DataSummaryRaw2}c.
+Each red cross indicates the presence of a Not a Number (\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!NaN!) value in the time series.
 After data synchronization, the time step vectors are identical on each time series (Figure~\ref{fig:DataSummaryDefaultPreProcessed2}).
 Both time series are stationary, and they exhibit a level, a yearly and daily periodic pattern as well as an autoregressive pattern.
 The periodic patterns observed on the displacement time series is due to the temperature variations observed in the temperature time series.
 
-In this example, we choose to resample the original data in order to have a time step of 6h instead of 1h. 
+In this example, we choose to resample the original data in order to have timesteps of 6h instead of 1h. 
 
 \begin{figure*}[h!]
 \centering
@@ -65,23 +65,23 @@ In this example, we choose to resample the original data in order to have a time
 \subsubsection{Model description}
 \label{SS:ModelConstructionExample2}
 
-The model includes one model class, and the block components are 
+The model includes one model class, and the hidden state variables are 
 \begin{gather*}
-\textbf{x}=[x^{\mathtt{LL}}_{\text{D}}, x^{\mathtt{AR}}_{\text{D}}, x^{\mathtt{LL}}_{\text{T}}, x^{\mathtt{P1}\text{,yearly}}_{\text{T}}, x^{\mathtt{P2}\text{,yearly}}_{\text{T}}, x^{\mathtt{P1}\text{,daily}}_{\text{T}} , x^{\mathtt{P2}\text{,daily}}_{T}, x^{\mathtt{AR}}_{\text{T}}].
+\textbf{x}=[x^{\mathtt{LL}}_{\mathtt{D}}, x^{\mathtt{AR}}_{\mathtt{D}}, x^{\mathtt{LL}}_{\mathtt{T}}, x^{\mathtt{P1}\text{,yearly}}_{\mathtt{T}}, x^{\mathtt{P2}\text{,yearly}}_{\mathtt{T}}, x^{\mathtt{P1}\text{,daily}}_{\mathtt{T}} , x^{\mathtt{P2}\text{,daily}}_{T}, x^{\mathtt{AR}}_{\mathtt{T}}],
 \end{gather*}
-where $\text{D}$ and $\text{T}$ stand for displacement and temperature time series, respectively.
-The periodic patterns observed on the displacement are considered through a dependency of the displacement on the periodic block components of the temperature time series (Section~\ref{S:Dependencies}).
+where $\mathtt{D}$ and $\mathtt{T}$ refer to the displacement and temperature time series, respectively.
+The periodic patterns observed on the displacement are considered through a dependency of the displacement on the hidden state variables of the periodic  and autoregressive components of the temperature time series (Section~\ref{S:Dependencies}).
 The associated model parameters are
 \begin{align*}
-\bm\theta & =[\sigma_{w, \text{D}}^{\mathtt{LL}}, \phi^{\mathtt{AR}}_{D}, \sigma_{w, \text{D}}^{\mathtt{AR}}, \sigma_{v, \text{D}},  \\
-&  \sigma_{w, \text{T}}^{\mathtt{LL}},  p^{\mathtt{P}, \text{yearly}}_{\text{T}}, \sigma_{w, \text{T}}^{\mathtt{P}, \text{yearly}} , p^{\mathtt{P}, \text{daily}}_{\text{T}} , \sigma_{w, \text{T}}^{\mathtt{P}, \text{daily}}, \phi^{\mathtt{AR}}_{\text{T}}, \sigma_{w, \text{T}}^{\mathtt{AR}}, \sigma_{v, \text{T}}].
+\bm\theta & =[\sigma_{w, \mathtt{D}}^{\mathtt{LL}}, \phi^{\mathtt{AR}}_{D}, \sigma_{w, \mathtt{D}}^{\mathtt{AR}}, \sigma_{v, \mathtt{D}},  \\
+&  \sigma_{w, \mathtt{T}}^{\mathtt{LL}},  p^{\mathtt{P}, \text{yearly}}_{\mathtt{T}}, \sigma_{w, \mathtt{T}}^{\mathtt{P}, \text{yearly}} , p^{\mathtt{P}, \text{daily}}_{\mathtt{T}} , \sigma_{w, \mathtt{T}}^{\mathtt{P}, \text{daily}}, \phi^{\mathtt{AR}}_{\mathtt{T}}, \sigma_{w, \mathtt{T}}^{\mathtt{AR}}, \sigma_{v, \mathtt{T}},\phi^{\mathtt{D}|\mathtt{T}}_{\mathtt{P}_{y}},\phi^{\mathtt{D}|\mathtt{T}}_{\mathtt{P}_{d}},\phi^{\mathtt{D}|\mathtt{T}}_{\mathtt{AR}}].
 \end{align*}
 The optimized model parameters values computed using the Newton-Raphson algorithm (see~\ref{SS:THModelParameterEstimation}) with a training period of 180 days are
 \begin{align*}
  \bm\theta^{\text{*}}& =[0, 0.90, 0.037, 1.94\times10^{-5},  \\
- & 0, 365.2422, 0, 1, 0, 0.98, 0.86, 1.14\times10^{-4}, -0.013, 0.0706, 0.00073 ]
+ & 0, 365.2422, 0, 1, 0, 0.98, 0.86, 1.14\times10^{-4}, -0.013, 0.0706, 0.00073 ].
 \end{align*}
-The optimized initial hidden states mean and covariance values are 
+The estimated initial hidden states mean and covariance values are 
 \begin{align*}
 \bm \mu^{*}_{0} & = [	25.9,-2.55\times10^{-5},5.53,16.3,-0.999,0.263,0.669,3.77 ]^{\intercal}, \text{and} \\
 \bm\Sigma^{*}_{0} & = \text{diag}([4.27\times10^{-5},1.68\times10^{-3},0.715,0.338,0.341,6.73\times10^{-5},6.73\times10^{-5},1.81]).
@@ -89,7 +89,7 @@ The optimized initial hidden states mean and covariance values are
 The hidden states computed using the estimated model parameters and initial hidden states are presented in Figure~\ref{fig:DISPTEMPSIMOptimizedOptimizedExample2}.
 
 
-\subsubsection{Run the example from pre-existing configuration file}
+\subsubsection{Run the example from the pre-existing configuration file}
 \label{SS:LoadConfigFileEx2}
 There is a configuration file CFG\_Example\_DISPTEMP\_optim.m which is located in the ``config\_files'' folder of the OpenBDLM package.
 CFG\_Example\_DISPTEMP\_optim.m contains the optimized model parameters and optimized initial hidden states values.
@@ -106,7 +106,7 @@ Therefore, it is possible to run the example \#2 by following the steps below wh
 \subsubsection{Run the example from command line interaction}
 
 The analysis of a new dataset usually requires to start from scratch.
-This section explains how to run the example \#2 from scratch, that is, how to load the data presented in Figure~\ref{fig:DataSummaryRaw2}, configure the model, estimate the model parameters and estimate the hidden states.
+This section explains how to run the example \#2 from scratch, that is, how to load  and resample the data presented in Figure~\ref{fig:DataSummaryRaw2}, configure the model, estimate the model parameters and estimate the hidden states.
 This may be done by following steps below while interacting with the \MATLAB{} command line:
 \begin{enumerate}
 \item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}.
@@ -134,13 +134,13 @@ This may be done by following steps below while interacting with the \MATLAB{} c
 
 \item Choose the end time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!180!}. 
 
-\item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
-\item Change the state estimation method to UD\footnote{The UD computation is required in this case because of the presence of missing data. See Section~\ref{SS:KFUD} for more details.}. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
-\item Return to the main menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!R!}.
+%\item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
+%\item Change the state estimation method to UD\footnote{The UD computation is required in this case because of the presence of missing data. See Section~\ref{SS:KFUD} for more details.}. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
+%\item Return to the main menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!R!}.
 \item Access model parameter estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-\item Start the Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm has converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExample2}. Note also that it is possible to get slightly different values of parameters with the same performance\footnote{Keep in mind that the optimization may take several minutes to several hours. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISPTEMP\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx2}.}.
+\item Start the Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm has converged, the optimized model parameters values should be close to the values presented in \S\ref{SS:ModelConstructionExample2}. Note also that it is possible to get slightly different parameter values\footnote{Keep in mind that the optimization may take several minutes. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_DISPTEMP\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileEx2}.}.
 \item Estimate the initial hidden states values. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}.
-\item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:DISPTEMPSIMOptimizedOptimizedExample2}.
+\item Estimate the hidden states using the Kalman filter. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:DISPTEMPSIMOptimizedOptimizedExample2}.
 \item Access export menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!17!}. 
 \item Export the current project in a configuration file. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
 \item Save and quit OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!}.
@@ -216,8 +216,8 @@ This may be done by following steps below while interacting with the \MATLAB{} c
 %%The first part of this configuration file as it should appear on the \MATLAB{} editor is shown in Listing~\ref{LST:CFGFileExample1}.
 %The Model parameters section of the configuration file shows that the model totalizes 15 model parameters, that is 
 %\begin{gather*}
-%\bm\theta=\{\sigma_{w, \text{D}}^{LL},  \phi^{AR}_{\text{D}}, \sigma_{w,\text{D}}^{AR} ,\sigma_{v,\text{D}},  \\
-% \sigma_{w, \text{T}}^{LL}, p^{\text{PD1}}_{\text{T}}, \sigma_{w,\text{T}}^{\text{PD1}} , p^{\text{PD2}}_{T}, \sigma_{w, \text{T}}^{\text{PD2}}, \phi^{AR}_{T}, \sigma_{w, \text{T}}^{AR}, \sigma_{v,\text{T}}, \phi^{\text{D}|\text{T}}_{PD1}, \phi^{\text{D}|\text{T}}_{PD2},  \phi^{\text{D}|\text{T}}_{AR}\}.
+%\bm\theta=\{\sigma_{w, \mathtt{D}}^{LL},  \phi^{AR}_{\mathtt{D}}, \sigma_{w,\mathtt{D}}^{AR} ,\sigma_{v,\mathtt{D}},  \\
+% \sigma_{w, \mathtt{T}}^{LL}, p^{\text{PD1}}_{\mathtt{T}}, \sigma_{w,\mathtt{T}}^{\text{PD1}} , p^{\text{PD2}}_{T}, \sigma_{w, \mathtt{T}}^{\text{PD2}}, \phi^{AR}_{T}, \sigma_{w, \mathtt{T}}^{AR}, \sigma_{v,\mathtt{T}}, \phi^{\mathtt{D}|\mathtt{T}}_{PD1}, \phi^{\mathtt{D}|\mathtt{T}}_{PD2},  \phi^{\mathtt{D}|\mathtt{T}}_{AR}\}.
 %\end{gather*}
 %%The default value of the model parameters are assigned  using heuristic knowledge or computed from the data using statistics on the data.
 %The default model parameters values are 
@@ -250,7 +250,7 @@ This may be done by following steps below while interacting with the \MATLAB{} c
 %Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_DISPTEMP.m');!} in the \MATLAB{} command line.
 %Once, the main menu appears, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}, then \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to estimate the model parameters using Newton-Raphson (type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} to use the Stochastic Gradient instead).
 %The model parameters learning procedure should start (see for example Listing~\ref{LST:OpenBLDMModelParameterLearning}).
-%Note that, by default, OpenBDLM considers that the parameters $\sigma_{w, \text{D}}^{LL}$, $\sigma_{w, \text{T}}^{LL}$, $p^{\text{PD1}}_{\text{T}}$, $\sigma_{w, \text{T}}^{\text{PD1}}$ , $p^{\text{PD2}}_{\text{T}}$, $\sigma_{w,\text{T}}^{\text{PD2}}$ are known.
+%Note that, by default, OpenBDLM considers that the parameters $\sigma_{w, \mathtt{D}}^{LL}$, $\sigma_{w, \mathtt{T}}^{LL}$, $p^{\text{PD1}}_{\mathtt{T}}$, $\sigma_{w, \mathtt{T}}^{\text{PD1}}$ , $p^{\text{PD2}}_{\mathtt{T}}$, $\sigma_{w,\mathtt{T}}^{\text{PD2}}$ are known.
 %Therefore, there are nine model parameters to be learned from the data in this example.
 %The estimation of the model parameters may take several hours.
 %Therefore, press combinations \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Ctrl!} + \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!c!} to abort the process.
@@ -405,6 +405,6 @@ This may be done by following steps below while interacting with the \MATLAB{} c
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_DISPTEMPSIM/optim_param_optim_initialhiddenstate/TEMP_AR_6.pdf} 
 \caption{Estimated temperature autoregressive component}
 \end{subfigure}
-\caption{Estimated results using OpenBDLM optimized model parameters and optimized initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryDefaultPreProcessed2}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively.}
+\caption{Estimated results using OpenBDLM with the optimized model parameters and initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryDefaultPreProcessed2}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively.}
 \label{fig:DISPTEMPSIMOptimizedOptimizedExample2}
 \end{figure*}

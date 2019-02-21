@@ -1,7 +1,7 @@
 \subsection{Model parameters estimation}
 \label{S:PARAMESTIMATION}
 
-The default values for the parameters are either defined from engineering heuristic knowledge or from statistics computed on the data itself (see~Table \ref{table:defaultparamreal}).
+The default values for the parameters are either defined from heuristic knowledge or from statistics computed on the data itself (see~Table \ref{table:defaultparamreal}).
 Each value is only an initial guess which has to be refined using an optimization algorithm (see Section~\ref{SS:THModelParameterEstimation}). 
 The algorithm will estimate the model parameter values from the data.
 % that estimates the model parameters from the data.\\
@@ -10,7 +10,7 @@ The algorithm will estimate the model parameter values from the data.
 \caption{Default values for model parameters. $\hat{\sigma}_{y_{obs(1:\mathtt{T})}}$ corresponds to the empirical standard deviation calculated using observed data from the first data sample to the last data sample of index $\mathtt{T}$. Note that default value for synthetic data are different, see~Table \ref{table:defaultsynthetic} for details.} 
 \centering
 \begin{tabular}{r|ll}
-\hline
+\toprule
 $\bm{\theta}$ name  & $\bm{\theta}^{0}$ & $\bm{\theta}$ bounds \\\cmidrule(lr){1-3}
 $\sigma_{w}^{\mathtt{LL}}$  &  $0$ & $[\text{NaN},\text{NaN}]$ \\
 $\sigma_{w}^{\mathtt{LT}} $ &  $10^{-7}\times\hat{\sigma}_{y_{obs(1:\mathtt{T})}}$ & $[\text{NaN},\text{NaN}]$ \\
@@ -27,7 +27,10 @@ $\phi^{\mathtt{AR}} $ &  $0.75$ & $[0,1]$ \\
 $p^{\mathtt{P}} $ &  $[365.24, 1, 182.62]$\footnote{One different default value for the period is given for each periodic component.} & $[\text{NaN},\text{NaN}]$ \\
 $p^{\mathtt{KR}} $ &  $365.24$ & $[\text{NaN},\text{NaN}]$ \\
 $\ell^{\mathtt{KR}} $ &  $2/\mathtt{L}^{\mathtt{KR}}$ (see \S\ref{SSS:KR})& $[0,\text{Inf}]$ \\
-$\phi^{\cdot|\cdot} $ &  $0.01$  &  $[-\text{Inf}, \text{Inf}]$\\\hline
+$\phi^{\cdot|\cdot} $ &  $0.01$  &  $[-\text{Inf}, \text{Inf}]$\\
+$b^{\mathtt{LI}} $ &  $0$  &  $[-\text{Inf}, \text{Inf}]$\\
+$\sigma_{w}^{\mathtt{LI}}$ &  $\hat{\sigma}_{y_{obs(1:\mathtt{T})}}$  &  $[0, \text{Inf}]$\\\bottomrule
+
 \end{tabular}
 \label{table:defaultparamreal}
 \end{table}
@@ -35,19 +38,7 @@ $\phi^{\cdot|\cdot} $ &  $0.01$  &  $[-\text{Inf}, \text{Inf}]$\\\hline
 
 
 In order to access the model parameter estimation menu from OpenBDLM, type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!} (see Listing~\ref{LST:ModelParametersEstimationMenu}).
-The optimization algorithm is either the Newton-Raphson (choice \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}) or the Stochastic Gradient Descent  (choice \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}) algorithms (see Section~\ref{SS:THModelParameterEstimation}).
-By default, OpenBDLM uses all the data as the training set (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Trainingperiod=[1 Inf]!).
-OpenBDLM transform the model parameters to perform the optimization in an unbounded model parameter space (see Section~\ref{SS:THSpaceTransformation}).
-Undefined bounds (\lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!)  for a parameter means that the parameter is assumed to be known and thus, it will be excluded from the parameter estimation process.
-By default, OpenBLDM assumes that all parameters are unknown, except for the period of the periodic component and the process noise standard deviation associated with the baseline and the periodic component.
-Those model parameters have values fixed to 0.\\
-
-The model parameter can be learned by maximizing either the likelihood (Maximum Likelihood Estimation, MLE), or the posterior function (Maximum A Posteriori estimation, MAP) (see Section~\ref{SS:THModelParameterEstimation}). 
-Note that MAP requires a valid prior for each unknown model parameters.
-In the case of of MAP, OpenBDLM supports gaussian prior only.
-The default option is MLE (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMAP=false!).
-There is the possibility to use the prediction capacity to drive the optimization process\footnote{The use of the prediction capacity is only available using the Stochastic Gradient Descent optimization.} (see  \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isPredCap! and \lstinline[basicstyle = \mlttfamily \small ]!misc.options.SplitPercent!).
-\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBDLM model parameter estimation menu}, label = LST:ModelParametersEstimationMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
+The optimization algorithm is either the Newton-Raphson (choice \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}) or the Stochastic Gradient Descent  (choice \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}) algorithms (see Section~\ref{SS:THModelParameterEstimation}). \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \scriptsize, caption = {OpenBDLM model parameter estimation menu}, label = LST:ModelParametersEstimationMenu ,  float =ht, linewidth=\linewidth, captionpos=b]
 -------------------------------------------
 / Learn model parameters
 -------------------------------------------
@@ -59,20 +50,29 @@ There is the possibility to use the prediction capacity to drive the optimizatio
 
      choice >> 
 \end{lstlisting}
-The model parameter estimation framework computes point estimate of the model parameters. 
+ By default, OpenBDLM uses all the data as the training set (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Trainingperiod=[1 Inf]!).
+OpenBDLM transform the model parameters to perform the optimization in an unbounded model parameter space (see Section~\ref{SS:THSpaceTransformation}).
+Undefined bounds (\lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!)  for a parameter means that the parameter is assumed to be known and thus, it will be excluded from the parameter estimation process.
+By default, OpenBLDM assumes that the parameters for the period of the periodic component and the process noise standard deviation associated with the baseline and the periodic component have values fixed to 0 and are not optimized.\\
+
+The model parameter can be learned by maximizing either the likelihood (Maximum Likelihood Estimation, MLE), or the posterior function (Maximum A Posteriori estimation, MAP) (see Section~\ref{SS:THModelParameterEstimation}). 
+Note that MAP requires a valid prior for each unknown model parameters.
+In the case of of MAP, OpenBDLM supports gaussian prior only.
+The default option is MLE (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMAP=false!).
+There is the possibility to use the prediction capacity to drive the optimization process\footnote{The use of the prediction capacity is only available using the Stochastic Gradient Descent optimization.} (see  \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isPredCap! and \lstinline[basicstyle = \mlttfamily \small ]!misc.options.SplitPercent!). The model parameter estimation framework computes point estimate of the model parameters. 
 However, it is also possible provide confidence intervals around the point estimate using the Laplace approximation\footnote{Laplace approximation is currently only available using the Newton-Raphson optimization.} (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isLaplaceApproximation = true!).
 Note that computing the Laplace approximation can significantly increase the computation time and it is not recommended when the number of model parameters is large.\\
 
 Note also that Newton-Raphson and Stochastic Gradient Descent techniques are sensitive to the initial model parameters values. 
 %The algorithm can reach a local maximum, instead of the global maximum.
 Therefore, it is advised to run the optimizations several times with different starting model parameters values in order to check if the proposed solution is the best attainable solution.
-If \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMute = false!, outputs on the \MATLAB{} command line window allow to monitor the optimization process (see Listings~\ref{LST:OpenBLDMModelParameterLearning}-\ref{LST:OpenBLDMModelParameterLearningSGD}).
+If \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMute = false!, outputs on the \MATLAB{} command line window allows to monitor the optimization process (see Listings~\ref{LST:OpenBLDMModelParameterLearning}-\ref{LST:OpenBLDMModelParameterLearningSGD}).
 At each iteration, the quantity displayed are: the current value of the target function, the name as well as the current value of the unknown model parameter being optimized, the change in model parameters, the change in the target function, and the convergence status (\lstinline[basicstyle = \mlttfamily \small ]!1! if the model parameter converged according to the convergence criteria, \lstinline[basicstyle = \mlttfamily \small ]!0! otherwise).\\
 
 The optimization stops when all the parameters converged, or if the maximum number of iterations (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxIterations!) (or epochs for Stochastic Gradient Descent algorithm, see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxEpochs!) / the maximum time (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxTime!) is reached.
 The values of the parameters are saved in the variable \lstinline[basicstyle = \mlttfamily \small ]!model! \MATLAB{}.
  
- \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBLDM output example when running Newton-Raphson algorithm.}, label = LST:OpenBLDMModelParameterLearning,  float =h!, linewidth=\linewidth, captionpos=b]
+ \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \scriptsize, caption = {OpenBLDM output example when running Newton-Raphson algorithm.}, label = LST:OpenBLDMModelParameterLearning,  float =h!, linewidth=\linewidth, captionpos=b]
     \Start Newton-Raphson max. algorithm (finite difference method)
 
       Training period:                             1-Inf [days]
@@ -114,7 +114,7 @@ The values of the parameters are saved in the variable \lstinline[basicstyle = \
 
 
 
- \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \small, caption = {OpenBLDM output example when running Stochastic Gradient Ascent algorithm.}, label = LST:OpenBLDMModelParameterLearningSGD,  float =h!, linewidth=\linewidth, captionpos=b]
+ \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \scriptsize, caption = {OpenBLDM output example when running Stochastic Gradient Ascent algorithm.}, label = LST:OpenBLDMModelParameterLearningSGD,  float =h!, linewidth=\linewidth, captionpos=b]
     \Start SGD algorithm (finite difference method)
 
       Optimization mode                           MLE
@@ -164,7 +164,7 @@ The values of the parameters are saved in the variable \lstinline[basicstyle = \
 
 \subsubsection{Model parameter estimation functions}
 
-\begin{description}[style=unboxed]
+\begin{description}[style=unboxed]\setlength\itemsep{0em}
 \item[Pilot function for optimization] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [data,model,estimation,misc]=piloteOptimization(data,model,estimation,misc)
@@ -220,7 +220,7 @@ H=numerical_hessian(x,fX,varargin)
 [grad,hessian,fail_gradHess,delta_grad] = gradHess(data, model,misc,pTR,pOR,log_lik_0,grad_TR2OR,delta_grad,param_idx_loop)
  \end{lstlisting} 
 
- \item[Computes the optimal parameter step size for the approximation of the numerical derivative of the likelihood and compute the terms required to approximate the numerical derivative using finite differene method] \leavevmode
+ \item[Computes the optimal parameter step size for the approximation of the numerical derivative of the likelihood and compute the terms required to approximate the numerical derivative using finite-difference method] \leavevmode
  \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [delta_grad,fail_delta_grad,log_lik_1,log_lik_2] = StepSizeOptimization(model,data,misc,pOR,log_lik_0,delta_grad,param_idx_loop)
  \end{lstlisting} 
@@ -256,7 +256,7 @@ H=numerical_hessian(x,fX,varargin)
 \begin{figure}[!h]
   \centering
   \captionsetup{justification=centering}
-\scalebox{0.8}{
+\scalebox{0.7}{
 \begin{tikzpicture}
 
 \node[parababyblueeyes](inputOptimization){ \begin{tabular}{c} \lstinline[ basicstyle = \mlttfamily \small]!data! \\ \phantom{}  \lstinline[ basicstyle = \mlttfamily \small]!model.param_properties! \phantom{} \end{tabular}};
@@ -280,7 +280,7 @@ H=numerical_hessian(x,fX,varargin)
 \begin{figure}[!h]
   \centering
   \captionsetup{justification=centering}
-\scalebox{0.8}{
+\scalebox{0.7}{
 \begin{tikzpicture}
 
 \node[esbabyblueeyes](NewtonRaphson){\phantom{} NewtonRapshon.m \phantom{}};
@@ -291,7 +291,7 @@ H=numerical_hessian(x,fX,varargin)
 \node[esbabyblueeyes](gradHess)[right of = logposterior , xshift=3.75cm, yshift = -0.75cm]{\phantom{}  gradHess.m \phantom{}};
 \node[esbabyblueeyes](SSO)[right of = gradHess , xshift=3cm, yshift = 0cm]{\phantom{}  stepSizeOptimization.m \phantom{}};
 \node[esbabyblueeyes](SKF)[below of = SSO , xshift=0cm, yshift = -1cm]{\phantom{}  SwitchingKalmanFilter.m \phantom{}};
-\node[esbabyblueeyes](writeParameterEstimation)[below of = logposterior, yshift = -4cm]{\phantom{} writeParameterEstimation.m \phantom{}};
+\node[esbabyblueeyes](writeParameterEstimation)[below of = logposterior, yshift = -1.5cm]{\phantom{} writeParameterEstimation.m \phantom{}};
 
 
 \path[->, draw, thick] (NewtonRaphson)edge(readParameterEstimation);
@@ -311,7 +311,7 @@ H=numerical_hessian(x,fX,varargin)
 \begin{figure}[h]
   \centering
   \captionsetup{justification=centering}
-\scalebox{0.8}{
+\scalebox{0.7}{
 \begin{tikzpicture}
 
 \node[esbabyblueeyes](SGD){\phantom{} SGD.m \phantom{}};
@@ -324,7 +324,7 @@ H=numerical_hessian(x,fX,varargin)
 \node[esbabyblueeyes](gradHess)[right of = logposterior , xshift=3.75cm, yshift = -0.75cm]{\phantom{}  gradHess.m \phantom{}};
 \node[esbabyblueeyes](SSO)[right of = gradHess , xshift=3cm, yshift = 0cm]{\phantom{}  stepSizeOptimization.m \phantom{}};
 \node[esbabyblueeyes](SKF)[below of = SSO , xshift=0cm, yshift = -1cm]{\phantom{}  SwitchingKalmanFilter.m \phantom{}};
-\node[esbabyblueeyes](grid)[below of = logposterior, yshift = -3.5cm]{\phantom{} paramGrid.m \phantom{}};
+\node[esbabyblueeyes](grid)[below of = logposterior, yshift = -1cm]{\phantom{} paramGrid.m \phantom{}};
 \node[esbabyblueeyes](adam)[below of = grid, yshift = -1cm]{\phantom{} \begin{tabular}{c} ADAM.m  \\ MMT.m  \end{tabular}};
 \node[esbabyblueeyes](metric2)[below of = adam , yshift = -1cm]{\phantom{}  metricFct.m \phantom{}};
 \node[esbabyblueeyes](writeParameterEstimation)[below of = metric2, yshift = -1cm]{\phantom{} writeParameterEstimation.m \phantom{}};

@@ -234,7 +234,11 @@ for i=1:numberOfTimeSeries
     end
 end
 fprintf(fileID_CFG,'};\n');
+if isfield(data, 'interventions')   
+    fprintf(fileID_CFG,['data.interventions=[' repmat('%f ',[1,numel(data.interventions)]) '];'], data.interventions);
+end
 fprintf(fileID_CFG,'\n');
+
 %% Print model structure
 fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID_CFG, '\n');

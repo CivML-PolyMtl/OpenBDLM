@@ -16,7 +16,7 @@ OpenBDLM supports two types of input data format.
 %If the data have already been synchronized, it is preferable to use properly formatted .MAT \MATLAB{} files (see Section~\ref{SS:MatFiles})
 One .CSV data file must be provided for each time series.
 The file must contain two columns that are organized as shown in Listing~\ref{LST:CSV_Formatting}.
-\begin{lstlisting}[ frame = single, linewidth = \linewidth, caption = CSV data file example,  label = LST:CSV_Formatting, float = ht, ,captionpos=b]
+\begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \scriptsize,linewidth = \linewidth, caption = CSV data file example,  label = LST:CSV_Formatting, float = ht, ,captionpos=b]
 'name'            ,   '2000-01-01-22-00-00'
 737422            ,   0.40
 737423.5          ,   0.21
@@ -48,7 +48,7 @@ Note that \MATLAB{} binary .MAT files can be used to load at once several time s
 
 The data loading workflow is presented Figure~\ref{FIG:DataLoadingWorkflow}. The list of OpenBDLM functions used for data loading is:
 
-\begin{description}[style=unboxed]
+\begin{description}[style=unboxed]\setlength\itemsep{0em}
 \item[Control script to load data] \leavevmode
   \begin{lstlisting}[ basicstyle = \mlttfamily \small, breaklines=true]
 [data,misc,dataFilename]=DataLoader(misc)
@@ -90,7 +90,7 @@ The data loading workflow is presented Figure~\ref{FIG:DataLoadingWorkflow}. The
 \begin{figure}[!h]
   \centering
   \captionsetup{justification=centering}
-\scalebox{0.8}{
+\scalebox{0.7}{
 \begin{tikzpicture}
 
 

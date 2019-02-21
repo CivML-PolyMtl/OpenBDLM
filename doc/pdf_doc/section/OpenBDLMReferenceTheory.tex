@@ -62,18 +62,18 @@ One particularity of BDLMs is their capacity to update the current estimated sta
 
 \subsection{Kalman filter \& UD filters}
 \label{SS:KFUD}
-The analytical solutions for the prediction, observation and update step are available through either the Kalman filter (KF) or the UD filter, which can be expressed in its short form as:
+The analytical solutions for the prediction, observation and update step are available through either the Kalman filter (KF) or the UD filter, which can be expressed in its short form as
 \begin{equation}
     \begin{split}
-      (\bm{\mu}_{t|t},\bm{\Sigma}_{t|t}, \mathcal{L}_{t}) = \text{Filter}(\bm{\mu}_{t-1|t-1},\bm{\Sigma}_{t-1|t-1},\mathbf{y}_{t}, \mathbf{A}_{t},  \mathbf{Q}_{t},   \mathbf{C}_{t},  \mathbf{R}_{t})
+      (\bm{\mu}_{t|t},\bm{\Sigma}_{t|t}, \mathcal{L}_{t}) = \text{Filter}(\bm{\mu}_{t-1|t-1},\bm{\Sigma}_{t-1|t-1},\mathbf{y}_{t}, \mathbf{A}_{t},  \mathbf{Q}_{t},   \mathbf{C}_{t},  \mathbf{R}_{t}),
       \end{split}
 \label{EQ:KF}
 \end{equation}
 where $\mathcal{L}_{t}$ is the marginal likelihood describing the probability of observing observations $\mathbf{y}_{t}$ at time $t$ given all the observations up to time $t-1$ \cite{sarkka2013bayesian}. 
-Note that the UD and Kalman filter are two different methods for calculating the same results. On one hand, the Kalman filter is faster and computationally simpler to implement and on the other hand, the UD filter is more robust toward numerical instabilities.   
+Note that the UD and Kalman filter are two different methods for calculating the same results. On one hand, the Kalman filter is faster and computationally simpler to implement, and on the other hand, the UD filter is more robust toward numerical instabilities.   
 
 
-The standard Kalman filter expressed in Eq.~\ref{EQ:KF} can process stationary, trend stationary, and acceleration stationary time series, but it is not capable of handling non-stationary time series, which is needed when it comes to anomaly detection.
+The standard Kalman filter expressed in Eq.~\ref{EQ:KF} can process stationary, trend stationary, and acceleration stationary time series, but it is not capable of handling non-stationary time series, which is needed when it comes to anomaly detection (see \S\ref{S:ExampleDispAnomaly}).
 The generalization of the Kalman Filter for non-stationary time series is found in the Switching Kalman filter (SKF) equations.
 
 \subsection{Switching Kalman filter}
@@ -86,12 +86,12 @@ In such approach, a discrete markovian switching variable $s_{t}= 1, ..,j,.. ,\m
 The problem of incorporating switching dynamics into the model is that the state vector grows in a way that the dimension of the state vector at time $t$ is $\mathtt{S}^{t}$.
 Therefore, the estimation quickly becomes intractable.
 One solution is to merge at each time $t$ the states sharing the same dynamics using gaussian mixture.
-This technique, known as the Switching Kalman filter, allows to keep the dimension of the state vector equal to $S$ at each time $t$ \cite{murphy2012machine}.
+This technique, known as the Switching Kalman filter, allows to keep the dimension of the state vector equal to $\mathtt{S}$ at each time $t$ \cite{murphy2012machine}.
 The SKF algorithm can be divided into two successive steps, (i) the ``Filter'' and, (ii) the ``Collapse'' step.
-Following the notation used in Eq.~\ref{EQ:KF} the first step can be expressed in its short form as:
+Following the notation used in Eq.~\ref{EQ:KF} the first step can be expressed in its short form as
 \begin{equation}
   \begin{split}
-  (\bm{\mu}_{t|t}^{i(j)},\bm{\Sigma}_{t|t}^{i(j)}, \mathcal{L}_{t}^{i(j)}) = \text{Filter}(\bm{\mu}_{t-1|t-1}^{i},\bm{\Sigma}_{t-1|t-1}^{i}, \mathbf{y}_{t}, \mathbf{A}_{t}^{j},  \mathbf{Q}_{t}^{i(j)},   \mathbf{C}^{j}_{t},  \mathbf{R}^{j}_{t})
+  (\bm{\mu}_{t|t}^{i(j)},\bm{\Sigma}_{t|t}^{i(j)}, \mathcal{L}_{t}^{i(j)}) = \text{Filter}(\bm{\mu}_{t-1|t-1}^{i},\bm{\Sigma}_{t-1|t-1}^{i}, \mathbf{y}_{t}, \mathbf{A}_{t}^{j},  \mathbf{Q}_{t}^{i(j)},   \mathbf{C}^{j}_{t},  \mathbf{R}^{j}_{t}),
     \end{split}
 \label{EQ:SKF1}
 \end{equation}
@@ -108,10 +108,10 @@ Moreover, the state switching probability is defined as
 W_{t-1|t}^{i(j)} = \frac{\mathcal{L}_{t}^{i(j)} \pi_{t-1|t-1}^{i} Z^{i(j)}_{t} }{c\pi_{t|t}^{j}}.
 \label{EQ:StateSwitchingProbability}
 \end{equation}
-$W_{t|t-1}^{i(j)}$ are required to perform the ``Collapse'' step, which can be expressed in its short form as:
+$W_{t|t-1}^{i(j)}$ are required to perform the ``Collapse'' step, which can be expressed in its short form as
 \begin{equation}
   \begin{split}
-  (\bm{\mu}_{t|t}^{j},\bm{\Sigma}_{t|t}^{j}) = \text{Collapse}(\bm{\mu}_{t|t}^{i(j)},\bm{\Sigma}_{t|t}^{i(j)}, W_{t-1|t}^{i(j)} );
+  (\bm{\mu}_{t|t}^{j},\bm{\Sigma}_{t|t}^{j}) = \text{Collapse}(\bm{\mu}_{t|t}^{i(j)},\bm{\Sigma}_{t|t}^{i(j)}, W_{t-1|t}^{i(j)} ),
     \end{split}
 \label{EQ:SKF2}
 \end{equation}
@@ -119,10 +119,10 @@ where state switching probabilities $W_{t|t-1}^{i(j)}$ are used as weighting fac
 From Eq.~\ref{EQ:SKF2}, the SKF algorithm provides a set a $\mathtt{S}$ state vectors at each time $t$.
 However, for the ease of interpretation, it is generally more convenient to have a single state vector at each time $t$.
 Therefore, we hereafter introduce the ``Merge'' step.
-Similarly to the ``Collapse'' step of the SKF algorithm, the ``Merge'' step uses the gaussian mixture technique, and it can be expressed in its short form as:
+Similarly to the ``Collapse'' step of the SKF algorithm, the ``Merge'' step uses the gaussian mixture technique, and it can be expressed in its short form as
 \begin{equation}
   \begin{split}
-  (\bm{\mu}_{t|t},\bm{\Sigma}_{t|t}) = \text{Merge}(\bm{\mu}_{t|t}^{j},\bm{\Sigma}_{t|t}^{j},  \pi_{t|t}^{j} );
+  (\bm{\mu}_{t|t},\bm{\Sigma}_{t|t}) = \text{Merge}(\bm{\mu}_{t|t}^{j},\bm{\Sigma}_{t|t}^{j},  \pi_{t|t}^{j} ),
     \end{split}
 \label{EQ:SKFCollapse}
 \end{equation}
@@ -138,12 +138,12 @@ The procedure of learning the model parameters is hereafter referred to as model
 The log a posteriori probability density function (PDF) is defined as
 \begin{equation}
 %\begin{array}{rcl}
-\ln p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}})  \propto \, \ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta) + \ln p(\bm\theta),
+\ln p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}}) \, \propto \, \ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta) + \ln p(\bm\theta),
 %\end{array}
 \label{EQ:BT}
 \end{equation} 
 where $p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)$ is the likelihood,  $p(\bm\theta)$ is the prior PDF.
-The likelihood PDF is the joint prior probability of observations, that is, plausibility of the available observations $\mathbf{y}_{1:\mathtt{Tr}}$ given the parameter vector $\bm\theta$.  
+The likelihood PDF is the joint prior probability density of observations, that is, plausibility of the available observations $\mathbf{y}_{1:\mathtt{Tr}}$ given the parameter vector $\bm\theta$.  
 Assuming that the observations errors are independent from each other, the joint log-likelihood function is defined as the sum of the marginal log-likelihoods, such as 
 \begin{equation}
 \ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)  = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln p(\mathbf{y}_{t}|\mathbf{y}_{1:t-1},\bm \theta) = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln \left[ \sum_{j=1}^{\mathtt{S}} \sum_{i=1}^{\mathtt{S}} \mathcal{L}_{t}^{i(j)} \pi_{t-1|t-1}^{i} Z_{t}^{i(j)} \right] \text{,}
@@ -170,7 +170,7 @@ where $\bm\theta^{*}$ are the optimized model parameters values.
 
 The MAP and MLE are point estimation methods which do not take into account the uncertainty in the parameter estimates $\bm\theta^{*}$. 
 The estimation of the uncertainties in the model parameters estimates can be addressed using the Laplace approximation \cite{gelman2014bayesian} so that
-$$p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}})  \approx  \mathcal{N}\left(\bm\theta;\bm\theta^{*},-\mathbf{H}(\bm\theta^{*})^{-1}\right)
+$$p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}})  \approx  \mathcal{N}\left(\bm\theta;\bm\theta^{*},-\mathbf{H}(\bm\theta^{*})^{-1}\right),
 \label{EQ: LaA}
 $$
 where $\mathbf{H}(\bm\theta^{*})$ is the second derivative of the log a posteriori or log likelihood PDF evaluated at the optimal parameter values $\bm\theta^{*}$. 
@@ -233,7 +233,7 @@ Classical implementation of stochastic gradient algorithm includes momentum appr
 
 \paragraph{Approximation of the derivatives}
 
-In most cases. the derivatives of $\mathcal{T}(\bm{\theta})$ cannot be computed analytically.
+In many cases, the derivatives of $\mathcal{T}(\bm{\theta})$ cannot be computed analytically.
 Therefore, the derivatives are approximated numerically using the central differentiation scheme, such as
 \begin{gather}
 \begin{aligned}
@@ -253,8 +253,7 @@ For instance, the standard deviation model parameters are real numbers that lie 
 %The autoregression coefficient model parameters are real numbers that lie in the $[0, 1]$ interval.
 Therefore, during the learning procedure, it may happen that new model parameters $\bm\theta_{\text{new}}$ are proposed outside their valid interval.
 Those parameters must be rejected, which strongly hinders the computational efficiency of the learning algorithm.
-The solution employed in OpenBDLM is to transform the bounded parameters space into an unbounded parameters space, where the parameters lie in the $[ -\infty, +\infty ]$ interval, and to perform the learning procedure in the transformed, unbounded, space.
-The transformation is done using a function $g(.)$ so that, 
+The solution employed in OpenBDLM is to transform the bounded space into an unbounded one, where the parameters lie in the interval $[ -\infty, +\infty ]$. The transformation is done using a function $g(.)$ so that, 
 \begin{equation}
 \theta^{\text{tr}} = g(\theta) \text{, }\quad \theta^{\text{tr}} \in [-\infty, +\infty ] \text{.}
 \end{equation}
@@ -315,7 +314,7 @@ $\sigma_{w}^{\mathtt{LL}}$ is the process noise standard deviation which can be 
 \subsubsection{Local trend (baseline)}
 
 The local trend block component describes the local mean of a trend-stationary time series (trend and no acceleration) \cite{STC:STC2035}. 
-The local level describes irreversible changes.\\
+The local trend describes irreversible changes.\\
 
 \noindent
 Number of hidden states: 2\\
@@ -522,7 +521,7 @@ The periodic kernel measures the similarity between pairs of covariates, and it 
 \begin{gather*}
 k(t_{i},t_{j})=\exp\left[-\frac{2}{\ell^2}\sin\left( \pi\frac{t_i-t_{j}}{p}\right)^{2}\right].
 \end{gather*}
-The kernel output $k(t_{i},t_{j})\in(0,1)$ measures the similarity between two timestamps $t_{i}$ and $t_{j}$ as a function of the distance between these, as well as a function of two parameters; the period and kernel length, $\bm{\theta}=\{p,\ell\}$.
+The kernel output $k(t_{i},t_{j})\in(0,1)$ measures the similarity between two timestamps $t_{i}$ and $t_{j}$ as a function of the distance between these, as well as a function of two parameters; the period and kernel length, $\bm{\theta}=[p,\ell]$.
 \noindent\\
 Number of hidden states:  $\mathtt{L}^{\mathtt{KR}}+1$\\
 
@@ -549,8 +548,8 @@ Model parameters:
 
 \noindent
 In the transition matrix, $\tilde{\bm k}^{\mathtt{KR}}(t,\mathbf{t}^{\mathtt{KR}})$ corresponds to the normalized kernel, $k(t,\mathbf{t}^{\mathtt{KR}})/\sum_{t} k(t,\mathbf{t}^{\mathtt{KR}})$. $\tilde{\bm k}^{\mathtt{KR}}(t,\mathbf{t}^{\mathtt{KR}})$ is parameterized by the kernel width $\ell^{\mathtt{KR}}$, its period $p^{\mathtt{KR}}$, and a vector of $\mathtt{L}^{\mathtt{KR}}$ timestamps $\mathbf{t}^{\mathtt{KR}}=[t_{1}^{\mathtt{KR}},\cdots,t_{\mathtt{L}^{\mathtt{KR}}}^{\mathtt{KR}}]$ where each timestamp $t_{i}^{\mathtt{KR}}$ is associated with a hidden control point value $x_{i}^{\mathtt{KR}}$. 
-$\sigma_{w,1}^{\mathtt{KR}}$ controls the increase in the  variance of the hidden control points between successive time steps and $\sigma_{w,0}^{\mathtt{KR}}$ controls the time-independent process noise in the hidden predicted pattern.
-$p^{\mathtt{KR}}$ and $\ell^{\mathtt{KR}}$ give the period and correlation length of the kernel, respectively.
+$\sigma_{w,1}^{\mathtt{KR}}$ controls the process noise  variance of the hidden control points between successive time steps and $\sigma_{w,0}^{\mathtt{KR}}$ controls the time-independent process noise in the hidden predicted pattern.
+$p^{\mathtt{KR}}$ and $\ell^{\mathtt{KR}}$ give the period and correlation length of the kernel.
 
 
 \subsubsection{First order autoregressive}
@@ -585,6 +584,52 @@ Model parameters:
 \noindent
 $\sigma_{w}^{\mathtt{AR}}$ is the process noise standard deviation, and $\phi^{\mathtt{AR}}$ the autoregressive coefficient.
 
+\subsubsection{Local Intervention}\label{SSS:LI}
+
+The local intervention block component describes the discrete shifts occurring in a time series. Shifts typically happens a sensor fails; when a sensor fails, the data start to be missing (i.e. \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!NaN!) and it often takes from several weeks to several months before the sensor is replaced. When the sensor is replaced, it is in most cases re-initialized at a different initial value than the previous sensor which lead to a discrete shift in the time series, as depicted in Figure~\ref{fig:DataSummary1}. When using a Level intervention component, the user must provide discrete timestamps where it is required to estimate the magnitude of a discrete shift in the dataset. A user can do so by specifying in the configuration file \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!data.interventions=[t_{1}, t_{2}, ... , t_{n}]!, where \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!n! is the number of interventions. 
+
+The local intervention describes irreversible changes.\\
+
+\noindent
+Number of hidden states: 1\\
+
+Hidden states vector: 
+\begin{gather*}
+\mathbf{x}^{\mathtt{LI}} = [x^{\mathtt{LI}}]
+\end{gather*}
+Transition matrix: 
+\begin{gather*}
+\mathbf{A}^{\mathtt{LI}}=[1]
+\end{gather*}
+Observation matrix: 
+\begin{gather*}
+\mathbf{C}^{\mathtt{LI}}=[1]
+\end{gather*}
+Process noise covariance matrix: 
+\begin{gather*}
+\mathbf{Q}^{\mathtt{LI}}=[(\sigma_{w}^{\mathtt{LI}})^{2}]
+\end{gather*}
+Model parameters: 
+\begin{gather*}
+\bm\theta^{\mathtt{LI}}=[\mu_{b}^{\mathtt{LI}}, \sigma_{b}^{\mathtt{LI}} ]
+\end{gather*}
+\noindent
+$\sigma_{w}^{\mathtt{LI}}$ is the standard deviation describing the uncertainty associated with the magnitude of the shift and $\mu_{b}^{\mathtt{LI}}$ is its expected magnitude;  Both parameters can be kept to their default values or be learned from the data.
+
+For the Local intervention component, the Equation \ref{EQ:SSM_Transition} is modified to include an additional  intervention term $b_{t}$
+\begin{equation}
+  \mathbf{x}_{t}^{\mathtt{LI}}=\mathbf{A}_{t}^{\mathtt{LI}}\mathbf{x}_{t-1}^{\mathtt{LI}}+{w}_{t}^{\mathtt{LI}}+b_{t}^{\mathtt{LI}},\quad\left\{
+  \begin{array}{l}
+{w}_{t}^{\mathtt{LI}}\sim \mathcal{N}({0},
+\mathbf{Q}_{t}^{\mathtt{LI}})\\[4pt]
+b_{t}^{\mathtt{LI}}\sim\mathcal{N}(\mu_{b}^{\mathtt{LI}},
+\sigma_{b}^{\mathtt{LI}})
+\end{array}\right.
+\end{equation}
+The local Intervention component allows estimating the shifts $\mathbf{x}_{t|t}^{\mathtt{LI}}$ caused by the interventions for which the discrete timestamps are specified in \lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!data.interventions!. 
+
+
+
 \subsection{Handling non-uniform time vector and missing data}
 \label{SS:HandlingNonUniformMissingData}
 
@@ -611,15 +656,15 @@ Therefore, the autocorrelation between successive data samples in the autoregres
 Note that this procedure is an approximation.
 \subsubsection{Missing data (NaN)}
 
-The presence of missing data (NaN) for specific time impedes the completion of the full Kalman computations as the update step can not be performed \cite{STC:STC2035}.
+The presence of missing data (\lstinline[basicstyle = \mlttfamily \small ]!NaN!) for specific timestamps prevents the completion of the Kalman update-step \cite{STC:STC2035}.
 However, the prediction step using the current transition model can be done.
 %No update is performed at times associated with missing data (NaN), and only the prediction step is performed.
-Therefore, BDLM automatically fills gaps when data are missing using the transition model.
+Therefore, BDLM automatically fills gaps when data are missing using the transition model in the prediction step.
 
 
 \subsection{Dependencies between time series}
 \label{S:Dependencies}
-The dependencies between time series are handled by adding regression coefficients $\phi^{i|j}$ in the observation matrix.
+The dependencies between time series are handled by adding regression coefficients $\phi^{i|j}$ in the observation matrix (See \S\ref{S:ExampleDispTemp}).
 For a dataset with $\mathtt{D}$ time series, the observation matrix is
 \begin{equation*}
 \mathbf{C}=\left[\begin{array}{cccccc}

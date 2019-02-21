@@ -363,8 +363,7 @@ for idx=1:numberOfHiddenStates
         end
         
         %% Export plots
-        if isExportPDF || isExportPNG || isExportTEX
-            
+        if isExportPDF || isExportPNG || isExportTEX         
             % Define the name of the figure
             if exist('string')
                 match = [string('^'),string('{'),string('}'), string('x')];

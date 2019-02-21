@@ -5,7 +5,7 @@
 \label{SS:OpenBDLMinput}
 
 
-OpenBDLM has two operating modes: \emph{interactive mode} and \emph{batch mode}. In \emph{interactive mode}, OpenBDLM takes the required input for the project through \MATLAB{} command line queries. Each input is validated after pressing the Enter key $\dlsh$. In \emph{batch mode}, the inputs are provided in advance by the user and stored in a cell array of characters vector. OpenBDLM reads sequentially the inputs and performs the analysis. The batch mode requires the user to be familiar with the interactive mode because the set of input must be provided prior to the analysis. {\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main! can take three types of input
+OpenBDLM has two operating modes: \emph{interactive mode} and \emph{batch mode}. In the \emph{interactive mode}, OpenBDLM takes the required input for the project through \MATLAB{} command line queries. Each input is validated after pressing the Enter key $\dlsh$. In \emph{batch mode}, the inputs are provided in advance by the user and stored in a cell array of characters vector. OpenBDLM reads sequentially the inputs and performs the analysis. The batch mode requires the user to be familiar with the interactive mode because the set of inputs must be provided prior to the analysis. {\lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main! can take three types of input:
 \begin{itemize}
   \item no input (\emph{interactive mode}) \\ 
   
@@ -25,14 +25,14 @@ OpenBDLM has two operating modes: \emph{interactive mode} and \emph{batch mode}.
 \subsection{Outputs}
 
  Four possible outputs can be obtained from \lstinline[basicstyle = \mlttfamily \small]!OpenBDLM_main.m!.
- These outputs are \lstinline[basicstyle = \mlttfamily \small ]!data!, \lstinline[basicstyle = \mlttfamily \small ]!model!,\lstinline[basicstyle = \mlttfamily \small ]!estimation!, \lstinline[basicstyle = \mlttfamily \small ]!misc!.\\
+ These outputs are \lstinline[basicstyle = \mlttfamily \small ]!data!, \lstinline[basicstyle = \mlttfamily \small ]!model!, \lstinline[basicstyle = \mlttfamily \small ]!estimation!, and \lstinline[basicstyle = \mlttfamily \small ]!misc!.\\
  
  \raggedright{\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small]![data, model, estimation, misc]=OpenBDLM_main;!}} \\
 
 \subsubsection{data} 
 
 The output variable \lstinline[basicstyle = \mlttfamily \small]!data! stores the time series used for the analysis. 
-The timestamps values, the amplitude values and the labels values are stored in the fields \lstinline[basicstyle = \mlttfamily \small ]!timestamps!, \lstinline[basicstyle = \mlttfamily \small ]!values!, and \lstinline[basicstyle = \mlttfamily \small ]!labels!, respectively.
+The timestamps values, the amplitude values and the label values are stored in the fields \lstinline[basicstyle = \mlttfamily \small ]!timestamps!, \lstinline[basicstyle = \mlttfamily \small ]!values!, and \lstinline[basicstyle = \mlttfamily \small ]!labels!, respectively.
 \begin{itemize}
 \item \lstinline[basicstyle = \mlttfamily \small ]!labels!:  See Section~\ref{SS:MATInput} for details.
 \item \lstinline[basicstyle = \mlttfamily \small ]!timestamps!:  See Section~\ref{SS:MATInput} for details.

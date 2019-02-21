@@ -306,7 +306,7 @@ else
     PD.pQ0={'0*nanstd(data.values(:,obs))'};
     PD.init={'[5,0]','[(2*nanstd(data.values(:,obs)))^2,(2*nanstd(data.values(:,obs)))^2]'};
 end
-PD.B=@(p,t,dt) 0;
+PD.B=@(p,t,dt) [0 0];
 PD.pB=[];
 PD.pB0=[];
 PD.W=@(p,t,dt) diag([0,0]);
@@ -411,10 +411,10 @@ LI.x={'x^{LI}',[],[]};
 LI.pQ0={'0'};
 LI.init={'0','1E-20'};
 LI.B=@(p,t,dt) p'*dt/dt_ref;
-LI.pB=[{'b','LI',[],[],[-inf,inf]}];
-LI.pB0=[{'1E-1*nanstd(data.values(:,obs))'}];
+LI.pB=[{'\mu_b','LI',[],[],[-inf,inf]}];
+LI.pB0=[{'0*nanstd(data.values(:,obs))'}];
 LI.W=@(p,t,dt) (p*dt/dt_ref).^2;
-LI.pW=[{'\sigma_W','LI',[],[],[0,inf]}];
+LI.pW=[{'\sigma_b','LI',[],[],[0,inf]}];
 LI.pW0=[{'nanstd(data.values(:, obs))'}];
 
 %% Block initialization

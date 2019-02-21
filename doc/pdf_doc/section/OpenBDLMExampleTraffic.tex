@@ -3,7 +3,7 @@
 \subsubsection{Data description}
 
 This case-study is conducted on the traffic loading data collected on the Tamar Bridge \citep{Goulet2017BDLMEmprical,Nguyen2019KRBDLM}. 
-The Figure~\ref{fig:DataSummaryTraffic}a shows that data points exist between  September $01$ and October $21$, $2007$. Beyond that date, the timestamps are associated with NaN (i.e. missing data) in order to forecast the predicted traffic load for a period of two weeks (see Figure~\ref{fig:DataSummaryTraffic}c).  
+The Figure~\ref{fig:DataSummaryTraffic}a shows that data points exist between  September $01$ and October $21$, $2007$. Beyond that date, the timestamps are associated with \lstinline[basicstyle = \mlttfamily \small ]!NaN! (i.e. missing data) in order to forecast the predicted traffic load for a period of two weeks beyond the available data (see Figure~\ref{fig:DataSummaryTraffic}c).  
 The timestep is $30$\,minutes for all data points (Figure~\ref{fig:DataSummaryTraffic}a).
 The time series is stationnary with a level, a periodic pattern with a period of $7$\,days, and autoregressive pattern.
 %The traffic loading on weekends is much lighter than those on weekdays. 
@@ -42,13 +42,13 @@ The model includes one model class, and the hidden states variables are
 The associated model parameters are
 \begin{equation}
 \label{EQ:PTL}
-\bm\theta = \left[\sigma^{\mathtt{LL}}_{w}, \ell^{\mathtt{KR}}, p^{\mathtt{KR}}, \sigma_{w,0}^{\mathtt{KR}}, \sigma_{w,1}^{\mathtt{KR}}, \phi^{\mathtt{AR}}, \sigma^{\mathtt{AR}}_{w}, \sigma_{v}\right],
+\bm\theta = \left[\sigma^{\mathtt{LL}}_{w}, \ell^{\mathtt{KR}}, p^{\mathtt{KR}}, \sigma_{w,0}^{\mathtt{KR}}, \sigma_{w,1}^{\mathtt{KR}}, \phi^{\mathtt{AR}}, \sigma^{\mathtt{AR}}_{w}, \sigma_{v}\right].
 \end{equation}
 The optimized model parameters values computed using the Newton-Raphson algorithm (see~\ref{SS:THModelParameterEstimation}) with a training period of 14 days are
 \begin{gather*}
 \bm\theta^{\text{*}}=[0 , 0.052, 7, 2.1\times10^{-5}, 0, 0.81, 0.30, 4.6\times10^{-5}].
 \end{gather*}
-The optimized initial hidden states mean and covariance values are 
+The estimated initial hidden states mean and covariance are 
 \begin{align*}
 %\bm \mu^{*}_{0} & = [	 3.12  ,	0  ,   	-2.28  ,	-1.42  ,	-2.83 ,	-2.66 ,	-3    	,-2.68  \\
 %&	-3.04 ,	-2.76 ,	-2.84 ,	-2.46 ,	-2.03 ,	-1.77 ,	-2.29 ,	-1.66  \\
@@ -72,6 +72,65 @@ The hidden states computed using the estimated model parameters and initial hidd
 
 
 
+
+
+
+
+\subsubsection{Run the example from the pre-existing configuration file}
+\label{SS:LoadConfigFileTraffic}
+
+
+There is a configuration file CFG\_Example\_TRAFFIC\_optim.m which is located in the ``config\_files'' folder of the OpenBDLM package.
+CFG\_Example\_TRAFFIC\_optim.m contains the optimized model parameters and initial hidden states values.
+There is also a data file DATA\_Example\_TRAFFIC\_optim.mat that is located in the ``data/mat'' subfolder.
+Therefore, it is possible to run the example \#4 by following the steps below while interacting with the \MATLAB{} command line:
+\begin{enumerate}
+\item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_TRAFFIC_optim.m');!}.
+\item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}.
+\item Run the Kalman filter to estimate the hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
+\item Save and quit. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!}.
+\end{enumerate}
+
+
+\subsubsection{Run the example from command line interaction}
+
+The analysis of a new dataset usually requires to start from scratch.
+This section explains how to run the example \#4 from scratch, that is, how to load the data presented in Figure~\ref{fig:DataSummaryTraffic}, configure the model, estimate the model parameters and estimate the hidden states as presented in Figure~\ref{fig:Example_TrafficOptimizedOptimized}.
+This may be done by following steps below while interacting with the \MATLAB{} command line:
+\begin{enumerate}
+\item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}.
+\item Choose the interactive tool. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
+\item Enter the project name. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Example_TRAFFIC!}. 
+\item Disregard generating synthetic data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!no!}. 
+\item Load new data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
+\item Select from the graphical user interface the data file Example\_TRAFFIC\_TrafficLoad.csv located in the folder ``/data/csv/Example\_TRAFFIC''. The Figure~\ref{fig:DataSummaryTraffic} representing the raw data should popup on screen.
+\item Save and continue without pre-processing. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}. The Figure~\ref{fig:DataSummaryTraffic} should popup on screen again,.
+\item Select the number of model classes. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
+\item Select the model block components. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![11 51 41]!}.
+\item Access model parameters menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!11!}.
+\item Modify a model parameter. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
+\item Modify the third model parameter (period of the kernel regression component). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}.
+\item Provide new value for  the period (in days). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}.
+\item Provide new bounds for the period. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![NaN NaN]!}.
+
+\item Access the training period modification menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!13!}. 
+
+\item Modify the training period. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
+
+\item Choose the starting time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
+
+\item Choose the end time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!14!}. 
+
+\item Access model parameter estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
+\item Start Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm has converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExampleTraffic}. Note that it is possible to get slightly different parameter values\footnote{Keep in mind that the optimization may take several minutes. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_TRAFFIC\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileTraffic}.}.
+\item Estimate the initial hidden states values. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}.
+\item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
+\item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should correspond to the results presented in Figure~\ref{fig:Example_TrafficOptimizedOptimized}.
+\item Access export menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!17!}. 
+\item Export the current project in a configuration file. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
+\item Save and quit OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!}.
+\end{enumerate}
+
 \begin{figure*}[h!]
 \begin{center}
 \begin{subfigure}{\linewidth}\centering
@@ -94,66 +153,8 @@ The hidden states computed using the estimated model parameters and initial hidd
 \includegraphics[width=0.9\linewidth]{./docfigs/Example_TRAFFIC/optim_param_optim_initialhiddenstate/TrafficLoad_AR_4.pdf} 
 \caption{Estimated traffic load autoregressive component}
 \end{subfigure}
-\caption{Estimated results using OpenBDLM optimized model parameters and optimized initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryTraffic}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively.}
+\caption{Estimated results using OpenBDLM with the optimized model parameters and optimized initial hidden states. The hidden states are estimated from the data presented in Figure~\ref{fig:DataSummaryTraffic}a. The solid line and shaded area represent the mean and standard deviation of the estimated hidden states, respectively.}
 \label{fig:Example_TrafficOptimizedOptimized}
 \end{center}
 \end{figure*}
-
-
-
-\subsubsection{Run the example from pre-existing configuration file}
-\label{SS:LoadConfigFileTraffic}
-
-
-There is a configuration file CFG\_Example\_TRAFFIC\_optim.m which is located in the ``config\_files'' folder of the OpenBDLM package.
-CFG\_Example\_TRAFFIC\_optim.m contains the optimized model parameters and optimized initial hidden states values.
-There is also a data file DATA\_Example\_TRAFFIC\_optim.mat that is located in the ``data/mat'' subfolder.
-Therefore, it is possible to run the example \#4 by following the steps below while interacting with the \MATLAB{} command line:
-\begin{enumerate}
-\item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main('CFG_Example_TRAFFIC_optim.m');!}.
-\item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}.
-\item Run the Kalman filter to estimate the hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
-\item Save and quit. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!}.
-\end{enumerate}
-
-
-\subsubsection{Run the example from command line interaction}
-
-The analysis of a new dataset usually requires to start from scratch.
-This section explains how to run the example \#4 from scratch, that is, how to load the data presented in Figure~\ref{fig:DataSummaryTraffic}, configure the model, estimate the model parameters and estimate the hidden states as presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExampleTraffic}.
-This may be done by following steps below while interacting with the \MATLAB{} command line:
-\begin{enumerate}
-\item Start OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!OpenBDLM_main;!}.
-\item Choose the interactive tool. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
-\item Enter the project name. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Example_TRAFFIC!}. 
-\item Disregard generating synthetic data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!no!}. 
-\item Load new data. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!0!}.
-\item Select from the graphical user interface the data file Example\_TRAFFIC\_TrafficLoad.csv located in the folder ``/data/csv/Example\_TRAFFIC''. The Figure~\ref{fig:DataSummaryTraffic} that represents the raw data should popup on screen.
-\item Save and continue without pre-processing. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}. The Figure~\ref{fig:DataSummaryTraffic} should popup on screen again,.
-\item Select the number of model classes. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-\item Select the model block components. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![11 51 41]!}.
-\item Access model parameters menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!11!}.
-\item Modify a model parameter. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
-\item Modify the third model parameter (period of the kernel regression component). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}.
-\item Provide new value for  the period. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!7!}.
-\item Provide new bounds for the period. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![NaN NaN]!}.
-
-\item Access the training period modification menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!13!}. 
-
-\item Modify the training period. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-
-\item Choose the starting time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-
-\item Choose the end time (day). Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!14!}. 
-
-\item Access model parameter estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
-\item Start Newton-Raphson algorithm. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. Once the algorithm has converged, the optimized model parameters values should be close to the values presented in Section~\ref{SS:ModelConstructionExampleTraffic}. Note that it is possible to get slightly different value of parameters with the same performance\footnote{Keep in mind that the optimization may take several minutes to several hours. It is possible to abort the analysis here and to load the configuration file called CFG\_Example\_TRAFFIC\_optim.m to load pre-computed values of model parameters, as presented in Section~\ref{SS:LoadConfigFileTraffic}.}.
-\item Estimate the initial hidden states values. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}.
-\item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
-\item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should be similar to the results presented in Figure~\ref{fig:Example_DISPSIMOptimizedOptimizedExample1}.
-\item Access export menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!17!}. 
-\item Export the current project in a configuration file. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}.
-\item Save and quit OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!}.
-\end{enumerate}
-
 

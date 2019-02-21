@@ -37,29 +37,29 @@ There are two well-known issues that make the state estimation to crash.
 \end{itemize}
 
 \item[\textbf{The model parameter estimation is really slow. What can I do ?}] \leavevmode \\
-Model parameter estimation is usually slow, but hereafter are some tips to speed-up the procedure.
+Estimating model parameter is usually slow process. There are some tips to speed-up the procedure:
 \begin{itemize}
 \item shorten the training period (see  \lstinline[basicstyle = \mlttfamily \small ]!misc.options.trainingPeriod!).
 \item decrease the number of data points by averaging (see Section~\ref{S:DATAEDITINGPREPROCESSING}).
 \item perform parallel computation (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isParallel!). Note that parallel computation requires the \MATLAB{} \emph{Parallel Computing Toolbox}.
 \item fix the model parameter values that are known in order to reduce the total number of model parameters to learn (i.e. set the model parameters bound to \lstinline[basicstyle = \mlttfamily \small ]![NaN, NaN]!, see Section~\ref{S:PARAMESTIMATION}).
-\item constrain model parameters between each other (if applicable) to reduce the total number of model parameters to learn.
+\item When using the regime switching, constrain model parameters between each other (if applicable) to reduce the total number of model parameters to learn.
 \item abort the process and start again with different starting values of model parameters. 
 \end{itemize}
 
 \item[\textbf{How to choose the right model structure for my data ?}] \leavevmode \\
 Currently, one has to inspect the data to propose candidates model configurations.
 Different candidate models can be compared based on the log-likelihood values calculated for test sets not employed to train the model.
-Moreover, the presence of non-stationarity in the autoregressive hidden states may indicate that the model is incorrect or, at least, incomplete (but this may also due to model parameters values).
+Moreover, the presence of non-stationarity in the autoregressive hidden states may indicate that the model is incorrect or, at least, incomplete (note that this may also be due to inadequate model parameters values).
 %Note that model structure selection is a large field of study and many methods are available in the literature.
 
 \item[\textbf{I cannot compile the figures exported in .tex files.}] \leavevmode \\
-By default, you need to employ the  compiler Lulatex compile. Lulatex is employed here because of its capacity to compile large figures. If your figure contains few data points (e.g. <50000) you can use the standard Latex compiler by commenting the line  \lstinline[basicstyle = \mlttfamily \small ]!\RequirePackage{luatex85}! in the preamble of the .tex file you want to compile. 
+By default, you need to employ the  Lulatex  compiler. Lulatex is employed here because of its capacity to compile large figures. If your figure contains few data points (e.g. <50000) you can use the standard Latex compiler by commenting the line  \lstinline[basicstyle = \mlttfamily \small ]!\RequirePackage{luatex85}! in the preamble of the .tex file you want to compile. 
 
 \item[\textbf{The default value for model parameters and initial hidden states do not satisfy me. How can I change them ?}] \leavevmode \\
 It is possible to change the default values from the function  \lstinline[basicstyle = \mlttfamily \small ]!buildModel.m!.
 
-\item[\textbf{What is the procedure to save the optimized value of model parameters ?}] \leavevmode \\
+\item[\textbf{What is the procedure to save the optimized values for model parameters ?}] \leavevmode \\
 The optimized model parameter values are automatically saved inside a project.
 Note however that the associated configuration file remains unchanged.
 It is possible to export the model parameters values in a configuration file using OpenBDLM export menu (type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!17!} from the main menu).
@@ -79,7 +79,7 @@ Each time an analysis is performed (interactive or batch mode), a log file is cr
 From the OpenBDLM main menu, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!D!} and then select the indexes of the projects to delete.
 
 \item[\textbf{How can I clean my OpenBDLM working directory ?}] \leavevmode \\
-Type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Clean!} and then press Enter key $\dlsh$. This function will take care of deleting all the files related to previous analysis. Make sure that you have a copy of the files of interests before deleting them.
+Type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Clean!} and then press Enter key $\dlsh$. This function will take care of deleting all the files related to previous analysis. Make sure that you have a copy of the files you want to keep before deleting them.
 
 \item[\textbf{Where does the HTML documentation come from ?}] \leavevmode \\
 The HTML documentation is generated using matlab2html.
