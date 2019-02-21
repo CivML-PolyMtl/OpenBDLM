@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="/logo/image.png" height="150">
+<img src="/logo/image.png" height="120">
 
 <p align="center">
 Bayesian Dynamic Linear Model for time-series analysis
