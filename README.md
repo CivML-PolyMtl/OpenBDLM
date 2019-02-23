@@ -11,6 +11,8 @@ OpenBDLM is a Matlab open-source software developed to use Bayesian Dynamic Line
 <p align="center">
 <img src="/logo/BDLM_ex1.png" height="500">
     
+    Go see our [*YouTube channel](https://www.youtube.com/channel/UC8wFqCVts-0Xze2qjiGE4uQ/) where you can find tutorials
+    
 ## How to cite
 
 *OpenBDLM, an Open-Source Software for Structural Health Monitoring using Bayesian Dynamic Linear Models*<br/>[Gaudot, I.](https://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_IGAUDOT.html), [Nguyen, L.H.](https://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_LHNGUYEN.html), [Khazaeli S.](https://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_SHERVIN.html) and [Goulet, J.-A.](https://www.polymtl.ca/cgm/jagoulet/Site/Goulet_web_page_MAIN.html)<br/>In the proceedings from the 13th International Conference on Applications of Statistics and Probability in Civil Engineering (ICASP13), May 2019<br/>[[PDF](https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.pdf)] [[EndNote](https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.xml)] [[BibTex](https://www.polymtl.ca/cgm/jagoulet/Site/Papers/Gaudot_et_al_2019_ICASP13.bib)]
