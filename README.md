@@ -11,7 +11,7 @@ OpenBDLM is a Matlab open-source software developed to use Bayesian Dynamic Line
 <p align="center">
 <img src="/logo/BDLM_ex1.png" height="500">
     
-Go see our [*YouTube channel](https://www.youtube.com/channel/UC8wFqCVts-0Xze2qjiGE4uQ/) where you can find tutorials
+Go see our [YouTube channel](https://www.youtube.com/channel/UC8wFqCVts-0Xze2qjiGE4uQ/) where you can find tutorials
 
 ## How to cite
 
