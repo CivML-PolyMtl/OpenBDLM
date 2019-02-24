@@ -6,12 +6,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% A - Project name
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-misc.ProjectName='Example_DISP_INTERVENTION';
+misc.ProjectName='Example_DISP_INTERVENTION_optim';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% B - Data
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-dat=load('DATA_Example_DISP_INTERVENTION.mat'); 
+dat=load('DATA_Example_DISP_INTERVENTION_optim.mat'); 
 data.values=dat.values;
 data.timestamps=dat.timestamps;
 data.labels={'DISP'};
