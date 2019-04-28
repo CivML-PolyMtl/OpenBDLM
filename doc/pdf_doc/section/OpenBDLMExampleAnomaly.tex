@@ -45,24 +45,24 @@ for the model class \#2.
 The associated model parameters are
 \begin{gather*}
 \bm\theta=[\sigma_{w}^{\mathtt{TcA},1}, p^{\mathtt{P}, \text{yearly}}, \sigma_{w}^{\mathtt{P}, \text{yearly}}, \phi^{\mathtt{AR}}, \sigma_{w}^{\mathtt{AR}}, \\
- \sigma_{w}^{\mathtt{LA},2}, \sigma_{w}^{\mathtt{TcA}, 12}, \sigma_{w}^{\mathtt{LA}, 21}, \sigma^{1}_{v}, \sigma^{2}_{v}, Z^{11},   Z^{22}] \text{.}
+ \sigma_{w}^{\mathtt{LA},2}, \sigma_{w}^{\mathtt{TcA}, 21}, \sigma_{w}^{\mathtt{LA}, 11}, \sigma^{1}_{v}, \sigma^{2}_{v}, Z^{11},   Z^{22}] \text{.}
  \end{gather*}
 The optimized model parameters values computed using the Newton-Raphson algorithm (see~\ref{SS:THModelParameterEstimation}) with a training period including the entire dataset are
 \begin{gather*}
-\bm\theta^{\text{*}}=[0, 365.24, 0, 0.73, 0.214, \\
-0.104, 1.79\times10^{-12}, 0.07 3.5\times10^{-7}, 0.013, 0.10671, 0.99998, 0.99915].
+\bm\theta^{\text{*}}=[5\times10^{-8}, 365.2422, 0, 0.72, 0.215, \\
+6.6\times10^{-4}, 9.6\times10^{-6}, 0.07 8.85\times10^{-6}, 0.10, 0.08, 0.99995, 0.99963].
 \end{gather*}
 The estimated initial hidden states mean, covariance,  and model probability values for model class \#1 are 
 \begin{align*}
- \bm \mu^{1,\text{*}}_{0} & = [	-9.36 ,	-0.0135	, -7.79\times 10^{-9}	, 1.03  ,	0.00033	, -0.597    ]^{\intercal}, \text{and} \\
-\bm\Sigma^{1,\text{*}}_{0}  & = \text{diag}[	0.128 ,	0.000956,	2.42	,0.00101, 0.0009,	0.32     ],  \text{and} \\
- \pi_{0}^{1,\text{*}} & = 0.995.
+ \bm \mu^{1,\text{*}}_{0} & = [	-9.37 ,	-0.0132	, -7.72\times 10^{-9}	, 1.04  ,	-0.0077	, -0.599    ]^{\intercal}, \text{and} \\
+\bm\Sigma^{1,\text{*}}_{0}  & = \text{diag}[	0.124 ,	0.000928,	2.42	,0.000993, 0.00088,	0.32     ],  \text{and} \\
+ \pi_{0}^{1,\text{*}} & = 0.998.
 \end{align*}
 The estimated initial hidden states mean, covariance,  and model probability for model class \#2 are 
 \begin{align*}
- \bm \mu^{2,\text{*}}_{0} & = [	-9.48 ,	0.11 ,	-0.067	,  1.03  ,	0.0003, 	-0.512     ]^{\intercal}, \text{and} \\
- \bm\Sigma^{2,\text{*}}_{0}  & = \text{diag}[	0.61 	,0.495 ,	0.998 ,	0.001,	0.0008	, 0.675    ], \text{and} \\
- \pi_{0}^{2,\text{*}} & = 0.00472.
+ \bm \mu^{2,\text{*}}_{0} & = [	-9.49 ,	0.11 ,	-0.063	,  1.04  ,	-0.0077, 	-0.516     ]^{\intercal}, \text{and} \\
+ \bm\Sigma^{2,\text{*}}_{0}  & = \text{diag}[	0.614 	,0.49 ,	0.979 ,	0.001,	0.0009	, 0.69    ], \text{and} \\
+ \pi_{0}^{2,\text{*}} & = 0.0021.
 \end{align*}
 The hidden states estimated using the Kalman smoother along with the optimal model parameters and initial hidden states are presented in Figure~\ref{fig:DISPSIMANOMALYOptimizedOptimizedExample3}.
 

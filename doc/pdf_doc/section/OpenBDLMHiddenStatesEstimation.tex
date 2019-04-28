@@ -140,7 +140,7 @@ The OpenBLDM functions used for initial hidden state estimation are:
   \end{lstlisting}
 
 \end{description}
-
+\vspace{-10mm}
 \begin{table}[h]\centering
   \caption{Default values for the initial hidden states $\bm{\mu}_{0}$ and $\mathbf{\Sigma}_{0}$.   $\hat{\sigma}_{y_{obs(1:\mathtt{T})}}$ corresponds to the empirical standard deviation estimated using the observed data from the first data sample to the last data sample of index $\mathtt{T}$.   $\hat{\mu}_{y_{obs(1:\mathtt{T}/10)}}$ corresponds to the empirical average of the first ten percent of data samples. Note that default values for synthetic data are different from these ones, see Table~\ref{table:defaultsynthetic} for details. } 
      \begin{tabular}{r|ll}\toprule
@@ -161,10 +161,10 @@ The OpenBLDM functions used for initial hidden state estimation are:
 
 
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \centering
   \captionsetup{justification=centering}
-\scalebox{0.7}{
+\scalebox{0.75}{
 \begin{tikzpicture}
 
 \node[paraceladon](inputHSE){\begin{tabular}{c}  \lstinline[ basicstyle = \mlttfamily \small]!data! \\ \lstinline[ basicstyle = \mlttfamily \small]!model! \end{tabular}};

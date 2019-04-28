@@ -81,15 +81,15 @@ From the OpenBDLM main menu, type \colorbox{light-gray}{\lstinline[basicstyle = 
 \item[\textbf{How can I clean my OpenBDLM working directory ?}] \leavevmode \\
 Type  \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Clean!} and then press Enter key $\dlsh$. This function will take care of deleting all the files related to previous analysis. Make sure that you have a copy of the files you want to keep before deleting them.
 
-\item[\textbf{Where does the HTML documentation come from ?}] \leavevmode \\
-The HTML documentation is generated using matlab2html.
-matlab2html can be downloaded from \url{https://www.artefact.tk/software/matlab/m2html/}.
-If you want to update the documentation: (1) Download the matlab2html function and add it in your \MATLAB{} path (2) Make a copy of the OpenBDLM master directory, (3) Move to the directory which allows to have the copy of the OpenBDLM master directory in the current directory (move one step back in the arborescence), (4) From the \MATLAB{} command line, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!m2html('mfiles','OpenBDLM_V1.0', 'htmldir','doc', ...!}
-\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'recursive','on', 'graph', 'on', ...!}
-\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'ignoredDir', \{'ExternalPackages', 'doc', 'data', 'config_files',  ...!}
-\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'figures', 'saved_projects', 'log_files', 'version_control', ...!}
-\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'demo', 'results', 'logo'\}, 'global', 'on')!}.
-5) (for Mac OS X and Linux users only) in each subfolder of the ``doc'' folder, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!dot graph.dot -Tpng > graph.png!} from the terminal command line to generate the dependency graphs. Dot tools can be downloaded from \url{https://graphviz.gitlab.io/download/}.
+%\item[\textbf{Where does the HTML documentation come from ?}] \leavevmode \\
+%The HTML documentation is generated using matlab2html.
+%matlab2html can be downloaded from \url{https://www.artefact.tk/software/matlab/m2html/}.
+%If you want to update the documentation: (1) Download the matlab2html function and add it in your \MATLAB{} path (2) Make a copy of the OpenBDLM master directory, (3) Move to the directory which allows to have the copy of the OpenBDLM master directory in the current directory (move one step back in the arborescence), (4) From the \MATLAB{} command line, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!m2html('mfiles','OpenBDLM_V1.0', 'htmldir','doc', ...!}
+%\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'recursive','on', 'graph', 'on', ...!}
+%\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'ignoredDir', \{'ExternalPackages', 'doc', 'data', 'config_files',  ...!}
+%\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'figures', 'saved_projects', 'log_files', 'version_control', ...!}
+%\colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!'demo', 'results', 'logo'\}, 'global', 'on')!}.
+%5) (for Mac OS X and Linux users only) in each subfolder of the ``doc'' folder, type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!dot graph.dot -Tpng > graph.png!} from the terminal command line to generate the dependency graphs. Dot tools can be downloaded from \url{https://graphviz.gitlab.io/download/}.
 
 \item[\textbf{How to cite OpenBDLM ?}] \leavevmode \\
 

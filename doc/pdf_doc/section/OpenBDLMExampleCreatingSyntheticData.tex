@@ -11,7 +11,7 @@ This example corresponds to the OpenBDLM demo presented in Section~\ref{S:OPENBD
 \begin{figure*}[h!]
 \centering
 \begin{subfigure}{\linewidth}\centering
-\includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/raw/ALL_AMPLITUDES.pdf} 
+\includegraphics[width=0.9\linewidth]{./docfigs/Example_SYNTHETIC/optim_param_optim_initialhiddenstate/ALL_AMPLITUDES.pdf} 
 \caption{Amplitude}
 \end{subfigure}
 \begin{subfigure}{\linewidth}\centering
@@ -38,7 +38,7 @@ The associated model parameters are
  \end{gather*}
 The model parameters values assigned by default from OpenBDLM are
 \begin{gather*}
-\bm\theta^{\text{defaut}}=[ 1\times10^{-8}, 365.24, 0, 0.75, 0.01, 0.01].
+\bm\theta^{\text{defaut}}=[ 1\times10^{-8}, 365.24, 0, 0.75, 1, 0.01].
 \end{gather*}
 The default initial hidden states mean, covariance, and model probability are 
 \begin{align*}
@@ -66,7 +66,7 @@ This section explains how to run the example \#6, that is, how to generate the s
 \item Select the number of model classes. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. 
 \item Select the model block components. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]![13 31 41]!}. The Figure~\ref{fig:DataSummaryRawSynthetic} should popup on screen.
 \item Access hidden states estimation menu. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!3!}. 
-\item Estimate the filtered hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!1!}. The estimation should correspond to the results presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
+\item Estimate the smoothed hidden states. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!2!}. The estimation should correspond to the results presented in Figure~\ref{fig:SYNTHETICOptimizedOptimized}.
 \item Save and quit OpenBDLM. Type \colorbox{light-gray}{\lstinline[basicstyle = \mlttfamily \small, backgroundcolor = \color{light-gray}]!Q!}.
 \end{enumerate}
 

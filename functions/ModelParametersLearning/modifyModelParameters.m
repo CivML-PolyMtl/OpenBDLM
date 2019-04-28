@@ -155,7 +155,7 @@ while ~isCorrectAnswer
     fprintf(fileID,'     1   ->  Modify a parameter value\n');
     fprintf(fileID,'     2   ->  Modify a parameter prior\n');
     fprintf(fileID,'     3   ->  Constrain a parameter to another\n');
-    fprintf(fileID,['     4   ->  Export current  ' ...
+    fprintf(fileID,['     4   ->  Export current ' ...
         'parameter properties in config file format\n']);
     fprintf(fileID,'\n');
     fprintf(fileID,'     Type R to return to the previous menu\n');

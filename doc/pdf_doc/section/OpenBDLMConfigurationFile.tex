@@ -27,7 +27,7 @@ The structure \lstinline[basicstyle = \mlttfamily \small]!model.component! must 
 
 \begin{itemize}
 
-\item \lstinline[basicstyle = \mlttfamily \small ]!model.component.block!: it defines the block components associated with each time-series.
+\item \lstinline[basicstyle = \mlttfamily \small ]!model.component.block!: it defines the block components associated with each time series.
 The field \lstinline[basicstyle = \mlttfamily \small ]!block! stores $1\times \mathtt{S}$ cell array, where $\mathtt{S} = \{1,2 \}$ is the number of model classes.
 Each cell array is a $1\times \mathtt{D}$ cell array of matrice, where $\mathtt{D}$ is the number of time series.
 Each block component is associated with a reference number:
@@ -54,7 +54,7 @@ A value of $1$ indicates that the model parameters are constrained between the b
 \item  \lstinline[basicstyle = \mlttfamily \small ]!model.component.ic!:  it defines the dependencies among the time series.
 The field \lstinline[basicstyle = \mlttfamily \small ]!ic! stores a $1\times \mathtt{D}$ cell array of $1\times (\mathtt{D}-1)$ matrix, where $\mathtt{D}$ is the number of time series.
 Each time series depend on the time series corresponding to the indexes given in the $\mathtt{D}$ arrays.
-If the array is empty, the time-series are considered independent by default.
+If the array is empty, the time series are considered independent by default.
 
 \end{itemize}
 
@@ -103,7 +103,7 @@ The options are stored in the field named \text{options} of the \MATLAB{} variab
 
 \begin{itemize}
 \item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.NaNThreshold!: real number that gives, in percent, the amount of missing data allowed at each time slice.\\Default: \lstinline[basicstyle = \mlttfamily \small ]!100!.
-\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Tolerance!: real number that gives the gives the duration (in number of days) after which two timestamps are not considered equal. \\Default: $10^{-6}$.
+\item \lstinline[basicstyle = \mlttfamily \small ]!misc.options.Tolerance!: real number that gives the duration (in number of days) after which two timestamps are not considered equal. \\Default: $10^{-6}$.
 
 \end{itemize}
 

@@ -70,7 +70,7 @@ If \lstinline[basicstyle = \mlttfamily \small ]!misc.options.isMute = false!, ou
 At each iteration, the quantity displayed are: the current value of the target function, the name as well as the current value of the unknown model parameter being optimized, the change in model parameters, the change in the target function, and the convergence status (\lstinline[basicstyle = \mlttfamily \small ]!1! if the model parameter converged according to the convergence criteria, \lstinline[basicstyle = \mlttfamily \small ]!0! otherwise).\\
 
 The optimization stops when all the parameters converged, or if the maximum number of iterations (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxIterations!) (or epochs for Stochastic Gradient Descent algorithm, see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxEpochs!) / the maximum time (see \lstinline[basicstyle = \mlttfamily \small ]!misc.options.maxTime!) is reached.
-The values of the parameters are saved in the variable \lstinline[basicstyle = \mlttfamily \small ]!model! \MATLAB{}.
+The values of the parameters are saved in the variable \lstinline[basicstyle = \mlttfamily \small ]!model!.
  
  \begin{lstlisting}[ frame = single, basicstyle = \mlttfamily \scriptsize, caption = {OpenBLDM output example when running Newton-Raphson algorithm.}, label = LST:OpenBLDMModelParameterLearning,  float =h!, linewidth=\linewidth, captionpos=b]
     \Start Newton-Raphson max. algorithm (finite difference method)

@@ -130,130 +130,86 @@ where the state probabilities $\pi_{t|t}^{j}$ is used as weighting factors for t
 
 \subsection{Model parameter estimation}
 \label{SS:THModelParameterEstimation}
-The matrices $\mathbf{A}_{t}$,  $\mathbf{Q}_{t}$,   $\mathbf{C}_{t}$ and  $\mathbf{R}_{t}$ depend on a set of model parameters $\bm{\theta}$.
-In most cases, $\bm{\theta}$ are unknown, and they can be learned from a training dataset $\mathbf{y}_{1:\mathtt{Tr}}$.
-The procedure of learning the model parameters is hereafter referred to as model parameters estimation.
-\subsubsection{Maximum log A Posteriori (MAP)}
-
-The log a posteriori probability density function (PDF) is defined as
+The model matrices $\left\{\mathbf{A}_{t}, \mathbf{Q}_{t}, \mathbf{C}_{t}, \mathbf{R}_{t}\right\}$ contain a vector of unknown model parameters $\bm{\theta}$ to be learned from data $\mathbf{y}_{1:\mathtt{Tr}}$.
+This section presents different methods for optimizing the vector of model parameter in OpenBDLM.
+\subsubsection{Likelihood}
+The likelihood is the joint prior probability density of observations, i.e. the plausibility of the available observations $\mathbf{y}_{1:\mathtt{Tr}}$ given a vector of model parameters $\bm\theta$.  
+Assuming that the observations are conditionally independent from each other, the joint likelihood function is defined as the product of the marginal likelihoods such that
 \begin{equation}
-%\begin{array}{rcl}
-\ln p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}}) \, \propto \, \ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta) + \ln p(\bm\theta),
-%\end{array}
-\label{EQ:BT}
-\end{equation} 
-where $p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)$ is the likelihood,  $p(\bm\theta)$ is the prior PDF.
-The likelihood PDF is the joint prior probability density of observations, that is, plausibility of the available observations $\mathbf{y}_{1:\mathtt{Tr}}$ given the parameter vector $\bm\theta$.  
-Assuming that the observations errors are independent from each other, the joint log-likelihood function is defined as the sum of the marginal log-likelihoods, such as 
-\begin{equation}
-\ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)  = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln p(\mathbf{y}_{t}|\mathbf{y}_{1:t-1},\bm \theta) = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln \left[ \sum_{j=1}^{\mathtt{S}} \sum_{i=1}^{\mathtt{S}} \mathcal{L}_{t}^{i(j)} \pi_{t-1|t-1}^{i} Z_{t}^{i(j)} \right] \text{,}
+p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)  = \displaystyle\prod_{t=1}^{\mathtt{Tr}} p(\mathbf{y}_{t}|\mathbf{y}_{1:t-1},\bm \theta) = \displaystyle\prod_{t=1}^{\mathtt{Tr}}\prod_{j=1}^{\mathtt{S}} \prod_{i=1}^{\mathtt{S}} \mathcal{L}_{t}^{i(j)}\cdot Z_{t}^{i(j)}\cdot\pi_{t-1|t-1}^{i} ,
 \label{EQ:LP}
 \end{equation}
-where $\mathcal{L}_{t}^{i(j)}$ and  $\pi_{t-1|t-1}^{i}$ are computed at each time $t$ from the Switching Kalman Filter; $\mathtt{S}$ is the total number of model class, and the values of $Z_{t}^{i(j)}$ are known from the current set of model parameters.
-The maximum log a posteriori procedure consists in identifying the point estimates by maximizing the log A Posteriori PDF, such as
-\begin{equation*}
-\bm\theta^{*} = \underset{\bm\theta}{\text{arg}\max}\left[\ln p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}}) \right] \text{,}
-\end{equation*}
-where $\bm\theta^{*}$ are the optimized model parameters values.
+where $\mathcal{L}_{t}^{i(j)}$ is defined in Equation \ref{EQ:SKF1}, $\mathtt{S}$ is the number of model class (see \ref{SS:THSKF}), $Z_{t}^{i(j)}$ is the transition probability, and $\pi_{t-1|t-1}^{i}$ the previous state probability. In order to avoid the underflow and overflow issue, the joint likelihood function presented in Equation \ref{EQ:LP} is transformed into the nature logarithm space, so that
+\begin{equation}
+\ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)  =  \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln \left[ \sum_{j=1}^{\mathtt{S}} \sum_{i=1}^{\mathtt{S}} \mathcal{L}_{t}^{i(j)}\cdot Z_{t}^{i(j)}\cdot\pi_{t-1|t-1}^{i} \right],
+\label{EQ:LP}
+\end{equation}
+where $\ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta) $ is the log-likelihood function. Note that when a single regime is employed, Equation \ref{EQ:LP} simplifies to
+\begin{equation}
+\ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)  =  \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln  \mathcal{L}_{t},
+\end{equation}
 
-\subsubsection{Maximum log Likelihood Estimation (MLE)}
 
-The Maximum log Likelihood Estimation (MLE) is a special case of the MAP where the prior PDF $p(\bm\theta)$ is assumed to be uniform \cite{gelman2014bayesian}.
-Therefore, the Maximum log Likelihood procedure consists in identifying the point estimates by maximizing the log likelihood PDF, such as
+\subsubsection{Maximum Likelihood Estimation (MLE)}
+
+The \emph{Maximum Likelihood Estimation} (MLE) \cite{gelman2014bayesian} consists in finding a single vector that maximizes the log-likelihood function presented in Equation \ref{EQ:LP},
 \begin{equation*}
 \bm\theta^{*} = \underset{\bm\theta}{\text{arg}\max}\left[\ln  p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta) \right] \text{,}
 \end{equation*}
-where $\bm\theta^{*}$ are the optimized model parameters values.
-
-
-\subsubsection{Laplace Approximation}
-
-The MAP and MLE are point estimation methods which do not take into account the uncertainty in the parameter estimates $\bm\theta^{*}$. 
-The estimation of the uncertainties in the model parameters estimates can be addressed using the Laplace approximation \cite{gelman2014bayesian} so that
-$$p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}})  \approx  \mathcal{N}\left(\bm\theta;\bm\theta^{*},-\mathbf{H}(\bm\theta^{*})^{-1}\right),
-\label{EQ: LaA}
-$$
-where $\mathbf{H}(\bm\theta^{*})$ is the second derivative of the log a posteriori or log likelihood PDF evaluated at the optimal parameter values $\bm\theta^{*}$. 
+where $\bm\theta^{*}$ is the optimal vector of model parameters. The optimization task can be done using the gradient-based optimization algorithm such as \emph{gradient ascent} and \emph{stochastic gradient ascent}  \cite{Goodfellow-et-al-2016}.
 
 \subsubsection{Gradient-based optimization}
+In OpenBDLM, the gradient-based optimization method available are  the \emph{batch gradient ascent algorithm} and \emph{stochastic gradient ascent algorithm}.  For the purpose of simplicity, the log-likelihood function presented in Equation \ref{EQ:LP} is denoted as $\mathcal{T}(\bm\theta, \mathbf{y}_{1:\mathtt{Tr}})$ that is a function of a vector of model parameter $\bm\theta$ and a training dataset $\mathbf{y}_{1:\mathtt{Tr}}$.
 
-The gradient-based optimizations techniques are iterative approaches which can be used to find the model parameters that correspond to the maximum of a target PDF, hereafter noted $\mathcal{T}(\bm{\theta})$.
-The function $\mathcal{T}(\bm{\theta})$  is either the log a posteriori or the log likelihood PDF computed from the data.
-One iteration of gradient based algorithm is
-
+\paragraph{Batch Gradient Ascent  (BGA)}
+The BGA algorithm is used to maximize the log-likelihood function by updating the vector of model parameters with a small step $\Delta_{\bm\theta}$ in the direction of gradient for the entire training data $\mathbf{y}_{1:\mathtt{Tr}}$,
 \begin{equation}
-{\bm\theta}_{\text{new}}  = {\bm\theta}_{\text{old}} - \eta \nabla \mathcal{T}(\bm{\theta}_{\text{old}}),
-\label{EQ:GBA}
+\bm\theta^{n} = \bm\theta^{n-1} + \underbrace{\eta\cdot \nabla\mathcal{T}(\bm\theta^{n-1}, \mathbf{y}_{1:\mathtt{Tr}})}_{\Delta_{\bm\theta}},
 \end{equation}
-
-where $\eta$ is the learning rate, and $\nabla$ the first derivative.
-
-\paragraph{Parameter-wise Newton-Raphson}
-
-The parameter-wise Newton-Raphson \cite{gelman2014bayesian} algorithm is an iterative approach which can be used to find the model parameters that correspond to the maximum of a target PDF, hereafter noted $\mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta})$.
-The underscripts $1:\mathtt{Tr}$ indicate that the target function is evaluated using a \emph{training dataset} of length $\mathtt{Tr}$.
-%The function $\mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta})$  is either the log a posteriori or the log likelihood PDF.
-The Newton-Raphson algorithm adaptively sets the learning rate using the second derivative and a factor noted $\lambda$.
-One \emph{iteration} of the Newton-Raphson algorithm is
+where $n$ corresponds the optimization loop, $\eta$ is the learning rate to be defined by the user, and $\nabla$ is the operator for evaluating the first derivative of the log-likelihood function. The BGA algorithm only optimizes one model parameters at a time. The parameter-wise Newton-Raphson (NR) algorithm \cite{gelman2014bayesian} that uses both the first and second derivatives for performing the model parameter updates is implemented for the BGA. For the BGA algorithm a converged vector $\bf{c}$ is defined following
 \begin{equation}
-{\theta}_{\text{new}}^{i}  = {\theta}_{\text{old}}^{i} - \lambda \frac{\nabla \mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta}_{\text{old}}^{i}) }{  \nabla^{2} \mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta}_{\text{old}}^{i})},
-\label{EQ:NR}
+\mathbf{c}(i) = \left\{\begin{array}{lll}
+1&\text{if} ~\mathcal{T}(\bm\theta^{n}, \mathbf{y}_{1:\mathtt{Tr}})> \mathcal{T}(\bm\theta^{n-1}, \mathbf{y}_{1:\mathtt{Tr}})~\text{and}~\left|\tfrac{\mathcal{T}(\bm\theta^{n}, \mathbf{y}_{1:\mathtt{Tr}})- \mathcal{T}(\bm\theta^{n-1}, \mathbf{y}_{1:\mathtt{Tr}})}{\mathcal{T}(\bm\theta^{n-1}, \mathbf{y}_{1:\mathtt{Tr}})}\right|<\tau\\
+0 &\text{otherwise},
+\end{array}\right.
 \end{equation}
-where $i$ is the index of the parameter being learned, $\nabla$ the first derivative, $\nabla^{2}$ the second derivative.
-$\bm{\theta}_{\text{old}}$ and $\bm{\theta}_{\text{new}}$ are the previous and updated vector of model parameters. 
-One parameter is updated at each iteration.
-The convergence of each model parameters is reached when the following conditions are satisfied
-\begin{equation}
-\left\{\begin{array}{ccc}
-\mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{old}}) &<&\mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{new}})\\[4pt]
-\left|\mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{new}}) -  \mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{old}})\right| &\leq& \tau \cdot \left|\mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{old}})\right|
-\end{array}\right.,
-\label{EQ:STC}
-\end{equation}
-where $\tau$ is a termination tolerance.
-The Newton-Raphson algorithm stops when each model parameters has reached the convergence.
+where $\tau$ is a termination tolerance and $i$ corresponds to $i^{th}$ model parameter of $\bm\theta$. The convergence criteria is reached when all elements of $\bf{c}$ are equal to $1$, or if the number of iteration reaches the maximal number of specified by the user. 
 
-\paragraph{Stochastic gradient}
 
-In the stochastic gradient technique, the target function and its derivatives are approximated at each iteration using a \emph{mini-batch} of data of length $\mathtt{Tb} \ll \mathtt{Tr}$.
-Therefore, the target function is noted $\mathcal{T}_{1:\mathtt{Tb}}(\bm{\theta})$.
-At each iteration, the beginning of the mini-batch is selected randomly.
-One \emph{epoch} consists in one pass over the full training dataset (i.e. all the training data have been seen once).
-Therefore, one epoch is made of many iterations.
-Note that more than one model parameters is usually updated during one epoch.
-Several epochs are needed to reach convergence.
-%Classical implementation of stochastic gradient algorithm includes momentum approach (e.g MMT optimizer) or adaptive learning rate (e.g. Adam optimizer) to increase the performance \cite{Goodfellow-et-al-2016}.  
-The convergence is reached when the following condition between two successive epochs is satisfied 
+
+\paragraph{Stochastic Gradient Ascent (SGA)}  In order to improve the computational efficiency when using large datasets, OpenBDLM employs Stochastic Gradient Ascent SGA. The SGA optimization algorithms available in OpenBDLM are : \emph{momentum} and  \emph{adaptive moment estimation} \cite{Goodfellow-et-al-2016}. Instead of using a full batch dataset, the SGA algorithms employ mini-batches of the training data to update $\bm\theta$. The update equation is given by
 \begin{equation}
-\mathcal{T}^{\text{epoch}} (\bm\theta) > \tau  \cdot \mathcal{T}^{\text{epoch-1}} (\bm\theta)
-\label{EQ:SGT}
+\bm\theta^{n} = \bm\theta^{n-1} + \eta\cdot \nabla\mathcal{T}(\bm\theta^{n-1}, \mathbf{y}_{t:t+l_{\mathtt{MB}})},
 \end{equation}
-where $0 \le \tau \le 1$ is a termination tolerance.
-Classical implementation of stochastic gradient algorithm includes momentum approach (e.g MMT optimizer) or adaptive learning rate (e.g. Adam optimizer) to increase the performance \cite{Goodfellow-et-al-2016}.  
+where $l_{\mathtt{MB}}$ is the length of the mini-batch. The SGA can update the model parameters either once at time, or all at once.  An epoch  is completed when the vector of  model parameters is updated $\mathtt{round}(\mathtt{Tr}/ l_{\mathtt{MB}})$ times, where $\mathtt{round}$ provides the closest integer. In order to avoid biasing the SGA algorithm, the mini-batch is randomly selected at every update. The SGA stops when the number of epochs reach the limit specified by the user.
 
 \paragraph{Approximation of the derivatives}
 
-In many cases, the derivatives of $\mathcal{T}(\bm{\theta})$ cannot be computed analytically.
-Therefore, the derivatives are approximated numerically using the central differentiation scheme, such as
-\begin{gather}
-\begin{aligned}
- \nabla \mathcal{T}(\bm\theta^{i}) & = \frac{\partial \mathcal{T} (\bm\theta) }{\partial \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \mathbb{I}(i)\Delta \theta^{i} )  -  \mathcal{T} (\bm\theta - \mathbb{I}(i)\Delta \theta^{i} ) }{2\Delta \theta^{i}}  \\
- \nabla^{2} \mathcal{T}(\bm\theta^{i}) & = \frac{\partial^{2} \mathcal{T} (\bm\theta) }{\partial^{2} \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \mathbb{I}(i)\Delta \theta^{i} )  -  2 \mathcal{T} (\bm\theta) +  \mathcal{T} (\bm\theta - \mathbb{I}(i)\Delta \theta^{i} ) }{(\Delta \theta^{i})^{2}},
+In BDLMs, the derivatives of the log-likelihood function are  approximated numerically using the central differentiation scheme, so that
+\begin{equation}
+\begin{array}{lcl}
+ \nabla \mathcal{T}(\bm\theta(i),\mathbf{y}_{1:\mathtt{Tr}}) & = &\dfrac{\mathcal{T}(\bm\theta(i) + \delta_{\theta}, \mathbf{y}_{1:\mathtt{Tr}}) - \mathcal{T}(\bm\theta(i) - \delta_{\theta}, \mathbf{y}_{1:\mathtt{Tr}})}{2\delta_{\theta}}\\[12pt]
+ 
+ \nabla \nabla \mathcal{T}(\bm\theta(i),\mathbf{y}_{1:\mathtt{Tr}}) & = & \dfrac{\mathcal{T}(\bm\theta(i) + \delta_{\theta}, \mathbf{y}_{1:\mathtt{Tr}}) - \mathcal{T}(\bm\theta(i), \mathbf{y}_{1:\mathtt{Tr}}) + \mathcal{T}(\bm\theta(i) - \delta_{\theta}, \mathbf{y}_{1:\mathtt{Tr}})}{\delta_{\theta}^{2}},
 \label{EQ:numericaldiff}
-\end{aligned}
-\end{gather}
-where $\Delta \theta^{i}$ is a small perturbation to the value of the $i^{\text{th}}$ model parameters and $\mathbb{I}(i)$ is an indicator vector for which all values are equal to $0$, except the $i^{\text{th}}$ value which is equal to one.
+\end{array}
+\end{equation}
+where $\delta_{\theta}$ is a small perturbation to the value of the $i^{\text{th}}$ model parameter.
+\subsubsection{Laplace Approximation}
 
+The MLE approach are point estimation methods which do not take into account the uncertainty in the parameter estimates $\bm\theta^{*}$. 
+The model parameter uncertainties can be quantified using the Laplace approximation \cite{gelman2014bayesian} such that
+$$p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}})  \approx  \mathcal{N}\left(\bm\theta;\bm\theta^{*},-\mathbf{H}(\bm\theta^{*})^{-1}\right),
+\label{EQ: LaA}
+$$
+where $\mathbf{H}(\bm\theta^{*})$ is the second derivative of the negative log-likelihood function evaluated at the optimal vector of model parameters $\bm\theta^{*}$. 
 
 \subsubsection{Model parameter space transformation}
 \label{SS:THSpaceTransformation}
 
-There are some model parameters which are defined in a bounded interval.
-For instance, the standard deviation model parameters are real numbers that lie in the $[0, +\infty]$ interval.
-%The autoregression coefficient model parameters are real numbers that lie in the $[0, 1]$ interval.
-Therefore, during the learning procedure, it may happen that new model parameters $\bm\theta_{\text{new}}$ are proposed outside their valid interval.
-Those parameters must be rejected, which strongly hinders the computational efficiency of the learning algorithm.
-The solution employed in OpenBDLM is to transform the bounded space into an unbounded one, where the parameters lie in the interval $[ -\infty, +\infty ]$. The transformation is done using a function $g(.)$ so that, 
+In OpenBDLM, some model parameters  are defined in a bounded interval. During the learning procedure, it may happen that new model parameters $\bm\theta_{\text{new}}$ are proposed outside their valid interval.
+Those parameters must be rejected, which hinders the computational efficiency of the optimization algorithm.
+The solution to tackle this problem proposed for OpenBDLM is to transform these bounded model parameters into an unbounded space, where the parameters lie in the interval $[ -\infty, +\infty ]$. The transformation is done using a function $g(.)$ so that, 
 \begin{equation}
 \theta^{\text{tr}} = g(\theta) \text{, }\quad \theta^{\text{tr}} \in [-\infty, +\infty ] \text{.}
 \end{equation}
@@ -262,10 +218,149 @@ Three cases generally occur:
 \begin{itemize}
 \item $ \theta \in [-\infty, +\infty ]$ , $g(\theta) = 1$, so that $\theta^{\text{tr}} = \theta$ and $\theta = \theta^{\text{tr}} $
 \item $ \theta \in [0, +\infty ]$, $g(\theta) = \ln(\theta)$, so that $\theta^{\text{tr}} = \ln(\theta) $ and $\theta = e^{\theta^{\text{tr}}} $
-\item $ \theta \in [\text{a}, \text{b}]$, $g(\theta) = \text{sigmoid}(\theta)$, so that $\theta^{\text{tr}} = -\ln \left( \frac{b-a}{\theta-a} - 1\right) $, and $\theta = \left( \frac{b-a}{1+e^{-\theta^{\text{tr}}}} + a \right)$
+\item $ \theta \in [\text{a}, \text{b}]$, $g(\theta) = \text{sigmoid}(\theta)$, so that $\theta^{\text{tr}} = -\ln \left( \frac{b-a}{\theta-a} - 1\right) $, and $\theta = \left( \frac{b-a}{1+e^{-\theta^{\text{tr}}}} + a \right).$
 \end{itemize}
-For instance, the standard deviation model parameters are real numbers that lie in the $[0, +\infty]$ interval and the logarithm transformation is used.
-Moreover, the autoregression coefficient model parameters are real numbers that lie in the $[0, 1]$ interval, and the sigmoid transformation is used.
+%For instance, the standard deviation model parameters are real numbers that lie in the $[0, +\infty]$ interval and the logarithm transformation is used.
+%Moreover, the autoregression coefficient model parameters are real numbers that lie in the $[0, 1]$ interval, and the sigmoid transformation is used.
+
+%\subsection{Model parameter estimation}
+%\label{SS:THModelParameterEstimation}
+%The matrices $\mathbf{A}_{t}$,  $\mathbf{Q}_{t}$,   $\mathbf{C}_{t}$ and  $\mathbf{R}_{t}$ depend on a set of model parameters $\bm{\theta}$.
+%In most cases, $\bm{\theta}$ are unknown, and they can be learned from a training dataset $\mathbf{y}_{1:\mathtt{Tr}}$.
+%The procedure of learning the model parameters is hereafter referred to as model parameters estimation.
+%\subsubsection{Maximum log A Posteriori (MAP)}
+%
+%The log a posteriori probability density function (PDF) is defined as
+%\begin{equation}
+%%\begin{array}{rcl}
+%\ln p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}}) \, \propto \, \ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta) + \ln p(\bm\theta),
+%%\end{array}
+%\label{EQ:BT}
+%\end{equation} 
+%where $p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)$ is the likelihood,  $p(\bm\theta)$ is the prior PDF.
+%The likelihood PDF is the joint prior probability density of observations, that is, plausibility of the available observations $\mathbf{y}_{1:\mathtt{Tr}}$ given the parameter vector $\bm\theta$.  
+%Assuming that the observations errors are independent from each other, the joint log-likelihood function is defined as the sum of the marginal log-likelihoods, such as 
+%\begin{equation}
+%\ln p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta)  = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln p(\mathbf{y}_{t}|\mathbf{y}_{1:t-1},\bm \theta) = \displaystyle\sum_{t=1}^{\mathtt{Tr}} \ln \left[ \sum_{j=1}^{\mathtt{S}} \sum_{i=1}^{\mathtt{S}} \mathcal{L}_{t}^{i(j)} \pi_{t-1|t-1}^{i} Z_{t}^{i(j)} \right] \text{,}
+%\label{EQ:LP}
+%\end{equation}
+%where $\mathcal{L}_{t}^{i(j)}$ and  $\pi_{t-1|t-1}^{i}$ are computed at each time $t$ from the Switching Kalman Filter; $\mathtt{S}$ is the total number of model class, and the values of $Z_{t}^{i(j)}$ are known from the current set of model parameters.
+%The maximum log a posteriori procedure consists in identifying the point estimates by maximizing the log A Posteriori PDF, such as
+%\begin{equation*}
+%\bm\theta^{*} = \underset{\bm\theta}{\text{arg}\max}\left[\ln p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}}) \right] \text{,}
+%\end{equation*}
+%where $\bm\theta^{*}$ are the optimized model parameters values.
+%
+%\subsubsection{Maximum log Likelihood Estimation (MLE)}
+%
+%The Maximum log Likelihood Estimation (MLE) is a special case of the MAP where the prior PDF $p(\bm\theta)$ is assumed to be uniform \cite{gelman2014bayesian}.
+%Therefore, the Maximum log Likelihood procedure consists in identifying the point estimates by maximizing the log likelihood PDF, such as
+%\begin{equation*}
+%\bm\theta^{*} = \underset{\bm\theta}{\text{arg}\max}\left[\ln  p(\mathbf{y}_{1:\mathtt{Tr}}|\bm\theta) \right] \text{,}
+%\end{equation*}
+%where $\bm\theta^{*}$ are the optimized model parameters values.
+%
+%
+%\subsubsection{Laplace Approximation}
+%
+%The MAP and MLE are point estimation methods which do not take into account the uncertainty in the parameter estimates $\bm\theta^{*}$. 
+%The estimation of the uncertainties in the model parameters estimates can be addressed using the Laplace approximation \cite{gelman2014bayesian} so that
+%$$p(\bm\theta|\mathbf{y}_{1:\mathtt{Tr}})  \approx  \mathcal{N}\left(\bm\theta;\bm\theta^{*},-\mathbf{H}(\bm\theta^{*})^{-1}\right),
+%\label{EQ: LaA}
+%$$
+%where $\mathbf{H}(\bm\theta^{*})$ is the second derivative of the log a posteriori or log likelihood PDF evaluated at the optimal parameter values $\bm\theta^{*}$. 
+%
+%\subsubsection{Gradient-based optimization}
+%
+%The gradient-based optimizations techniques are iterative approaches which can be used to find the model parameters that correspond to the maximum of a target PDF, hereafter noted $\mathcal{T}(\bm{\theta})$.
+%The function $\mathcal{T}(\bm{\theta})$  is either the log a posteriori or the log likelihood PDF computed from the data.
+%One iteration of gradient based algorithm is
+%
+%\begin{equation}
+%{\bm\theta}_{\text{new}}  = {\bm\theta}_{\text{old}} - \eta \nabla \mathcal{T}(\bm{\theta}_{\text{old}}),
+%\label{EQ:GBA}
+%\end{equation}
+%
+%where $\eta$ is the learning rate, and $\nabla$ the first derivative.
+%
+%\paragraph{Parameter-wise Newton-Raphson}
+%
+%The parameter-wise Newton-Raphson \cite{gelman2014bayesian} algorithm is an iterative approach which can be used to find the model parameters that correspond to the maximum of a target PDF, hereafter noted $\mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta})$.
+%The underscripts $1:\mathtt{Tr}$ indicate that the target function is evaluated using a \emph{training dataset} of length $\mathtt{Tr}$.
+%%The function $\mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta})$  is either the log a posteriori or the log likelihood PDF.
+%The Newton-Raphson algorithm adaptively sets the learning rate using the second derivative and a factor noted $\lambda$.
+%One \emph{iteration} of the Newton-Raphson algorithm is
+%\begin{equation}
+%{\theta}_{\text{new}}^{i}  = {\theta}_{\text{old}}^{i} - \lambda \frac{\nabla \mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta}_{\text{old}}^{i}) }{  \nabla^{2} \mathcal{T}_{1:\mathtt{Tr}}(\bm{\theta}_{\text{old}}^{i})},
+%\label{EQ:NR}
+%\end{equation}
+%where $i$ is the index of the parameter being learned, $\nabla$ the first derivative, $\nabla^{2}$ the second derivative.
+%$\bm{\theta}_{\text{old}}$ and $\bm{\theta}_{\text{new}}$ are the previous and updated vector of model parameters. 
+%One parameter is updated at each iteration.
+%The convergence of each model parameters is reached when the following conditions are satisfied
+%\begin{equation}
+%\left\{\begin{array}{ccc}
+%\mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{old}}) &<&\mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{new}})\\[4pt]
+%\left|\mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{new}}) -  \mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{old}})\right| &\leq& \tau \cdot \left|\mathcal{T}_{1:\mathtt{Tr}}(\bm\theta^{i}_{\text{old}})\right|
+%\end{array}\right.,
+%\label{EQ:STC}
+%\end{equation}
+%where $\tau$ is a termination tolerance.
+%The Newton-Raphson algorithm stops when each model parameters has reached the convergence.
+%
+%\paragraph{Stochastic gradient}
+%
+%In the stochastic gradient technique, the target function and its derivatives are approximated at each iteration using a \emph{mini-batch} of data of length $\mathtt{Tb} \ll \mathtt{Tr}$.
+%Therefore, the target function is noted $\mathcal{T}_{1:\mathtt{Tb}}(\bm{\theta})$.
+%At each iteration, the beginning of the mini-batch is selected randomly.
+%One \emph{epoch} consists in one pass over the full training dataset (i.e. all the training data have been seen once).
+%Therefore, one epoch is made of many iterations.
+%Note that more than one model parameters is usually updated during one epoch.
+%Several epochs are needed to reach convergence.
+%%Classical implementation of stochastic gradient algorithm includes momentum approach (e.g MMT optimizer) or adaptive learning rate (e.g. Adam optimizer) to increase the performance \cite{Goodfellow-et-al-2016}.  
+%The convergence is reached when the following condition between two successive epochs is satisfied 
+%\begin{equation}
+%\mathcal{T}^{\text{epoch}} (\bm\theta) > \tau  \cdot \mathcal{T}^{\text{epoch-1}} (\bm\theta)
+%\label{EQ:SGT}
+%\end{equation}
+%where $0 \le \tau \le 1$ is a termination tolerance.
+%Classical implementation of stochastic gradient algorithm includes momentum approach (e.g MMT optimizer) or adaptive learning rate (e.g. Adam optimizer) to increase the performance \cite{Goodfellow-et-al-2016}.  
+%
+%\paragraph{Approximation of the derivatives}
+%
+%In many cases, the derivatives of $\mathcal{T}(\bm{\theta})$ cannot be computed analytically.
+%Therefore, the derivatives are approximated numerically using the central differentiation scheme, such as
+%\begin{gather}
+%\begin{aligned}
+% \nabla \mathcal{T}(\bm\theta^{i}) & = \frac{\partial \mathcal{T} (\bm\theta) }{\partial \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \mathbb{I}(i)\Delta \theta^{i} )  -  \mathcal{T} (\bm\theta - \mathbb{I}(i)\Delta \theta^{i} ) }{2\Delta \theta^{i}}  \\
+% \nabla^{2} \mathcal{T}(\bm\theta^{i}) & = \frac{\partial^{2} \mathcal{T} (\bm\theta) }{\partial^{2} \theta^{i}} \approx \frac{\mathcal{T} (\bm\theta + \mathbb{I}(i)\Delta \theta^{i} )  -  2 \mathcal{T} (\bm\theta) +  \mathcal{T} (\bm\theta - \mathbb{I}(i)\Delta \theta^{i} ) }{(\Delta \theta^{i})^{2}},
+%\label{EQ:numericaldiff}
+%\end{aligned}
+%\end{gather}
+%where $\Delta \theta^{i}$ is a small perturbation to the value of the $i^{\text{th}}$ model parameters and $\mathbb{I}(i)$ is an indicator vector for which all values are equal to $0$, except the $i^{\text{th}}$ value which is equal to one.
+%
+%
+%\subsubsection{Model parameter space transformation}
+%\label{SS:THSpaceTransformation}
+%
+%There are some model parameters which are defined in a bounded interval.
+%For instance, the standard deviation model parameters are real numbers that lie in the $[0, +\infty]$ interval.
+%%The autoregression coefficient model parameters are real numbers that lie in the $[0, 1]$ interval.
+%Therefore, during the learning procedure, it may happen that new model parameters $\bm\theta_{\text{new}}$ are proposed outside their valid interval.
+%Those parameters must be rejected, which strongly hinders the computational efficiency of the learning algorithm.
+%The solution employed in OpenBDLM is to transform the bounded space into an unbounded one, where the parameters lie in the interval $[ -\infty, +\infty ]$. The transformation is done using a function $g(.)$ so that, 
+%\begin{equation}
+%\theta^{\text{tr}} = g(\theta) \text{, }\quad \theta^{\text{tr}} \in [-\infty, +\infty ] \text{.}
+%\end{equation}
+%The choice of the function $g(.)$ depends on the bound of $\theta$. 
+%Three cases generally occur:
+%\begin{itemize}
+%\item $ \theta \in [-\infty, +\infty ]$ , $g(\theta) = 1$, so that $\theta^{\text{tr}} = \theta$ and $\theta = \theta^{\text{tr}} $
+%\item $ \theta \in [0, +\infty ]$, $g(\theta) = \ln(\theta)$, so that $\theta^{\text{tr}} = \ln(\theta) $ and $\theta = e^{\theta^{\text{tr}}} $
+%\item $ \theta \in [\text{a}, \text{b}]$, $g(\theta) = \text{sigmoid}(\theta)$, so that $\theta^{\text{tr}} = -\ln \left( \frac{b-a}{\theta-a} - 1\right) $, and $\theta = \left( \frac{b-a}{1+e^{-\theta^{\text{tr}}}} + a \right)$
+%\end{itemize}
+%For instance, the standard deviation model parameters are real numbers that lie in the $[0, +\infty]$ interval and the logarithm transformation is used.
+%Moreover, the autoregression coefficient model parameters are real numbers that lie in the $[0, 1]$ interval, and the sigmoid transformation is used.
 
 \subsection{Block components}
 \label{SS:BlockComponent}
@@ -333,7 +428,7 @@ Observation matrix:
 \end{gather*}
 Process noise covariance matrix: 
 \begin{gather*}
-\mathbf{Q}^{\mathtt{LT}}= (\sigma_{w}^{\mathtt{LT}})^{2}\left[\begin{array}{cc}\tfrac{\Delta t^{3}}{3} &\tfrac{\Delta t^{2}}{2}\\\tfrac{\Delta t^{2}}{2}&\Delta t\end{array}\right]
+\mathbf{Q}^{\mathtt{LT}}= (\sigma_{w}^{\mathtt{LT}})^{2}\left[\begin{array}{cc}\tfrac{\Delta t^{4}}{4} &\tfrac{\Delta t^{3}}{2}\\\tfrac{\Delta t^{3}}{2}&\Delta t^{2}\end{array}\right]
 \end{gather*}
 Model parameters: 
 \begin{gather*}
@@ -366,7 +461,7 @@ Observation matrix:
 \end{gather*}
 Process noise covariance matrix: 
 \begin{gather*}
-\mathbf{Q}^{\mathtt{LA}}=(\sigma_{w}^{\mathtt{LA}})^{2}\left[\begin{array}{ccc}\tfrac{\Delta t^{5}}{20} &\tfrac{\Delta t^{4}}{8} &\tfrac{\Delta t^{3}}{6}\\\tfrac{\Delta t^{4}}{8} &\tfrac{\Delta t^{3}}{3}&\tfrac{\Delta t^{2}}{2}\\\tfrac{\Delta t^{3}}{6}&\tfrac{\Delta t^{2}}{2}&\Delta t\end{array}\right]
+\mathbf{Q}^{\mathtt{LA}}=(\sigma_{w}^{\mathtt{LA}})^{2}\left[\begin{array}{ccc}\tfrac{\Delta t^{4}}{4} &\tfrac{\Delta t^{3}}{2} &\tfrac{\Delta t^{2}}{2}\\\tfrac{\Delta t^{3}}{2} &\Delta t^{2}&\Delta t\\\tfrac{\Delta t^{2}}{2}&\Delta t&1\end{array}\right]
 \end{gather*}
 Model parameters: 
 \begin{gather*}
@@ -465,7 +560,7 @@ Observation matrix:
 \end{gather*}
 Process noise covariance matrix: 
 \begin{gather*}
-\mathbf{Q}^{\mathtt{TcA}}=(\sigma_{w}^{\mathtt{TcA}})^{2}  \left[\begin{array}{ccc}\tfrac{\Delta t^{3}}{3} &\tfrac{\Delta t^{2}}{2}&0\\\tfrac{\Delta t^{2}}{2}&\Delta t&0\\0&0&0\end{array}\right] 
+\mathbf{Q}^{\mathtt{TcA}}=(\sigma_{w}^{\mathtt{TcA}})^{2}  \left[\begin{array}{ccc}\tfrac{\Delta t^{4}}{4} &\tfrac{\Delta t^{3}}{2}&0\\\tfrac{\Delta t^{3}}{2}&\Delta t^{2}&0\\0&0&0\end{array}\right] 
 \end{gather*}
 Model parameters: 
 \begin{gather*}

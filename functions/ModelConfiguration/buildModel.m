@@ -135,7 +135,9 @@ LT.pC0=[];
 LT.I=@(p,t,dt) [0 0];
 LT.pI=[];
 LT.pI0=[];
-LT.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2;dt^2/2 dt];
+%LT.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2;dt^2/2 dt]; %Continuous-time process error
+LT.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^4/4 dt^3/2;dt^3/2 dt^2]; %Discrete-time process error
+
 LT.pQ={'\sigma_w','LT',[],[],[0,inf], PriorType, PriorMean, PriorSdev };
 LT.x={'x^{L}',[],[];'x^{LT}',[],[]};
 if misc.internalVars.isDataSimulation
@@ -170,7 +172,9 @@ LA.pC0=[];
 LA.I=@(p,t,dt) [0 0 0];
 LA.pI=[];
 LA.pI0=[];
-LA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^5/20 dt^4/8 dt^3/6;dt^4/8 dt^3/3 dt^2/2;dt^3/6 dt^2/2 dt];
+%LA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^5/20 dt^4/8 dt^3/6;dt^4/8 dt^3/3 dt^2/2;dt^3/6 dt^2/2 dt]; Continuous-time process error
+LA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^4/4 dt^3/2 dt^2/2;dt^3/2 dt^2 dt;dt^2/2 dt 1]; %Discrete-time process error
+
 LA.pQ={'\sigma_w','LA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 LA.x={'x^{L}',[],[];'x^{T}',[],[];'x^{LA}',[],[]};
 if misc.internalVars.isDataSimulation
@@ -267,7 +271,7 @@ TcA.I=@(p,t,dt) [0 0 0];
 TcA.pI=[];
 TcA.pC0=[];
 %TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-15/(p^2*dt/dt_ref)];
-TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-30];
+TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^4/4 dt^3/2 0;dt^3/2 dt^2 0; 0 0 1E-30];
 TcA.pQ={'\sigma_w','TcA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 TcA.x={'x^{L}',[],[];'x^{LT}',[],[];'x^{LAc}',[],[]};
 if misc.internalVars.isDataSimulation
@@ -328,7 +332,7 @@ AR.Q=@(p,t,dt) p^2*dt/dt_ref;
 AR.pQ={'\sigma_w','AR',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
 AR.x={'x^{AR}',[],[]};
 if misc.internalVars.isDataSimulation
-    AR.pQ0={'1E-1*0.1'};
+    AR.pQ0={'1'};
     AR.init={'0','0.1^2'};
 else
     AR.pQ0={'1E-1*nanstd(data.values(:,obs))'};
@@ -710,9 +714,10 @@ for class_from=1:numberOfModelClass  %Loop over each model class
 end
 
 %% Q_ij model process noise transition errors
+%% Note: the variables class_from and class to are inverted in order to be compatible with the switching regimes  
 for class_from=1:numberOfModelClass  %Loop over each model class
     for class_to=setdiff([1:numberOfModelClass],class_from)%Loop over each model class
-        Q{class_from}{class_to}=[];
+        Q{class_to}{class_from}=[];
         if class_from~=class_to
             for obs=1:numberOfTimeSeries   %Loop over each observation
                 for block=1:length(model.components.block{class_from}{obs}) %loop over each model block
@@ -728,19 +733,20 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                             p_idx=[];
                         end
                         if class_from>1&&model.components.const{class_from}{obs}(block)==1
-                            Q{class_from}{class_to}=[Q{class_from}{class_to},',',[block_name '.Q(p([' num2str(Q_param_ref{1}{obs}{block}) ']),t,dt)']];
+                            Q{class_to}{class_from}=[Q{class_to}{class_from},',',[block_name '.Q(p([' num2str(Q_param_ref{1}{obs}{block}) ']),t,dt)']];
                         else
-                            %Q{class_from}{class_to}=[Q{class_from}{class_to},',',['diag(p([' num2str(p_idx) ']))']];
-                            Q{class_from}{class_to}=[Q{class_from}{class_to},',',[block_name '.Q(p([' num2str(p_idx) ']),t,dt)']];
+                            %% Custom Q transition matrix
+                            %Q{class_to}{class_from}=[Q{class_from}{class_to},',',['diag(p([' num2str(p_idx) ']))']];
+                            %% Default transition matrix
+                            Q{class_to}{class_from}=[Q{class_to}{class_from},',',[block_name '.Q(p([' num2str(p_idx) ']),t,dt)']];
                             for i=1:nb_param
                                 name=[eval([block_name '.pQ'])];
                                 if ~isempty(name)
                                     if nb_param>1
                                         name{1}=name{1};
-                                        %name{1}=[name{1},'(' num2str(i),num2str(i) ')'];
                                     end
                                     parameter=[parameter;1E3*eval(eval([block_name '.pQ0{:}']))];
-                                    name{3}=[num2str(class_from) num2str(class_to)];
+                                    name{3}=[num2str(class_to) num2str(class_from) ];
                                     name{4}=num2str(obs);
                                 end
                                 param_properties=[param_properties;name];
@@ -748,13 +754,13 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                             param_idx=param_idx+nb_param;
                         end
                     else
-                        Q{class_from}{class_to}=[Q{class_from}{class_to},',',[block_name '.Q(p([' num2str(Q_param_ref{class_from}{obs}{block}) ']),t,dt)']];
+                        Q{class_to}{class_from}=[Q{class_to}{class_from},',',[block_name '.Q(p([' num2str(Q_param_ref{class_to}{obs}{block}) ']),t,dt)']];
                     end
                 end
             end
         end
         if class_from~=class_to
-            model.Q{class_from}{class_to}=eval(['@(p,t,dt) blkdiag(' Q{class_from}{class_to}(2:end) ')']);
+            model.Q{class_to}{class_from}=eval(['@(p,t,dt) blkdiag(' Q{class_to}{class_from}(2:end) ')']);
         end
     end
 end
