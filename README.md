@@ -141,7 +141,6 @@ help OpenBDLM_main
 
 * [Matlab](https://www.mathworks.com/products/matlab.html) - Coding
 * [matlab2tikz](https://github.com/matlab2tikz/matlab2tikz) - Figure for LaTeX
-* [m2html](https://www.artefact.tk/software/matlab/m2html/) - HTML documentation from Matlab
 
 ## Contributing
 
