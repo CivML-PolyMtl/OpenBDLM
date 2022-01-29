@@ -44,8 +44,6 @@ function [prob]=getGaussianProbability(x, m, C, varargin)
 %   AUTHORS: 
 %       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet,
 % 
-%       Inspired from the initial code of Kevin P. Murphy
-%
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
 % 

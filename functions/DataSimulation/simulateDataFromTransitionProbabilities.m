@@ -1,5 +1,5 @@
 function [data, model, estimation, misc]=simulateDataFromTransitionProbabilities(data, model, misc)
-%SIMULATEDATAFROMTRANSITIONPROBABILITIES Create synth. data from trans. prob.
+%SIMULATEDATAFROMTRANSITIONPROBABILITIES Perform stochastic data simulation
 %
 %   SYNOPSIS:
 %     [data, model, estimation, misc]=SIMULATEDATAFROMTRANSITIONPROBABILITIES(data, model, misc)
@@ -61,7 +61,7 @@ function [data, model, estimation, misc]=simulateDataFromTransitionProbabilities
 %       April 25, 2018
 %
 %   DATE LAST UPDATE:
-%       January 18, 2019
+%       April 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -76,26 +76,6 @@ parse(p,data, model,  misc);
 data=p.Results.data;
 model=p.Results.model;
 misc=p.Results.misc;
-
-%% Get seed
-seed=misc.options.Seed;
-
-%% Initialize the seed
-if isempty(seed)
-    % Initialize seed from current time
-    rng('shuffle')
-else
-    
-    if isinf(seed) && floor(seed) == seed && seed > 0 && ...
-            length(seed) == 1
-    % Initialize seed from seed
-    rng(seed)
-    else
-        seed = 12345;
-        rng(seed);
-    end
-end
-
 
 %% Get timestamps
 timestamps = data.timestamps;
@@ -118,6 +98,8 @@ idx_pref= size(model.param_properties,2);
 parameter= arrayOut(:,1);
 p_ref = arrayOut(:,2);
 
+%% Initialization
+
 y_obs= zeros(numberOfTimeSeries,T);
 y_pred= zeros(numberOfTimeSeries,T);
 
@@ -127,6 +109,8 @@ for j=1:M
     ss=size(model.hidden_states_names{1},1);
     x = zeros(ss,T);
 end
+
+
 
 %% Simulate data
 for t=1:T
@@ -181,15 +165,26 @@ for t=1:T
     R_j = model.R{j}(parameter(p_ref), timestamps(t),timesteps(t));
     Q_j = model.Q{i}{j}(parameter(p_ref), timestamps(t),timesteps(t));
     
+    
     if t==1
         prevX = model.initX{i};
     else
         prevX = x(:,t-1);
     end
     
+    ProdQ_j = model.ProdQ{i}{j}(prevX,model.idx_xprod,parameter(p_ref), timestamps(t),timesteps(t));
+    V = zeros(size(A_j,1));
+    
+    [mP,~,ProdQ_j] = ProductxV(A_j,prevX,V,model.idx_xprod,model.idx_prod,ProdQ_j);
     % Prediction step  x_t+1=A.x_t + Q
-    w=mvnrnd(zeros(length(Q_j),1),Q_j); % process noise
-    x(:,t) = A_j*prevX + w'; % prediction
+     
+     
+    x(:,t) = mvnrnd(A_j*(prevX+mP),Q_j+ProdQ_j);
+%       pmax = 1;
+%       x(model.idx_xprod(2)) = max(x(model.idx_xprod(2)),0);
+%       x(model.idx_xprod(2)) = min(x(model.idx_xprod(2)),pmax);
+%     w=mvnrnd(zeros(length(Q_j),1),Q_j); % process noise
+%     x(:,t) = A_j*prevX + w'; % prediction
     
     % Compute y_pred=C.x
     y_pred(:,t) = C_j*x(:,t);

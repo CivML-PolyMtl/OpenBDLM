@@ -1,6 +1,6 @@
 function [logpdf, Glogpdf, Hlogpdf, delta_grad] = logPosteriorPE(data, model, misc, varargin)
 % INPUTS:
-% getlogpdf            -  Only log-posterior is evaluated (1), otherwise
+% getlogpdf            -  Only log-poseterior is evaluated (1), otherwise
 %                         (0). Defaut is 0.
 % loglik_contribution  -  Gradient & hessian of log-likelihood are required
 %                         for each evaluation. True = 1 and false = 0.
@@ -42,23 +42,50 @@ parameter_search_idx    = ...
     size(model.param_properties,1))'),2));
 
 nb_param                = length(parameter_search_idx);
+Jacob_TR                = zeros(nb_param,nb_param);
 logPrior                = 0;
 logPrior_loop           = zeros(nb_param,1);
 GlogPrior_loop          = zeros(nb_param,1);
 HlogPrior_loop          = zeros(nb_param,1);
 
-if isMAP        
-    logpriorMu              = [model.param_properties{:,7}];
-    logpriorSig             = [model.param_properties{:,8}];
-    logpriorName            = {model.param_properties{:,6}};
+if isMAP
+    logpriorMu_test              = ...
+        [model.param_properties{parameter_search_idx,7}];
+    logpriorSig_test             = ...
+        [model.param_properties{parameter_search_idx,8}];
+    logpriorName_test            = ...
+        {model.param_properties{parameter_search_idx,6}};
     
-    for i = 1:nb_param
-        idx                 = parameter_search_idx(i);
-        [logPrior_loop(i), GlogPrior_loop(i), HlogPrior_loop(i)]= ...
-            logPriorDistr(model.parameterTR(idx), logpriorMu(idx), ...
-            logpriorSig(idx),'distribution',logpriorName{idx});
-        logPrior = logPrior + logPrior_loop(i);
+    if any(isnan(logpriorMu_test)) || any(isnan(logpriorSig_test)) || ...
+            any(~strcmp(logpriorName_test, 'normal'))
+        
+        Jacob_TR = diag(ones(nb_param,1));
+        
+    else
+        
+            logpriorMu              = [model.param_properties{:,7}];
+            logpriorSig             = [model.param_properties{:,8}];
+            logpriorName            = {model.param_properties{:,6}};
+                
+        for i = 1:nb_param
+            idx                 = parameter_search_idx(i);
+            [~,~,grad_TR2OR,~]  = parameter_transformation_fct(model,idx);
+            Jacob_TR(i,i)       = grad_TR2OR (model.parameterTR(idx));
+            if Jacob_TR(i,i) == Inf
+                Jacob_TR(i,i) = realmax('single');
+            elseif Jacob_TR(i,i) == -Inf
+                Jacob_TR(i,i) = realmin('single');
+            end
+            [logPrior_loop(i), GlogPrior_loop(i), HlogPrior_loop(i)]= ...
+                logPriorDistr(model.parameterTR(idx), logpriorMu(idx), ...
+                logpriorSig(idx),'distribution',logpriorName{idx});
+            logPrior = logPrior + logPrior_loop(i);
+        end
+        
     end
+    
+else
+    Jacob_TR = diag(ones(nb_param,1));
 end
 
 %% Log-likehood
@@ -71,7 +98,7 @@ end
 log_lik_0            = loglik;
 
 if getlogpdf
-    logpdf  = loglik + logPrior;
+    logpdf  = loglik + log(abs(det(Jacob_TR))) + logPrior;
     Glogpdf = NaN;
     Hlogpdf = NaN;
 else
@@ -97,7 +124,7 @@ else
     end
     Glogpdf = Gloglik + sum(GlogPrior_loop);
     Hlogpdf = Hloglik + sum(HlogPrior_loop);
-    logpdf  = loglik  + logPrior;
+    logpdf  = loglik  + log(abs(det(Jacob_TR))) + logPrior;
 end
 end
 %% Gradient & Hessian of Log-likelihood

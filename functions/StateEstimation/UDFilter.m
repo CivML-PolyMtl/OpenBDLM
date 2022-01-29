@@ -66,7 +66,7 @@ function [xnew, Vnew, VVnew, U_post, D_post, loglik]=UDFilter(A, C, Q, R, y, x, 
 %   AUTHORS: 
 %       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet
 %
-%       Inspired from the initial code of Brian Moore
+%       Initial program developed by Brian Moore
 % 
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
@@ -78,7 +78,7 @@ function [xnew, Vnew, VVnew, U_post, D_post, loglik]=UDFilter(A, C, Q, R, y, x, 
 %       June 28, 2018
 % 
 %   DATE LAST UPDATE:
-%       December 3, 2018
+%       June 28, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -116,7 +116,7 @@ Vpred=Vpred+Q;
 
 try [Uq,Dq] = myUD(Q, 'isError', false);
 catch
-    warning('UD decomposition failed error.')
+    disp('warning UD decomposition failed error | UDFilter.m')
 end
 [x_prior,U_prior,D_prior] = thornton(x,U_post,D_post,Uq,Dq,A);
 

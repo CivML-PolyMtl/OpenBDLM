@@ -1,4 +1,4 @@
-function [data, misc, dataFilename]=DataLoader(misc)
+function [data, misc, dataFilename]=DataLoader(misc, varargin)
 %DATALOADER Create a data file
 %
 %   SYNOPSIS:
@@ -12,19 +12,30 @@ function [data, misc, dataFilename]=DataLoader(misc)
 %      FilePath             - character (optional)
 %                               saving directory for data
 %                               default: '.'  (current folder)
+%
+%      NaNThreshold         - real (optional)
+%                               maximum amount of missing data (NaN)
+%                               allowed at each timestamp, given in percent
+%                               0<= NanThreshold <= 100
+%                               default: 100
+%
+%      Tolerance            - real (optional)
+%                               value given in number of days
+%                               timestamps +/- tolerance are considered equal
+%                               default: 10E-6
 %   OUTPUT:
-%       data                - structure 
-%                               data must contain three fields :
+%       data                - structure (required)
+%                             data must contain three fields:
 %
 %                               'timestamps' is a M×1 array
 %
-%                               'values' is a M×N array
+%                               'values' is a MxN  array
 %
 %                               'labels' is a 1×N cell array
-%                               each cell is a character array
+%                                each cell is a character array
 %
-%                               N: number of time series
-%                               M: number of samples
+%                                   N: number of time series
+%                                   M: number of samples
 %
 %     misc                  - structure
 %                             see the documentation for details about the
@@ -34,12 +45,13 @@ function [data, misc, dataFilename]=DataLoader(misc)
 %
 %   DESCRIPTION:
 %      DATALOADER:
-%           - loads an existing processed database (DATA_*.mat file)
-%           - creates a new database (DATA_*.mat file) from .csv files
+%           - loads an existing processed database
+%           - creates a new one from raw .csv files
 %
 %   EXAMPLES:
 %      [data, misc, dataFilename] = DATALOADER(misc)
 %      [data, misc, dataFilename] = DATALOADER(misc, 'FilePath', 'processed_data')
+%      [data, misc, dataFilename] = DATALOADER(misc, 'FilePath', 'processed_data', 'NaNThreshold', 30, 'Tolerance', 10E-3)
 %
 %   EXTERNAL FUNCTIONS CALLED:
 %      displayDataBinary, loadData, editData
@@ -59,18 +71,33 @@ function [data, misc, dataFilename]=DataLoader(misc)
 %       April 19, 2018
 %
 %   DATE LAST UPDATE:
-%       December 5, 2018
+%       August 13, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
 
 p = inputParser;
+defaultFilePath = '.';
+defaultNaNThreshold = 100;
+defaulttolerance = 10E-6;
+
+validationFct_FilePath = @(x) ischar(x) && ...
+    ~isempty(x(~isspace(x)));
+
 addRequired(p, 'misc', @isstruct)
-parse(p, misc);
+addParameter(p,'FilePath',defaultFilePath, validationFct_FilePath);
+validationFcnNaNThreshold = @(x) isreal(x) & x >= 0 & x <= 100;
+addParameter(p,'NaNThreshold',defaultNaNThreshold,validationFcnNaNThreshold);
+validationFcntolerance = @(x) isreal(x) & x >= 0;
+addParameter(p, 'Tolerance', defaulttolerance, validationFcntolerance);
+
+parse(p, misc, varargin{:} );
 
 misc=p.Results.misc;
+FilePath=p.Results.FilePath;
+NaNThreshold = p.Results.NaNThreshold;
+tolerance = p.Results.Tolerance;
 
-FilePath = misc.internalVars.DataPath;
 
 % Set fileID for logfile
 if misc.internalVars.isQuiet
@@ -88,7 +115,7 @@ fprintf(fileID, '\n');
 fprintf(fileID, '- Choose a database\n');
 fprintf(fileID, '\n');
 fprintf(fileID,'     %-3s -> %-25s\t\n', num2str(0), ...
-    'Build a new database');
+    'Build a new database from .csv files');
 fprintf(fileID, '\n');
 [FileInfo] = displayDataBinary(misc, 'FilePath', FilePath);
 
@@ -101,8 +128,7 @@ while(1)
     
     if misc.internalVars.BatchMode.isBatchMode
         chosen_db= ...
-            eval(char(misc.internalVars.BatchMode.Answers{...
-            misc.internalVars.BatchMode.AnswerIndex}));
+            eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID, '     %s\n', num2str(chosen_db));
     else
         chosen_db=input('     choice >> ');
@@ -116,8 +142,7 @@ while(1)
         continue
     elseif length(chosen_db)>1
         fprintf(fileID, '\n');
-        fprintf(fileID, ['     wrong input -> ', ...
-            'should be only one integer\n']);
+        fprintf(fileID, '     wrong input -> should be only one integer\n');
         fprintf(fileID, '\n');
         continue
     elseif isempty(chosen_db)
@@ -133,26 +158,25 @@ while(1)
 end
 
 % Increment global variable to read next answer when required
-misc.internalVars.BatchMode.AnswerIndex = ...
-    misc.internalVars.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 
 %% Load database
 if chosen_db == 0
     % No database is selected, loading new data is needed
-    [dataOrig, misc] = loadData(misc);
+    [data, misc] = loadData(misc, 'FilePath', FilePath, ...
+        'NaNThreshold', NaNThreshold, 'Tolerance', tolerance, ...
+        'isPdf', false);
     
     % Display available data on screen
-    displayData(dataOrig, misc)
+    displayData(data, misc)
     
     % Edit dataset
     [data, misc, dataFilename ] = ...
-        editData(dataOrig, misc, 'FilePath', FilePath);
+        editData(data, misc, 'FilePath', FilePath);
     
 else
     % Select the data
     [data]=load(fullfile( FilePath, 'mat', FileInfo{chosen_db}));
-    
-    % Reshape data
     
     % Duplicate data binary MAT file with a new name based on current
     % project    
@@ -164,9 +188,6 @@ else
         
     % Display available data on screen
     displayData(data, misc)
-    
-    % Plot data summary
-    plotDataSummary(data, misc, 'FilePath', 'figures')
     
     % Give the possibility to edit the dataset    
     incTest=0;
@@ -183,8 +204,7 @@ else
         fprintf(fileID, '- Do you want to edit the database ? (y/n) \n');
         % read from user input file (use of global variable )?
         if misc.internalVars.BatchMode.isBatchMode
-            choice=eval(char(misc.internalVars.BatchMode.Answers{ ...
-                misc.internalVars.BatchMode.AnswerIndex}));
+            choice=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
             fprintf(fileID, '     %s\n', choice);
         else
             choice = input('     choice >> ','s');
@@ -194,8 +214,7 @@ else
         elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
             
             % Increment global variable to read next answer when required
-            misc.internalVars.BatchMode.AnswerIndex = ...
-                misc.internalVars.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             
             % yes, edit the dataset
             [data, misc, dataFilename ] = ...
@@ -205,14 +224,11 @@ else
             
         elseif strcmpi(choice,'n') || strcmpi(choice,'no')
             
-            %plotDataSummary(data, misc, 'FilePath', 'figures')
-            
             % no, use the data as such
             misc.internalVars.isDataSimulation = false;
             
             % Increment global variable to read next answer when required
-            misc.internalVars.BatchMode.AnswerIndex = ...
-                misc.internalVars.BatchMode.AnswerIndex+1;
+            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             
             isYesNoCorrect =  true;
             

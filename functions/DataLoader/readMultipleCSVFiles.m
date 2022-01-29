@@ -60,7 +60,7 @@ function [dataOrig, misc]=readMultipleCSVFiles(misc)
 %      April 10, 2018
 %
 %   DATE LAST UPDATE:
-%      December 3, 2018
+%      July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -82,10 +82,8 @@ if misc.internalVars.BatchMode.isBatchMode
         
         disp(' ')
         fprintf(['- Provide a list of .CSV filename to process ' ...
-            '(e.g. {''raw_data/data_Tamar/*.csv'', ' ...
-            '''disp_001.csv''}) :\n'])
-        CSVFileList=eval(char(misc.internalVars.BatchMode.Answers{...
-            misc.internalVars.BatchMode.AnswerIndex}));
+            '(e.g. {''raw_data/data_Tamar/*.csv'', ''disp_001.csv''}) :  \n'])
+        CSVFileList=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         disp(CSVFileList)
         %     else
         %         CSVFileList=input('     list of filenames >> ');
@@ -93,19 +91,30 @@ if misc.internalVars.BatchMode.isBatchMode
         
         if ~iscellstr(CSVFileList)
             disp(' ')
-            disp(['     wrong input -> ', ...
-                'should be a cell array of character vectors. '])
+            disp('     wrong input -> should be a cell array of character vectors. ')
             disp(' ')
             continue
         elseif isempty(CSVFileList)
             disp(' ')
-            disp(['     wrong input -> ', ...
-                'should be a cell array of character vectors. '])
+            disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%')
+            disp('                                                         ')
+            fprintf([' The list of filenames should provide the location' ...
+                '(path + filename) of the ''.csv'' raw data files.\n'])
+            fprintf(' Star wildcard (asterisk) is supported.\n')
+            fprintf([' The list should be provided using a cell ' ...
+                'array of character vectors.\n'])
+            fprintf([' Example : {''./raw_data/data_Tamar/*.csv''} looks for '...
+                'all files with a ''.csv'' extension in the directory with path ' ...
+                '''./raw_data/data_Tamar/'' which is relative to the current' ...
+                'working directory.\n '])
+            disp(' ')
+            disp('%%%%%%%%%%%%%%%%%%%%%%%%% > HELP < %%%%%%%%%%%%%%%%%%%%%%%%%%')
             disp(' ')
             continue
             
         else
-                        
+            
+            
             %% Clean the list of CSV files
             
             % Remove empty fields
@@ -113,7 +122,7 @@ if misc.internalVars.BatchMode.isBatchMode
             
             if isempty(CSVFileList)
                 disp(' ')
-                warning('File list is empty.')
+                disp('WARNING: File list is empty.')
                 disp(' ')
                 dataOrig.timestamps=[];
                 dataOrig.values=[];
@@ -133,8 +142,7 @@ if misc.internalVars.BatchMode.isBatchMode
                 InfoFile=dir(CSVFileList{i});
                 
                 % remove '.' and '..' and '.DS_Store' files from the list of files
-                InfoFile= InfoFile(~ismember({InfoFile.name}, ...
-                    {'.','..', '.DS_Store'}));
+                InfoFile=InfoFile(~ismember({InfoFile.name},{'.','..', '.DS_Store'}));
                 
                 % test the existence of the group of files identified by the search
                 % pattern
@@ -154,10 +162,11 @@ if misc.internalVars.BatchMode.isBatchMode
                         PathFile=which(filename);
                         
                         % Read the file
-                        [dat,label] = ...
-                            readSingleCSVFile(PathFile, 'isQuiet', false);
+                        [dat,label] = readSingleCSVFile(PathFile, 'isQuiet', false);
                         
                         if isempty(dat) && isempty(label)
+                            %                 disp(' ')
+                            %                 fprintf('WARNING: Skip file. \n')
                         else
                             % Store in structure array
                             dataOrig.timestamps{inc} = dat(:,1);
@@ -177,8 +186,7 @@ if misc.internalVars.BatchMode.isBatchMode
             continue
         else
             % Increment global variable to read next answer when required
-            misc.internalVars.BatchMode.AnswerIndex = ...
-                misc.internalVars.BatchMode.AnswerIndex + 1;
+            misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
             break
         end
         
@@ -200,23 +208,22 @@ else
         end
         
         if ~iscell(Info) || isempty(Info(~cellfun(@isempty, Info)))
-            error('No valid files were selected.')
-            %continue
+            disp('     Error: No valid file was selected.')
+            continue
         end
         
         inc=0;
         for j=1:length(Info)
-            %inc=inc+1;
+            inc=inc+1;
             PathFile = Info{j};
             
             % Read the file
             [dat,label] = readSingleCSVFile(PathFile, 'isQuiet', false);
             
-            %if isempty(dat) && isempty(label)
-
-            %else
-            if ~isempty(dat) && ~isempty(label)
-                inc=inc+1;
+            if isempty(dat) && isempty(label)
+                %                 disp(' ')
+                %                 fprintf('WARNING: Skip file. \n')
+            else
                 % Store in structure array
                 dataOrig.timestamps{inc} = dat(:,1);
                 dataOrig.values{inc} = dat(:,2);

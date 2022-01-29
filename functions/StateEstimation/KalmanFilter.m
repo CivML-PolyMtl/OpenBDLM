@@ -1,4 +1,4 @@
-function [xnew, Vnew, VVnew, loglik]=KalmanFilter(A, C, Q, R, y, x, V,varargin)
+function [xnew, Vnew, VVnew, loglik]=KalmanFilter(A, C, Q, R,ProdQ,idx_xprod,idx_prod,nb_DKR, nb_PR, nb_SR, parameters, t, t_ref, y, x, x_ref, V,varargin)
 %KALMANFILTER Do one step of the Kalman filter (prediction + update at time t)
 %
 %   SYNOPSIS:
@@ -112,48 +112,115 @@ function [xnew, Vnew, VVnew, loglik]=KalmanFilter(A, C, Q, R, y, x, V,varargin)
 %% Get arguments passed to the function and proceed to some verifications
 p = inputParser;
 
-defaultB = 0;
-defaultW = 0;
+defaultB    = 0;
+defaultW    = 0;
+defaultTemp = 0;
 addRequired(p,'A', @isnumeric );
 addRequired(p,'C', @isnumeric );
 addRequired(p,'Q', @isnumeric );
 addRequired(p,'R', @isnumeric );
+addRequired(p,'ProdQ', @isnumeric );
+addRequired(p,'idx_xprod', @isnumeric );
+addRequired(p,'idx_prod', @isnumeric );
+addRequired(p,'nb_DKR', @isnumeric );
+addRequired(p,'nb_PR', @isnumeric );
+addRequired(p,'nb_SR', @isnumeric );
+addRequired(p,'parameters', @isnumeric );
+addRequired(p,'t', @isnumeric );
+addRequired(p,'t_ref', @isnumeric );
 addRequired(p,'y', @isnumeric );
 addRequired(p,'x', @isnumeric );
+addRequired(p,'x_ref', @isnumeric );
 addRequired(p,'V', @isnumeric );
 addParameter(p, 'B', defaultB, @isnumeric)
 addParameter(p, 'W', defaultW, @isnumeric)
-parse(p,A,C,Q,R,y,x,V,varargin{:});
+addParameter(p, 'nb_temp', defaultTemp, @isnumeric)
+
+parse(p,A,C,Q,R,ProdQ,idx_xprod,idx_prod,nb_DKR,nb_PR,nb_SR,parameters,t,t_ref,y,x,x_ref,V,varargin{:});
 
 A=p.Results.A;
 C=p.Results.C;
 Q=p.Results.Q;
 R=p.Results.R;
+ProdQ=p.Results.ProdQ;
+idx_xprod=p.Results.idx_xprod;
+idx_prod=p.Results.idx_prod;
+nb_DKR=p.Results.nb_DKR;
+nb_PR=p.Results.nb_PR;
+nb_SR=p.Results.nb_SR;
+parameters=p.Results.parameters;
+t=p.Results.t;
+t_ref=p.Results.t_ref;
 y = p.Results.y;
-x=p.Results.x;      
+x=p.Results.x;
+x_ref=p.Results.x_ref;
 V=p.Results.V;   
 B=p.Results.B;
 W=p.Results.W;
+nb_temp=p.Results.nb_temp;
+if ~isempty(parameters)         % To check if NPR/SR component needs to be computed
+   l1 = parameters;
+   [xpred,Vpred,C] = State_Regression(A,x,V,idx_xprod,idx_prod,l1,Q,ProdQ,x_ref,C,nb_temp); 
+%     param = parameters(1:(end-1));
+%        if  length(param)==4
+%            
+%            [xpred,Vpred,C]=Nonlinear_Regression(A,x,V,idx_xprod,idx_prod,l1,param,nb_PR,Q,ProdQ,x_ref,t,t_ref,C);
+%            
+%        elseif   length(param)==2
+%            [xpred,Vpred,C]=Nonlinear_Regression(A,x,V,idx_xprod,idx_prod,l1,param,nb_PR,Q,ProdQ,x_ref,t,t_ref,C);
+%        elseif ~isempty(l1) && isempty(param)
+%                                                %BD
+%            
+%        end   
+               
+elseif isempty(parameters) && ~isempty(idx_prod)    % if NPR is not present, perform Prod based on idx_prod and idx_xprod      %BD
+        if      size(idx_prod) > 1 && ~isempty(nb_DKR)
+            [xpred,Vpred,C]=ARN();
+            [xpred,Vpred,C]=DKR(xpred,Vpred,C);
+        elseif  size(idx_prod) == 1 && ~isempty(nb_DKR)
+            [xpred,Vpred,C]=DKR();
+        else
+            [xpred,Vpred,C]=ARN();
+        end
+else                            % No Prod term present
+    %mP = [];sP = [];ProdQ = [];
+    xpred = A*(x)+B;
+    Vpred = A*(V)*A' + Q + W;
+    Vpred = (Vpred+Vpred')/2;
+end
+%% Cramer-Rao lower bound
+% CRB = pinv((C'/R)*C + pinv(Vpred));
+% if Vpred < CRB
+%      Vpred = CRB;
+% end
 
-%% Prediction step
-% Predicted hidden state mean
-xpred = A*x+B;
-% Predicted hidden state covariance
-Vpred = A*V*A'+Q+W; 
-Vpred=(Vpred+Vpred')/2;
-
+    
 %% Identify missing data
 missing_idx=isnan(y);
 
 %% Update step
 % error (innovation)
-e = y - C*xpred;  
+%C(:,idx_xprod(2,end)+2)=[0 1]';
+%% Change C matrix
+if any(missing_idx)
+    index = find(missing_idx);
+    C(index,:) = zeros(length(index),length(C));
+end
+
+e = y - (C)*xpred;  
 n = length(e);
 ss = length(A);
-S = C*Vpred*C' + R;
+S = (C)*Vpred*(C)' + R;
 S = (S+S')/2;
 Sinv = pinv(S);
 Sinv(missing_idx,missing_idx)=0;
+i = 1;
+Corr = diag(S);
+if any(Corr<0)
+    check = 1;
+else
+    i = i + 1;
+end
 ss = length(V);
 % compute loglikelihood
 if all(missing_idx)
@@ -168,11 +235,17 @@ K = Vpred*C'*Sinv;
 e(missing_idx)=0;
 % Posterior hidden state mean
 xnew = xpred + K*e;
+
+% pmax = 0.99;
+% xnew(idx_xprod(2)) = max(xnew(idx_xprod(2)),0);
+% xnew(idx_xprod(2)) = min(xnew(idx_xprod(2)),pmax);
 % Posterior hidden state covariance
 Vnew = Vpred - K*C*Vpred;
 Vnew=triu(Vnew)+triu(Vnew,1)';
+
 VVnew = A*V - K*C*A*V;
 VVnew=triu(VVnew)+triu(VVnew,1)';
 
 %--------------------END CODE ------------------------ 
 end
+                                  

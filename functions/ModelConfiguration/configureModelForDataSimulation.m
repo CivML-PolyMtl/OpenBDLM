@@ -69,7 +69,7 @@ function [data, model, estimation, misc]=configureModelForDataSimulation(data, m
 %       April 20, 2018
 %
 %   DATE LAST UPDATE:
-%       Decembre 10, 2018
+%       May 28, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -92,6 +92,16 @@ misc=p.Results.misc;
 %% Request user's input to define timestamps
 [data, misc]=defineTimestamps(data, misc);
 
+%% Compute reference time step from timestamp vector
+timestamps = data.timestamps;
+%[dt_ref] = defineReferenceTimeStep(timestamps);
+%misc.dt_ref = dt_ref;
+
+%% Get training dataset from timestamp vector
+[trainingPeriod] = defineTrainingPeriod(timestamps);
+
+misc.options.trainingPeriod = trainingPeriod;
+
 %% Define model
 [model, misc] = defineModel(data, misc);
 
@@ -102,6 +112,9 @@ end
 
 %% Build model
 [model] = buildModel(data, model, misc);
+
+%% Set default variable
+%[misc]=setDefaultConfig(misc, data);
 
 %--------------------END CODE ------------------------
 end

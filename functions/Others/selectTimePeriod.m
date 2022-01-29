@@ -6,8 +6,7 @@ function [data, misc]=selectTimePeriod(data, misc)
 %
 %   INPUT:
 %       data            - structure (required)
-%                       
-%                           data must contain three fields:
+%                               data must contain three fields:
 %
 %                               'timestamps' is a M×1 array
 %
@@ -16,27 +15,28 @@ function [data, misc]=selectTimePeriod(data, misc)
 %                               'labels' is a 1×N cell array
 %                               each cell is a character array
 %
-%                               N: number of time series
-%                               M: number of samples
+%                           N: number of time series
+%                           M: number of samples
 %
 %      misc             - structure
 %                          see the documentation for details about the
 %                          field in misc
 %
 %   OUTPUT:
-%       data            - structure (required)
-%                       
-%                           data must contain three fields:
+%      data             - structure
+%                          data must contain three fields :
 %
-%                               'timestamps' is a M×1 array
+%                               'timestamps' is a 1×N cell array
+%                               each cell is a M_ix1 real array
 %
-%                               'values' is a MxN  array
+%                               'values' is a 1×N cell array
+%                               each cell is a M_ix1 real array
 %
 %                               'labels' is a 1×N cell array
 %                               each cell is a character array
 %
-%                               N: number of time series
-%                               M: number of samples
+%                                   N: number of time series
+%                                   M_i: number of samples of time series i
 %
 %      misc             - structure
 %                          see the documentation for details about the
@@ -75,7 +75,7 @@ function [data, misc]=selectTimePeriod(data, misc)
 %       July 4, 2018
 %
 %   DATE LAST UPDATE:
-%       October 16, 2018
+%       August 13, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -118,8 +118,7 @@ while ~isCorrect
     
     fprintf(fileID,'     Start date (%s): \n',fmt);
     if misc.internalVars.BatchMode.isBatchMode
-        tts=eval(char(misc.internalVars.BatchMode.Answers{...
-            misc.internalVars.BatchMode.AnswerIndex}));
+        tts=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID, '     %s\n', tts);
     else
         tts = input('     choice >> ','s');
@@ -153,8 +152,7 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-misc.internalVars.BatchMode.AnswerIndex = ...
-    misc.internalVars.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
 fprintf(fileID, '\n');
 
 %% Request user's input to specify end date
@@ -168,8 +166,7 @@ while ~isCorrect
     
     fprintf(fileID, '     End date (%s): \n',fmt);
     if misc.internalVars.BatchMode.isBatchMode
-        tte=eval(char(misc.internalVars.BatchMode.Answers{...
-            misc.internalVars.BatchMode.AnswerIndex}));
+        tte=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         fprintf(fileID, '     %s\n', tte);
     else
         tte = input('     choice >> ','s');
@@ -221,8 +218,8 @@ while ~isCorrect
     isCorrect = true;
 end
 % Increment global variable to read next answer when required
-misc.internalVars.BatchMode.AnswerIndex = ...
-    misc.internalVars.BatchMode.AnswerIndex + 1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
+
 
 if datenum(tte, fmt) > timestamps(end)
     
@@ -242,8 +239,7 @@ if datenum(tte, fmt) > timestamps(end)
             'to perform the data padding.\n']);
         if misc.internalVars.BatchMode.isBatchMode
             dt_ref= ...
-                eval(char(misc.internalVars.BatchMode.Answers{...
-                misc.internalVars.BatchMode.AnswerIndex}));
+                eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
             fprintf(fileID, '     %s\n',num2str(dt_ref));
         else
             dt_ref = input('     choice >> ');
@@ -259,13 +255,13 @@ if datenum(tte, fmt) > timestamps(end)
     end
     
     % Increment global variable to read next answer when required
-    misc.internalVars.BatchMode.AnswerIndex = ...
-        misc.internalVars.BatchMode.AnswerIndex + 1;
+    misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex + 1;
     
 else
     isPadding = false;
     
 end
+
 
 %% Select requested time period
 
@@ -282,6 +278,9 @@ if ~isPadding
     data.values = data.values(IdxStart:IdxEnd,:);
 else
     extra_ts = timestamps(end)+dt_ref:dt_ref:datenum(tte, fmt);
+    
+    %data.timestamps = [ repmat(data.timestamps(IdxStart:IdxEnd,1), ...
+    %    1,numberOfTimeSeries); repmat( extra_ts', 1, numberOfTimeSeries)];
     
         data.timestamps = [ repmat(data.timestamps(IdxStart:IdxEnd,1), ...
         1,1); repmat( extra_ts', 1, 1)];

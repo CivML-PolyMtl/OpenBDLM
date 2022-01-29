@@ -62,7 +62,7 @@ while ~isYesNoCorrect
             'attempts (', num2str(MaxFailAttempts)  ').']) ; end
     fprintf(fileID,'\n');
     fprintf(fileID, ['- Does this project aim to ', ...
-        'create synthetic data ? (y/n) \n']);
+        'perform data simulation ? (y/n) \n']);
     % read from user input file (use of global variable )?
     if misc.internalVars.BatchMode.isBatchMode
         choice=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));

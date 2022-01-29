@@ -32,10 +32,6 @@ function [FigureNames] = plotWaterfallKRegression(data, model, estimation, misc,
 %                         if isExportTEX, export the figure in TEX format
 %                         default: false
 %
-%      isVisible        - logical (optional)
-%                         if isVisible = true , show the figure on screen
-%                         default: true
-%
 %      FilePath         - character (optional)
 %                         directory where to save the file
 %                         default: '.'  (current folder)
@@ -76,7 +72,7 @@ function [FigureNames] = plotWaterfallKRegression(data, model, estimation, misc,
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       December 6, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -88,7 +84,6 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
-defaultisVisible = true;
 
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
@@ -100,7 +95,6 @@ addRequired(p,'misc', @isstruct );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
-addParameter(p,'isVisible', defaultisVisible,  @islogical);
 addParameter(p, 'FilePath', defaultFilePath, validationFonction)
 parse(p,data, model, estimation, misc, varargin{:});
 
@@ -111,18 +105,7 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
-isVisible   = p.Results.isVisible;
 FilePath=p.Results.FilePath;
-
-if isVisible
-   VisibleOption = 'on'; 
-else
-   VisibleOption = 'off';   
-end
-
-
-%% Get options from misc
-FigurePosition=misc.options.FigurePosition;
 
 %% Read model parameter properties
 % Current model parameters
@@ -264,13 +247,11 @@ for obs=1:numberOfTimeSeries
             
         end
         
-        
-        FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
-        set(FigHandle, 'Position', FigurePosition)
-        set(FigHandle, 'Visible', VisibleOption)
-        set(gca, 'Fontsize', 16)
-        
-        if isfield(estimation, 'x')
+        if isfield(estimation, 'x') && ts_plot > 1
+            
+            FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
+            set(FigHandle, 'Position', [100, 100, 1300, 270])
+            set(gca, 'Fontsize', 16)
             
             subplot(1,2,1)
             waterfall(X,Y,Z)
@@ -278,8 +259,9 @@ for obs=1:numberOfTimeSeries
             ylim([0 period])
             datetick('x','yy','keepticks')
             datetick('y','mm-dd','keepticks')
-            xlim([timestamps(1) timestamps(end)])
             ylim([0 period])
+            xlim([timestamps(1) timestamps(end)])
+            
             xlabel('Time [YY]')
             ylabel('Time [MM-DD]')
             zlabel(['Kernel Regression', ' [', labels, ']'], ...
@@ -287,10 +269,9 @@ for obs=1:numberOfTimeSeries
             set(gca, 'Fontsize', 16)
             grid on
             
-            subplot(1,2,2)            
-            z2=linspace(0,period,length(K_x_idx)+1);
-            z2(end)=[];
-            [X2,Y2]=ndgrid(linspace(timestamps(1),tsi_last,ts_plot), z2);
+            subplot(1,2,2)
+            [X2,Y2]=ndgrid(linspace(timestamps(1),tsi_last,ts_plot), ...
+                linspace(0,period,length(K_x_idx)));
             plot3(X2,Y2,CP,'+r')
             xlim([timestamps(1) timestamps(end)])
             ylim([0 period])
@@ -307,7 +288,7 @@ for obs=1:numberOfTimeSeries
             grid on
             hold off
         end
-              
+        
         %% Export plots
         if isExportPDF || isExportPNG || isExportTEX
             
@@ -329,12 +310,6 @@ for obs=1:numberOfTimeSeries
     else
         FigureNames{1} = [];
     end
-    
 end
-
-    if ~isVisible
-        close all
-    end
-
 %--------------------END CODE ------------------------
 end

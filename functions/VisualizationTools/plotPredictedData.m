@@ -79,8 +79,7 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
-defaultisVisible = true;
-
+defaultisVisible   = true;
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
@@ -102,6 +101,7 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
+FilePath=p.Results.FilePath;
 isVisible = p.Results.isVisible;
 FilePath=p.Results.FilePath;
 
@@ -166,23 +166,25 @@ timestamps=data.timestamps;
 
 % Define timestamp vector for main plot
 plot_time_1=1:Subsample:length(timestamps);
-
-if  isSecondaryPlot
+isSecondaryPlot = false;
+if  isSecondaryPlot  
     
     ZoomDuration = 14; % zoom duration in days
     
     if ZoomDuration/referenceTimestep >= 1
-        % Define timestamp vector for secondary plot plot
-        time_fraction=0.641;
-        plot_time_2=round(time_fraction*length(timestamps)): ...
-            round(time_fraction*length(timestamps))+ ...
-            (ZoomDuration/referenceTimestep);
+    % Define timestamp vector for secondary plot plot
+    time_fraction=0.641;
+    plot_time_2=round(time_fraction*length(timestamps)): ...
+        round(time_fraction*length(timestamps))+ ...
+        (ZoomDuration/referenceTimestep);
     else
         isSecondaryPlot = false;
     end
 end
 
 %% Define paramater for plot appeareance
+% Define X-axis lag
+%Xaxis_lag=50;
 
 if ~isSecondaryPlot
     idx_supp_plot=1;
@@ -266,15 +268,8 @@ for i=1:numberOfTimeSeries
     
     set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
         timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
-        'YTick', linspace(miny, maxy, ndivy),...
         'box','off',  ...
         'FontSize', 16);
-    %ytickformat('%.1f')
-    %ax=gca;
-    %ax.YAxis.TickLabelFormat='%.1f';
-    set(gca, 'YTickMode','manual')
-    set(gca, 'YTickLabel', num2str(get(gca,'YTick')', '%.2e'))
-    
     if miny~=maxy
         set(gca,'Ylim',[miny,maxy])
     end
@@ -285,6 +280,7 @@ for i=1:numberOfTimeSeries
     hold off
     
     %% Secondary plot
+    isSecondaryPlot=false;
     if isSecondaryPlot
         subplot(1,3,3,'align')
         
@@ -323,13 +319,10 @@ for i=1:numberOfTimeSeries
         
         set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
             timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-            3),...
+            ndivy),...
             'YTick', [], ...
             'box','off', ...
             'FontSize', 16);
-        %ytickformat('%.1f')
-        %ax=gca;
-        %ax.YAxis.TickLabelFormat='%.1f';
         datetick('x','mm-dd','keepticks')
         year=datevec(timestamps(plot_time_2(1)));
         xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
@@ -352,10 +345,6 @@ for i=1:numberOfTimeSeries
             'isExportTEX', isExportTEX);
     else
         FigureNames{1} = [];
-    end
-    
-    if ~isVisible
-        close(FigHandle)
     end
     
 end

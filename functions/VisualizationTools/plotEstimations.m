@@ -1,5 +1,5 @@
 function plotEstimations(data, model, estimation, misc, varargin)
-%PLOTESTIMATIONS Plot hidden states, predicted data, and model probability
+%PLOTESTIMATIONS Plot hidden states results
 %
 %   SYNOPSIS:
 %     PLOTESTIMATIONS(data, model, estimation, misc, varargin)
@@ -35,15 +35,6 @@ function plotEstimations(data, model, estimation, misc, varargin)
 %                         if isExportTEX = true , export the figure in TEX
 %                         format
 %                         default: false
-%
-%      isVisible        - logical (optional)
-%                         if isVisible = true , show the figure on screen
-%                         default: true
-%
-%      isForceOverwrite - logical (optional)
-%                         if isForceOverwrite = true, save figure and
-%                         overwrite previous files of same name without notice
-%                         default = false
 %
 %      FilePath         - character (optional)
 %                         directory where to save the file
@@ -85,7 +76,7 @@ function plotEstimations(data, model, estimation, misc, varargin)
 %       May 24, 2018
 %
 %   DATE LAST UPDATE:
-%       January 4, 2019
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -96,8 +87,7 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
-defaultisVisible = true;
-defaultisForceOverwrite = false;
+
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
@@ -108,8 +98,6 @@ addRequired(p,'misc', @isstruct );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
-addParameter(p,'isVisible', defaultisVisible,  @islogical);
-addParameter(p,'isForceOverwrite', defaultisForceOverwrite, @islogical);
 addParameter(p, 'FilePath', defaultFilePath, validationFonction)
 parse(p,data, model, estimation, misc, varargin{:});
 
@@ -120,8 +108,6 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
-isVisible = p.Results.isVisible;
-isForceOverwrite = p.Results.isForceOverwrite;
 FilePath=p.Results.FilePath;
 
 % Set fileID for logfile
@@ -135,12 +121,13 @@ end
 
 %% Verification if there are data to plot, or not
 if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
+    fprintf(fileID,'\n');
     fprintf(fileID,'     No plot to create.\n');
     fprintf(fileID,'\n');
     return
 end
 
-% Create specified path if not existing
+%% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
 if ~isFileExist
     % create directory
@@ -153,58 +140,40 @@ end
 
 if isExportPNG || isExportPDF || isExportTEX
     
-    disp('     Creating figures for hidden states ...')
-    
-    % Create specified path if not existing
-    [isFileExist] = testFileExistence(FilePath, 'dir');
-    if ~isFileExist
-        % create directory
-        mkdir(FilePath)
-        % set directory on path
-        addpath(FilePath)
-    end
-    
     fullname = fullfile(FilePath, misc.ProjectName);
     [isFileExist] = testFileExistence(fullname, 'dir');
     
     if isFileExist
+        %fprintf(fileID,'\n');
+        disp(['     Directory ', fullname,' already ', ...
+            'exists. Overwrite ?'] );
         
-        if ~isForceOverwrite
-            
-            %fprintf(fileID,'\n');
-            disp(['     Directory ', fullname,' already ', ...
-                'exists. Merge and overwrite existing files ?'] );
-            
-            isYesNoCorrect = false;
-            while ~isYesNoCorrect
-                choice = input('     (y/n) >> ','s');
-                if isempty(choice)
-                    fprintf(fileID,'\n');
-                    fprintf(fileID,['     wrong input --> please ', ...
-                        ' make a choice\n']);
-                    fprintf(fileID,'\n');
-                elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
-                    
-                    isYesNoCorrect =  true;
-                    
-                elseif strcmpi(choice,'n') || strcmpi(choice,'no')
-                    
-                    [name] = incrementFilename([misc.ProjectName, '_new'], ...
-                        FilePath);
-                    fullname=fullfile(FilePath, name);
-                    
-                    % Create new directory
-                    mkdir(fullname)
-                    addpath(fullname)
-                    
-                    isYesNoCorrect =  true;
-                    
-                else
-                    fprintf(fileID,'\n');
-                    fprintf(fileID,'     wrong input\n');
-                    fprintf(fileID,'\n');
-                end
+        isYesNoCorrect = false;
+        while ~isYesNoCorrect
+            choice = input('     (y/n) >> ','s');
+            if isempty(choice)
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     wrong input --> please make a choice\n');
+                fprintf(fileID,'\n');
+            elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
                 
+                isYesNoCorrect =  true;
+                
+            elseif strcmpi(choice,'n') || strcmpi(choice,'no')
+                
+                [name] = incrementFilename([misc.ProjectName, '_new'], FilePath);
+                fullname=fullfile(FilePath, name);
+                
+                % Create new directory
+                mkdir(fullname)
+                addpath(fullname)
+                
+                isYesNoCorrect =  true;
+                
+            else
+                fprintf(fileID,'\n');
+                fprintf(fileID,'     wrong input\n');
+                fprintf(fileID,'\n');
             end
             
         end
@@ -222,44 +191,111 @@ else
     
 end
 
+disp('     Plotting hidden states estimations ...')
+
+%% Verification if there are data to plot, or not
+if ~isfield(estimation,'ref') && ~isfield(estimation,'x')
+    fprintf(fileID,'No plot to create.\n');
+    return
+end
+
 % Initialize a cell array that records the names of all the figures
+FigureNames_full = {};
+
 %% Plot predicted data
 
-[~] = plotPredictedData(data, model, estimation, misc, ...
+[FigureNames] = ...
+    plotPredictedData(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
-    'isExportTEX', isExportTEX, ...
-    'isVisible',   isVisible);
+    'isExportTEX', isExportTEX);
+
+FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
 
 %% Plot hidden state estimations
-[~] = plotHiddenStates(data, model, estimation, misc, ...
+[FigureNames] = plotHiddenStates(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
-    'isExportTEX', isExportTEX, ...
-    'isVisible'  , isVisible);
+    'isExportTEX', isExportTEX);
+
+FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
 
 %% Plot model probability
-[~] = plotModelProbability(data, model, estimation, misc, ...
+[FigureNames] = plotModelProbability(data, model, estimation, misc, ...
     'FilePath', fullname, ...
     'isExportPDF', isExportPDF, ...
     'isExportPNG', isExportPNG, ...
-    'isExportTEX', isExportTEX, ...
-    'isVisible'  , isVisible);
+    'isExportTEX', isExportTEX);
 
-%% Waterfall plot for kernel regression
-[~] = plotWaterfallKRegression(data, model, estimation, misc, ...
-    'FilePath', fullname, ...
-    'isExportPDF', isExportPDF, ...
-    'isExportPNG', isExportPNG, ...
-    'isExportTEX', isExportTEX, ...
-    'isVisible'  , isVisible);
+FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
+% 
+% %% Waterfall plot for kernel regression
+% [FigureNames] = plotWaterfallKRegression(data, model, estimation, misc, ...
+%     'FilePath', fullname, ...
+%     'isExportPDF', isExportPDF, ...
+%     'isExportPNG', isExportPNG, ...
+%     'isExportTEX', isExportTEX);
+% 
+% FigureNames_full = [FigureNames_full  FigureNames]; % record figure names
 
+%% Concatenate all pdfs in a single pdf file
+if isExportPDF
+    
+    % Remove empty cells
+    FigureNames_full(cellfun('isempty',FigureNames_full)) = [];
+    
+    % Get number of time series
+    numberOfTimeSeries = length(data.labels);
+    
+    for i=1:numberOfTimeSeries
+        
+        if i == 1
+            FigureNames_sort = {};
+        end
+        
+        pattern = data.labels{i};
+        
+        Test = strfind(FigureNames_full(:), pattern);
+        Index = not(cellfun('isempty', Test ));
+        
+        FigureNames_sub =  ...
+            FigureNames_full(Index);
+        
+        FigureNames_sort = [ FigureNames_sort FigureNames_sub];
+        
+    end
+    
+    if model.nb_class>1
+        Test = strfind(FigureNames_full(:), 'ModelProbability');
+        Index = not(cellfun('isempty', Test ));
+        FigureNames_sub =  ...
+            FigureNames_full(Index);
+        
+        FigureNames_sort = [FigureNames_sort FigureNames_sub];
+    end
+      
+    pdfFileName = ['ESTIMATIONS_', misc.ProjectName,'.pdf'];
+    fullPdfFileName = fullfile (fullname, pdfFileName);
+    
+    [isFileExist] = testFileExistence(fullPdfFileName, 'file');
+    
+    if isFileExist
+        delete(fullPdfFileName)
+    end
+    
+    FigureNames_sort = strcat(fullfile(fullname, FigureNames_sort),'.pdf');
+        
+    % Merge all pdfs for creating one single one in specified location
+    append_pdfs(fullPdfFileName, FigureNames_sort{:})
+        
+    %open(fullPdfFileName)
+    
+end
 if isExportPNG || isExportPDF || isExportTEX
     fprintf(fileID,'\n');
     fprintf(fileID,'     Figures saved in %s.\n', fullname);
     fprintf(fileID,'\n');
 end
-
 end

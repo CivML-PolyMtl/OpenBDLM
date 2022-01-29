@@ -107,8 +107,6 @@ isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
 FilePath=p.Results.FilePath;
 
-Xaxis_lag=misc.options.Xaxis_lag;
-
 %% Read model parameter properties
 % Current model parameters
 idx_pvalues=size(model.param_properties,2)-1;
@@ -191,7 +189,7 @@ else
 end
 
 % Define X-axis lag
-%Xaxis_lag=50;
+Xaxis_lag=50;
 
 % Define blue color for plots
 BlueColor = [0, 0.4, 0.8];

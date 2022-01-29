@@ -64,7 +64,7 @@ function [data, model, estimation, misc]=ModelConfiguration(data, model, estimat
 %       April 20, 2018
 %
 %   DATE LAST UPDATE:
-%       December 3, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -97,8 +97,11 @@ if ~misc.internalVars.isDataSimulation
     % Validation of structure data
     isValid = verificationDataStructure(data);
     if ~isValid
-        disp(' ')
-        error('Unable to read the data from the structure.');
+        fprintf(fileID,'\n');
+        fprintf(fileID,['     ERROR: Unable to ', ...
+            'read the data from the structure.\n']);
+        fprintf(fileID,'\n');
+        return
     end
     [data, model, estimation, misc] =  ...
         configureModelForDataReal(data, model, estimation, misc);

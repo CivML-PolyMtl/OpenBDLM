@@ -1,5 +1,5 @@
 function [data, model, estimation, misc]=simulateDataFromCustomAnomalies(data, model, misc)
-%SIMULATEDATAFROMCUSTOMANOMALIES Create synth. data from custom anomalies
+%SIMULATEDATAFROMCUSTOMANOMALIES Perform deterministic data simulation
 %
 %   SYNOPSIS:
 %     [data, model, estimation, misc]=SIMULATEDATAFROMCUSTOMANOMALIES(data, model, estimation, misc)
@@ -32,11 +32,11 @@ function [data, model, estimation, misc]=simulateDataFromCustomAnomalies(data, m
 %
 %   DESCRIPTION:
 %      SIMULATEDATAFROMCUSTOMANOMALIES performs "deterministic" data
-%      simulation. Here, "deterministic" data simulation means that, in case of
-%      switching regime model, SIMULATEDATAFROMCUSTOMANOMALIES uses the
-%      user's defined [timing, duration, amplitude] of anomalies to
+%      simulation. Here, "deterministic" data simulation means that, in case of 
+%      switching regime model, SIMULATEDATAFROMCUSTOMANOMALIES uses the 
+%      user's defined [timing, duration, amplitude] of anomalies to 
 %      control the occurrence of the anomalies.
-%      Note however that the rest of the simulation follows a stochastic
+%      Note however that the rest of the simulation follows a stochastic 
 %      process.
 %      An anomaly occurs when the probability of being in model
 %      two (Pr = M2) equals one.
@@ -60,7 +60,7 @@ function [data, model, estimation, misc]=simulateDataFromCustomAnomalies(data, m
 %       April 25, 2018
 %
 %   DATE LAST UPDATE:
-%       January 18, 2019
+%       May 28, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -75,26 +75,6 @@ parse(p,data, model,  misc);
 data=p.Results.data;
 model=p.Results.model;
 misc=p.Results.misc;
-
-
-%% Get seed
-seed=misc.options.Seed;
-
-%% Initialize the seed
-if isempty(seed)
-    % Initialize seed from current time
-    rng('shuffle')
-else
-    
-    if isinf(seed) && floor(seed) == seed && seed > 0 && ...
-            length(seed) == 1
-    % Initialize seed from seed
-    rng(seed)
-    else
-        seed = 12345;
-        rng(seed);
-    end
-end
 
 %% Get timestamps
 timestamps = data.timestamps;
@@ -182,7 +162,7 @@ for t=1:T
     else
         Q_j = zeros(size(x,1)) ;
     end
-    
+        
     if t==1
         prevX = model.initX{i};
     else
@@ -230,7 +210,7 @@ for t=1:T
             end
             
         end
-    end
+    end    
     
     % Back to initial trend
     if i == 2 && j == 1
@@ -249,7 +229,7 @@ for t=1:T
                 x(Index_LAc(pos_LAc),t) = 0;
             end
         end
-    end
+    end  
     
     % Compute y_pred=C.x
     y_pred(:,t) = C_j*x(:,t);

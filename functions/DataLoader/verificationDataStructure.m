@@ -45,7 +45,7 @@ function [isValid]=verificationDataStructure(data)
 %       April 12, 2018
 %
 %   DATE LAST UPDATE:
-%       October 16, 2018
+%       July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -58,7 +58,7 @@ data=p.Results.data;
 % Default value
 isValid = true;
 
-%% Verifications of data
+%% Verifications of "data"
 % verification of the correct field names
 if ~isfield(data,'timestamps') || ~isfield(data,'values') || ...
         ~isfield(data,'labels')

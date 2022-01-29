@@ -1,5 +1,5 @@
 function [FigureNames] = plotData(data, misc, varargin)
-%PLOTDATA Plot data amplitude values and data timestep
+%PLOTDATA Plot OpenBDLM data
 %
 %   SYNOPSIS:
 %     PLOTDATA(data, misc, varargin)
@@ -37,18 +37,9 @@ function [FigureNames] = plotData(data, misc, varargin)
 %      isExportTEX      - logical (optional)
 %                         if isExportTEX, export the figure in TEX format
 %                         default: false
-%
-%      isVisible        - logical (optional)
-%                         if isVisible = true, show figure on screen
-%                         default: true
-%
-%      isForceOverwrite - logical (optional)
-%                         if isForceOverwrite = true, save figure and
-%                         overwrite previous files of same name without notice
-%                         default = false
-%
+
 %   OUTPUT:
-%
+
 %     FigureNames       - cell array of character
 %                        record name of the saved figures
 %
@@ -82,7 +73,7 @@ function [FigureNames] = plotData(data, misc, varargin)
 %       August 23, 2018
 %
 %   DATE LAST UPDATE:
-%       January 4, 2019
+%       August 23, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -93,8 +84,6 @@ defaultisPlotTimestep =  false;
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
-defaultisVisible = true;
-defaultisForceOverwrite = false;
 
 addRequired(p,'data', @isstruct );
 addRequired(p,'misc', @isstruct );
@@ -102,8 +91,6 @@ addParameter(p,'isPlotTimestep', defaultisPlotTimestep, @islogical );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
-addParameter(p,'isVisible', defaultisVisible,  @islogical);
-addParameter(p,'isForceOverwrite', defaultisForceOverwrite, @islogical);
 parse(p,data, misc, varargin{:});
 
 data=p.Results.data;
@@ -111,26 +98,9 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
-isVisible = p.Results.isVisible;
-isForceOverwrite = p.Results.isForceOverwrite;
 isPlotTimestep = p.Results.isPlotTimestep;
 
 FigurePath=misc.internalVars.FigurePath;
-
-% Set fileID for logfile
-if misc.internalVars.isQuiet
-    % output message in logfile
-    fileID=fopen(misc.internalVars.logFileName, 'a');
-else
-    % output message on screen and logfile using diary command
-    fileID=1;
-end
-
-if isVisible
-    VisibleOption = 'on';
-else
-    VisibleOption = 'off';
-end
 
 %% Get options from misc
 FigurePosition=misc.options.FigurePosition;
@@ -139,78 +109,31 @@ Linewidth=misc.options.Linewidth;
 ndivx = misc.options.ndivx;
 ndivy = misc.options.ndivy;
 Subsample = misc.options.Subsample;
-Xaxis_lag=misc.options.Xaxis_lag;
 
-% Figure setting
-color_black = [0 0 0];
-color_red = [1 0 0];
+
+
+%% Create specified path if not existing
+[isFileExist] = testFileExistence(FigurePath, 'dir');
+if ~isFileExist
+    % create directory
+    mkdir(FilePath)
+    % set directory on path
+    addpath(FilePath)
+end
 
 %% Create subdirectory where to save the figures
+
 if isExportPNG || isExportPDF || isExportTEX
-    
-    disp('     Creating figures for data ...')
-    
-    % Create specified path if not existing
-    [isFileExist] = testFileExistence(FigurePath, 'dir');
-    if ~isFileExist
-        % create directory
-        mkdir(FigurePath)
-        % set directory on path
-        addpath(FigurePath)
-    end
     
     fullPath = fullfile(FigurePath, misc.ProjectName);
     [isFileExist] = testFileExistence(fullPath, 'dir');
     
-    if isFileExist
-        
-        if ~isForceOverwrite
-            disp(['     Directory ', fullPath,' already ', ...
-                'exists. Merge and overwrite existing files ?'] );
-            
-            isYesNoCorrect = false;
-            while ~isYesNoCorrect
-                choice = input('     (y/n) >> ','s');
-                if isempty(choice)
-                    fprintf(fileID,'\n');
-                    fprintf(fileID,['     wrong input --> please ', ...
-                        ' make a choice\n']);
-                    fprintf(fileID,'\n');
-                elseif strcmpi(choice,'y') || strcmpi(choice,'yes')
-                    
-                    isYesNoCorrect =  true;
-                    
-                elseif strcmpi(choice,'n') || strcmpi(choice,'no')
-                    
-                    [name] = incrementFilename([misc.ProjectName, '_new'], ...
-                        FigurePath);
-                    fullPath=fullfile(FigurePath, name);
-                    
-                    % Create new directory
-                    mkdir(fullPath)
-                    addpath(fullPath)
-                    
-                    isYesNoCorrect =  true;
-                    
-                else
-                    fprintf(fileID,'\n');
-                    fprintf(fileID,'     wrong input\n');
-                    fprintf(fileID,'\n');
-                end
-                
-            end
-            
-        end
-    else
-        
-        % Create new directory
+    if ~isFileExist
         mkdir(fullPath)
-        addpath(fullPath)
-        
+        addpath(fullPath)       
     end
-    
+        
 end
-
 
 %% Get amplitude values to plot
 
@@ -232,22 +155,24 @@ timestamps=data.timestamps;
 % Define timestamp vector for main plot
 plot_time_1=1:Subsample:length(timestamps);
 
-if  isSecondaryPlot
+if  isSecondaryPlot  
     
     ZoomDuration = 14; % zoom duration in days
     
     if ZoomDuration/referenceTimestep >= 1
-        % Define timestamp vector for secondary plot plot
-        time_fraction=0.641;
-        plot_time_2=round(time_fraction*length(timestamps)): ...
-            round(time_fraction*length(timestamps))+ ...
-            (ZoomDuration/referenceTimestep);
+    % Define timestamp vector for secondary plot plot
+    time_fraction=0.641;
+    plot_time_2=round(time_fraction*length(timestamps)): ...
+        round(time_fraction*length(timestamps))+ ...
+        (ZoomDuration/referenceTimestep);
     else
         isSecondaryPlot = false;
     end
 end
 
 %% Define paramater for plot appeareance
+% Define X-axis lag
+Xaxis_lag=50;
 
 if ~isSecondaryPlot
     idx_supp_plot=1;
@@ -261,40 +186,28 @@ else
     FigureNames=cell(numberOfTimeSeries,1);
 end
 
+
 %% Plot data amplitude
 for i=1:numberOfTimeSeries
     FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
     set(FigHandle, 'Position', FigurePosition)
-    set(FigHandle, 'Visible', VisibleOption)
     subplot(1,3,1:2+idx_supp_plot,'align')
     
     %% Main plot
     
     % Plot observation mean values
-    %plot(timestamps(plot_time_1),DataValues(plot_time_1,i), ...
-    %    'Linewidth',Linewidth, 'Color', [1 0 0])
-    
-    
-    plot(timestamps(plot_time_1), DataValues(plot_time_1,i), ...
-        'Color', color_red, ...
-        'LineWidth', Linewidth, ...
-        'Marker', '.', 'MarkerSize',0.5, ...
-        'MarkerEdgeColor', color_red, ...
-        'MarkerFacecolor', color_red)
-    
+    plot(timestamps(plot_time_1),DataValues(plot_time_1,i), ...
+        'Linewidth',Linewidth, 'Color', [1 0 0])
     
     miny=min(DataValues(plot_time_1,i));
     maxy=max(DataValues(plot_time_1,i));
-    ylim([miny, maxy ])
+    
     set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
         timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
-        'YTick', linspace(miny, maxy, ndivy), ...
         'box','off', 'FontSize', 16);
     if miny~=maxy
         set(gca,'Ylim',[miny,maxy])
     end
-    ax=gca;
-    ax.YAxis.TickLabelFormat='%.1f';
     datetick('x','yy-mm','keepticks')
     xlabel('Time [YY-MM]')
     ylabel(data.labels{i})
@@ -306,22 +219,12 @@ for i=1:numberOfTimeSeries
         subplot(1,3,3,'align')
         
         % Plot observation mean values
-        % plot(timestamps(plot_time_2),DataValues(plot_time_2,i), ...
-        %     'Linewidth',Linewidth, 'Color', [1 0 0] )
-               
-        plot(timestamps(plot_time_2), DataValues(plot_time_2,i), ...
-            'Color', color_red, ...
-            'LineWidth', Linewidth, ...
-            'Marker', '.', 'MarkerSize',0.5, ...
-            'MarkerEdgeColor', color_red, ...
-            'MarkerFacecolor', color_red)
-        
+        plot(timestamps(plot_time_2),DataValues(plot_time_2,i), ...
+            'Linewidth',Linewidth, 'Color', [1 0 0] )
         
         set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
             timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-            3), 'YTick', [], 'box','off', 'FontSize', 16);
-        ax=gca;
-        ax.YAxis.TickLabelFormat='%.1f';
+            ndivy), 'YTick', [], 'box','off', 'FontSize', 16);
         datetick('x','mm-dd','keepticks')
         year=datevec(timestamps(plot_time_2(1)));
         xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
@@ -332,7 +235,7 @@ for i=1:numberOfTimeSeries
     %% Export plots
     if isExportPDF || isExportPNG || isExportTEX
         % Define the name of the figure
-        NameFigure = [data.labels{i}, '_Amplitude' ];
+        NameFigure = [data.labels{i}, '_AMP' ];
         
         % Record Figure Name
         FigureNames{i} = NameFigure;
@@ -346,14 +249,7 @@ for i=1:numberOfTimeSeries
         FigureNames{1} = [];
     end
     
-    if ~isVisible
-        close(FigHandle)
-    end
-    
-    
 end
-
-
 
 if isPlotTimestep
     %% Plot data timestep
@@ -361,17 +257,14 @@ if isPlotTimestep
     for i=1:numberOfTimeSeries
         FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
         set(FigHandle, 'Position', FigurePosition)
-        set(FigHandle, 'Visible', VisibleOption)
         subplot(1,3,1:2+idx_supp_plot,'align')
         
         %% Main plot
         semilogy(timestamps,timesteps*24 , ...
-            'Marker', 'o', 'LineStyle', 'none', 'Markersize', 6, ...
-            'Color', [0 0 0], 'MarkerFaceColor',[0 0 0])
+            'Marker', 'o', 'LineStyle', 'none', 'Markersize', 2, ...
+            'Color', [0 0 0])
         
-        set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
-            timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
-            'box','off', 'FontSize', 16);
+        set(gca,'XTick',linspace(timestamps(1),timestamps(end),5));
         set(gca,'FontSize',16)
         YTicks=([ 1 10 100 1000]);
         set(gca, 'YTick', YTicks)
@@ -388,12 +281,12 @@ if isPlotTimestep
             subplot(1,3,3,'align')
             
             semilogy(timestamps(plot_time_2),timesteps(plot_time_2)*24 , ...
-                'Marker', 'o', 'LineStyle', 'none', 'Markersize', 6, ...
-                'Color', [0 0 0], 'MarkerFaceColor',[0 0 0])
+                'Marker', 'o', 'LineStyle', 'none', 'Markersize', 2, ...
+                'Color', [0 0 0])
             
             set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
                 timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-                3), 'YTick', [], 'box','off', 'FontSize', 16);
+                ndivy), 'YTick', [], 'box','off', 'FontSize', 16);
             datetick('x','mm-dd','keepticks')
             year=datevec(timestamps(plot_time_2(1)));
             xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
@@ -405,7 +298,7 @@ if isPlotTimestep
         %% Export plots
         if isExportPDF || isExportPNG || isExportTEX
             % Define the name of the figure
-            NameFigure = [data.labels{i}, '_Timesteps' ];
+            NameFigure = [data.labels{i}, '_TIMESTEP' ];
             
             % Record Figure Name
             FigureNames{i+numberOfTimeSeries} = NameFigure;
@@ -420,18 +313,48 @@ if isPlotTimestep
         end
         
         
-        if ~isVisible
-            close(FigHandle)
-        end
-        
     end
+    
     
 end
 
-if isExportPNG || isExportPDF || isExportTEX
-    fprintf(fileID,'\n');
-    fprintf(fileID,'     Figures saved in %s.\n', fullPath);
-    fprintf(fileID,'\n');
+if isExportPDF
+    %% Merge pdf
+        
+    for i=1:numberOfTimeSeries
+        
+        if i == 1
+            FigureNames_sort = {};
+        end
+        
+        pattern = data.labels{i};
+        
+        Test = strfind(FigureNames(:), pattern);
+        Index = not(cellfun('isempty', Test ));
+        
+        FigureNames_sub =  ...
+            FigureNames(Index);
+        
+        FigureNames_sort = [ FigureNames_sort ; FigureNames_sub];
+        
+    end
+    
+    pdfFileName = ['DATA_', misc.ProjectName,'.pdf'];
+    fullPdfFileName = fullfile (fullPath, pdfFileName);
+    
+    [isFileExist] = testFileExistence(fullPdfFileName, 'file');
+    
+    if isFileExist
+        delete(fullPdfFileName)
+    end
+    
+    FigureNames_sort = strcat(fullfile(fullPath, FigureNames_sort),'.pdf');
+    
+    % Merge all pdfs for creating one single one in specified location
+    append_pdfs(fullPdfFileName, FigureNames_sort{:})
+    
+    %open(fullPdfFileName)
+    
 end
 
 %--------------------END CODE ------------------------

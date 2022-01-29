@@ -1,5 +1,5 @@
 function [configFilename] = printConfigurationFile(data, model, estimation, misc, varargin)
-%PRINTCONFIGURATIONFILE Create and print a configuration file from project
+%PRINTCONFIGURATIONFILE Create and print a configuration file
 %
 %   SYNOPSIS:
 %     [configconfigFilename] = PRINTCONFIGURATIONFILE(data, model, estimation, misc, varargin)
@@ -234,11 +234,7 @@ for i=1:numberOfTimeSeries
     end
 end
 fprintf(fileID_CFG,'};\n');
-if isfield(data, 'interventions')   
-    fprintf(fileID_CFG,['data.interventions=[' repmat('%f ',[1,numel(data.interventions)]) '];'], data.interventions);
-end
 fprintf(fileID_CFG,'\n');
-
 %% Print model structure
 fprintf(fileID_CFG,repmat('%s',1,75),repmat('%',1,75));
 fprintf(fileID_CFG, '\n');
@@ -396,22 +392,16 @@ for i=1:length(names)
         fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
             names{i}, ['''', num2str(misc.options.(names{i})), '''']);
         
-    elseif strcmp(names{i}, 'Optimizer')
-        
-        fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
-            names{i}, ['''', num2str(misc.options.(names{i})), '''']);
-        
-        
     elseif strcmp(names{i}(1:2), 'is')
         
         if misc.options.(names{i})
-            
-            fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
-                names{i},  'true');
-            
+        
+        fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
+            names{i},  'true');
+        
         else
-            fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
-                names{i},  'false');
+                 fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...
+            names{i},  'false');   
         end
     else
         fprintf(fileID_CFG, 'misc.options.%s=%s;\n', ...

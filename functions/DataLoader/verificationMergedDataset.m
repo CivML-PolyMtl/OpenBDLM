@@ -5,25 +5,8 @@ function [isMerged]=verificationMergedDataset(data)
 %     [output_1,output_2, output_3]=VERIFICATIONMERGEDDATASET(input_1,input_2)
 % 
 %   INPUT:
-%       data            - structure (required)
-%                         Two formats are accepted:
-%
-%                           (1) data must contain three fields :
-%
-%                               'timestamps' is a 1×N cell array
-%                               each cell is a M_ix1 real array
-%
-%                               'values' is a 1×N cell array
-%                               each cell is a M_ix1 real array
-%
-%                               'labels' is a 1×N cell array
-%                               each cell is a character array
-%
-%                               N: number of time series
-%                               M_i: number of samples of time series i
-%
-%
-%                           (2) data must contain three fields:
+%       data      - structure (required)
+%                               data must contain three fields:
 %
 %                               'timestamps' is a M×1 array
 %
@@ -65,7 +48,7 @@ function [isMerged]=verificationMergedDataset(data)
 %       April 19, 2018
 % 
 %   DATE LAST UPDATE:
-%       October 16, 2018
+%       July 24, 2018
  
 %--------------------BEGIN CODE ---------------------- 
  %% Get arguments passed to the function and proceed to some verifications
@@ -76,25 +59,24 @@ parse(p,data);
 
 data=p.Results.data;
 
-isMerged =  true;
-if iscell(data.timestamps) && iscell(data.values)
-
-    FirstTimestampVector = data.timestamps{1};
-
-    for j=1:numel(data.timestamps)
-        
-         if length(FirstTimestampVector) ==  length(data.timestamps{j})
-             
-             if any(FirstTimestampVector-data.timestamps{j})
-                 isMerged = false;
-             end
-             
-         else
-             isMerged = false;
-         end
-    end
-       
+% Validation of structure data
+isValid = verificationDataStructure(data);
+if ~isValid
+    disp(' ')
+    disp('     ERROR: Unable to read the data from the structure.')
+    disp(' ')
+    isMerged = false;
+    return
 end
+ 
+X = cell2mat(data.timestamps);
 
+if any(diff(X,1,2) ~= 0)
+    isMerged = false;
+else
+    isMerged = true;
+end
+ 
+ 
 %--------------------END CODE ------------------------ 
 end

@@ -112,26 +112,26 @@ for i=1:numberOfTimeSeries
                     length(v_AR(v_AR==true))*2*nb_models;
             end
         end
+                
+      
+        end       
+        
+        % Count parameters for kernel regression
+        v_KR = ismember(model.components.block{1}{i}, components(11));
+        if any(v_KR)
+            pos=find(model.components.const{2}{i}(v_KR) == 1,1 );
+            if ~isempty(pos)
+                NumberOfParameters= NumberOfParameters + ...
+                    length(v_KR(v_KR==true))*3;
+            else
+                NumberOfParameters= NumberOfParameters + ...
+                    length(v_KR(v_KR==true))*3*nb_models;
+            end
+        end  
         
         
-    end
-    
-    % Count parameters for kernel regression
-    v_KR = ismember(model.components.block{1}{i}, components(11));
-    if any(v_KR)
-        pos=find(model.components.const{2}{i}(v_KR) == 1,1 );
-        if ~isempty(pos)
-            NumberOfParameters= NumberOfParameters + ...
-                length(v_KR(v_KR==true))*3;
-        else
-            NumberOfParameters= NumberOfParameters + ...
-                length(v_KR(v_KR==true))*3*nb_models;
-        end
-    end
-    
-    
-    
-    if nb_models == 1
+        
+    elseif nb_models == 1
         
         % Count number of paramaters for baseline
         v_baseline = ismember(model.components.block{1}{i}, components(1:3));
@@ -154,19 +154,19 @@ for i=1:numberOfTimeSeries
                 length(v_AR(v_AR==true))*2;
         end
         
-        
+                
         % Count parameters for kernel regression
         v_KR = ismember(model.components.block{1}{i}, components(11));
         if any(v_KR)
-            NumberOfParameters= NumberOfParameters + ...
-                length(v_KR(v_KR==true))*3;
+                NumberOfParameters= NumberOfParameters + ...
+                    length(v_KR(v_KR==true))*3;
         end
         
         
     else
         
         disp(' ')
-        error('The number of model classes > 2.')
+        disp('     ERROR: The number of model classes > 2.')
         disp(' ')
         
     end

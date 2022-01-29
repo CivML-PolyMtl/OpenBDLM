@@ -52,7 +52,7 @@ function pilotePrintConfigurationFile(data, model, estimation, misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       December 6, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -73,21 +73,21 @@ misc=p.Results.misc;
 ConfigPath=misc.internalVars.ConfigPath;
 
 % Set fileID for logfile
-% if misc.internalVars.isQuiet
-%     % output message in logfile
-%     fileID=fopen(misc.internalVars.logFileName, 'a');
-% else
-%     % output message on screen and logfile using diary command
-%     fileID=1;
-% end
+if misc.internalVars.isQuiet
+    % output message in logfile
+    fileID=fopen(misc.internalVars.logFileName, 'a');
+else
+    % output message on screen and logfile using diary command
+    fileID=1;
+end
 
-% fprintf(fileID,'\n');
-% fprintf(fileID,['-----------------------------------------', ...
-%     '----------------------------------------------------- \n']);
-% fprintf(fileID,'/    Export project in configuration file format \n');
-% fprintf(fileID,['-----------------------------------------', ...
-%     '----------------------------------------------------- \n']);
-% fprintf(fileID,'\n');
+fprintf(fileID,'\n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'/    Export project in configuration file format \n');
+fprintf(fileID,['-----------------------------------------', ...
+    '----------------------------------------------------- \n']);
+fprintf(fileID,'\n');
 
 [~] = printConfigurationFile(data, model, ...
     estimation, misc, 'FilePath', ConfigPath);

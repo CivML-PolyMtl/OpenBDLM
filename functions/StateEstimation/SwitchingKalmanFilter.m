@@ -81,11 +81,8 @@ function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)
 %   See also STATESTIMATION, KALMANFILTER, UDFILTER
  
 %   AUTHORS: 
-%      Luong Ha Nguyen, Ianis Gaudot, James-A Goulet
+%       Luong Ha Nguyen, Ianis Gaudot, James-A Goulet
 % 
-%      Inspired from the initial codes of John Quinn, Kevin P. Murphy, 
-%      Brian Moore,
-%
 %      Email: <james.goulet@polymtl.ca>
 %      Website: <http://www.polymtl.ca/expertises/goulet-james-alexandre>
 % 
@@ -96,7 +93,7 @@ function [x, V, VV, S, loglik,U,D]=SwitchingKalmanFilter(data, model, misc)
 %       June 29, 2018
 % 
 %   DATE LAST UPDATE:
-%       December 3, 2018
+%       August 21, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -125,13 +122,47 @@ timestamps = data.timestamps;
 
 % Compute reference timestep
 [referencetimestep] = defineReferenceTimeStep(timestamps);
-
+t_ref = timestamps(1);
 % Number of timestamps
 T = length(timestamps);
 
 %% Get observations
 DataValues = data.values;
+if ~any(ismember(model.S,'SR'))
+    dependency = 0;
+else
+    dependency = 1;
+end
+if dependency == 1
+    len = length(find(ismember(model.S,'SR')));
+    if len == 1
+        x_ref = linspace(-25,20,model.components.nb_SR_p)';
+        model.x_ref = x_ref;
+    elseif len == 2
+        if strcmp(model.dep,'LT and AR')
+            x_ref(:,1) = linspace(-10,10,model.components.nb_SR_p)'; % LL-water
+    %         x_ref(:,1) = [linspace(-10,5,5) linspace(6,15,15)]';
+            x_ref(:,2) = linspace(-25,20,model.components.nb_SR_p)'; % AR-water
+        elseif strcmp(model.dep,'AR and AR')
+            x_ref(:,1) = linspace(-25,20,model.components.nb_SR_p)';  % LT+AR-water
+    %         x_ref(:,1) = [linspace(-10,5,5) linspace(6,15,15)]';
+            x_ref(:,2) = linspace(-25,20,model.components.nb_SR_p)'; %  LT+KR+AR-water  
+            
+        end
+        model.x_ref = x_ref;
+    elseif len == 3
+        x_ref(:,1) = linspace(-10,10,model.components.nb_SR_p)'; % LL-water
+        x_ref(:,2) = linspace(-25,20,model.components.nb_SR_p)'; % LT+KR+AR-water
+        x_ref(:,3) = linspace(-16,15,model.components.nb_SR_p)'; % AR-water  
+    end
 
+else
+    Data_reference = data.values(:,1);
+    sig=.001;
+    nb_ref = model.components.nb_SR_p;
+    x_ref=(prctile(Data_reference,linspace(0,100,nb_ref)))';      %Reference values of the control points
+    model.x_ref = x_ref;
+end
 %% Get number of model classes
 M = model.nb_class;         
 
@@ -165,7 +196,6 @@ idx_pref= size(model.param_properties,2);
 parameter= arrayOut(:,1);
 p_ref = arrayOut(:,2);
 
-
 %% Initialization
 x = cell(1,M);
 V = cell(1,M);
@@ -182,7 +212,7 @@ C=cell(M,T);
 R=cell(M,T);
 Z=cell(1,T);
 Q=cell(M,M,T);
-
+ProdQ=cell(M,M,T);
 for j=1:M
     ss=size(model.hidden_states_names{1},1);
     
@@ -214,9 +244,7 @@ for t=1:T
     log_S_marginal = zeros(M,M);
     lik_merge=0;
     for j=1:M       % transition model
-        
         if (t==1 | (timesteps(t)~=timesteps(1:t-1)))
-            
             A{j,t} = model.A{j}(parameter(...
                 p_ref),data.timestamps(t),timesteps(t));
             C{j,t} = model.C{j}(parameter(...
@@ -228,8 +256,7 @@ for t=1:T
             B=model.B{j}(parameter(...
                 p_ref),data.timestamps(t),timesteps(t))';
             WB=model.W{j}(parameter(...
-                p_ref),data.timestamps(t),timesteps(t)); 
-            
+                p_ref),data.timestamps(t),timesteps(t));
         else
             idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
 %             if any([model.components.block{:}{:}]==51)
@@ -257,21 +284,21 @@ for t=1:T
         end
         for i=1:M   % starting model
             if (t==1 | (timesteps(t)~=timesteps(1:t-1)))
-                Q{i,j,t} = model.Q{i}{j}(parameter(p_ref), ...
-                    data.timestamps(t),timesteps(t));                
+                Q{j,i,t} = model.Q{j}{i}(parameter(p_ref), ...
+                    data.timestamps(t),timesteps(t));
             else
                 idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
-                Q{i,j,t}=Q{i,j,idx};
+                Q{j,i,t}=Q{j,i,idx};
             end
 %             if and(j==1,i==2)
-%                 Q{i,j,t}=diag(diag(Q{j,j,t}));
-%                 Q{i,j,t}(2,2)=parameter(...
+%                 Q{j,i,t}=diag(diag(Q{j,j,t}));
+%                 Q{j,i,t}(2,2)=parameter(...
 %                     sigma22_idx)^2*(timesteps(t)^2/referencetimestep);
 %             elseif and(j==2,i==1)
 %                 QQ = model.Q{j}{j}(parameter(...
 %                     p_ref),data.timestamps(t),timesteps(t));
-%                 Q{i,j,t}=diag(diag(QQ));
-%                 Q{i,j,t}(2,2)=parameter(...
+%                 Q{j,i,t}=diag(diag(QQ));
+%                 Q{j,i,t}(2,2)=parameter(...
 %                     sigma22_idx)^2*(timesteps(t)^4/(3*referencetimestep));
 %             end
             
@@ -291,10 +318,10 @@ for t=1:T
                                     error_myUD=0;
                                 end
                             catch 
-                                warning(['UD decomposition failed ', ...
-                                    ' at time step ' num2str(t) , ...
-                                    '. Retry without covariance ', ...
-                                    'terms in ''prevV''.'])
+                                disp(['warning:  UD decomposition failed ', ...
+                                    ' at time step: ' num2str(t) '| SKF.m'])
+                                disp([' -> Retry without covariance ', ...
+                                    'terms in''prevV'''])
                                 prevV=diag(diag(prevV));
                             end
                         end
@@ -304,16 +331,31 @@ for t=1:T
                 prevX = x{i}(:,t-1);
                 prevV = V{i}(:,:,t-1);
                 prevS = S(t-1,i);
-            end            
+            end
             
+            ProdQ{j,i,t} = [];
+%             %%Define Prod Q
+%             if (t==1 | (timesteps(t)~=timesteps(1:t-1)))
+%                 ProdQ{j,i,t} = model.ProdQ{j}{i}(prevX,model.idx_xprod,parameter(p_ref), ...
+%                     data.timestamps(t),timesteps(t));
+%             else
+%                 idx=find(timesteps(t)==timesteps(1:t-1),1,'first');
+%                 ProdQ{j,i,t}=ProdQ{j,i,idx};
+%             end
+
+%% To stop at a particular time step
+%             if t == 2895
+%                 epoch = t;
+%             end
             if strcmp(MethodStateEstimation,'UD')
                 %% UD filter
                 [x_ij{j}(:,i), V_ij{j}(:,:,i), VV_ij{j}(:,:,i), ...
                     U{i,j,t+1}, D{i,j,t+1}, LL(i,j,t)] = ...
-                    UDFilter(A{j,t},C{j,t},Q{i,j,t},R{j,t}, ...
+                    UDFilter(A{j,t},C{j,t},Q{j,i,t},R{j,t}, ...
                     DataValues(t,:)', prevX, prevV, U{i,j,t}, D{i,j,t});
             else
                 %% Kalman filter
+                
                 warning('off','all')
                 if any(t==interventions)
                     B_=B;
@@ -322,10 +364,51 @@ for t=1:T
                     B_=0;
                     WB_=0;
                 end
-                [x_ij{j}(:,i), V_ij{j}(:,:,i), VV_ij{j}(:,:,i), LL(i,j,t)] = ...
-                    KalmanFilter(A{j,t},C{j,t},Q{i,j,t},R{j,t}, ...
-                    DataValues(t,:)', prevX, prevV,'B',B_,'W',WB_);
-                warning('on','all')
+                
+                if any(strcmp(model.S,'DKR'))&& any(strcmp(model.S,'NPR'))
+                    nb_DKR = [model.components.nb_DKR_p1;model.components.nb_DKR_p2];
+                    nb_PR = [model.components.nb_PR_p1;model.components.nb_PR_p2];
+                    nb_SR = model.components.nb_SR_p;
+                    Index = find(ismember(model.param_properties(:,1), '\ell1'));
+                    Index = [Index;find(ismember(model.param_properties(:,1), 'p1'))];
+                    Index = [Index;find(ismember(model.param_properties(:,1), '\ell2'))];
+                    Index = [Index;find(ismember(model.param_properties(:,1), 'p2'))];
+                    Index = [Index;find(ismember(model.param_properties(:,1), '\l1'))];
+                     [x_ij{j}(:,i), V_ij{j}(:,:,i), VV_ij{j}(:,:,i), LL(i,j,t)] = ...
+                     KalmanFilter(A{j,t},C{j,t},Q{j,i,t},R{j,t}, ... %parameter(p_ref(end))
+                     ProdQ{j,i,t},model.idx_xprod,model.idx_prod, nb_DKR, nb_PR, nb_SR, parameter(Index), timestamps(t), t_ref, DataValues(t,:)', prevX, x_ref, prevV,'B',B_,'W',WB_);
+                     warning('on','all')
+                     
+                elseif any(strcmp(model.S,'KR'))&& any(strcmp(model.S,'NPR'))
+                     nb_DKR = [];
+                     nb_PR = model.components.nb_PR_p1;
+                     nb_SR = model.components.nb_SR_p;
+                     Index = find(ismember(model.param_properties(:,1), '\ell'));
+                     Index = [Index;find(ismember(model.param_properties(:,1), 'p'))];
+                     Index = [Index;find(ismember(model.param_properties(:,1), '\l1'))];
+                     [x_ij{j}(:,i), V_ij{j}(:,:,i), VV_ij{j}(:,:,i), LL(i,j,t)] = ...
+                     KalmanFilter(A{j,t},C{j,t},Q{j,i,t},R{j,t}, ... %parameter(p_ref(end))
+                     ProdQ{j,i,t},model.idx_xprod,model.idx_prod, nb_DKR, nb_PR, nb_SR, parameter(Index), timestamps(t), t_ref, DataValues(t,:)', prevX, x_ref, prevV,'B',B_,'W',WB_);
+                     warning('on','all')
+                elseif any(strcmp(model.S,'SR'))
+                     nb_DKR = [];
+                     nb_PR  = [];
+                     nb_SR  = model.components.nb_SR_p;
+                     Index = find(ismember(model.param_properties(:,1), '\l1'));
+                     [x_ij{j}(:,i), V_ij{j}(:,:,i), VV_ij{j}(:,:,i), LL(i,j,t)] = ...
+                     KalmanFilter(A{j,t},C{j,t},Q{j,i,t},R{j,t}, ... %parameter(p_ref(end))
+                     ProdQ{j,i,t},model.idx_xprod,model.idx_prod, nb_DKR, nb_PR, nb_SR, parameter(Index), timestamps(t), t_ref, DataValues(t,:)', prevX, x_ref, prevV,'B',B_,'W',WB_,'nb_temp',model.nb_temp);
+                     warning('on','all')
+                else
+                    Index = [];
+                    nb_DKR = [];
+                    nb_PR = [];
+                    nb_SR = [];
+                    [x_ij{j}(:,i), V_ij{j}(:,:,i), VV_ij{j}(:,:,i), LL(i,j,t)] = ...
+                    KalmanFilter(A{j,t},C{j,t},Q{j,i,t},R{j,t}, ...
+                    ProdQ{j,i,t},model.idx_xprod,model.idx_prod,nb_DKR, nb_PR,nb_SR,parameter(Index), timestamps(t), t_ref, DataValues(t,:)', prevX, x_ref, prevV,'B',B_,'W',WB_);
+                    warning('on','all')
+                end
             end
             
             if isnan(LL(i,j,t))

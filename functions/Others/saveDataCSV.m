@@ -18,12 +18,12 @@ function [misc] = saveDataCSV(data, misc, varargin)
 %                         N: number of time series
 %                         M: number of samples
 %
-%      misc       - structure (required)
+%      misc       - structure
 %                   see the documentation for details about the
 %                   field in misc
 %
 %      FilePath   - character (optional)
-%                   directory where to save the CSV files
+%                   directory where to save the csv files
 %                   default: '.'  (current folder)
 %
 %   OUTPUT:
@@ -37,7 +37,7 @@ function [misc] = saveDataCSV(data, misc, varargin)
 %   DESCRIPTION:
 %      SAVEDATACSV saves each time series in data in separate *.csv files
 %      CSV files are saved in FilePath/DirName/ location
-%      'DirName' given from the name of the project
+%      SAVEDATACSV request user input to define 'DirName'
 %
 %   EXAMPLES:
 %      SAVEDATACSV(data)
@@ -63,7 +63,7 @@ function [misc] = saveDataCSV(data, misc, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       December 3, 2018
+%       July 25, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -97,8 +97,10 @@ end
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
-    disp(' ')
-    error('Unable to read the data from the structure.');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'ERROR: Unable to read the data from the structure.\n');
+    fprintf(fileID,'\n');
+    return
 end
 
 %% Create specified path if not existing
@@ -111,7 +113,7 @@ if ~isFileExist
     addpath(FilePath_full)
 end
 
-disp('     Saving database in CSV files ...')
+disp('     Saving database (csv format) ...')
 
 %% Get saving directory name from external input
 name_datadir=misc.ProjectName;
@@ -175,8 +177,7 @@ for i=1:numberOfTimeSeries
     
     % define the filename based on time series reference name
     sensor_name=data.labels{i};
-    file_name = fullfile(fullname , ...
-        [name_datadir, '_' sensor_name, '.csv' ]);
+    file_name = fullfile(fullname , [name_datadir, '_' sensor_name, '.csv' ]);
     
     %create/open csv file
     fid = fopen(file_name, 'w');

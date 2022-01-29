@@ -1,5 +1,5 @@
 function saveProject(model, estimation, misc, varargin)
-%SAVEPROJECT Save the variables model, estimation, misc in a .mat file
+%SAVEPROJECT Save the structure variables model, estimation, misc in project file
 %
 %   SYNOPSIS:
 %      saveProject(model, estimation, misc, varargin)
@@ -52,7 +52,7 @@ function saveProject(model, estimation, misc, varargin)
 %       April 18, 2018
 %
 %   DATE LAST UPDATE:
-%       December 3, 2018
+%       September 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -100,8 +100,11 @@ end
 if isfield(misc, 'ProjectName')
     project_name = misc.ProjectName;
 else
-    disp(' ')
-    error('Unable to read project name from the structure.');
+    fprintf(fileID,'\n');
+    fprintf(fileID,['     ERROR: Unable to read project ', ...
+        'name from the structure.\n']);
+    fprintf(fileID,'\n');
+    return
 end
 
 if ischar(project_name)
@@ -112,8 +115,11 @@ if ischar(project_name)
 end
 
 if isempty(project_name)
-    disp(' ')
-    error('Unable to read project name from the structure.');
+    fprintf(fileID,'\n');
+    fprintf(fileID,['     ERROR: Unable to read project', ...
+        ' name from the structure.\n']);
+    fprintf(fileID,'\n');
+    return
 else
     name_projectfile=['PROJ_', project_name, '.mat'];
     fullname=fullfile(FilePath, name_projectfile);
@@ -136,17 +142,18 @@ end
 dat.model=model;
 dat.estimation=estimation;
 dat.misc=misc;
-
+% save('estimation.mat','estimation','-v7.3')                     %BD
 %% Save project binary file in specified location
 disp('     Saving project...')
 if ~isSaveEstimation
-    warning(['Estimations are not saved ', ...
+    % Warning the user
+    fprintf(1, ['     Warning: estimations not saved ', ...
         'because size (%s Mb) > threshold (%s Mb) set in ', ...
         'misc.options.MaxSizeEstimation \n'], num2str(EstimationSize), ...
         num2str(MaxSizeEstimation));   
 end
 
-save(fullname, '-struct', 'dat')
+save(fullname, '-struct', 'dat','-v7.3')                          %BD
 fprintf(fileID, '     Project saved in %s. \n', ...
     fullfile(FilePath, name_projectfile ));
 

@@ -100,15 +100,31 @@ end
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
-    disp(' ')
-    error('Unable to read the data from the structure.');
+    fprintf(fileID,'\n');
+    fprintf(fileID,['     ERROR: Unable to ', ...
+        'read the data from the structure.\n']);
+    fprintf(fileID,'\n');
+    return
 end   
+
+%% Compute reference time step from timestamp vector
+timestamps = data.timestamps;
+%[dt_ref] = defineReferenceTimeStep(timestamps);
+%misc.dt_ref = dt_ref;
+
+%% Get training dataset from timestamp vector
+[trainingPeriod] = defineTrainingPeriod (timestamps);
+
+misc.options.trainingPeriod = trainingPeriod;
 
 %% Define model
 [model, misc] = defineModel(data, misc);
 
 %% Build model
 [model] = buildModel(data, model, misc);
+
+%% Set default variable
+%[misc]=setDefaultConfig(misc, data);
 
 %--------------------END CODE ------------------------ 
 end

@@ -82,8 +82,6 @@ misc=p.Results.misc;
 
 ProjectPath=misc.internalVars.ProjectPath;
 
-DataPercent=misc.options.DataPercent;
-
 
 % Set fileID for logfile
 if misc.internalVars.isQuiet
@@ -104,7 +102,7 @@ fprintf(fileID,'\n');
 
 % Compute initial hidden states values
 [model] = computeInitialHiddenStates(data, model, estimation, misc, ...
-    'FilePath', ProjectPath, 'Percent', DataPercent);
+    'FilePath', ProjectPath, 'Percent', 100);
 
 % Save project
 %saveProject(data, model, estimation, misc,'FilePath', ProjectPath)

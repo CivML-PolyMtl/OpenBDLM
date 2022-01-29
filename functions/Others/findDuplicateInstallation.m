@@ -35,7 +35,7 @@ function findDuplicateInstallation
 %       September 17, 2018
 %
 %   DATE LAST UPDATE:
-%       November 30, 2018
+%       September 17, 2018
 
 %--------------------BEGIN CODE ---------------------
 
@@ -68,10 +68,12 @@ if ~isempty(MyFolderInfo)  % the file does not exist
 end
 
 if isDuplicate   
-    warning(['Possible multiple conflictous OpenBLDM installations ', ...
-        'have been detected. ', ...
-        'Verify that only one version of the software is on the Matlab '...
-        'path to prevent errors.'])
+    disp(' ')
+    disp(['     WARNING: Multiple conflictous OpenBDLM installations ', ...
+        'have been detected.'])
+    disp('     This may lead to errors.')
+    disp(['     Verify that only one version ', ...
+        'of the software is on the Matlab path.'])
     disp(' ')
 end
 

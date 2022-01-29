@@ -1,8 +1,8 @@
-function [misc] = pilotePlot(data, model, estimation, misc)
+function pilotePlot(data, model, estimation, misc)
 %PILOTEPLOT Pilote function to plot data and estimations
 %
 %   SYNOPSIS:
-%     [misc] = PILOTEPLOT(data, model, estimation, misc)
+%     PILOTEPLOT(data, model, estimation, misc)
 %
 %   INPUT:
 %      data                - structure
@@ -21,25 +21,22 @@ function [misc] = pilotePlot(data, model, estimation, misc)
 %                            see documentation for details about the fields
 %                            in structure "misc"
 %   OUTPUT:
-%      misc               - structure
-%                            see documentation for details about the fields
-%                            in structure "misc"
-%
+%      N/A
 %      Figures on screen and/or figures saved
 %
 %   DESCRIPTION:
-%     PILOTEPLOT Pilote function to plot data and estimations
+%      PILOTEPLOT Pilote function to plot data and estimations
 %
 %   EXAMPLES:
-%      [misc] = PILOTEPLOT(data, model, estimation, misc)
+%      PILOTEPLOT(data, model, estimation, misc)
 %
 %   EXTERNAL FUNCTIONS CALLED:
-%     plotEstimations, verificationMergedDataset
+%     plotEstimations, verificationDataStructure
 %
 %   SUBFUNCTIONS:
 %      N/A
 %
-%   See also PLOTESTIMATIONS, VERIFICATIONMERGEDDATASET
+%   See also PLOTESTIMATIONS, VERIFICATIONDATASTRUCTURE
 
 %   AUTHORS:
 %       Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
@@ -54,7 +51,7 @@ function [misc] = pilotePlot(data, model, estimation, misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       December 6, 2018
+%       August 22, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -78,8 +75,7 @@ isExportPDF=misc.options.isExportPDF;
 isExportTEX=misc.options.isExportTEX;
 
 FigurePath=misc.internalVars.FigurePath ;
-
-MaxFailAttempts = 4;
+ProjectName=misc.ProjectName;
 
 % Set fileID for logfile
 if misc.internalVars.isQuiet
@@ -96,15 +92,9 @@ fprintf(fileID,['-----------------------------------------', ...
 fprintf(fileID,'/    Plot\n');
 fprintf(fileID,['-----------------------------------------', ...
     '-----------------------------------------------------\n']);
-incTest = 0;
+
 isCorrectAnswer =  false;
 while ~isCorrectAnswer
-    
-    incTest=incTest+1;
-    if incTest > MaxFailAttempts ; error(['Too many failed ', ...
-            'attempts (', num2str(MaxFailAttempts)  ').']) ; end
-    
-    
     fprintf(fileID,'\n');
     fprintf(fileID,'     1 ->  Plot data \n');
     fprintf(fileID,'     2 ->  Plot data summary \n');
@@ -117,10 +107,10 @@ while ~isCorrectAnswer
         user_inputs.inp_2=eval(char(misc.internalVars.BatchMode.Answers ...
             {misc.internalVars.BatchMode.AnswerIndex}));
         user_inputs.inp_2 = num2str(user_inputs.inp_2);
-        if ischar(user_inputs.inp_2)
-            fprintf(fileID, '     %s  \n', user_inputs.inp_2);
+        if ischar(user_inputs)
+            fprintf(fileID, '     %s  \n', user_inputs);
         else
-            fprintf(fileID, '     %s  \n', num2str(user_inputs.inp_2));
+            fprintf(fileID, '     %s  \n', num2str(user_inputs));
         end
         
     else
@@ -139,9 +129,9 @@ while ~isCorrectAnswer
         
     elseif round(str2double(user_inputs.inp_2)) == 1
         
-        [isMerged]=verificationMergedDataset(data);
+        [isValid] = verificationDataStructure(data);
         
-        if isMerged
+        if isValid
             plotData(data, misc, ...
                 'isPlotTimestep', true, ...
                 'isExportTEX', isExportTEX, ...
@@ -151,17 +141,20 @@ while ~isCorrectAnswer
             isCorrectAnswer =  true;
         else
             disp(' ')
-            error('Unable to read the data from the structure.');
+            disp(['     ERROR: Unable to ', ...
+                'read the data from the structure.']);
+            disp(' ')
+            continue
         end
         
     elseif round(str2double(user_inputs.inp_2)) == 2
         
-        plotDataSummary(data, misc, 'FilePath', FigurePath, ...
-            'isExportTEX', isExportTEX, ...
-            'isExportPNG', isExportPNG, ...
-            'isExportPDF', isExportPDF);
+        plotDataSummary(data, misc, ...
+            'FilePath', FigurePath, ...
+            'isPdf', isExportPDF)
         
-        isCorrectAnswer =  true;       
+        isCorrectAnswer =  true;
+        
     elseif round(str2double(user_inputs.inp_2)) == 3
         
         plotEstimations(data, model, estimation, misc, ...
@@ -169,6 +162,58 @@ while ~isCorrectAnswer
             'isExportTEX', isExportTEX, ...
             'isExportPNG', isExportPNG, ...
             'isExportPDF', isExportPDF);
+        
+        pdfEstimation = ['ESTIMATIONS_',ProjectName,'.pdf'];
+        fullPath = fullfile(FigurePath, ProjectName);
+        fullpdfEstimation = fullfile (fullPath, pdfEstimation);
+        
+        if isExportPDF
+            
+            [isFileExist] = testFileExistence(fullpdfEstimation, 'file');
+            
+            if isFileExist
+                
+                % Create data availability plot in pdf
+                plotDataAvailability(data, misc, 'FilePath', fullPath, ...
+                    'isSaveFigures', true)
+                
+                % Create data amplitude plot in pdf
+                plotData(data, misc, ...
+                    'isPlotTimestep', false, ...
+                    'isExportTEX', false, ...
+                    'isExportPNG', false, ...
+                    'isExportPDF', true);
+                
+                plotDataTimestep(data, misc, ...
+                    'isExportTEX', false, ...
+                    'isExportPNG', false, ...
+                    'isExportPDF', true);
+                
+                pdfFileName = [ProjectName,'.pdf'];
+                fullPdfFileName = fullfile (fullPath, pdfFileName);
+                
+                [isFileExist] = testFileExistence(fullPdfFileName, 'file');
+                
+                if isFileExist ; delete(fullPdfFileName) ; end
+                
+                % Create list of files to merge
+                FigureNames_sort = {...
+                    ['AVAILABILITY_',ProjectName,'.pdf'], ...
+                    ['DATA_',ProjectName,'.pdf'], ...
+                    ['TIMESTEP_',ProjectName,'.pdf'], ...
+                    pdfEstimation};
+                
+                FigureNames_sort = ...
+                    strcat(fullfile(fullPath, FigureNames_sort));
+                
+                % Merge all pdfs
+                append_pdfs(fullPdfFileName, FigureNames_sort{:})
+                
+                open(fullPdfFileName)
+                
+            end
+            
+        end
         
         isCorrectAnswer =  true;
     else
@@ -179,8 +224,7 @@ while ~isCorrectAnswer
     
 end
 
-misc.internalVars.BatchMode.AnswerIndex = ...
-    misc.internalVars.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 
 %--------------------END CODE ------------------------
 end

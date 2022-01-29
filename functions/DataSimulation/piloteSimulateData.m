@@ -97,7 +97,7 @@ end
 fprintf(fileID,'\n');
 fprintf(fileID,['-----------------------------------------', ...
     '----------------------------------------------------- \n']);
-fprintf(fileID, '/    Create synthetic data \n');
+fprintf(fileID, '/    Simulate data \n');
 fprintf(fileID,['-----------------------------------------', ...
     '----------------------------------------------------- \n']);
 fprintf(fileID,'\n');

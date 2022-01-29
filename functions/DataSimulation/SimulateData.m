@@ -84,7 +84,7 @@ isPlot=p.Results.isPlot;
 FigurePath = misc.internalVars.FigurePath;
 
 
-disp('     Creating synthetic data...')
+disp('     Simulating data...')
 
 if isfield(misc, 'custom_anomalies') && ~isempty(misc.custom_anomalies)
     [data, model, estimation, misc]= ...
@@ -96,7 +96,8 @@ else
 end
 
 if isPlot
-    plotDataSummary(data, misc, 'FilePath', FigurePath )
+    plotDataSummary(data, misc, 'isPdf', false, ...
+        'FilePath', FigurePath ,'isSaveFigures', false);
 end
 
 %--------------------END CODE ------------------------

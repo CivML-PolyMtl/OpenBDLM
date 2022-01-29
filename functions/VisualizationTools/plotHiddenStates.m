@@ -33,10 +33,6 @@ function [FigureNames] = plotHiddenStates(data, model, estimation, misc, varargi
 %                         if isExportTEX, export the figure in TEX format
 %                         default: false
 %
-%      isVisible        - logical (optional)
-%                         if isVisible = true , show the figure on screen
-%                         default: true
-%
 %      FilePath         - character (optional)
 %                         directory where to save the file
 %                         default: '.'  (current folder)
@@ -76,7 +72,7 @@ function [FigureNames] = plotHiddenStates(data, model, estimation, misc, varargi
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       December 6, 2018
+%       August 22, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -87,8 +83,7 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
-defaultisVisible = true;
-
+defaultisVisible   = true;
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
 
@@ -99,8 +94,8 @@ addRequired(p,'misc', @isstruct );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
-addParameter(p,'isVisible', defaultisVisible,  @islogical);
 addParameter(p, 'FilePath', defaultFilePath, validationFonction)
+addParameter(p,'isVisible', defaultisVisible,  @islogical);
 parse(p,data, model, estimation, misc, varargin{:});
 
 data=p.Results.data;
@@ -110,15 +105,13 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
-isVisible =  p.Results.isVisible;
+isVisible = p.Results.isVisible;
 FilePath=p.Results.FilePath;
-
 if isVisible
     VisibleOption = 'on';
 else
     VisibleOption = 'off';
 end
-
 %% Get options from misc
 FigurePosition=misc.options.FigurePosition;
 isSecondaryPlot=misc.options.isSecondaryPlot;
@@ -126,12 +119,6 @@ Linewidth=misc.options.Linewidth;
 ndivx = misc.options.ndivx;
 ndivy = misc.options.ndivy;
 Subsample=misc.options.Subsample;
-Xaxis_lag=misc.options.Xaxis_lag;
-
-%% Get number of class
-
-nb_class=model.nb_class;
-
 
 %% Create specified path if not existing
 [isFileExist] = testFileExistence(FilePath, 'dir');
@@ -170,16 +157,16 @@ timestamps=data.timestamps;
 plot_time_1=1:Subsample:length(timestamps);
 
 % Define timestamp vector for secondary plot plot
-if  isSecondaryPlot
+if  isSecondaryPlot  
     
     ZoomDuration = 14; % zoom duration in days
     
     if ZoomDuration/referenceTimestep >= 1
-        % Define timestamp vector for secondary plot plot
-        time_fraction=0.641;
-        plot_time_2=round(time_fraction*length(timestamps)): ...
-            round(time_fraction*length(timestamps))+ ...
-            (ZoomDuration/referenceTimestep);
+    % Define timestamp vector for secondary plot plot
+    time_fraction=0.641;
+    plot_time_2=round(time_fraction*length(timestamps)): ...
+        round(time_fraction*length(timestamps))+ ...
+        (ZoomDuration/referenceTimestep);
     else
         isSecondaryPlot = false;
     end
@@ -194,16 +181,30 @@ else
     idx_supp_plot=0;
 end
 
+% Define X-axis lag
+Xaxis_lag=0;
+
 % Define blue color for plots
 BlueColor = [0, 0.4, 0.8];
 
 %% Plot hidden states
 loop=0;
-for idx=1:numberOfHiddenStates
+if ~isempty(model.idx_xprod)
+    idxnew=[[1:model.idx_xprod(1,1)-1] model.idx_xprod(2,1)-1 model.idx_xprod(2,model.components.nb_KR_p-1)+1  model.idx_xprod(2,end)+1 model.idx_xprod(2,end)+2 [model.idx_prod(end)+1:1:size(model.hidden_states_names{1,1},1)]];
+else
+    idxnew = 1:numberOfHiddenStates;
+end
+if ~isempty(model.idx_xprod)
+    idxnew = [1, 2, 22, 23, 24, 65, 66, 127, 128, 149, 150, 151, 152];
+%     idxnew = [1,2,22,23,63,64,65,85,86,87,88,126,127,130,148,151,192,193,214];   % indices for the hidden states to be plotted!!!
+    idxnew(idxnew>numberOfHiddenStates) = [];
+end
+
+for idx = idxnew         %numberOfHiddenStates    %% Changing the no of hidden states to be plotted
     if and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{KR',5),...
-            ~strcmp(model.hidden_states_names{1}(idx,1),'x^{KR1}')) && ...
-            and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{KR',5),...
-            ~strcmp(model.hidden_states_names{1}(idx,1),'x^{KR0}'))
+             ~strcmp(model.hidden_states_names{1}(idx,1),'x^{KR1}')) && ...
+         and(strncmpi(model.hidden_states_names{1}(idx,1),'x^{KR',5),...
+             ~strcmp(model.hidden_states_names{1}(idx,1),'x^{KR0}'))           
         
     else
         
@@ -214,12 +215,10 @@ for idx=1:numberOfHiddenStates
         
         loop=loop+1;
         
-        %FigHandle = figure;
         FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
         set(FigHandle, 'Position', FigurePosition)
         set(FigHandle, 'Visible', VisibleOption )
         subplot(1,3,1:2+idx_supp_plot,'align')
-        
         %% Main plot
         if isfield(estimation,'x')
             
@@ -233,7 +232,7 @@ for idx=1:numberOfHiddenStates
             
             miny=mean_xpl-mult_factor*(std_xpl+mean_spl);
             maxy=mean_xpl+mult_factor*(std_xpl+mean_spl);
-            
+
             px=[timestamps(plot_time_1);
                 flipud(timestamps(plot_time_1))]';
             py=[xpl-sqrt(spl) fliplr(xpl+sqrt(spl))];
@@ -245,10 +244,9 @@ for idx=1:numberOfHiddenStates
             plot(timestamps(plot_time_1),xpl,'k','Linewidth',Linewidth)
             
             if isfield(estimation,'ref')
+                % Plot true values
                 plot(timestamps(plot_time_1), ...
-                    dataset_x_ref(plot_time_1,idx), ...
-                    'Color', [1 0 0], ...
-                    'Linewidth', Linewidth, 'LineStyle', '--')
+                    dataset_x_ref(plot_time_1,idx), '--r')
             end
             
             if loop==1
@@ -284,36 +282,25 @@ for idx=1:numberOfHiddenStates
                 plot(timestamps(plot_time_1), ...
                     dataset_x_ref(plot_time_1,idx), 'Color', BlueColor,  ...
                     'LineWidth', Linewidth)
-                
             end
             
         end
         
-        ylabel(['$' model.hidden_states_names{nb_class}{idx,1} '$ [' '$' ...
+        ylabel(['$' model.hidden_states_names{1}{idx,1} '$ [' '$' ...
             data.labels{str2double(model.hidden_states_names{1}{idx,3})} ...
             ']$' ],'Interpreter','Latex')
-        
+
+        datetick('x','yy-mm','keepticks')
+        set(gca, 'Fontsize', 16)
         if miny~=maxy
             set(gca,'Ylim',[miny,maxy])
-        else
-            ndivy=1;
         end
-        
-        set(gca,'XTick',linspace(timestamps(plot_time_1(1)), ...
-            timestamps(plot_time_1(size(timestamps(plot_time_1),1))),ndivx),...
-            'YTick', linspace(miny, maxy, ndivy),...
-            'box','off',  ...
-            'FontSize', 16);
-        set(gca, 'YTickMode','manual')
-        set(gca, 'YTickLabel', num2str(get(gca,'YTick')', '%.2e'))
-        %ytickformat('%.1f')
-        %ytickformat('%.4e')
-        datetick('x','yy-mm','keepticks')
         xlabel('Time [YY-MM]')
         xlim([timestamps(1)-Xaxis_lag,timestamps(end)])
         hold off
         
         %% Secondary plots
+        isSecondaryPlot=false;
         if isSecondaryPlot
             subplot(1,3,3,'align')
             
@@ -334,9 +321,7 @@ for idx=1:numberOfHiddenStates
                 if isfield(estimation,'ref')
                     % Plot true values
                     plot(timestamps(plot_time_2), ...
-                        dataset_x_ref(plot_time_2,idx), ...
-                        'Color', [1 0 0], ...
-                        'LineWidth', Linewidth, 'LineStyle', '--' )
+                        dataset_x_ref(plot_time_2,idx), '--r')
                 end
                 
             else
@@ -347,13 +332,11 @@ for idx=1:numberOfHiddenStates
             
             set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
                 timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-                3),...
+                ndivy),...
                 'YTick', [], ...
                 'box', 'off', ...
                 'Fontsize', 16);
-            %ytickformat('%.1f')
-            %             ax=gca;
-            %             ax.YAxis.TickLabelFormat='%.1f';
+            
             datetick('x','mm-dd','keepticks')
             year=datevec(timestamps(plot_time_2(1)));
             xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
@@ -363,34 +346,14 @@ for idx=1:numberOfHiddenStates
         end
         
         %% Export plots
-        if isExportPDF || isExportPNG || isExportTEX         
+        if isExportPDF || isExportPNG || isExportTEX
+            
             % Define the name of the figure
-            if exist('string')
-                match = [string('^'),string('{'),string('}'), string('x')];
-                comp_name=erase(model.hidden_states_names{nb_class}{idx,1}, match);
-            else
-                comp_name=model.hidden_states_names{nb_class}{idx,1};
-                delete_idx=zeros(1,length(comp_name));
-                for i=1:length(comp_name)
-                    if strcmp(comp_name(i),'^')
-                        delete_idx(i)=1;
-                    end
-                    if strcmp(comp_name(i),'{')
-                        delete_idx(i)=1;
-                    end
-                    if strcmp(comp_name(i),'}')
-                        delete_idx(i)=1;
-                    end
-                    if strcmp(comp_name(i),'x')
-                        delete_idx(i)=1;
-                    end
-                end
-                comp_name(find(delete_idx))=[];
-            end
+            match = [string('^'),string('{'),string('}'), string('x')];
             NameFigure = [ data.labels{ ...
                 str2double(model.hidden_states_names{1}{idx,3})}, '_', ...
-                comp_name, '_', ...
-                num2str(loop)];
+                erase(model.hidden_states_names{1}{idx,1}, match), ...
+                '_', num2str(loop)];
             
             % Record Figure Name
             FigureNames{idx} = NameFigure;
@@ -405,11 +368,6 @@ for idx=1:numberOfHiddenStates
             
         end
     end
-    
-    if ~isVisible
-        close all
-    end
-    
 end
 
 %--------------------END CODE ------------------------

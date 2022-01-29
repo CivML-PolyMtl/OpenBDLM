@@ -72,7 +72,7 @@ function [estimation]=StateEstimation(data, model, misc, varargin)
 %       June 29, 2018
 %
 %   DATE LAST UPDATE:
-%       October 18, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -87,8 +87,38 @@ addRequired(p,'misc', @isstruct );
 addParameter(p,'isSmoother', defaultisSmoother, @islogical );
 addParameter(p,'isMute', defaultisMute, @islogical );
 parse(p,data, model, misc, varargin{:});
-
+%% Reference data set for Periodic Dependence
 data=p.Results.data;
+%% Get observations
+if ~any(ismember(model.S,'SR'))
+    dependency = 0;
+else
+    dependency = 1;
+end
+if dependency == 1
+    len = length(find(ismember(model.S,'SR')));
+    if len == 1
+        x_ref = linspace(-25,20,model.components.nb_SR_p)';
+        model.x_ref = x_ref;
+    elseif len == 2
+        x_ref(:,1) = linspace(-10,10,model.components.nb_SR_p)'; % LL-water
+        x_ref(:,2) = linspace(-25,20,model.components.nb_SR_p)'; % AR-water
+        model.x_ref = x_ref;
+    elseif len == 3
+    x_ref(:,1) = linspace(-10,10,model.components.nb_SR_p)'; % LL-water
+    x_ref(:,2) = linspace(-25,20,model.components.nb_SR_p)'; % LT+KR+AR-water
+    x_ref(:,3) = linspace(-16,15,model.components.nb_SR_p)'; % AR-water
+    model.x_ref = x_ref;
+    end
+
+else
+    Data_reference = data.values(:,1);
+    sig=.001;
+    nb_ref = model.components.nb_SR_p;
+    x_ref=(prctile(Data_reference,linspace(0,100,nb_ref)))';      %Reference values of the control points
+    model.x_ref = x_ref;
+end
+%%
 model=p.Results.model;
 misc=p.Results.misc;
 isSmoother=p.Results.isSmoother;
@@ -147,9 +177,8 @@ end
 
 %% Kalman smoother
 if isSmoother
-    [estimation.x_M, estimation.V_M, estimation.VV_M, estimation.S, ...
-        x_prior_smoothed, V_prior_smoothed, ~, S_prior_smoothed ]= ...
-        RTS_SwitchingKalmanSmoother(data, model, estimation);
+    [estimation.x_M, estimation.V_M, estimation.VV_M, estimation.S]= ...
+        RTS_SwitchingKalmanSmoother(data,model, estimation);
 end
 
 %% Collapse multiple model classes in a single one
@@ -171,7 +200,26 @@ for t=1:T
             estimation.V(:,t)+estimation.S(t,j)*diag(estimation.V_M{j}(:,:,t));
         
         C_j=model.C{j}(parameter(p_ref),timestamps(t),timesteps(t));
-        
+        if ~isempty(model.idx_prod)   %BD
+            if size(x_ref,2) == 1
+                len = size(C_j,1)-1;
+                C_j(:,model.idx_prod(end)-model.components.nb_SR_p) =[1;zeros(len,1)];
+            elseif size(x_ref,2) == 2   % method 2
+                N_SR         = length(x_ref);
+                idx_xprod    = model.idx_xprod;
+                idx_prod2    = [idx_xprod(2,N_SR)+1   idx_xprod(2,end)+1];
+                prod         = [idx_prod2(1)+1  idx_prod2(2)+1];
+                len          = length(prod);
+                C_j(:,prod)  = [ones(1,len);zeros(size(C_j,1)-1,len)];
+            elseif size(x_ref,2) == 3
+                N_SR         = length(x_ref);
+                idx_xprod    = model.idx_xprod;
+                idx_prod2    = [idx_xprod(2,N_SR)+1  idx_xprod(2,2*N_SR)+1      idx_xprod(2,3*N_SR)+1];
+                prod         = [idx_prod2(1)+1  idx_prod2(2)+1  idx_prod2(3)+1];
+                len          = length(prod);
+                C_j(:,prod)  = [ones(1,len);zeros(size(C_j,1)-1,len)];
+            end
+        end
         estimation.y(:,t)= ...
             estimation.y(:,t)+estimation.S(t,j)*(C_j*estimation.x_M{j}(:,t));
         
@@ -190,13 +238,5 @@ for t=1:T
             estimation.y(:,t))*(my(:,j)-estimation.y(:,t))');
     end
 end
-
-if isSmoother
-    %% Store the initial (at t=0) hidden states values learned from RTS smoother
-    estimation.x_prior_smoothed = x_prior_smoothed; % initial mean
-    estimation.V_prior_smoothed = V_prior_smoothed; % initial covariance
-    estimation.S_prior_smoothed = S_prior_smoothed; % initial state probability
-end
-
 %--------------------END CODE ------------------------
 end

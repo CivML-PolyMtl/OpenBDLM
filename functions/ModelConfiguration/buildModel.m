@@ -72,7 +72,7 @@ timestamps = data.timestamps;
 
 %% Get number of time series
 numberOfTimeSeries = length(data.labels);
-
+% numberOfTimeSeries = size(data.values,2);
 %% Get the number of time steps
 numberOfTimeSteps = length(data.timestamps);
 
@@ -88,7 +88,7 @@ end
 
 %% Default prior information
 
-PriorType = 'N/A'; 
+PriorType = 'N/A';
 PriorMean = NaN;
 PriorSdev = NaN;
 
@@ -101,6 +101,9 @@ model.components.idx{11}='LL';
 LL.A=@(p,t,dt) 1;
 LL.pA=[];
 LL.pA0=[];
+LL.Prod=@(p,t,dt) 0;
+LL.pProd=[];
+LL.pProd0=[];
 LL.C=@(p,t,dt) 1;
 LL.pC=[];
 LL.pC0=[];
@@ -109,6 +112,8 @@ LL.pI=[];
 LL.pI0=[];
 LL.Q=@(p,t,dt) p^2*dt';
 LL.pQ={'\sigma_w','LL',[],[],[nan,nan], PriorType, PriorMean, PriorSdev};
+LL.ProdQ=@(m,idx,p,t,dt) 0;
+LL.pProdQ=[];
 LL.x={'x^{LL}',[],[]};
 if misc.internalVars.isDataSimulation
     LL.pQ0={'0'};
@@ -129,20 +134,26 @@ model.components.idx{12}='LT';
 LT.A=@(p,t,dt) [1 dt;0 1];
 LT.pA=[];
 LT.pA0=[];
+LT.Prod=@(p,t,dt) [0 0;0 0];
+LT.pProd=[];
+LT.pProd0=[];
 LT.C=@(p,t,dt) [1 0];
 LT.pC=[];
 LT.pC0=[];
-LT.I=@(p,t,dt) [0 0];
-LT.pI=[];
-LT.pI0=[];
-%LT.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2;dt^2/2 dt]; %Continuous-time process error
-LT.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^4/4 dt^3/2;dt^3/2 dt^2]; %Discrete-time process error
-
+% LT.I=@(p,t,dt) [0 0];      % BD changed to have linear reg. coeff for LT                                              
+% LT.pI=[];
+% LT.pI0=[];
+LT.I=@(p,t,dt) [p 0];
+LT.pI={'\phi','LT,I',[],[],[-inf,inf], PriorType, PriorMean, PriorSdev};
+LT.pI0={'0.01'};
+LT.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2;dt^2/2 dt];
 LT.pQ={'\sigma_w','LT',[],[],[0,inf], PriorType, PriorMean, PriorSdev };
-LT.x={'x^{L}',[],[];'x^{LT}',[],[]};
+LT.ProdQ=@(m,idx,p,t,dt) [0 0;0 0];
+LT.pProdQ = [];
+LT.x={'x^{LL}',[],[];'x^{LT}',[],[]};
 if misc.internalVars.isDataSimulation
     LT.pQ0={'1E-7'};
-    LT.init={'[10 -0.001]','[0.1^2 0.1^2]'};
+    LT.init={'[10 -0.1]','[0.1^2 0.1^2]'};
 else
     LT.pQ0={'1E-7*nanstd(data.values(:,obs))'};
     %LT.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-3*nanstd(data.values(:,obs)))^2]'};
@@ -172,11 +183,15 @@ LA.pC0=[];
 LA.I=@(p,t,dt) [0 0 0];
 LA.pI=[];
 LA.pI0=[];
+LA.Prod=@(p,t,dt) [0 0 0;0 0 0;0 0 0];
+LA.pProd=[];
+LA.pProd0=[];
 %LA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^5/20 dt^4/8 dt^3/6;dt^4/8 dt^3/3 dt^2/2;dt^3/6 dt^2/2 dt]; Continuous-time process error
 LA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^4/4 dt^3/2 dt^2/2;dt^3/2 dt^2 dt;dt^2/2 dt 1]; %Discrete-time process error
-
 LA.pQ={'\sigma_w','LA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
-LA.x={'x^{L}',[],[];'x^{T}',[],[];'x^{LA}',[],[]};
+LA.ProdQ=@(m,idx,p,t,dt) [0 0 0;0 0 0; 0 0 0];
+LA.pProdQ = [];
+LA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LA}',[],[]};
 if misc.internalVars.isDataSimulation
     LA.pQ0={'1E-8'};
     LA.init={'[10 -0.001 -0.00001]','[0.1^2 0.1^2 0.1^2]'};
@@ -221,6 +236,11 @@ else
     %LcT.init={'[nanmean(data.values(1:max(min(365*dt_ref,numberOfTimeSteps),round(0.1*numberOfTimeSteps)), obs)) 0]','[(1E-1*nanstd(data.values(:,obs)))^2 (1E-6*nanstd(data.values(:,obs)))^2]'};
     LcT.init={'[nanmean(data.values(1:round(length(timestamps)*0.1), obs)) 0]','[(2*nanstd(data.values(:,obs)))^2 (nanstd(data.values(:,obs)))^2]'};
 end
+LcT.Prod=@(p,t,dt) [0 0;0 0];
+LcT.pProd=[];                                                                   % components needs to be added for Prod 
+LcT.pProd0=[];
+LcT.ProdQ=@(m,idx,p,t,dt) [0 0;0 0];
+LcT.pProdQ=[];
 LcT.B=@(p,t,dt) zeros(1,2);
 LcT.pB=[];
 LcT.pB0=[];
@@ -238,10 +258,15 @@ LcA.pC0=[];
 LcA.pC=[];
 LcA.I=@(p,t,dt) [0 0 0];
 LcA.pI=[];
+LcA.Prod=@(p,t,dt) zeros(3,3);
+LcA.pProd=[];                                                                   % components needs to be added for Prod 
+LcA.pProd0=[];
 LcA.pA0=[];
 %LcA.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0 0;0 0 0; 0 0 1E-15/(p^2*dt/dt_ref)];
 LcA.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0 0;0 0 0; 0 0 1E-30];
 LcA.pQ={'\sigma_w','LcA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
+LcA.ProdQ=@(m,idx,p,t,dt) zeros(3,3);
+LcA.pProdQ=[];
 LcA.x={'x^{LL}',[],[];'x^{LTc}',[],[];'x^{LAc}',[],[]};
 if misc.internalVars.isDataSimulation
     LcA.pQ0={'1E-7'};
@@ -269,11 +294,16 @@ TcA.pC=[];
 TcA.pC0=[];
 TcA.I=@(p,t,dt) [0 0 0];
 TcA.pI=[];
+TcA.Prod=@(p,t,dt) zeros(3,3);
+TcA.pProd=[];                                                                   % components needs to be added for Prod 
+TcA.pProd0=[];
 TcA.pC0=[];
 %TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^3/3 dt^2/2 0;dt^2/2 dt 0; 0 0 1E-15/(p^2*dt/dt_ref)];
 TcA.Q=@(p,t,dt) p^2*dt/dt_ref*[dt^4/4 dt^3/2 0;dt^3/2 dt^2 0; 0 0 1E-30];
 TcA.pQ={'\sigma_w','TcA',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
-TcA.x={'x^{L}',[],[];'x^{LT}',[],[];'x^{LAc}',[],[]};
+TcA.ProdQ=@(m,idx,p,t,dt) zeros(3,3);
+TcA.pProdQ=[];
+TcA.x={'x^{LL}',[],[];'x^{LT}',[],[];'x^{LAc}',[],[]};
 if misc.internalVars.isDataSimulation
     TcA.pQ0={'1E-8'};
     TcA.init={'[10 -0.1 0]','[0.1^2 0.1^2 0.1^2]'};
@@ -294,18 +324,23 @@ model.components.idx{31}='PD';
 PD.A=@(p,t,dt) [cos(2*pi*dt/p(1)) sin(2*pi*dt/p(1));-sin(2*pi*dt/p(1)) cos(2*pi*dt/p(1))];
 PD.pA={'p','PD',[],[nan,nan]};
 PD.pA0={'365.2422','1','365.2422/2','7', '1', '1', '1', '1', '1' , '1'};
+PD.Prod=@(p,t,dt) [0 0;0 0];
+PD.pProd=[];
+PD.pProd0=[];
 PD.C=@(p,t,dt) [1 0];
 PD.pC=[];
 PD.pC0=[];
 PD.I=@(p,t,dt) [p 0];
 PD.pI={'\phi','PD,I',[],[],[-inf,inf], PriorType, PriorMean, PriorSdev};
-PD.pI0={'0.01'};
+PD.pI0={'0.5'};
 PD.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0;0 1];
 PD.pQ={'\sigma_w','PD',[],[],[nan,nan], PriorType, PriorMean, PriorSdev};
+PD.ProdQ=@(m,idx,p,t,dt) [0 0;0 0];
+PD.pProdQ = [];
 PD.x={'x^{S1}',[],[];'x^{S2}',[],[]};
 if misc.internalVars.isDataSimulation
     PD.pQ0={'0'};
-    PD.init={'[10,10]','[(2*0.1)^2,(2*0.1)^2]'};
+    PD.init={'[10,0]','[(2*0.1)^2,(2*0.1)^2]'};
 else
     PD.pQ0={'0*nanstd(data.values(:,obs))'};
     PD.init={'[5,0]','[(2*nanstd(data.values(:,obs)))^2,(2*nanstd(data.values(:,obs)))^2]'};
@@ -319,20 +354,25 @@ PD.pW0=[];
 
 %#41 Autoregressive component
 model.components.idx{41}='AR';
-AR.A=@(p,t,dt)  p(1)^(dt/dt_ref);
+AR.A=@(p,t,dt) p(1)^(dt/dt_ref);
 AR.pA={'\phi','AR',[],[],[0,1], PriorType, PriorMean, PriorSdev};
 AR.pA0={'0.75'};
+AR.Prod=@(p,t,dt) 0;
+AR.pProd=[];
+AR.pProd0=[];
 AR.C=@(p,t,dt) 1;
 AR.pC=[];
 AR.pC0=[];
 AR.I=@(p,t,dt) p;
 AR.pI={'\phi','AR,I',[],[],[-inf,inf], PriorType, PriorMean, PriorSdev};
-AR.pI0={'0.01'};
+AR.pI0={'0.5'};
 AR.Q=@(p,t,dt) p^2*dt/dt_ref;
 AR.pQ={'\sigma_w','AR',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
+AR.ProdQ=@(m,idx,p,t,dt) 0;
+AR.pProdQ = [];
 AR.x={'x^{AR}',[],[]};
 if misc.internalVars.isDataSimulation
-    AR.pQ0={'1'};
+    AR.pQ0={'1E-1*0.1'};
     AR.init={'0','0.1^2'};
 else
     AR.pQ0={'1E-1*nanstd(data.values(:,obs))'};
@@ -345,7 +385,48 @@ AR.W=@(p,t,dt) 0;
 AR.pW=[];
 AR.pW0=[];
 
+%#42 Autoregressive component
+model.components.idx{42}='ARN';
+ARN.A=@(p,t,dt) [0 0 1;0 1 0;0 0 0];
+ARN.pA=[];
+ARN.pA0=[];
+ARN.Prod=@(p,t,dt) [0 0 0;0 0 0;1 1 0];
+ARN.pProd=[];
+ARN.pProd0=[];
+ARN.C=@(p,t,dt) [1 0 0];
+ARN.pC=[];
+ARN.pC0=[];
+ARN.I=@(p,t,dt) [p 0 0];
+ARN.pI={'\phi','AR,I',[],[],[-inf,inf], PriorType, PriorMean, PriorSdev};
+ARN.pI0={'0.5'};
+ARN.Q=@(p,t,dt) p^2*dt/dt_ref*[1 0 0;0 0 0;0 0 0];
+ARN.pQ={'\sigma_w','AR',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
+ARN.ProdQ=@(m,idx,p,t,dt) [0 m(idx(1)) 0; 0 1 0;0 0 0]*[0 0 0;0 p^2 0;0 0 0]*[0 m(idx(1)) 0; 0 1 0;0 0 0]'*dt;
+%ARN.ProdQ=@(m,idx,p,t,dt) [0 0 0; 0 1 0;0 0 0]*[0 0 0;0 p^2 0;0 0 0]*[0 0 0; 0 1 0;0 0 0]'*dt;
+ARN.pProdQ={'\sigma_w','phi',[],[],[0,inf], PriorType, PriorMean, PriorSdev};
+ARN.x={'x^{AR}',[],[];'x^{phi}',[],[];'x^{Prod}',[],[]};
+
+if misc.internalVars.isDataSimulation
+    ARN.pQ0={'1E-2'};
+    ARN.pProdQ0={'1E-3'};
+    ARN.init={'[0,0.75,0]','[0.01,0.0001,0]'};
+else
+    ARN.pQ0={'1E-1*nanstd(data.values(:,obs))'};
+    ARN.pProdQ0={'1E-1*nanstd(data.values(:,obs))'};
+    ARN.init={'[0,0.75,0]','[(nanstd(data.values(:,obs)))^2,(nanstd(data.values(:,obs)))^2,1e-6]'};
+end
+ARN.B=@(p,t,dt) 0;
+ARN.pB=[];
+ARN.pB0=[];
+ARN.W=@(p,t,dt) 0;
+ARN.pW=[];
+ARN.pW0=[];
+
+
 %#51 Kernel Regression
+% if ~isfield(model.components,'nb_KR_p')
+%     model.components.nb_KR_p=20+1;
+% end
 if ~isfield(model.components,'nb_KR_p')
     model.components.nb_KR_p=misc.options.KRNumberControlPoints+1;
 end
@@ -353,7 +434,10 @@ model.components.idx{51}='KR';
 KR.A=@(p,t,dt) [[0 Kernel_component(p,t,timestamps(1),model.components.nb_KR_p-1)];zeros(model.components.nb_KR_p-1,1) eye(model.components.nb_KR_p-1)];
 KR.pA=[{'\ell','KR',[],[],[0,inf], PriorType, PriorMean, PriorSdev}; ...
     {'p','KR',[],[],[nan,nan], PriorType, PriorMean, PriorSdev}];
-KR.pA0=[{num2str(2/(model.components.nb_KR_p-1))};{'365.2422'}];
+KR.pA0=[{'0.5'};{'365.2422'}];
+KR.Prod=@(p,t,dt) [0 zeros(1,model.components.nb_KR_p-1);zeros(model.components.nb_KR_p-1,1) zeros(model.components.nb_KR_p-1)];
+KR.pProd=[];
+KR.pProd0=[];
 KR.C=@(p,t,dt) [1 zeros(1,model.components.nb_KR_p-1)];
 KR.pC=[];
 KR.pC0=[];
@@ -364,6 +448,8 @@ KR.pI0={'0.01'};
 KR.Q=@(p,t,dt) blkdiag(p(1)^2*dt/dt_ref,eye(model.components.nb_KR_p-1)*p(2)^2*dt/dt_ref);
 KR.pQ=[{'\sigma_w','KR',[],[],[0,inf], PriorType, PriorMean, PriorSdev};...
     {'\sigma_hw','KR',[],[],[NaN,NaN], PriorType, PriorMean, PriorSdev}];
+KR.ProdQ=@(m,idx,p,t,dt) zeros(model.components.nb_KR_p);
+KR.pProdQ = [];
 KR.x=[];
 for i=0:model.components.nb_KR_p-1
     KR.x=[KR.x;{['x^{KR' num2str(i) '}'],[],[]}];
@@ -398,6 +484,240 @@ KR.pW0=[];
 % KR.pW={'\sigma_W','KR',[],[],[0,inf]};
 % KR.pW0={'1E-2*nanstd(data.values(:,obs))'};
 
+%#52 Double Kernel Regression
+
+if ~isfield(model.components,'nb_DKR_p1') && ~isfield(model.components,'nb_DKR_p2')
+    model.components.nb_DKR_p1=30;
+    model.components.nb_DKR_p2=50;
+end
+model.components.idx{52}='DKR';
+DKR.A=@(p,t,dt) [[ [[0 Kernel_component(p,t,timestamps(1),model.components.nb_DKR_p1-1)]; zeros(model.components.nb_DKR_p1-1,1) eye(model.components.nb_DKR_p1-1)] zeros(model.components.nb_DKR_p1,model.components.nb_DKR_p2) zeros(model.components.nb_DKR_p1,1)];
+    [zeros(model.components.nb_DKR_p2,model.components.nb_DKR_p1) [[0  Kernel_component_DKR(p,t,timestamps(1),model.components.nb_DKR_p2-1)];zeros(model.components.nb_DKR_p2-1,1)  eye(model.components.nb_DKR_p2-1)] zeros(model.components.nb_DKR_p2,1)];
+    [zeros(1,model.components.nb_DKR_p1+model.components.nb_DKR_p2) 0]];
+
+DKR.pA=[{'\ell1','DKR',[],[],[0,inf], PriorType, PriorMean, PriorSdev}; ...
+    {'p1','DKR',[],[],[nan,nan], PriorType, PriorMean, PriorSdev}; ...
+    {'\ell2','DKR',[],[],[0,inf], PriorType, PriorMean, PriorSdev}; ...
+    {'p2','DKR',[],[],[nan,nan], PriorType, PriorMean, PriorSdev}];
+
+DKR.pA0=[{'0.5'};{'7'};{'0.5'};{'365'}];
+DKR.Prod=@(p,t,dt) [zeros(model.components.nb_DKR_p1+model.components.nb_DKR_p2,model.components.nb_DKR_p1+model.components.nb_DKR_p2+1); ...
+    1 zeros(1,model.components.nb_DKR_p1-1) 1 zeros(1,model.components.nb_DKR_p2) ];
+DKR.pProd=[];
+DKR.pProd0=[];
+DKR.C=@(p,t,dt) [0 zeros(1,model.components.nb_DKR_p1-1) 0 zeros(1,model.components.nb_DKR_p2-1) 1];
+DKR.pC=[];
+DKR.pC0=[];
+DKR.I=@(p,t,dt) [p(1)*1 zeros(1,model.components.nb_DKR_p1-1) p(2)*1 zeros(1,model.components.nb_DKR_p2-1) 0];
+DKR.pI=[{'\phi1','DKR,I',[],[],[-inf,inf], PriorType, PriorMean, PriorSdev}; ...
+    {'\phi2','DKR,I',[],[],[-inf,inf], PriorType, PriorMean, PriorSdev}];
+
+DKR.pI0=[{'0.01'};{'0.01'}];
+%KR.Q=@(p,t,dt) blkdiag(0,eye(model.components.nb_KR_p-1)*p^2*dt/dt_ref);
+DKR.Q=@(p,t,dt) [[blkdiag(p(1)^2*dt/dt_ref,eye(model.components.nb_DKR_p1-1)*p(2)^2*dt/dt_ref,p(3)^2*dt/dt_ref,eye(model.components.nb_DKR_p2-1)*p(4)^2*dt/dt_ref) zeros(model.components.nb_DKR_p1+model.components.nb_DKR_p2,1)]; ...
+    [zeros(1,model.components.nb_DKR_p1+model.components.nb_DKR_p2) 0]];
+DKR.pQ=[{'\sigma_w1','DKR',[],[],[0,inf], PriorType, PriorMean, PriorSdev};...
+    {'\sigma_hw1','DKR',[],[],[NaN,NaN], PriorType, PriorMean, PriorSdev} ;...
+    {'\sigma_w2','DKR',[],[],[0,inf], PriorType, PriorMean, PriorSdev};...
+    {'\sigma_hw2','DKR',[],[],[NaN,NaN], PriorType, PriorMean, PriorSdev}];
+
+
+DKR.ProdQ=@(m,idx,p,t,dt) zeros(model.components.nb_DKR_p1+model.components.nb_DKR_p2+1);
+DKR.pProdQ = [];
+DKR.x=[];
+
+for i=0:(model.components.nb_DKR_p1-1)
+    DKR.x=[DKR.x;{['x^{DKR1_' num2str(i) '}'],[],[]}];
+end
+for i=0:(model.components.nb_DKR_p2-1)
+    DKR.x=[DKR.x;{['x^{DKR2_' num2str(i) '}'],[],[]}];
+end
+DKR.x =[DKR.x;{'DKR^{Prod}',[],[]}];
+clear i
+if misc.internalVars.isDataSimulation
+    t = linspace(1,2*pi, model.components.nb_DKR_p);
+    a=sin(t);
+    b=sin(4*t+30);
+    c = sin(8*t-45);
+    summ=a+b+c;
+    summ_trun = summ(1:model.components.nb_DKR_p);
+    
+    DKR.pQ0=[{'0'};{'0'}];
+    DKR.init={['[' sprintf('%f ', summ_trun) ']'],['[' repmat('0.01 ',[1,model.components.nb_DKR_p]) ']']};
+else
+    
+    DKR.pQ0=[{'1E-1*nanstd(data.values(:,obs))'};{'0'};{'1E-1*nanstd(data.values(:,obs))'};{'0'};{'1E-1*nanstd(data.values(:,obs))'}]; %SA
+    %DKR.init={['[' repmat('0 ',[1,model.components.nb_DKR_p]) ']'],['[' '1E-4*nanstd(data.values(:,obs))^2 ' repmat('nanstd(data.values(:,obs))^2 ',[1,model.components.nb_DKR_p-1]) ']']};
+    DKR.init={['[' repmat('0 ',[1,model.components.nb_DKR_p1+model.components.nb_DKR_p2+1]) ']'],['[' 'nanstd(data.values(:,obs))^2 ' repmat('nanstd(data.values(:,obs))^2 ',[1,model.components.nb_DKR_p1+model.components.nb_DKR_p2]) ']']};
+end
+DKR.B=@(p,t,dt) zeros(1,model.components.nb_DKR_p);
+DKR.pB=[];
+DKR.pB0=[];
+DKR.W=@(p,t,dt) zeros(model.components.nb_DKR_p);
+DKR.pW=[];
+DKR.pW0=[];
+
+
+%#53 Nonlinear Periodic Regression
+if ~isfield(model.components,'nb_PR_p1')
+    model.components.nb_PR_p1 = 20;
+    model.components.nb_PR_p2 = 0;
+    model.components.nb_SR_p  = 20;
+end
+% for i = 1:size(model.components.block,2)
+%     
+%     if  any(ismember(model.components.block{1}{i},51))
+%         model.components.nb_PR_p1 = model.components.nb_KR_p-1;
+%         model.components.nb_PR_p2 = 0;
+%         if ~isfield(model.components,'nb_SR_p')
+%             model.components.nb_SR_p  = 20;
+%         end
+%         
+%     elseif any(ismember(model.components.block{1}{i},52))
+%         model.components.nb_PR_p1 = model.components.nb_DKR_p1-1;
+%         model.components.nb_PR_p2 = model.components.nb_DKR_p2-1;
+%         model.components.nb_SR_p  = 20;
+%     else
+%         model.components.nb_PR_p1 = 20;
+%         model.components.nb_PR_p2 = 0;
+%         model.components.nb_SR_p  = 20;
+%     end
+% end
+nb_XD = double(any(model.components.nb_PR_p1))+double(any(model.components.nb_PR_p2));
+model.components.nb_XD = nb_XD;
+A1 = blkdiag(1,zeros(model.components.nb_PR_p1+model.components.nb_PR_p2),zeros(nb_XD),zeros(model.components.nb_PR_p1+model.components.nb_PR_p2));
+
+% Indices for Product terms
+ind1 = [2+model.components.nb_PR_p1+model.components.nb_PR_p2]; ind1 = [ind1;ind1+nb_XD-1];
+ind2 = ind1(2) + 1; ind2 = [ind2;ind2+model.components.nb_PR_p1-1];
+if model.components.nb_PR_p2 ~=0
+    ind3 = ind2(2)+1; ind3 = [ind3;ind3+model.components.nb_PR_p2-1];
+    A1(ind1(1),ind2(1):ind2(end)) = ones(1,model.components.nb_PR_p1);
+    A1(ind1(2),ind3(1):ind3(end)) = ones(1,model.components.nb_PR_p2);
+else
+    A1(ind1(1),ind2(1):ind2(end)) = ones(1,model.components.nb_PR_p1);
+end
+
+A2 = [blkdiag(zeros(model.components.nb_SR_p),eye(model.components.nb_SR_p),0) [zeros(2*model.components.nb_SR_p,model.components.nb_SR_p+1);[0 ones(1,model.components.nb_SR_p)]];...
+    zeros(1,3*model.components.nb_SR_p+2);zeros(model.components.nb_SR_p,2*model.components.nb_SR_p+2) zeros(model.components.nb_SR_p)];
+
+model.components.idx{53}='NPR';
+NPR.A=@(p,t,dt) blkdiag(A1,A2);
+NPR.pA=[];
+NPR.pA0=[];
+NPR.Prod=@(p,t,dt) blkdiag(zeros(size(A1,1)),zeros(3*model.components.nb_SR_p+2));
+NPR.pProd=[];
+NPR.pProd0=[];
+NPR.C=@(p,t,dt) [zeros(1,size(A1,1)) zeros(1,2*model.components.nb_SR_p) 0 1 zeros(1,model.components.nb_SR_p)];
+NPR.pC=[];
+NPR.pC0=[];
+NPR.I=@(p,t,dt) [zeros(1,size(A1,1)) zeros(1,2*model.components.nb_SR_p) 0 0 zeros(1,model.components.nb_SR_p)];
+NPR.pI=[];
+NPR.pI0=[];
+NPR.Q=@(p,t,dt) blkdiag(zeros(size(A1,1)),zeros(3*model.components.nb_SR_p+2));
+NPR.pQ=[];
+NPR.ProdQ=@(m,idx,p,t,dt) blkdiag(zeros(size(A1,1)),zeros(3*model.components.nb_SR_p+2));
+NPR.pProdQ=[];
+
+% Naming of the components
+NPR.x = {'x^{delta}',[],[]};
+for i = 1:model.components.nb_PR_p1
+    NPR.x =[NPR.x;{['x^{K1_delta' num2str(i) '}'],[],[]}];
+end
+if model.components.nb_PR_p2 ~= 0
+    for i = 1:model.components.nb_PR_p2
+        NPR.x =[NPR.x;{['x^{K2_delta' num2str(i) '}'],[],[]}];
+    end
+end
+for i = 1:nb_XD
+    NPR.x =[NPR.x;{['x^{D' num2str(i) '}'],[],[]}];
+end
+for i = 1:model.components.nb_PR_p1+model.components.nb_PR_p2
+    NPR.x =[NPR.x;{['x^{P_Prod' num2str(i) '}'],[],[]}];
+end
+for i = 1:model.components.nb_SR_p
+    NPR.x =[NPR.x;{['x^{SR' num2str(i) '}'],[],[]}];
+end
+for i = 1:model.components.nb_SR_p
+    NPR.x =[NPR.x;{['x^{S_phi' num2str(i) '}'],[],[]}];
+end
+NPR.x = [NPR.x;{'x^{phi0}',[],[]}];
+NPR.x = [NPR.x;{'x^{S1}',[],[]}];
+for i = 1:model.components.nb_SR_p
+    NPR.x =[NPR.x;{['x^{S_Prod' num2str(i) '}'],[],[]}];
+end
+
+
+
+if misc.internalVars.isDataSimulation
+    NPR.pQ0=[];
+    NPR.pProdQ0=[];
+    NPR.init={'zeros(1,2*(model.components.nb_PR_p1+model.components.nb_PR_p2)+1+nb_XD+3*model.components.nb_SR_p+2)','zeros(1,2*(model.components.nb_PR_p1+model.components.nb_PR_p2)+1+nb_XD+3*model.components.nb_SR_p+2)'};
+else
+    NPR.pQ0=[];
+    NPR.pProdQ0=[];
+    NPR.init={'zeros(1,2*(model.components.nb_PR_p1+model.components.nb_PR_p2)+1+nb_XD+3*model.components.nb_SR_p+2)','zeros(1,2*(model.components.nb_PR_p1+model.components.nb_PR_p2)+1+nb_XD+3*model.components.nb_SR_p+2)'};
+end
+NPR.B=@(p,t,dt) 0;
+NPR.pB=[];
+NPR.pB0=[];
+NPR.W=@(p,t,dt) 0;
+NPR.pW=[];
+NPR.pW0=[];
+
+%#54 State Regression
+if ~isfield(model.components,'nb_SR_p')
+    model.components.nb_SR_p=20;
+end
+model.components.idx{54}='SR';
+SR.A=@(p,t,dt) [blkdiag(zeros(model.components.nb_SR_p),eye(model.components.nb_SR_p),0) [zeros(2*model.components.nb_SR_p,model.components.nb_SR_p+1);[0 ones(1,model.components.nb_SR_p)]];...
+                 zeros(1,3*model.components.nb_SR_p+2);zeros(model.components.nb_SR_p,2*model.components.nb_SR_p+2) zeros(model.components.nb_SR_p)];
+SR.pA=[];
+SR.pA0=[];
+SR.Prod=@(p,t,dt) [zeros(2*model.components.nb_SR_p+2,3*model.components.nb_SR_p+2);eye(model.components.nb_SR_p) eye(model.components.nb_SR_p) zeros(model.components.nb_SR_p,model.components.nb_SR_p+2)];
+SR.pProd=[];
+SR.pProd0=[];
+SR.C=@(p,t,dt) [zeros(1,2*model.components.nb_SR_p) 0 0 zeros(1,model.components.nb_SR_p)];
+SR.pC=[];
+SR.pC0=[];
+SR.I=@(p,t,dt) zeros(1,3*model.components.nb_SR_p+2);
+SR.pI=[];
+SR.pI0=[];
+SR.Q=@(p,t,dt) zeros(3*model.components.nb_SR_p+2);
+SR.pQ=[];
+SR.ProdQ=@(m,idx,p,t,dt) zeros(3*model.components.nb_SR_p+2);
+SR.pProdQ=[];
+SR.x=[];
+
+for i=1:(model.components.nb_SR_p)
+    SR.x=[SR.x;{['x^{SR_' num2str(i) '}'],[],[]}];
+end
+for i=1:(model.components.nb_SR_p)
+    SR.x=[SR.x;{['x^{phi' num2str(i) '}'],[],[]}];
+end
+SR.x =[SR.x;{'x^{phi0}',[],[]}];
+SR.x =[SR.x;{'x^{D}',[],[]}];
+for i=1:(model.components.nb_SR_p)
+    SR.x=[SR.x;{['x^{Prod' num2str(i) '}'],[],[]}];
+end
+clear i
+
+if misc.internalVars.isDataSimulation
+    SR.pQ0=[];
+    SR.pProdQ0=[];
+    SR.init={'zeros(1,3*model.components.nb_SR_p+2)','zeros(1,3*model.components.nb_SR_p+2)'};
+else
+    SR.pQ0=[];
+    SR.pProdQ0=[];
+    SR.init={'zeros(1,3*model.components.nb_SR_p+2)','zeros(1,3*model.components.nb_SR_p+2)'};
+end
+SR.B=@(p,t,dt) 0;
+SR.pB=[];
+SR.pB0=[];
+SR.W=@(p,t,dt) 0;
+SR.pW=[];
+SR.pW0=[];
+
 %#61 Level intervention
 model.components.idx{61}='LI';
 LI.A=@(p,t,dt) 1;
@@ -406,6 +726,9 @@ LI.pA0=[];
 LI.C=@(p,t,dt) 1;
 LI.pC=[];
 LI.pC0=[];
+LI.Prod=@(p,t,dt) 0;
+LI.pProd=[];
+LI.pProd0=[];
 LI.I=@(p,t,dt) 0;
 LI.pI=[];
 LI.pI0=[];
@@ -413,13 +736,17 @@ LI.Q=@(p,t,dt) 0;
 LI.pQ=[];
 LI.x={'x^{LI}',[],[]};
 LI.pQ0={'0'};
+LI.ProdQ=@(m,idx,p,t,dt) 0;
+LI.pProdQ=[];
 LI.init={'0','1E-20'};
 LI.B=@(p,t,dt) p'*dt/dt_ref;
-LI.pB=[{'\mu_b','LI',[],[],[-inf,inf]}];
-LI.pB0=[{'0*nanstd(data.values(:,obs))'}];
+LI.pB=[{'b','LI',[],[],[-inf,inf]}];
+LI.pB0=[{'1E-1*nanstd(data.values(:,obs))'}];
 LI.W=@(p,t,dt) (p*dt/dt_ref).^2;
-LI.pW=[{'\sigma_b','LI',[],[],[0,inf]}];
+LI.pW=[{'\sigma_W','LI',[],[],[0,inf]}];
 LI.pW0=[{'nanstd(data.values(:, obs))'}];
+
+
 
 %% Block initialization
 param_properties={};        %Reference vector for parameter names in A,C,Q,R matrices
@@ -430,6 +757,7 @@ nb_param_class=1;           %number of parameter per model class
 for class_from=1:numberOfModelClass  %Loop over each model class
     h_count=0;                   %Count of the number of periodic component
     A{class_from}=[];            %Matrices initialization
+    Prod{class_from}=[];
     R{class_from}=[];
     B{class_from}=[];
     W{class_from}=[];
@@ -438,6 +766,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
     hidden_states_names{class_from}={};     %Reference vector for hidden state variables names
     for class_to=1:numberOfModelClass%Loop over each model class
         Q{class_from}{class_to}=[];
+        ProdQ{class_from}{class_to}=[];
         CI_block=cell(numberOfTimeSeries);
         for obs=1:numberOfTimeSeries   %Loop over each observation
             p_count=0;                   %Count of the number of periodic component
@@ -482,10 +811,10 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                             if ~isempty(p_value)
                                 parameter=[parameter;eval(p_value)];
                             end
-                        elseif strcmp(block_name,'KR')
+                        elseif strcmp(block_name,'KR') || strcmp(block_name,'DKR')
                             name=eval([block_name '.pA']);
                             k_count=0;
-                            for i=1:2
+                            for i=1:size(name,1)
                                 k_count=k_count+1;
                                 p_value=eval([block_name '.pA0{' num2str(k_count) '}']);
                                 parameter=[parameter;eval(p_value)];
@@ -499,14 +828,61 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                 parameter=[parameter;eval(p_value{:})];
                             end
                         end
-                        if ~isempty(name)&&~strcmp(block_name,'KR')
-                            name{3}=[num2str(class_from)];
-                            name{4}=num2str(obs);
+                        if ~isempty(name)&&~strcmp(block_name,'KR')&&~strcmp(block_name,'DKR')
+                            for i = 1:size(name,1)
+                                name{i,3}=[num2str(class_from)];
+                                name{i,4}=num2str(obs);
+                            end
                         end
                         param_properties=[param_properties;name];
                         A_param_ref{class_from}{obs}{block}=p_idx;
                         param_idx=param_idx+nb_param;
                     end
+                    
+                    % Prod - index matrix
+                    if class_from>1&&model.components.const{class_from}{obs}(block)==1
+                        Prod{class_from}=[Prod{class_from},',',[block_name '.Prod(p([' num2str(Prod_param_ref{1}{obs}{block}) ']),t,dt)']];
+                    else
+                        nb_param=eval(['size(' block_name '.pProd,1)']);
+                        if nb_param>0
+                            p_idx=param_idx:param_idx-1+nb_param;
+                        else
+                            p_idx=[];
+                        end
+                        Prod{class_from}=[Prod{class_from},',',[block_name '.Prod(p([' num2str(p_idx) ']),t,dt)']];
+                        if any(strcmp(eval([block_name '.pProd']),'p'))
+                            p_count=p_count+1;
+                            name={'p' ,['PD' num2str(p_count)],[],[],eval([block_name '.pProd{4}']), PriorType, PriorMean, PriorSdev};
+                            p_value=eval([block_name '.pProd0{' num2str(p_count) '}']);
+                            if ~isempty(p_value)
+                                parameter=[parameter;eval(p_value)];
+                            end
+                            %                         elseif strcmp(block_name,'KR')
+                            %                             name=eval([block_name '.pProd']);
+                            %                             k_count=0;
+                            %                             for i=1:2
+                            %                                 k_count=k_count+1;
+                            %                                 p_value=eval([block_name '.pProd0{' num2str(k_count) '}']);
+                            %                                 parameter=[parameter;eval(p_value)];
+                            %                                 name{i,3}=[num2str(class_from)];
+                            %                                 name{i,4}=num2str(obs);
+                            %                             end
+                        else
+                            name=eval([block_name '.pProd']);
+                            p_value=eval([block_name '.pProd0']);
+                            if ~isempty(p_value)
+                                parameter=[parameter;eval(p_value{:})];
+                            end
+                        end
+                        if ~isempty(name)&&~strcmp(block_name,'KR')
+                            name{3}=[num2str(class_from)];
+                            name{4}=num2str(obs);
+                        end
+                        param_properties=[param_properties;name];
+                        Prod_param_ref{class_from}{obs}{block}=p_idx;
+                        param_idx=param_idx+nb_param;
+                    end
+                    
                     
                     % Q - Model transition error covariance
                     if class_from>1&&model.components.const{class_from}{obs}(block)==1
@@ -535,6 +911,36 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                         end
                         param_properties=[param_properties;name];
                         Q_param_ref{class_from}{obs}{block}=p_idx;
+                        param_idx=param_idx+nb_param;
+                    end
+                    
+                    % Q_Prod - Product error covariance
+                    if class_from>1&&model.components.const{class_from}{obs}(block)==1
+                        ProdQ{class_from}{class_to}=[ProdQ{class_from}{class_to},',',[block_name '.ProdQ(m,idx,p([' num2str(ProdQ_param_ref{1}{obs}{block}) ']),t,dt)']];
+                        ProdQ_param_ref{class_from}{obs}{block}=ProdQ_param_ref{1}{obs}{block};
+                    else
+                        nb_param=eval(['size(' block_name '.pProdQ,1)']);
+                        if nb_param>0
+                            p_idx=param_idx:param_idx-1+nb_param;
+                        else
+                            p_idx=[];
+                        end
+                        ProdQ{class_from}{class_to}=[ProdQ{class_from}{class_to},',',[block_name '.ProdQ(m,idx,p([' num2str(p_idx) ']),t,dt)']];
+                        %                         if any(strcmp(eval([block_name '.pA']),'p'))
+                        %                             name={'\sigma_w',['PD' num2str(p_count)],[],[],eval([block_name '.pProdQ(5)']), PriorType, PriorMean, PriorSdev};
+                        %                         else
+                        name=eval([block_name '.pProdQ']);
+                        %                         end
+                        if ~isempty(name)
+                            for i=1:nb_param
+                                p_value=eval(eval([block_name '.pProdQ0{' num2str(i) '}']));
+                                parameter=[parameter;p_value];
+                                name{i,3}=[num2str(class_from)];
+                                name{i,4}=num2str(obs);
+                            end
+                        end
+                        param_properties=[param_properties;name];
+                        ProdQ_param_ref{class_from}{obs}{block}=p_idx;
                         param_idx=param_idx+nb_param;
                     end
                     
@@ -686,7 +1092,7 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                                 else
                                     p_idx=[];
                                 end
-                                    C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(p_idx) ']),t,dt)']];
+                                C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},',',[block_name '.I(p([' num2str(p_idx) ']),t,dt)']];
                             end
                             if isfield(model.components,'PCA')
                                 C{class_from}{obs_idx,obs}=[C{class_from}{obs_idx,obs},'*','sum(p([' num2str(PCA_reg_param{obs_idx}) ']).*model.components.PCA{' num2str(obs_idx) '}(' num2str(ic_idx) ',:)'')' ];
@@ -704,9 +1110,11 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                 Cc{class_from}{obs,1}=[',[' cell2mat(C{class_from}(obs,:)) ']'];
             end
             model.A{class_from}=eval(['@(p,t,dt) blkdiag(' A{class_from}(2:end) ')']);
+            model.Prod{class_from}=eval(['@(p,t,dt) blkdiag(' Prod{class_from}(2:end) ')']);
             model.C{class_from}=eval(['@(p,t,dt) reshape([' ([Cc{class_from}{:}]) '],[' num2str(sum([nb_hidden_states{class_from}{:}])) ','  num2str(numberOfTimeSeries) '])''']);
             model.R{class_from}=eval(['@(p,t,dt) blkdiag(' R{class_from}(2:end) ')']);
             model.Q{class_from}{class_to}=eval(['@(p,t,dt) blkdiag(' Q{class_from}{class_to}(2:end) ')']);
+            model.ProdQ{class_from}{class_to}=eval(['@(m,idx,p,t,dt) blkdiag(' ProdQ{class_from}{class_to}(2:end) ')']);
             model.B{class_from}=eval(['@(p,t,dt) [' B{class_from}(2:end) ']']);
             model.W{class_from}=eval(['@(p,t,dt) blkdiag(' W{class_from}(2:end) ')']);
         end
@@ -714,17 +1122,16 @@ for class_from=1:numberOfModelClass  %Loop over each model class
 end
 
 %% Q_ij model process noise transition errors
-%% Note: the variables class_from and class to are inverted in order to be compatible with the switching regimes  
 for class_from=1:numberOfModelClass  %Loop over each model class
     for class_to=setdiff([1:numberOfModelClass],class_from)%Loop over each model class
-        Q{class_to}{class_from}=[];
+        Q{class_from}{class_to}=[];
         if class_from~=class_to
             for obs=1:numberOfTimeSeries   %Loop over each observation
                 for block=1:length(model.components.block{class_from}{obs}) %loop over each model block
                     block_idx=model.components.block{class_from}{obs}(block);
                     block_name=model.components.idx{block_idx};
                     % Q - Model transition error covariance
-                    if block_idx>10&&block_idx<30
+                    if block_idx>10&&block_idx<30 &&obs==1 %&& ~strcmp(block_name,'LcT')                       %BD
                         nb_param=1;
                         %nb_param=size(eval([block_name '.Q(1,1,1)']),1);
                         if nb_param>0
@@ -733,20 +1140,19 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                             p_idx=[];
                         end
                         if class_from>1&&model.components.const{class_from}{obs}(block)==1
-                            Q{class_to}{class_from}=[Q{class_to}{class_from},',',[block_name '.Q(p([' num2str(Q_param_ref{1}{obs}{block}) ']),t,dt)']];
+                            Q{class_from}{class_to}=[Q{class_from}{class_to},',',[block_name '.Q(p([' num2str(Q_param_ref{1}{obs}{block}) ']),t,dt)']];
                         else
-                            %% Custom Q transition matrix
-                            %Q{class_to}{class_from}=[Q{class_from}{class_to},',',['diag(p([' num2str(p_idx) ']))']];
-                            %% Default transition matrix
-                            Q{class_to}{class_from}=[Q{class_to}{class_from},',',[block_name '.Q(p([' num2str(p_idx) ']),t,dt)']];
+                            %Q{class_from}{class_to}=[Q{class_from}{class_to},',',['diag(p([' num2str(p_idx) ']))']];
+                            Q{class_from}{class_to}=[Q{class_from}{class_to},',',[block_name '.Q(p([' num2str(p_idx) ']),t,dt)']];
                             for i=1:nb_param
                                 name=[eval([block_name '.pQ'])];
                                 if ~isempty(name)
                                     if nb_param>1
                                         name{1}=name{1};
+                                        %name{1}=[name{1},'(' num2str(i),num2str(i) ')'];
                                     end
                                     parameter=[parameter;1E3*eval(eval([block_name '.pQ0{:}']))];
-                                    name{3}=[num2str(class_to) num2str(class_from) ];
+                                    name{3}=[num2str(class_from) num2str(class_to)];
                                     name{4}=num2str(obs);
                                 end
                                 param_properties=[param_properties;name];
@@ -754,13 +1160,13 @@ for class_from=1:numberOfModelClass  %Loop over each model class
                             param_idx=param_idx+nb_param;
                         end
                     else
-                        Q{class_to}{class_from}=[Q{class_to}{class_from},',',[block_name '.Q(p([' num2str(Q_param_ref{class_to}{obs}{block}) ']),t,dt)']];
+                        Q{class_from}{class_to}=[Q{class_from}{class_to},',',[block_name '.Q(p([' num2str(Q_param_ref{class_from}{obs}{block}) ']),t,dt)']];
                     end
                 end
             end
         end
         if class_from~=class_to
-            model.Q{class_to}{class_from}=eval(['@(p,t,dt) blkdiag(' Q{class_to}{class_from}(2:end) ')']);
+            model.Q{class_from}{class_to}=eval(['@(p,t,dt) blkdiag(' Q{class_from}{class_to}(2:end) ')']);
         end
     end
 end
@@ -843,6 +1249,221 @@ else
         [parameter, p_ref], 9);
     
 end
+%% Indexes of each of the hidden components used
+j = 1;
+k = 1;
+if size(model.components.block{1,1},2)>1
+    len = [];
+    b   = 1;
+    while b <= size(model.components.block{1,1},2)
+        len = [len length(model.components.block{1,1}{1,b})];
+        b   = b+1;
+    end
+    for i = 1:sum(len)
+        component_id = model.components.block{1,1}{1,j}(k);
+        k = k+1;
+        block_name = model.components.idx{component_id};
+        if exist(block_name,'var')
+            model.components.index{1,i} = block_name;
+            model.components.index{2,i} = size(eval([model.components.idx{component_id} '.x']),1);
+            if i ==1
+                model.components.index{3,i} = 1;
+            else
+                model.components.index{3,i} = model.components.index{3,i-1} + model.components.index{2,i-1};
+            end
+        end
+        if component_id == model.components.block{1, 1}{1, j}(end)
+            if j == size(model.components.block{1,1},2)
+                break;
+            else
+                j = j+1;
+                k = 1;
+            end
+        end
+    end
+end
 
+
+%%  Adding additional parameters
+Index_53 = ismember(model.param_properties(:,1), '\l1');
+if ~any(Index_53)
+    for i = 1:size(model.components.block{1,1},2)
+        if any(ismember(model.components.block{1}{i},53))     %DKR 
+            r = size(model.param_properties,1);
+            model.param_properties{r+1,1} = ['\l1'];model.param_properties{r+1,2} = [];model.param_properties{r+1,3} = ['1'];model.param_properties{r+1,4} = ['1'];model.param_properties{r+1,5} = [0,Inf];model.param_properties{r+1,6} = 'N/A';model.param_properties{r+1,7} = NaN;model.param_properties{r+1,8} = NaN;model.param_properties{r+1,9} = 0.482; model.param_properties{r+1,10} = r+1;
+        elseif any(ismember(model.components.block{1}{i},54)) %SR
+            r = size(model.param_properties,1);
+            model.param_properties{r+1,1} = ['\l1'];model.param_properties{r+1,2} = [];model.param_properties{r+1,3} = ['1'];model.param_properties{r+1,4} = ['1'];model.param_properties{r+1,5} = [0,Inf];model.param_properties{r+1,6} = 'N/A';model.param_properties{r+1,7} = NaN;model.param_properties{r+1,8} = NaN;model.param_properties{r+1,9} = 0.482; model.param_properties{r+1,10} = r+1;
+            ind_SR = find(ismember(model.components.block{1}{i},54));  % position within the block containing SR
+            len_SR = length(ind_SR);
+            if len_SR > 1
+                k = 1;
+                r = size(model.param_properties,1);
+                while k <=len_SR-1
+                    model.param_properties{r+k,1} = ['\l1'];model.param_properties{r+k,2} = [];model.param_properties{r+k,3} = ['1'];model.param_properties{r+k,4} = ['1'];model.param_properties{r+k,5} = [0,Inf];model.param_properties{r+k,6} = 'N/A';model.param_properties{r+k,7} = NaN;model.param_properties{r+k,8} = NaN;model.param_properties{r+k,9} = 0.482; model.param_properties{r+k,10} = r+k;
+                    k = k+1;
+                end
+                clear k
+            end
+            
+        end
+    end
+end
+%% Getting indices of the Product terms
+Product = model.Prod{1}([],[],[]);
+S = [];
+if size(model.components.block{1,1},2)>1
+    for i = 1:size(model.components.index,2)
+        S{i} = model.components.index{1,i};
+    end
+end
+model.S = S;
+if any(strcmp(S,'DKR'))
+    
+    if  any(strcmp(S,'DKR'))&&any(strcmp(S,'NPR'))
+        index_DKR           = any(cellfun(@(c) ischar(c) && strcmp(c,'DKR'),model.components.index));   % Index DKR
+        index_DKR0_1        = model.components.index{3, index_DKR};
+        index_DKR1          = index_DKR0_1+1:1:index_DKR0_1+1+(model.components.nb_DKR_p1-1)-1;
+        index_DKR0_2        = index_DKR1(end)+1;
+        index_DKR2          = index_DKR0_2+1:1:index_DKR0_2+1+(model.components.nb_DKR_p2-1)-1;
+        index_Prod_DKR      = index_DKR2(end)+1;
+        index_NPR           = any(cellfun(@(c) ischar(c) && strcmp(c,'NPR'),model.components.index));    % Index NPR
+        index_delta         = model.components.index{3, index_NPR};
+        index_K1_delta      = index_delta+1:1:index_delta+1+model.components.nb_PR_p1-1;
+        index_K2_delta      = index_K1_delta(end)+1:1:index_K1_delta(end)+1+model.components.nb_PR_p2-1;
+        index_XD            = index_K2_delta(end)+1:1:index_K2_delta(end)+1+model.components.nb_XD-1;
+        index_P_Prod        = index_XD(end)+1:1:index_XD(end)+1+(model.components.nb_PR_p1+model.components.nb_PR_p2)-1;
+        index_SK            = index_P_Prod(end)+1:1:index_P_Prod(end)+1+model.components.nb_SR_p-1;
+        index_Sphi          = index_SK(end)+1:1:index_SK(end)+1+model.components.nb_SR_p-1;
+        index_xphi          = index_Sphi(end)+1;
+        index_XS1           =  index_xphi(end)+1;
+        index_S_Prod        = index_XS1(end)+1:1:index_XS1(end)+1+model.components.nb_SR_p-1;
+        model.idx_xprod     = [index_DKR1 index_DKR2 index_SK;index_K1_delta index_K2_delta index_Sphi];
+        model.idx_prod      = [index_Prod_DKR index_P_Prod index_S_Prod]';
+    elseif  any(strcmp(S,'DKR'))&&any(strcmp(S,'ARN'))
+        index_DKR           = any(cellfun(@(c) ischar(c) && strcmp(c,'DKR'),model.components.index));  %Index_DKR
+        index_DKR0_1        = model.components.index{3, index_DKR};
+        index_DKR1          = index_DKR0_1+1:1:index_DKR0_1+1+model.components.nb_DKR_p1-1;
+        index_DKR0_2        = index_DKR1(end)+1;
+        index_DKR2          = index_DKR0_2+1:1:index_DKR0_2+1+model.components.nb_DKR_p2-1;
+        index_Prod_DKR      = index_DKR2(end)+1;
+        
+        N = 1;
+       [idx_xprod_ARN,idx_prod_ARN]=ind2sub(size(Product),find(Product'));                           % Index_ARN
+       idx_prod_ARN=idx_prod_ARN(1:2:2*N-1);
+       idx_xprod_ARN=reshape(idx_xprod_ARN,2,N);
+       model.idx_xprod = [index_DKR0_1;index_DKR0_2];
+       model.idx_xprod = [model.idx_xprod idx_xprod_ARN];
+       model.idx_prod  = [index_Prod_DKR;idx_prod_ARN];
+    elseif  any(strcmp(S,'DKR'))&&any(strcmp(S,'NPR'))&&any(strcmp(S,'ARN'))
+        index_DKR           = any(cellfun(@(c) ischar(c) && strcmp(c,'DKR'),model.components.index));  %Index_DKR
+        index_DKR0_1        = model.components.index{3, index_DKR};
+        index_DKR1          = index_DKR0_1+1:1:index_DKR0_1+1+model.components.nb_DKR_p1-1;
+        index_DKR0_2        = index_DKR1(end)+1;
+        index_DKR2          = index_DKR0_2+1:1:index_DKR0_2+1+model.components.nb_DKR_p2-1;
+        %index_Prod_DKR       = index_DKR2(end)+1;
+        
+        index_NPR           = any(cellfun(@(c) ischar(c) && strcmp(c,'NPR'),model.components.index));    % Index NPR
+        index_delta         = model.components.index{3, index_NPR};
+        index_K1_delta      = index_delta+1:1:index_delta+1+model.components.nb_PR_p1-1;
+        index_K2_delta      = index_K1_delta(end)+1:1:index_K1_delta(end)+1+model.components.nb_PR_p2-1;
+        index_XD            = index_K2_delta(end)+1:1:index_K2_delta(end)+1+model.components.nb_XD-1;
+        index_P_Prod        = index_XD(end)+1:1:index_XD(end)+1+(model.components.nb_PR_p1+model.components.nb_PR_p2)-1;
+        index_SK            = index_P_Prod(end)+1:1:index_P_Prod(end)+1+model.components.nb_SR_p-1;
+        index_Sphi          = index_SK(end)+1:1:index_SK(end)+1+model.components.nb_SR_p-1;
+        index_xphi          = index_Sphi(end)+1;
+        index_XS1           =  index_xphi(end)+1;
+        index_S_Prod        = index_XS1(end)+1:1:index_XS1(end)+1+model.components.nb_SR_p-1;
+        
+        
+        N = 1;
+       [idx_xprod_ARN,idx_prod_ARN]=ind2sub(size(Product),find(Product'));                           % Index_ARN
+       idx_prod_ARN=idx_prod_ARN(1:2:2*N-1);
+       idx_xprod_ARN=reshape(idx_xprod_ARN,2,N);
+       
+       model.idx_xprod     = [index_DKR1 index_DKR2 index_SK;index_K1_delta index_K2_delta index_Sphi];
+       model.idx_xprod     = [model.idx_xprod idx_xprod_ARN];
+       model.idx_prod      = [index_P_Prod;index_S_Prod;idx_prod_ARN];
+        
+    else
+        index_DKR           = any(cellfun(@(c) ischar(c) && strcmp(c,'DKR'),model.components.index));
+        index_DKR0_1        = model.components.index{3, index_DKR};
+        index_DKR1          = index_DKR0_1+1:1:index_DKR0_1+1+model.components.nb_DKR_p1-1;
+        index_DKR0_2        = index_DKR1(end)+1;
+        index_DKR2          = index_DKR0_2+1:1:index_DKR0_2+1+model.components.nb_DKR_p2-1;
+        index_Prod_DKR      = index_DKR2(end)+1;
+        model.idx_xprod     = [index_DKR0_1;index_DKR0_2];
+        model.idx_prod      = index_Prod_DKR;
+    end
+elseif any(strcmp(S,'SR'))                                    %BD
+    N=model.components.nb_SR_p;
+    index_SR        = any(cellfun(@(c) ischar(c) && strcmp(c,'SR'),model.components.index));
+    if length(find(index_SR))==1
+        index_x_SR      = model.components.index{3, index_SR}:model.components.index{3, index_SR}+N-1;  % X^{SR}
+        index_x_phi     = index_x_SR(end)+1:index_x_SR(end)+N;
+        index_S_Prod    = index_x_phi(end)+3:index_x_phi(end)+3+N-1;
+        model.idx_xprod = [index_x_SR;index_x_phi];
+        model.idx_prod  = index_S_Prod;
+    else
+        indices         = find(index_SR);
+        len             = length(indices);
+        k = 1;
+        index_x_SR   = cell(1,len);
+        index_x_phi  = cell(1,len);
+        index_S_Prod = cell(1,len);
+        model.idx_xprod = []; model.idx_prod = [];
+        while k <= len
+            index_x_SR{k}     = model.components.index{3, indices(k)}:model.components.index{3, indices(k)}+N-1;
+            index_x_phi{k}    = index_x_SR{k}(end)+1:index_x_SR{k}(end)+N;
+            index_S_Prod{k}   = index_x_phi{k}(end)+3:index_x_phi{k}(end)+3+N-1;
+            model.idx_xprod   = [model.idx_xprod [index_x_SR{k};index_x_phi{k}]];
+            model.idx_prod    = [model.idx_prod index_S_Prod{k}];
+            k = k+1;
+        end
+        
+    end
+elseif  any(strcmp(S,'KR'))
+    if  any(strcmp(S,'KR'))&&any(strcmp(S,'NPR'))
+        index_KR    = any(cellfun(@(c) ischar(c) && strcmp(c,'KR'),model.components.index));     %index of KR
+        index_KR0_1 = model.components.index{3, index_KR};
+        index_KR1   = model.components.index{3, index_KR}+1:1:model.components.index{3, index_KR}+model.components.nb_KR_p-1;
+        index_NPR   = any(cellfun(@(c) ischar(c) && strcmp(c,'NPR'),model.components.index));   %index of NPR
+        index_delta = model.components.index{3, index_NPR};
+        index_K_delta = index_delta+1:1:index_delta+model.components.nb_KR_p-1;
+        index_XD = index_K_delta(end)+1:1:index_K_delta(end)+1+model.components.nb_XD-1;
+        index_P_Prod = index_XD(end)+1:1:index_XD(end)+1+(model.components.nb_PR_p1+model.components.nb_PR_p2)-1;
+        index_SK = index_P_Prod(end)+1:1:index_P_Prod(end)+1+model.components.nb_SR_p-1;
+        index_Sphi = index_SK(end)+1:1:index_SK(end)+1+model.components.nb_SR_p-1;
+        index_xphi = index_Sphi(end)+1;
+        index_XS1 =  index_xphi(end)+1;
+        index_S_Prod = index_XS1(end)+1:1:index_XS1(end)+1+model.components.nb_SR_p-1;
+        model.idx_xprod = [index_KR1 index_SK;index_K_delta index_Sphi];
+        model.idx_prod  = [index_P_Prod index_S_Prod]';
+    elseif  any(strcmp(S,'KR'))&&any(strcmp(S,'ARN'))
+        N = 1;
+        [idx_xprod,idx_prod]=ind2sub(size(Product),find(Product'));
+        idx_prod=idx_prod(1:2:2*N-1);
+        idx_xprod=reshape(idx_xprod,2,N);
+        model.idx_prod=idx_prod;
+        model.idx_xprod=idx_xprod;
+    else
+        model.idx_xprod = [];
+        model.idx_prod  = [];
+        
+    end
+elseif   ~any(Product)
+    model.idx_xprod = [];
+    model.idx_prod  = [];
+
+else
+    N = 1;
+    [idx_xprod,idx_prod]=ind2sub(size(Product),find(Product'));
+    idx_prod=idx_prod(1:2:2*N-1);
+    idx_xprod=reshape(idx_xprod,2,N);
+    model.idx_prod=idx_prod;
+    model.idx_xprod=idx_xprod;
+end
+
+% 
 %--------------------END CODE ------------------------
 end

@@ -34,7 +34,7 @@ function [model, misc]=defineModel(data, misc)
 %                            in structure "misc"
 %
 %   DESCRIPTION:
-%      DEFINEMODEL requests user's input to define model
+%      DEFINEMODEL requests user'S input to define model
 %
 %   EXAMPLES:
 %      [model, misc]=DEFINEMODEL(data, misc)
@@ -42,8 +42,7 @@ function [model, misc]=defineModel(data, misc)
 %   EXTERNAL FUNCTIONS CALLED:
 %      N/A
 %
-%   See also MODELCONFIGURATION, CONFIGUREMODELFORDATAREAL, 
-%            CONFIGUREMODELFORDATASIMULATION
+%   See also
 
 %   AUTHORS:
 %      Ianis Gaudot, Luong Ha Nguyen, James-A Goulet
@@ -58,7 +57,7 @@ function [model, misc]=defineModel(data, misc)
 %       April 20, 2018
 %
 %   DATE LAST UPDATE:
-%       December 3, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -86,8 +85,12 @@ if ~misc.internalVars.isDataSimulation
     % Validation of structure data
     isValid = verificationDataStructure(data);
     if ~isValid
-        disp (' ')
-        error('Unable to read the data from the structure.\n');
+        fprintf(fileID,'\n');
+        fprintf(fileID,['     ERROR: Unable to read ', ...
+            'the data from the structure.\n']);
+        fprintf(fileID,'\n');
+        model = [];
+        return
     end
 end
 
@@ -176,8 +179,7 @@ if numberOfTimeSeries > 1
                 isCorrect=true;
             end
         end
-        misc.internalVars.BatchMode.AnswerIndex = ...
-            misc.internalVars.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
     end
 else
     comp_ic={[]};
@@ -224,8 +226,7 @@ while ~isCorrect
         isCorrect = true;
     end
 end
-misc.internalVars.BatchMode.AnswerIndex = ...
-    misc.internalVars.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 fprintf(fileID,'\n');
 %% Identify model components for each model class and time series
 fprintf(fileID,'\n');
@@ -244,13 +245,17 @@ fprintf(fileID,['     23: Local trend compatible ', ...
     'with local acceleration \n']);
 fprintf(fileID,'     31: Periodic \n');
 fprintf(fileID,'     41: Autoregressive process (AR(1)) \n');
+fprintf(fileID,'     42: Autoregressive process (ARN) \n');
 fprintf(fileID,'     51: Kernel regression \n');
+fprintf(fileID,'     52: Double Kernel Regression \n');
+fprintf(fileID,'     53: Nonlinear Periodic Regression \n');
+fprintf(fileID,'     54: State Regression \n');
 fprintf(fileID,'     61: Level Intervention \n');
 fprintf(fileID,['     ---------------------------', ...
     '-----------------------------\n']);
 fprintf(fileID,'\n');
 
-all_components=[11 12 13 21 22 23 31 41 51 61];
+all_components=[11 12 13 21 22 23 31 41 42 51 52 53 54 61];
 level_components=[11 12 13 21 22 23];
 
 comp=cell(nb_models,numberOfTimeSeries);
@@ -270,7 +275,7 @@ for j=1:nb_models
             if incTest > MaxFailAttempts ; error(['Too many failed ', ...
                     'attempts (', num2str(MaxFailAttempts)  ').']) ; end
             fprintf(fileID,'\n');
-            fprintf(fileID,['- Identify components for ' ...
+            fprintf(fileID,['     Identify components for ' ...
                 'time series #%s; e.g. [11 31 41]\n'], num2str(i));
             if misc.internalVars.BatchMode.isBatchMode
                 comp{j}{i}=eval(char(misc.internalVars.BatchMode.Answers{...
@@ -296,21 +301,21 @@ for j=1:nb_models
                     ' is unknown \n']);
                 fprintf(fileID,' ');
                 continue
-            elseif ~all(ismember(comp{j}{i}(1),level_components))
-                fprintf(fileID,'\n');
-                fprintf(fileID,['     wrong input -> first ', ...
-                    'component should be a' ...
-                    ' level component (i.e. either 11 12 13 21 22 23)\n']);
-                fprintf(fileID,'\n');
-                continue
-            elseif length(comp{j}{i}) > 1 && ...
-                    any(ismember(comp{j}{i}(2:end),level_components))
-                fprintf(fileID,'\n');
-                fprintf(fileID,['     wrong input -> ', ...
-                    'only the first component' ...
-                    ' should be a level component\n']);
-                fprintf(fileID,'\n');
-                continue
+%             elseif ~all(ismember(comp{j}{i}(1),level_components))
+%                 fprintf(fileID,'\n');
+%                 fprintf(fileID,['     wrong input -> first ', ...
+%                     'component should be a' ...
+%                     ' level component (i.e. either 11 12 13 21 22 23)\n']);
+%                 fprintf(fileID,'\n');
+%                 continue
+%             elseif length(comp{j}{i}) > 1 && ...
+%                     any(ismember(comp{j}{i}(2:end),level_components))
+%                 fprintf(fileID,'\n');
+%                 fprintf(fileID,['     wrong input -> ', ...
+%                     'only the first component' ...
+%                     ' should be a level component\n']);
+%                 fprintf(fileID,'\n');
+%                 continue
             elseif j == 1 && nb_models>1 && ...
                     any(ismember(comp{j}{i}(1),level_components(1:3)))
                 fprintf(fileID,'\n');
@@ -330,7 +335,7 @@ for j=1:nb_models
                 fprintf(fileID,'\n');
                 continue
             elseif j == 2 && nb_models>1 && comp{1}{i}(1) == 21 && ...
-                    comp{j}{i}(1) ~= 12 && comp{j}{i}(1) ~= 21
+                    comp{j}{i}(1) ~= 12
                 fprintf(fileID,'\n');
                 fprintf(fileID,['     wrong input -> the ', ...
                     'level component' ...
@@ -338,7 +343,7 @@ for j=1:nb_models
                 fprintf(fileID,'\n');
                 continue
             elseif j == 2 && nb_models>1 && comp{1}{i}(1) == 22 && ...
-                    comp{j}{i}(1) ~= 13 && comp{j}{i}(1) ~= 22
+                    comp{j}{i}(1) ~= 13
                 fprintf(fileID,'\n');
                 fprintf(fileID,['     wrong input -> the level' ...
                     ' component for the two model classes are not' ...
@@ -346,7 +351,7 @@ for j=1:nb_models
                 fprintf(fileID,'\n');
                 continue
             elseif j == 2 && nb_models>1 && comp{1}{i}(1) == 23 && ...
-                    comp{j}{i}(1) ~= 13 && comp{j}{i}(1) ~= 23
+                    comp{j}{i}(1) ~= 13
                 fprintf(fileID,'\n');
                 fprintf(fileID,['     wrong input -> the ', ...
                     'level component ' ...
@@ -361,8 +366,7 @@ for j=1:nb_models
                 continue
             else
                 isCorrect=true;
-                misc.internalVars.BatchMode.AnswerIndex = ...
-                    misc.internalVars.BatchMode.AnswerIndex+1;
+                misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
             end
         end
     end

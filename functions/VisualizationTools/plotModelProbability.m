@@ -33,10 +33,7 @@ function [FigureNames] = plotModelProbability(data, model, estimation, misc, var
 %                         if isExportTEX, export the figure in TEX format
 %                         default: false
 %
-%      isVisible        - logical (optional)
-%                         if isVisible = true , show the figure on screen
-%                         default: true
-%
+
 %      FilePath         - character (optional)
 %                         directory where to save the file
 %                         default: '.'  (current folder)
@@ -77,7 +74,7 @@ function [FigureNames] = plotModelProbability(data, model, estimation, misc, var
 %       June 6, 2018
 %
 %   DATE LAST UPDATE:
-%       December 6, 2018
+%       August 22, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -88,7 +85,6 @@ defaultFilePath = '.';
 defaultisExportPDF = false;
 defaultisExportPNG = true;
 defaultisExportTEX = false;
-defaultisVisible = true;
 
 validationFonction = @(x) ischar(x) && ...
     ~isempty(x(~isspace(x)));
@@ -100,7 +96,6 @@ addRequired(p,'misc', @isstruct );
 addParameter(p,'isExportPDF', defaultisExportPDF,  @islogical);
 addParameter(p,'isExportPNG', defaultisExportPNG,  @islogical);
 addParameter(p,'isExportTEX', defaultisExportTEX,  @islogical);
-addParameter(p,'isVisible', defaultisVisible,  @islogical);
 addParameter(p, 'FilePath', defaultFilePath, validationFonction)
 parse(p,data, model, estimation, misc, varargin{:});
 
@@ -111,24 +106,15 @@ misc=p.Results.misc;
 isExportPDF = p.Results.isExportPDF;
 isExportPNG = p.Results.isExportPNG;
 isExportTEX = p.Results.isExportTEX;
-isVisible = p.Results.isVisible;
 FilePath=p.Results.FilePath;
-
-if isVisible
-    VisibleOption = 'on';
-else
-    VisibleOption = 'off';
-end
-
 
 %% Get options from misc
 FigurePosition=misc.options.FigurePosition;
 isSecondaryPlot=misc.options.isSecondaryPlot;
 Linewidth=misc.options.Linewidth;
 ndivx = misc.options.ndivx;
-%ndivy = misc.options.ndivy;
+ndivy = misc.options.ndivy;
 Subsample=misc.options.Subsample;
-Xaxis_lag=misc.options.Xaxis_lag;
 
 %% Remove space in filename
 %FilePath = FilePath(~isspace(FilePath));
@@ -178,16 +164,16 @@ timestamps=data.timestamps;
 plot_time_1=1:Subsample:length(timestamps);
 
 % Define timestamp vector for secondary plot plot
-if  isSecondaryPlot
+if  isSecondaryPlot  
     
     ZoomDuration = 14; % zoom duration in days
     
     if ZoomDuration/referenceTimestep >= 1
-        % Define timestamp vector for secondary plot plot
-        time_fraction=0.641;
-        plot_time_2=round(time_fraction*length(timestamps)): ...
-            round(time_fraction*length(timestamps))+ ...
-            (ZoomDuration/referenceTimestep);
+    % Define timestamp vector for secondary plot plot
+    time_fraction=0.641;
+    plot_time_2=round(time_fraction*length(timestamps)): ...
+        round(time_fraction*length(timestamps))+ ...
+        (ZoomDuration/referenceTimestep);
     else
         isSecondaryPlot = false;
     end
@@ -201,13 +187,16 @@ else
     idx_supp_plot=0;
 end
 
+% Define X-axis lag
+Xaxis_lag=50;
+
+
 %% Plot model probability
 
 %% Main plot
 
 FigHandle = figure('DefaultAxesPosition', [0.1, 0.17, 0.8, 0.8]);
 set(FigHandle, 'Position', FigurePosition)
-set(FigHandle, 'Visible', VisibleOption)
 subplot(1,3,1:2+idx_supp_plot,'align')
 
 if isfield(estimation,'x')
@@ -216,16 +205,12 @@ if isfield(estimation,'x')
         'color',[1 0.0 0],'Linewidth',Linewidth*2)
     hold on
     if isfield(estimation,'ref')
-        
         % Plot true values
         plot(timestamps(plot_time_1), ...
-            1-dataset_x_ref(plot_time_1, end), ...
-            'Color', [1 0 0], ...
-            'Linewidth', Linewidth, 'LineStyle', '--')
+            1-dataset_x_ref(plot_time_1, end),'--r')
     end
     
 else
-    
     % Plot true values
     plot(timestamps(plot_time_1),1-dataset_x_ref(plot_time_1, end), ...
         'Color', BlueColor, 'LineWidth', Linewidth)
@@ -258,9 +243,7 @@ if isSecondaryPlot
         if isfield(estimation,'ref')
             % Plot true values
             plot(timestamps(plot_time_2), ...
-                1-dataset_x_ref(plot_time_2,end), ...
-                'Color', [1 0 0], ...
-                'Linewidth', Linewidth, 'LineStyle', '--')
+                1-dataset_x_ref(plot_time_2,end), '--r')
         end
         
         
@@ -273,7 +256,7 @@ if isSecondaryPlot
     
     set(gca,'XTick',linspace(timestamps(plot_time_2(1)), ...
         timestamps(plot_time_2(size(timestamps(plot_time_2),1))), ...
-        3),...
+        ndivy),...
         'YTick', [], ...
         'box', 'off', 'Fontsize', 16);
     datetick('x','mm-dd','keepticks')
@@ -281,11 +264,11 @@ if isSecondaryPlot
     xlabel(['Time [' num2str(year(1)) '--MM-DD]'])
     hold off
     ylim([0,1])
-    
+
 end
 
 
-%% Export plots in specified formats
+%% Export plots
 if isExportPDF || isExportPNG || isExportTEX
     
     % Define the name of the figure
@@ -300,12 +283,11 @@ if isExportPDF || isExportPNG || isExportTEX
         'isExportPNG', isExportPNG, ...
         'isExportTEX', isExportTEX);
 else
-    FigureNames{1} = [];
+   FigureNames{1} = []; 
 end
 
-if ~isVisible
-    close(FigHandle)
-end
 
 end
+
+
 %--------------------END CODE ------------------------

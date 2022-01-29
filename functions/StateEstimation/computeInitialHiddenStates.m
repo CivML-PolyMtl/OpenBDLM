@@ -72,7 +72,7 @@ function [model] = computeInitialHiddenStates(data, model, estimation, misc, var
 %       June 12, 2018
 %
 %   DATE LAST UPDATE:
-%       October 18, 2018
+%       June 12, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -105,7 +105,7 @@ Percent=p.Results.Percent;
 timestamps = data.timestamps;
 
 % Define training period (starting from first data point)
-[trainingPeriod]=defineTrainingPeriod(timestamps, 'Percent',  Percent);
+[trainingPeriod]=defineTrainingPeriod(timestamps, 'Percent', Percent);
 
 % Convert days to sample indexes
 [training_start_idx]=day2sampleIndex(trainingPeriod(1), ...
@@ -126,9 +126,9 @@ data_train.values= data.values(training_start_idx:training_end_idx,:);
 
 %% Store the new initial hidden states values
 for i=1:model.nb_class
-     model.initX{i}=estimation.x_prior_smoothed{i};
-     model.initV{i}=estimation.V_prior_smoothed{i};
-     model.initS{i}=estimation.S_prior_smoothed(1,i);
+    model.initX{i}=estimation.x_M{i}(:,1);
+    model.initV{i}=estimation.V_M{i}(:,:,1);
+    model.initS{i}=estimation.S(1,i);
 end
 
 %--------------------END CODE ------------------------

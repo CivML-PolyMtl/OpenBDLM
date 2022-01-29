@@ -101,7 +101,7 @@ timestamps = data.timestamps;
 MaxFailAttempts=4;
 
 %% Get current training period
-if isfield(misc.options, 'trainingPeriod')
+if isfield(misc, 'trainingPeriod')
     fprintf(fileID,'\n');
     fprintf(fileID,['     Current training period: from ' ...
         num2str(misc.options.trainingPeriod(1)) ' to ' ...
@@ -131,9 +131,7 @@ while ~isCorrectAnswer
     fprintf(fileID,'\n');
     
     if misc.internalVars.BatchMode.isBatchMode
-        user_inputs.inp_1= ...
-            eval(char(misc.internalVars.BatchMode.Answers{...
-            misc.internalVars.BatchMode.AnswerIndex}));
+        user_inputs.inp_1=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         user_inputs.inp_1 = num2str(user_inputs.inp_1);
         if ischar(user_inputs.inp_1)
             fprintf(fileID, '     %s  \n', user_inputs.inp_1);
@@ -155,8 +153,7 @@ while ~isCorrectAnswer
     %if ~ischar(user_inputs.inp_1) && user_inputs.inp_1 == 1
     if round(str2double(user_inputs.inp_1)) == 1
         
-        misc.internalVars.BatchMode.AnswerIndex= ...
-            misc.internalVars.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
         
         %% Modify current training period
         % Start of training period (in days)
@@ -172,9 +169,7 @@ while ~isCorrectAnswer
             fprintf(fileID,'     Start training [days]:\n');
             
             if misc.internalVars.BatchMode.isBatchMode
-                startTraining=eval(char(...
-                    misc.internalVars.BatchMode.Answers{...
-                    misc.internalVars.BatchMode.AnswerIndex}));
+                startTraining=eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
                 fprintf(fileID,'     %s\n', startTraining);
             else
                 startTraining=input('     choice >> ');
@@ -195,8 +190,7 @@ while ~isCorrectAnswer
                     fprintf(fileID,'\n');
                     continue
                 else
-                    misc.internalVars.BatchMode.AnswerIndex= ...
-                        misc.internalVars.BatchMode.AnswerIndex+1;
+                    misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
                     isCorrect = true;
                 end
             end
@@ -215,9 +209,7 @@ while ~isCorrectAnswer
             fprintf(fileID,'     End training [days]: \n');
             
             if misc.internalVars.BatchMode.isBatchMode
-                endTraining = ...
-                    eval(char(misc.internalVars.BatchMode.Answers{...
-                    misc.internalVars.BatchMode.AnswerIndex}));
+                endTraining = eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
                 fprintf(fileID,'     %s\n', num2str(endTraining));
             else
                 endTraining=input('     choice >> ');
@@ -245,8 +237,7 @@ while ~isCorrectAnswer
                     fprintf(fileID,'\n');
                     continue
                 else
-                    misc.internalVars.BatchMode.AnswerIndex= ...
-                        misc.internalVars.BatchMode.AnswerIndex+1;
+                    misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
                     isCorrect = true;
                 end
             end
@@ -256,8 +247,7 @@ while ~isCorrectAnswer
         
     elseif ischar(user_inputs.inp_1) && strcmpi(user_inputs.inp_1, 'R') ...
             && length(user_inputs.inp_1) ==1
-        misc.internalVars.BatchMode.AnswerIndex= ...
-            misc.internalVars.BatchMode.AnswerIndex+1;
+        misc.internalVars.BatchMode.AnswerIndex=misc.internalVars.BatchMode.AnswerIndex+1;
         return
         
     else
@@ -280,6 +270,9 @@ fprintf(fileID,['     New training period: from ' ...
     num2str(misc.options.trainingPeriod(1)) ' to ' ...
     num2str(misc.options.trainingPeriod(2)) ' days.\n']);
 fprintf(fileID,'\n');
+
+%% Save project with updated values
+%saveProject(data, model, estimation, misc, 'FilePath', FilePath)
 
 %--------------------END CODE ------------------------
 end

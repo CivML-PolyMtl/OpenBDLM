@@ -99,15 +99,15 @@ function [data, model, estimation, misc] = OpenBDLM_main(UserInput)
 %       June 27, 2018
 %
 %   DATE LAST UPDATE:
-%       October 30, 2018
+%       September 6, 2018
 
 %--------------------BEGIN CODE ----------------------
 
 %% Version of the program
-OpenBDLMversion = '1.0';
+OpenBDLMversion = '1.10';
 
 %% Warning if multiple conflictous installations
-%findDuplicateInstallation
+findDuplicateInstallation
 
 %% Verify that the program is running from the right location
 currentFolder = cd;
@@ -115,7 +115,11 @@ isFileExist  = (exist(fullfile(currentFolder, mfilename), 'file') == 2);
 
 if ~isFileExist
     disp(' ');
-    error('%s is called from the wrong directory.', mfilename)
+    disp(['     ERROR: ', mfilename, ...
+        ' is called from the wrong directory.'])
+    disp(' ');
+    data=struct;model=struct;estimation=struct;misc=struct;
+    return
 end
 
 %% Read arguments and set internal variables
@@ -127,7 +131,10 @@ end
     
 if isempty(misc)
     disp(' ');
-    error('Unrecognized input argument.')
+    disp('     ERROR: Unrecognized input argument.')
+    disp(' ');
+    data=struct;model=struct;estimation=struct;misc=struct;
+    return
 end
 
 %% Create log file to record messages during program run
@@ -223,7 +230,7 @@ if misc.internalVars.InteractiveMode.isInteractiveMode || ...
             elseif strcmpi('Q', UserChoice) && length(UserChoice) == 1
                 
                 %% Quit the program
-                disp('     Done ! See you soon !');
+                disp('     See you soon !');
                 if misc.internalVars.isQuiet
                     fclose(fileID);
                 else
@@ -314,11 +321,8 @@ while(1)
             fprintf(fileID, '\n');
             saveProject(model, estimation, misc, ...
                 'FilePath', misc.internalVars.ProjectPath)
-            [misc]=saveResultsMAT(data, model, estimation, ...
-                misc, 'FilePath', misc.internalVars.ResultsPath, ...
-                'isForceOverwrite', true);
             fprintf(fileID, '\n');
-            disp('     Done ! See you soon !');
+            disp('     See you soon !');
             if misc.internalVars.isQuiet
                 fclose(fileID);
             else
@@ -373,20 +377,20 @@ while(1)
             incTest=0;
         elseif  user_inputs==14
             %% Plot tools
-            [misc] = pilotePlot(data, model, estimation, misc);
+            pilotePlot(data, model, estimation, misc)
             incTest=0;
         elseif  user_inputs==15
             %% Display model matrices
             piloteDisplayModelMatrices(data, model, estimation, misc)
             incTest=0;
         elseif  user_inputs==16
-            %% Create synthetic data
+            %% Simulate data
             [data, model, estimation, misc]= ...
                 piloteSimulateData(data, model, estimation, misc);
             incTest=0;
         elseif  user_inputs==17
-            %% Export 
-            [misc] = piloteExport(data, model, estimation, misc);
+            %% Export project in a configuration file
+            pilotePrintConfigurationFile(data, model, estimation, misc)
             incTest=0;
         elseif  user_inputs==18
             %% Export current options in a configuration file format

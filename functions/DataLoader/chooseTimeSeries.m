@@ -1,33 +1,16 @@
-function [data, misc]=chooseTimeSeries(data, misc)
-%CHOOSETIMESERIES Request the user to select some time series
+function [data, misc]=chooseTimeSeries(data, misc, varargin)
+%CHOOSETIMESERIES Request the user to select a time series subset
 %
 %   SYNOPSIS:
-%     [data, misc]=CHOOSETIMESERIES(data, misc)
+%     [data, misc]=CHOOSETIMESERIES(data, misc, varargin)
 %
 %   INPUT:
 %       data         - structure (required)
-%                         Two formats are accepted:
-%
-%                           (1) data must contain three fields :
-%
-%                               'timestamps' is a 1×N cell array
-%                               each cell is a M_ix1 real array
-%
-%                               'values' is a 1×N cell array
-%                               each cell is a M_ix1 real array
-%
-%                               'labels' is a 1×N cell array
-%                               each cell is a character array
-%
-%                               N: number of time series
-%                               M_i: number of samples of time series i
-%
-%
-%                           (2) data must contain three fields:
+%                               data must contain three fields:
 %
 %                               'timestamps' is a M×1 array
 %
-%                               'values' is a MxN  array
+%                               'values' is a MxN array
 %
 %                               'labels' is a 1×N cell array
 %                               each cell is a character array
@@ -39,23 +22,17 @@ function [data, misc]=chooseTimeSeries(data, misc)
 %                      see the documentation for details about the
 %                      field in misc
 %
+%      isOutputFile - logical (optional)
+%                     if true, save the data in a DATA_*.mat Matlab file
+%                     default: false
+%
+%      isPlot       - logical (optional)
+%                     if true, plot data
+%                     default: false
+%
 %   OUTPUT:
-%       data        - structure 
-%
-%                           data must contain three fields :
-%
-%                               'timestamps' is a 1×N cell array
-%                               each cell is a M_ix1 real array
-%
-%                               'values' is a 1×N cell array
-%                               each cell is a M_ix1 real array
-%
-%                               'labels' is a 1×N cell array
-%                               each cell is a character array
-%
-%                               N: number of time series
-%                               M_i: number of samples of time series i
-%
+%      data         - structure
+%                     fields of data are timestamps, values, labels
 %
 %      misc         - structure
 %                      see the documentation for details about the
@@ -93,22 +70,29 @@ function [data, misc]=chooseTimeSeries(data, misc)
 %       April 12, 2018
 %
 %   DATE LAST UPDATE:
-%       October 16, 2018
+%       July 24, 2018
 
 %--------------------BEGIN CODE ----------------------
 
 %% Get arguments passed to the function and proceed to some verifications
 
 p = inputParser;
+defaultisOutputFile = false;
+defaultisPlot = false;
 
 addRequired(p,'data', @isstruct );
 addRequired(p,'misc', @isstruct );
+addParameter(p,'isOutputFile',defaultisOutputFile,@islogical);
+addParameter(p,'isPlot',defaultisPlot,@islogical);
 
-parse(p,data, misc);
+parse(p,data, misc, varargin{:} );
 
 data=p.Results.data;
 misc=p.Results.misc;
+isOutputFile=p.Results.isOutputFile;
+isPlot=p.Results.isPlot;
 
+DataPath=misc.internalVars.DataPath;
 MaxFailAttempts=4;
 
 % Set fileID for logfile
@@ -120,16 +104,11 @@ else
     fileID=1;
 end
 
-% if data given in format (2), translate it to format (1)
-if ~iscell(data.timestamps) && ~iscell(data.values)
-    [data]=convertMat2Cell(data);  
-end
-
 %% Display data on screen
 displayData(data, misc)
 
 % Get number of time series in dataset
-numberOfTimeSeries = length(data.labels);
+numberOfTimeSeries = size(data.values,2);
 
 %% Request the user to choose some time series
 incTest=0;
@@ -143,8 +122,7 @@ while(1)
         'to process (e.g [1 3 4]) : \n']);
     if misc.internalVars.BatchMode.isBatchMode
         chosen_ts= ...
-            eval(char(misc.internalVars.BatchMode.Answers{...
-            misc.internalVars.BatchMode.AnswerIndex}));
+            eval(char(misc.internalVars.BatchMode.Answers{misc.internalVars.BatchMode.AnswerIndex}));
         x=chosen_ts;
         fprintf(fileID, ['     [%s]', ...
             '\n'], strjoin(cellstr(num2str(x(:))),', '));
@@ -181,19 +159,24 @@ while(1)
 end
 
 % Increment global variable to read next answer when required
-misc.internalVars.BatchMode.AnswerIndex = ...
-    misc.internalVars.BatchMode.AnswerIndex+1;
+misc.internalVars.BatchMode.AnswerIndex = misc.internalVars.BatchMode.AnswerIndex+1;
 
 %% Remove unselected time series from data structure
-full_ts = 1:numberOfTimeSeries;
-ts_to_remove = full_ts(~ismember(full_ts, chosen_ts));
 
-data.values(ts_to_remove) = [];
-data.timestamps(ts_to_remove) = [];
-data.labels(ts_to_remove) = [];
+data.values = data.values(:,chosen_ts);
+data.labels = data.labels(:,chosen_ts);
 
 %% Display data on screen
-%displayData(data, misc)
+displayData(data, misc)
 
+%% Plot
+if isPlot
+    plotDataAvailability(data, 'isSaveFigure', false)
+end
+
+%% Save in binary DATA_*.mat file
+if isOutputFile
+    saveDataBinary(data, 'FilePath', DataPath)
+end
 %--------------------END CODE ------------------------
 end

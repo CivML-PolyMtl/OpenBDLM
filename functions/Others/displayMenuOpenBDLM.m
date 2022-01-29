@@ -65,7 +65,7 @@ end
 fprintf(fileID,'\n');
 fprintf(fileID,['-----------------------------------------', ...
     '----------------------------------------------------- \n']);
-fprintf(fileID,'/    OpenBDLM main menu. Choose from \n');
+fprintf(fileID,'/    Choose from \n');
 fprintf(fileID,['-----------------------------------------', ...
     '----------------------------------------------------- \n']);
 
@@ -82,8 +82,9 @@ fprintf(fileID,['     13 ->  Display and modify ', ...
     'current training period \n']);
 fprintf(fileID,'     14 ->  Plots \n');
 fprintf(fileID,'     15 ->  Display model matrices \n');
-fprintf(fileID,'     16 ->  Create synthetic data \n');
-fprintf(fileID,'     17 ->  Export\n');
+fprintf(fileID,'     16 ->  Simulate data \n');
+fprintf(fileID,['     17 ->  Export project ', ...
+    'in configuration file format \n']);
 fprintf(fileID,['     18 ->  Display current ', ...
     'options in configuration file format \n']);
 fprintf(fileID,'\n');

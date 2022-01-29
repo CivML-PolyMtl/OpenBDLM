@@ -67,7 +67,7 @@ function [misc, dataFilename] = saveDataBinary(data, misc, varargin)
 %       April 10, 2018
 %
 %   DATE LAST UPDATE:
-%       December 3, 2018
+%       August 15, 2018
 
 %--------------------BEGIN CODE ----------------------
 
@@ -106,8 +106,10 @@ end
 % Validation of structure data
 isValid = verificationDataStructure(data);
 if ~isValid
-    disp(' ')
-    error('Unable to read the data from the structure.');
+    fprintf(fileID,'\n');
+    fprintf(fileID,'ERROR: Unable to read the data from the structure.\n');
+    fprintf(fileID,'\n');
+    return
 end
 
 %% Create specified path if not existing
@@ -120,7 +122,7 @@ if ~isFileExist
     addpath(FilePath_full)
 end
 
-disp('     Saving data...')
+disp('     Saving database (binary format) ...')
 
 ProjectName=misc.ProjectName;
 name=['DATA_', ProjectName, '.mat'];

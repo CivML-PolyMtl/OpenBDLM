@@ -15,8 +15,8 @@ function [data_resample, misc]=resampleData(data, misc, varargin)
 %                               'labels' is a 1×N cell array
 %                               each cell is a character array
 %
-%                               N: number of time series
-%                               M: number of samples
+%                                   N: number of time series
+%                                   M: number of samples
 %
 %       misc            - structure
 %                           see the documentation for details about the
@@ -36,8 +36,8 @@ function [data_resample, misc]=resampleData(data, misc, varargin)
 %                               'labels' is a 1×N cell array
 %                               each cell is a character array
 %
-%                               N: number of time series
-%                               M: number of samples
+%                                   N: number of time series
+%                                   M: number of samples
 %
 %     misc              - structure
 %                           see the documentation for details about the
@@ -99,7 +99,7 @@ parse(p,data, misc, varargin{:});
 
 data=p.Results.data;
 misc=p.Results.misc;
-dt_ref=p.Results.Timestep;
+dt_ ref=p.Results.Timestep;
 
 %% Get number of time series
 

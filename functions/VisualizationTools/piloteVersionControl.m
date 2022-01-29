@@ -37,7 +37,7 @@ function piloteVersionControl(misc)
 %       July 27, 2018
 %
 %   DATE LAST UPDATE:
-%       December 3, 2018
+%       August 9, 2018
 
 %--------------------BEGIN CODE ----------------------
 %% Get arguments passed to the function and proceed to some verifications
@@ -69,9 +69,9 @@ fprintf(fileID,['-----------------------------------------', ...
 
 %% Notice user that we are about to permanently remove folder content
 disp(' ')
-disp(['     Running version control will permanently remove all ', ...
-    'previously saved RES_, PROJ_, CFG_, DATA_, and LOG_ files.'])
-disp('     Do you want to continue ? (y/n)');
+disp(['WARNING: Running version control will permanently remove all ', ...
+    'previously saved PROJ_, CFG_, DATA_, and LOG_ files.'])
+disp('Do you want to continue ? (y/n)');
 
 isYesNoCorrect= false;
 while ~isYesNoCorrect

@@ -107,7 +107,8 @@ fprintf(fileID,'\n');
 
 if ~misc.internalVars.isDataSimulation
     %% Load data
-    [data, misc, dataFilename ] = DataLoader(misc);
+    [data, misc, dataFilename ] = DataLoader(misc, ...
+        'FilePath', DataPath);
     misc.internalVars.dataFilename = dataFilename;
 end
 

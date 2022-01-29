@@ -1,7 +1,7 @@
 function [fct_TR,fct_inv_TR,grad_TR2OR,hessian_TR2OR]=parameter_transformation_fct(model,param_idx_loop)
 a = 1;
 sigmoid=@(p) 1./(1+exp(-a*p));
-sigmoid_inv=@(p) -log((1./p)-1)/a;
+sigmoid_inv=@(p) -log((1./p)-1)/a;    
 
 p_TR_0=@(p) p;
 p_TR_1=@(p) log10(p);

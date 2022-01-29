@@ -42,7 +42,7 @@ function [misc]=setDefaultOptions(misc)
 %       August 14, 2018
 % 
 %   DATE LAST UPDATE:
-%       October 18, 2018
+%       August 14, 2018
  
 %--------------------BEGIN CODE ---------------------- 
 %% Get arguments passed to the function and proceed to some verifications
@@ -54,49 +54,27 @@ misc=p.Results.misc;
  
 %% Set default options
 
-% Syncronization options
-misc.options.NaNThreshold = 100;
-misc.options.Tolerance = 10^(-6);
-
 % Optimization options
-misc.options.trainingPeriod = [1 Inf];
+misc.options.trainingPeriod = [1,Inf];
 misc.options.isParallel = true;
-misc.options.isMute = false;
-misc.options.isMAP = false;
-misc.options.maxTime = 60; 
-
-% Newton-Raphson
 misc.options.maxIterations = 100;
-misc.options.isLaplaceApprox = false;
+misc.options.maxTime = 60; 
+misc.options.isMAP = false;
 misc.options.isPredCap = false;
-misc.options.NRLevelsLambdaRef = 4;
-misc.options.NRTerminationTolerance = 10^(-7);
-
-% Stochastic gradient
-misc.options.maxEpochs = 50;
-misc.options.SplitPercent = 30;
-misc.options.MiniBatchSizePercent = 20;
-misc.options.SGTerminationTolerance = 95;
-misc.options.Optimizer = 'MMT';
+misc.options.isLaplaceApprox = false;
+misc.options.isMute = false;
+misc.options.MaxSizeEstimation = 100;
 
 % Hidden states estimation options
 misc.options.MethodStateEstimation = 'kalman'; 
-misc.options.MaxSizeEstimation = 100;
-misc.options.DataPercent = 100;
-misc.options.KRNumberControlPoints = 100;
-
-% Data simulation option
-misc.options.Seed = 12345;
 
 % Plot options
-misc.options.isPlotEstimations = true;
 misc.options.FigurePosition = [100, 100, 1300, 270];
-misc.options.isSecondaryPlot = false;
+misc.options.isSecondaryPlot = true;
 misc.options.Subsample = 1;
 misc.options.Linewidth = 1;
-misc.options.ndivx = 4;
+misc.options.ndivx = 5;
 misc.options.ndivy = 3;
-misc.options.Xaxis_lag = 0;
 misc.options.isExportTEX = false;
 misc.options.isExportPNG = false;
 misc.options.isExportPDF = false;
